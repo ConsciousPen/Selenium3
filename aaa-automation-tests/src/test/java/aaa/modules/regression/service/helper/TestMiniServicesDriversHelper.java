@@ -1710,6 +1710,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//get premium from UI
 			BigDecimal premiumWithoutCoveragesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithoutCoveragesDXP).isEqualByComparingTo(premiumWithoutCoveragesUI);
+			validateFormPremiumInPAndCTab(0,0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
@@ -1741,7 +1742,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumWithSpecDisabilityCovUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
-			softly.assertThat(premiumWithSpecDisabilityCovDXP).isEqualByComparingTo(premiumWithSpecDisabilityCovUI).isGreaterThan(premiumWithoutCoveragesDXP);
+			softly.assertThat(premiumWithSpecDisabilityCovDXP).isEqualByComparingTo(premiumWithSpecDisabilityCovUI).isGreaterThan(premiumWithoutCoveragesDXP);//TODO-mstrazds:
+			validateFormPremiumInPAndCTab(1,0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
@@ -1775,6 +1777,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			BigDecimal premiumWithTotalDisabilityCovUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isEqualByComparingTo(premiumWithTotalDisabilityCovUI).isGreaterThan(premiumWithoutCoveragesDXP);
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isGreaterThan(premiumWithSpecDisabilityCovDXP);
+			validateFormPremiumInPAndCTab(1,1, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
@@ -1808,10 +1811,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//get premium from UI
 			BigDecimal premiumWithoutCoveragesUI2 = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumWithoutCoveragesDXP2).isEqualByComparingTo(premiumWithoutCoveragesUI2).isEqualByComparingTo(premiumWithoutCoveragesDXP);
+			validateFormPremiumInPAndCTab(0,0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
-			premiumAndCoveragesTab.saveAndExit();
+			formsTab.saveAndExit();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
@@ -1891,6 +1895,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumAfterChangesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			softly.assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
+			validateFormPremiumInPAndCTab(1,0, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
@@ -2007,6 +2012,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			BigDecimal premiumAfterChangesUI = new BigDecimal(PremiumAndCoveragesTab.getTotalTermPremium().toPlaingString());
 			assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
+			validateFormPremiumInPAndCTab(2,1, softly);
 
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.FORMS.get());
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
@@ -2208,9 +2214,14 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	private void validateFormsInPAndCTab(){
-		BigDecimal formTotalPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54").getCell("Term Premium").getValue());//TODO-mstrazds:get names from metadata
-		//TODO-mstrazds: get expeced value and compair with actual formTotalPremiumUI
+	//"DISD" - "Death Indemnity and Specific Disability", "TD" - "Total Disability"
+	private void validateFormPremiumInPAndCTab(int driversWithDISD, int driversWithTD, ETCSCoreSoftAssertions softly ){
+		final int disdPremiumPerDriver = 14;
+		final int tdPremiumPerDriver = 14;
+		BigDecimal expectedFormsPremium = new BigDecimal(driversWithDISD * disdPremiumPerDriver + driversWithTD * tdPremiumPerDriver);
+		BigDecimal actualFormsPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54")
+				.getCell("Term Premium").getValue());
+		softly.assertThat(actualFormsPremiumUI).isEqualByComparingTo(expectedFormsPremium);
 	}
 
 	private void validateThatDriverIsUpdated_pas14641(ETCSCoreSoftAssertions softly) {
