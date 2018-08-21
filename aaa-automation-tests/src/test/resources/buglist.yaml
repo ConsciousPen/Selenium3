@@ -346,3 +346,9 @@ PAS-5260:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
       messages: ['Cannot transfer payment', 'is not present as expected']
+PAS-18111:
+  summary: "Cannot save endorsement Form"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements]
+      messages: ['expected:<[tru]e> but was:<[fals]e>']
