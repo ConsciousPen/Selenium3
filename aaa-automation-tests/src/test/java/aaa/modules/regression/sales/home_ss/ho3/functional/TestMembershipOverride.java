@@ -161,13 +161,9 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
-        try {
-            //TODO Replace try-catch with fillUpTo method
-            // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
-            createCustomerIndividual();
-            policy.createPolicy(defaultPolicyData);
-        }
-        catch(Exception ex){}
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
 
         // Here, I make sure the failure occurred at the anticipated location.
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
