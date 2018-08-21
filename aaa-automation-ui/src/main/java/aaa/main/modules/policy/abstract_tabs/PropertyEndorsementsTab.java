@@ -93,11 +93,11 @@ public abstract class PropertyEndorsementsTab extends Tab {
 		}
 	}
 	
-	public Link linkEdit(String formID) {
+	public Link getLinkEdit(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Edit");
 	}
 	
-	public Link linkRemove(String formID) {
+	public Link getLinkRemove(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Remove");
 	}
 	
