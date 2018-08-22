@@ -409,6 +409,19 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, UpdateCoverageRequest request, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
+		restRequestInfo.bodyRequest = request;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.PATCH);
+	}
+
+	/**
+	 * @deprecated use {@link #updateEndorsementCoveragesByVehicle(String, String, UpdateCoverageRequest, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, String coverageCode, String availableLimits) {
 		log.info("Update coverage by vehicle: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
