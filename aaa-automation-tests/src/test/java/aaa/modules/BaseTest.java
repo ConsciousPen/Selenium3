@@ -6,8 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +17,7 @@ import com.exigen.ipb.etcsa.base.app.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.MainApplication;
 import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -30,6 +29,7 @@ import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
@@ -473,15 +473,24 @@ public class BaseTest {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+				if (!PolicySummaryPage.labelPolicyStatus.getValue().equals(ProductConstants.PolicyStatus.POLICY_ACTIVE)) {
+					policyNumber = createNewDefaultPolicy(key);
+				}
 			} else {
 				count = 1;
-				createCustomerIndividual();
-				createPolicy();
-				policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-				EntitiesHolder.addNewEntity(key, policyNumber);
+				policyNumber = createNewDefaultPolicy(key);
 			}
 			policyCount.put(key, count);
 		}
+		return policyNumber;
+	}
+
+	private String createNewDefaultPolicy(String key) {
+		String policyNumber;
+		createCustomerIndividual();
+		createPolicy();
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(key, policyNumber);
 		return policyNumber;
 	}
 

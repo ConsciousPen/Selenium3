@@ -1,5 +1,6 @@
 package aaa.modules.bct.sales;
 
+import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -11,12 +12,14 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_023_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 
@@ -36,6 +39,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 
@@ -55,6 +59,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 

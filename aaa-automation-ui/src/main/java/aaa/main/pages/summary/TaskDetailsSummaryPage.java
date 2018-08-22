@@ -73,7 +73,7 @@ public class TaskDetailsSummaryPage extends SummaryPage {
             return this.isPresent() && this.isVisible();
         }
 
-        public class Verify extends Table.Verify {
+        public class Verify {
             public void taskId(int rowIndex, String expectedtaskId) {
                 assertThat(getRow(rowIndex).getCell(MyWorkConstants.MyWorkTasksTable.TASK_ID)).hasValue(expectedtaskId);
             }

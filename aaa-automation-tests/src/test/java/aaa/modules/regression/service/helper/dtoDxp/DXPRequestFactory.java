@@ -5,7 +5,7 @@ public class DXPRequestFactory {
 	public static AddDriverRequest createAddDriverRequest(String firstName, String middleName, String lastName, String birthDate, String suffix) {
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
 		addDriverRequest.firstName = firstName;
-		addDriverRequest.lastName = middleName;
+		addDriverRequest.middleName = middleName;
 		addDriverRequest.lastName = lastName;
 		addDriverRequest.birthDate = birthDate;
 		addDriverRequest.suffix = suffix;
