@@ -76,7 +76,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		bindTab.submitTab();
 
-		assertThat(Purchase.autoPaySetupSavingMessage.getValue()).isNotEmpty();
+		assertThat(Purchase.autoPaySetupSavingMessage.getValue()).isEmpty();
 
 		Purchase.linkViewApplicableFeeSchedule.click();
 		CustomSoftAssertions.assertSoftly(softly -> {
