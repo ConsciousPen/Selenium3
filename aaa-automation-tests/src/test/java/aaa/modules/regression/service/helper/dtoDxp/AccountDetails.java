@@ -16,6 +16,8 @@ public class AccountDetails {
 	public BigDecimal pastDue;
 	@ApiModelProperty(value = "Account Total Paid Amount", example = "100.00")
 	public BigDecimal totalPaid;
+	@ApiModelProperty(value = "Account Total Due Amount", example = "100.00")
+	public BigDecimal totalDue;
 	@ApiModelProperty(value = "Account Total Billable Amount", example = "100.00")
 	public BigDecimal billableAmount;
 	@ApiModelProperty(value = "Overpaid Amount Handling Option", example = "allInstallments, nextInstallment")
