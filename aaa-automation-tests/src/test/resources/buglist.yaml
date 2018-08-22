@@ -351,10 +351,10 @@ PAS-18111:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements..*,
+              aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
       messages: ["is not present as expected"]
 PAS-18165:
   summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction DP3"
