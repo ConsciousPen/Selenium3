@@ -155,7 +155,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14591"})
-	public void pas14591_AddDriversUnhappyAge(@Optional("") String state) throws ParseException {
+	public void pas14591_AddDriversUnhappyAge(@Optional("AZ") String state) throws ParseException {
 		pas14591_AddDriversUnhappyAgeBody(getPolicyType());
 	}
 

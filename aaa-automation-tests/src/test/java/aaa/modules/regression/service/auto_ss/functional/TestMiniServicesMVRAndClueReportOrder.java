@@ -102,11 +102,14 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 4. Rate policy. Order reports for new driver.
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
+	 * 7. Go to PAS, issue endorsement.
+	 * 8. Create endorse, update driver from previous endorsement.
+	 * 9. Try to rate and bind endorsement.
 	 */
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371", "PAS-17648"})
 	public void pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError(@Optional("VA") String state) {
 
 		pas15371_driversWithNarcoticsDrugOrFelonyConvictionsErrorBody();

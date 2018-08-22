@@ -112,10 +112,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
+
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		String vin1 = vehicleTab.getInquiryAssetList().getStaticElement(VIN).getValue();
@@ -191,11 +196,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 		updateVehicleRequest.usage = "Business";
+		updateVehicleRequest.registeredOwner = false;
 
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			//BUG :PAS-16391 Update vehicle response is not showing ruleSets:Usage is Business.
 			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
 		});
 
@@ -581,10 +586,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//Get garage address from UI
 		policy.policyInquiry().start();
-		String zipCodeDefault = generalTab.getInquiryAssetList().getStaticElement(ZIP_CODE).getValue();
-		String addressDefault = generalTab.getInquiryAssetList().getStaticElement(ADDRESS_LINE_1).getValue();
-		String cityDefault = generalTab.getInquiryAssetList().getStaticElement(CITY).getValue();
-		String stateDefault = generalTab.getInquiryAssetList().getStaticElement(STATE).getValue();
+		String zipCodeDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ZIP_CODE).getValue();
+		String addressDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.ADDRESS_LINE_1).getValue();
+		String cityDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.CITY).getValue();
+		String stateDefault = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION)
+				.getStaticElement(AutoSSMetaData.GeneralTab.NamedInsuredInformation.STATE).getValue();
 		GeneralTab.buttonCancel.click();
 
 		//Create pended endorsement
@@ -2509,6 +2518,57 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas12942_GaragingAddressConsistencyDXPBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
+
+		//start an endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//Update vehicle on DXP with different garaging address
+		String address1 = "2011 CORAL AVE";
+		String city = "Chesapeake";
+		String zip = "23324";
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
+		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
+		updateVehicleRequest.usage = "Pleasure";
+		updateVehicleRequest.salvaged = false;
+		updateVehicleRequest.garagingDifferent = true;
+		updateVehicleRequest.garagingAddress = new Address();
+		updateVehicleRequest.garagingAddress.addressLine1 = address1;
+		updateVehicleRequest.garagingAddress.city = city;
+		updateVehicleRequest.garagingAddress.postalCode = zip;
+		updateVehicleRequest.garagingAddress.stateProvCd = "VA";
+		updateVehicleRequest.antiTheft = "STD";
+		updateVehicleRequest.registeredOwner = true;
+
+		HelperCommon.updateVehicle(policyNumber, oldVehicleOid, updateVehicleRequest);
+
+		//hit Meta Data and verify that the garaging address is different
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oldVehicleOid);
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, true, true, "40", "String");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, true, true, "10", "String");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, true, true, "30", "String");
+		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, true, true, null, "String");
+
+		//check that the garaging address is different in PAS and bind the endorsement
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1)).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals(city)).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("VA")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals(zip)).isTrue();
+		vehicleTab.saveAndExit();
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
 		String availableActions = "";
 		if (!"pendingRemoval".equals(viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehiclePpa1Oid.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus)) {
@@ -2541,57 +2601,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String replaceVehicleOid = replaceVehicleResponse.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleOid);
 		return replaceVehicleOid;
-	}
-
-	protected void pas12942_GaragingAddressConsistencyDXPBody() {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-
-		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
-		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
-
-		//start an endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		//Update vehicle on DXP with different garaging address
-		String address1 = "2011 CORAL AVE";
-		String city = "Chesapeake";
-		String zip = "23324";
-		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
-		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
-		updateVehicleRequest.usage = "Pleasure";
-		updateVehicleRequest.salvaged = false;
-		updateVehicleRequest.garagingDifferent = true;
-		updateVehicleRequest.garagingAddress = new Address();
-		updateVehicleRequest.garagingAddress.addressLine1 = address1;
-		updateVehicleRequest.garagingAddress.city = city;
-		updateVehicleRequest.garagingAddress.postalCode = zip;
-		updateVehicleRequest.garagingAddress.stateProvCd = "VA";
-		updateVehicleRequest.antiTheft = "STD";
-		updateVehicleRequest.registeredOwner = true;
-
-		VehicleUpdateResponseDto updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oldVehicleOid, updateVehicleRequest);
-
-		//hit Meta Data and verify that the garaging address is different
-		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oldVehicleOid);
-		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, true, true, "40", "String");
-		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, true, true, "10", "String");
-		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, true, true, "30", "String");
-		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, true, true, null, "String");
-
-		//check that the garaging address is different in PAS and bind the endorsement
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals(city)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("VA")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals(zip)).isTrue();
-		vehicleTab.saveAndExit();
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	private boolean hasError(ErrorResponseDto errorResponseDto, String expectedField, ErrorDxpEnum.Errors expectedError) {
