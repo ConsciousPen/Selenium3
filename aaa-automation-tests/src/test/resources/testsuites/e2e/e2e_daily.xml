@@ -58,4 +58,16 @@
             <class name="aaa.modules.e2e.auto_ca.TestScenario13"/>
         </classes>
     </test>
+	<test name="CA PUP E2E" parallel="methods">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+	<test name="UT PUP E2E" parallel="methods">
+        <parameter name="state" value="UT" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
 </suite>
