@@ -167,7 +167,7 @@ public final class EndorsementForms {
 		HO_210("HO 210", "Jewelry, Watches and Furs Increased Limits of Liability"),
 		HO_210C("HO 210C", "Jewelry, Watches and Furs (Increased Limits)"),
 		HO_28("HO 28", "Limited Home Replacement Cost"),
-		HO_29("HO 29", "Replacement Value - Unscheduled Personal Property"),
+		HO_29("HO-29", "Replacement Value - Unscheduled Personal Property"),
 		HO_300("HO 300", "Excluded Appurtenant Structure(s)"),
 		HO_40("HO 40", "Other Structures - Rented To Others"),
 		HO_41("HO 41", "Additional Insured Residence Premises"),
