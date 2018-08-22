@@ -925,6 +925,9 @@ public class HelperCommon {
 			} else {
 				client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			}
+			if(requestMethod == RequestMethod.PATCH) {
+				client = client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
+			}
 			Invocation.Builder jsonRequest = createJsonRequest(client, request.url, request.sessionId);
 			String methodName = requestMethod.name();
 			if (request.bodyRequest != null) {
