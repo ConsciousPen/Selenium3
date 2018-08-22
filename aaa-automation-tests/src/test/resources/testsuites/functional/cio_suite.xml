@@ -157,4 +157,124 @@
             </class>
         </classes>
     </test>
+
+    <!--Functional Membership Tests-->
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestMembershipValidationHomeSS" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_1" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_2" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_3" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError">
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Not Ordered Membership Errors_4" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError">
+            </class>
+        </classes>
+    </test>
+
+    <test name="TestMembershipValidation" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
+                <methods>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
+                <methods>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
+                    <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
