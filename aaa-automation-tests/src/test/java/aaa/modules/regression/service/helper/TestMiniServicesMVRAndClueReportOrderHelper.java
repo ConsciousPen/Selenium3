@@ -2,6 +2,8 @@ package aaa.modules.regression.service.helper;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
+
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -211,6 +213,17 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage(), "attributeForRules");
+
+		SearchPage.openPolicy(policyNumber);
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+		//START PAS-17648
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, null, null, "VA", null, "MSS");
+		HelperCommon.updateDriver(policyNumber, oidDriver1, updateDriverRequest);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	protected void pas15370_driverWithMoreThanTwentyPointsErrorBody() {
