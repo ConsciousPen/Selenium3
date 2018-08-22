@@ -121,24 +121,24 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate);
 		});
 
-//		//create endorsement outside of PAS
-//		helperMiniServices.createEndorsementWithCheck(policyNumber);
-//
-//		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", "III");
-//		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-//
-//		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "CH", "MSS");
-//		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
-//
-//		//Order reports through service
-//		HelperCommon.orderReports(policyNumber, addDriverRequestService.oid, OrderReportsResponse.class, 200);
-//
-//		helperMiniServices.endorsementRateAndBind(policyNumber);
-//
-//		assertSoftly(softly -> {
-//			String lastDueDate2 = installmentsServiceCheck(softly, policyNumber);
-//			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate2);
-//		});
+		//create endorsement outside of PAS
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", "III");
+		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, addDriverRequestService.oid, OrderReportsResponse.class, 200);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		assertSoftly(softly -> {
+			String lastDueDate2 = installmentsServiceCheck(softly, policyNumber);
+			currentAccountInfoServiceCheck(softly, policyNumber, lastDueDate2);
+		});
 	}
 
 
