@@ -415,9 +415,9 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
-	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid, Class<T> responseType, int status) {
+	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
