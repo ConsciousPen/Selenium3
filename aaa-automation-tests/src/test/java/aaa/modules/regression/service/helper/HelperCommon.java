@@ -363,6 +363,18 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, responseType, status);
 	}
 
+	public static <T> T viewPolicyCoverages(String policyNumber, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewPolicyCoverages(String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);

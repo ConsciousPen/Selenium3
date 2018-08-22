@@ -342,7 +342,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String originalDriver = responseViewDrivers.driverList.get(0).oid;
 
 		//get all coverages
-		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
