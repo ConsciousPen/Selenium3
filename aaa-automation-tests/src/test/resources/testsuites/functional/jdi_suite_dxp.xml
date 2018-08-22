@@ -358,9 +358,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
-                    <include name="pas13663_CurrentBillServiceMonthly"/>
-                    <include name="pas13663_CurrentBillServiceQuarterly"/>
-                    <include name="pas13663_CurrentBillServiceAnnual"/>
                     <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
                 </methods>
             </class>
