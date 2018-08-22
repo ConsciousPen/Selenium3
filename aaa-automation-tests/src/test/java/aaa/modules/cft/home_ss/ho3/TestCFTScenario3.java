@@ -28,7 +28,7 @@ public class TestCFTScenario3 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	@StateList(states = {Constants.States.DE, Constants.States.NJ, Constants.States.OK, Constants.States.UT, Constants.States.MD})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario3(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);

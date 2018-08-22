@@ -30,7 +30,7 @@ public class TestCFTScenario2 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	@StateList(states = {Constants.States.AZ, Constants.States.MD, Constants.States.KY})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario2(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		futureEndorsePolicyOnStartDatePlus2(new String[]{new EndorsementActionTab().getMetaKey(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});

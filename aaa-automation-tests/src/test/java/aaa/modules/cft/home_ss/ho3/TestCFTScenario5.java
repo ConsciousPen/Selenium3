@@ -26,7 +26,7 @@ public class TestCFTScenario5 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	@StateList(states = {Constants.States.DE, Constants.States.NJ, Constants.States.OK, Constants.States.UT})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario5(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptPaymentOnStartDatePlus25();
