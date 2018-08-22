@@ -118,7 +118,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
 
         endorsementTab.btnSaveEndo.click();
-	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP).isPresent());
+	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();

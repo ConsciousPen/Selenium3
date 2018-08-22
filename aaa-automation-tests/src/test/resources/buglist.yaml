@@ -249,20 +249,20 @@ PAS-5529:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
-PT-1043:
-  summary: "Data relevant to ISO 360 has changed"
+PAS-5102:
+  summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["*Unable to locate element*", "Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
-PAS-12869:
+PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
-PT-1670:
-  summary: "Error message displayed in 'List of other active AAA policies' tab"
+PAS-15860:
+  summary: "Error message displayed in \"List of Other active AAA policies\" under Applicant Tab on endorsement"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
@@ -346,3 +346,20 @@ PAS-5260:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
       messages: ['Cannot transfer payment', 'is not present as expected']
+PAS-18111:
+  summary: "Cannot save endorsement Form"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
+              aaa.modules.regression.conversions.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.conversions.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+      messages: ["is not present as expected"]
+PAS-18165:
+  summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction DP3"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+      messages: ['DS 04 69"))]])[1]} is not absent as expected.']
+

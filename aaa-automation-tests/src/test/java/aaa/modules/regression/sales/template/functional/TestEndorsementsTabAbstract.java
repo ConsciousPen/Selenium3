@@ -87,23 +87,23 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	}
 
 	protected void checkEndorsementIsAvailableInOptionalEndorsements(String formId) {
-		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
-		assertThat(endorsementTab.getAddEndorsementLink(formId).isPresent());
+		assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isPresent();
+		assertThat(endorsementTab.getAddEndorsementLink(formId)).isPresent();
 	}
 
 	protected void checkEndorsementIsNotAvailableInOptionalEndorsements(String... formIds) {
 		for (String formId : formIds) {
-			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
+			assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isAbsent();
 		}
 	}
 
 	protected void checkEndorsementIsAvailableInIncludedEndorsements(String formId) {
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent());
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isPresent();
 	}
 
 	protected void checkEndorsementIsNotAvailableInIncludedEndorsements(String... formIds) {
 		for (String formId : formIds){
-			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId).isPresent()).isFalse();
+			assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, formId)).isAbsent();
 		}
 	}
 
@@ -142,7 +142,8 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	}
 
 	protected void checkEditLinkIsAvailable(String endorsementFormId) {
-		assertThat(endorsementTab.isLinkEditPresent(endorsementFormId)).isEqualTo(true);
+		// Link should be Present and Editable. Method checks for both (Disabled link is <span> tags, which isn't considered as links)
+		assertThat(endorsementTab.getLinkEdit(endorsementFormId)).isPresent();
 	}
 
 	protected void editEndorsementAndVerify(String endorsementFormId) {
@@ -209,14 +210,14 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 	}
 
 	protected void checkRemoveLinkIsAvailable(String endorsementFormId) {
-		assertThat(endorsementTab.isLinkRemovePresent(endorsementFormId)).isEqualTo(true);
+		assertThat(endorsementTab.getLinkRemove(endorsementFormId)).isPresent();
 	}
 
 	protected void removeEndorsementAndVerify(String endorsementFormId) {
 		endorsementTab.getRemoveEndorsementLink(endorsementFormId,1).click();
 		Page.dialogConfirmation.confirm();
 
-		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId).isPresent()).isFalse();
+		assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID, endorsementFormId)).isAbsent();
 	}
 
 	protected void navigateToRenewalPremiumAndCoveragesTab() {
@@ -251,14 +252,14 @@ public class TestEndorsementsTabAbstract extends CommonTemplateMethods {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		//Endorsements sum is added.
-		assertThat(new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()).moreThan(origPremiumValue));
+		assertThat(new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium()).moreThan(origPremiumValue)).isTrue();
 
 		verifyEndorsementsPresent(PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, endorsementFormIds);
 	}
 
 	protected void verifyEndorsementsPresent(String columnName, String... endorsements) {
 		for (String endorsement : endorsements) {
-			PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement).verify.present();
+			assertThat(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains(columnName, endorsement)).exists();
 		}
 	}
 }
