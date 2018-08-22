@@ -516,11 +516,6 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
 	}
 
-	public static Bill currentBillService(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Bill.class);
-	}
-
 	public static AccountDetails billingAccountInfoService(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, AccountDetails.class);
