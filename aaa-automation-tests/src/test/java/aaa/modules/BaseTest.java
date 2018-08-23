@@ -2,6 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
+import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -9,10 +24,10 @@ import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -24,29 +39,11 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -58,16 +55,15 @@ public class BaseTest {
 	private static TestData tdCustomerNonIndividual;
 	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
+	private static String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	private TestData tdSpecific;
-	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
+	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
 	static {
-		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
 		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
@@ -249,21 +245,24 @@ public class BaseTest {
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().mainApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().mainApp();
 	}
 
 	/**
 	 * Login to the application and open admin page
 	 */
 	public AdminApplication adminApp() {
-		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().adminApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().adminApp();
 	}
 
 	/**
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
-		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().opReportApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().opReportApp();
 	}
 
 	/**
@@ -398,8 +397,9 @@ public class BaseTest {
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
 		log.info("Policy Creation Started...");
 		getPolicyType().get().getDefaultView().fill(tdPolicy);
-		if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
-			PolicySummaryPage.buttonBackFromRenewals.click();}
+		if (PolicySummaryPage.buttonBackFromRenewals.isEnabled()) {
+			PolicySummaryPage.buttonBackFromRenewals.click();
+		}
 		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
 		return policyNumber;
 	}

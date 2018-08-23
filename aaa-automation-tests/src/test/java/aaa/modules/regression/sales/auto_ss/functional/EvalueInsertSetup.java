@@ -6,7 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.listeners.AaaTestListener;
@@ -27,7 +27,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition updating Payperless Preferences Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void paperlessPreferencesStubEndpointUpdate() {
 
-		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences"));
+		DBService.get().executeUpdate(String.format(PAPERLESS_PREFERENCE_API_SERVICE_UPDATE, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + "/policy/preferences"));
 	}
 
 	@Test(description = "setting Agent/Agency check against Zip to stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -68,7 +68,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueDocGenStubEndpointInsert() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			log.info("not a scrum env");
 			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
 			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
@@ -148,7 +148,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {
-		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CustomTestProperties.APP_HOST)));
+		DBService.get().executeUpdate(String.format(LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK, PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE), PropertyProvider.getProperty(CsaaTestProperties.APP_HOST)));
 	}
 
 	@Test(description = "Precondition updating pending refund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -180,8 +180,8 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Popup Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void preconditionsForMiniServicesAuthenticationInAws() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
-			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
+		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientId", "cc_PAS"));
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientSecret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"));
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.grantType", "urn:pingidentity.com:oauth2:grant_type:validate_bearer"));
@@ -195,7 +195,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition to update endpoint for oauth2 to wiremock for DXP", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void wiremockOauth() {
-		DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
+		DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
 	}
 
 }
