@@ -7,6 +7,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
@@ -305,7 +306,8 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void endorsementTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Policy
-		openAppAndCreateConversionPolicy();
+		String policyNumber = openAppAndCreateConversionPolicy();
+		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
 
 		//Initiate Endorsement transaction
 		initiateEndorsementTx();
@@ -322,7 +324,8 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void renewalTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Policy
-		openAppAndCreateConversionPolicy();
+		String policyNumber = openAppAndCreateConversionPolicy();
+		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
 
 		//Initiate Renewal transactions
 		initiateRenewalTx();

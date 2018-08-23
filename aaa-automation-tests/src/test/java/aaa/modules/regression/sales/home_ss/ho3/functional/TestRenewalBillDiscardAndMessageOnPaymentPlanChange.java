@@ -46,7 +46,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
 		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				false, false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL,
+				false, false, BillingConstants.PaymentPlan.MONTHLY_RENEWAL,
 				notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 

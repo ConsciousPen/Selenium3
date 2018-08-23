@@ -2250,26 +2250,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 	}
 
-	protected void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(boolean keepAssignments) {
-		mainApp().open();
-		String policyNumber = getCopiedPolicy();
-		SearchPage.openPolicy(policyNumber);
-		ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
-		String vehicleLeasedOid = viewVehicles.vehicleList.get(0).oid;
-
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		String replacedVehicleLeasedVin = "2T1BURHE4JC034340"; //Toyota Corolla 2018
-		//BUG PAS-16113 Replace Vehicle and Driver Assignment - when a state doesn't have driver assignment
-		replaceVehicleWithUpdates(policyNumber, vehicleLeasedOid, replacedVehicleLeasedVin, keepAssignments, false);
-
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-		ViewVehicleResponse viewVehicles2 = HelperCommon.viewPolicyVehicles(policyNumber);
-		//PAS-14680 start
-		assertThat(viewVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleLeasedVin.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isNull();
-		//PAS-14680 end
-	}
-
 	protected void pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicleBody() {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");

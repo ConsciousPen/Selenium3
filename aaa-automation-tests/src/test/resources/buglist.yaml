@@ -351,10 +351,10 @@ PAS-18111:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements.*,
-              aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
       messages: ["is not present as expected"]
 PAS-18165:
   summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction DP3"
@@ -362,4 +362,9 @@ PAS-18165:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
       messages: ['DS 04 69"))]])[1]} is not absent as expected.']
-
+PAS-15144:
+  summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+      messages: ['Total premium for quote/policy number QCOSS']
