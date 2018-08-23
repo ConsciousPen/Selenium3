@@ -77,7 +77,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 		changePaymentPlanOnRenewal(renewalPaymentPlan);
 		checkMessageInBindTab(message, initialPaymentPlanInRenewal, renewalPaymentPlan);
 		checkNewBillIsGeneratedOnRenewal();
-		checkThatPaperBillIsNotSentOnRenewal();
+		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
 	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
@@ -197,14 +197,5 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 		assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.DISCARDED_BILL);
-	}
-
-	/**
-	 * After Payment plan change new entry was generated in aaadocgenentity (RENEWAL_OFFER).
-	 * It should not contain AHRBXX (trigger to send paper bill)
-	 */
-	private void checkThatPaperBillIsNotSentOnRenewal() {
-		List<Document> renewalOfferDocuments = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
-		assertThat(renewalOfferDocuments.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 }

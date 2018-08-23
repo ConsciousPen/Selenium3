@@ -189,7 +189,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	private void createProposedRenewal() {
 		//Move time to R-35
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
 
 		//Create Proposed Renewal
 		//For now 'Proposed Renewal' is not always generated after first run
@@ -199,7 +199,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 
 	private void generatePaperBillViaJob() {
 		//Move time to R-20
-//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
 		//Generate Renewal bill
 		//For now 'Renewal bill' is not always generated after first run
@@ -212,7 +212,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
 		//Generate Renewal bill
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openBilling(policyNumber);
 		billingAccount.generateFutureStatement().perform();
 
