@@ -94,7 +94,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkMessageInBindTab(notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
-		checkThatPaperBillIsNotSentOnRenewal();
+		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
 	///-----------Payment plan: Semi-Annual -> Quarterly, Not on Automatic Payment, Bill generated via scheduler job --------------
@@ -133,7 +133,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 		checkMessageInBindTab(notAutomaticPaymentMessage, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
-		checkThatPaperBillIsNotSentOnRenewal();
+		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
 	///-----------Payment plan: Quarterly -> Semi-Annual,On Automatic Payment, Bill generated manually --------------
@@ -170,7 +170,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkMessageInBindTab(automaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
-		checkThatPaperBillIsNotSentOnRenewal();
+		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
 	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
@@ -189,7 +189,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	private void createProposedRenewal() {
 		//Move time to R-35
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
+//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
 
 		//Create Proposed Renewal
 		//For now 'Proposed Renewal' is not always generated after first run
@@ -199,7 +199,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 
 	private void generatePaperBillViaJob() {
 		//Move time to R-20
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
+//		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
 		//Generate Renewal bill
 		//For now 'Renewal bill' is not always generated after first run
@@ -233,7 +233,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	}
 
 	private void navigateToRenewal() {
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -268,14 +268,5 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 		assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.DISCARDED_BILL);
-	}
-
-	/**
-	 * After Payment plan change new entry was generated in aaadocgenentity (RENEWAL_OFFER).
-	 * It should not contain AHRBXX (trigger to send paper bill)
-	 */
-	private void checkThatPaperBillIsNotSentOnRenewal() {
-		List<Document> renewalOfferDocuments = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
-		assertThat(renewalOfferDocuments.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 }

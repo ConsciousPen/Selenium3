@@ -146,7 +146,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 	}
 
 	private void navigateToRenewal() {
-		mainApp().open();
+		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -170,6 +170,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			mortgageesTab.getValidateAddressDialogAssetList().getAsset(DialogsMetaData.AddressValidationMetaData.BTN_OK).click();
 			mortgageesTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER).setValue("12345678");
 		} else {
+			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.BILL_TO_AT_RENEWAL).setValue("Insured");
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlan);
 		}
 		premiumsAndCoveragesQuoteTab.calculatePremium();
