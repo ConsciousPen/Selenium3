@@ -6,8 +6,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 
 public class TestInitiateHOQuoteTemplate extends TestEndorsementsTabAbstract {
 
-    private EndorsementTab endorsementTab = new EndorsementTab();
-
     protected void pas13261_testInitiateHOQuoteHO29added() {
 
         createQuoteAndFillUpTo(EndorsementTab.class);
