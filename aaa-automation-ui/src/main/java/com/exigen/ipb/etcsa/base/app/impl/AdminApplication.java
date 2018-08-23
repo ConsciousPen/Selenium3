@@ -20,6 +20,7 @@ public class AdminApplication extends Application {
 		this.port = PropertyProvider.getProperty(CsaaTestProperties.OR_PORT, 9082);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.login = new LoginPage(PropertyProvider.getProperty(TestProperties.APP_USER), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
+		this.url = formatUrl();
 	}
 
 	@Override

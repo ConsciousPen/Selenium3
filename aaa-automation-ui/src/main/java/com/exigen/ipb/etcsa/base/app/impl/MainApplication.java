@@ -18,6 +18,7 @@ public class MainApplication extends Application {
 		this.port = PropertyProvider.getProperty(CsaaTestProperties.APP_PORT, 9081);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.login = new LoginPage(PropertyProvider.getProperty(TestProperties.APP_USER), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
+		this.url = formatUrl();
 
 	}
 
