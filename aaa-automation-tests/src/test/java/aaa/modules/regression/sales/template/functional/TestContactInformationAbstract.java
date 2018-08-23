@@ -7,10 +7,10 @@ import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -106,22 +106,15 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
         getPurchaseTabElement().fillTab(getTestSpecificTD("TestData")).submitTab();
     }
 
-    /**
-     * Steps: #15
-     */
-    protected void verifyPolicyStatus() {
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        String policyNum = PolicySummaryPage.getPolicyNumber();
-        log.info("policyNum: " + policyNum);
-    }
-
     private void assertContactsInformationPresent(boolean firstNIPresent, boolean secondNIPresent, boolean thirdNIPresent) {
-        presenceOfContactInformationSection(1, firstNIPresent);
-        presenceOfContactInformationSection(2, secondNIPresent);
-        presenceOfContactInformationSection(3, thirdNIPresent);
+        CustomSoftAssertions.assertSoftly(softly -> {
+            presenceOfContactInformationSection(1, firstNIPresent, softly);
+            presenceOfContactInformationSection(2, secondNIPresent, softly);
+            presenceOfContactInformationSection(3, thirdNIPresent, softly);
+        });
     }
 
-    protected abstract void presenceOfContactInformationSection(int insuredNumber, boolean isPresent);
+    protected abstract void presenceOfContactInformationSection(int insuredNumber, boolean isPresent, ETCSCoreSoftAssertions softly);
 
     protected abstract void setRelationshipToNI(int driverNumber, int relationship, String relationshipToFNI);
 
