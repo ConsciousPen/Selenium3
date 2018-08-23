@@ -2441,7 +2441,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(coveragesVehicle.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesVehicle.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coveragesVehicle.get(7).coverageLimit).isEqualTo(false);
+			softly.assertThat(coveragesVehicle.get(7).coverageLimit).isEqualTo("false");
 			softly.assertThat(coveragesVehicle.get(7).coverageLimitDisplay).isEqualTo("No");
 			softly.assertThat(coveragesVehicle.get(7).customerDisplayed).isEqualTo(false);
 			softly.assertThat(coveragesVehicle.get(7).canChangeCoverage).isEqualTo(false);
@@ -3013,39 +3013,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas17629_Umuim_Update_coverageBody(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		//Perform Endorsement
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-
-		String coverageCd = "BI";
-		String newBILimits = "25000/500000";
-
-		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newBILimits);
-		assertSoftly(softly -> {
-
-			Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
-
-			softly.assertThat(filteredCoverageResponseBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
-			softly.assertThat("$500,000/$500,000".equals(filteredCoverageResponseBI.coverageLimitDisplay)).isEqualTo(true);
-
-
-			//Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
-
-			//softly.assertThat(filteredCoverageResponseBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
-			//softly.assertThat("$500,000/$500,000".equals(filteredCoverageResponseBI.coverageLimitDisplay)).isEqualTo(true);
-		});
-
-		}
-
-
 	protected void pas14730_UpdateCoverageUMPDAndPDBody(PolicyType policyType) {
 		mainApp().open();
 
@@ -3055,7 +3022,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
-
 		assertSoftly(softly -> {
 			Coverage filteredCoverageResponseUMPD = viewCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
 			Coverage filteredCoverageResponsePD = viewCoverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
@@ -3078,7 +3044,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newLimit);
 		});
-
 	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
@@ -3128,7 +3093,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oidTrailer);
 		validateTrailerCoverages(viewEndorsementCoveragesByVehicleResponse);
 		assertThatOnlyOneInstanceOfPolicyLevelCoverages(viewEndorsementCoveragesByVehicleResponse);
-
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
@@ -3479,7 +3443,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(availableLimitsPD.get(3).coverageLimit).isEqualTo("100000");
 			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$100,000");
-
 		});
 	}
 }
