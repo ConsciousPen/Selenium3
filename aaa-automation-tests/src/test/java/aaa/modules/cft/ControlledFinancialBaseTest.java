@@ -253,8 +253,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void futureEndorsePolicyOnCancellationNoticeDate(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
-		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+		performFutureEndorsementOnDate(endorsementDate, endorsementEffDateDataKeys);
 	}
 
 	/**
@@ -263,8 +262,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void futureEndorsePolicyOnStartDatePlus2(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
-		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+		performFutureEndorsementOnDate(endorsementDate, endorsementEffDateDataKeys);
 
 	}
 
@@ -1181,15 +1179,26 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
-		performEndorsementOnDate(endorsementDate, endorsementDate.format(DateTimeUtils.MM_DD_YYYY));
-	}
-
-	private void performEndorsementOnDate(LocalDateTime endorsementDate, String endorsementEffDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
 		log.info("Endorsment action started on {}", endorsementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		mainApp().reopen();
 		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
+				ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber))).exists();
+		log.info("Endorsment action completed successfully");
+	}
+
+	private void performFutureEndorsementOnDate(LocalDateTime endorsementDate, String[] endorsementEffDateDataKeys) {
+		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
+		log.info("Endorsment action started on {}", endorsementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
