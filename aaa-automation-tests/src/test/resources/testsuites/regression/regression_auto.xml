@@ -101,6 +101,11 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas4311_pas6587_ASDLock_newly_locked"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CT Auto Regression Tests" parallel="methods">
@@ -118,6 +123,11 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteManualTask"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRemove"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas2247_pas2248_AipAndNafLock"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="DC Auto Regression Tests" parallel="methods">
