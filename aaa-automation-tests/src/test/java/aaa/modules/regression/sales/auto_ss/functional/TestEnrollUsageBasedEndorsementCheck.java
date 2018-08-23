@@ -1,7 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -92,6 +92,6 @@ public class TestEnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
         VehicleTab.tableVehicleList.getRow(1).getCell(5).controls.links.get(2).click();
         Page.dialogConfirmation.confirm();
         new VehicleTab().getAssetList().getAsset(VIN.getLabel(), TextBox.class).setValue("1G1JC124627237595");
-        assertThat(new VehicleTab().getAssetList().getAsset(ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), RadioGroup.class).getValue()).isEqualTo(ubiValue);
+        assertThat(new VehicleTab().getAssetList().getAsset(ENROLL_IN_USAGE_BASED_INSURANCE.getLabel(), RadioGroup.class)).hasValue(ubiValue);
     }
 }

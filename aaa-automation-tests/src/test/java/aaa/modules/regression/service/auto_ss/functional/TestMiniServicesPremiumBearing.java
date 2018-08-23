@@ -3,9 +3,8 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions.MY_POLICY_USER_CONFIG_CHECK;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
-import org.assertj.core.api.SoftAssertions;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,6 +26,7 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.utils.StateList;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBearingAbstract {
@@ -45,7 +45,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		});
 	}
 
-	private static void miniServicesEndorsementDeleteDelayConfigCheckAssertion(SoftAssertions softly, int i, String s) {
+	private static void miniServicesEndorsementDeleteDelayConfigCheckAssertion(ETCSCoreSoftAssertions softly, int i, String s) {
 		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
 	}
 
@@ -318,20 +318,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
 		);
-	}
-
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Check dxp server if Nano policy not returning any information about vehicle.
-	 * @scenario 1. Create Nano policy.
-	 * 2. Check dxp server, any info should not be displayed about vehicle.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
-	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
-
-		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}
 
 	/**

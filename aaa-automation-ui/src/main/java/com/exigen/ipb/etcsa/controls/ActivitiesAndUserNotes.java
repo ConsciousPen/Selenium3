@@ -5,6 +5,7 @@
 
 package com.exigen.ipb.etcsa.controls;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import java.util.Map;
 import org.openqa.selenium.By;
 import aaa.main.enums.ActivitiesAndUserNotesConstants;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Column;
 import toolkit.webdriver.controls.composite.table.Header;
@@ -131,42 +131,43 @@ public class ActivitiesAndUserNotes extends Table {
         return super.getRows();
     }
 
-    public class Verify extends Table.Verify {
+	public class Verify {
         public Verify() {}
 
         public void description(int rowIndex, String expectedDescription) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION).verify.value(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).hasValue(expectedDescription);
         }
 
         public void descriptionContains(int rowIndex, String expectedDescription) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION).verify.contains(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).valueContains(expectedDescription);
         }
 
         public void descriptionContains(LocalDateTime date, String expectedDescription) {
             Map<String, String> values = new HashMap<>();
-            values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DATE_TIME, date.format(DateTimeUtils.MM_DD_YYYY));
-            values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, expectedDescription);
-            ActivitiesAndUserNotes.this.getRowContains(values).verify.present();
+			values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DATE_TIME, date.format(DateTimeUtils.MM_DD_YYYY));
+			values.put(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION, expectedDescription);
+            assertThat(ActivitiesAndUserNotes.this.getRowContains(values)).exists();
         }
 
         public void descriptionByRegex(int rowIndex, String expectedDescription) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION).verify.valueByRegex(expectedDescription);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION)).valueMatches(expectedDescription);
         }
 
         public void status(int rowIndex, String expectedStatus) {
-            ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.STATUS).verify.value(expectedStatus);
+			assertThat(ActivitiesAndUserNotes.this.getRow(rowIndex).getCell(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.STATUS)).hasValue(expectedStatus);
         }
 
         public void descriptionExist(String expectedDescription) {
-            CustomAssert.assertTrue("Description doesn't contains record " + expectedDescription, ActivitiesAndUserNotes.this.getColumn("Description").getValue().contains(expectedDescription));
+            assertThat(ActivitiesAndUserNotes.this.getColumn("Description").getValue()).as("Description contains record " + expectedDescription).contains(expectedDescription);
         }
 
         public void descriptionNotExist(String expectedDescription) {
-            CustomAssert.assertFalse("Description contains record " + expectedDescription, ActivitiesAndUserNotes.this.getColumn("Description").getValue().contains(expectedDescription));
+            assertThat(ActivitiesAndUserNotes.this.getColumn("Description").getValue()).as("Description doesn't contains record " + expectedDescription).doesNotContain(expectedDescription);
         }
 
         public void descriptionExist(String expectedDescription, int expectedCount) {
-            CustomAssert.assertEquals((long) expectedCount, (long) Collections.frequency(ActivitiesAndUserNotes.this.getColumn("Description").getValue(), expectedDescription));
+            assertThat(Collections.frequency(ActivitiesAndUserNotes.this.getColumn("Description").getValue(), expectedDescription))
+                    .as("Description contains record " + expectedDescription).isEqualTo(expectedCount);
         }
     }
 }

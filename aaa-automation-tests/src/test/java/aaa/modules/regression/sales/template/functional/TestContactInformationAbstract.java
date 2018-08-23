@@ -2,6 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -10,8 +11,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -54,7 +53,6 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
     protected abstract Tab getDocumentsAndBindElement();
     protected abstract Tab getPurchaseTabElement();
 
-    protected abstract InquiryAssetList getInquiryAssetList();
     protected abstract CommonErrorTab getErrorTabElement();
     protected abstract AssetDescriptor<RadioGroup> getSalesAgentAgreement();
     protected abstract AssetDescriptor<Button> getValidateDrivingHistory();
@@ -112,7 +110,7 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
      * Steps: #15
      */
     protected void verifyPolicyStatus() {
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         String policyNum = PolicySummaryPage.getPolicyNumber();
         log.info("policyNum: " + policyNum);
     }
@@ -137,8 +135,7 @@ public abstract class TestContactInformationAbstract extends PolicyBaseTest {
         assetList.getAsset(getValidateDrivingHistory()).click();
         getDriverActivityReportsTabElement().submitTab();
         getDocumentsAndBindElement().submitTab();
-        CustomAssert.assertEquals(String.format("%s should be displayed only for first named insured", getVerificationError().getCode()),
-                1, getErrorTabElement().getErrorsControl().getTable().getRowsCount());
+        assertThat(getErrorTabElement().getErrorsControl().getTable()).as("%s should be displayed only for first named insured", getVerificationError().getCode()).hasRows(1);
         getErrorTabElement().cancel();
     }
 

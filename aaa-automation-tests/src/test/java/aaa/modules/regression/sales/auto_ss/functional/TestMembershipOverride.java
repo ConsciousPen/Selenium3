@@ -4,7 +4,6 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.EntitiesHolder;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -19,7 +18,6 @@ import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
-import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -103,7 +101,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, PremiumAndCoveragesTab.class, DocumentsAndBindTab.class, true);
 		new DocumentsAndBindTab().submitTab();
 		new PurchaseTab().fillTab(testData).submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -177,7 +175,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 		new ErrorTab().overrideAllErrors();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -234,7 +232,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		checkMembershipInPCTab(true, true, "Yes", "", "01/01/2005"); //01/01/2005 is "Member Since Date" value from Stub for Active membership
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -292,7 +290,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		checkMembershipInPCTab(true, true, "Yes", "", "01/04/2009");
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
 
@@ -401,7 +399,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		TestEValueMembershipProcess.jobsNBplus15plus30runNoChecks();
@@ -463,7 +461,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		jobsNBplus15plus30runNoChecks();
@@ -523,7 +521,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info(policyNumber);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -587,7 +585,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		log.info(policyNumber);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -652,7 +650,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(testData);
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -685,7 +683,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class, true);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
@@ -730,7 +728,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).isPresent());
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
 
 		} else {
@@ -769,8 +767,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		GeneralTab generalTab = new GeneralTab();
 		assertThat(generalTab.getAAAProductOwnedAssetList().
 				getAsset("Member Since Date").
-				getWarning().get().contentEquals(MEMBER_SINCE_DATE_WARNING_MESSAGE));
-
+				getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
 	}
 
 	private void testMembershipOverridePrivilege(Boolean hasPrivilege) {

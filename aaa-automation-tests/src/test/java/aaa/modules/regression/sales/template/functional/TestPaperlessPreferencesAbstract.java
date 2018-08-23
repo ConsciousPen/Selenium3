@@ -18,7 +18,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -83,32 +82,28 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//pas283_eValuePaperlessPreferences should be put here for all states and products
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
 
-		inquiryAssetList.assetSectionPresence("Paperless Preferences");
-		inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.present();
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.enabled(false);
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).isPresent();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).isDisabled();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
 
-		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.present();
-		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.enabled();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isPresent();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isEnabled();
 
 		//left overs of previous functionality. Showing Hiding rules will change with new story
 		//getDocumentsAndBindTabElement().getAssetList().getAsset(getSuppressPrint()).verify.present(); //TODO not for PUP, if uncomment, then  add "if ProductType"
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(false);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail())).isPresent(false);
 		//left overs of previous functionality. Lookup list will change with new story
 
 		//PAS-3097 remove the Issue Date field from Bind tab (VA state)
-		inquiryAssetList.assetFieldsAbsence("Issue Date");
-		getDocumentPrintingDetailsAssetList().getAsset(getIssueDate()).verify.present(false);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIssueDate())).isPresent(false);
 		//PAS-3097 end
 
-		inquiryAssetList.assetFieldsAbsence("Method Of Delivery");
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
-		inquiryAssetList.assetFieldsAbsence("Include with Email");
-		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(false);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail())).isPresent(false);
 
 		//PAS-266 start
 		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).click();
@@ -118,12 +113,21 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//PAS-287 start
 		String helpMessageHT10001 = "Indicates the customer's paperless notifications enrollment status. If \"Pending\", advise the customer to accept the terms and conditions. During mid-term, you may not be able to complete the endorsement until the status has changed to \"Yes\".";
-		CustomAssert.assertTrue(DocumentsAndBindTab.helpIconPaperlessPreferences.getAttribute("title").equals(helpMessageHT10001));
+		assertThat(DocumentsAndBindTab.helpIconPaperlessPreferences.getAttribute("title")).isEqualTo(helpMessageHT10001);
 		//PAS-287 end
 
 		//PAS-277 start
-		inquiryAssetList.assetSectionPresence("Document Delivery Details", false);
-		inquiryAssetList.assetFieldsAbsence("Send To", "Country", "Zip/Postal Code", "Address Line 1", "Address Line 2", "Address Line 3", "City", "State / Province", "Notes", "Issue Date");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Send To")).as("Field 'Send To' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Country")).as("Field 'Country' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Zip/Postal Code")).as("Field 'Zip/Postal Code' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 1")).as("Field 'Address Line 1' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 2")).as("Field 'Address Line 2' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Address Line 3")).as("Field 'Address Line 3' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("City")).as("Field 'City' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("State / Province")).as("Field 'State / Province' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Notes")).as("Field 'Notes' is absent").isFalse();
+		assertThat(getDocumentsAndBindTabElement().isFieldThatIsNotInAssetListIsPresent("Issue Date")).as("Field 'Issue Date' is absent").isFalse();
 		//PAS-277 end
 
 		getDocumentsAndBindTabElement().saveAndExit();
@@ -131,13 +135,16 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		//PAS-269 start
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		inquiryAssetList.assetSectionPresence("Paperless Preferences");
-		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.present();
-		getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences()).verify.enabled(false);
-		inquiryAssetList.getStaticElement(getEnrolledInPaperless().getLabel()).verify.present();
-		inquiryAssetList.getStaticElement(getIssueDate().getLabel()).verify.present(false);
-		inquiryAssetList.getStaticElement(getMethodOfDelivery().getLabel()).verify.present(false);
-		inquiryAssetList.getStaticElement(getIncludeWithEmail().getLabel()).verify.present(false);//will change based on View/Hide rules
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isPresent();
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isDisabled();
+
+		InquiryAssetList PaperlessPreferencesInquiryAssetList = new InquiryAssetList(getDocumentsAndBindTabElement().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.class);
+		InquiryAssetList docPrintingDetailsInquiryAssetList = new InquiryAssetList(getDocumentsAndBindTabElement().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.class);
+		assertThat(PaperlessPreferencesInquiryAssetList.getStaticElement(getEnrolledInPaperless())).isPresent();
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getIssueDate())).isPresent(false);
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getMethodOfDelivery())).isPresent(false);
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getIncludeWithEmail())).isPresent(false);//will change based on View/Hide rules
 		getDocumentsAndBindTabElement().cancel();
 		//PAS-269 end
 	}
@@ -163,11 +170,11 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
 
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("No");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be present").isTrue();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent();
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Email");
-		getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail()).verify.present(true);
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getIncludeWithEmail())).isPresent();
 		getDocumentsAndBindTabElement().saveAndExit();
 		deleteSinglePaperlessPreferenceRequest(stub);
 
@@ -175,9 +182,9 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Pending");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isAbsent();
 		getDocumentsAndBindTabElement().saveAndExit();
 		deleteSinglePaperlessPreferenceRequest(stub1);
 
@@ -185,9 +192,9 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isAbsent();
 		getDocumentsAndBindTabElement().saveAndExit();
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -196,9 +203,9 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		//renewal
 		policy.renew().start().submit();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isAbsent();
 		deleteSinglePaperlessPreferenceRequest(stub2);
 		getDocumentsAndBindTabElement().saveAndExit();
 
@@ -206,9 +213,9 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Pending");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isAbsent();
 		getDocumentsAndBindTabElement().saveAndExit();
 		deleteSinglePaperlessPreferenceRequest(stub3);
 
@@ -216,9 +223,9 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", true);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(true);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("No");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).isTrue();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent();
 		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).setValue("Mail");
 		deleteSinglePaperlessPreferenceRequest(stub4);
 	}
@@ -245,27 +252,27 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Pending");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Pending");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub);
 		getDocumentsAndBindTabElement().cancel(true);
 
 		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN);
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub2);
 		getDocumentsAndBindTabElement().cancel(true);
 
 		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("No");
-		getInquiryAssetList().assetSectionPresence("Document Delivery", false);
-		getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery()).verify.present(false);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("No");
+		assertThat(getDocumentsAndBindTabElement().isSectionPresent("Document Delivery")).as("'Document Delivery' section should be absent").isFalse();
+		assertThat(getDocumentPrintingDetailsAssetList().getAsset(getMethodOfDelivery())).isPresent(false);
 		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
@@ -330,7 +337,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 
 		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, OPT_IN, OPT_IN);
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value("Yes");
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue("Yes");
 		getDocumentsAndBindTabElement().submitTab();
 		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isAbsent();
 		deleteSinglePaperlessPreferenceRequest(stub);
@@ -340,7 +347,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	private void checkPaperlessPreferencesStatus(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
 		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value(paperlessStatus);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue(paperlessStatus);
 		NavigationPage.toViewSubTab(getGeneralTab());
 		deleteSinglePaperlessPreferenceRequest(stub);
 	}
@@ -348,7 +355,7 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 	private void checkPaperlessPreferencesError(String quoteNumber, String policyAction, String billingAction, String paperlessStatus) {
 		HelperWireMockStub stub = createPaperlessPolicyBillingPreferencesRequestId(quoteNumber, policyAction, billingAction);
 		NavigationPage.toViewSubTab(getDocumentsAndBindTab());
-		getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless()).verify.value(paperlessStatus);
+		assertThat(getPaperlessPreferencesAssetList().getAsset(getEnrolledInPaperless())).hasValue(paperlessStatus);
 		getDocumentsAndBindTabElement().submitTab();
 		assertThat(getErrorTabElement().getErrorsControl().getTable().getRowContains(MESSAGE, EV100003)).isPresent();Tab.buttonCancel.click();
 		deleteSinglePaperlessPreferenceRequest(stub);

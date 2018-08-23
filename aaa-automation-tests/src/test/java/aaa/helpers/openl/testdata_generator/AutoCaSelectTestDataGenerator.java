@@ -1,8 +1,8 @@
 package aaa.helpers.openl.testdata_generator;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.Duration;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -34,8 +34,8 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
 		if (Boolean.FALSE.equals(openLPolicy.isAaaMember())) {
 			ratingDataPattern
-					.mask(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel())
-					.mask(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()))
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		TestData td = DataProviderFactory.dataOf(
@@ -57,7 +57,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			LocalDate newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
 			LocalDate newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
 			assertThat(newDriverCourseCompletionMinDate).as("Calculated minimum allowable New Driver Course Completion Date should be less than maximum one").isBefore(newDriverCourseCompletionMaxDate);
-			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate.atStartOfDay(), newDriverCourseCompletionMaxDate.atStartOfDay()).toDays()));
+			int duration = Math.abs(Math.toIntExact(ChronoUnit.DAYS.between(newDriverCourseCompletionMinDate, newDriverCourseCompletionMaxDate)));
 			LocalDate newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
 
 			driverData

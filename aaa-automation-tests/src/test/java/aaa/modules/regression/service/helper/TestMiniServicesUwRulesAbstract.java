@@ -3,7 +3,7 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -95,11 +95,11 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
-			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_IN_MICHIGAN.getMessage());
 			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
 			softly.assertThat(rateResponse.errors.get(2).errorCode).isEqualTo(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getCode());
 			softly.assertThat(rateResponse.errors.get(2).message).contains(ErrorDxpEnum.Errors.ZIP_CODE_IS_NOT_APPLICABLE.getMessage());
@@ -140,8 +140,8 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
@@ -149,6 +149,18 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 
 			SearchPage.openPolicy(policyNumber);
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+			//START PAS-17648
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			String vin2 = "1FMEU15H7KLB19840";
+			Vehicle vehicleAddRequest2 = new Vehicle();
+			vehicleAddRequest2.purchaseDate = purchaseDate;
+			vehicleAddRequest2.vehIdentificationNo = vin2;
+			String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 
@@ -179,8 +191,8 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.UNIQUE_VIN.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.UNIQUE_VIN.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
@@ -215,9 +227,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE_RATE.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("vehTypeCd");
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("vehTypeCd");
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
@@ -270,11 +282,11 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_ONLY_VEHICLE.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
-			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode());
+			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage());
 			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);
@@ -327,8 +339,8 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA_RATE.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).startsWith(ErrorDxpEnum.Errors.MUST_HAVE_PPA_RATE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).errorCode).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).startsWith(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage());
 			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
 
 			rateEndorsementInPas(policyNumber);

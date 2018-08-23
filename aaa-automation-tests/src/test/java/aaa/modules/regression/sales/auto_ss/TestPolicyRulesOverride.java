@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -60,7 +60,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new ErrorTab().buttonOverride.click();
 
 		Tab.buttonSaveAndExit.click();
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PREMIUM_CALCULATED);
 
 		//override rule for quote
 		policy.updateRulesOverride().start();
@@ -79,7 +79,7 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		new PurchaseTab().fillTab(class_td);
 		new PurchaseTab().submitTab();
 
-		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		//override rule for policy
 		policy.updateRulesOverride().perform(getTestSpecificTD("UpdateRulesTestData_2"));
@@ -104,10 +104,10 @@ public class TestPolicyRulesOverride extends AutoSSBaseTest {
 		query.put("Status", "overridden");
 		query.put("Rule name", "200040");
 
-		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).isPresent());
+        assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query)).isPresent();
 
-		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst().getValue()).isEqualTo(duration);
-		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst().getValue()).isEqualTo(reason);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Duration").controls.radioGroups.getFirst()).hasValue(duration);
+		assertThat(UpdateRulesOverrideActionTab.tblRulesList.getRow(query).getCell("Reason for override").controls.comboBoxes.getFirst()).hasValue(reason);
 
 		UpdateRulesOverrideActionTab.btnCancel.click();
 

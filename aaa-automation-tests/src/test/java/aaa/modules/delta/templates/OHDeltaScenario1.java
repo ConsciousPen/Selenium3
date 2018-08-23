@@ -1,5 +1,6 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.CustomSoftAssertions;
 
 public class OHDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;
@@ -48,21 +49,21 @@ public class OHDeltaScenario1 extends BaseTest {
 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();			
-		GeneralTab generalTab = new GeneralTab();		
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("First Time Homebuyer"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(false); 
-		
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("No Prior"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(false); 
-		
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("Allstate"); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER.getLabel()).verify.present(); 
-		generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER).setValue("5");
-		
-		GeneralTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			GeneralTab generalTab = new GeneralTab();
+			generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("First Time Homebuyer");
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER)).isPresent(false);
+
+			generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("No Prior");
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER)).isPresent(false);
+
+			generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.IMMEDIATE_PRIOR_CARRIER).setValue("Allstate");
+			softly.assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER)).isPresent();
+			generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.CONTINUOUS_YEARS_WITH_IMMEDIATE_PRIOR_CARRIER).setValue("5");
+
+			GeneralTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyEndorsementsTab() {
@@ -82,30 +83,28 @@ public class OHDeltaScenario1 extends BaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());		
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-		EndorsementTab endorsementTab = new EndorsementTab(); 
+		EndorsementTab endorsementTab = new EndorsementTab();
 
-		CustomAssert.enableSoftMode();
-		
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present();	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present();
-			
-			endorsementTab.fillTab(td_add_Forms);
-			
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present();			
-			CustomAssert.assertTrue(endorsementTab.verifyLinkEditIsPresent("HS 03 12")); 
-			CustomAssert.assertTrue(endorsementTab.verifyLinkRemoveIsPresent("HS 03 12"));
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312).verify.present(false);	
-			endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493).verify.present(false);		
-			endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312).verify.present(false);
-		}
-		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();	
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
+
+				endorsementTab.fillTab(td_add_Forms);
+
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
+				softly.assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+			new PremiumsAndCoveragesQuoteTab().calculatePremium();
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyHailResistanceRating() {
@@ -114,18 +113,17 @@ public class OHDeltaScenario1 extends BaseTest {
 		mainApp().open();
 		SearchPage.openQuote(quoteNumber);	
 		
-		policy.dataGather().start();		
-		CustomAssert.enableSoftMode();
+		policy.dataGather().start();
 
-		if (getPolicyType().equals(PolicyType.HOME_SS_HO3)||getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied();
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating);
-		}
-		else if (getPolicyType().equals(PolicyType.HOME_SS_HO4)||getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-			HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying();
-		} 		
-		PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
-		CustomAssert.assertAll();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotApplied(softly);
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingApplied(td_hailResistanceRating, softly);
+			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+				HssQuoteDataGatherHelper.verifyHailResistanceRatingNotDisplaying(softly);
+			}
+			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_verifyIneligibleRoofType() {
@@ -135,16 +133,14 @@ public class OHDeltaScenario1 extends BaseTest {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
-		
-		CustomAssert.enableSoftMode();
-		
-		HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_IneligibleRoofType, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560);
-		
-		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
-		
-		PropertyInfoTab.buttonSaveAndExit.click();
-		
-		CustomAssert.assertAll();
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			HssQuoteDataGatherHelper.verifyErrorForIneligibleRoofType(td_IneligibleRoofType, ErrorEnum.Errors.ERROR_AAA_HO_SS10030560, softly);
+
+			HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
+
+			PropertyInfoTab.buttonSaveAndExit.click();
+		});
 	}
 	
 	public void TC_purchasePolicy(String scenarioPolicyType) {
@@ -162,7 +158,7 @@ public class OHDeltaScenario1 extends BaseTest {
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         
         log.info("DELTA OH SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);

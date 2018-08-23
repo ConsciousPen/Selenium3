@@ -57,7 +57,6 @@
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewFlatCancellation"/>
-            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementRollBack"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingOperations"/>
@@ -283,10 +282,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreationFull"/>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
         </classes>
     </test>
     <test name="DE PUP Functional Tests" parallel="methods">
@@ -516,7 +512,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteAdvancedRater"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteCreateAndCopy"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteManualTask"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteValidateRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>

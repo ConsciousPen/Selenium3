@@ -1,5 +1,11 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -10,23 +16,16 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.Assertions;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 /**
  * @author Tyrone Jemison
  * @name Test Membership Override
@@ -131,15 +130,13 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
-        try {
-            // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
-            createCustomerIndividual();
-            policy.createPolicy(defaultPolicyData);
-        }
-        catch(Exception ex){}
+        // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        Assertions.assertThat(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel().contains("Membership Override")).isTrue();
+        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("Membership Override");
     }
 
     /**
@@ -292,7 +289,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
@@ -362,7 +359,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("No"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("No");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -430,7 +427,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
     }
@@ -504,7 +501,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Verify Membership is Retained
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
 
         // If we don't close VRD, the test will fail attempting to close using the default methods.
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -516,7 +513,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         in_policy.initiate();
         in_policy.getDefaultView().fillUpTo(in_policyData, PremiumsAndCoveragesQuoteTab.class, true);
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator").equalsIgnoreCase("Yes"));
+        assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
 
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
         PremiumsAndCoveragesQuoteTab.btnContinue.click();

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
@@ -12,6 +14,8 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 /**
@@ -24,6 +28,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	private LocalDateTime policyExpirationDate;
 	
 	@Parameters({ "state" })
+	@StateList(states = States.DC)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
@@ -32,6 +37,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.DC)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_RenewImageGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
@@ -41,6 +47,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	}	
 	
 	@Parameters({ "state" })
+	@StateList(states = States.DC)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
@@ -50,6 +57,7 @@ public class TestScenario3 extends AutoSSBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.DC)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewaBillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));

@@ -17,23 +17,18 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.SoftAssertions;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.*;
-import static java.lang.String.format;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
     private static final String AGE_VERIFICATION_SQL = "select ip.age from POLICYSUMMARY ps, INSUREDPRINCIPAL ip\n" +
@@ -51,22 +46,22 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         premiumsAndCoveragesQuoteTab.calculatePremium();
     }
 
-    public void seniorDiscountDependencyOnEffectiveDate(String policyNumber, int seniorDiscountApplicabilityAgeYears, int effectiveDateDaysDelta, String seniorDiscountName) {
+    public void seniorDiscountDependencyOnEffectiveDate(String policyNumber, int seniorDiscountApplicabilityAgeYears, int effectiveDateDaysDelta, String seniorDiscountName, ETCSCoreSoftAssertions softly) {
         if (!generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).isPresent()) {
             NavigationPage.toViewTab(NavigationEnum.HomeCaTab.GENERAL.get());
         }
         generalTab.getPolicyInfoAssetList().getAsset(HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE).setValue(TimeSetterUtil.getInstance().getCurrentTime().minusDays(effectiveDateDaysDelta).format(DateTimeUtils.MM_DD_YYYY));
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, -1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears - 1);
-        CustomAssert.assertFalse(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue().contains(seniorDiscountName));
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "No");
 
         seniorDiscountAppliedAndAgeCheck(policyNumber, seniorDiscountApplicabilityAgeYears, 1 + effectiveDateDaysDelta, seniorDiscountApplicabilityAgeYears);
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1).verify.contains(seniorDiscountName);
+        softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell(1)).valueContains(seniorDiscountName);
         seniorDiscountViewRatingDetailsCheck(seniorDiscountName, "Yes");
     }
 
@@ -76,10 +71,10 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         //BUG QC 44971 Regression: Senior discount is not displayed in rating details dialog
         switch(seniorDiscountName) {
             case "Senior":
-                CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Senior Discount"), seniorDiscountValue);
+                assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Senior Discount")).isEqualTo(seniorDiscountValue);
                 break;
             case "Mature Policy Holder":
-                CustomAssert.assertEquals(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature policy holder"), seniorDiscountValue);
+                assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Mature policy holder")).isEqualTo(seniorDiscountValue);
                 break;
         }
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
@@ -91,8 +86,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         String seniorDiscountApplicabilityAge = TimeSetterUtil.getInstance().getCurrentTime().minusYears(seniorDiscountApplicabilityAgeYears).minusDays(dateOfBirthDaysDelta).format(DateTimeUtils.MM_DD_YYYY);
         applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), MultiAssetList.class).getAsset(HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH).setValue(seniorDiscountApplicabilityAge);
         premiumsAndCoveragesQuoteTab.calculatePremium();
-        int ageFromDb = Integer.parseInt(DBService.get().getValue(format(AGE_VERIFICATION_SQL, policyNumber)).get());
-        CustomAssert.assertEquals(ageFromDb, ageInDbYears);
+        assertThat(DBService.get().getValue(String.format(AGE_VERIFICATION_SQL, policyNumber)).map(Integer::parseInt)).hasValue(ageInDbYears);
     }
 
     // This creates a customer, policy and return the policy number as a String.
@@ -186,18 +180,18 @@ public class HelperCommon extends HomeCaHO3BaseTest{
     }
 
     public static void verifySelectedEndorsementsPresent(Table tableForms, String columnName, String endorsementToFind) {
-        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).isNotNull();
+        assertThat(tableForms.getRowContains(columnName, endorsementToFind)).exists();
     }
 
     public static void verifyEndorsementsNotVisible(Table tableForms, String columnName, ArrayList<String> endorsementsByLabel) {
-        ArrayList<String> foundColumnNames = new ArrayList<String>();
+        ArrayList<String> foundColumnNames = new ArrayList<>();
         for (int i = 1; i < tableForms.getRowsCount(); i++) {
             foundColumnNames.add(tableForms.getRow(i).getCell(columnName).getValue());
         }
 
         for (String name : foundColumnNames) {
             for (String label : endorsementsByLabel)
-            Assertions.assertThat(name).isNotEqualToIgnoringCase(label);
+            assertThat(name).isNotEqualToIgnoringCase(label);
         }
     }
 
@@ -268,10 +262,10 @@ public class HelperCommon extends HomeCaHO3BaseTest{
      */
     public static void validatePdfFromDb(String policyNumber, DocGenEnum.Documents docGenDoc, EventNames eventName, String expectedElementName, String expectedTagValue) {
         String actualValueFound;
-        String query = format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docGenDoc.getIdInXml(), eventName);
+        String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, docGenDoc.getIdInXml(), eventName);
         Document docToValidate = DocGenHelper.getDocument(docGenDoc, query);
         actualValueFound = DocGenHelper.getDocumentDataElemByName(expectedElementName, docToValidate).getDataElementChoice().getTextField();
 
-        Assertions.assertThat(actualValueFound.contentEquals(expectedTagValue));
+        assertThat(actualValueFound.contentEquals(expectedTagValue)).isTrue();
     }
 }

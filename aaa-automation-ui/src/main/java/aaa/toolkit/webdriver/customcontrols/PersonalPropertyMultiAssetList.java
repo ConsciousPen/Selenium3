@@ -1,10 +1,10 @@
 package aaa.toolkit.webdriver.customcontrols;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.pages.Page;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
@@ -45,7 +45,7 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 	@Override
 	protected void addSection(int index, int size) {
 		expandSection();
-		CustomAssert.assertTrue(String.format("Can't add new row, looks like tables' rows limit [%s] is reached.", count.getValue()), buttonAdd.isPresent() && buttonAdd.isVisible());
+		assertThat(buttonAdd).as("Can't add new row, looks like tables' rows limit [%s] is reached.", count.getValue()).isPresent();
 		buttonAdd.click();
 	}
 
@@ -73,11 +73,11 @@ public class PersonalPropertyMultiAssetList extends MultiAssetList {
 		index++;
 		expandSection();
 		if (index == 0) {
-			CustomAssert.assertTrue(buttonRemove.isPresent() && buttonRemove.isVisible());
+			assertThat(buttonRemove.isPresent() && buttonRemove.isVisible()).isTrue();
 			buttonRemove.click();
 			Page.dialogConfirmation.confirm();
 		} else {
-			CustomAssert.assertTrue(isTableVisible(tableItemsList) && tableItemsList.isVisible());
+			assertThat(isTableVisible(tableItemsList) && tableItemsList.isVisible()).isTrue();
 			tableItemsList.removeRow(index);
 		}
 	}

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Policy rootEntityType="policy" name="AAA_HO_CA" version="1">
+	<AAAHOPolicy state="Created">
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005301</agencyLocation>
+		<agentCd>70683577</agentCd>
+		<agentGeneralNumber>003</agentGeneralNumber>
+		<doNotRenewInd>false</doNotRenewInd>
+		<effective>2018-02-01T00:00:00</effective>
+		<expiration>2019-02-01T00:00:00</expiration>
+		<imported>CONV</imported>
+		<importedFrom>HDES</importedFrom>
+		<isAdditionalPolicy>true</isAdditionalPolicy>
+		<leadSourceCd>25</leadSourceCd>
+		<officeType>AZ Club Agent</officeType>
+		<policyFormCd>HO6</policyFormCd>
+		<preConversionPolicyNumber>WE93264</preConversionPolicyNumber>
+		<preConversionPolicyPremium>305</preConversionPolicyPremium>
+		<producerCd>500001005</producerCd>
+		<productCd>AAA_HO_CA</productCd>
+		<riskStateCd>CA</riskStateCd>
+		<sourcePolicyNum>WE93264</sourcePolicyNum>
+		<subProducerCd>70683577</subProducerCd>
+		<tollNumberCd>xxx</tollNumberCd>
+		<underwriterCd>CSAAIB</underwriterCd>
+		<AAACeaDetailsComponent state="Created">
+			<aaaCeaEffectiveDt>2017-02-01T00:00:00</aaaCeaEffectiveDt>
+			<acceptCeaOffer>true</acceptCeaOffer>
+			<bctCeaPolicyNumber>On-File Conversion</bctCeaPolicyNumber>
+			<policyNumber>On-File Conversion</policyNumber>
+			<policyType>BASIC</policyType>
+			<status>bound</status>
+			<AAACeaCoverageA state="Created">
+				<coverageCd>CeaCovA</coverageCd>
+				<limitAmount>124200</limitAmount>
+			</AAACeaCoverageA>
+			<AAACeaCoverageC state="Created">
+				<coverageCd>CeaCovC</coverageCd>
+				<limitAmount>5000</limitAmount>
+			</AAACeaCoverageC>
+			<AAACeaCoverageD state="Created">
+				<coverageCd>CeaCovD</coverageCd>
+				<limitAmount>1500</limitAmount>
+			</AAACeaCoverageD>
+			<AAACeaCoverageE state="Created">
+				<coverageCd>CeaCovE</coverageCd>
+				<limitAmount>0</limitAmount>
+			</AAACeaCoverageE>
+		</AAACeaDetailsComponent>
+		<AAAFirelineReportComponent state="Created">
+			<dwellAddressCity>REDWOOD CITY</dwellAddressCity>
+			<dwellAddressLine1>401 BALTIC CIR</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 423</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94065</dwellAddressZip>
+			<expirationDate>2018-03-08T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<status>Valid</status>
+		</AAAFirelineReportComponent>
+		<AAAHOCommunicationInfo state="Created">
+			<phoneNumber>6509179002</phoneNumber>
+			<preferredContact>homePhone</preferredContact>
+			<workPhone>6504704565</workPhone>
+		</AAAHOCommunicationInfo>
+		<AAAHOMembership state="Created">
+			<insurerCd>No</insurerCd>
+		</AAAHOMembership>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1972-02-21T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>ROXANA</firstName>
+			<lastName>YANG</lastName>
+			<middleName>H</middleName>
+			<occupationDesc>Unknown</occupationDesc>
+			<principalRoleCd>policyHolder</principalRoleCd>
+			<relationshipToPrimaryNamedInsured>Primary_Insured</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>401 BALTIC CIR</addressLine1>
+				<addressLine2>UNIT 423</addressLine2>
+				<city>REDWOOD CITY</city>
+				<dateOfBirth>1972-02-21T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>ROXANA</firstName>
+				<lastName>YANG</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94065</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>401 BALTIC CIR</addressLine1>
+				<addressLine2>UNIT 423</addressLine2>
+				<city>REDWOOD CITY</city>
+				<countryCd>US</countryCd>
+				<postalCode>94065</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHONamedInsured state="Created">
+			<aaaLegalNameIND>false</aaaLegalNameIND>
+			<dateOfBirth>1965-02-21T00:00:00</dateOfBirth>
+			<employeeType>false</employeeType>
+			<firstName>JOSEPH</firstName>
+			<lastName>YANG</lastName>
+			<occupationDesc>Unknown</occupationDesc>
+			<relationshipToPrimaryNamedInsured>Other</relationshipToPrimaryNamedInsured>
+			<trusteeIndicator>false</trusteeIndicator>
+			<AAAHOOrderClueReport state="Created">
+				<addressLine1>401 BALTIC CIR</addressLine1>
+				<addressLine2>UNIT 423</addressLine2>
+				<city>REDWOOD CITY</city>
+				<dateOfBirth>1965-02-21T00:00:00</dateOfBirth>
+				<expirationDt>2018-02-06T00:00:00</expirationDt>
+				<firstName>JOSEPH</firstName>
+				<lastName>YANG</lastName>
+				<noOfClaims>0</noOfClaims>
+				<orderDate>2017-12-08T00:00:00</orderDate>
+				<postalCode>94065</postalCode>
+				<reportExpired>false</reportExpired>
+				<status>Valid</status>
+			</AAAHOOrderClueReport>
+			<AAAInsuredPrimaryAddress state="Created">
+				<addressLine1>401 BALTIC CIR</addressLine1>
+				<addressLine2>UNIT 423</addressLine2>
+				<city>REDWOOD CITY</city>
+				<countryCd>US</countryCd>
+				<postalCode>94065</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAInsuredPrimaryAddress>
+		</AAAHONamedInsured>
+		<AAAHOOtherOrPriorPolicyComponent state="Created">
+			<coverageE>500000</coverageE>
+			<deductible>2500</deductible>
+			<dwellingUsage>Primary</dwellingUsage>
+			<occupancyType>Tenant</occupancyType>
+			<productCd>CEA</productCd>
+			<stateCd>CA</stateCd>
+		</AAAHOOtherOrPriorPolicyComponent>
+		<AAAHOPaymentOption state="Created">
+			<billToAtRenewal>Insured</billToAtRenewal>
+			<paymentPlanAtRenewal>standardHO_CA_R</paymentPlanAtRenewal>
+			<paymentPlanCd>standardHO_CA</paymentPlanCd>
+			<recurringPayment>false</recurringPayment>
+		</AAAHOPaymentOption>
+		<AAAHOPolicyPriorCarrier state="Created">
+			<baseDate>2011-01-01T00:00:00</baseDate>
+			<carrierCd>1</carrierCd>
+			<noOfYearsWithHO>7</noOfYearsWithHO>
+			<policyType>HO6</policyType>
+		</AAAHOPolicyPriorCarrier>
+		<AAAHOPreDwellingAddrExists state="Created">
+			<yesNoAnswer>false</yesNoAnswer>
+		</AAAHOPreDwellingAddrExists>
+		<AAAIso360ReportComponent state="Created">
+			<constructionTypeCd>Frame</constructionTypeCd>
+			<dwellAddressCity>REDWOOD CITY</dwellAddressCity>
+			<dwellAddressLine1>401 BALTIC CIR</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 423</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94065</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<isoReplacementCost>124200</isoReplacementCost>
+			<livingArea>9999</livingArea>
+			<numberOfFamilies>1</numberOfFamilies>
+			<numberOfStories>1</numberOfStories>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<roofShape>Complex/Custom</roofShape>
+			<roofType>Other</roofType>
+			<status>Valid</status>
+			<yearBuilt>1997</yearBuilt>
+		</AAAIso360ReportComponent>
+		<AAAPolicyPrintingInfoComponent state="Created">
+			<suppressPrint>PD</suppressPrint>
+		</AAAPolicyPrintingInfoComponent>
+		<AAAPpcReportComponent state="Created">
+			<dwellAddressCity>REDWOOD CITY</dwellAddressCity>
+			<dwellAddressLine1>401 BALTIC CIR</dwellAddressLine1>
+			<dwellAddressLine2>UNIT 423</dwellAddressLine2>
+			<dwellAddressState>CA</dwellAddressState>
+			<dwellAddressZip>94065</dwellAddressZip>
+			<expirationDate>2018-02-06T00:00:00</expirationDate>
+			<orderDate>2017-12-08T00:00:00</orderDate>
+			<ppcValue>2</ppcValue>
+			<status>Valid</status>
+		</AAAPpcReportComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>1POSOA</documentCd>
+			<documentText>Signed policy application</documentText>
+		</AAASupportingDocComponent>
+		<AAASupportingDocComponent state="Created">
+			<docDisplayInd>true</docDisplayInd>
+			<docReceivedInd>PS</docReceivedInd>
+			<documentCd>616530</documentCd>
+			<documentText>California Residential Property Insurance Disclosure</documentText>
+		</AAASupportingDocComponent>
+		<AAAUnderwritingQuestionaireComponent state="Created">
+			<ApplicantsPetsInjuryInd>false</ApplicantsPetsInjuryInd>
+			<DwellLocatedInd>false</DwellLocatedInd>
+			<EmployeesResidentsInd>false</EmployeesResidentsInd>
+			<ForeClosureProceedingAnswerInd>false</ForeClosureProceedingAnswerInd>
+			<GasWaterInGarageInd>false</GasWaterInGarageInd>
+			<PremisesEndrosInd>false</PremisesEndrosInd>
+			<PriorPolicyStatusInd>false</PriorPolicyStatusInd>
+		</AAAUnderwritingQuestionaireComponent>
+		<Commissions state="Created">
+			<commissionTypeCd>R</commissionTypeCd>
+		</Commissions>
+		<AAADwellEntityComponent state="Created">
+			<aaaDwellingOccupancyType>Tenant</aaaDwellingOccupancyType>
+			<aaaDwellingUsage>1</aaaDwellingUsage>
+			<aaaFirelineScore>0</aaaFirelineScore>
+			<aaaInsuredTenantDiscountInfo>false</aaaInsuredTenantDiscountInfo>
+			<aaanumberofResidents>9999</aaanumberofResidents>
+			<addressLine1>401 BALTIC CIR</addressLine1>
+			<addressLine2>UNIT 423</addressLine2>
+			<city>REDWOOD CITY</city>
+			<firelineMatchType>Address</firelineMatchType>
+			<numberOfFamilies>1</numberOfFamilies>
+			<placementOrMatchType>Address</placementOrMatchType>
+			<postalCode>94065</postalCode>
+			<spaTubType>None</spaTubType>
+			<stateProvCd>CA</stateProvCd>
+			<swimPoolType>None</swimPoolType>
+			<trampolineType>None</trampolineType>
+			<woodStoveInd>false</woodStoveInd>
+			<AAACoverageA state="Created">
+				<coverageCd>CovA</coverageCd>
+				<limitAmount>124200</limitAmount>
+			</AAACoverageA>
+			<AAACoverageC state="Created">
+				<coverageCd>CovC</coverageCd>
+				<limitAmount>6200</limitAmount>
+			</AAACoverageC>
+			<AAACoverageD state="Created">
+				<coverageCd>CovD</coverageCd>
+				<limitAmount>20000</limitAmount>
+			</AAACoverageD>
+			<AAACoverageE state="Created">
+				<coverageCd>CovE</coverageCd>
+				<limitAmount>500000</limitAmount>
+			</AAACoverageE>
+			<AAACoverageF state="Created">
+				<coverageCd>CovF</coverageCd>
+				<limitAmount>1000</limitAmount>
+			</AAACoverageF>
+			<AAAHOConstructionInfo state="Created">
+				<condomCoverageADwellingRequested>Interior</condomCoverageADwellingRequested>
+				<constructionTypeCd>Frame</constructionTypeCd>
+				<isoReplacementCost>124200</isoReplacementCost>
+				<livingArea>9999</livingArea>
+				<numberOfStories>1</numberOfStories>
+				<replacementCost>124200</replacementCost>
+				<roofShape>Complex/Custom</roofShape>
+				<roofType>Other</roofType>
+				<yearBuilt>1997</yearBuilt>
+			</AAAHOConstructionInfo>
+			<AAAHOLossInfo state="Created">
+				<aaaClaim>true</aaaClaim>
+				<aaaHoClaimNo>1001034204</aaaHoClaimNo>
+				<catLoss>false</catLoss>
+				<claimCategory>3</claimCategory>
+				<incidentSource>Internal Claims</incidentSource>
+				<includeToRatingInd>true</includeToRatingInd>
+				<lossAmount>0</lossAmount>
+				<lossDate>2015-07-23T00:00:00</lossDate>
+				<lossTypeCd>2</lossTypeCd>
+				<statusOfClaim>2</statusOfClaim>
+			</AAAHOLossInfo>
+			<AAAPpcDetailsInfo state="Created">
+				<distanceToFireHydrant>LESS_THAN_OR_EQUAL_1000</distanceToFireHydrant>
+				<fireDepartmentType>T</fireDepartmentType>
+				<fireDistrict>REDWOOD CITY</fireDistrict>
+				<oldPpcValue>2</oldPpcValue>
+				<ppcValue>2</ppcValue>
+			</AAAPpcDetailsInfo>
+			<AAAPropertyDeductible state="Created">
+				<coverageCd>DEDUCTIBLE</coverageCd>
+				<limitAmount>2500</limitAmount>
+			</AAAPropertyDeductible>
+			<PreconfigLocation state="Created">
+				<AAAHODwellAddress state="Created">
+					<addressLine1>401 BALTIC CIR</addressLine1>
+					<addressLine2>UNIT 423</addressLine2>
+					<addressValidatedInd>Yes</addressValidatedInd>
+					<city>REDWOOD CITY</city>
+					<county>San Mateo</county>
+					<postalCode>94065</postalCode>
+					<stateProvCd>CA</stateProvCd>
+				</AAAHODwellAddress>
+			</PreconfigLocation>
+		</AAADwellEntityComponent>
+		<HO0496EndorsementForm state="Created"/>
+		<HW0915EndorsementForm state="Created"/>
+		<HO1733EndorsementForm state="Created"/>
+		<HO28EndorsementForm state="Created"/>
+		<HO29EndorsementForm state="Created"/>
+		<HO78CEndorsementForm state="Created"/>
+		<HO90EndorsementForm state="Created"/>
+		<HW0104EndorsementForm state="Created"/>
+		<HW0435EndorsementForm state="Created">
+			<address1>401 BALTIC CIR</address1>
+			<address2>UNIT 423</address2>
+			<city>REDWOOD CITY</city>
+			<coverageLimit>50000</coverageLimit>
+			<location>ResidencePremises</location>
+			<otherStructureDescription>ResidencePremises</otherStructureDescription>
+			<state>CA</state>
+			<zip>94065</zip>
+		</HW0435EndorsementForm>
+		<HW2482EndorsementForm state="Created"/>
+		<PreconfigPersonInfo state="Created">
+			<AAAHOMailingAddressComponent state="Created">
+				<addressLine1>26050 NEW BRIDGE DR</addressLine1>
+				<addressValidatedInd>Yes</addressValidatedInd>
+				<city>LOS ALTOS HILLS</city>
+				<countryCd>US</countryCd>
+				<county>Santa Clara</county>
+				<postalCode>94022</postalCode>
+				<stateProvCd>CA</stateProvCd>
+			</AAAHOMailingAddressComponent>
+		</PreconfigPersonInfo>
+	</AAAHOPolicy>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Dwelling address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Dwelling Address was validated and standardized during Conversion. Address was standardized from 401 BALTIC CIR UNIT 423 REDWOOD CITY CA 94065 to 401 BALTIC CIR UNIT 423 REDWOOD CITY CA 94065</userText>
+	</userNote>
+	<userNote>
+		<category>OTHER</category>
+		<confidential>false</confidential>
+		<title>Conversion: Mailing address validated and standardized</title>
+		<updatedOn>2017-12-08T00:00:00</updatedOn>
+		<userText>Mailing Address was validated and standardized during Conversion. Address was standardized from 26050 NEW BRIDGE DR  LOS ALTOS HILLS CA 94022 to 26050 NEW BRIDGE DR  LOS ALTOS HILLS CA 94022</userText>
+	</userNote>
+</Policy>

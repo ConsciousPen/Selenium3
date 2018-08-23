@@ -5,7 +5,7 @@ public class DXPRequestFactory {
 	public static AddDriverRequest createAddDriverRequest(String firstName, String middleName, String lastName, String birthDate, String suffix) {
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
 		addDriverRequest.firstName = firstName;
-		addDriverRequest.lastName = middleName;
+		addDriverRequest.middleName = middleName;
 		addDriverRequest.lastName = lastName;
 		addDriverRequest.birthDate = birthDate;
 		addDriverRequest.suffix = suffix;
@@ -21,6 +21,19 @@ public class DXPRequestFactory {
 		updateDriverRequest.relationToApplicantCd = relationToApplicantCd;
 		updateDriverRequest.maritalStatusCd = maritalStatusCd;
 		return updateDriverRequest;
+	}
+
+	public static UpdateDriverRequest createUpdateDriverRequest(Boolean specificDisabilityInd, Boolean totalDisabilityInd) {
+		UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
+		updateDriverRequest.specificDisabilityInd = specificDisabilityInd;
+		updateDriverRequest.totalDisabilityInd = totalDisabilityInd;
+		return updateDriverRequest;
+	}
+
+	public static RemoveDriverRequest createRemoveDriverRequest(String removalReasonCode) {
+		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest(); //"RD1001" and "RD1002" for happy path
+		removeDriverRequest.removalReasonCode = removalReasonCode;
+		return removeDriverRequest;
 	}
 
 	public static ReplaceVehicleRequest createReplaceVehicleRequest(String replacedVehicleVin, String purchaseDate, boolean keepAssignments, boolean keepCoverages) {

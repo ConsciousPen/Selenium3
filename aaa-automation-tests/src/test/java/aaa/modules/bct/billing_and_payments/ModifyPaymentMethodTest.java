@@ -1,5 +1,7 @@
 package aaa.modules.bct.billing_and_payments;
 
+import static aaa.common.enums.Constants.States.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -11,6 +13,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -19,6 +22,7 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_032_Modify_Payment_Method(@Optional("") String state) {
 		mainApp().open();
 		IPolicy policy = PolicyType.AUTO_SS.get();
@@ -30,8 +34,8 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 		if (new ErrorTab().buttonOverride.isPresent()) {
 			policy.dataGather().getView().fillFromTo(getTestSpecificTD("TestData_Override"), ErrorTab.class, PurchaseTab.class, false);
 		}
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan").verify.value(getTestSpecificTD("TestData").getTestData("PremiumAndCoveragesTab").getValue("Payment Plan"));
+		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Payment Plan")).hasValue(getTestSpecificTD("TestData").getTestData("PremiumAndCoveragesTab").getValue("Payment Plan"));
 	}
 }

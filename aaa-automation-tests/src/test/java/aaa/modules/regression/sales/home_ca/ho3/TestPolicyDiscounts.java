@@ -1,10 +1,12 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,6 +19,8 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
+import aaa.utils.StateList;
+
 import com.exigen.ipb.etcsa.utils.Dollar;
 
 public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
@@ -40,6 +44,7 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
       */
 
     @Parameters({"state"})
+    @StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
     public void testPolicyDiscounts(@Optional("CA") String state) {
@@ -60,12 +65,12 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
         Dollar premiumAutoMultiPolice = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").verify.contains("Multi-policy");
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).valueContains("Multi-policy");
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
-        PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumAutoMultiPolice);
 
         new HomeCaPolicyActions.Endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -79,13 +84,13 @@ public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
         PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
         Dollar premiumPUPMultiPolice = new Dollar(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
-        PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").verify.contains("Multi-policy");
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).valueContains("Multi-policy");
 
         PremiumsAndCoveragesQuoteTab.btnContinue.click();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MortgageesTab.class, BindTab.class, true);
         new BindTab().submitTab();
 
-        PolicySummaryPage.labelPolicyStatus.verify.contains(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         PolicySummaryPage.getTotalPremiumSummaryForProperty().verify.equals(premiumPUPMultiPolice);
     }
 }

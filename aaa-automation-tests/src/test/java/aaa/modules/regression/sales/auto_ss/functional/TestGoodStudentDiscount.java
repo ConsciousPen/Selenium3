@@ -27,17 +27,18 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	/**
 	 * @author Dominykas Razgunas
 	 * @name MVR Predictor Algo for drivers viable for Good Student Discount NB
-	 * @scenario 1. Create Customer1.
+	 * @scenario
+	 * 1. Create Customer1.
 	 * 2. Create Auto SS Quote.
 	 * 3. Add 1 Driver who is eligible for GSD
 	 * 4. Add 5 Drivers who are not eligible for GSD with following:
-	1. Driver is a rated driver AND
-	2. Driver age is between 16 and 25 years AND
-	3. Driver is single, separated or divorced AND
-	4. Driver is a Student or a college graduate AND
-	5. Driver have maintained a grade of at least B in letter grading system or at least 3.00 in a 4 point numerical grading system or a College Graduate.
-	 * 5. Calculate Premium
-	 * 6. Assert Discounts
+	 * 5. Driver is a rated driver AND
+	 * 6. Driver age is between 16 and 25 years AND
+	 * 7. Driver is single, separated or divorced AND
+	 * 8. Driver is a Student or a college graduate AND
+	 * 9. Driver have maintained a grade of at least B in letter grading system or at least 3.00 in a 4 point numerical grading system or a College Graduate.
+	 * 10. Calculate Premium
+	 * 11. Assert Discounts
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -135,14 +136,14 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 
 	private void assertGSD(){
 		// Assert 1 Driver who is eligible for GSD
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).contains("Good Student Discount(Driver1 LastName1)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).contains("Good Student Discount(DriverOne LastNameOne)");
 
 		// Assert 5 Drivers who are not eligible for GSD
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver2 LastName2)");
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver3 LastName3)");
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver4 LastName4)");
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver5 LastName5)");
-		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(Driver6 LastName6)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverTwo LastNameTwo)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverThree LastNameThree)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverFour LastNameFour)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverFive LastNameFive)");
+		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverSix LastNameSix)");
 	}
 
 	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
@@ -156,8 +157,8 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	private TestData getPolicyTDforGSD(){
 		// adjust policy TD so that first driver is eligible for GSD
 		return getPolicyTD()
-				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "Driver1")
-				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "LastName1")
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "DriverOne")
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "LastNameOne")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/2000")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.OCCUPATION.getLabel()), "Student")

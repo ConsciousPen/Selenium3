@@ -5,6 +5,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
@@ -14,6 +16,7 @@ import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 
 /**
  * Validate if 55 5100 is generated
@@ -26,6 +29,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	private LocalDateTime dd6;
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		mainApp().open();
@@ -37,6 +41,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	}
 
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC02_BillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd6));
@@ -44,6 +49,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_RenewImageGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(policyExpirationDate));
@@ -53,6 +59,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_RenewOfferGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
@@ -60,6 +67,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_RenewBillGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));
@@ -67,6 +75,7 @@ public class TestScenario5 extends AutoCaSelectBaseTest {
 	}
 	
 	@Parameters({ "state" })
+	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC06_RenewImageGeneration(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(10));

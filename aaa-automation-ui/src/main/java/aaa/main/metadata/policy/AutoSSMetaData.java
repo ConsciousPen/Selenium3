@@ -279,6 +279,8 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE = declare("Defensive Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<TextBox> DEFENSIVE_DRIVER_COURSE_CERTIFICATE_NUMBER = declare("Defensive Driver Course Certificate Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> ADB_COVERAGE = declare("ADB Coverage", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> DEATH_INDEMNITY_AND_SPECIFIC_DISABILITY = declare("Death Indemnity and Specific Disability", RadioGroup.class);
+		public static final AssetDescriptor<RadioGroup> TOTAL_DISABILITY = declare("Total Disability", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
 		public static final AssetDescriptor<ComboBox> FILING_STATE = declare("Filing State", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> FORM_TYPE = declare("Form Type", ComboBox.class);
@@ -912,6 +914,9 @@ public final class AutoSSMetaData {
 					declare("Uninsured and Underinsured Motorist Coverage Selection", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver Exclusion", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> COVERAGE_ACCEPTANCE_STATEMENT = declare("Coverage Acceptance Statement", RadioGroup.class);
+			//ID
+            public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE =
+                    declare("UM and UIM Disclosure Statement and Rejection Of Coverage", RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class RequiredToIssue extends MetaData {

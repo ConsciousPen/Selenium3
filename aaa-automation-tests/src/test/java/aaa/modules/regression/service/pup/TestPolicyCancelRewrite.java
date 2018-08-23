@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.pup;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -9,7 +10,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
 
 
 /**
@@ -30,28 +30,30 @@ import toolkit.verification.CustomAssert;
 public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
+	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.PUP )
 	public void testPolicyCancelRewrite(@Optional("") String state) {
 		mainApp().open();
 
 		getCopiedPolicy();
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String initialPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Initial Policy Number: " + initialPolicyNumber);
 
-		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestDataRewrite"));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Policy " + initialPolicyNumber + " is cancelled");
 
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameNumber"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.DATA_GATHERING);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
 
 		policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData"));
-		PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		String rewrittenPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Rewritten Policy Number: " + rewrittenPolicyNumber);
 
-		CustomAssert.assertFalse(String.format("Rewritten Policy Number %s is the same as Initial Policy Number %s", initialPolicyNumber, rewrittenPolicyNumber), rewrittenPolicyNumber.equals(initialPolicyNumber));
+		assertThat(rewrittenPolicyNumber).as("Rewritten Policy Number %s is the same as Initial Policy Number %s", initialPolicyNumber, rewrittenPolicyNumber)
+				.isNotEqualTo(initialPolicyNumber);
 	}
 }

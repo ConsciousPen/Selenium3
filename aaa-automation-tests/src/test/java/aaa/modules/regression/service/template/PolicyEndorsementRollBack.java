@@ -2,12 +2,12 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.template;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssert;
 
 /**
  * @author Xiaolan Ge
@@ -36,12 +36,12 @@ public abstract class PolicyEndorsementRollBack extends PolicyBaseTest {
         TestData endorsement_td = getStateTestData(testDataManager.getDefault(this.getClass()), "TestData");
         policy.createEndorsement(endorsement_td.adjust(getPolicyTD("Endorsement", "TestData_Plus10Day")));
 
-        PolicySummaryPage.buttonPendedEndorsement.verify.enabled(false);
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        CustomAssert.assertFalse(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+        assertThat(PolicySummaryPage.buttonPendedEndorsement).isDisabled();
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(policyPremium).isNotEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
 
         log.info("TEST: Roll Back Endorsement for Policy #" + policyNumber);
         policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData"));
-        CustomAssert.assertTrue(policyPremium.equals(PolicySummaryPage.TransactionHistory.getEndingPremium()));
+        assertThat(policyPremium).isEqualTo(PolicySummaryPage.TransactionHistory.getEndingPremium());
     }
 }

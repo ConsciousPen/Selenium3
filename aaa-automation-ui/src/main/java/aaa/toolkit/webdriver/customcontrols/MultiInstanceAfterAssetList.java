@@ -1,7 +1,6 @@
 package aaa.toolkit.webdriver.customcontrols;
 
 import org.openqa.selenium.By;
-import aaa.common.pages.Page;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;

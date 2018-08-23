@@ -35,10 +35,8 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
-
-//import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-//import toolkit.verification.CustomAssert;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -66,16 +64,16 @@ public class Scenario9 extends ScenarioBaseTest {
 		return lastBillGenDate.isAfter(renewImageGenDate);
 	}
 
-	protected void generateFirstBill() {
-		generateAndCheckBill(installmentDueDates.get(1));
+	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(1), softly);
 	}
 
 	protected void payFirstBill() {
 		payAndCheckBill(installmentDueDates.get(1));
 	}
 
-	protected void generateSecondBill() {
-		generateAndCheckBill(installmentDueDates.get(2));
+	protected void generateSecondBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(2), softly);
 	}
 
 	protected void paySecondBill() {
@@ -102,7 +100,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		policyTerm = getPolicyTerm(policyCreationTD);
 		totalVehiclesNumber = getVehiclesNumber(policyCreationTD);
 
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
@@ -155,7 +153,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		billingAccount.update().perform(tdBilling.getTestData("Update", "TestData_RemoveAutopay"));
 		billingAccount.update().start();
-		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).getValue()).isEqualTo(false);
+		CustomAssertions.assertThat(new UpdateBillingAccountActionTab().getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY)).hasValue(false);
 		Tab.buttonCancel.click();
 	}
 
@@ -170,8 +168,8 @@ public class Scenario9 extends ScenarioBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT).setTransactionDate(billDueDate).verifyPresent(false);
 	}
 
-	protected void generateLastBill() {
-		generateAndCheckBill(installmentDueDates.get(10));
+	protected void generateLastBill(ETCSCoreSoftAssertions softly) {
+		generateAndCheckBill(installmentDueDates.get(10), softly);
 	}
 
 	protected void renewalImageGeneration() {
@@ -198,7 +196,7 @@ public class Scenario9 extends ScenarioBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	protected void renewalOfferGeneration() {
+	protected void renewalOfferGeneration(ETCSCoreSoftAssertions softly) {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -214,12 +212,12 @@ public class Scenario9 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		verifyRenewOfferGenerated(installmentDueDates);
+		verifyRenewOfferGenerated(installmentDueDates, softly);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(renewOfferGenDate)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL).verifyPresent();
 
 		if (getState().equals(Constants.States.CA)) {
-			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount);
+			verifyCaRenewalOfferPaymentAmount(policyExpirationDate, getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), installmentsCount, softly);
 		}
 
 		if (verifyPligaOrMvleFee(renewOfferGenDate, policyTerm, totalVehiclesNumber)) {

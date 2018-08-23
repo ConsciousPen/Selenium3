@@ -23,11 +23,9 @@
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas8273_NanoPolicyShouldNotReturnVehicleInfo"/>
                     <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
-                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
                     <include name="pas10227_ViewPremiumServicePolicy"/>
                     <include name="pas10227_ViewPremiumServicePendedEndorsement"/>
@@ -240,8 +238,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-                    <include name="pas9716_policySummaryForActiveRenewal"/>
-                    <include name="pas9716_policySummaryForConversion"/>
                     <include name="pas15846_CheckTransactionDateForEndorsements"/>
                     <include name="pas16678_policySummaryForPolicyForPolicyTerm"/>
                 </methods>
@@ -358,9 +354,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
-                    <include name="pas13663_CurrentBillServiceMonthly"/>
-                    <include name="pas13663_CurrentBillServiceQuarterly"/>
-                    <include name="pas13663_CurrentBillServiceAnnual"/>
+                    <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
                 </methods>
             </class>
         </classes>
@@ -479,17 +473,6 @@
             </class>
         </classes>
     </test>
-    <test name="Replace vehiclesAZ">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="pas14680_TrailersCoveragesThatDoNotApply">
         <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
         <classes>
@@ -530,7 +513,7 @@
             </class>
         </classes>
     </test>
-    <test name="Name Insured And Driver" parallel="methods" thread-count="1024">
+    <test name="Name Insured And Driver">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -538,11 +521,12 @@
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
+                    <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="Remove Driver" parallel="methods" thread-count="1024">
+    <test name="Remove Driver">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -561,6 +545,18 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
                 <methods>
                     <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
                 </methods>
             </class>
         </classes>

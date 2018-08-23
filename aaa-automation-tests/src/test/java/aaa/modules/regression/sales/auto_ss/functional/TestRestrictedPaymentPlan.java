@@ -5,12 +5,15 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
+
+import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestRestrictedPaymentPlanAbstract;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
@@ -103,6 +106,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipYes(@Optional("AZ") String state) {
@@ -124,6 +128,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipPending(@Optional("AZ") String state) {
@@ -148,6 +153,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipNo(@Optional("AZ") String state) {
@@ -172,6 +178,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "11366")
 	public void pas11366_restrictionPaymentPlansMembershipOverride(@Optional("AZ") String state) {
@@ -196,6 +203,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipYesPriorBINo(@Optional("AZ") String state) {
@@ -220,6 +228,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "11366")
 	public void pas11366_restrictionPaymentPlansMembershipOverrideMinimumBI(@Optional("AZ") String state) {
@@ -246,6 +255,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipPendingPriorBINo(@Optional("AZ") String state) {
@@ -272,6 +282,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 	 * @details
 	 */
 	@Parameters({"state"})
+	@StateList(statesExcept = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "10870")
 	public void pas10870_restrictionPaymentPlansMembershipPendingMinimumBI(@Optional("AZ") String state) {

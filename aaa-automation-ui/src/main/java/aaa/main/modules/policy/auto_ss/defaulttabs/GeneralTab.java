@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -50,6 +51,14 @@ public class GeneralTab extends Tab {
 
 	public AssetList getContactInfoAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
+	}
+
+	public InquiryAssetList getPolicyInfoInquiryAssetList() {
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
+	}
+
+	public InquiryAssetList getAAAProductOwnedInquiryAssetList() {
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), InquiryAssetList.class);
 	}
 
 	@Override

@@ -85,4 +85,8 @@ public class DocumentsAndBindTab extends Tab {
 	public AssetList getDocumentPrintingDetailsAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DOCUMENT_PRINTING_DETAILS.getLabel(), AssetList.class);
 	}
+
+	public AssetList getGeneralInformationAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class);
+	}
 }

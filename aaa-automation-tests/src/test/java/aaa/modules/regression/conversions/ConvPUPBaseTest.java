@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
@@ -31,7 +32,7 @@ public class ConvPUPBaseTest extends PersonalUmbrellaBaseTest {
             purchaseTab.fillTab(td);
             purchaseTab.submitTab();
         }
-        PolicySummaryPage.labelPolicyStatus.verify.value(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     /**
