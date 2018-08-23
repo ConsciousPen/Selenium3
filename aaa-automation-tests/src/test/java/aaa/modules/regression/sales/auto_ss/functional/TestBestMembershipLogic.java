@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -22,90 +23,102 @@ import java.time.LocalDateTime;
 @StateList(states = Constants.States.AZ)
 public class TestBestMembershipLogic extends AutoSSBaseTest {
 
+    // Global test fields //
 
-    @Parameters({"state"})
-    @Test()
-    public void GetAdminPage(@Optional("") String state){
-        AAAMembershipQueries.UpdateAAAMembershipStatusInSQL("AZSS952918539", AAAMembershipQueries.AAAMembershipStatus.Error);
-        adminApp().open();
-    }
+    // Must be mocked in the Elastic Search response but point to a valid Stub Retrieve Member Summary member number.
+    private final String ExpectedElasticResponseMemberNumber = "9436258506738011";
+    // Must be a valid Stub Retrieve Member Summary member number but not the same as what comes back from Elastic Mock.
+    private final String InitialEnteredMemberNumber = "9999994444444440";
 
     /**
-     * This test requires manual intervention so is disabled until BML wiremock piece put in place.
+     * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
      * @author Brian Bond
-     * @name BML considers Expiration Date on Transfer In Status - PAS-15944
+     * @name BML Returns Elastic Search Active Policy at NB 15 if PolicyEffectiveDate is greater than Elastic termExpirationDate- PAS-15944
      * @scenario
-     * 1. *Manual Intervention Required* Set the BML up for mocking.
-     * 2. *Manual Intervention Required* Mock the BML service for Inactive as well as edit SQL Member Status to be Error.
-     * 3. Create policy with valid but inactive membership by overwriting status after policy created.
-     * 4. Move VDM forward to NB + 15.
-     * 5. *Manual Intervention Required* Mock BML service for an expiration date prior to effective date and transfer-in policy status and role status.
-     * 6. Verify the correct job handling occurs given response.
+     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after
+     *     policy effective date and ACTIVE policy status and role status.
+     * 2. Create policy with valid but error status membership by overwriting status after policy created.
+     * 3. Move VDM forward to NB + 15.
+     * 4. Run STG1 jobs.
+     * 5. Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.
      * @details
      */
     @Parameters({"state"})
     @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17193: MemberSinceDate in database matches stub response")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_Active_Status(@Optional("") String state) {
-        // BondTODO: Update this to verify AAABestMemberShipStatus and confirm with Rajesh MembershipPolicyEntered or OrderMembershipNumber
-        // BondTODO: Also check on UpdateAAAMembershipStatusInSQL() works with PS.Quote as well.
+        /*--Step 1--*/
+        log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after" +
+                " policy effective date and ACTIVE policy status and role status.");
+        // Setup SOAPUI Mocking
+        // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
+
+        /*--Step 2--*/ /*--Step 3--*/
         String policyNumber = CreatePolicyAndMoveToNB15();
 
-        /*--Step 5--*/
-        log.info("Step 5: *Manual Intervention Required* Mock BML service for an expiration date prior to effective date and transfer-in status.");
-
-        /*--Step 6--*/
-        log.info("Step 6: Verify the correct job handling occurs given response.");
+        /*--Step 4--*/
+        log.info("Step 4: Run STG1 jobs.");
         STG1STG2JobExecute();
+
+        /*--Step 5--*/
+        log.info("Step 5: Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.");
+
+        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
+
+        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+                .isNotNull().hasValue(ExpectedElasticResponseMemberNumber);
     }
 
     /**
-     * This test requires manual intervention so is disabled until BML wiremock piece put in place.
+     * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
      * @author Brian Bond
-     * @name BML considers Expiration Date on Transfer In Status - PAS-15944
+     * @name BML Returns Elastic Search TRANSFER-IN Policy at NB 15 if PolicyEffectiveDate is greater than Elastic termExpirationDate- PAS-15944
      * @scenario
-     * 1. *Manual Intervention Required* Set the BML up for mocking.
-     * 2. *Manual Intervention Required* Mock the BML service for Inactive as well as edit SQL Member Status to be Error.
-     * 3. Create policy with valid but inactive membership by overwriting status after policy created.
-     * 4. Move VDM forward to NB + 15.
-     * 5. *Manual Intervention Required* Mock BML service for an expiration date prior to effective date and transfer-in policy status and role status.
-     * 6. Verify the correct job handling occurs given response.
+     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after
+     *     policy effective date and TRANSFER-IN policy status and role status.
+     * 2. Create policy with valid but error status membership by overwriting status after policy created.
+     * 3. Move VDM forward to NB + 15.
+     * 4. Run STG1 jobs.
+     * 5. Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.
      * @details
      */
     @Parameters({"state"})
     @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17193: MemberSinceDate in database matches stub response")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
-    public void pas15944_BML_considers_Expiration_Date_On_Transfer_In_Status(@Optional("") String state) {
-
-        String policyNumber = CreatePolicyAndMoveToNB15();
-
-        /*--Step 5--*/
-        log.info("Step 5: *Manual Intervention Required* Mock BML service for an expiration date prior to effective date and transfer-in status.");
-
-
-        /*--Step 6--*/
-        log.info("Step 6: Verify the correct job handling occurs given response.");
-        STG1STG2JobExecute();
-    }
-
-    private String CreatePolicyAndMoveToNB15(){
+    public void pas15944_BML_NB15_Valid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
-        log.info("Step 1: *Manual Intervention Required* Set the BML up for mocking.");
+        log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after" +
+                " policy effective date and TRANSFER-IN policy status and role status.");
         // Setup SOAPUI Mocking
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
 
+        /*--Step 2--*/ /*--Step 3--*/
+        String policyNumber = CreatePolicyAndMoveToNB15();
+
+        /*--Step 4--*/
+        log.info("Step 4: Run STG1 jobs.");
+        STG1STG2JobExecute();
+
+        /*--Step 5--*/
+        log.info("Step 5: Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.");
+
+        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
+
+        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+                .isNotNull().hasValue(ExpectedElasticResponseMemberNumber);
+    }
+
+    private String CreatePolicyAndMoveToNB15(){
 
         /*--Step 2--*/
-        log.info("Step 2: *Manual Intervention Required* Mock the BML service for Inactive as well as edit SQL Member Status to be Error.");
-
-
-        /*--Step 3--*/
-        log.info("Step 3: Create policy with valid but inactive membership by overwriting status after policy created.");
+        log.info("Step 2: Create policy with valid but error status membership by overwriting status after policy created.");
         String policyNumber = CreateAutoSSPolicy();
         SetErrorStatus(policyNumber);
 
-        /*--Step 4--*/
-        log.info("Move VDM forward to NB + 15.");
+        /*--Step 3--*/
+        log.info("Step 3: Move VDM forward to NB + 15.");
         MoveToNB15();
 
         return policyNumber;
@@ -126,7 +139,8 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
 
         TestData testData = getPolicyTD()
                 .adjust(keypathCurrentMember, "Yes")
-                .adjust(keypathMemberNum, "9436258506738011");
+                // Use different valid membership number so we can validate BML/Elastic response overrides this.
+                .adjust(keypathMemberNum, InitialEnteredMemberNumber);
 
         mainApp().open();
         createCustomerIndividual();
