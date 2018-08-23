@@ -1,38 +1,38 @@
 package aaa.helpers.http;
 
+import static aaa.common.enums.JobResultEnum.JobStatus;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import aaa.common.enums.JobResultEnum;
 import aaa.helpers.http.impl.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
 public class HttpJob {
+	private static final String SCHEDULER_SUMMARY_FLOW = "/aaa-admin/admin/flow?_flowId=scheduler-summary-flow";
+	private static final String ASYNC_TASK_STATISTICS_FLOW = "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow";
 
 	private static final String ASYNC_MANAGER_REGEX = "<a([^>]+)id=\"asyncTaskSummaryForm\\:([^\"]+)\"([^>]+)>([^>]+)</a>";
 	private static final String WAITING_REGEX = ".*Waiting:.*[^0-9]([0-9]+)<";
 	private static final String PROCESSING_REGEX = ".*Processing:.*[^0-9]([0-9]+)<";
 	private static final String FLOW_QUERY_STRING = "<form id=\"asyncTaskSummaryForm\" name=\"asyncTaskSummaryForm\" method=\"post\" action=\"([^\"]+)\"";
-	private static final String JOB_PARAMS_REGEX = "\"parameters\"\\:(\\{[^\\}]+%s[^\\}]+\\})";
-	private static final String JOB_STATUS_REGEX = "State\\:<span[^>]+>(\\w+)<";
-	private static final String JOB_RESULT_REGEX = "Result\\:<span[^>]+>([/\\w]+)<";
-	private static final String JOB_EXECUTED_REGEX = "(\\d+\\sPassed[^>]+)\n";
+
+	private static final String JOB_TOTAL_RUNS_STAT = "(\\d+\\sPassed[^>]+Interrupted[^>])";
+	private static final String JOB_STATUS_REGEX = "/JOB_NAME/\\s<\\/a><[^>]+>\\(([a-zA-Z]+\\))<\\/span>";
 	private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:start-job)\"";
 	private static final String JOB_ROW_SPLITTER_REGEX = "<tr data-ri=\"\\d+\"";
+	private static final String JOB_LATEST_RUN_STATUS = "Last Run.*\\(([a-zA-Z]+)\\)<";
+
 	private static final int JOB_SLEEP_RERUN = 1500;
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
 	private static final String STOP_ASYNC_PARAMS_FILENAME = "stop_async.txt";
 	private static final long ASYNC_TIMEOUT = 300000;
-
-	//	private static final String JOB_EXECUTED_REGEX = "Executed\\:<span[^>]+>([/\\w]+)<";
-	//	private static final String JOB_ROW_SPLITTER_REGEX = "<tr id=\"jobs:jobsTable:\\d+\"";
-	//  private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:executeJob)\"";
-
 
 	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
 	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
@@ -40,17 +40,17 @@ public class HttpJob {
 	private HttpJob() {
 	}
 
-	public static void checkAsyncManager(HttpAAARequestor httpRequestor) throws Exception {
+	public static void checkAsyncManager(HttpAAARequestor httpRequestor) throws IOException, IstfException {
 		//String refreshQuery = "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow&_flowExecutionKey=e6s1&_windowId=W1522750697151";
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
 		queryBuilder.readParamsFile(JOB_ADD_PARAMS_FILENAME);
 
-		httpRequestor.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
+		getSchedulerSummaryPage(httpRequestor, ASYNC_TASK_STATISTICS_FLOW);
 		String asyncManager = HttpHelper.find(httpRequestor.getResponse(), ASYNC_MANAGER_REGEX, 4);
 
 		if (asyncManager.equalsIgnoreCase("start manager")) {
 			HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
-			httpRequestor2.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
+			getSchedulerSummaryPage(httpRequestor2, ASYNC_TASK_STATISTICS_FLOW);
 
 			String flowUrl = HttpHelper.find(httpRequestor2.getResponse(), FLOW_QUERY_STRING).replace("amp;", "");
 			String viewState = HttpHelper.find(httpRequestor2.getResponse(), HttpConstants.REGEX_VIEW_STATE);
@@ -60,7 +60,7 @@ public class HttpJob {
 
 			httpRequestor2.sendPostRequest(flowUrl, queryBuilder.buildQueryString(0, mapping));
 			//Refresh Start
-			//httpRequestor2.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
+			//httpRequestor2.sendGetRequest(ASYNC_TASK_STATISTICS_FLOW);
 			httpRequestor2.sendPostRequest(flowUrl, queryBuilder.buildQueryString(1, mapping));
 			//Refresh End
 
@@ -83,7 +83,7 @@ public class HttpJob {
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
 		queryBuilder.readParamsFile(STOP_ASYNC_PARAMS_FILENAME);
 
-		httpRequestor.sendGetRequest("/aaa-admin/admin/flow?_flowId=async-task-statistics-flow");
+		getSchedulerSummaryPage(httpRequestor, ASYNC_TASK_STATISTICS_FLOW);
 		String asyncManager = HttpHelper.find(httpRequestor.getResponse(), ASYNC_MANAGER_REGEX, 4);
 
 		if (asyncManager.equalsIgnoreCase("stop manager")) {
@@ -98,11 +98,9 @@ public class HttpJob {
 		}
 	}
 
-	public static synchronized void executeJob(String jobName) throws Exception {
-		/*
-		 * System.setProperty("http.proxyHost", "localhost");
-		 * System.setProperty("http.proxyPort", "8888");
-		 */
+	public static synchronized void executeJob(String jobName) throws IOException, IstfException, InterruptedException {
+		/* System.setProperty("http.proxyHost", "localhost");
+		 System.setProperty("http.proxyPort", "8888");*/
 		log.info("HTTP Job: ---> Started Job '" + jobName + "' execution");
 		log.info("HTTP: Starting login");
 		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
@@ -125,110 +123,47 @@ public class HttpJob {
 		log.info("HTTP Job: <--- Job '" + jobName + "' was executed successfully");
 	}
 
-	private static void runSingleJob(HttpAAARequestor httpRequestor, String jobName) throws Exception {
-		String request = "/aaa-admin/admin/flow?_flowId=scheduler-summary-flow";
-		httpRequestor.sendGetRequest(request);
+	private static void runSingleJob(HttpAAARequestor httpRequestor, String jobName) throws IOException, IstfException, InterruptedException {
+		getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
 		if (httpRequestor.getResponse().contains(String.format("title=\"%s\"",jobName))) {
-
 			String flowUrl = HtmlParser.getFlowUrl(httpRequestor.getResponse());
+			/* Prepare params for job start */
 			String params = processParams(httpRequestor.getResponse(), jobName);
-			int executeCountBefore = getExecuteCount(httpRequestor.getResponse(), jobName);
+			int executeCountBefore = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
 			httpRequestor.sendPostRequest(flowUrl, params);
-			httpRequestor.sendGetRequest(request);
-			String jobStatus = getStatus(httpRequestor.getResponse(), jobName);
-			int executeCountAfter = getExecuteCount(httpRequestor.getResponse(), jobName);
-			String jobResult = getResult(httpRequestor.getResponse(), jobName);
+			getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
+			/* Get job launch info */
+			String jobStatus = getCurrentJobStatus(httpRequestor.getResponse(), jobName);
+			int executeCountAfter = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
+			/* Wait till job finishes */
 			long endTime = System.currentTimeMillis() + JOB_TIMEOUT;
-			while (jobStatus.equals("Running") || jobResult.equals("N/A") || executeCountAfter <= executeCountBefore) {
+			while (jobStatus.equals(JobStatus.RUNNING.get()) || jobStatus.equals(JobStatus.WAITING.get()) || executeCountAfter <= executeCountBefore) {
 				if (endTime < System.currentTimeMillis()) {
 					throw new IstfException("HTTP Job ERROR: <--- Job '" + jobName + "' has timed out after " + JOB_TIMEOUT + " milliseconds");
 				}
-				httpRequestor.sendGetRequest(request);
-				jobStatus = getStatus(httpRequestor.getResponse(), jobName);
-				executeCountAfter = getExecuteCount(httpRequestor.getResponse(), jobName);
-				jobResult = getResult(httpRequestor.getResponse(), jobName);
+				getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
+				jobStatus = getCurrentJobStatus(httpRequestor.getResponse(), jobName);
+				executeCountAfter = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
 				Thread.sleep(JOB_SLEEP_RERUN);
 			}
-			if (!jobResult.equals("Success")) {
-				throw new IstfException("HTTP Job ERROR: <--- Job '" + jobName + "' was executed with status " + jobResult);
+			/* Gather job run info */
+			String latestJobRunStatus = getLastJobRunStatus(httpRequestor.getResponse(), jobName);
+			if (!latestJobRunStatus.equals(JobStatus.PASSED.get())) {
+				throw new IstfException("HTTP Job ERROR: <--- Job '" + jobName + "' was executed with status " + latestJobRunStatus);
 			}
 		} else {
 			throw new IstfException("HTTP Job ERROR: Job '" + jobName + "' does not exist or created. Job was not executed. ");
 		}
-	}
 
-	private static String processParams(String content, String jobName) throws Exception {
-		String buttonId = getStartButtonId(content, jobName); // buttonId : jobs:jobsTable:120:executeJob
-		String params = "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&" + buttonId + "=" + buttonId;
-		// Builded above
-		//jobs_SUBMIT=1&javax.faces.ViewState=d6bc0b94-b53e-4a58-8cef-0570eb6122a6&jobs:jobsTable:2:start-job=jobs:jobsTable:2:start-job
-		// Fiddler
-		//jobs_SUBMIT=1&javax.faces.ViewState=a01831e0-55c6-4d5a-a825-86f933c325f2&javax.faces.partial.ajax=true&javax.faces.source=jobs:jobsTable:2:start-job&javax.faces.partial.execute=@all&javax.faces.partial.render=jobs+statistics:schedulerTable&jobs:jobsTable:2:start-job=jobs:jobsTable:2:start-job&jobs:j_id_28_37_7w=Anytime&jobs:j_id_28_37_7z=Name
-	return params;
 
 	}
 
-	private static String getStatus(String content, String jobName) throws IOException {
-		String status = "";
-		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
-		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].contains(">" + jobName + "<") && parts[i].contains("State")) {
-				status = HttpHelper.find(parts[i], JOB_STATUS_REGEX);
-				break;
-			}
-		}
-		return status;
-	}
-
-	private static String getResult(String content, String jobName) throws IOException {
-		String result = "";
-		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
-		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].contains(">" + jobName + "<") && parts[i].contains("Result")) {
-				result = HttpHelper.find(parts[i], JOB_RESULT_REGEX);
-				break;
-			}
-		}
-		return result;
-	}
-
-	private static Integer getExecuteCount(String content, String jobName) throws IOException {
-		Integer result = 0;
-		/* Split rows */
-		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
-		for (int i = 0; i < parts.length; i++) {
-			/* Find specified job html block */
-			if (parts[i].contains(jobName)) {
-				/* Get row with job statistics */
-				String jobRunStatistic = HttpHelper.find(parts[i], "(\\d+\\sPassed[^>]+Interrupted[^>])");
-				/* Sum Passed - Failed - Interrupted runs */
-				for(String jobRun : jobRunStatistic.split("/")){
-					jobRun = jobRun.replaceAll("\\D+",""); // delete everything except numbers
-					result += Integer.parseInt(jobRun);
-				}
-				break;
-			}
-		}
-		log.info("HTTP Job: Job executed {} times",result);
-		return result;
-	}
-
-	private static String getStartButtonId(String content, String jobName) throws IOException {
-		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
-		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].contains(jobName) && parts[i].contains("Start")) {
-				return HttpHelper.find(parts[i], JOB_EXECUTE_BUTTON_REGEX);
-			}
-		}
-		return null;
-	}
 
 	private static void checkAsyncTask() throws IOException {
 		HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
 		String waiting, processing;
-		String request = "/aaa-admin/admin/flow?_flowId=async-task-statistics-flow";
 
-		httpRequestor2.sendGetRequest(request);
+		getSchedulerSummaryPage(httpRequestor2, ASYNC_TASK_STATISTICS_FLOW);
 		waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
 		processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
 
@@ -247,6 +182,80 @@ public class HttpJob {
 			processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
 		}*/
 
-		log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
+		log.info("HTTP Job: Waiting async task: {}. Processing async task: {}", waiting, processing);
+	}
+
+	private static String getLastJobRunStatus(String content, String jobName) throws IOException {
+		String result = "";
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			if (part.contains(jobName)) {
+				result = HttpHelper.find(part, JOB_LATEST_RUN_STATUS);
+				break;
+			}
+		}
+		log.info("HTTP: Latest {} run status {}", jobName, result);
+		return result;
+	}
+
+	private static Integer getTotalJobExecuteCount(String content, String jobName) throws IOException {
+		Integer result = 0;
+		String jobRunStatistic = null;
+		/* Split admin scheduler page rows */
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			/* Find specified job html block */
+			if (part.contains(jobName)) {
+				/* Get row with job statistics */
+				jobRunStatistic = HttpHelper.find(part, JOB_TOTAL_RUNS_STAT);
+				/* Sum Passed - Failed - Interrupted runs */
+				for (String jobRun : jobRunStatistic.split("/")) {
+					jobRun = jobRun.replaceAll("\\D+", ""); // delete everything except numbers
+					result += Integer.parseInt(jobRun);
+				}
+				break;
+			}
+		}
+		log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
+		return result;
+	}
+
+	private static String getCurrentJobStatus(String content, String jobName) throws IOException {
+		String status = "";
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			if (part.contains(jobName)) {
+				try {
+					status = HttpHelper.find(part, JOB_STATUS_REGEX.replace("/JOB_NAME/", jobName));
+				} catch (IOException ioe) {
+					status = "Unknown"; // when job was executed and not in running/waiting state, span with status inside is not present at the page
+				}
+				break;
+			}
+		}
+		log.info("HTTP Job: Current {} run status: {}", jobName, status);
+		return status;
+	}
+
+	private static String getStartButtonId(String content, String jobName) throws IOException {
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			if (part.contains(jobName) && part.contains("Start")) {
+				return HttpHelper.find(part, JOB_EXECUTE_BUTTON_REGEX);
+			}
+		}
+		return null;
+	}
+
+	private static String processParams(String content, String jobName) throws IOException {
+		String buttonId = getStartButtonId(content, jobName); // buttonId : jobs:jobsTable:120:executeJob
+		//todo remove hardcoded filters
+		String jobsFilterIds = "&jobs:j_id_28_37_7w=Anytime&jobs:j_id_28_37_7z=Name";
+
+		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&" + buttonId + "=" + buttonId + jobsFilterIds;
+	}
+
+	private static void getSchedulerSummaryPage(HttpAAARequestor httpRequestor, String schedulerSummaryFlow) throws IOException {
+		httpRequestor.sendGetRequest(schedulerSummaryFlow);
 	}
 }
