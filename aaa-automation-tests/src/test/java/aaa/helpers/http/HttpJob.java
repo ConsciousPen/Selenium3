@@ -107,8 +107,8 @@ public class HttpJob {
 	}
 
 	public static synchronized void executeJob(String jobName) throws IOException, IstfException, InterruptedException {
-		 System.setProperty("http.proxyHost", "localhost");
-		 System.setProperty("http.proxyPort", "8888");
+		 /*System.setProperty("http.proxyHost", "localhost");
+		 System.setProperty("http.proxyPort", "8888");*/
 
 		log.info("HTTP Job: ---> Started Job '" + jobName + "' execution");
 		log.info("HTTP: Starting login");
