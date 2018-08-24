@@ -115,9 +115,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas13513_ooseConflictManualAAAProductOwned"/>
-                    <include name="pas13513_ooseConflictAutomaticAAAProductOwned"/>
-                    <include name="pas13513_renewalMergeAAAProductOwned"/>
+                    <include name="pas17141_ooseConflictManualAAAProductOwned"/>
+                    <include name="pas17141_ooseConflictAutomaticAAAProductOwned"/>
+                    <include name="pas17141_renewalMergeAAAProductOwned"/>
                 </methods>
             </class>
         </classes>
