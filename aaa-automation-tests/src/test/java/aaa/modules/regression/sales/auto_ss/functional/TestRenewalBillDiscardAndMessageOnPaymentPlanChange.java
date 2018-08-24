@@ -6,11 +6,9 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.xml.model.Document;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -32,7 +30,6 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_BILL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
@@ -43,7 +40,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSBaseTest {
 
 	private LocalDateTime policyExpirationDate;
-	private String policyNumber;
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -86,11 +82,11 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
-		createPolicy(BillingConstants.PaymentPlan.QUARTERLY, false);
+		String policyNumber = createPolicy(BillingConstants.PaymentPlan.QUARTERLY, false);
 		createProposedRenewal();
 		generatePaperBillViaJob();
-		checkThatPaperBillIsGeneratedInDB();
-		navigateToRenewal();
+		checkThatPaperBillIsGeneratedInDB(policyNumber);
+		navigateToRenewal(policyNumber);
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkMessageInBindTab(notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
@@ -125,11 +121,11 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
-		createPolicy(BillingConstants.PaymentPlan.SEMI_ANNUAL, false);
+		String policyNumber = createPolicy(BillingConstants.PaymentPlan.SEMI_ANNUAL, false);
 		createProposedRenewal();
 		generatePaperBillViaJob();
-		checkThatPaperBillIsGeneratedInDB();
-		navigateToRenewal();
+		checkThatPaperBillIsGeneratedInDB(policyNumber);
+		navigateToRenewal(policyNumber);
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 		checkMessageInBindTab(notAutomaticPaymentMessage, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
@@ -163,17 +159,17 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_AutoPay_ManualBillGeneration(@Optional("") String state) {
 
-		createPolicy(BillingConstants.PaymentPlan.QUARTERLY, true);
+		String policyNumber = createPolicy(BillingConstants.PaymentPlan.QUARTERLY, true);
 		createProposedRenewal();
-		generatePaperBillManually();
-		navigateToRenewal();
+		generatePaperBillManually(policyNumber);
+		navigateToRenewal(policyNumber);
 		changePaymentPlanOnRenewal(BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkMessageInBindTab(automaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 		checkNewBillIsGeneratedOnRenewal();
 		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
-	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
+	private String createPolicy(String paymentPlan, Boolean isOnAutoPay) {
 		TestData policyTd = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
 				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), paymentPlan);
 
@@ -183,7 +179,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyNumber = createPolicy(policyTd);
+		return createPolicy(policyTd);
 	}
 
 	private void createProposedRenewal() {
@@ -207,7 +203,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
-	private void generatePaperBillManually() {
+	private void generatePaperBillManually(String policyNumber) {
 		//Move time to R-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
@@ -224,15 +220,14 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	/**
 	 * Check that paper bill document was generated in DB (RENEWAL BILL event is generated and it has AHRBXX document (paper bill))
 	 */
-	private void checkThatPaperBillIsGeneratedInDB() {
+	private void checkThatPaperBillIsGeneratedInDB(String policyNumber) {
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", RENEWAL_BILL);
 		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(1);
 
-		List<Document> renewalBillDocuments = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_BILL);
-		assertThat(renewalBillDocuments.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.AHRBXX.getIdInXml());
+		checkDocGenTriggered(policyNumber, RENEWAL_BILL, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
-	private void navigateToRenewal() {
+	private void navigateToRenewal(String policyNumber) {
 		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
