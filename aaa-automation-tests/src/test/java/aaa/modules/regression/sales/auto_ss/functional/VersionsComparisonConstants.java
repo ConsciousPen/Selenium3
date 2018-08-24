@@ -232,11 +232,9 @@ public class VersionsComparisonConstants {
 			.put("AAA Membership Order", "Last Name")
 			.put("AAA Credit History Order","Order Date")
 			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Products Owned", "Override Type")
+			.put("AAA Products Owned", "Member Since Date")
 			.put("AAA Products Owned", "Membership Number")
-			//.put("AAA Products Owned", "Last name")
-			//TODO Should be return after implementation story - Clean up for AAA Product Owned
-			/*			.put("AAA Products Owned", "Override Type")
-						.put("AAA Products Owned", "Member Since Date")*/
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")

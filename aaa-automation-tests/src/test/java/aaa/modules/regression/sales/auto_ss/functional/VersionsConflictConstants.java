@@ -16,6 +16,8 @@ public class VersionsConflictConstants {
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insured Information (VIIFirstName VII VIILastName).Prior Address", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245")
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
+			//AAA Products Owned
+			.putAll("AAA Products Owned.Override Type","Term","Life")
 			//Policy Information
 			.putAll("Policy Information.Override ASD Level","true","false")
 			.putAll("Policy Information.Agency of Record","500023745","500001406")
@@ -59,7 +61,8 @@ public class VersionsConflictConstants {
 			//AAA Products Owned section
 			.put("AAA Products Owned.Current AAA Member", "Current AAA Member")
 			.put("AAA Products Owned.Membership Number", "Membership Number")
-			.put("AAA Products Owned.Override Type", "Override Type")
+			//we verify it as predefined because during NB we have Term as default
+			//.put("AAA Products Owned.Override Type", "Override Type")
 			.put("AAA Products Owned.Member Since Date", "Member Since Date")
 			.put("AAA Products Owned.Policy #", "Motorcycle Policy #")
 			.put("AAA Products Owned.Policy #", "Life Policy #")
@@ -224,10 +227,9 @@ public class VersionsConflictConstants {
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> aaaProductOwnedVersion1 = ImmutableListMultimap.<String, String>builder()
 			.put("AAA Products Owned", "Current AAA Member")
+			.put("AAA Products Owned", "Override Type")
+			.put("AAA Products Owned", "Member Since Date")
 			.put("AAA Products Owned", "Membership Number")
-			//TODO Should be return after implementation story - Clean up for AAA Product Owned
-			/*.put("AAA Products Owned", "Override Type")
-			.put("AAA Products Owned", "Member Since Date")*/
 			.build();
 
 	/**

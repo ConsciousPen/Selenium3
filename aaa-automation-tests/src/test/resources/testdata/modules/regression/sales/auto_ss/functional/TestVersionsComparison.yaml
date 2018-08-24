@@ -270,7 +270,7 @@ AAAProductOwned: {
 
 AAAProductOwned_Version1: {
  Current AAA Member: 'Membership Override',
- Override Type: Term,
+ Override Type: Life,
  Member Since Date: $<today>,
  Motorcycle: 'Yes',
  "Motorcycle Policy #": 2222222221,
