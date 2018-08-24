@@ -368,3 +368,10 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
+PAS-18339:
+  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.*,
+            aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]
