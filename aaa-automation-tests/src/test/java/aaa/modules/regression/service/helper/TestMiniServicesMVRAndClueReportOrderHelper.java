@@ -412,6 +412,23 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 	}
+	protected void pas15372_driverDetailsAndMvrRulesThatProvidedBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		mainApp().open();
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Name", "Mismatch", "1970-01-01", "B15383001","SP");
+
+		//Order reports through service
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getMessage(), "attributeForRules", true);
+
+		countViolationsInPas(policyNumber, 2);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS.getMessage(), "attributeForRules");
+
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
 
 	private void countViolationsInPas(String policyNumber, Integer sumOfViolations) {
 		SearchPage.openPolicy(policyNumber);
