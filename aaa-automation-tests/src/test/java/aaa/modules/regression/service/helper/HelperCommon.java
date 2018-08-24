@@ -10,6 +10,8 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
@@ -20,7 +22,6 @@ import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
@@ -93,6 +94,8 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_ENDORSEMENT_DISCOUNTS = "/api/v1/policies/%s/endorsement/discounts";
 
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
+	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
+	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -587,9 +590,14 @@ public class HelperCommon {
 		return runJsonRequestGetDxp(requestUrl, DiscountSummary.class, status);
 	}
 
-	public static Bill currentBillService(String policyNumber) {
-		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_CURRENT_BILL, policyNumber));
-		return runJsonRequestGetDxp(requestUrl, Bill.class);
+	public static AccountDetails billingAccountInfoService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, AccountDetails.class);
+	}
+
+	public static Installment[] billingInstallmentsInfo(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_INSTALLMENTS_INFO, policyNumber));
+		return runJsonRequestGetDxp(requestUrl, Installment[].class);
 	}
 
 	public static String runJsonRequestPostDxp(String url, RestBodyRequest bodyRequest) {
@@ -608,40 +616,6 @@ public class HelperCommon {
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
 	}
-
-	//not working TODO fix the PATCH to use standard functionality
-	/*public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
-		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.url = url;
-		restRequestInfo.bodyRequest = bodyRequest;
-		restRequestInfo.responseType = responseType;
-		restRequestInfo.status = status;
-		return runJsonRequestPatchDxp(restRequestInfo);
-	}
-
-	public static <T> T runJsonRequestPatchDxp(RestRequestInfo<T> request) {
-		Client client = null;
-		Response response = null;
-		log.info("Request: " + asJson(request));
-		try {
-			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
-			response = createJsonRequest(client, request.url, request.sessionId).method("PATCH", Entity.json(request));
-			T responseObj = response.readEntity(request.responseType);
-			if (response.getStatus() != request.status) {
-				//handle error
-				throw new IstfException("PATCH json request failed");
-			}
-			log.info("Response: " + asJson(responseObj));
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}*/
 
 	//WORKING
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {

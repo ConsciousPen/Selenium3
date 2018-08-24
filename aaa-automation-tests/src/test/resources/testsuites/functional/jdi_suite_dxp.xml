@@ -110,6 +110,7 @@
                     <include name="pas12407_BigMetaDataService"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas15369_reportOrderAndDriver"/>
                 </methods>
             </class>
         </classes>
@@ -183,7 +184,7 @@
                     <include name="pas14536_TransportationExpensePart1Body"/>
                     <include name="pas14536_TransportationExpensePart2Body"/>
                     <include name="pas14536_TransportationExpensePart3Body"/>
-                   </methods>
+                </methods>
             </class>
         </classes>
     </test>
@@ -354,9 +355,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
-                    <include name="pas13663_CurrentBillServiceMonthly"/>
-                    <include name="pas13663_CurrentBillServiceQuarterly"/>
-                    <include name="pas13663_CurrentBillServiceAnnual"/>
+                    <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
                 </methods>
             </class>
         </classes>
@@ -475,17 +474,6 @@
             </class>
         </classes>
     </test>
-    <test name="Replace vehiclesAZ">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
-                <methods>
-                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz"/>
-                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="pas14680_TrailersCoveragesThatDoNotApply">
         <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
         <classes>
@@ -534,6 +522,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusPSS"/>
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
+                    <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
                 </methods>
             </class>
         </classes>
