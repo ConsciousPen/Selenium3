@@ -13,12 +13,10 @@ import java.util.Date;
 public class Report  {
 
     @ApiModelProperty(value = "Accident violation date", example = "2016-07-09", required = true)
-   // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_ONLY_FORMAT)
-    public Date accidentViolationDt;
+     public Date accidentViolationDt;
 
     @ApiModelProperty(value = "Report conviction date", example = "2016-09-09", required = true)
-  //  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DATE_ONLY_FORMAT)
-    public Date convictionDt;
+     public Date convictionDt;
 
     @ApiModelProperty(value = "Source of reports", example = "CLUE", required = true)
     public String activitySource;
