@@ -121,7 +121,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Test(description = "batchJob11.xml")
 	public void BCT_BTCH_Automated_Renewal_Generate_Mortgagee_Bill_Reminder_Notice_018(@Optional("") String state) {
 		Job job = GroupJobs.groupaaaMortgageeRenewalReminderAndExpNoticeAsyncJob;
-		executeBatchTest("BCT_BTCH_Automated_Renewal_Generate_Mortgagee_Bill_Reminder_Notice_018", job);
+		executeBatchTest(getMethodName(), job);
 	}
 
 	/*
