@@ -368,3 +368,10 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
+PAS-18339:
+  summary: "DriverType Lookup Error when navigating away from Underlying Risks Auto Tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.pup.*,
+            aaa.modules.regression.conversions.pup.*]
+    messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "'Driver Type' is not in within range"]
