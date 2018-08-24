@@ -33,7 +33,7 @@ public class TestPolicyEndorsementAdd extends AutoSSBaseTest {
     @StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.SMOKE, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
-    public void testPolicyEndorsementAdd(@Optional("") String state) {
+    public void testPolicyEndorsementAdd(@Optional("AZ") String state) {
         mainApp().open();
         
         getCopiedPolicy();
