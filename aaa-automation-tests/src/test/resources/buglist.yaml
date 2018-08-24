@@ -373,5 +373,6 @@ PAS-18339:
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.*,
-            aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+            aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*,
+            aaa.modules.regression.service.pup.*]
     messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]
