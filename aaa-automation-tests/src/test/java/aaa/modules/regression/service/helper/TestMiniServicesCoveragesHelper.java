@@ -2056,7 +2056,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void assertCoverageLimitForBI(PolicyCoverageInfo coverageResponse, String state) {
 		assertSoftly(softly -> {
 			if ("VA".contains(state)) {
-				List<CoverageLimit> availableLimits = coverageResponse.policyCoverages.get(0).availableLimits;
+
+				Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimits = filteredCoverageResponseBI.availableLimits;
 
 				softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
 				softly.assertThat(availableLimits.get(0).coverageLimitDisplay).isEqualTo("$25,000/$50,000");
@@ -2083,7 +2085,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(availableLimits.get(7).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
 
 			} else if ("AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY".contains(state)) {
-				List<CoverageLimit> availableLimits = coverageResponse.policyCoverages.get(0).availableLimits;
+
+				Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimits = filteredCoverageResponseBI.availableLimits;
 
 				softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("15000/30000");
 				softly.assertThat(availableLimits.get(0).coverageLimitDisplay).isEqualTo("$15,000/$30,000");
@@ -2111,16 +2115,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 				softly.assertThat(availableLimits.get(8).coverageLimit).isEqualTo("1000000/1000000");
 				softly.assertThat(availableLimits.get(8).coverageLimitDisplay).isEqualTo("$1,000,000/$1,000,000");
-
 			}
-
 		});
 	}
 
 	private void assertCoverageLimitForPD(PolicyCoverageInfo coverageResponse, String state) {
 		assertSoftly(softly -> {
 			if ("VA".contains(state)) {
-				List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(1).availableLimits;
+				Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimitsPD = filteredCoverageResponsePD.availableLimits;
 
 				softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("20000");
 				softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$20,000");
@@ -2138,7 +2141,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(availableLimitsPD.get(4).coverageLimitDisplay).isEqualTo("$100,000");
 
 			} else if ("AZ, UT".contains(state)) {
-				List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(1).availableLimits;
+				Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimitsPD = filteredCoverageResponsePD.availableLimits;
 
 				softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("10000");
 				softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$10,000");
@@ -2162,7 +2166,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			if ("AZ, UT".contains(state)) {
 
-				List<CoverageLimit> availableLimitsPDBI = coverageResponse.policyCoverages.get(1).availableLimits;
+				Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimitsPDBI = filteredCoverageResponsePD.availableLimits;
 
 				softly.assertThat(availableLimitsPDBI.get(0).coverageLimit).isEqualTo("10000");
 				softly.assertThat(availableLimitsPDBI.get(0).coverageLimitDisplay).isEqualTo("$10,000");
@@ -2186,8 +2191,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(availableLimitsPDBI.get(6).coverageLimitDisplay).isEqualTo("$500,000");
 
 			} else if ("VA".contains(state)) {
-
-				List<CoverageLimit> availableLimitsPDBI = coverageResponse.policyCoverages.get(1).availableLimits;
+				Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+				List<CoverageLimit> availableLimitsPDBI = filteredCoverageResponsePD.availableLimits;
 
 				softly.assertThat(availableLimitsPDBI.get(0).coverageLimit).isEqualTo("20000");
 				softly.assertThat(availableLimitsPDBI.get(0).coverageLimitDisplay).isEqualTo("$20,000");
