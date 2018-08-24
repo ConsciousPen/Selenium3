@@ -374,4 +374,4 @@ PAS-18339:
   failures:
   - tests: [aaa.modules.regression.sales.pup.*,
             aaa.modules.regression.conversions.pup.*]
-    messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "'Driver Type' is not in within range"]
+    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]
