@@ -455,7 +455,18 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	}
 
-
+	/**
+	 * @author MeghaGubbala
+	 * @name update and view coverage UMUIM and BI
+	 * Create a policy in pas Verify BI = UmUIM
+	 * update BI to 25/50000 verify UMUIM is the same
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17629"})
+	public void pas17629_Umuim_Update_coverage(@Optional("IN") String state) {
+		pas17629_Umuim_Update_coverageBody(getPolicyType());
+	}
 }
 
 

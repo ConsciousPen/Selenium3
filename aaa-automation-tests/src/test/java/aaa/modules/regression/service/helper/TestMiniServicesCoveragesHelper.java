@@ -2985,6 +2985,40 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
+	protected void pas17629_Umuim_Update_coverageBody(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+
+		Coverage filteredCoverageResponseBI = viewCoverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
+		Coverage filteredCoverageResponseUMUIM = viewCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		assertSoftly(softly -> {
+			softly.assertThat(filteredCoverageResponseBI.coverageLimit).isEqualTo("100000/300000");
+			softly.assertThat(filteredCoverageResponseUMUIM.coverageLimit).isEqualTo("100000/300000");
+		});
+
+		String coverageCd = "BI";
+		String newBILimits = "25000/50000";
+
+		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newBILimits);
+		assertSoftly(softly -> {
+
+			Coverage filteredCoverageResponseBI1 = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUMUIM1 = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseBI1.coverageLimit).isEqualTo("25000/50000");
+			softly.assertThat(filteredCoverageResponseUMUIM1.coverageLimit).isEqualTo("50000/50000");
+		});
+	}
+
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData;

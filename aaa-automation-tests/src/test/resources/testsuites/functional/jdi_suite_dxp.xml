@@ -183,7 +183,7 @@
                     <include name="pas14536_TransportationExpensePart1Body"/>
                     <include name="pas14536_TransportationExpensePart2Body"/>
                     <include name="pas14536_TransportationExpensePart3Body"/>
-                   </methods>
+                </methods>
             </class>
         </classes>
     </test>
@@ -557,6 +557,16 @@
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas17629_Umuim_Update_coverage">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17629_Umuim_Update_coverage"/>
                 </methods>
             </class>
         </classes>
