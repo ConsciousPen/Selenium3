@@ -16,8 +16,8 @@ public class AdminApplication extends Application {
 	public AdminApplication() {
 		this.host = PropertyProvider.getProperty(TestProperties.APP_HOST);
 		this.name = "ADMIN_APP";
-		this.path = PropertyProvider.getProperty(CsaaTestProperties.OR_PATH, "aaa-admin/admin/login.xhtml");
-		this.port = PropertyProvider.getProperty(CsaaTestProperties.OR_PORT, 9082);
+		this.path = PropertyProvider.getProperty(CsaaTestProperties.AD_PATH, "aaa-admin/admin/login.xhtml");
+		this.port = PropertyProvider.getProperty(CsaaTestProperties.AD_PORT, 9082);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.login = new LoginPage(PropertyProvider.getProperty(TestProperties.APP_USER), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
 		this.url = formatUrl();
