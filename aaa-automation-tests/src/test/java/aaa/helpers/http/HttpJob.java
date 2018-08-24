@@ -3,9 +3,6 @@ package aaa.helpers.http;
 import static aaa.common.enums.JobResultEnum.JobStatus;
 import java.io.IOException;
 import java.util.*;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +25,12 @@ public class HttpJob {
 	private static final String JOB_EXECUTE_BUTTON_REGEX = "<a [^\\>]*id=\"(jobs:jobsTable:\\d+:start-job)\"";
 	private static final String JOB_ROW_SPLITTER_REGEX = "<tr data-ri=\"\\d+\"";
 	private static final String JOB_LATEST_RUN_STATUS = "Last Run.*\\(([a-zA-Z]+)\\)<";
+
+	private static final String PREVIOUSLY_WERE_STARTED_FILTER_ID = "previously and were started\\s<select\\sid=\"([a-zA-Z0-9:_]+)";
+	private static final String PREVIOUSLY_WERE_STARTED_FILTER_VALUE = "id=\"/PREVIOSLY_WERE_STARTED_FILTER_ID/\".*selected=\"selected\">([a-zA-Z]+).*Order";
+
+	private static final String ORDER_RESULTS_FILTER_ID = "Order results by\\s<select\\sid=\\\"([a-zA-Z0-9:_]+)\"";
+	private static final String ORDER_RESULTS_FILTER_VALUE = "id=\"/ORDER_RESULTS_FILTER_ID/\".*selected=\"selected\">([a-zA-Z]+)<";
 
 	private static final int JOB_SLEEP_RERUN = 1500;
 	private static final String JOB_ADD_PARAMS_FILENAME = "job_run.txt";
@@ -99,8 +102,9 @@ public class HttpJob {
 	}
 
 	public static synchronized void executeJob(String jobName) throws IOException, IstfException, InterruptedException {
-		/* System.setProperty("http.proxyHost", "localhost");
-		 System.setProperty("http.proxyPort", "8888");*/
+		 System.setProperty("http.proxyHost", "localhost");
+		 System.setProperty("http.proxyPort", "8888");
+
 		log.info("HTTP Job: ---> Started Job '" + jobName + "' execution");
 		log.info("HTTP: Starting login");
 		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
@@ -155,9 +159,96 @@ public class HttpJob {
 			throw new IstfException("HTTP Job ERROR: Job '" + jobName + "' does not exist or created. Job was not executed. ");
 		}
 
+		String getStatisticsParams = getLastJobStatisticsResult(httpRequestor.getResponse(), jobName);
+		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
+
+//		log.info("Latest job result : {}", getLastStatisticRow(httpRequestor.getResponse(), jobName));
 
 	}
+	public static String getJobStatistic(String jobName) throws IOException, ParseException {
+		log.info("HTTP: Starting login");
+		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
+		log.info("HTTP: Open SCHEDULER_SUMMARY_FLOW");
+		httpRequestor.sendGetRequest(SCHEDULER_SUMMARY_FLOW);
+		log.info("HTTP: Open job \"Logs & Statistics\"");
+		String getStatisticsParams = getLastJobStatisticsResult(httpRequestor.getResponse(), jobName);
+		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
 
+		return getLastStatisticRow(httpRequestor.getResponse(), jobName);
+	}
+
+	private static String getLastStatisticRow(String response, String jobName) throws IOException {
+		log.info("HTTP: Gathering Statistics");
+		List<String> allStatistics = collectJobStatistic(response, jobName);
+
+		return allStatistics.get(allStatistics.size() - 1);
+	}
+
+	private static List<String> collectJobStatistic(String response, String jobName) throws IOException {
+		String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
+
+		List<String> allStatistics = new ArrayList<>();
+		for (String row : rows) {
+			if (row.contains("Job processed")) {
+				allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
+			}
+		}
+		return allStatistics;
+	}
+
+	private static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
+		List<String> allStatistics = collectJobStatistic(response, jobName);
+
+		ArrayList<HashMap<String, String>> allData = new ArrayList<>();
+		for (String jobResultStatisics : allStatistics) {
+			List<String> temp = Arrays.asList(jobResultStatisics.toString().replace(",", "").replace(".", "").split(" "));
+			HashMap<String, String> splittedRow = new HashMap<>();
+			splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
+			splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
+			splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
+			splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
+			splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
+
+			allData.add(splittedRow);
+		}
+
+		return allData;
+	}
+
+	private static final String JOB_LAST_RUN_LINK_ID = "(?i)last\\srun.*submitForm\\('jobs','([a-zA-Z0-9:_]+)'";
+	private static final String JOB_GROUP_ID = "'groupId','([a-zA-Z0-9-]+)'";
+	private static final String JOB_LOGS_ROW_SPLITTER_REGEX = "<tr id=\"job-logs:body_logsTable:\\d+\"";
+	private static final String JOB_LOGS_STATISTICS_REGEX = "(\\d+-\\d+.*[%s].*Info: Job processed.*[^+-])<\\/td>";
+
+	private static String getLastJobStatisticsResult(String content, String jobName) throws IOException{
+		String buttonId = getLastRunLinkId(content, jobName);
+		String groupId = getJobGroupId(content, jobName);
+		String wereStartedFilter = getWereStartedFilterParameter(content);
+		String orderResultsBy = getOrderResultsByValueFilterParameter(content);
+		String groupIdParameter = String.format("&groupId=%s",groupId);
+
+		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&jobs:_idcl=" + buttonId + wereStartedFilter + orderResultsBy + groupIdParameter;
+	}
+
+	private static String getLastRunLinkId(String content, String jobName) throws IOException {
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			if (part.contains(jobName)) {
+				return HttpHelper.find(part, JOB_LAST_RUN_LINK_ID);
+			}
+		}
+		return null;
+	}
+
+	private static String getJobGroupId(String content, String jobName) throws IOException {
+		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
+		for (String part : parts) {
+			if (part.contains(jobName)) {
+				return HttpHelper.find(part, JOB_GROUP_ID);
+			}
+		}
+		return null;
+	}
 
 	private static void checkAsyncTask() throws IOException {
 		HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
@@ -194,7 +285,7 @@ public class HttpJob {
 				break;
 			}
 		}
-		log.info("HTTP: Latest {} run status {}", jobName, result);
+		log.info("HTTP: Latest {} run status: {}", jobName, result);
 		return result;
 	}
 
@@ -233,7 +324,7 @@ public class HttpJob {
 				break;
 			}
 		}
-		log.info("HTTP Job: Current {} run status: {}", jobName, status);
+		log.info("HTTP: Current {} run status: {}", jobName, status);
 		return status;
 	}
 
@@ -248,14 +339,31 @@ public class HttpJob {
 	}
 
 	private static String processParams(String content, String jobName) throws IOException {
-		String buttonId = getStartButtonId(content, jobName); // buttonId : jobs:jobsTable:120:executeJob
-		//todo remove hardcoded filters
-		String jobsFilterIds = "&jobs:j_id_28_37_7w=Anytime&jobs:j_id_28_37_7z=Name";
+		String buttonId = getStartButtonId(content, jobName);
+		String startJobButtonParam = String.format("&%s=%s", buttonId, buttonId);
+		String wereStartedFilterParameter = getWereStartedFilterParameter(content);
+		String orderResultsByValueFilterParameter = getOrderResultsByValueFilterParameter(content);
 
-		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&" + buttonId + "=" + buttonId + jobsFilterIds;
+		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + startJobButtonParam + wereStartedFilterParameter + orderResultsByValueFilterParameter;
 	}
 
 	private static void getSchedulerSummaryPage(HttpAAARequestor httpRequestor, String schedulerSummaryFlow) throws IOException {
 		httpRequestor.sendGetRequest(schedulerSummaryFlow);
+	}
+
+	private static String getWereStartedFilterParameter(String content) throws IOException {
+		String previouslyWereStartedId = HttpHelper.find(content, PREVIOUSLY_WERE_STARTED_FILTER_ID);
+		String previouslyWereStartedValue = HttpHelper.find(content, PREVIOUSLY_WERE_STARTED_FILTER_VALUE.replace("/PREVIOSLY_WERE_STARTED_FILTER_ID/", previouslyWereStartedId));
+		String wereStartedParam = String.format("&%s=%s", previouslyWereStartedId, previouslyWereStartedValue);
+		log.info("HTTP: Were Started by Filter Params {}", wereStartedParam);
+		return wereStartedParam;
+	}
+
+	private static String getOrderResultsByValueFilterParameter(String content) throws IOException {
+		String orderResultsId = HttpHelper.find(content, ORDER_RESULTS_FILTER_ID);
+		String orderResultsValue = HttpHelper.find(content, ORDER_RESULTS_FILTER_VALUE.replace("/ORDER_RESULTS_FILTER_ID/", orderResultsId));
+		String orderByParam = String.format("&%s=%s", orderResultsId, orderResultsValue);
+		log.info("HTTP: Order Results By Filter Params {}", orderByParam);
+		return orderByParam;
 	}
 }
