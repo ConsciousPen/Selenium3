@@ -369,7 +369,7 @@ PAS-15144:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
 PAS-18339:
-  summary: "DriverType Lookup Error when navigating away from Underlying Risks Auto Tab"
+  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.sales.pup.*,
