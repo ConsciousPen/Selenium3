@@ -2529,7 +2529,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(coveragesVehicle2.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesVehicle2.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(coveragesVehicle2.get(7).coverageLimit).isEqualTo(false);
+			softly.assertThat(coveragesVehicle2.get(7).coverageLimit).isEqualTo("false");
 			softly.assertThat(coveragesVehicle2.get(7).coverageLimitDisplay).isEqualTo("No");
 			softly.assertThat(coveragesVehicle2.get(7).customerDisplayed).isEqualTo(false);
 			softly.assertThat(coveragesVehicle2.get(7).canChangeCoverage).isEqualTo(false);
@@ -2638,7 +2638,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(coveragesV1.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesV1.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(new Dollar(coveragesV1.get(7).coverageLimit)).isEqualTo(false);
+			softly.assertThat(new Dollar(coveragesV1.get(7).coverageLimit)).isEqualTo("false");
 			softly.assertThat(coveragesV1.get(7).coverageLimitDisplay).isEqualTo("No");
 			softly.assertThat(coveragesV1.get(7).customerDisplayed).isEqualTo(false);
 			softly.assertThat(coveragesV1.get(7).canChangeCoverage).isEqualTo(false);
@@ -2720,7 +2720,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(coveragesVehicle2.get(7).coverageCd).isEqualTo("NEWCAR");
 			softly.assertThat(coveragesVehicle2.get(7).coverageDescription).isEqualTo("New Car Added Protection");
-			softly.assertThat(new Dollar(coveragesVehicle2.get(7).coverageLimit)).isEqualTo(false);
+			softly.assertThat(new Dollar(coveragesVehicle2.get(7).coverageLimit)).isEqualTo("false");
 			softly.assertThat(coveragesVehicle2.get(7).coverageLimitDisplay).isEqualTo("No");
 			softly.assertThat(coveragesVehicle2.get(7).customerDisplayed).isEqualTo(false);
 			softly.assertThat(coveragesVehicle2.get(7).canChangeCoverage).isEqualTo(false);
