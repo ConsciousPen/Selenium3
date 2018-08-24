@@ -362,6 +362,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		} else if ("DC".contains(state)) {
 			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateCoverages");
+		} else if ("NY".contains(state)) {
+			softly.assertThat(responseValidateEndorse.allowedEndorsements.isEmpty()).isTrue();
 		} else {
 			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 			softly.assertThat(responseValidateEndorse.allowedEndorsements.get(1)).isEqualTo("UpdateDriver");

@@ -3,17 +3,13 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 import java.math.BigDecimal;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
-
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -31,6 +27,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -330,7 +327,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriverRequestService.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(addDriverRequestService.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(addDriverRequestService.relationToApplicantCd).isEqualTo(null);
-			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo("SSS");
+			softly.assertThat(addDriverRequestService.maritalStatusCd).isEqualTo(null);
 			softly.assertThat(addDriverRequestService.driverStatus).isEqualTo("pendingAdd");
 
 		});
@@ -372,7 +369,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.driverType).isEqualTo(DRIVER_TYPE_AVAILABLE_FOR_RATING);
 			softly.assertThat(driver2.namedInsuredType).isEqualTo("Not a Named Insured");
 			softly.assertThat(driver2.relationToApplicantCd).isEqualTo(null);
-			softly.assertThat(driver2.maritalStatusCd).isEqualTo("SSS");
+			softly.assertThat(driver2.maritalStatusCd).isEqualTo(null);
 			softly.assertThat(driver2.driverStatus).isEqualTo("pendingAdd");
 			softly.assertThat(driver2.birthDate).isEqualTo("1960-02-08");
 		});
@@ -662,7 +659,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Young", "Driver", "Jill", "birthDateError", "III");
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Young", "Driver", "Jill", birthDateError, "III");
 		ErrorResponseDto errorResponseDto = HelperCommon.executeEndorsementAddDriverError(policyNumber, addDriverRequest);
 		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
 
@@ -1480,11 +1477,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver1ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver1ExpectedAfterRemove.driverStatus = "updated";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
+			driver1ExpectedAfterRemove.availableCoverages.clear(); // for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
+			driver1ExpectedAfterRemove.specificDisabilityInd = null;
+			driver1ExpectedAfterRemove.totalDisabilityInd = null;
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver2ExpectedAfterRemove.driverStatus = "updated";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
+			driver2ExpectedAfterRemove.availableCoverages.clear();// for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
+			driver2ExpectedAfterRemove.specificDisabilityInd = null;
+			driver2ExpectedAfterRemove.totalDisabilityInd = null;
 
 			//Remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1003";

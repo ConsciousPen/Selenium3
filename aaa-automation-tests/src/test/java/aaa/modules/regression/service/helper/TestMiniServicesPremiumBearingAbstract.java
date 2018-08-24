@@ -262,7 +262,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-		//BUG OSI: new story PAS-9337 Green Button Service - Abracradabra
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -619,16 +618,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(vehicleRd2.garagingAddress.city).isEqualTo(city3);
 	}
 
-	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		ViewVehicleResponse response = HelperCommon.viewPolicyVehicles(policyNumber);
-		assertThat(CollectionUtils.isEmpty(response.vehicleList)).isTrue();
-	}
-
 	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate() {
 		mainApp().open();
 		createCustomerIndividual();
@@ -684,7 +673,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Check Policy locked message
 		ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage())).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
+		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage())).isTrue();
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
@@ -1342,8 +1331,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			maigConversionTest.fillPolicy();
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
-			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
-			//BUG PAS-14444 ERROR_DXP_GATEWAY_INTERNAL_ERROR when ViewingPolicySummary for Converted policy
 			PolicySummary responsePolicyStub = HelperCommon.viewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyStub.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyStub.policyStatus).isEqualTo("issued");

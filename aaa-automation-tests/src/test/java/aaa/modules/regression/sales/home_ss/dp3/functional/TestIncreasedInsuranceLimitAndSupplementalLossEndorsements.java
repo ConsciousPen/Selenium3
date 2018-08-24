@@ -5,7 +5,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestEndorsementTabTemplate;
+import aaa.modules.regression.sales.template.functional.TestEndorsementsTabTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends TestEndorsementTabTemplate {
+public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends TestEndorsementsTabTemplate {
 
 	private String insuranceLimitFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_20.getFormId();
 	private String supplementLossFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_63.getFormId();
@@ -44,8 +44,7 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_NewBusiness(@Optional("") String state) {
-
-		privilegedAddEditRemoveNB(insuranceLimitFormId, supplementLossFormId);
+		newBusinessTx_privileged(insuranceLimitFormId, supplementLossFormId);
 	}
 
 	/**
@@ -72,8 +71,7 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_Endorsement(@Optional("") String state) {
-
-		privilegedAddEditRemoveEndorsement(insuranceLimitFormId, supplementLossFormId);
+		endorsementTx_privileged(insuranceLimitFormId, supplementLossFormId);
 	}
 
 	/**
@@ -100,7 +98,6 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_Renewal(@Optional("") String state) {
-
-		privilegedAddEditRemoveRenewal(insuranceLimitFormId, supplementLossFormId);
+		renewalTx_privileged(insuranceLimitFormId, supplementLossFormId);
 	}
 }
