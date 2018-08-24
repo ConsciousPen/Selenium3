@@ -49,7 +49,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         new PurchaseTab().fillTab(getPolicyTD()).submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
@@ -130,7 +130,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         PolicySummaryPage.buttonBackFromRenewals.click();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
@@ -143,7 +143,10 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0");
 
         // Initiate Policy, @ Endorsement - calculate premium with UM/UIM coverages, Documents and Bind tab - UM and UIM coverage field
-        openAppAndCreatePolicy(td);
+        createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200203);
+        new PurchaseTab().fillTab(getPolicyTD()).submitTab();
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
         if(isRenewal){
             policy.renew().perform();
@@ -159,14 +162,14 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
 
-    private void overrideErrorsAndSubmitTab() {
+    private void overrideErrorsAndSubmitTab(ErrorEnum.Errors error) {
 
         documentsAndBindTab.submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200306);
+        errorTab.overrideErrors(error);
         errorTab.override();
         documentsAndBindTab.submitTab();
 
