@@ -19,8 +19,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import java.time.LocalDateTime;
-
-@StateList(states = Constants.States.AZ)
+// Use statesExcept for SS
+@StateList(statesExcept = Constants.States.CA)
 public class TestBestMembershipLogic extends AutoSSBaseTest {
 
     // Global test fields //
@@ -44,7 +44,7 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17193: MemberSinceDate in database matches stub response")
+    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_Active_Status(@Optional("") String state) {
         /*--Step 1--*/
@@ -73,6 +73,46 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
     /**
      * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
      * @author Brian Bond
+     * @name BML Returns Elastic Search Active Policy at NB 15 ignoring if PolicyEffectiveDate is less than Elastic termExpirationDate- PAS-15944
+     * @scenario
+     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before
+     *     policy effective date and Active policy status and role status.
+     * 2. Create policy with valid but error status membership by overwriting status after policy created.
+     * 3. Move VDM forward to NB + 15.
+     * 4. Run STG1 jobs.
+     * 5. Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.
+     * @details Ignores termExpirationDate and only cares about status on Active.
+     */
+    @Parameters({"state"})
+    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    public void pas15944_BML_NB15_Ignores_termExpirationDate_for_Active_Status(@Optional("") String state) {
+        /*--Step 1--*/
+        log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before" +
+                " policy effective date and Active policy status and role status.");
+        // Setup SOAPUI Mocking
+        // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
+
+        /*--Step 2--*/ /*--Step 3--*/
+        String policyNumber = CreatePolicyAndMoveToNB15();
+
+        /*--Step 4--*/
+        log.info("Step 4: Run STG1 jobs.");
+        STG1STG2JobExecute();
+
+        /*--Step 5--*/
+        log.info("Step 5: Verify in DB AAAOrderMembershipNumber = InitialEnteredMemberNumber due to fall back.");
+
+        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
+                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
+
+        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+                .isNotNull().hasValue(ExpectedElasticResponseMemberNumber);
+    }
+
+    /**
+     * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
+     * @author Brian Bond
      * @name BML Returns Elastic Search TRANSFER-IN Policy at NB 15 if PolicyEffectiveDate is greater than Elastic termExpirationDate- PAS-15944
      * @scenario
      * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after
@@ -84,7 +124,7 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17193: MemberSinceDate in database matches stub response")
+    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
@@ -108,6 +148,43 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
 
         assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(ExpectedElasticResponseMemberNumber);
+    }
+
+    /**
+     * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
+     * @author Brian Bond
+     * @name BML Does not return Elastic Search TRANSFER-IN Policy at NB 15 if PolicyEffectiveDate is less than Elastic termExpirationDate- PAS-15944
+     * @scenario
+     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before
+     *     policy effective date and TRANSFER-IN policy status and role status.
+     * 2. Create policy with valid but error status membership by overwriting status after policy created.
+     * 3. Move VDM forward to NB + 15.
+     * 4. Run STG1 jobs.
+     * 5. Verify in DB AAAOrderMembershipNumber = InitialEnteredMemberNumber due to fallback.
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    public void pas15944_BML_NB15_Invalid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
+        /*--Step 1--*/
+        log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before" +
+                " policy effective date and TRANSFER-IN policy status and role status.");
+        // Setup SOAPUI Mocking
+        // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
+
+        /*--Step 2--*/ /*--Step 3--*/
+        String policyNumber = CreatePolicyAndMoveToNB15();
+
+        /*--Step 4--*/
+        log.info("Step 4: Run STG1 jobs.");
+        STG1STG2JobExecute();
+
+        /*--Step 5--*/
+        log.info("Step 5: Verify in DB AAAOrderMembershipNumber = InitialEnteredMemberNumber due to fall back.");
+
+        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+                .isNotNull().hasValue(InitialEnteredMemberNumber);
     }
 
     private String CreatePolicyAndMoveToNB15(){
