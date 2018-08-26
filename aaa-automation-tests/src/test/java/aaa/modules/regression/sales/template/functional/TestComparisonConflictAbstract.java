@@ -49,6 +49,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Driver Information (VIFirstName VI VILastName).Smart Driver Course Completion Date",
 			"Driver Information (NBFirstName NB NBLastName).Smart Driver Course Completion Date",
 			"Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Description",
+			"Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description",
+			"Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).AAA UBI Device Status Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Garaging Address"
