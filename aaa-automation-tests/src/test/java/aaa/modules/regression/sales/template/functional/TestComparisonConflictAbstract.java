@@ -114,14 +114,13 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
-		SearchPage.openQuote("QAZSS952918591");
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		createQuote(getTestSpecificTD("TestData_NB_Quote"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
 		navigateToGeneralTab();
 		policy.getDefaultView().fillUpTo(tdVersion2, getDocumentsAndBindTab().getClass(), false);
-		getDocumentsAndBindTab().saveAndExit();*/
+		getDocumentsAndBindTab().saveAndExit();
 		PolicySummaryPage.buttonQuoteVersionHistory.click();
 		verifyTransactionHistoryType(1, QUOTE);
 		verifyTransactionHistoryType(2, QUOTE);
@@ -517,11 +516,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected void ooseConflict(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
 			Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
 		mainApp().open();
-		/*createCustomerIndividual();
+		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
-		processPlus10DaysOOSEndorsement(tdVersion2);*/
-		SearchPage.openPolicy("AZSS952918594");
+		processPlus10DaysOOSEndorsement(tdVersion2);
 		policy.rollOn().openConflictPage(isAutomatic);
 		resolveConflict(conflictLinks);
 		policy.rollOn().submit();
