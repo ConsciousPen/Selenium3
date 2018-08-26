@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.InvalidArgumentException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
@@ -45,7 +46,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Policy Information.Renewal Term Premium - Old Rater",
 			"Driver Information (VIFirstName VI VILastName).Date First Licensed",
 			"Driver Information (VIFirstName VI VILastName).Smart Driver Course Completion Date",
-			"Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Description",
+			"Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Description",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).AAA UBI Device Status Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Garaging Address"
@@ -113,13 +114,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
-		createCustomerIndividual();
+		SearchPage.openQuote("QAZSS952918591");
+/*		createCustomerIndividual();
 		createQuote(getTestSpecificTD("TestData_NB_Quote"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
 		navigateToGeneralTab();
 		policy.getDefaultView().fillUpTo(tdVersion2, getDocumentsAndBindTab().getClass(), false);
-		getDocumentsAndBindTab().saveAndExit();
+		getDocumentsAndBindTab().saveAndExit();*/
 		PolicySummaryPage.buttonQuoteVersionHistory.click();
 		verifyTransactionHistoryType(1, QUOTE);
 		verifyTransactionHistoryType(2, QUOTE);
@@ -515,10 +517,11 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected void ooseConflict(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
 			Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
 		mainApp().open();
-		createCustomerIndividual();
+		/*createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
-		processPlus10DaysOOSEndorsement(tdVersion2);
+		processPlus10DaysOOSEndorsement(tdVersion2);*/
+		SearchPage.openPolicy("AZSS952918594");
 		policy.rollOn().openConflictPage(isAutomatic);
 		resolveConflict(conflictLinks);
 		policy.rollOn().submit();
@@ -642,52 +645,65 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private void allSectionsPresentedOnConflictPage(List<String> presentedSectionOnConflictPage, Set<String> uiFieldsPaths) {
 		for (String sectionName : presentedSectionOnConflictPage) {
 			assertSoftly(softly -> softly.assertThat(uiFieldsPaths.stream()
-					.anyMatch(uiFieldPath -> uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY))))
+					.anyMatch(uiFieldPath -> hasSectionWithNameSeparator(sectionName, uiFieldPath)))
 					.as("Section %1$s not present in UI fields configuration.", sectionName)
 					.isTrue());
 		}
+	}
+
+	private boolean hasSectionWithNameSeparator(String sectionName, String uiFieldPath) {
+		return uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY)) ||
+				!uiFieldPath.contains(SECTION_UIFIELD_SEPARATOR);
 	}
 
 	/**
 	 * Resolve all conflicts based on current or available selection
 	 * @param sectionName name of the section
 	 * @param sectionNumber number of the sections on conflict page
-	 * @param conflictLinks what version(current/available) we chose on conflict page
+	 * @param conflictVersionValues what version(current/available) we chose on conflict page
 	 */
-	private void selectUIFieldsVersions(String sectionName, int sectionNumber, ArrayListMultimap<String, String> conflictLinks) {
-		//expand section in conflict page
-		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber).click();
-		//getting list of UI fields from section for what we need to chose current or available section
-		List<String> uiFieldsPathList = conflictLinks.keys().stream()
-				.filter(uiFieldsPath -> uiFieldsPath.startsWith(sectionName + SECTION_UIFIELD_SEPARATOR))
-				.collect(Collectors.toList());
-		//expected number of UI fields that need to be resolved (select conflict version current/available)
-		long expectedResolvedUIFieldsConflicts = conflictLinks.keys().stream()
-				.filter(path -> path.startsWith(sectionName))
-				.count();
+	private void selectUIFieldsVersions(String sectionName, int sectionNumber, ArrayListMultimap<String, String> conflictVersionValues) {
 		//actual number of UI fields that are resolved (select conflict version current/available)
 		int actualResolvedUIFieldsConflicts = 0;
 		int columnsCount = tableDifferences.getColumnsCount();
+		//expected number of UI fields that need to be resolved (select conflict version current/available)
+		long expectedResolvedUIFieldsConflicts = conflictVersionValues.keys().stream()
+				.filter(path -> path.startsWith(sectionName))
+				.count();
 
-		Set<String> resolvedFields = new HashSet<>();
-		for (int uiFieldNumber = 0; ; uiFieldNumber++) {
-			log.debug("Resolving section [%1s]", sectionName);
-			StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(sectionNumber, uiFieldNumber);
-			if (uiFieldElement.isPresent()) {
-				String uiFieldPath = buildUIFieldPath(sectionName, uiFieldElement.getValue());
-				if (uiFieldsPathList.contains(uiFieldPath) && !resolvedFields.contains(uiFieldPath)) {
-					resolvedFields.add(uiFieldPath);
-					//resolving conflict for each UI field
-					actualResolvedUIFieldsConflicts = findAndPressVersionLinksInSection(sectionName, conflictLinks, actualResolvedUIFieldsConflicts, columnsCount, uiFieldNumber, uiFieldPath);
+		//expand section in conflict page
+		Link link = PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber);
+		if (link.isPresent()) {
+			link.click();
+			//getting list of UI fields from section for what we need to chose current or available section
+			List<String> uiFieldsPathList = conflictVersionValues.keys().stream()
+					.filter(uiFieldsPath -> uiFieldsPath.startsWith(sectionName + SECTION_UIFIELD_SEPARATOR))
+					.collect(Collectors.toList());
+			Set<String> resolvedFields = new HashSet<>();
+			for (int uiFieldNumber = 0; ; uiFieldNumber++) {
+				log.debug("Resolving section [%1$s]", sectionName);
+				StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(sectionNumber, uiFieldNumber);
+				if (uiFieldElement.isPresent()) {
+					String uiFieldPath = buildUIFieldPath(sectionName, uiFieldElement.getValue());
+					if (uiFieldsPathList.contains(uiFieldPath) && !resolvedFields.contains(uiFieldPath)) {
+						resolvedFields.add(uiFieldPath);
+						//resolving conflict for each UI field
+						actualResolvedUIFieldsConflicts = findAndPressVersionLinksInSection(sectionName, conflictVersionValues, actualResolvedUIFieldsConflicts, columnsCount, uiFieldNumber, uiFieldPath);
+					}
+				} else {
+					break;
 				}
-			} else {
-				break;
+			}
+		} else {
+			// resolve for section
+			String conflictVersionValue = conflictVersionValues.get(sectionName).get(0);
+			if (pressVersionLink(columnsCount, conflictVersionValue, sectionName)) {
+				log.debug("Select section [%1$s] -> [%2$s]", sectionName, conflictVersionValue);
+				actualResolvedUIFieldsConflicts++;
 			}
 		}
 		//verification that number of all expected conflicts are resolved
-		assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for %1$s.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
-
-
+		Assertions.assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for %1$s.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
 	}
 
 	/**
@@ -718,7 +734,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	/**
 	 * Select needed version (current or available)
-	 * @param uiFieldRow row for the UI field
+	 * @param uiFieldRow row for the UI field; -1 if section is resolvale and has no fields
 	 * @param columnCount last column for select version
 	 * @param versionValue version value current/available
 	 * @param sectionName name of the section
@@ -747,6 +763,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Select version on section name if there are no fields present under section
+	 * @see {{@link #pressVersionLink(int, int, String, String)}}
+	 */
+	private boolean pressVersionLink(int columnCount, String versionValue, String sectionName) {
+		return pressVersionLink(-1, columnCount, versionValue, sectionName);
 	}
 
 }

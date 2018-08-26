@@ -218,21 +218,21 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_dataGatherComparisonDriverInformation(@Optional("AZ") String state) {
-		dataGatherComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
+		dataGatherComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.dataGatherDriverInformation, "DriverTab", "DriverInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_endorsementsComparisonDriverInformation(@Optional("AZ") String state) {
-		endorsementComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
+		endorsementComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.endorsementRenewalDriverInformation, "DriverTab", "DriverInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
 	public void pas12469_renewalComparisonDriverInformation(@Optional("AZ") String state) {
-		renewalComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.driverInformation, "DriverTab", "DriverInformation");
+		renewalComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.endorsementRenewalDriverInformation, "DriverTab", "DriverInformation");
 	}
 
 	//Vehicle Information section

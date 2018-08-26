@@ -568,7 +568,7 @@ DriverInformation: {
     Activity Source: Company Input,
     Type: 'At-Fault Accident',
     Description: 'Accident (Property Damage Only)',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Occurrence Date: '05/25/2018',
     Loss Payment Amount: 2000,
     "Include in Points and/or Tier?": 'No',
     Not Included in Points and/or Tier - Reason Codes: 'Report errors',
@@ -595,14 +595,14 @@ DriverInformation_Version1: {
     Activity Source: Customer Input,
     Type: 'Major Violation',
     Description: 'Hit and Run',
-    Occurrence Date: '$<today-1M:MM/dd/yyyy>',
+    Occurrence Date: '07/20/2018',
     "Include in Points and/or Tier?": 'No',
     Not Included in Points and/or Tier - Reason Codes: 'Dismissed by DMV',
   }
 }
 
 DriverInformation_Version2: {
-  Date of Birth: $<today-17y>,
+  Date of Birth: $<today-18y>,
   Gender: Female,
   Marital Status: Single,
   Occupation: 'Student',
@@ -620,7 +620,7 @@ DriverInformation_Version2: {
     Activity Sorce: Company Input,
     Type: 'Comprehensive Claim',
     Description: 'Comprehensive Claim',
-    Occurrence Date: '$<today-2M:MM/dd/yyyy>',
+    Occurrence Date: '06/20/2018',
     Loss Payment Amount: 3000,
     "Include in Points and/or Tier?": 'Yes',
   }
