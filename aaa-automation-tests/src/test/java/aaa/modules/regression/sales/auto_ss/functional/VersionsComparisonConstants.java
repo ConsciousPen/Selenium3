@@ -76,7 +76,6 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).AAA UBI Device Status Date", "08/15/2018","01/08/2015")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Device Voucher Number", "","1111113")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score", "","15")
-			//TODO should be returned when dates are fixed
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score Date", "08/15/2018","01/09/2015")
 			//Garaging address
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is Garaging different from Residential?", "true", "false")
@@ -84,11 +83,11 @@ public class VersionsComparisonConstants {
 			//Ownership address
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Ownership Type", "Financed","Owned")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).First Name", "LI011","")
-			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Vehicle Ownership Address", "VII ownership address 1, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
-			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "interest address 1, VII interest address 2, Red Rock, AZ, 85245","VI interest address 1, VI interest address 2, Phoenix, AZ, 85085")
+			.putAll("Additional Interest Information (First Name version1, Second Name version1).Additional Interest Address", "VII interest address 1, VII interest address 2, Red Rock, AZ, 85245","interest address 1, VI interest address 2, Phoenix, AZ, 85085")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes

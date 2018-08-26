@@ -216,22 +216,22 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
-	public void pas12469_dataGatherComparisonDriverInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12923", "PAS-12924"})
+	public void pas12923_dataGatherComparisonDriverInformation(@Optional("AZ") String state) {
 		dataGatherComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.dataGatherDriverInformation, "DriverTab", "DriverInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
-	public void pas12469_endorsementsComparisonDriverInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12923", "PAS-12924"})
+	public void pas12923_endorsementsComparisonDriverInformation(@Optional("AZ") String state) {
 		endorsementComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.endorsementRenewalDriverInformation, "DriverTab", "DriverInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
-	public void pas12469_renewalComparisonDriverInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12923", "PAS-12924"})
+	public void pas12923_renewalComparisonDriverInformation(@Optional("AZ") String state) {
 		renewalComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.endorsementRenewalDriverInformation, "DriverTab", "DriverInformation");
 	}
 
@@ -247,21 +247,21 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
 	public void pas12469_dataGatherComparisonVehicleInformation(@Optional("AZ") String state) {
 		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.dataGatherVehicleInformation, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
 	public void pas12469_endorsementsComparisonVehicleInformation(@Optional("AZ") String state) {
 		endorsementComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.endorsementRenewalVehicleInformation, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469"})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-12469", "PAS-14821", "PAS-12929", "PAS-12930", "PAS-12933", "PAS-12932"})
 	public void pas12469_renewalComparisonVehicleInformation(@Optional("AZ") String state) {
 		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.endorsementRenewalVehicleInformation, "VehicleTab", "VehicleInformation");
 	}

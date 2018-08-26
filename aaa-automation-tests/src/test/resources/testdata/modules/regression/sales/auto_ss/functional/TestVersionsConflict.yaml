@@ -702,9 +702,9 @@ VehicleInformation: {
     Street Name: garaging address 1,
   },
   #Ownership Information
-  Ownership: {
-    Ownership Type: Owned,
-  },
+  #Ownership: {
+  #  Ownership Type: Owned,
+  #},
   "Are there any additional interest(s)?": 'No',
 }
 
@@ -725,9 +725,9 @@ VehicleInformation_Version1: {
   #Garaging Address
   "Is Garaging different from Residential?": 'No',
   #Ownership Information
-  Ownership: {
-    Ownership Type: Owned,
-  },
+  #Ownership: {
+  #  Ownership Type: Owned,
+  #},
   #Additinal interest
   "Are there any additional interest(s)?": 'Yes',
   AdditionalInterestInformation: {
@@ -770,20 +770,20 @@ VehicleInformation_Version2: {
     Street Name: garaging address 1,
   },
   #Ownership Information
-  Ownership: {
-    Ownership Type: Financed,
-    First Name: GMAC,
-    Zip: 55440-0674,
-    Address Line 1: PO BOX 674,
-    Address Line 2: VII ownership address 2,
-    City: Gold Canyon,
-    State: AZ,
-    Validate Address: true,
-    Validate Address Dialog: {
-      Street number: PO BOX,
-      Street Name: 674,
-    },
-  },
+  #Ownership: {
+  #  Ownership Type: Financed,
+  #  First Name: GMAC,
+  #  Zip: 55440-0674,
+  #  Address Line 1: PO BOX 674,
+  #  Address Line 2: VII ownership address 2,
+  #  City: Gold Canyon,
+  #  State: AZ,
+  #  Validate Address: true,
+  #  Validate Address Dialog: {
+  #    Street number: PO BOX,
+  #    Street Name: 674,
+  #  },
+  #},
   #Additinal interest
   "Are there any additional interest(s)?": 'Yes',
   AdditionalInterestInformation: {

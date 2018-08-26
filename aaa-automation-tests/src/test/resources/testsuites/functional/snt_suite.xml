@@ -20,7 +20,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -33,7 +33,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Contact Information/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -46,7 +46,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Current Carrier Information/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -58,7 +58,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Policy Information/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -71,20 +71,20 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Tab/Comparison" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
                 <methods>
-                    <include name="pas12469_dataGatherComparisonDriverInformation"/>
-                    <include name="pas12469_endorsementsComparisonDriverInformation"/>
-                    <include name="pas12469_renewalComparisonDriverInformation"/>
+                    <include name="pas12923_dataGatherComparisonDriverInformation"/>
+                    <include name="pas12923_endorsementsComparisonDriverInformation"/>
+                    <include name="pas12923_renewalComparisonDriverInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Tab/Comparison" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -128,9 +128,9 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas13513_ooseConflictManualContactInformation"/>
-                    <include name="pas13513_ooseConflictAutomaticContactInformation"/>
-                    <include name="pas13513_renewalMergeContactInformation"/>
+                    <include name="pas17142_ooseConflictManualContactInformation"/>
+                    <include name="pas17142_ooseConflictAutomaticContactInformation"/>
+                    <include name="pas17142_renewalMergeContactInformation"/>
                 </methods>
             </class>
         </classes>
@@ -141,7 +141,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas13513_renewalMergeCurrentCarrierInformation"/>
+                    <include name="pas17143_renewalMergeCurrentCarrierInformation"/>
                 </methods>
             </class>
         </classes>
@@ -160,20 +160,20 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Information/Conflict" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section/Conflict" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas13513_ooseConflictManualDriverInformation"/>
-                    <include name="pas13513_ooseConflictAutomaticDriverInformation"/>
-                    <include name="pas13513_renewalMergeDriverInformation"/>
+                    <include name="pas17144_ooseConflictManualDriverInformation"/>
+                    <include name="pas17144_ooseConflictAutomaticDriverInformation"/>
+                    <include name="pas17144_renewalMergeDriverInformation"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Information/Conflict" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Additional Interest section/Conflict" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">

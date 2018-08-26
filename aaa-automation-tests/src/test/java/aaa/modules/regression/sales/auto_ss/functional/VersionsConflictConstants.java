@@ -50,7 +50,18 @@ public class VersionsConflictConstants {
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Air Bags","Both Front","Both Front and Side")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Alternative Fuel Vehicle","true","false")
 			//Garaging address
-			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Garaging Address", "VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Is Garaging different from Residential?", "false", "true")
+			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245")
+			//Usage Based Insurance
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Enroll in Usage Based Insurance?", "false","true")
+			//Ownership address
+/*			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", "Financed","Owned")
+			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).First Name", "LI011","")
+			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
+			//Additional Interest Information
+			.putAll("Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
+			.putAll("Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
+			.putAll("Additional Interest Information (First Name version2, Second Name version2).Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085", "interest address 1, VII interest address 2, Red Rock, AZ, 85245")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -436,23 +447,32 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> vehicleInformationManual = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
+					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Enroll in Usage Based Insurance?", CURRENT)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> vehicleInformationAutomatic = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
+					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
 	static final Multimap<String, String> vehicleInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Is Garaging different from Residential?")
 			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Garaging Address")
+			//Additional Interest Information
+			.put("Additional Interest Information (First Name version2, Second Name version2)", "First Name")
+			.put("Additional Interest Information (First Name version2, Second Name version2)", "Second Name")
+			.put("Additional Interest Information (First Name version2, Second Name version2)", "Additional Interest Address")
 			.build();
 
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
 	static final Multimap<String, String> vehicleInformationVersion1 = ImmutableListMultimap.<String, String>builder()
-			//Vehicle Information
+			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Usage")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Year")
@@ -469,6 +489,12 @@ public class VersionsConflictConstants {
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Air Bags")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
+			//Usage Based Insurance section
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Enroll in Usage Based Insurance?")
+			//Ownership address
+/*			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")*/
 			.build();
 
 }
