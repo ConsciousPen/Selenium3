@@ -378,7 +378,7 @@ public class VersionsConflictConstants {
 			.put("Driver Information (NBFirstName NB NBLastName)", "Total Years Driving Experience")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Affinity Group")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Most Recent GPA")
-			.put("Driver Information (NBFirstName NB NBLastNamee)", "Smart Driver Course Completed?")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Smart Driver Course Completed?")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Smart Driver Course Completion Date")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Smart Driver Course Certificate Number")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Defensive Driver Course Completed?")
