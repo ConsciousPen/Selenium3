@@ -12,7 +12,6 @@ public class VersionsConflictConstants {
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
-			//TODO should be deleted/updated when Report tab is fixed
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insured Information (VIIFirstName VII VIILastName).Prior Address", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245")
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
@@ -67,7 +66,6 @@ public class VersionsConflictConstants {
 	//mapping of expected Component.Attribute to TD attributes
 	static final Multimap<String, String> uiFieldsToTDMapping = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
-			//TODO should be deleted when Report tab is fixed
 			.put("Driver Information (VIFirstName VI VILastName).First Name", "First Name")
 			.put("Driver Information (VIFirstName VI VILastName).Middle Name", "Middle Name")
 			.put("Driver Information (VIFirstName VI VILastName).Last Name", "Last Name")
