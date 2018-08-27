@@ -65,12 +65,12 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    mainApp().close();
 
         //Move to R-63, run batch job part 1 and offline claims batch job
-	    moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(63));
+	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
 
         //Move to R-46 and run batch job part 2
-	    moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(46));
+	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(43));
 	    JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         //Retrieve policy
