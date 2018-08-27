@@ -113,7 +113,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
         endorsementTab.btnSaveEndo.click();
         //AC3 - This confirms an Informational note will display notifying the user that this endorsement has been added
-	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent()).isTrue();
+	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA)).isPresent();
 
         //Verify premium is reduced after
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -145,7 +145,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
 
         endorsementTab.btnSaveEndo.click();
-	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent()).isTrue();
+	    assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA)).isPresent();
 
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
@@ -175,7 +175,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         // Verify Discount for alarm is retained
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
-        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue().equals("New home, AAA Membership, Smoke and Burglar alarm"));
+        assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).hasValue("New home, AAA Membership, Smoke and Burglar alarm");
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm (Central, Local, None)")).isEqualTo("Local");
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm discount factor")).isEqualTo("0.95");
@@ -185,7 +185,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
         endorsementTab.btnSaveEndo.click();
-        assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA).isPresent()).isTrue();
+        assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_FPCECA)).isPresent();
 
         //Verify Discount for alarm is removed with FAIR PLAN
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
