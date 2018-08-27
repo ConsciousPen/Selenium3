@@ -34,7 +34,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
      * 3. Navigate to P&C Page and ensure the UM/UIM coverages are selected
      * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
      * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
-     * 7. Override Rule - with message " "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction" is displyed
+     * 7. Override Rule - with message " "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction" is displayed
      * 8. Override the rule and is able to Bind the policy
      * @details
      */
@@ -144,7 +144,6 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         // Initiate Policy, @ Endorsement - calculate premium with UM/UIM coverages, Documents and Bind tab - UM and UIM coverage field
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200203);
         new PurchaseTab().fillTab(getPolicyTD()).submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
