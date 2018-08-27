@@ -21,7 +21,7 @@ public class TestScenario7 extends Scenario7 {
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.NJ, States.OH, States.OK, States.UT})
+	@StateList(states = {States.AZ, States.NJ, States.OH, States.OK, States.UT, States.CA})
 	@Test
 	public void TC01_createPolicy(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
