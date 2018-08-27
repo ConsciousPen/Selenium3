@@ -433,7 +433,7 @@ TestData_ID: {
   FormsTab: '@FormsTab',
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ID',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -465,6 +465,17 @@ DriverTab_ID: {
   License Type: 'Licensed (US)',
   License State: 'ID',
   License Number: AA223456A
+}
+
+DocumentsAndBindTab_ID: {
+ RequiredToBind: {
+     Auto Insurance Application: Physically Signed,
+     UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+   },
+   Agreement: I agree,
+   RequiredToIssue: {
+     Proof of Prior Insurance: 'Yes'
+   }
 }
 
 # ------- IN ------

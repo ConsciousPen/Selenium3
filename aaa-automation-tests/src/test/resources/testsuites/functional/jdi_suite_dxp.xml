@@ -110,6 +110,7 @@
                     <include name="pas12407_BigMetaDataService"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas15369_reportOrderAndDriver"/>
                 </methods>
             </class>
         </classes>
