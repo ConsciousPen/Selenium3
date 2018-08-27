@@ -108,7 +108,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(4).coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coveragesV1.get(4).coverageDescription).isEqualTo("Transportation Expense");
 			softly.assertThat(new Dollar(coveragesV1.get(4).coverageLimit)).isEqualTo(transportationExpense);
-			softly.assertThat(coveragesV1.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", "")); //TODO-mstrazds:
+			softly.assertThat(coveragesV1.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
 			softly.assertThat(coveragesV1.get(4).coverageType).isEqualTo("Per Occurrence");
 			softly.assertThat(coveragesV1.get(4).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesV1.get(4).canChangeCoverage).isEqualTo(true);
@@ -130,7 +130,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coveragesV1.get(6).coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coveragesV1.get(6).coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(false);
 
@@ -343,7 +343,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesLoanVehicle.get(4).coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coveragesLoanVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
 			softly.assertThat(new Dollar(coveragesLoanVehicle.get(4).coverageLimit)).isEqualTo(transportationExpense);
-			softly.assertThat(coveragesLoanVehicle.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", "")); //TODO-mstrazds:
+			softly.assertThat(coveragesLoanVehicle.get(4).coverageLimitDisplay).contains(transportationExpense.toString().replace(".00", ""));
 			softly.assertThat(coveragesLoanVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
 			softly.assertThat(coveragesLoanVehicle.get(4).customerDisplayed).isEqualTo(true);
 			assertThat(coveragesLoanVehicle.get(4).canChangeCoverage).isEqualTo(true);
@@ -365,7 +365,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesLoanVehicle.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesLoanVehicle.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesLoanVehicle.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coveragesLoanVehicle.get(6).coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coveragesLoanVehicle.get(6).coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coveragesLoanVehicle.get(6).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesLoanVehicle.get(6).canChangeCoverage).isEqualTo(false);
 
@@ -480,7 +480,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesV1.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesV1.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesV1.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment1);
-			softly.assertThat(coveragesV1.get(6).coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coveragesV1.get(6).coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coveragesV1.get(6).customerDisplayed).isEqualTo(true);
 			assertThat(coveragesV1.get(6).canChangeCoverage).isEqualTo(false);
 
@@ -630,7 +630,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageSpeq.coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coverageSpeq.coverageDescription).isEqualTo("Special Equipment Coverage");
 			softly.assertThat(new Dollar(coverageSpeq.coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coverageSpeq.coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coverageSpeq.coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coverageSpeq.customerDisplayed).isEqualTo(true);
 			softly.assertThat(coverageSpeq.canChangeCoverage).isEqualTo(false);
 
@@ -834,7 +834,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 					assertCoverageLimitLoan(coverageResponse);
 
-					coverageXproperties(softly, 4, coveragesV1, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1+" (Included)", "Per Occurrence", true, true);//TODO-mstrazds:
+					coverageXproperties(softly, 4, coveragesV1, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1+" (Included)", "Per Occurrence", true, true);
 
 					assertCoverageLimitTransportationExpense(coverageResponse, false);
 
@@ -859,7 +859,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 3, coveragesV1, "LOAN", "Auto Loan/Lease Coverage", "0", loanLeaseCov1, "None", true, true);
 
-			coverageXproperties(softly, 4, coveragesV1, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1+" (Included)", "Per Occurrence", true, true); //TODO-mstrazds:
+			coverageXproperties(softly, 4, coveragesV1, "RREIM", "Transportation Expense", transportationExpense1.toPlaingString(), transportationExpense1+" (Included)", "Per Occurrence", true, true);
 
 			coverageXproperties(softly, 5, coveragesV1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", towingAndLabor1, "Per Disablement/Maximum", true, true);
 
@@ -1208,7 +1208,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			coverageXproperties(softly, 0, coveragesV1, "COMPDED", "Comprehensive Deductible", availableLimits, "$"+availableLimits, "Deductible", true, true);
 
-			coverageXproperties(softly, 1, coveragesV1, "COLLDED", "Collision Deductible", collisionDeductible.toPlaingString(), collisionDeductible.toString(), "Deductible", true, true); //TODO-mstrazds:
+			coverageXproperties(softly, 1, coveragesV1, "COLLDED", "Collision Deductible", collisionDeductible.toPlaingString(), collisionDeductible.toString(), "Deductible", true, true);
 
 			coverageXproperties(softly, 2, coveragesV1, "GLASS", "Full Safety Glass", "false", fullSafetyGlassVeh, "None", true, true);
 
@@ -2036,15 +2036,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coverage.coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(coverage.coverageDescription).isEqualTo(coverageDesc);
 		softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
-		softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+
+		//for SPECEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
+		if ("SPECEQUIP".equals(coverage.coverageCd)){
+			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
+		}else {
+			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+		}
+
 		softly.assertThat(coverage.coverageType).isEqualTo(coverageType);
 		softly.assertThat(coverage.customerDisplayed).isEqualTo(customerDisplay);
 		softly.assertThat(coverage.canChangeCoverage).isEqualTo(canChangeCoverage);
-	}
-
-	private Coverage getCoverageX(List<Coverage> coverageList, int coverageXnumber) {
-		return coverageList.get(coverageXnumber);
-
 	}
 
 	private void assertCoverageLimitTowingLabor(PolicyCoverageInfo coverageResponse) {
@@ -2524,7 +2526,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesVehicle.get(3).canChangeCoverage).isEqualTo(true);
 
 			assertCoverageLimitLoan(coverageResponseV);
-			ScreenshotManager.getInstance().makeScreenshot("refactoring");
 			coverageXproperties(softly, 4,  coveragesVehicle, "RREIM", "Transportation Expense", transportationExpense.toPlaingString(), transportationExpense+" (Included)", "Per Occurrence",true, true);
 			softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
@@ -2551,7 +2552,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesVehicle.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesVehicle.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesVehicle.get(6).coverageLimit)).isEqualTo(excessElectronicEquipment);
-			softly.assertThat(coveragesVehicle.get(6).coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coveragesVehicle.get(6).coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coveragesVehicle.get(6).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesVehicle.get(6).canChangeCoverage).isEqualTo(false);
 
@@ -2622,7 +2623,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			assertCoverageLimitLoan(coverageResponse);
 
-			coverageXproperties(softly, 4,  coveragesVehicle2, "RREIM", "Transportation Expense", transportationExpensePendingV.toPlaingString(), transportationExpensePendingV.toString(), "Per Occurrence",true, true);
+			coverageXproperties(softly, 4,  coveragesVehicle2, "RREIM", "Transportation Expense", transportationExpensePendingV.toPlaingString(), transportationExpensePendingV+" (Included)", "Per Occurrence",true, true);
 			softly.assertThat(coveragesVehicle2.get(4).coverageCd).isEqualTo("RREIM");
 			softly.assertThat(coveragesVehicle2.get(4).coverageDescription).isEqualTo("Transportation Expense");
 			softly.assertThat(new Dollar(coveragesVehicle2.get(4).coverageLimit)).isEqualTo(transportationExpensePendingV);
@@ -2648,7 +2649,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coveragesVehicle2.get(6).coverageCd).isEqualTo("SPECEQUIP");
 			softly.assertThat(coveragesVehicle2.get(6).coverageDescription).isEqualTo("Excess Electronic Equipment");
 			softly.assertThat(new Dollar(coveragesVehicle2.get(6).coverageLimit)).isEqualTo(excessElectronicEquipmentPendingV);
-			softly.assertThat(coveragesVehicle2.get(6).coverageLimitDisplay).isEqualTo("$1,000.00"); //TODO-mstrazds:
+			softly.assertThat(coveragesVehicle2.get(6).coverageLimitDisplay).isEqualTo("$1,000.00");
 			softly.assertThat(coveragesVehicle2.get(6).customerDisplayed).isEqualTo(true);
 			softly.assertThat(coveragesVehicle2.get(6).canChangeCoverage).isEqualTo(false);
 
@@ -2905,7 +2906,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
 		//Bug PAS-15473: Transportation Expense: coverageLimit is not displaying for new added vehicle
 		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("600");
-		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo("$600"); //TODO-mstrazds:
+		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo("$600");
 		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
 		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
 		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(true);
@@ -3081,8 +3082,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add COMPDED coverage again and check Transportation Expense
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		List<Coverage> coveragesVehicle2 = updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 4,  coveragesVehicle2, "RREIM", "Transportation Expense","600" , "$600 (Included)", "Per Occurrence",true, true);
-
 		softly.assertThat(coveragesVehicle2.get(4).coverageCd).isEqualTo("RREIM");
 		softly.assertThat(coveragesVehicle2.get(4).coverageDescription).isEqualTo("Transportation Expense");
 		softly.assertThat(coveragesVehicle2.get(4).coverageLimit).isEqualTo("600");
@@ -3102,8 +3101,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(availableLimitsNd.get(3).coverageLimitDisplay).isEqualTo("$1,500");
 
 		//Other Than Collision
-		coverageXproperties(softly, 0,  coveragesVehicle2, "COMPDED", "Other Than Collision","100" , "$100", "Deductible",true, true);
-
 		softly.assertThat(coveragesVehicle2.get(0).coverageCd).isEqualTo("COMPDED");
 		softly.assertThat(coveragesVehicle2.get(0).coverageDescription).isEqualTo("Other Than Collision");
 		softly.assertThat(coveragesVehicle2.get(0).coverageLimit).isEqualTo("100");
@@ -3541,7 +3538,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			Coverage coverageResponse1 = getVehicleCoverageDetails(response1, coverageCd);
 			Coverage coverageResponse2 = getVehicleCoverageDetails(response2, coverageCd);
-			coverageXproperties(softly, coverageResponse1, coverageResponse2.coverageCd, coverageResponse2.coverageDescription, coverageResponse2.coverageLimit, coverageResponse2.coverageLimitDisplay, coverageResponse2.coverageType, coverageResponse2.customerDisplayed, coverageResponse2.canChangeCoverage);
 			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
 			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
 			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
@@ -3572,7 +3568,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			Coverage coverageResponse1 = getPolicyCoverageDetails(response1, coverageCd);
 			Coverage coverageResponse2 = getPolicyCoverageDetails(response2, coverageCd);
-			coverageXproperties(softly, coverageResponse1, coverageResponse2.coverageCd, coverageResponse2.coverageDescription, coverageResponse2.coverageLimit, coverageResponse2.coverageLimitDisplay, coverageResponse2.coverageType, coverageResponse2.customerDisplayed, coverageResponse2.canChangeCoverage);
 			softly.assertThat(coverageResponse1.coverageCd).isEqualTo(coverageResponse2.coverageCd);
 			softly.assertThat(coverageResponse1.coverageDescription).isEqualTo(coverageResponse2.coverageDescription);
 			softly.assertThat(coverageResponse1.coverageLimit).isEqualTo(coverageResponse2.coverageLimit);
