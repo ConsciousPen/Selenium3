@@ -78,7 +78,7 @@
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
-                    <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas15483_deleteOriginalVehicle"/>
@@ -181,9 +181,9 @@
                     <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas14721_UpdateCoveragesBI_PD"/>
-                    <include name="pas14536_TransportationExpensePart1Body"/>
-                    <include name="pas14536_TransportationExpensePart2Body"/>
-                    <include name="pas14536_TransportationExpensePart3Body"/>
+                    <include name="pas14536_TransportationExpensePart1"/>
+                    <include name="pas14536_TransportationExpensePart2"/>
+                    <include name="pas14536_TransportationExpensePart3"/>
                 </methods>
             </class>
         </classes>
@@ -355,7 +355,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
-                    <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
+                    <include name="pas16982_ViewInstallmentScheduleService"/>
                 </methods>
             </class>
         </classes>

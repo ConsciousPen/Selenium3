@@ -1624,16 +1624,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		String driverOid1 = addRegularDriverOrNI(policyNumber, "CH", "D32329588");
+		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt","CH", "D32329588");
 		HelperCommon.removeDriver(policyNumber, driverOid1, removeDriverRequest);
 
-		checkIfTskWasCreated(policyNumber, false, 1 ,1);
+		checkIfTaskWasCreated(policyNumber, 1, 1 ,0);
 
-		helperMiniServices.endorsementRateAndBind(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		String driverOid2 = addRegularDriverOrNI(policyNumber, "CH", "D32111585");
+		String driverOid2 = addRegularDriverOrNI(policyNumber, "DriverNd","CH", "D32111585");
 
 		//Order reports through service
 		HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
@@ -1642,33 +1641,30 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		removeDriverRequest.removalReasonCode = "RD1001";
 		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
 
-		checkIfTskWasCreated(policyNumber, true, 1, 1);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 1);
 
 		//Check with NI driver
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String driverOid3 = addRegularDriverOrNI(policyNumber, "SP", "D32329555");
+		String driverOid3 = addRegularDriverOrNI(policyNumber, "DriverRd","SP", "D32329555");
 		HelperCommon.removeDriver(policyNumber, driverOid3, removeDriverRequest);
 
-		checkIfTskWasCreated(policyNumber, false, 1 ,1);
+		checkIfTaskWasCreated(policyNumber, 1, 1 ,1);
 
-		helperMiniServices.endorsementRateAndBind(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		String driverOid4 = addRegularDriverOrNI(policyNumber, "SP", "D32118795");
+		String driverOid4 = addRegularDriverOrNI(policyNumber, "DriverTh", "SP", "D32118795");
 
 		//Order reports through service
 		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
-		checkIfTskWasCreated(policyNumber, false, 2, 2);
 		HelperCommon.removeDriver(policyNumber, driverOid4, removeDriverRequest);
 
-		checkIfTskWasCreated(policyNumber, true, 1, 1);
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 2);
 	}
 
-	private String addRegularDriverOrNI(String policyNumber, String relationToApplicantCd, String licenseNumber){
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "II");
+	private String addRegularDriverOrNI(String policyNumber,  String driverName, String relationToApplicantCd, String licenseNumber){
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(driverName, "Lara", "Puk", "1984-02-08", "II");
 		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenseNumber, 18, "VA", relationToApplicantCd, "MSS");
 		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
@@ -1676,11 +1672,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		return  addedDriverResponse.oid;
 	}
 
-	private void checkIfTskWasCreated(String policyNumber, boolean isTaskShouldExist, int countNamedInsured, int countDrivers){
+	private void checkIfTaskWasCreated(String policyNumber, int countNamedInsured, int countDrivers, int countTasks){
 		assertSoftly(softly -> {
 			mainApp().reopen();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, isTaskShouldExist);
+			assertThat(NotesAndAlertsSummaryPage.countActivitiesAndUserNotes(MESSAGE_TASK_CREATED)).isEqualTo(countTasks);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 
 			//Check if driver was removed
@@ -1689,6 +1685,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			policy.policyInquiry().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 			softly.assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(countDrivers);
+			driverTab.cancel();
 		});
 	}
 
