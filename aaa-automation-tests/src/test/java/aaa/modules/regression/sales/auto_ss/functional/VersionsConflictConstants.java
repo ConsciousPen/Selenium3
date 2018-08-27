@@ -18,6 +18,7 @@ public class VersionsConflictConstants {
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
 			//Policy Information
+			.putAll("Policy Information.Renewal Term Premium - Old Rater","","2532")
 			.putAll("Policy Information.Override ASD Level","true","false")
 			.putAll("Policy Information.Agency of Record","500023745","500001406")
 			.putAll("Policy Information.Agent of Record","500034992","500012749")
