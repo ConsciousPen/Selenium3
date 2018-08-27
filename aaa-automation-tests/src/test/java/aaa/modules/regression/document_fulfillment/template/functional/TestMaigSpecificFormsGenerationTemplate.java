@@ -464,7 +464,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 				}
 			}
 			// Check sequence
-			softly.assertThat(intersectionsWithActualList).as("Actual List:").isEqualTo(expectedFormsOrder).as("Expected List:");
+			softly.assertThat(intersectionsWithActualList).as("Form Sequence is correct").isEqualTo(expectedFormsOrder);
 		});
 	}
 

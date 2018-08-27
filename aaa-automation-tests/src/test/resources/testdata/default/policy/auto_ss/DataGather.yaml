@@ -468,14 +468,14 @@ DriverTab_ID: {
 }
 
 DocumentsAndBindTab_ID: {
-RequiredToBind: {
-    Auto Insurance Application: Physically Signed,
-    UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
-  },
-  Agreement: I agree,
-  RequiredToIssue: {
-    Proof of Prior Insurance: 'Yes'
-  }
+ RequiredToBind: {
+     Auto Insurance Application: Physically Signed,
+     UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+   },
+   Agreement: I agree,
+   RequiredToIssue: {
+     Proof of Prior Insurance: 'Yes'
+   }
 }
 
 # ------- IN ------

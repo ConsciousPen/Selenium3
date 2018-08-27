@@ -102,11 +102,14 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 4. Rate policy. Order reports for new driver.
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
+	 * 7. Go to PAS, issue endorsement.
+	 * 8. Create endorse, update driver from previous endorsement.
+	 * 9. Try to rate and bind endorsement.
 	 */
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371", "PAS-17648"})
 	public void pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError(@Optional("VA") String state) {
 
 		pas15371_driversWithNarcoticsDrugOrFelonyConvictionsErrorBody();
@@ -201,5 +204,25 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15383_driverWithOneOrMoreFaultAccidentsErrorBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Report Information and the Conviction Date and driver reports
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Accident fault Violation
+	 * 4. Verify response on DXP in License status and conviction date as correct
+	 * 5. Check Pas And verify if the dates are matching to pas.
+	 * 6. Verify driver activity and verify status there.
+
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriver(@Optional("VA") String state) {
+
+		pas15369_reportOrderAndDriverBody();
+	}
+
 }
 

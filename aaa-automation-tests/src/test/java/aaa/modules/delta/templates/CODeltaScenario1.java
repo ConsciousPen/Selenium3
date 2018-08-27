@@ -80,8 +80,8 @@ public class CODeltaScenario1 extends BaseTest {
 				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
 			endorsementTab.fillTab(td_add_Forms);
 				CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
-				CustomAssertions.assertThat(endorsementTab.isLinkEditPresent("HS 03 12")).isEqualTo(true);
-				CustomAssertions.assertThat(endorsementTab.isLinkRemovePresent("HS 03 12")).isEqualTo(true);
+				CustomAssertions.assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
+				CustomAssertions.assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
 				break;
 			case "HomeSS_HO4":
 			case "HomeSS_HO6":

@@ -260,4 +260,24 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
         </classes>
     </test>
+    <test name="Auto SS TestAutoPoliciesLock AIP and NAF">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas2247_pas2248_AipAndNafLock"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto SS TestAutoPoliciesLock ASD">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas4311_pas6587_ASDLock_newly_locked"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
