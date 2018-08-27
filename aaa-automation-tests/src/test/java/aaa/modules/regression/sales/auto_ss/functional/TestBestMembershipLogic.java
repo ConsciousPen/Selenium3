@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,6 +21,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 // Use statesExcept for SS
 @StateList(statesExcept = Constants.States.CA)
 public class TestBestMembershipLogic extends AutoSSBaseTest {
@@ -30,44 +34,10 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
     // Must be a valid Stub Retrieve Member Summary member number but not the same as what comes back from Elastic Mock.
     private final String InitialEnteredMemberNumber = "9999994444444440";
 
-    /**
-     * This test requires manual intervention so is disabled until Elastic Search mock piece put in place.
-     * @author Brian Bond
-     * @name BML Returns Elastic Search Active Policy at NB 15 if PolicyEffectiveDate is greater than Elastic termExpirationDate- PAS-15944
-     * @scenario
-     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after
-     *     policy effective date and ACTIVE policy status and role status.
-     * 2. Create policy with valid but error status membership by overwriting status after policy created.
-     * 3. Move VDM forward to NB + 15.
-     * 4. Run STG1 jobs.
-     * 5. Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.
-     * @details
-     */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
-    public void pas15944_BML_NB15_Valid_Expiration_Date_And_Active_Status(@Optional("") String state) {
-        /*--Step 1--*/
-        log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after" +
-                " policy effective date and ACTIVE policy status and role status.");
-        // Setup SOAPUI Mocking
-        // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
-
-        /*--Step 2--*/ /*--Step 3--*/
-        String policyNumber = CreatePolicyAndMoveToNB15();
-
-        /*--Step 4--*/
-        log.info("Step 4: Run STG1 jobs.");
-        STG1STG2JobExecute();
-
-        /*--Step 5--*/
-        log.info("Step 5: Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.");
-
-        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
-                .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
-
-        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
-                .isNotNull().hasValue(ExpectedElasticResponseMemberNumber);
+    @Test()
+    public void GetAdminPage(@Optional("") String state){
+        adminApp().open();
     }
 
     /**
@@ -93,12 +63,8 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
         // Setup SOAPUI Mocking
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
 
-        /*--Step 2--*/ /*--Step 3--*/
+        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
         String policyNumber = CreatePolicyAndMoveToNB15();
-
-        /*--Step 4--*/
-        log.info("Step 4: Run STG1 jobs.");
-        STG1STG2JobExecute();
 
         /*--Step 5--*/
         log.info("Step 5: Verify in DB AAAOrderMembershipNumber = InitialEnteredMemberNumber due to fall back.");
@@ -133,12 +99,8 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
         // Setup SOAPUI Mocking
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
 
-        /*--Step 2--*/ /*--Step 3--*/
+        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
         String policyNumber = CreatePolicyAndMoveToNB15();
-
-        /*--Step 4--*/
-        log.info("Step 4: Run STG1 jobs.");
-        STG1STG2JobExecute();
 
         /*--Step 5--*/
         log.info("Step 5: Verify in DB AAABestMembershipStatus = FOUND_STG1 and AAAOrderMembershipNumber = ExpectedElasticResponseMemberNumber.");
@@ -173,12 +135,8 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
         // Setup SOAPUI Mocking
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
 
-        /*--Step 2--*/ /*--Step 3--*/
+        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
         String policyNumber = CreatePolicyAndMoveToNB15();
-
-        /*--Step 4--*/
-        log.info("Step 4: Run STG1 jobs.");
-        STG1STG2JobExecute();
 
         /*--Step 5--*/
         log.info("Step 5: Verify in DB AAAOrderMembershipNumber = InitialEnteredMemberNumber due to fall back.");
@@ -192,11 +150,16 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
         /*--Step 2--*/
         log.info("Step 2: Create policy with valid but error status membership by overwriting status after policy created.");
         String policyNumber = CreateAutoSSPolicy();
+        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         SetErrorStatus(policyNumber);
 
         /*--Step 3--*/
         log.info("Step 3: Move VDM forward to NB + 15.");
-        MoveToNB15();
+        MoveToNB15(policyEffectiveDate);
+
+        /*--Step 4--*/
+        log.info("Step 4: Run STG1 jobs.");
+        STG1STG2JobExecute();
 
         return policyNumber;
     }
@@ -226,10 +189,14 @@ public class TestBestMembershipLogic extends AutoSSBaseTest {
 
     private void SetErrorStatus(String policyNumber){
         AAAMembershipQueries.UpdateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.Error);
+
+        // Clear cache to avoid BML result getting overridden by the original number.
+        adminApp().open();
+        new CacheManager().goClearCacheManagerTable();
     }
 
-    private void MoveToNB15(){
-        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+    private void MoveToNB15(LocalDateTime policyEffectiveDate){
+        log.info("Policy Effective Date: " + policyEffectiveDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(15));
     }
 
