@@ -2185,7 +2185,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		List<Coverage> coveragesVehicle = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 4, coveragesVehicle, "RREIM", "Transportation Expense", "0", null, "Per Occurrence", true, false);
+		//can not use coverageXproperties() because coverageLimitDisplay is expected to be null
+		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo(null);
+		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
+		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
+		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(false);
 
 		List<CoverageLimit> availableLimits = coveragesVehicle.get(4).availableLimits;
 		softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("600");
@@ -2242,7 +2249,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		List<Coverage> coveragesVehicle = updateCoverageResponse1.vehicleLevelCoverages.get(0).coverages;
-		coverageXproperties(softly, 4, coveragesVehicle, "RREIM", "Transportation Expense", "0", null, "Per Occurrence", true, false);
+		//can not use coverageXproperties() because coverageLimitDisplay is expected to be null
+		softly.assertThat(coveragesVehicle.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(coveragesVehicle.get(4).coverageDescription).isEqualTo("Transportation Expense");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimit).isEqualTo("0");
+		softly.assertThat(coveragesVehicle.get(4).coverageLimitDisplay).isEqualTo(null);
+		softly.assertThat(coveragesVehicle.get(4).coverageType).isEqualTo("Per Occurrence");
+		softly.assertThat(coveragesVehicle.get(4).customerDisplayed).isEqualTo(true);
+		softly.assertThat(coveragesVehicle.get(4).canChangeCoverage).isEqualTo(false);
 
 		List<CoverageLimit> availableLimitsSt = coveragesVehicle.get(4).availableLimits;
 		softly.assertThat(availableLimitsSt.get(0).coverageLimit).isEqualTo("600");
