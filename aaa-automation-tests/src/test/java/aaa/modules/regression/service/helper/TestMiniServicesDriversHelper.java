@@ -11,6 +11,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
+
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -24,10 +26,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -253,15 +251,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		validateDriverListOrdering(viewDriversResponse.driverList);
 	}
 
-	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
+	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FiveDrivers").getTestDataList("DriverTab")).resolveLinks();
+
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
 
 		// create endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 
 		// view drivers & get one to remove: afr, active, not FNI, not NI
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -287,6 +286,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		validateDriverListOrdering(viewDriversResponse.driverList);
 
 		// assign addedDriver to veh
+		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
 		DriversDto addedDriver = viewDriversResponse.driverList.stream().filter(driver -> driver.firstName.startsWith("Jackie")).findFirst().orElse(null);
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		Vehicle vehicle1 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);

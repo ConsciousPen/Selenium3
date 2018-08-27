@@ -25,6 +25,7 @@ TestData1: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
+
 TestData2: {
    PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab',
@@ -36,20 +37,6 @@ TestData2: {
     DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
     DocumentsAndBindTab: '@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
-}
-TestData3: {
-  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
-  GeneralTab: '@GeneralTab1',
-  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
-  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
-  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
-  AssignmentTab: '@AssignmentTab',
-  FormsTab: '@<auto_ss>@DataGather@FormsTab',
-  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
-  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab2',
-  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
 
@@ -143,6 +130,10 @@ NamedInsuredInformation6: {
   Social Security Number: 785412369,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
+}
+
+TestData_FiveDrivers: {
+    DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
 }
 
 DriverTab1: {
@@ -305,30 +296,6 @@ AssignedDriver4: {
     Select Vehicle: 'index=2'
 }
 
-AssignmentTab: {
-  DriverVehicleRelationshipTable: ['@AssignedDriver5', '@AssignedDriver6', '@AssignedDriver7', '@AssignedDriver8']
-}
-
-AssignedDriver5: {
-    Driver: 'contains=Ben',
-    Select Vehicle: 'index=2'
-}
-
-AssignedDriver6: {
-    Driver: 'contains=Jenny',
-    Select Vehicle: 'index=2'
-}
-
-AssignedDriver7: {
-    Driver: 'contains=Jovita',
-    Select Vehicle: 'index=2'
-}
-
-AssignedDriver8: {
-    Driver: 'contains=Teena',
-    Select Vehicle: 'index=1'
-}
-
 
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
@@ -359,18 +326,6 @@ DocumentsAndBindTab1: {
    Proof of Current Insurance for: 'Yes',
    Proof of Prior Insurance: 'Yes'
    },
-    Agreement: I agree
-}
-
-DocumentsAndBindTab2: {
- RequiredToBind: {
-
- Auto Insurance Application: Physically Signed
- },
-
-  RequiredToIssue: {
-   Proof of Prior Insurance: 'Yes'
-  },
     Agreement: I agree
 }
 

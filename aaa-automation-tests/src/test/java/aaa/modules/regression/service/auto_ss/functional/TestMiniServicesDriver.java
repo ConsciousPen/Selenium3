@@ -98,8 +98,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470"})
 	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
-		TestData td = getTestSpecificTD("TestData3");
-		pas14653_ViewDriverServiceOrderOfPendingDeleteBody(td);
+		pas14653_ViewDriverServiceOrderOfPendingDeleteBody();
 	}
 
 	/**
