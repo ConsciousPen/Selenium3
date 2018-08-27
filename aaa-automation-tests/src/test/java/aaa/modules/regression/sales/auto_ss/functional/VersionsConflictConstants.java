@@ -348,9 +348,10 @@ public class VersionsConflictConstants {
 
 	//TODO should be deleted when Policy Information.Renewal Term Premium - Old Rater is fixed, RenewalMerge test need to have policyInformationVersion1, not policyInformationRenewal
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
-	static final Multimap<String, String> policyInformationRenewal= ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> policyInformationRenewalVersion1= ImmutableListMultimap.<String, String>builder()
 			.put("Policy Information","Source of Business")
 			.put("Policy Information","Source Policy #")
+			.put("Policy Information","Renewal Term Premium - Old Rater")
 			.put("Policy Information","Channel Type")
 			.put("Policy Information","Agency")
 			.put("Policy Information","Agency of Record")

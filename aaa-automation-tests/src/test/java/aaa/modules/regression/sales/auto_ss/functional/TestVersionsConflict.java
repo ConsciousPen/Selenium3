@@ -188,7 +188,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-16047", "PAS-16056"})
 	public void pas16047_renewalMergePolicyInformation(@Optional("AZ") String state) {
-		renewalMerge(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.policyInformationAutomatic,  VersionsConflictConstants.policyInformationRenewal,  "GeneralTab", "PolicyInformation");
+		renewalMerge(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.policyInformationAutomatic,  VersionsConflictConstants.policyInformationRenewalVersion1,  "GeneralTab", "PolicyInformation");
 	}
 
 	//Driver Information section
