@@ -702,20 +702,22 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * @name Removing a driver - Create a Task?
 	 * @scenario 1. Create policy.
 	 * 2. Start do endorsement outside of PAS.
-	 * 3. Add new Driver. Update that driver.
+	 * 3. Add new Driver CH. Update that driver.
 	 * 4. Order report.
 	 * 5. Delete Driver.
 	 * 6. Check if Task was created.
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement outside of PAS.
-	 * 9. Add new Driver. Update.
+	 * 9. Add new Driver CH. Update.
 	 * 10. Delete new Driver.
 	 * 11. Check if Task wasn't created.
+	 *
+	 * Repeat the same scenario with SP drivers.
 	 */
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578","PAS-17933" })
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
 
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();

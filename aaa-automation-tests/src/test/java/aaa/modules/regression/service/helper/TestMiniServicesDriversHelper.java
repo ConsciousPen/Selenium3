@@ -1624,42 +1624,72 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "I");
-		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
-		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D32329555", 18, "VA", "CH", "MSS");
-		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse2.oid, removeDriverRequest);
+		String driverOid1 = addRegularDriverOrNI(policyNumber, "CH", "D32329588");
+		HelperCommon.removeDriver(policyNumber, driverOid1, removeDriverRequest);
 
-		//check Task
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, false);
+		checkIfTskWasCreated(policyNumber, false, 1 ,1);
+
 		helperMiniServices.endorsementRateAndBind(policyNumber);
-
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jackie", "Ann", "Jones", "1964-02-08", "I");
-		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "CH", "MSS");
-		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+		String driverOid2 = addRegularDriverOrNI(policyNumber, "CH", "D32111585");
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverResponse.oid, OrderReportsResponse.class, 200);
+		HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
 
 		//Remove Driver
 		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
 
-		//check Task
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, true);
+		checkIfTskWasCreated(policyNumber, true, 1, 1);
+
+		//Check with NI driver
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String driverOid3 = addRegularDriverOrNI(policyNumber, "SP", "D32329555");
+		HelperCommon.removeDriver(policyNumber, driverOid3, removeDriverRequest);
+
+		checkIfTskWasCreated(policyNumber, false, 1 ,1);
+
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		policy.policyInquiry().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(1);
+		// add update driver
+		String driverOid4 = addRegularDriverOrNI(policyNumber, "SP", "D32118795");
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
+		checkIfTskWasCreated(policyNumber, false, 2, 2);
+		HelperCommon.removeDriver(policyNumber, driverOid4, removeDriverRequest);
+
+		checkIfTskWasCreated(policyNumber, true, 1, 1);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private String addRegularDriverOrNI(String policyNumber, String relationToApplicantCd, String licenseNumber){
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "II");
+		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenseNumber, 18, "VA", relationToApplicantCd, "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+
+		return  addedDriverResponse.oid;
+	}
+
+	private void checkIfTskWasCreated(String policyNumber, boolean isTaskShouldExist, int countNamedInsured, int countDrivers){
+		assertSoftly(softly -> {
+			mainApp().reopen();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, isTaskShouldExist);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+			//Check if driver was removed
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(countNamedInsured);
+
+			policy.policyInquiry().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(countDrivers);
+		});
 	}
 
 	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
