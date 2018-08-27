@@ -1,11 +1,12 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import java.util.Comparator;
-import java.util.List;
-import com.google.common.collect.ComparisonChain;
 import aaa.modules.regression.service.helper.RestBodyRequest;
+import com.google.common.collect.ComparisonChain;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Comparator;
+import java.util.List;
 
 @ApiModel(description = "Vehicle Information")
 public class Vehicle implements RestBodyRequest {
@@ -71,6 +72,10 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "Available Actions for the vehicle")
 	public List<String> availableActions;
+
+	@ApiModelProperty(value = "List of vehicle related validation errors")
+	public List<ValidationError> validations;
+
 
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
