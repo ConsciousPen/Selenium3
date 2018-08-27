@@ -1833,6 +1833,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage filteredCoverageEndorsementResponse = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
 		softly.assertThat(filteredCoverageEndorsementResponse.coverageType).isEqualTo("Per Person/Per Accident");
 		softly.assertThat(filteredPolicyCoverageResponse.availableLimits.size()).isNotEqualTo(0);
+
+		//Verify Order of coverage
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(0).coverageCd).isEqualTo("BI");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(1).coverageCd).isEqualTo("PD");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMPD");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(5).coverageCd).isEqualTo("IL");
+
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
 	}
 
 	protected void pas14648_MedpmDelimiter(PolicyType policyType) {
@@ -3053,12 +3071,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas17629_Umuim_Update_coverageBody(PolicyType policyType) {
 		mainApp().open();
-		//createCustomerIndividual();
-		//TestData td = getPolicyTD("DataGather", "TestData");
-		//TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
-		//policyType.get().createPolicy(testData);
-		//String policyNumber = PolicySummaryPage.getPolicyNumber();
-		String policyNumber = "VASS952918553";
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -3066,26 +3084,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 
 			softly.assertThat(viewCoverageResponse.policyCoverages.get(0).coverageLimit).isEqualTo("100000/300000");
-			//softly.assertThat(viewCoverageResponse.policyCoverages.get(1).coverageLimit).isEqualTo("100000/300000");
-
-			//Verify Order of coverage
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(0).coverageCd).isEqualTo("BI");
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(1).coverageCd).isEqualTo("PD");
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMPD");
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-			softly.assertThat(viewCoverageResponse.policyCoverages.get(5).coverageCd).isEqualTo("IL");
-
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0)).isEqualTo("COMPDED");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(1)).isEqualTo("COLLDED");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(2)).isEqualTo("GLASS");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(3)).isEqualTo("LOAN");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(4)).isEqualTo("RREIM");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(5)).isEqualTo("TOWINGLABOR");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(6)).isEqualTo("SPECEQUIP");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(7)).isEqualTo("NEWCAR");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8)).isEqualTo("WL");
-		});
+			softly.assertThat(viewCoverageResponse.policyCoverages.get(1).coverageLimit).isEqualTo("100000/300000");
+			});
 
 		String coverageCd = "BI";
 		String newBILimits = "25000/50000";
