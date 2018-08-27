@@ -382,7 +382,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
-					.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
+				.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
 		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPendingTransactionsTable.TYPE, BillingConstants.BillingPendingTransactionsType.REFUND);
@@ -677,7 +677,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -1049,7 +1049,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		log.info("Cancellation action completed successfully");
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		String cancellationPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Subtype/Reason", "Cancellation - Insured Non-Payment Of Premium").getCell("Amount").getValue();
+		log.info("Cancellation action completed successfully, cancellation premium = %1s", cancellationPremium);
 	}
 
 	private void automaticCancellationNoticeDueInsallmentDate(LocalDateTime installmentDate) {
@@ -1139,7 +1141,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -1202,8 +1204,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
-					ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber))).exists();
+				ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber))).exists();
 		log.info("Endorsment action completed successfully");
 	}
 
