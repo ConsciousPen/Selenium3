@@ -143,8 +143,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0");
 
         // Initiate Policy, @ Endorsement - calculate premium with UM/UIM coverages, Documents and Bind tab - UM and UIM coverage field
-        createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        new PurchaseTab().fillTab(getPolicyTD()).submitTab();
+		createPolicy(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
         if(isRenewal){
