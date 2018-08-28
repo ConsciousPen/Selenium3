@@ -47,8 +47,9 @@ public class ConversionUtils {
 	public static String importPolicy(ConversionPolicyData conversionData, ITestContext context, boolean useTimeshift) {
 		File importFile = prepareXML(conversionData);
 		RemoteHelper.get().uploadFile(importFile.getAbsolutePath(), conversionData.getConversionType().getRemoteImportFolder() + importFile.getName());
+		//Create new timeshifting phase to start Job only once for all files
 		if (useTimeshift) {
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		}
 		JobUtils.executeJob(conversionData.getConversionType().getJob());
 		String policyNum = verifyResponseSuccessAndGetNumber(conversionData.getConversionType(), importFile.getName(), context);
@@ -59,7 +60,7 @@ public class ConversionUtils {
 
 	protected static File prepareXML(ConversionPolicyData conversionData) {
 		String newName = String.format("%s_%s-%s.xml", conversionData.getConversionType().name(),
-			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP), new Generex("\\d{5}").random());
+			LocalDateTime.now().format(DateTimeUtils.TIME_STAMP_WITH_MS), new Generex("\\d{5}").random());
 		File changedFile = new File(CustomLogger.getLogDirectory() + File.separator + "uploded_files", newName);
 		changedFile.getAbsoluteFile().getParentFile().mkdir();
 
@@ -68,6 +69,7 @@ public class ConversionUtils {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			Document document = docFactory.newDocumentBuilder().parse(conversionData.getFile());
 
+			//Use key from conversionData.values map as XPath to search for values that should be changed. Replace found Nodes values with values from conversionData.values
 			for (String key : conversionData.getValues().keySet()) {
 				NodeList nodes = (NodeList) xpath.compile(key).evaluate(document, XPathConstants.NODESET);
 				for (int i = 0; i < nodes.getLength(); i++) {
@@ -75,6 +77,7 @@ public class ConversionUtils {
 				}
 			}
 
+			//Save modified XML to new file in LOG directory
 			Files.createFile(Paths.get(changedFile.getAbsoluteFile().getAbsolutePath()));
 			FileWriterWithEncoding fileWriter = new FileWriterWithEncoding(changedFile, "UTF8");
 			Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -94,14 +97,10 @@ public class ConversionUtils {
 		String responseFilePath = conversionType.getRemoteResponseFolder() + fileName;
 		String downloadTo = CustomLogger.getLogDirectory() + File.separator + "downloaded_files" + File.separator + fileName;
 		RemoteHelper.get().downloadFileWithWait(responseFilePath, downloadTo, 30000);
+		//This value is used by AaaTestListener to add conversion response to Test Analytics as test result attachement
 		if (context != null) {
 			context.setAttribute("attachment", downloadTo);
 		}
-
-		// try {
-		// log.debug("Response file data\n" + FileUtils.readFileToString(new File(downloadTo)));
-		// } catch (Exception ignore) {
-		// }
 
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -112,6 +111,7 @@ public class ConversionUtils {
 			throw new AssertionError("Can't read downloaded response file: " + downloadTo);
 		}
 
+		//Search for <importResponse><status>Success</status>
 		NodeList successNodes;
 		try {
 			successNodes = (NodeList) xpath.compile("//importResponse/*[(self::status or self::importStatus) and .='Success']").evaluate(document, XPathConstants.NODESET);
@@ -134,6 +134,7 @@ public class ConversionUtils {
 				}
 
 				message.setLength(message.length() - 2);
+				//Cut message to 1000 symbols
 				if (message.length() > 1000) {
 					message.setLength(1000);
 					message.append("...");
@@ -145,6 +146,7 @@ public class ConversionUtils {
 		}
 
 		try {
+			//get policy number of converted policy
 			NodeList nodes = (NodeList) xpath.compile("//policyNumber").evaluate(document, XPathConstants.NODESET);
 			return nodes.item(0).getTextContent();
 		} catch (XPathExpressionException e) {

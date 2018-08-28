@@ -351,7 +351,7 @@ PAS-18111:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements..*,
+              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
@@ -362,4 +362,17 @@ PAS-18165:
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
       messages: ['DS 04 69"))]])[1]} is not absent as expected.']
-
+PAS-15144:
+  summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+      messages: ['Total premium for quote/policy number QCOSS']
+PAS-18339:
+  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.pup.*,
+            aaa.modules.regression.conversions.pup.*,
+            aaa.modules.regression.service.pup.*]
+    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]

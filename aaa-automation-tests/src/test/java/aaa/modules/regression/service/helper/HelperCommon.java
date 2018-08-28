@@ -364,28 +364,89 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, request, responseType, status);
 	}
 
+	public static <T> T viewPolicyCoverages(String policyNumber, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewPolicyCoverages(String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewPolicyCoverages(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T viewPolicyCoveragesByVehicle(String policyNumber, String oid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewPolicyCoveragesByVehicle(String, String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewPolicyCoveragesByVehicle(String policyNumber, String oid) {
 		log.info("Update policy coverages by vehicle: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T viewEndorsementCoverages(String policyNumber, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_COVERAGES, policyNumber));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewEndorsementCoverages(String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewEndorsementCoverages(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_COVERAGES, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.GET);
+	}
+
+	/**
+	 * @deprecated use {@link #viewEndorsementCoveragesByVehicle(String, String, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo viewEndorsementCoveragesByVehicle(String policyNumber, String newVehicleOid) {
 		log.info("Update endorsement coverages by vehicle: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, newVehicleOid));
 		return runJsonRequestGetDxp(requestUrl, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, UpdateCoverageRequest request, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
+		restRequestInfo.bodyRequest = request;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.PATCH);
+	}
+
+	/**
+	 * @deprecated use {@link #updateEndorsementCoveragesByVehicle(String, String, UpdateCoverageRequest, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, String coverageCode, String availableLimits) {
 		log.info("Update coverage by vehicle: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
@@ -395,6 +456,19 @@ public class HelperCommon {
 		return runJsonRequestPatchDxp(requestUrl, request, PolicyCoverageInfo.class);
 	}
 
+	public static <T> T updateEndorsementCoverage(String policyNumber, UpdateCoverageRequest request, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber));
+		restRequestInfo.bodyRequest = request;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.PATCH);
+	}
+
+	/**
+	 * @deprecated use {@link #updateEndorsementCoverage(String, UpdateCoverageRequest, Class, int)}
+	 */
+	@Deprecated
 	static PolicyCoverageInfo updatePolicyLevelCoverageEndorsement(String policyNumber, String coverageCode, String availableLimits) {
 		log.info("Update policy evel coverage: policyNumber: " + policyNumber + ", coverageCode: " + coverageCode + ", availableLimits: " + availableLimits);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber));
@@ -821,6 +895,9 @@ public class HelperCommon {
 				client = ClientBuilder.newClient(config).register(JacksonJsonProvider.class);
 			} else {
 				client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			}
+			if(requestMethod == RequestMethod.PATCH) {
+				client = client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
 			}
 			Invocation.Builder jsonRequest = createJsonRequest(client, request.url, request.sessionId);
 			String methodName = requestMethod.name();
