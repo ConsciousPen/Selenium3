@@ -2230,7 +2230,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		} else {
 			BigDecimal expectedFormsPremium = new BigDecimal(driversWithDISD * disdPremiumPerDriver + driversWithTD * tdPremiumPerDriver);
 			BigDecimal actualFormsPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54")
-					.getCell("Term Premium").getValue());
+					.getCell("Term Premium").getValue().replace("$", ""));
 			softly.assertThat(actualFormsPremiumUI).isEqualByComparingTo(expectedFormsPremium);
 		}
 	}
