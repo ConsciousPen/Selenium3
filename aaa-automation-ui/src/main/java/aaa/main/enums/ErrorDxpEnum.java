@@ -55,44 +55,56 @@ public final class ErrorDxpEnum {
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
 
-		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
-		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating"), //the same as in PAS
-		DRIVER_UNDER_AGE_NV("AAA_CSA6220000_NV", "Drivers under age 16 must be set to not available for rating"), //the same as in PAS
-		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating"), //the same as in PAS
-		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating"), //the same as in PAS
-		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating"), //the same as in PAS
-		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater"),
-		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License"),
-		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format"),
-		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order"),
-		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review");
+		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		DRIVER_UNDER_AGE_NV("AAA_CSA6220000_NV", "Drivers under age 16 must be set to not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
+		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209)"),
+		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License (AAASS200008)"),
+		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format (AAA_CSA3040364)"),
+		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order (AAA_SS9192341)"),
+		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review (AAA_SS180807-NTzjT)"),
+		DRIVER_NAME_MISMATCH("Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
+		DRIVER_GENDER_MISMATCH("The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
+		DRIVER_DOB_MISMATCH("The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
+		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
+	;
 
-		private String code;
-		private String message;
+		private final String code;
+		private final String message;
+		private final String field;
 
 		Errors(String message) {
-			setMessage(message); // if we have message only
+			this.code = null;
+			this.message = message; // if we have message only
+			this.field = null;
 		}
 
 		Errors(String code, String message) {
-			setCode(code);
-			setMessage(message);
+			this.code = code;
+			this.message = message;
+			this.field = null;
+		}
+
+		Errors(String code, String message, String field) {
+			this.code = code;
+			this.message = message;
+			this.field = field;
 		}
 
 		public String getCode() {
 			return code;
 		}
 
-		public void setCode(String code) {
-			this.code = code;
-		}
 
 		public String getMessage() {
 			return message;
 		}
 
-		public void setMessage(String message) {
-			this.message = message;
+		public String getField() {
+			return field;
 		}
 
 		@Override
