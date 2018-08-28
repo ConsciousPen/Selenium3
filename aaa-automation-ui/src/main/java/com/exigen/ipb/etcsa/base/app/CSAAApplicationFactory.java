@@ -7,9 +7,9 @@ import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
 public class CSAAApplicationFactory {
 	static CSAAApplicationFactory appFactory;
 
-	private static ThreadLocal<MainApplication> mainApp = new ThreadLocal<com.exigen.ipb.etcsa.base.app.impl.MainApplication>() {
+	private static ThreadLocal<MainApplication> mainApp = new ThreadLocal<MainApplication>() {
 		@Override
-		public com.exigen.ipb.etcsa.base.app.impl.MainApplication initialValue() {
+		public MainApplication initialValue() {
 			return new MainApplication();
 		}
 	};
