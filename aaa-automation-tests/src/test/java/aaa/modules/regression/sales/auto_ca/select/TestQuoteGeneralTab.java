@@ -130,8 +130,9 @@ public class TestQuoteGeneralTab extends AutoCaSelectBaseTest {
 		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getAttribute("class").contains("required")).isTrue(); // verification that field is mandatory
 		documentsAndBindTab.fillTab(td).submitTab();
 
-		new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
-		ErrorTab.buttonCancel.click();
+		//new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_CSA3081512);
+		//ErrorTab.buttonCancel.click();
+		assertThat(documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).getWarning().equals("'Policy #' is required"));
 
 		documentsAndBindTab.getAssetList().getAsset(MOTORCYCLE_POLICY_NUM).setValue("12345678");
 		documentsAndBindTab.getAssetList().getAsset(WORK_PHONE_NUM).setValue("1234567890");
