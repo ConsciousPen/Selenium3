@@ -33,10 +33,10 @@ public class Coverage {
 
 	public List<CoverageLimit> availableLimits;
 
-	@ApiModelProperty(value = "todo", readOnly = true)
+	@ApiModelProperty(value = "List of drivers the coverage can be applied to")
 	public List<String> availableDrivers;
 
-	@ApiModelProperty(value = "todo", readOnly = true)
+	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	public List<String> currentlyAddedDrivers;
 
 }

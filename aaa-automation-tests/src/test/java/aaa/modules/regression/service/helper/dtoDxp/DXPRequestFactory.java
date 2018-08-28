@@ -1,5 +1,7 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
+import java.util.Collections;
+
 public class DXPRequestFactory {
 
 	public static AddDriverRequest createAddDriverRequest(String firstName, String middleName, String lastName, String birthDate, String suffix) {
@@ -61,11 +63,11 @@ public class DXPRequestFactory {
 	}
 
 
-	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, String driverOids) {
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, String driverOid) {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
 		updateCoverageRequest.limit = limit;
-		updateCoverageRequest.driverOids = driverOids;
+		updateCoverageRequest.driverOids = Collections.singletonList(driverOid);
 		return updateCoverageRequest;
 	}
 }
