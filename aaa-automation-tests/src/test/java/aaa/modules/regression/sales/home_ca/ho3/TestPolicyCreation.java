@@ -29,12 +29,11 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends HomeCaHO3BaseTest {
 
 	@Parameters({"state"})
-	@StateList(states =  States.CA)
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createPolicy();
 

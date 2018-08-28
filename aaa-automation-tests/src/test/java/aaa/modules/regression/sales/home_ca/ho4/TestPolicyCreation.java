@@ -27,14 +27,15 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends HomeCaHO4BaseTest {
 
 	@Parameters({"state"})
-	@StateList(states =  States.CA)
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4) 
-    public void testPolicyCreation(@Optional("CA") String state) {
-        mainApp().open();
-        createCustomerIndividual();
+	@StateList(states = States.CA)
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4)
+	public void testPolicyCreation(@Optional("CA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
 		createPolicy();
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-    }
+	}
 }

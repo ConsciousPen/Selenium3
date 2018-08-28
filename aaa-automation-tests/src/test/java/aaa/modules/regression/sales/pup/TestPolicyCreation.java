@@ -25,17 +25,14 @@ public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	//@StateList("All")
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
-	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testPolicyCreation(@Optional("") String state) {
-    	
-    	mainApp().open();
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testPolicyCreation(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
 
-        createCustomerIndividual();
-       
-        createPolicy();
-
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-    }
+	}
 }

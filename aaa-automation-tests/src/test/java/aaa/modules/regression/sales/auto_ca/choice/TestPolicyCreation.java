@@ -29,23 +29,23 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 
-    @Parameters({"state"})
-    @StateList(states = States.CA)
-    @Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-    public void testPolicyCreation(@Optional("CA") String state) {
-        mainApp().open();
+	@Parameters({"state"})
+	@StateList(states = States.CA)
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
+	public void testPolicyCreation(@Optional("CA") String state) {
+		mainApp().open();
 
-        createCustomerIndividual();
+		createCustomerIndividual();
 
-        createPolicy();
+		createPolicy();
 
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
 
-        log.info("CA Choice Policy Product Verification Started...");
-        policy.policyInquiry().start();
-        NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
-    }
+		log.info("CA Choice Policy Product Verification Started...");
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
+	}
 }

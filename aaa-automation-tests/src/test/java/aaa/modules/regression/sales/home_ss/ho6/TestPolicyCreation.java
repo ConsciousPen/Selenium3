@@ -26,17 +26,17 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeSSHO6BaseTest {
 
-    @Parameters({"state"})
-    @StateList(statesExcept = { States.CA })
-	@Test(groups= {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
-    public void testPolicyCreation(@Optional("") String state) {
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy();
-        log.info("TEST: HSS06 Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+	@Parameters({"state"})
+	@StateList(statesExcept = {States.CA})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
+	public void testPolicyCreation(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
+		log.info("TEST: HSS06 Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-    }
+	}
 }

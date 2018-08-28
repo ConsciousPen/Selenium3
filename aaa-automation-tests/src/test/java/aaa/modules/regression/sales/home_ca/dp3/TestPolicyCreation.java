@@ -26,17 +26,16 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends HomeCaDP3BaseTest {
 
-    @Parameters({"state"})
-    @StateList(states =  States.CA)
+	@Parameters({"state"})
+	@StateList(states = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
-    public void testPolicyCreation(@Optional("CA") String state) {
-        mainApp().open();
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
+	public void testPolicyCreation(@Optional("CA") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
 
-        createCustomerIndividual();
-        createPolicy();
-
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-    }
+	}
 }
