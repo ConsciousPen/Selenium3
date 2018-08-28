@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -14,13 +14,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-// Use statesExcept for SS
-@StateList(statesExcept = Constants.States.CA)
+
+@StateList(states = Constants.States.CA)
 public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
+        return PolicyType.HOME_CA_HO3;
     }
 
     /**
@@ -38,7 +38,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      */
     @Parameters({"state"})
     @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Ignores_termExpirationDate_for_Active_Status(@Optional("") String state) {
         /*--Step 1--*/
         log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before" +
@@ -74,7 +74,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      */
     @Parameters({"state"})
     @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
         log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date after" +
@@ -110,7 +110,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      */
     @Parameters({"state"})
     @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Invalid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
         log.info("Step 1: *Manual Intervention Required* Set the Elastic Service up for mocking for an expiration date before" +
@@ -128,3 +128,4 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
                 .isNotNull().hasValue(InitialEnteredMemberNumber);
     }
 }
+
