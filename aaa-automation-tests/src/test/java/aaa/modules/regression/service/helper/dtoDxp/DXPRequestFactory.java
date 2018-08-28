@@ -52,4 +52,12 @@ public class DXPRequestFactory {
 		addVehicleRequest.vehIdentificationNo = vin;
 		return addVehicleRequest;
 	}
+
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit) {
+		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
+		updateCoverageRequest.coverageCd = coverageCd;
+		updateCoverageRequest.limit = limit;
+		return updateCoverageRequest;
+	}
+
 }
