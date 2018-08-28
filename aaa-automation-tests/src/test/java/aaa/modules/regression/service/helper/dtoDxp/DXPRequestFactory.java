@@ -5,7 +5,7 @@ public class DXPRequestFactory {
 	public static AddDriverRequest createAddDriverRequest(String firstName, String middleName, String lastName, String birthDate, String suffix) {
 		AddDriverRequest addDriverRequest = new AddDriverRequest();
 		addDriverRequest.firstName = firstName;
-		addDriverRequest.lastName = middleName;
+		addDriverRequest.middleName = middleName;
 		addDriverRequest.lastName = lastName;
 		addDriverRequest.birthDate = birthDate;
 		addDriverRequest.suffix = suffix;
@@ -52,4 +52,12 @@ public class DXPRequestFactory {
 		addVehicleRequest.vehIdentificationNo = vin;
 		return addVehicleRequest;
 	}
+
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit) {
+		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
+		updateCoverageRequest.coverageCd = coverageCd;
+		updateCoverageRequest.limit = limit;
+		return updateCoverageRequest;
+	}
+
 }

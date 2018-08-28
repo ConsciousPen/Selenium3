@@ -236,6 +236,7 @@ public final class PolicyConstants {
 
     public static final class MVRReportTable {
         public static final String LICENSE_STATUS = "License Status";
+        public static final String NAME_ON_LICENSE = "Name on License";
     }
 
     public static final class ViewCappingDetailsTable {

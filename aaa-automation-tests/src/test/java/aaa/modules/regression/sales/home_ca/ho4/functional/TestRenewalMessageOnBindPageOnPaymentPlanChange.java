@@ -39,7 +39,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, notAutomaticPaymentMessage,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
@@ -65,7 +65,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.SEMI_ANNUAL,
-				false, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, notAutomaticPaymentMessage,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 	}
 
@@ -90,7 +90,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_AutoPay(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				true, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, automaticPaymentMessage,
+				true, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, automaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 }

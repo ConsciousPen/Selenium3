@@ -4,14 +4,13 @@ import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUN
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
-import org.springframework.util.CollectionUtils;
 import org.testng.ITestContext;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -262,7 +261,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(1).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-		//BUG OSI: new story PAS-9337 Green Button Service - Abracradabra
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
@@ -619,16 +617,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		softly.assertThat(vehicleRd2.garagingAddress.city).isEqualTo(city3);
 	}
 
-	protected void pas8273_CheckIfNanoPolicyNotReturningVehicle(PolicyType policyType, String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		ViewVehicleResponse response = HelperCommon.viewPolicyVehicles(policyNumber);
-		assertThat(CollectionUtils.isEmpty(response.vehicleList)).isTrue();
-	}
-
 	protected void pas9337_CheckStartEndorsementInfoServerResponseErrorForEffectiveDate() {
 		mainApp().open();
 		createCustomerIndividual();
@@ -684,7 +672,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		//Check Policy locked message
 		ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage())).isTrue(); //BUG: PAS-16902 Not getting "Policy is locked" message
+		assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.POLICY_IS_LOCKED.getMessage())).isTrue();
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
@@ -1342,8 +1330,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			maigConversionTest.fillPolicy();
 			new ProductRenewalsVerifier().setStatus(PREMIUM_CALCULATED).verify(1);
 
-			//BUG PAS-10481 Conversion stub policy is not returned for current term before it becomes active
-			//BUG PAS-14444 ERROR_DXP_GATEWAY_INTERNAL_ERROR when ViewingPolicySummary for Converted policy
 			PolicySummary responsePolicyStub = HelperCommon.viewPolicyRenewalSummary(policyNum, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyStub.policyNumber).isEqualTo(policyNum);
 			softly.assertThat(responsePolicyStub.policyStatus).isEqualTo("issued");
@@ -1798,27 +1784,27 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String coverageCd = "COMPDED";
 		String availableLimits = "250";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd, availableLimits);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		String coverageCd1 = "COLLDED";
 		String availableLimits1 = "750";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd1, availableLimits1);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, availableLimits1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		String coverageCd2 = "RREIM";
 		String availableLimits2 = "900";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd2, availableLimits2);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, availableLimits2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		String coverageCd3 = "TOWINGLABOR";
 		String availableLimits3 = "50/300";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd3, availableLimits3);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd3, availableLimits3), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		String coverageCd4 = "GLASS";
 		String availableLimits4 = "Yes";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd4, availableLimits4);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd4, availableLimits4), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		String coverageCd5 = "SPECEQUIP";
 		String availableLimits5 = "2000";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, coverageCd5, availableLimits5);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd5, availableLimits5), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(vOid);

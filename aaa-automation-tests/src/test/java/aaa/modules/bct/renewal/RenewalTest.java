@@ -1,5 +1,6 @@
 package aaa.modules.bct.renewal;
 
+import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -10,6 +11,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -18,7 +20,8 @@ public class RenewalTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	public void BCT_ONL_107_ManualChangesRenewal(@Optional("") String state) {
+	@StateList(states = NJ)
+	public void BCT_ONL_107_ManualChangesRenewal(@Optional("NJ") String state) {
 		mainApp().open();
 
 		String policyNumber = getPoliciesByQuery("BCT_ONL_107_ManualChangesRenewal", "SelectPolicy").get(0);
