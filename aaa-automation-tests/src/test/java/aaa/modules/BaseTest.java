@@ -399,6 +399,7 @@ public class BaseTest {
 		if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
 			PolicySummaryPage.buttonBackFromRenewals.click();}
 		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
+		log.info("CONVERSION POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 		return policyNumber;
 	}
 
