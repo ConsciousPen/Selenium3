@@ -3085,7 +3085,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(viewCoverageResponse.policyCoverages.get(0).coverageLimit).isEqualTo("100000/300000");
 			softly.assertThat(viewCoverageResponse.policyCoverages.get(1).coverageLimit).isEqualTo("100000/300000");
-			});
+		});
 
 		String coverageCd = "BI";
 		String newBILimits = "25000/50000";
