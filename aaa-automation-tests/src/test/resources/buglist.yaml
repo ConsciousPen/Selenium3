@@ -11,6 +11,24 @@ PAS-0000:
     - tests: aaa.*
       messages: 'is not applicable to this test'
 
+PAS-0001:
+  summary: "Other element would receive the click"
+  reason: PERF
+  failures:
+  - tests: [aaa.modules.bct.*]
+    messages: ["Other element would receive the click"]
+
+PAS-0002:
+  summary: "No policies found"
+  reason: ENV
+  failures:
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'PostValidation' query"]
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'PreValidation' query"]
+  - tests: [aaa.modules.bct.*]
+    messages: ["No policies found by 'SelectPolicy' query"]
+
 QC-E2ECOMMON:
   summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
@@ -231,20 +249,20 @@ PAS-5529:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
-PT-1043:
-  summary: "Data relevant to ISO 360 has changed"
+PAS-5102:
+  summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["*Unable to locate element*", "Data relevant to ISO 360 has changed. Reorder ISO 360 report"]
-PAS-12869:
+PAS-15177:
   summary: "KY Taxes: Tax amount and total premium value are reduced during Empty endorsement"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state KY has failed due to difference between pre-endorsement and post-endorsement premiums"]
-PT-1670:
-  summary: "Error message displayed in 'List of other active AAA policies' tab"
+PAS-15860:
+  summary: "Error message displayed in \"List of Other active AAA policies\" under Applicant Tab on endorsement"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
@@ -328,3 +346,33 @@ PAS-5260:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
       messages: ['Cannot transfer payment', 'is not present as expected']
+PAS-18111:
+  summary: "Cannot save endorsement Form"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
+              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
+              aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
+      messages: ["is not present as expected"]
+PAS-18165:
+  summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction DP3"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
+      messages: ['DS 04 69"))]])[1]} is not absent as expected.']
+PAS-15144:
+  summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
+      messages: ['Total premium for quote/policy number QCOSS']
+PAS-18339:
+  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.pup.*,
+            aaa.modules.regression.conversions.pup.*,
+            aaa.modules.regression.service.pup.*]
+    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]

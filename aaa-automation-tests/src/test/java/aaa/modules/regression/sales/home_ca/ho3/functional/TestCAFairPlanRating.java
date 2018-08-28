@@ -102,7 +102,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
 
         //Verify the ENDo is not selected already
         aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
-        assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECA)).isPresent();
+        assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECA).isPresent()).isTrue();
 
         //Scrape the total premium from the Prem summary asset list on PnC tab prior to Fair Plan Endo
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -119,8 +119,7 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         Dollar postEndoPremium = PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
-
-        postEndoPremium.verify.lessThan(preEndoPremium);
+        assertThat(postEndoPremium.lessThan(preEndoPremium)).isTrue();
         mainApp().close();
     }
 
@@ -177,7 +176,6 @@ public class TestCAFairPlanRating extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().btnCalculatePremium().click();
         assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied")).hasValue("New home, AAA Membership, Smoke and Burglar alarm");
-
         PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm (Central, Local, None)")).isEqualTo("Local");
         assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Smoke and burglar alarm discount factor")).isEqualTo("0.95");

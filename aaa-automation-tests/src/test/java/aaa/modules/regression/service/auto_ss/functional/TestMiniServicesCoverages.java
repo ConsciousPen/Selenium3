@@ -65,7 +65,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601","PAS-17732"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -197,7 +197,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353","PAS-17740"})
 	public void pas13353_LoanLeaseCoverage(@Optional("VA") String state) {
 
 		pas13353_LoanLeaseCoverage(getPolicyType());
@@ -346,7 +346,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 			Constants.States.SD, Constants.States.MT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
-	public void pas15228_UmUimDelimiter(@Optional("") String state) {
+	public void pas15228_UmUimDelimiter(@Optional("ID") String state) {
 		pas15228_UmUimDelimiterBody();
 	}
 
@@ -371,7 +371,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 			Constants.States.OK, Constants.States.PA, Constants.States.SD, Constants.States.WY, Constants.States.ID})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15325"})
-	public void pas15325_UmpdNotExist(@Optional("AZ") String state) {
+	public void pas15325_UmpdNotExist(@Optional("MT") String state) {
 		pas15325_UmpdNotExistBody();
 	}
 
@@ -412,7 +412,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14680"})
-	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("") String state) {
+	public void pas14680_TrailersCoveragesThatDoNotApply(@Optional("SD") String state) {
 		pas14680_TrailersCoveragesThatDoNotApplyBody(getPolicyType());
 
 	}
@@ -452,10 +452,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14730"})
 	public void pas14730_UpdateCoverageUMPDAndPD(@Optional("MD") String state) {
 		pas14730_UpdateCoverageUMPDAndPDBody(getPolicyType());
-
 	}
-
-
 }
 
 

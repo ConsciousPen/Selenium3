@@ -1,26 +1,23 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="E2E Scenario 7" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-    <test name="HSS Scenario 7" parallel="none">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="HSS Scenario 7" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ, OH, OK" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario7" />
         </classes>
     </test>
-
-    <test name="PUP Scenario 7" parallel="none">
+    <test name="PUP Scenario 7" parallel="methods">
         <parameter name="state" value="UT, CA, AZ, NJ, OK" />
         <classes>
             <class name="aaa.modules.e2e.pup.TestScenario7" />
         </classes>
     </test>
-
-    <test name="Auto SS Scenario 7" parallel="none">
+    <test name="Auto SS Scenario 7" parallel="methods">
         <parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA, KY" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario7" />
@@ -28,14 +25,13 @@
     </test>
 
     	<!-- CA -->
-    <test name="CA HSS Scenario 7" parallel="none">
+    <test name="CA HSS Scenario 7" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario7" />
         </classes>
     </test>
-
-    <test name="Auto CA Scenario 7" parallel="none">
+    <test name="Auto CA Scenario 7" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.auto_ca.TestScenario7" />

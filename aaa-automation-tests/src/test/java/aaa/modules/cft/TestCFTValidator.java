@@ -100,6 +100,5 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 				.generateReport(ReportGeneratorService
 								.generateReportObjects(accountsMapSummaryFromDB, accountsMapSummaryFromFeedFile, accountsMapSummaryFromOR)
 						, CFT_VALIDATION_DIRECTORY + CFT_VALIDATION_REPORT);
-
 	}
 }

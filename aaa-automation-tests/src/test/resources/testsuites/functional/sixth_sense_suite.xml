@@ -30,7 +30,21 @@
     </test>
 
     <test name="MVR Predictor Algo">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,OK,CT"/>
+        <parameter name="state" value="IN,KY,MD,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo NJ">
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -108,7 +122,21 @@
         </classes>
     </test>
 
+    <test name="Test UM And UIM Coverages opted in HardStop Rule">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
+
+    <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements"/>
+        </classes>
+    </test>
 
     <test name="Test Endorsement With Pending Auto Select Companion">
         <parameter name="state" value="CA"/>
@@ -141,17 +169,17 @@
         </classes>
     </test>
 
-    <!--<test name="Test Replacement Cost Value for Endorsed Renewal">-->
-        <!--<parameter name="state" value="UT"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Replacement Cost Value for Endorsed Renewal">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
+        </classes>
+    </test>
 
     <test name="Test Tier And UW Points Lock NY">
         <parameter name="state" value="NY"/>

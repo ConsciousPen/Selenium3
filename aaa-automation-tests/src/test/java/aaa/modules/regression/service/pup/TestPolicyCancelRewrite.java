@@ -41,7 +41,7 @@ public class TestPolicyCancelRewrite extends PersonalUmbrellaBaseTest {
 		String initialPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Initial Policy Number: " + initialPolicyNumber);
 
-		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestDataRewrite"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		log.info("Policy " + initialPolicyNumber + " is cancelled");
 
