@@ -157,7 +157,7 @@ public abstract class TestMaigSpecificFormsGenerationTemplate extends PolicyBase
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+//		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		/**https://csaaig.atlassian.net/browse/PAS-9157*/
 		/**PAS-10256 Cannot rate Home SS policy with effective date higher or equal to 2020-02-018*/
