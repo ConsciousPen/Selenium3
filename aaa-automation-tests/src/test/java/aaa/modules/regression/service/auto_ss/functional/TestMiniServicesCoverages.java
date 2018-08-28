@@ -65,7 +65,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601","PAS-17732"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -197,7 +197,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353","PAS-17740"})
 	public void pas13353_LoanLeaseCoverage(@Optional("VA") String state) {
 
 		pas13353_LoanLeaseCoverage(getPolicyType());
@@ -325,12 +325,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	/**
 	 * @author gzkvano
 	 * @name Check UIM delimiter
+	 * @megha Gubbala :PAS-17646 : Verify Policy and Vehicle level coverages
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646","PAS-17646"})
 	public void pas14646_UimDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14646_UimDelimiter(state, softly)
@@ -455,7 +456,18 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	}
 
-
+	/**
+	 * @author MeghaGubbala
+	 * @name update and view coverage UMUIM and BI
+	 * Create a policy in pas Verify BI = UmUIM
+	 * update BI to 25/50000 verify UMUIM is the same
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17629","PAS-17958"})
+	public void pas17629_Umuim_Update_coverage(@Optional("ID") String state) {
+		pas17629_Umuim_Update_coverageBody(getPolicyType());
+	}
 }
 
 

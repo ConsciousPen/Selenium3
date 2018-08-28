@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -251,7 +252,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		validateDriverListOrdering(viewDriversResponse.driverList);
 	}
 
-	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
+	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FiveDrivers").getTestDataList("DriverTab")).resolveLinks();
+
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
@@ -281,6 +285,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// verify order: pending remove should be first, then pending add
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		validateDriverListOrdering(viewDriversResponse.driverList);
+
+		// assign addedDriver to veh
+		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		DriversDto addedDriver = viewDriversResponse.driverList.stream().filter(driver -> driver.firstName.startsWith("Jackie")).findFirst().orElse(null);
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle vehicle1 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(addedDriver.oid));
 
 		// rate and bind
 		helperMiniServices.endorsementRateAndBind(policyNumber);

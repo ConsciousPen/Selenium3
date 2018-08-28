@@ -204,5 +204,44 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15383_driverWithOneOrMoreFaultAccidentsErrorBody();
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Report Information and the Conviction Date and driver reports
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Accident fault Violation
+	 * 4. Verify response on DXP in License status and conviction date as correct
+	 * 5. Check Pas And verify if the dates are matching to pas.
+	 * 6. Verify driver activity and verify status there.
+
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriver(@Optional("VA") String state) {
+
+		pas15369_reportOrderAndDriverBody();
+	}
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Name mistmach.
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error for neme mistmach.
+	 * 6. Add one more driver with gender and DOB mistmach.
+	 * 7. Verify errors for gender and DOB.
+	 * 8. update the driver and correct DOB and Gender.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15372"})
+	public void pas15372_driverDetailsAndMvrRulesThatProvided(@Optional("AZ") String state) {
+
+		pas15372_driverDetailsAndMvrRulesThatProvidedBody();
+	}
+
 }
 

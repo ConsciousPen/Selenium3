@@ -110,6 +110,7 @@
                     <include name="pas12407_BigMetaDataService"/>
                     <include name="pas9997_paymentMethodsLookup"/>
                     <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas15369_reportOrderAndDriver"/>
                 </methods>
             </class>
         </classes>
@@ -183,7 +184,7 @@
                     <include name="pas14536_TransportationExpensePart1Body"/>
                     <include name="pas14536_TransportationExpensePart2Body"/>
                     <include name="pas14536_TransportationExpensePart3Body"/>
-                   </methods>
+                </methods>
             </class>
         </classes>
     </test>
@@ -474,7 +475,7 @@
         </classes>
     </test>
     <test name="pas14680_TrailersCoveragesThatDoNotApply">
-        <parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+        <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -508,6 +509,7 @@
                     <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
                     <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
+                    <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                 </methods>
             </class>
@@ -557,6 +559,16 @@
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas17629_Umuim_Update_coverage">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17629_Umuim_Update_coverage"/>
                 </methods>
             </class>
         </classes>

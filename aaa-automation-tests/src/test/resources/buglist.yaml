@@ -351,7 +351,7 @@ PAS-18111:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements.*,
-              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements..*,
+              aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho3.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
@@ -368,3 +368,11 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
+PAS-18339:
+  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.pup.*,
+            aaa.modules.regression.conversions.pup.*,
+            aaa.modules.regression.service.pup.*]
+    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]

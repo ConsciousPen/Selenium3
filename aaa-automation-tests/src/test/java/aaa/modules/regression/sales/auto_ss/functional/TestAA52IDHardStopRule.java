@@ -34,7 +34,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
      * 3. Navigate to P&C Page and ensure the UM/UIM coverages are selected
      * 4. Navigate to Documents&Bind tab to validate the UM and UIM Disclosure Statement and Rejection Of Coverage field
      * 5. default value for UM and UIM Disclosure Statement and Rejection Of Coverage = Not Signed
-     * 7. Override Rule - with message " "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction" is displyed
+     * 7. Override Rule - with message " "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction" is displayed
      * 8. Override the rule and is able to Bind the policy
      * @details
      */
@@ -49,7 +49,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         new PurchaseTab().fillTab(getPolicyTD()).submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
@@ -130,7 +130,7 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
 
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         PolicySummaryPage.buttonBackFromRenewals.click();
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
@@ -143,7 +143,8 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel()), "index=0");
 
         // Initiate Policy, @ Endorsement - calculate premium with UM/UIM coverages, Documents and Bind tab - UM and UIM coverage field
-        openAppAndCreatePolicy(td);
+		openAppAndCreatePolicy(td);
+        assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 
         if(isRenewal){
             policy.renew().perform();
@@ -159,14 +160,14 @@ public class TestAA52IDHardStopRule extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.getRequiredToBindAssetList()
                 .getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE).setValue("Not Signed");
-        overrideErrorsAndSubmitTab();
+        overrideErrorsAndSubmitTab(ErrorEnum.Errors.ERROR_AAA_200306);
         assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
     }
 
-    private void overrideErrorsAndSubmitTab() {
+    private void overrideErrorsAndSubmitTab(ErrorEnum.Errors error) {
 
         documentsAndBindTab.submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200306);
+        errorTab.overrideErrors(error);
         errorTab.override();
         documentsAndBindTab.submitTab();
 
