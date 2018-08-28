@@ -223,6 +223,25 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15369_reportOrderAndDriverBody();
 	}
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Name mistmach.
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error for neme mistmach.
+	 * 6. Add one more driver with gender and DOB mistmach.
+	 * 7. Verify errors for gender and DOB.
+	 * 8. update the driver and correct DOB and Gender.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15372"})
+	public void pas15372_driverDetailsAndMvrRulesThatProvided(@Optional("AZ") String state) {
+
+		pas15372_driverDetailsAndMvrRulesThatProvidedBody();
+	}
 
 }
 

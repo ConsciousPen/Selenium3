@@ -510,6 +510,7 @@
                     <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
+                    <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                 </methods>
             </class>
         </classes>
@@ -558,6 +559,16 @@
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
                     <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas17629_Umuim_Update_coverage">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17629_Umuim_Update_coverage"/>
                 </methods>
             </class>
         </classes>
