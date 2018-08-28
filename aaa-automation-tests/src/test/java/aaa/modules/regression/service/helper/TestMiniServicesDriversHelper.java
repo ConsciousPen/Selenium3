@@ -2208,7 +2208,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		int driverCount = driversDtoList.size();
 		for (int i = 0; i < driverCount; i++) {
-			softly.assertThat(driversDtoList.get(i).middleName).isNull(); //assert that middle name is null, otherwise this method will not work
+			softly.assertThat(driversDtoList.get(i).middleName).isNullOrEmpty(); //assert that middle name empty, otherwise this method will not work
 			String firstNameLastName = driversDtoList.get(i).firstName + " " + driversDtoList.get(i).lastName;
 
 			if (BooleanUtils.isTrue(driversDtoList.get(i).specificDisabilityInd)) {
