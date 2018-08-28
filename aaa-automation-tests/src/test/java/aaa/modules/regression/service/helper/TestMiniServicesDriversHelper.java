@@ -1982,7 +1982,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//update driver 1
 			//UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
 			//DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(0).oid, updateDriverRequest);
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", viewEndorsementDriversResponse.driverList.get(0).oid);
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", ImmutableList.of(viewEndorsementDriversResponse.driverList.get(0).oid,
+                    viewEndorsementDriversResponse.driverList.get(1).oid));
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly);
@@ -1990,7 +1991,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//Update driver 2
 			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, false);
 			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, viewEndorsementDriversResponse.driverList.get(1).oid, updateDriverRequest);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "false", viewEndorsementDriversResponse.driverList.get(1).oid);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", ImmutableList.of(viewEndorsementDriversResponse.driverList.get(0).oid));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(1), updateCoverageResponse, true, false, softly);
