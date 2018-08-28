@@ -312,9 +312,11 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        documentsAndBindTab.submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+			errorTab.override();
+			documentsAndBindTab.submitTab();
+		}
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         purchaseRenewal(policyNum);
