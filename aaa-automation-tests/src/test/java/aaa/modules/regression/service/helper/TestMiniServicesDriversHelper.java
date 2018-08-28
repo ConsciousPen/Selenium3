@@ -1648,6 +1648,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
+		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+		String firstDriverOid = (responseViewDriverEndorsement.driverList.get(0).oid);
+
 		// add update driver
 		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt","CH", "D32329588");
 		HelperCommon.removeDriver(policyNumber, driverOid1, removeDriverRequest);
@@ -1661,6 +1664,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		//Order reports through service
 		HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
+
+		//START PAS-17957
+		ErrorResponseDto orderResponse = HelperCommon.orderReports(policyNumber, firstDriverOid,ErrorResponseDto.class, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(orderResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
+			softly.assertThat(orderResponse.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
+		});
 
 		//Remove Driver
 		removeDriverRequest.removalReasonCode = "RD1001";
@@ -1686,6 +1696,19 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.removeDriver(policyNumber, driverOid4, removeDriverRequest);
 
 		checkIfTaskWasCreated(policyNumber, 1, 1, 2);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String driverOid5 = addRegularDriverOrNI(policyNumber, "DriverLast","CH", "D32354588");
+		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		ErrorResponseDto orderResponse2 = HelperCommon.orderReports(policyNumber, driverOid5,ErrorResponseDto.class, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(orderResponse2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
+			softly.assertThat(orderResponse2.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
+		});
 	}
 
 	private String addRegularDriverOrNI(String policyNumber,  String driverName, String relationToApplicantCd, String licenseNumber){
