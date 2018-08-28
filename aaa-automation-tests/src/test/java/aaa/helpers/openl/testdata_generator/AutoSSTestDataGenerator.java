@@ -613,14 +613,15 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		int streetNumber = RandomUtils.nextInt(100, 1000);
 		String streetName = RandomStringUtils.randomAlphabetic(10).toUpperCase() + " St";
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.IS_GARAGING_DIFFERENT_FROM_RESIDENTAL.getLabel(), "Yes");
-		if (Constants.States.CT.equals(getState())) {
-			vehicleInformation.put(AutoSSMetaData.VehicleTab.COUNTY_TOWNSHIP.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY);
-		}
 
 		String zipCode = vehicle.getAddress().getZip();
 		if (getState().equals(Constants.States.CT)) {
-			zipCode = getZipCodeFromDb(zipCode);
+			String getZipAndCountyQuery = "select POSTALCODE, TOWNSHIP from LOOKUPVALUE where CODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+			Map<String, String> zipAndCounty = DBService.get().getRow(getZipAndCountyQuery, zipCode, getState());
+			zipCode = zipAndCounty.get("POSTALCODE");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.COUNTY_TOWNSHIP.getLabel(), "contains=" + zipAndCounty.get("TOWNSHIP"));
 		}
+
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), zipCode);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().getState());
@@ -679,11 +680,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		return td;
-	}
-
-	private String getZipCodeFromDb(String locationCode) {
-		String getZipCodeQuery = "select POSTALCODE from LOOKUPVALUE where CODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
-		return DBService.get().getValue(getZipCodeQuery, locationCode, getState()).get();
 	}
 
 	private String getVinFromDb(AutoSSOpenLVehicle vehicle) {

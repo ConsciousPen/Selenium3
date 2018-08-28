@@ -14,7 +14,7 @@
         <min>${browser.pool.threads}</min>
         <max>${browser.pool.threads}</max>
         <keywords>
-            <keyword>OPT</keyword>
+            <keyword>BCT</keyword>
         </keywords>
     </hub>
 </browsers>

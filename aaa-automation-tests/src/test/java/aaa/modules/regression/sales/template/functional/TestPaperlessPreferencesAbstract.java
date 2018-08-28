@@ -140,10 +140,11 @@ public abstract class TestPaperlessPreferencesAbstract extends PolicyBaseTest {
 		assertThat(getPaperlessPreferencesAssetList().getAsset(getButtonManagePaperlessPreferences())).isDisabled();
 
 		InquiryAssetList PaperlessPreferencesInquiryAssetList = new InquiryAssetList(getDocumentsAndBindTabElement().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.class);
-		assertThat(PaperlessPreferencesInquiryAssetList.getAsset(getEnrolledInPaperless())).isPresent();
-		assertThat(PaperlessPreferencesInquiryAssetList.getAsset(getIssueDate())).isPresent(false);
-		assertThat(PaperlessPreferencesInquiryAssetList.getAsset(getMethodOfDelivery())).isPresent(false);
-		assertThat(PaperlessPreferencesInquiryAssetList.getAsset(getIncludeWithEmail())).isPresent(false);//will change based on View/Hide rules
+		InquiryAssetList docPrintingDetailsInquiryAssetList = new InquiryAssetList(getDocumentsAndBindTabElement().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.class);
+		assertThat(PaperlessPreferencesInquiryAssetList.getStaticElement(getEnrolledInPaperless())).isPresent();
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getIssueDate())).isPresent(false);
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getMethodOfDelivery())).isPresent(false);
+		assertThat(docPrintingDetailsInquiryAssetList.getStaticElement(getIncludeWithEmail())).isPresent(false);//will change based on View/Hide rules
 		getDocumentsAndBindTabElement().cancel();
 		//PAS-269 end
 	}
