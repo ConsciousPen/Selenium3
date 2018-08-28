@@ -2177,7 +2177,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).doesNotContain(driver.oid);
 		}
 
-		if (totalDisabilityExpected) {
+		if (BooleanUtils.isTrue(totalDisabilityExpected)) {
 			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).contains(driver.oid); // totalDisability can be selected only if specificDisability (coverages.get(0) is selected.
 			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).currentlyAddedDrivers).contains(driver.oid); //coverages.get(0) should be totalDisability
 		} else {
@@ -2224,10 +2224,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateFormPremiumInPAndCTab(int driversWithDISD, int driversWithTD, ETCSCoreSoftAssertions softly) {
 		final int disdPremiumPerDriver = 14;
 		final int tdPremiumPerDriver = 14;
-		BigDecimal expectedFormsPremium = new BigDecimal(driversWithDISD * disdPremiumPerDriver + driversWithTD * tdPremiumPerDriver);
-		BigDecimal actualFormsPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54")
-				.getCell("Term Premium").getValue());
-		softly.assertThat(actualFormsPremiumUI).isEqualByComparingTo(expectedFormsPremium);
+
+		if (driversWithDISD == 0 && driversWithTD == 0) {
+			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54").isPresent()).isFalse();
+		} else {
+			BigDecimal expectedFormsPremium = new BigDecimal(driversWithDISD * disdPremiumPerDriver + driversWithTD * tdPremiumPerDriver);
+			BigDecimal actualFormsPremiumUI = new BigDecimal(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "PP 13 54")
+					.getCell("Term Premium").getValue());
+			softly.assertThat(actualFormsPremiumUI).isEqualByComparingTo(expectedFormsPremium);
+		}
 	}
 
 	private void validateThatDriverIsUpdated_pas14641(ETCSCoreSoftAssertions softly) {
