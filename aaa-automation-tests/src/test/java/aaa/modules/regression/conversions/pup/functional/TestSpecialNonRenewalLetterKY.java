@@ -32,7 +32,7 @@ public class TestSpecialNonRenewalLetterKY extends TestSpecialNonRenewalLetterKY
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18121")
+	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-18121")
 	public void pas18121_specialNonRenewalLetterBeforeR80(@Optional("KY") String state) throws NoSuchFieldException {
 		specialNonRenewalLetterR80PUPNotGenerated();
 	}
