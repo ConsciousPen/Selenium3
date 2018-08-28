@@ -166,7 +166,7 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			mortgageesTab.getValidateAddressDialogAssetList().getAsset(DialogsMetaData.AddressValidationMetaData.BTN_OK).click();
 			mortgageesTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER).setValue("12345678");
 		} else {
-			if ((getPolicyType() != PolicyType.HOME_SS_HO4) || (getPolicyType() != PolicyType.HOME_SS_HO6)) {
+			if ((getPolicyType() != PolicyType.HOME_SS_HO4) && (getPolicyType() != PolicyType.HOME_SS_HO6)) {
 				premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.BILL_TO_AT_RENEWAL).setValue("Insured");
 			}
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlan);
