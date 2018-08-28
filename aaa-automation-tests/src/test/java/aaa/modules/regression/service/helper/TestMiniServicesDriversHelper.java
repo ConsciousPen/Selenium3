@@ -10,6 +10,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
+
+import aaa.common.pages.Page;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -405,20 +407,18 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	public void pas14475_NameInsuredMaritalStatusBodyT(ETCSCoreSoftAssertions softly, boolean flag, String mStatus) {
 
 		mainApp().open();
-		createCustomerIndividual();
-
-		// create policy via pas
 		String policyNumber = getCopiedPolicy();
-		// Endorsement
+
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
 		String dOid = responseViewDrivers1.driverList.get(0).oid;
-
 		UpdateDriverRequest updateDriverRequestExisting = new UpdateDriverRequest();
 
 		//Update existing driver with SSS
 		updateDriver(softly, policyNumber, dOid, updateDriverRequestExisting, mStatus);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// addDriver via dxp
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", null);
@@ -455,13 +455,38 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
-
 		softly.assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Spouse");
-
+		DriverTab.tableDriverList.selectRow(2);
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
-		driverTab.saveAndExit();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		Page.dialogConfirmation.confirm();
+
+		//Start PAS-17503
+		checkFniMaritalStatusAfterSpouseWasRemoved(policyNumber, mStatus, driverOid, dOid);
+ 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void checkFniMaritalStatusAfterSpouseWasRemoved (String policyNumber, String mStatus, String spouseOid, String fniDriverOid){
+		assertSoftly(softly -> {
+
+			removeDriverRequest.removalReasonCode = "RD1001";
+			HelperCommon.removeDriver(policyNumber, spouseOid, removeDriverRequest);
+
+			String sMaritalStatus = mStatus.replace("WSS", "Windowed").replace("SSS", "Single").replace("DSS", "Divorced").replace("PSS", "Separated");
+
+			ViewDriversResponse viewDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(viewDrivers.driverList.get(0).oid).isEqualTo(fniDriverOid);
+			softly.assertThat(viewDrivers.driverList.get(0).maritalStatusCd).isEqualTo(mStatus);
+
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(sMaritalStatus);
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+			Page.dialogConfirmation.confirm();
+		});
 	}
 
 	protected void pas477_UpdateDriversBody(PolicyType policyType) {

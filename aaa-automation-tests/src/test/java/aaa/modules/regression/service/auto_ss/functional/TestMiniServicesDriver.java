@@ -330,11 +330,15 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
+	public void pas14475_NameInsuredMaritalStatus(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "SSS")
 		);
@@ -352,10 +356,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "DSS")
@@ -374,10 +384,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "WSS")
@@ -396,10 +412,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
