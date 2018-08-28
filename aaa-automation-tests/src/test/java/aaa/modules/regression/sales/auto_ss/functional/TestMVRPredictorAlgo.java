@@ -454,7 +454,11 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		createCustomerIndividual();
 		String policyNum = createPolicy(td);
 
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		// Change time for any state other than NJ (due to Documents & Bind tab issue)
+		if (!getState().equals(Constants.States.NJ)) {
+			TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		}
+
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 		policy.renew().perform();

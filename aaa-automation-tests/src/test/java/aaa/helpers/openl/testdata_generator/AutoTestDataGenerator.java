@@ -2,7 +2,7 @@ package aaa.helpers.openl.testdata_generator;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +17,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -384,12 +385,16 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		LocalDate inceptionDate = autoInsurancePersistency.equals(aaaInsurancePersistency)
 				? policyEffectiveDate : policyEffectiveDate.minusYears(autoInsurancePersistency - aaaInsurancePersistency);
 
-		int duration = Math.abs(Period.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime().toLocalDate()).getDays());
+		int duration = Math.abs(Math.toIntExact(ChronoUnit.DAYS.between(policyEffectiveDate, TimeSetterUtil.getInstance().getCurrentTime().toLocalDate())));
 		LocalDate expirationDate = duration == 0 ? policyEffectiveDate : policyEffectiveDate.plusDays(new Random().nextInt(duration));
 
-		return DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
+		Map<String, Object> generalTabAgentInceptionAndExpirationData = new HashMap<>();
+		generalTabAgentInceptionAndExpirationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel(), inceptionDate.format(DateTimeUtils.MM_DD_YYYY));
+		generalTabAgentInceptionAndExpirationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel(), expirationDate.format(DateTimeUtils.MM_DD_YYYY));
+		if (ChronoUnit.MONTHS.between(inceptionDate, policyEffectiveDate) <= 6) {
+			generalTabAgentInceptionAndExpirationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.MORE_THAN_6_MONTHS_TOTAL_INSURANCE_EXPERIENCE.getLabel(), "Yes");
+		}
+		return new SimpleDataProvider(generalTabAgentInceptionAndExpirationData);
 	}
 
 	String getGeneralTabPriorBILimit(String priorBILimit) {

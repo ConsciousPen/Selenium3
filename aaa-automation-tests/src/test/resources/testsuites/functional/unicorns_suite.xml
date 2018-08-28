@@ -82,10 +82,26 @@
                     <exclude name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestEarthquakeEndorsements"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestEarthquakeEndorsements"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements"/>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements">
+                <methods>
+                    <include name="pas17479_Conversion_Privileged_NewBusiness"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestEarthquakeEndorsements">
+                <methods>
+                    <include name="pas17479_Conversion_Privileged_NewBusiness"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestEarthquakeEndorsements">
+                <methods>
+                    <include name="pas17479_Conversion_Privileged_NewBusiness"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements">
+                <methods>
+                    <include name="pas17479_Conversion_Privileged_NewBusiness"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

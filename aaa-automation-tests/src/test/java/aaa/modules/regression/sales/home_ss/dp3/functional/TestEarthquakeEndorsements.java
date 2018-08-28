@@ -6,7 +6,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestEarthquakeEndorsementsTemplate;
+import aaa.modules.regression.sales.template.functional.TestEndorsementsTabTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.OK)
-public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTemplate {
+public class TestEarthquakeEndorsements extends TestEndorsementsTabTemplate {
 
 	private String parentEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_69.getFormId();
 	private String subEndorsementFormId = EndorsementForms.HomeSSEndorsementForms.DS_04_68.getFormId();
@@ -49,7 +49,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_NewBusiness(@Optional("OK") String state) {
-		pas17479_pas17489_Privileged_NewBusinessTemplate(parentEndorsementFormId, subEndorsementFormId);
+		newBusinessTx_privileged(true, parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_Endorsement(@Optional("OK") String state) {
-		pas17479_pas17489_Privileged_EndorsementTemplate(parentEndorsementFormId, subEndorsementFormId);
+		endorsementTx_privileged(true, parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17479, PAS-17489")
 	public void pas17479_pas17489_Privileged_Renewal(@Optional("OK") String state) {
-		pas17479_pas17489_Privileged_RenewalTemplate(parentEndorsementFormId, subEndorsementFormId);
+		renewalTx_privileged(true, parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_NewBusinessTx(@Optional("OK") String state) {
-		pas17484_NonPrivileged_NewBusinessTxTemplate(parentEndorsementFormId);
+		newBusinessTx_NonPrivileged(parentEndorsementFormId);
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		pas17484_NonPrivileged_NewBusinessTx_AlreadyHadEndorsementTemplate(parentEndorsementFormId, subEndorsementFormId);
+		newBusinessTx_NonPrivileged_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_EndorsementTx(@Optional("OK") String state) {
-		pas17484_NonPrivileged_EndorsementTxTemplate(parentEndorsementFormId);
+		endorsementTx_NonPrivileged(parentEndorsementFormId);
 	}
 
 	/**
@@ -209,7 +209,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484, PAS-17498")
 	public void pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		pas17484_pas17498_NonPrivileged_EndorsementTx_AlreadyHadEndorsementTemplate(parentEndorsementFormId, subEndorsementFormId);
+		endorsementTx_NonPrivileged_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_RenewalTx(@Optional("OK") String state) {
-		pas17484_NonPrivileged_RenewalTxTemplate(parentEndorsementFormId);
+		renewalTx_NonPrivileged(parentEndorsementFormId);
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for non privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17484")
 	public void pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsement(@Optional("OK") String state) {
-		pas17484_NonPrivileged_RenewalTx_AlreadyHadEndorsementTemplate(parentEndorsementFormId, subEndorsementFormId);
+		renewalTx_NonPrivileged_AlreadyHadEndorsement(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17494_checkDocGenTrigger_NewBusiness(@Optional("OK") String state) {
-		pas17494_checkDocGenTrigger_NewBusinessTemplate(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
+		checkDocGenTrigger_NewBusinessTx(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17498_checkDocGenTrigger_Endorsement(@Optional("OK") String state) {
-		pas17498_checkDocGenTrigger_EndorsementTemplate(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
+		checkDocGenTrigger_EndorsementTx(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -319,7 +319,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17498")
 	public void pas17498_checkDocGenTrigger_Renewal(@Optional("OK") String state) {
-		pas17498_checkDocGenTrigger_RenewalTemplate(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
+		checkDocGenTrigger_RenewalTx(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_NewBusinessTx(@Optional("OK") String state) {
-		pas17494_checkPremium_NewBusinessTxTemplate(parentEndorsementFormId, subEndorsementFormId);
+		checkPremium_NewBusinessTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -368,7 +368,7 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_EndorsementTx(@Optional("OK") String state) {
-		pas17494_checkPremium_EndorsementTxTemplate(parentEndorsementFormId, subEndorsementFormId);
+		checkPremium_EndorsementTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 
 	/**
@@ -393,6 +393,6 @@ public class TestEarthquakeEndorsements extends TestEarthquakeEndorsementsTempla
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement premium change check")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17494")
 	public void pas17494_checkPremium_RenewalTx(@Optional("OK") String state) {
-		pas17494_checkPremium_RenewalTxTemplate(parentEndorsementFormId, subEndorsementFormId);
+		checkPremium_RenewalTx(parentEndorsementFormId, subEndorsementFormId);
 	}
 }

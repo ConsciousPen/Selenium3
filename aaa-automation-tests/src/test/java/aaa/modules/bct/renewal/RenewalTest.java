@@ -20,7 +20,7 @@ public class RenewalTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	@StateList(states = {NJ})
+	@StateList(states = NJ)
 	public void BCT_ONL_107_ManualChangesRenewal(@Optional("NJ") String state) {
 		mainApp().open();
 
