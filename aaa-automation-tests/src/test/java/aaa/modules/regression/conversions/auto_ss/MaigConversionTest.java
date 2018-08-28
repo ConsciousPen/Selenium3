@@ -145,6 +145,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {

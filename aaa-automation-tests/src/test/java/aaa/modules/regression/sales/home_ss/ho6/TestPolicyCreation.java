@@ -3,13 +3,12 @@
 package aaa.modules.regression.sales.home_ss.ho6;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.enums.Constants.States;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO6BaseTest;
@@ -35,8 +34,9 @@ public class TestPolicyCreation extends HomeSSHO6BaseTest {
         mainApp().open();
         createCustomerIndividual();
         createPolicy();
-        
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         log.info("TEST: HSS06 Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
     }
 }

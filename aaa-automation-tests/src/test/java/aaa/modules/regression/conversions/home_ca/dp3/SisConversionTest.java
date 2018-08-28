@@ -92,6 +92,7 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	public void sisConversion_renewWithLapse(String file, ITestContext context) {
