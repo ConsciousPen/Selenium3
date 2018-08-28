@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -1725,7 +1726,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			///////////////Change "Death Indemnity and Specific Disability" to yes ///////////////////////
 			//UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
 			//DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", addDriverResponse.oid);
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", ImmutableList.of(addDriverResponse.oid));
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, false, softly);
@@ -1758,7 +1759,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			///////////////Change "Total Disability" to yes//////////////////////
 			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
 			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", addDriverResponse.oid);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", ImmutableList.of(addDriverResponse.oid));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, true, true, softly); //added driver
@@ -1792,7 +1793,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//////////////Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null ///////////////////////
 			//updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
 			//updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "false", addDriverResponse.oid);
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", new ArrayList<>());
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(true, viewEndorsementDriversResponse.driverList.get(0), updateCoverageResponse, false, null, softly); //added driver
