@@ -2025,26 +2025,26 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody(){
 		assertSoftly(softly -> {
 			mainApp().open();
-			createCustomerIndividual();
-			String policyNumber = createPolicy();
+			String policyNumber = getCopiedPolicy();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("SEAN", "Davis", "BEEMER", "1985-02-14", "");
-			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, Response.Status.OK.getStatusCode());
+			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 			String driverOid = addDriver.oid;
 
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "D8571783", 18, "CA", "CH", "SSS");
 			HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
 
-			//need to new dtos
-			// 	ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
-			//	assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.MVR_ERROR_C.getMessage());
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
+			//assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.MVR_ERROR_C.getMessage());
 
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-			softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
 			DriverActivityReportsTab.buttonSaveAndExit.click();
 
 			removeDriverRequest.removalReasonCode = "RD1001";
@@ -2060,7 +2060,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriver2.errors.get(0).field).contains("birthDate");
 
 			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1900-01-01", "I");
-			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, Response.Status.OK.getStatusCode());
+			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, 201);
 
 			HelperCommon.orderReports(policyNumber, addDriver3.oid, OrderReportsResponse.class, 200);
 

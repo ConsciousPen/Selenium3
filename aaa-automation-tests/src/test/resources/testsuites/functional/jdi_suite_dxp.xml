@@ -524,6 +524,7 @@
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
                     <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
+                    <include name="pas17769_tooOldDriverErrorAndNoHintFromReportResponse"/>
                 </methods>
             </class>
         </classes>
