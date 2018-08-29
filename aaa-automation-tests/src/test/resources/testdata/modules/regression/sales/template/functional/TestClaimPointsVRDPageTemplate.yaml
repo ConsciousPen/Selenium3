@@ -1,0 +1,37 @@
+# Claims for Property Info Tab
+
+PropertyInfo_Claims: {
+  ClaimHistory: ['@Claim1', '@Claim2', '@Claim3', '@Claim4']
+}
+
+Claim1: {
+  Add a claim: 'Yes',
+  Date of loss: '$<today-1y:MM/dd/yyyy>',
+  Cause of loss: 'Fire',
+  Amount of loss: '1001',
+  Claim status: 'Closed'
+}
+
+Claim2: {
+  Date of loss: '$<today-1y:MM/dd/yyyy>',
+  Cause of loss: 'Water',
+  Amount of loss: '5000',
+  Claim status: 'Closed'
+}
+
+Claim3: {
+  Date of loss: '$<today-1y:MM/dd/yyyy>',
+  Cause of loss: 'Theft',
+  Amount of loss: '2500',
+  Claim status: 'Closed'
+}
+
+Claim4: {
+  Date of loss: '$<today-1y:MM/dd/yyyy>',
+  Cause of loss: 'Liability',
+  Amount of loss: '7000',
+  Claim status: 'Closed'
+}
+
+
+
