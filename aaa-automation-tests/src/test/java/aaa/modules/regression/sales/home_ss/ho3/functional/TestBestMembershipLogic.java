@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -14,13 +14,12 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-// Use statesExcept for SS
 @StateList(statesExcept = Constants.States.CA)
 public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
+        return PolicyType.HOME_SS_HO3;
     }
 
     /**
@@ -37,8 +36,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details Ignores termExpirationDate and only cares about status on Active.
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Ignores_termExpirationDate_for_Active_Status(@Optional("") String state) {
         /*--Step 1--*/
         // Setup SOAPUI Mocking
@@ -70,8 +69,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
         // Setup SOAPUI Mocking
@@ -94,7 +93,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Brian Bond
      * @name BML Does not return Elastic Search TRANSFER-IN Policy at NB 15 if PolicyEffectiveDate is less than Elastic termExpirationDate- PAS-15944
      * @scenario
-     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for an termExpirationDate before
+     * 1. *Manual Intervention Required* Set the Elastic Service up for mocking for a termExpirationDate after
      *     policy effective date and TRANSFER-IN policy status and role status.
      * 2. Create policy with valid but error status membership by overwriting status after policy created.
      * 3. Move VDM forward to NB + 15.
@@ -103,8 +102,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Invalid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
         // Setup SOAPUI Mocking
