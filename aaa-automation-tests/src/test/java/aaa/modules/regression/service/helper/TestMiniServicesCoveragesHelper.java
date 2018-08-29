@@ -1402,6 +1402,34 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		testEValueDiscount.secondEndorsementIssueCheck();
 
 	}
+	protected void pas17646_OrderOfCoverageBody(String state, ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		SearchPage.openPolicy(policyNumber);
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		//Verify Order of coverage
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(0).coverageCd).isEqualTo("BI");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(1).coverageCd).isEqualTo("PD");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMPD");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
+		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(5).coverageCd).isEqualTo("IL");
+
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
+		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
+	}
+
 
 	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
