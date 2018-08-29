@@ -211,7 +211,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue(endorsementEffDateDataKeys);
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber))).exists();
+					String.format("Initiate Endorsement effective %1$s", endorsementDate))).exists();
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 			policy.rollOn().perform(false, true);
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
