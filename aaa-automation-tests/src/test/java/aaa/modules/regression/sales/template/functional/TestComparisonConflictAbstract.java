@@ -30,6 +30,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private static final String SECTION_UIFIELD_SEPARATOR = ".";
 	private static final int SECTION_NAME_ROW_INDEX = 1;
 	private static final List<String> NOT_IMPLEMENTED_YET_SECTIONS = ImmutableList.of(
+			//Auto SS
 			"AAA Claims Report Order",
 			"AAAMvr Report Order",
 			"AAA Credit History Order",
@@ -38,7 +39,16 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"AAAPolicy Issue Summary",
 			"AAAADBCoverage",
 			"AZ_ADBEEndorsement Form",
-			"AZ_SR22FREndorsement Form"
+			"AZ_SR22FREndorsement Form",
+			//Auto CA unique
+			"A A A Claims Report Order",
+			"AAAMembership Order",
+			"ADBEndorsement Form",
+			"CIPCS22Endorsement Form",
+			"CSAAEEndorsement Form",
+			"ENOCCEndorsement Form",
+			"LSOPCEndorsement Form"
+
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
@@ -46,6 +56,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Policy Information.Renewal Term Premium - Old Rater",
 			"Driver Information (VIFirstName VI VILastName).Date First Licensed",
 			"Driver Information (NBFirstName NB NBLastName).Date First Licensed",
+			"Driver Information (VIFirstName VI VILastName).New Driver Course Completion Date",
+			"Driver Information (NBFirstName NB NBLastName).New Driver Course Completion Date",
 			"Driver Information (VIFirstName VI VILastName).Smart Driver Course Completion Date",
 			"Driver Information (NBFirstName NB NBLastName).Smart Driver Course Completion Date",
 			"Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Description",
@@ -118,7 +130,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
-		SearchPage.openQuote("QAZSS952918620");
 		createCustomerIndividual();
 		createQuote(getTestSpecificTD("TestData_NB_Quote"));
 		policy.dataGather().start();

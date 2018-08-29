@@ -67,7 +67,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG = declare("InsuredSearchDialog", SingleSelectSearchDialog.class, DialogsMetaData.DialogSearch.class,
 					false, By.id("customerSearchPanel_container"));
 
-			public static final AssetDescriptor<ComboBox> PREFIX = declare("Prefix", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> TITLE = declare("Title", ComboBox.class);
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> MIDDLE_NAME = declare("Middle Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
@@ -176,18 +176,20 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<ComboBox> BI_LIMITS = declare("BI Limits", ComboBox.class);
 			public static final AssetDescriptor<RadioGroup> OVERRIDE_CURRENT_CARRIER = declare("Override Prefilled Current Carrier?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> AGENT_ENTERED_CURRENT_PRIOR_CARRIER = declare("Agent Entered Current/Prior Carrier", ComboBox.class);
+			public static final AssetDescriptor<TextBox> OTHER_AGENT_ENTERED_CURRENT_PRIOR_CARRIER = declare("Other Agent Entered Current/Prior Carrier", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_INCEPTION_DATE = declare("Agent Entered Inception Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_EXPIRATION_DATE = declare("Agent Entered Expiration Date", TextBox.class);
 			public static final AssetDescriptor<TextBox> AGENT_ENTERED_POLICY_NUMBER = declare("Agent Entered Policy Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED = declare("Agent Entered Days Lapsed", TextBox.class, By
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_DAYS_LAPSED = declare("Days Lapsed", TextBox.class, By
 					.id("policyDataGatherForm:currentCarrierInformation_enteredDaysLapsed"));
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_MONTHS_WITH_CARRIER = declare("Agent Entered Months with Carrier", TextBox.class, By
+			public static final AssetDescriptor<TextBox> AGENT_ENTERED_MONTHS_WITH_CARRIER = declare("Months with Carrier", TextBox.class, By
 					.id("policyDataGatherForm:currentCarrierInformation_enteredMonthsWithInsurer"));
-			public static final AssetDescriptor<TextBox> AGENT_ENTERED_BI_LIMITS = declare("Agent Entered BI Limits", TextBox.class);
+			public static final AssetDescriptor<ComboBox> AGENT_ENTERED_BI_LIMITS = declare("Agent Entered BI Limits", ComboBox.class);
 		}
 
 		public static final class PolicyInformation extends MetaData {
 			public static final AssetDescriptor<ComboBox> SOURCE_OF_BUSINESS = declare("Source of Business", ComboBox.class);
+			public static final AssetDescriptor<TextBox> SOURCE_POLICY_NUMBER = declare("Source Policy #", TextBox.class);
 			public static final AssetDescriptor<ComboBox> POLICY_STATE = declare("Policy State", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> POLICY_TYPE = declare("Policy Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> EFFECTIVE_DATE = declare("Effective Date", TextBox.class);
@@ -244,6 +246,8 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> PERMIT_BEFORE_LICENSE = declare("Permit Before License", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> TOTAL_YEAR_DRIVING_EXPERIENCE = declare("Total Years Driving Experience", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> LICENSED_IN_US_CANADA_FOR_18_OR_MORE_MONTHS = declare("Licensed in US/Canada for 18 or More Months?", RadioGroup.class);
+		public static final AssetDescriptor<ComboBox> LICENSE_TYPE = declare("License Type", ComboBox.class);
+		public static final AssetDescriptor<TextBox> FIRST_US_CANADA_LICENSE_DATE = declare("First US/Canada License Date", TextBox.class);
 		public static final AssetDescriptor<ComboBox> LICENSE_STATE = declare("License State", ComboBox.class);
 		public static final AssetDescriptor<TextBox> LICENSE_NUMBER = declare("License #", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILLING_NEEDED = declare("Financial Responsibility Filling Needed", RadioGroup.class);
@@ -256,6 +260,7 @@ public final class AutoCaMetaData {
 		public static final AssetDescriptor<RadioGroup> GOOD_DRIVER_DISCOUNT = declare("Good Driver Discount", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> NEW_DRIVER_COURSE_COMPLETED = declare("New Driver Course Completed", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> NEW_DRIVER_COURSE_COMPLETION_DATE = declare("New Driver Course Completion Date", TextBox.class);
+		public static final AssetDescriptor<TextBox> NEW_DRIVER_CERTIFICATION_NUMBER = declare("New Driver Certification Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS = declare("Mature driver course completed within 36 months", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> MATURE_DRIVER_COURSE_COMPLETION_DATE = declare("Mature Driver Course Completion Date", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> FINANCIAL_RESPONSIBILITY_FILING_NEEDED = declare("Financial Responsibility Filing Needed", RadioGroup.class);
@@ -723,6 +728,8 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> POLICY_APPLICATION = declare("Policy Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AUTO_BILLING_PLAN_EXPLANATION = declare("Auto Billing Plan Explanation", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_GOOD_STUDENT_DISCOUNT = declare("Proof of Good Student Discount", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_NEW_DRIVER_COURSE_COMPLETION = declare("Proof of New Driver Course Completion", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class);
 		}
 
 		public static final class PaperlessPreferences extends MetaData {
