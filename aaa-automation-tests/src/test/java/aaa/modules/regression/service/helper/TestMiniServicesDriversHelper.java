@@ -12,8 +12,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
-
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -27,6 +25,10 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -1732,7 +1734,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			formsTab.saveAndExit();
 
-			///////////////Change "Death Indemnity and Specific Disability" to yes ///////////////////////
+			//Change "Death Indemnity and Specific Disability" to yes
 			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", ImmutableList.of(addDriverResponse.oid));
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -1763,7 +1765,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			formsTab.saveAndExit();
 
-			///////////////Change "Total Disability" to yes//////////////////////
+			//Change "Total Disability" to yes
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", ImmutableList.of(addDriverResponse.oid));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -1795,7 +1797,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			formsTab.saveAndExit();
 
-			//////////////Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null ///////////////////////
+			//Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("DISD", "true", new ArrayList<>());
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -1918,7 +1920,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			formsTab.saveAndExit();
 
-			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" ////////////////
+			//Nafr driver should not have option to select "Death Indemnity and Specific Disability"
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 			String addedDriverOid = addDriverResponse.oid;
 
@@ -2041,7 +2043,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateFormsTab(viewEndorsementDriversResponse.driverList, softly);
 			formsTab.saveAndExit();
 
-			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability" ////////////////
+			//Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability"
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 			String addedDriverOID = addDriverResponse.oid;
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
