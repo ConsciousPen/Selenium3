@@ -471,7 +471,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
 		TestData td = getTestSpecificTD("TestData2");
 		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
-
 	}
 
 	/**
@@ -719,6 +718,31 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Order report error / too old (earlier than 1900) Driver error
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add new Driver (with "no hint" from the stubs). Update that driver.
+	 * 4. Order report. Check response in dxp and PAS.
+	 * 5. Delete Driver.
+	 * 6. Try add new Driver with a birth year earlier than 1900
+	 * 7. Check error.
+	 * 8. Check if Driver wasnt added.
+	 * 9. Try to add one more time with 1900
+	 * 10. No errors, check if driver was added.
+	 * 11. Rate and Bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17769", "PAS-17658"})
+	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
+
+		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
+	}
+
 }
 
 

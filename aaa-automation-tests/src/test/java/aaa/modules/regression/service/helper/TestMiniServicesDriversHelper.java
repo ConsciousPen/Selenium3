@@ -52,6 +52,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
+	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -2017,6 +2018,55 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), null, null, softly); //should be added driver
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	protected void pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody(){
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("SEAN", "Davis", "BEEMER", "1985-02-14", "");
+			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+			String driverOid = addDriver.oid;
+
+			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "D8571783", 18, "CA", "CH", "SSS");
+			HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
+			//assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.MVR_ERROR_C.getMessage());
+
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
+			DriverActivityReportsTab.buttonSaveAndExit.click();
+
+			removeDriverRequest.removalReasonCode = "RD1001";
+			HelperCommon.removeDriver(policyNumber, driverOid, removeDriverRequest);
+
+			//PAS-17769 START
+			AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1899-12-31", "");
+			ErrorResponseDto addDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest2, ErrorResponseDto.class, 422);
+			softly.assertThat(addDriver2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(addDriver2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(addDriver2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getCode());
+			softly.assertThat(addDriver2.errors.get(0).message).contains(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getMessage());
+			softly.assertThat(addDriver2.errors.get(0).field).contains("birthDate");
+
+			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1900-01-01", "I");
+			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, 201);
+
+			HelperCommon.orderReports(policyNumber, addDriver3.oid, OrderReportsResponse.class, 200);
+
+			ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).oid).isEqualTo(addDriver3.oid);
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
