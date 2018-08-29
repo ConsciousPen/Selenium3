@@ -41,7 +41,8 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16150")
 	//PAS-16150 and PAS-14532 carry same scenarios
 	public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("AZ") String state) {
