@@ -59,7 +59,7 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
+	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
 		mainApp().open();
 

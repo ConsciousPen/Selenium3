@@ -3,17 +3,16 @@ package aaa.modules.regression.service.helper;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 import java.math.BigDecimal;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 
-import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -27,10 +26,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.FormsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -56,6 +52,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
+	private DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
 
 	protected void pas11932_viewDriversInfo(PolicyType policyType) {
 		assertSoftly(softly -> {
@@ -255,7 +252,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		validateDriverListOrdering(viewDriversResponse.driverList);
 	}
 
-	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody(TestData td) {
+	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FiveDrivers").getTestDataList("DriverTab")).resolveLinks();
+
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
@@ -285,6 +285,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// verify order: pending remove should be first, then pending add
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		validateDriverListOrdering(viewDriversResponse.driverList);
+
+		// assign addedDriver to veh
+		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		DriversDto addedDriver = viewDriversResponse.driverList.stream().filter(driver -> driver.firstName.startsWith("Jackie")).findFirst().orElse(null);
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle vehicle1 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(addedDriver.oid));
 
 		// rate and bind
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -1480,11 +1487,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver1ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver1ExpectedAfterRemove.driverStatus = "updated";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
+			driver1ExpectedAfterRemove.availableCoverages.clear(); // for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
+			driver1ExpectedAfterRemove.specificDisabilityInd = null;
+			driver1ExpectedAfterRemove.totalDisabilityInd = null;
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver2ExpectedAfterRemove.driverStatus = "updated";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
+			driver2ExpectedAfterRemove.availableCoverages.clear();// for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
+			driver2ExpectedAfterRemove.specificDisabilityInd = null;
+			driver2ExpectedAfterRemove.totalDisabilityInd = null;
 
 			//Remove driver 1
 			removeDriverRequest.removalReasonCode = "RD1003";
@@ -1548,7 +1561,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String licenseNumber = viewDriver.driverList.get(1).drivingLicense.licenseNumber;
 
 		removeDriverRequest.removalReasonCode = "RD1001";
-		DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableDriver driver1 = policyResponse.drivers.get(driverOid2);
@@ -2005,6 +2018,55 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			validateSelectedAndAvailableCoverages(false, viewEndorsementDriversResponse.driverList.get(0), null, null, softly); //should be added driver
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	protected void pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody(){
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = getCopiedPolicy();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("SEAN", "Davis", "BEEMER", "1985-02-14", "");
+			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+			String driverOid = addDriver.oid;
+
+			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "D8571783", 18, "CA", "CH", "SSS");
+			HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
+
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
+			//assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.MVR_ERROR_C.getMessage());
+
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
+			//softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
+			DriverActivityReportsTab.buttonSaveAndExit.click();
+
+			removeDriverRequest.removalReasonCode = "RD1001";
+			HelperCommon.removeDriver(policyNumber, driverOid, removeDriverRequest);
+
+			//PAS-17769 START
+			AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1899-12-31", "");
+			ErrorResponseDto addDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest2, ErrorResponseDto.class, 422);
+			softly.assertThat(addDriver2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+			softly.assertThat(addDriver2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+			softly.assertThat(addDriver2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getCode());
+			softly.assertThat(addDriver2.errors.get(0).message).contains(ErrorDxpEnum.Errors.TOO_OLD_DRIVER_ERROR.getMessage());
+			softly.assertThat(addDriver2.errors.get(0).field).contains("birthDate");
+
+			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1900-01-01", "I");
+			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, 201);
+
+			HelperCommon.orderReports(policyNumber, addDriver3.oid, OrderReportsResponse.class, 200);
+
+			ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(responseViewDriverEndorsement.driverList.get(0).oid).isEqualTo(addDriver3.oid);
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}

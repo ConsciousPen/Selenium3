@@ -1,6 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
-import static aaa.common.enums.Constants.States.CA;
+import static aaa.common.enums.Constants.States.*;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -17,7 +17,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
-	@StateList(statesExcept = CA)
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
 		mainApp().open();
 

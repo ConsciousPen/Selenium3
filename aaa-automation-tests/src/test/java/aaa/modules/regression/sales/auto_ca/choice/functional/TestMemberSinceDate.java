@@ -39,8 +39,6 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
 
         // Pattern Definition
         DateTimeFormatter formatSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter formatUI = DateTimeFormatter.ofPattern("MM/yyyy");
-
 
         /*--Step 1--*/
         log.info("Step 1: Create Customer.");
@@ -84,12 +82,5 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         String sqlExpected = DateTime.format(formatSQL);
 
         assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
-
-        String uiMemberSinceDate = policy.getDefaultView().getTab(MembershipTab.class).getAssetList().
-                getAsset(AutoCaMetaData.MembershipTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
-                getCell(AutoCaMetaData.MembershipTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
-
-        String uiExpected = DateTime.format(formatUI);
-        assertThat(uiExpected).isEqualTo(uiMemberSinceDate);
     }
 }

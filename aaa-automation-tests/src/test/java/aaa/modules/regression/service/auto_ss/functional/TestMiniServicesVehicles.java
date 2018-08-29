@@ -507,40 +507,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Check replace with KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * ??????????? - result is not clear. Maybe this test can be removed.
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-		//BUG PAS-16113 Replace Vehicle and Driver Assignment - when a state doesn't have driver assignment
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(true);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Check replace with Don't KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * 4. check replacement is successful
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(false);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Check Vehicle coverages after replacing the vehicle
 	 * @scenario 1.Create a policy with 1 leased vehicle, 1 drivers
 	 * 2.Check coverages

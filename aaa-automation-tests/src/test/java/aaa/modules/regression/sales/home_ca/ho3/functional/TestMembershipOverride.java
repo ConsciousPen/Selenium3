@@ -130,17 +130,13 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
-        try {
-            //TODO Replace with fillUpTo method
-            // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
-            createCustomerIndividual();
-            policy.createPolicy(defaultPolicyData);
-            TimeSetterUtil.getInstance().getCurrentTime();
-        }
-        catch(Exception ex){}
+        // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
 
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getValue().equals("Membership Override"));
+        assertThat(new ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("Membership Override");
     }
 
     /**

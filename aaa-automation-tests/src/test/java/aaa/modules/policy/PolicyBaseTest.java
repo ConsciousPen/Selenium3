@@ -12,10 +12,13 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.*;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -108,11 +111,33 @@ public abstract class PolicyBaseTest extends BaseTest {
 		}
 	}
 
+	/**
+	 * Check that documents exist in XML in aaaDocGenEntity event (XML is sent to DCS to create actual .pdf documents)
+	 *
+	 * @param policyNumber - policy number
+	 * @param eventName - event name on which documents are suppose to be generated
+	 * @param docGenIds - document ids
+	 */
 	protected void checkDocGenTriggered(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, String... docGenIds) {
 		List<Document> policyDocuments = DocGenHelper.getDocumentsList(policyNumber, eventName);
 		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
 		for (String docGenId : docGenIds) {
 			assertThat(documentTemplate).contains(docGenId);
+		}
+	}
+
+	/**
+	 * Check that documents DOES NOT exist in XML in aaaDocGenEntity event (XML is sent to DCS to create actual .pdf documents)
+	 *
+	 * @param policyNumber - policy number
+	 * @param eventName - event name on which documents are suppose to be generated
+	 * @param docGenIds - document ids
+	 */
+	protected void checkDocGenIsNotTriggered(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, String... docGenIds) {
+		List<Document> policyDocuments = DocGenHelper.getDocumentsList(policyNumber, eventName);
+		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
+		for (String docGenId : docGenIds) {
+			assertThat(documentTemplate).doesNotContain(docGenId);
 		}
 	}
 
@@ -146,14 +171,18 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return openAppAndCreatePolicy(getPolicyTD());
 	}
 
-	protected String openAppAndCreateConversionPolicy(TestData testData) {
+	protected String openAppAndCreateConversionPolicy(TestData tdManualConversionInitiation, TestData tdPolicy) {
 		mainApp().open();
 		createCustomerIndividual();
-		return createConversionPolicy(testData);
+		return createConversionPolicy(tdManualConversionInitiation, tdPolicy);
+	}
+
+	protected String openAppAndCreateConversionPolicy(TestData tdPolicy) {
+		return openAppAndCreateConversionPolicy(getManualConversionInitiationTd(), tdPolicy);
 	}
 
 	protected String openAppAndCreateConversionPolicy() {
-		return openAppAndCreatePolicy(getConversionPolicyDefaultTD());
+		return openAppAndCreateConversionPolicy(getManualConversionInitiationTd(), getConversionPolicyDefaultTD());
 	}
 
 	protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
@@ -196,5 +225,19 @@ public abstract class PolicyBaseTest extends BaseTest {
 				.adjust("UW_AuthLevel", "01")
 				.adjust("Billing_AuthLevel", "01")
 		);
+	}
+
+	protected void purchaseRenewal(LocalDateTime renewalEffectiveDate, String policyNumber){
+		//Move time to Policy Expiration Date
+		TimeSetterUtil.getInstance().nextPhase(renewalEffectiveDate);
+
+		// Open Billing account and Pay min due for the renewal
+		mainApp().reopen();
+		SearchPage.openBilling(policyNumber);
+		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		// Open Policy (Renewal)
+		SearchPage.openPolicy(policyNumber);
 	}
 }

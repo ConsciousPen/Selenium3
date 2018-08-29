@@ -6,7 +6,6 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
@@ -40,7 +39,6 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
 
         // Pattern Definition
         DateTimeFormatter formatSQL = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter formatUI = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
         /*--Step 1--*/
         log.info("Step 1: Create Customer.");
@@ -83,12 +81,5 @@ public class TestMemberSinceDate extends HomeCaHO3BaseTest {
         String sqlExpected = DateTime.format(formatSQL);
 
         assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
-
-        String uiMemberSinceDate = policy.getDefaultView().getTab(ReportsTab.class).getAssetList().
-                getAsset(HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
-                getCell(HomeCaMetaData.ReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
-
-        String uiExpected = DateTime.format(formatUI);
-        assertThat(uiExpected).isEqualTo(uiMemberSinceDate);
     }
 }
