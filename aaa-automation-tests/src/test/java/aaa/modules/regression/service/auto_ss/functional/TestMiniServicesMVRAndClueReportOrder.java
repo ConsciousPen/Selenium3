@@ -253,7 +253,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
 	}
 
-	//Scenario2 For NY
+	//Scenario3 For NY
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
@@ -263,7 +263,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
 	}
 
-	//Scenario2 For NJ
+	//Scenario4 For NJ
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
@@ -273,7 +273,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
 	}
 
-	//Scenario2 For PA
+	//Scenario5 For PA
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
