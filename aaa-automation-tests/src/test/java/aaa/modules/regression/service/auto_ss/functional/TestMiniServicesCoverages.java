@@ -464,12 +464,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17629","PAS-17958"})
-	public void pas17629_Umuim_Update_coverage(@Optional("ID") String state) {
+	public void pas17629_Umuim_Update_coverage(@Optional("IN") String state) {
 		pas17629_Umuim_Update_coverageBody(getPolicyType());
 	}
 	/**
 	 * @author MeghaGubbala
-	 * @name  Verify Policy and Vehicle level coverages
+	 * @name  Verify Policy and Vehicle level coverages Order
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
