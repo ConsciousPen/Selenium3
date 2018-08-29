@@ -1,13 +1,13 @@
 package aaa.modules.bct.batch;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.helpers.jobs.GroupJobs;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class BatchTest extends BackwardCompatibilityBaseTest {
 
@@ -372,5 +372,4 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	public String getMethodName() {
 		return Thread.currentThread().getStackTrace()[2].getMethodName();
 	}
-
 }
