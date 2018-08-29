@@ -611,7 +611,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
 			ValidateEndorsementResponse responseNd = HelperCommon.startEndorsement(policyNumber, endorsementDate);
-			assertThat(responseNd.ruleSets.get(0).errors.toString().contains(ErrorDxpEnum.Errors.STATE_DOES_NOT_ALLOW_ENDORSEMENTS.getMessage())).isTrue();
+			assertThat(responseNd.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.equals(ErrorDxpEnum.Errors.STATE_DOES_NOT_ALLOW_ENDORSEMENTS.getMessage()))).isTrue();
 
 			DBService.get().executeUpdate(INSERT_EFFECTIVE_DATE);
 
