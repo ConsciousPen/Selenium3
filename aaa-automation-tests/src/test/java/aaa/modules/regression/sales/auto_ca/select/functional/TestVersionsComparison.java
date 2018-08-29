@@ -183,11 +183,15 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_PolicyInformation_Version2");
 	}
 
+	private TestData getTDPolicyInformationVersion2QuoteCreation() {
+		return getTestSpecificTD("TestData_PolicyInformation_Version2_QuoteCreation");
+	}
+
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-13589"})
 	public void pas13589_dataGatherComparisonPolicyInformation(@Optional("CA") String state) {
-		dataGatherComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
+		dataGatherComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2QuoteCreation(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
 	}
 
 	@Parameters({STATE_PARAM})

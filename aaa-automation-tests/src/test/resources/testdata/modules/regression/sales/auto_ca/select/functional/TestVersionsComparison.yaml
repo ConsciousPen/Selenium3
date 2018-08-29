@@ -81,7 +81,7 @@ GeneralTab_Quote: {
  AAAProductOwned: '@AAAProductOwned_Version1',
  ContactInformation: '@ContactInformation_Version1',
  CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
- PolicyInformation: '@PolicyInformation_Version1'
+ PolicyInformation: '@PolicyInformation_Version1_QuoteCreation'
 }
 
 #General Tab - Named Insured Information section
@@ -229,6 +229,7 @@ TestData_AAAProductOwned_Version2: {
  },
  DriverTab: {},
  MembershipTab: {
+   AAAMembershipReport: [{Select: 'Yes'}],
    Order Report: click,
  },
  VehicleTab: {},
@@ -415,6 +416,20 @@ TestData_PolicyInformation_Version1: {
  DocumentsAndBindTab: {},
 }
 
+TestData_PolicyInformation_Version1_QuoteCreation: {
+  GeneralTab: {
+    PolicyInformation: '@PolicyInformation_Version1_QuoteCreation'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
 TestData_PolicyInformation_Version2: {
  GeneralTab: {
   PolicyInformation: '@PolicyInformation_Version2'
@@ -427,6 +442,20 @@ TestData_PolicyInformation_Version2: {
  PremiumAndCoveragesTab: {},
  DriverActivityReportsTab: {},
  DocumentsAndBindTab: {},
+}
+
+TestData_PolicyInformation_Version2_QuoteCreation: {
+  GeneralTab: {
+    PolicyInformation: '@PolicyInformation_Version2_QuoteCreation'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
 }
 
 PolicyInformation: {
@@ -450,12 +479,24 @@ PolicyInformation_Version1: {
  Channel Type: 'Phone (Direct Sales Unit)',
  Agency: 'Hamilton DSC - 500001003',
  Sales Channel: 'IE DSC-District Sales and Marketing',
- #TODO test don't see it, need to be added for TD verification
  #Agent: 'House Agent CSAA DSU Hamilton',
  Authorized by: QA version1,
  TollFree Number: 2222222222,
  Language Preference: Spanish,
  Suppress Print: 'Print Declaration'
+}
+
+PolicyInformation_Version1_QuoteCreation: {
+  Source of Business: 'Split',
+  "Source Policy #": 123456111,
+  Channel Type: 'Phone (Direct Sales Unit)',
+  Agency: 'Hamilton DSC - 500001003',
+  Sales Channel: 'IE DSC-District Sales and Marketing',
+  #Agent: 'House Agent CSAA DSU Hamilton',
+  Authorized by: QA version1,
+  TollFree Number: 2222222222,
+  Language Preference: Spanish,
+  Suppress Print: 'Print Declaration'
 }
 
 PolicyInformation_Version2: {
@@ -465,11 +506,25 @@ PolicyInformation_Version2: {
  Channel Type: 'Sub Producer',
  Agency: 'Advantage Auto Ins Agency, LLC - Magnolia - 500023745',
  Sales Channel: 'SubProducer',
- #Agent: 'HouseAgent Magnolia',
+ Agent: 'HouseAgent Magnolia',
  Authorized by: QA version2,
  TollFree Number: 3333333333,
  Language Preference: English,
  Suppress Print: 'Divert Declaration'
+}
+
+PolicyInformation_Version2_QuoteCreation: {
+  Source of Business: 'Spin-Off',
+  "Source Policy #": 123456222,
+  Override ASD Level: 'No',
+  Channel Type: 'Sub Producer',
+  Agency: 'Advantage Auto Ins Agency, LLC - Magnolia - 500023745',
+  Sales Channel: 'SubProducer',
+  #Agent: 'HouseAgent Magnolia',
+  Authorized by: QA version2,
+  TollFree Number: 3333333333,
+  Language Preference: English,
+  Suppress Print: 'Divert Declaration'
 }
 
 #Driver Tab - Driver Information section
@@ -491,7 +546,11 @@ TestData_DriverInformation_Version1: {
  },
  PremiumAndCoveragesTab: {},
  DriverActivityReportsTab: {},
- DocumentsAndBindTab: {},
+ DocumentsAndBindTab: {
+  RequiredToIssue:{
+    Proof of Mature Driver Course Completion: 'Yes',
+  }
+ },
 }
 
 TestData_DriverInformation_Version2: {

@@ -49,7 +49,7 @@ public class VersionsComparisonConstants {
 			.putAll("Driver Information (VIFirstName VI VILastName).Good Driver Discount", "false","true")
 			.putAll("Driver Information (VIFirstName VI VILastName).Smoker: Cigarettes, cigars or pipes", "true","false")
 			.putAll("Driver Information (VIFirstName VI VILastName).Financial Responsibility Filling Needed", "false","true")
-			.putAll("Activity Information (Hit and run, 07/20/2018, Not included in Rating).Conviction Points","1","")
+			.putAll("Activity Information (Hit and run, 07/20/2018, Not included in Rating).Violation Points","3","0")
 			.putAll("Activity Information (Hit and run, 07/20/2018, Not included in Rating).Include in Points and/or YAF?","true","false")
 			//endorsement/renewal data
 			.putAll("Driver Information (NBFirstName NB NBLastName).Age", "18","55")
@@ -161,6 +161,7 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (VIFirstName VI VILastName).Occupation", "Occupation")
 			.put("Driver Information (VIFirstName VI VILastName).Age First Licensed", "Age First Licensed")
 			.put("Driver Information (VIFirstName VI VILastName).License Type", "License Type")
+			.put("Driver Information (VIFirstName VI VILastName).First US/Canada License Date", "First US/Canada License Date")
 			.put("Driver Information (VIFirstName VI VILastName).License State", "License State")
 			.put("Driver Information (VIFirstName VI VILastName).License #", "License #")
 			.put("Driver Information (VIFirstName VI VILastName).Employee Benefit Type", "Employee Benefit Type")
@@ -176,6 +177,7 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (NBFirstName NB NBLastName).Occupation", "Occupation")
 			.put("Driver Information (NBFirstName NB NBLastName).Age First Licensed", "Age First Licensed")
 			.put("Driver Information (NBFirstName NB NBLastName).License Type", "License Type")
+			.put("Driver Information (NBFirstName NB NBLastName).First US/Canada License Date", "First US/Canada License Date")
 			.put("Driver Information (NBFirstName NB NBLastName).License State", "License State")
 			.put("Driver Information (NBFirstName NB NBLastName).License #", "License #")
 			.put("Driver Information (NBFirstName NB NBLastName).Employee Benefit Type", "Employee Benefit Type")
@@ -263,7 +265,6 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
-			.put("AAA Products Owned", "Policy #")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
@@ -309,11 +310,8 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> dataGatherDriverInformation = ImmutableListMultimap.<String, String>builder()
+			.put("AA59 Existing Damage Endorsement Form", "Automobile Death Benefit")
 			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
-			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
-			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
-			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
-			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
 			.put("Driver Information (VIFirstName VI VILastName)", "Date of Birth")
 			.put("Driver Information (VIFirstName VI VILastName)", "Age")
 			.put("Driver Information (VIFirstName VI VILastName)", "Gender")
@@ -325,6 +323,7 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (VIFirstName VI VILastName)", "Date First Licensed")
 			.put("Driver Information (VIFirstName VI VILastName)", "Licensed in US/Canada for 18 or More Months?")
 			.put("Driver Information (VIFirstName VI VILastName)", "License Type")
+			.put("Driver Information (VIFirstName VI VILastName)", "First US/Canada License Date")
 			.put("Driver Information (VIFirstName VI VILastName)", "License State")
 			.put("Driver Information (VIFirstName VI VILastName)", "License #")
 			.put("Driver Information (VIFirstName VI VILastName)", "Employee Benefit Type")
@@ -342,7 +341,7 @@ public class VersionsComparisonConstants {
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Occurrence Date")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Description")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Date")
-			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Points")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Violation Points")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Include in Points and/or YAF?")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Not Included in Points and/or YAF - Reason Codes")
 			.build();
@@ -350,10 +349,7 @@ public class VersionsComparisonConstants {
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> endorsementRenewalDriverInformation = ImmutableListMultimap.<String, String>builder()
 			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
-			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
-			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
-			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
-			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
+			.put("AA59 Existing Damage Endorsement Form", "Automobile Death Benefit")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Date of Birth")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Age")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Gender")
@@ -365,6 +361,7 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (NBFirstName NB NBLastName)", "Date First Licensed")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Licensed in US/Canada for 18 or More Months?")
 			.put("Driver Information (NBFirstName NB NBLastName)", "License Type")
+			.put("Driver Information (NBFirstName NB NBLastName)", "First US/Canada License Date")
 			.put("Driver Information (NBFirstName NB NBLastName)", "License State")
 			.put("Driver Information (NBFirstName NB NBLastName)", "License #")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Employee Benefit Type")
@@ -382,13 +379,14 @@ public class VersionsComparisonConstants {
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Occurrence Date")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Description")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Date")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Violation Points")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Include in Points and/or YAF?")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Not Included in Points and/or YAF - Reason Codes")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Vehicle Information section
 	static final Multimap<String, String> vehicleInformation = ImmutableListMultimap.<String, String>builder()
-			.put("LSOPCEndorsement Form", "VIN")
+			.put("AA59 Existing Damage Endorsement Form", "VIN")
 			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Year")

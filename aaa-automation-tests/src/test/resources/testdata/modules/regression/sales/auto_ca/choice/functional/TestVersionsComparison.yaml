@@ -31,15 +31,16 @@ TestData_NB_Policy: {
  },
  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: {
-  RequiredToBind: {
-    California Car Policy Application: Physically Signed,
-    Subscriber Agreement: Physically Signed,
-  },
-  Agreement: I agree,
-  RequiredToIssue: {
-   Policy Application: 'Yes',
-   Auto Billing Plan Explanation: 'Yes',
-  }
+   RequiredToBind: {
+     Personal Auto Application: Physically Signed,
+     Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+   },
+   RequiredToIssue: {
+     Proof of Anti-Theft Recovery Device: 'Yes',
+   },
+   VehicleInformation:{
+     "Are there any additional interest(s)?": 'No',
+   },
  },
  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
@@ -73,18 +74,23 @@ TestData_NB_Quote: {
    }
   }
  },
- PremiumAndCoveragesTab: '@<auto_ca_choice>@DataGather@PremiumAndCoveragesTab',
+ PremiumAndCoveragesTab: {
+   Product: CA Choice,
+   Payment Plan: Annual,
+ },
  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: {
    RequiredToBind: {
-     California Car Policy Application: Physically Signed,
-     Subscriber Agreement: Physically Signed,
+     Personal Auto Application: Physically Signed,
+     Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
    },
-   Agreement: I agree,
    RequiredToIssue: {
-     Policy Application: 'Yes',
-     Auto Billing Plan Explanation: 'Yes',
-   }
+     Proof of Mature Driver Course Completion: 'Yes',
+     Proof of Anti-Theft Recovery Device: 'Yes',
+   },
+   Vehicle Information:{
+     "Are there any additional interest(s)?": 'No',
+   },
  },
  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
 }
@@ -522,7 +528,6 @@ TestData_DriverInformation_Version2: {
  DocumentsAndBindTab: {
   RequiredToIssue: {
   Proof of Good Student Discount: 'Yes',
-  Proof of New Driver Course Completion: 'Yes',
   "Canadian MVR for (driver)": 'Yes'
   }
  },
@@ -537,9 +542,9 @@ DriverInformation: {
  Permit Before License: 'No',
  "Licensed in US/Canada for 18 or More Months?": 'Yes',
  License Type: 'Licensed (US)',
- "First US/Canada License Date": $<today-1M>,
- License State: UT,
- "License #": 111111111,
+ "First US/Canada License Date": $<today-2y>,
+ License State: CA,
+ "License #": A1111111,
  Employee Benefit Type: Active employee,
  Employee ID: 111222333,
  #should be No always
@@ -569,7 +574,7 @@ DriverInformation_Version1: {
  Permit Before License: 'No',
  "Licensed in US/Canada for 18 or More Months?": 'Yes',
  License Type: 'Licensed (US)',
- "First US/Canada License Date": $<today-1y>,
+ "First US/Canada License Date": $<today-3y>,
  License State: CA,
  "License #": A2222222,
  Employee Benefit Type: None,
@@ -601,6 +606,7 @@ DriverInformation_Version2: {
  Permit Before License: 'Yes',
  "Licensed in US/Canada for 18 or More Months?": 'No',
  License Type: 'Licensed (Canadian)',
+ "First US/Canada License Date": $<today-1y>,
  "License #": 333333333,
  Employee Benefit Type: Surviving spouse,
   #should be No always
@@ -682,8 +688,6 @@ VehicleInformation: {
  Ownership: {
   Ownership Type: Owned,
  },
- #TODO add section
- "Are there any additional interest(s)?": No,
 }
 
 VehicleInformation_Version1: {
@@ -707,8 +711,6 @@ VehicleInformation_Version1: {
  Ownership: {
   Ownership Type: Owned,
  },
-  #TODO add section
- "Are there any additional interest(s)?": No,
 }
 
 VehicleInformation_Version2: {
@@ -745,8 +747,6 @@ VehicleInformation_Version2: {
   Validate Address: true,
   Validate Address Dialog: {},
  },
-  #TODO add section
- "Are there any additional interest(s)?": No,
 }
 
 

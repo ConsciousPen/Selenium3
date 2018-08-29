@@ -276,4 +276,94 @@
         </classes>
     </test>
 
+    <test name="General tab/Named Insured Information section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13526_dataGatherComparisonNamedInsuredInformation"/>
+                    <include name="pas13526_endorsementsComparisonNamedInsuredInformation"/>
+                    <include name="pas13526_renewalComparisonNamedInsuredInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/AAA Products Owned section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13529_dataGatherComparisonAAAProductOwned"/>
+                    <include name="pas13529_endorsementsComparisonAAAProductOwned"/>
+                    <include name="pas13529_renewalComparisonAAAProductOwned"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Contact Information section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13531_dataGatherComparisonContactInformation"/>
+                    <include name="pas13531_endorsementsComparisonContactInformation"/>
+                    <include name="pas13531_renewalComparisonContactInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Current Carrier Information section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13542_dataGatherComparisonCurrentCarrierInformation"/>
+                    <include name="pas13542_renewalComparisonCurrentCarrierInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="General tab/Policy Information section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13589_dataGatherComparisonPolicyInformation"/>
+                    <include name="pas13589_endorsementsComparisonPolicyInformation"/>
+                    <include name="pas13589_renewalComparisonPolicyInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14147_dataGatherComparisonDriverInformation"/>
+                    <include name="pas14147_endorsementsComparisonDriverInformation"/>
+                    <include name="pas14147_renewalComparisonDriverInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas14145_dataGatherComparisonVehicleInformation"/>
+                    <include name="pas14145_endorsementsComparisonVehicleInformation"/>
+                    <include name="pas14145_renewalComparisonVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>

@@ -730,6 +730,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_GOOD_STUDENT_DISCOUNT = declare("Proof of Good Student Discount", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_NEW_DRIVER_COURSE_COMPLETION = declare("Proof of New Driver Course Completion", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class);
 		}
 
 		public static final class PaperlessPreferences extends MetaData {

@@ -47,7 +47,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"CIPCS22Endorsement Form",
 			"CSAAEEndorsement Form",
 			"ENOCCEndorsement Form",
-			"LSOPCEndorsement Form"
+			"LSOPCEndorsement Form",
+			"AA59 Existing Damage Endorsement Form"
 
 	);
 
