@@ -26,7 +26,7 @@ public class TestClaimPointsVRDPageTemplate extends PolicyBaseTest {
 	}
 
 	private TestData getTdWithClaims() {
-		TestData tdClaims = testDataManager.getDefault(TestClaimPointsVRDPageTemplate.class).getTestData("PropertyInfo_Claims");
+		List<TestData> tdClaims = testDataManager.getDefault(TestClaimPointsVRDPageTemplate.class).getTestDataList("PropertyInfo_Claims");
 		return getPolicyTD().adjust(TestData.makeKeyPath(propertyInfoTabSS.getClass().getSimpleName(), HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel()), tdClaims);
 	}
 
