@@ -481,6 +481,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 				pas17646_OrderOfCoverageBody(state, softly)
 		);
 	}
+
 }
 
 
