@@ -44,7 +44,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	protected Tab getDocumentsAndBindTab() { return new DocumentsAndBindTab(); }
 
 	@Override
-	protected void navigateToGeneralTab() { NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); }
+	protected void navigateToGeneralTab() { NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get()); }
 
 	@Override
 	protected TestData getTdPolicy() {
