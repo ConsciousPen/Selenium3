@@ -43,7 +43,9 @@ public final class ErrorDxpEnum {
 		MORE_THAN_TWO_MINOR_VIOLATIONS("200095", "Driver with more than (2) Minor violations are unacceptable. (200095)"),
 		MORE_THAN_TWO_MINOR_VIOLATIONS_C("200095_C", "Driver with more than (2) Minor violations are unacceptable. (200095_C)"),
 		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable. (200096)"),
+		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C("200096_C", "Drivers with more than (3) Incidents are unacceptable. (200096_C)"),
 		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104)"),
+		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS_C("200104_C", "Driver with 2 or more At-fault accidents are unacceptable (200104_C)"),
 
 		VALIDATION_ERROR_HAPPENED_DURING_BIND("ERROR_SERVICE_VALIDATION", "Validation error happened during bind of the policy"),
 		OPERATION_NOT_APPLICABLE_FOR_THE_STATE("ERROR_SERVICE_VALIDATION", "Operation not applicable for the state."),

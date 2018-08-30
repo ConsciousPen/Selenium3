@@ -106,12 +106,22 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
-	OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
+	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
+		return orderReportErrors(policyNumber, driverOid, true, errors);
+	}
+
+	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, boolean errorExistsCheck, ErrorDxpEnum.Errors... errors) {
 		OrderReportsResponse orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 		for(ErrorDxpEnum.Errors error : errors) {
-			assertThat(orderReportErrorResponse.ruleSets.stream()
-					.flatMap(ruleSet -> ruleSet.errors.stream())
-					.anyMatch(valError -> valError.startsWith(error.getMessage()))).isTrue();
+			if(errorExistsCheck) {
+				assertThat(orderReportErrorResponse.ruleSets.stream()
+						.flatMap(ruleSet -> ruleSet.errors.stream())
+						.anyMatch(valError -> valError.startsWith(error.getMessage()))).isTrue();
+			} else {
+				assertThat(orderReportErrorResponse.ruleSets.stream()
+						.flatMap(ruleSet -> ruleSet.errors.stream())
+						.noneMatch(valError -> valError.startsWith(error.getMessage()))).isTrue();
+			}
 		}
 		if(errors.length == 0) {
 			assertThat(orderReportErrorResponse.ruleSets).isEmpty();
