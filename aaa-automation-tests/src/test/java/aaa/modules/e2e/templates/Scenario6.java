@@ -258,8 +258,12 @@ public class Scenario6 extends ScenarioBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 		verifyRenewOfferGenerated(installmentDueDates, softly);
 
+		int leapDays = 0;
 		for (LocalDateTime date : installmentDueDates) {
-			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1)));
+			if (date.plusYears(1).isEqual(TimeSetterUtil.getInstance().parse("02/28/2020", DateTimeUtils.MM_DD_YYYY))) {
+				leapDays = policyEffectiveDate.getDayOfMonth() - 28;
+			}
+			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1).minusDays(leapDays)));
 		}
 		totalDue = BillingSummaryPage.getTotalDue();
 	}
