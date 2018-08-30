@@ -1081,34 +1081,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas14475_NameInsuredMaritalStatusBody() {
-		assertSoftly(softly -> {
-
-			mainApp().open();
-			createCustomerIndividual();
-
-			// create policy via pas
-			String policyNumber = getCopiedPolicy();
-			// Endorsement
-			helperMiniServices.createEndorsementWithCheck(policyNumber);
-
-			ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
-			String dOid = responseViewDrivers1.driverList.get(0).oid;
-
-			//Update FNI as a single
-			UpdateDriverRequest updateDriverRequest = new UpdateDriverRequest();
-
-			//Update existing driver with SSS
-			updateDriver(softly, policyNumber, dOid, updateDriverRequest, "SSS");
-
-			// add new NI Spouse
-			//addDriverAndVerify(policyNumber, softly, true);
-
-			//helperMiniServices.endorsementRateAndBind(policyNumber);
-
-		});
-	}
-
 	protected void pas13301_validateDriverLicenseAndAgeFirstLicensedBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();

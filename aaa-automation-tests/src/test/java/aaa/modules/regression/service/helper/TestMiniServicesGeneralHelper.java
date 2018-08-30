@@ -478,8 +478,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
 		assertThat(responseViewDriver.driverList.stream().filter(driver -> originalDriver.equals(driver.oid)).findFirst().orElse(null)).isNotNull();
 
-		//View driver assignment if VA
-		if ("VA, NY, CA".contains(state)) {
+		//TODO jpukenaite add NY when this state will have driver assignment functionality
+		if ("VA, CA".contains(state)) {
 			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
@@ -488,7 +488,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
-		} else {
+		} else if (!state.contains("NY")){
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
 			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
