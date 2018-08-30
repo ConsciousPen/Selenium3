@@ -106,13 +106,17 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
-	void orderReportErrors(String policyNumber, String driverOid,String errorCode, String errorMessage, String field, boolean isErrorShouldExist) {
-		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
-		assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		boolean errorExists = orderReportErrorResponse.errors.stream()
-				.anyMatch(errors -> errorCode.contains(errors.errorCode) && errors.message.startsWith(errorMessage) && field.equals(errors.field));
-		assertThat(errorExists).isEqualTo(isErrorShouldExist);
+	OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
+		OrderReportsResponse orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
+		for(ErrorDxpEnum.Errors error : errors) {
+			assertThat(orderReportErrorResponse.ruleSets.stream()
+					.flatMap(ruleSet -> ruleSet.errors.stream())
+					.anyMatch(valError -> valError.startsWith(error.getMessage()))).isTrue();
+		}
+		if(errors.length == 0) {
+			assertThat(orderReportErrorResponse.ruleSets).isEmpty();
+		}
+		return orderReportErrorResponse;
 	}
 
 }

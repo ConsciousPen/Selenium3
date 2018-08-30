@@ -1,14 +1,21 @@
 TestData: {
   CancellationActionTab: {
     Cancellation effective date: $<today>,
-    Cancellation reason: index=1
+    Cancellation reason: "Insured Non-Payment Of Premium"
+  }
+}
+
+TestDataRewrite: {
+  CancellationActionTab: {
+    Cancellation effective date: $<today>,
+    Cancellation reason: "Rewrite Accommodation"
   }
 }
 
 TestData_Plus3Days: {
   CancellationActionTab: {
     Cancellation effective date: $<today+3d>,
-    Cancellation reason: index=1
+    Cancellation reason: "Insured Non-Payment Of Premium"
   }
 }
 

@@ -30,7 +30,7 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for non-Annual
+	 * @name Test UW rules
 	 * @scenario See inner method
 	 * @details
 	 */
@@ -44,7 +44,7 @@ public class TestMiniServicesUwRules extends TestMiniServicesUwRulesAbstract {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13326", "PAS-12852", "PAS-17648"})
 	public void pas12852_GaragedOutOfState200019(@Optional("VA") String state) {
 		pas12852_GaragedOutOfState200019Body();
 	}

@@ -98,8 +98,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470"})
 	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
-		TestData td = getTestSpecificTD("TestData1");
-		pas14653_ViewDriverServiceOrderOfPendingDeleteBody(td);
+		pas14653_ViewDriverServiceOrderOfPendingDeleteBody();
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14591"})
-	public void pas14591_AddDriversUnhappyAge(@Optional("") String state) throws ParseException {
+	public void pas14591_AddDriversUnhappyAge(@Optional("AZ") String state) throws ParseException {
 		pas14591_AddDriversUnhappyAgeBody(getPolicyType());
 	}
 
@@ -273,8 +272,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
-
-
 
     /**
      * @author Bob Van
@@ -474,7 +471,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
 		TestData td = getTestSpecificTD("TestData2");
 		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
-
 	}
 
 	/**
@@ -618,7 +614,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
 	}
@@ -657,7 +653,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
 	}
@@ -694,10 +690,59 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Removing a driver - Create a Task?
+	 * @scenario 1. Create policy.
+	 * 2. Start do endorsement outside of PAS.
+	 * 3. Add new Driver. Update that driver.
+	 * 4. Order report.
+	 * 5. Delete Driver.
+	 * 6. Check if Task was created.
+	 * 7. Rate and Bind.
+	 * 8. Create new endorsement outside of PAS.
+	 * 9. Add new Driver. Update.
+	 * 10. Delete new Driver.
+	 * 11. Check if Task wasn't created.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578"})
+	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
+
+		pas16578_removeDriverCheckIfTaskWasCreatedBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Order report error / too old (earlier than 1900) Driver error
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add new Driver (with "no hint" from the stubs). Update that driver.
+	 * 4. Order report. Check response in dxp and PAS.
+	 * 5. Delete Driver.
+	 * 6. Try add new Driver with a birth year earlier than 1900
+	 * 7. Check error.
+	 * 8. Check if Driver wasnt added.
+	 * 9. Try to add one more time with 1900
+	 * 10. No errors, check if driver was added.
+	 * 11. Rate and Bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17769", "PAS-17658"})
+	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
+
+		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
+	}
+
 }
 
 

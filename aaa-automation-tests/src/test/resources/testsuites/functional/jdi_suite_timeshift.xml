@@ -366,6 +366,18 @@
                 <methods>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForConversion"/>
                 </methods>
             </class>
         </classes>

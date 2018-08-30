@@ -1055,7 +1055,7 @@ TestData_OH: {
   PrefillTab: '@PrefillTab',
   GeneralTab: '@GeneralTab_OH',
   UnderlyingRisksPropertyTab: '@UnderlyingRisksPropertyTab',
-  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OK',
+  UnderlyingRisksAutoTab: '@UnderlyingRisksAutoTab_OH',
   UnderlyingRisksOtherVehiclesTab: '@UnderlyingRisksOtherVehiclesTab',
   ClaimsTab: '@ClaimsTab',
   EndorsementsTab: '@EndorsementsTab',

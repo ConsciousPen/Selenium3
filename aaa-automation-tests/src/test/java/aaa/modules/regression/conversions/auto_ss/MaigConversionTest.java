@@ -2,6 +2,9 @@ package aaa.modules.regression.conversions.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -111,9 +114,9 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData(file, effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
-//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
+		//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
+		//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -145,6 +148,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {
@@ -199,8 +203,11 @@ public class MaigConversionTest extends AutoSSBaseTest {
 	public void fillPolicy() {
 		policy.dataGather().start();
 
+		String baseDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
 		TestData td = getConversionPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.PrefillTab.class.getSimpleName(), AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel()), "08/08/1977")
+				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), baseDate)
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "index=1")
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "index=1");
 

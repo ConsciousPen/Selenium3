@@ -3,6 +3,8 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
+import aaa.modules.regression.service.helper.HelperMiniServices;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,7 +18,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.regression.service.helper.TestMiniServicesBillingAbstract;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
@@ -25,80 +26,39 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 
+	public HelperMiniServices helperMiniServices = new HelperMiniServices();
+
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
 
 	/**
-	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for non-Annual
-	 * @scenario See inner method
+	 * @author Jovita Pukenaite
+	 * @name View Installment Schedule Service
+	 * @scenario 1. Create policy.
+	 * 2. Hit Customer service, check info in the service and in UI.
+	 * 3. Hit Installments service, check info.
+	 * 4. Create endorsement outside of PAS.
+	 * 5. Add new driver. Update.
+	 * 6. Bind endorsement.
+	 * 7. Hit Customer service, check info in the service and in UI.
+	 * 8. Hit Installments service, check info.
 	 * @details
 	 */
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-1441", "PAS-5986, PAS-343"})
-	public void pas13663_CurrentBillServiceMonthly(@Optional("VA") String state) {
-		String paymentPlan = "contains=Eleven";
-		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
-		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16982"})
+	public void pas16982_ViewInstallmentScheduleService(@Optional("VA") String state) {
+		TestData policyTd = getPolicyTD().adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Quarterly");
 
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy(policyTdAdjusted);
+		String policyNumber = createPolicy(policyTd);
 
-		assertSoftly(softly ->
-				pas13663_CurrentBillServiceBody(softly, policyNumber)
-		);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for non-Annual
-	 * @scenario See inner method
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13663"})
-	public void pas13663_CurrentBillServiceQuarterly(@Optional("VA") String state) {
-		String paymentPlan = "contains=Quarte";
-		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
-		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(policyTdAdjusted);
-
-		assertSoftly(softly ->
-				pas13663_CurrentBillServiceBody(softly, policyNumber)
-		);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Test Current Bill Service for Annual
-	 * @scenario 1. Create a policy
-	 * 2. run the current bill service
-	 * 3. check zero balances
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13663"})
-	public void pas13663_CurrentBillServiceAnnual(@Optional("VA") String state) {
-		String paymentPlan = "contains=Annual";
-		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
-		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(policyTdAdjusted);
-
-		assertSoftly(softly ->
-				currentBillServiceCheck(softly, policyNumber)
-		);
+		pas16982_ViewInstallmentScheduleServiceBody(policyNumber);
 	}
 
 	@Override
@@ -134,11 +94,6 @@ public class TestMiniServicesBilling extends TestMiniServicesBillingAbstract {
 	@Override
 	protected Tab getDocumentsAndBindTabElement() {
 		return new DocumentsAndBindTab();
-	}
-
-	@Override
-	protected Tab getVehicleTabElement() {
-		return new VehicleTab();
 	}
 
 	@Override

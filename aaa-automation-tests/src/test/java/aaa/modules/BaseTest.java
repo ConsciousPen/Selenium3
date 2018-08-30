@@ -2,23 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
@@ -30,6 +14,7 @@ import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
@@ -39,12 +24,28 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -65,7 +66,6 @@ public class BaseTest {
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
 
 	static {
-		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
 		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
@@ -387,12 +387,12 @@ public class BaseTest {
 	/**
 	 * Create Conversion Policy
 	 *
+	 * @param tdManualConversionInitiation - 'Initiate Manual Renewal Entry' action testdata
 	 * @param tdPolicy - policy testdata
 	 * @return policy number
 	 */
-	protected String createConversionPolicy(TestData tdPolicy) {
+	protected String createConversionPolicy(TestData tdManualConversionInitiation, TestData tdPolicy) {
 		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
-		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
 		log.info("Policy Creation Started...");
 		getPolicyType().get().getDefaultView().fill(tdPolicy);
@@ -405,10 +405,20 @@ public class BaseTest {
 	/**
 	 * Create Conversion Policy using default TestData
 	 *
+	 * @param tdPolicy - policy testdata
+	 * @return policy number
+	 */
+	protected String createConversionPolicy(TestData tdPolicy) {
+		return createConversionPolicy(getManualConversionInitiationTd(), tdPolicy);
+	}
+
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
 	 * @return policy number
 	 */
 	protected String createConversionPolicy() {
-		return createConversionPolicy(getConversionPolicyDefaultTD());
+		return createConversionPolicy(getManualConversionInitiationTd(), getConversionPolicyDefaultTD());
 	}
 
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
@@ -473,15 +483,24 @@ public class BaseTest {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+				if (!PolicySummaryPage.labelPolicyStatus.getValue().equals(ProductConstants.PolicyStatus.POLICY_ACTIVE)) {
+					policyNumber = createNewDefaultPolicy(key);
+				}
 			} else {
 				count = 1;
-				createCustomerIndividual();
-				createPolicy();
-				policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-				EntitiesHolder.addNewEntity(key, policyNumber);
+				policyNumber = createNewDefaultPolicy(key);
 			}
 			policyCount.put(key, count);
 		}
+		return policyNumber;
+	}
+
+	private String createNewDefaultPolicy(String key) {
+		String policyNumber;
+		createCustomerIndividual();
+		createPolicy();
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(key, policyNumber);
 		return policyNumber;
 	}
 
