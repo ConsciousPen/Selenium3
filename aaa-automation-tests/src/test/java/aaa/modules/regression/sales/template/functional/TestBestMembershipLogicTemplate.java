@@ -104,6 +104,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
                         AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                break;
             }
 
             case "AutoSS": {
