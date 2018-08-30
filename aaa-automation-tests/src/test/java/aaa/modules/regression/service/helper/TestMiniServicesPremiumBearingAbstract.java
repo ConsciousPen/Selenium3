@@ -1812,27 +1812,27 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			softly.assertThat(veh1.coverages.get("COLLDED").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("COLLDED").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits1);
-			softly.assertThat(veh1.coverages.get("COLLDED").modifiedAttributes.get("oldValue").newValue).isEqualTo("500");
+			softly.assertThat(veh1.coverages.get("COLLDED").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("500");
 
 			softly.assertThat(veh1.coverages.get("TOWINGLABOR").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("TOWINGLABOR").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits3);
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").modifiedAttributes.get("oldValue").newValue).isEqualTo("0/0");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("0/0");
 
 			softly.assertThat(veh1.coverages.get("RREIM").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("RREIM").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits2);
-			softly.assertThat(veh1.coverages.get("RREIM").modifiedAttributes.get("oldValue").newValue).isEqualTo("600");
+			softly.assertThat(veh1.coverages.get("RREIM").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("600");
 
 			softly.assertThat(veh1.coverages.get("GLASS").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("GLASS").modifiedAttributes.get("coverageLimit").newValue).isEqualTo("true");
-			softly.assertThat(veh1.coverages.get("GLASS").modifiedAttributes.get("oldValue").newValue).isEqualTo("false");
+			softly.assertThat(veh1.coverages.get("GLASS").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("false");
 
 			softly.assertThat(veh1.coverages.get("COMPDED").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("COMPDED").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits);
-			softly.assertThat(veh1.coverages.get("COMPDED").modifiedAttributes.get("oldValue").newValue).isEqualTo("750");
+			softly.assertThat(veh1.coverages.get("COMPDED").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("750");
 
 			softly.assertThat(veh1.coverages.get("SPECEQUIP").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("SPECEQUIP").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits5);
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").modifiedAttributes.get("oldValue").newValue).isEqualTo("1000");
+			softly.assertThat(veh1.coverages.get("SPECEQUIP").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("1000");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
