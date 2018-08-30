@@ -48,7 +48,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"ENOCCEndorsement Form",
 			"LSOPCEndorsement Form",
 			"AA59 Existing Damage Endorsement Form"
-
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
@@ -66,7 +65,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).AAA UBI Device Status Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Safety Score Date",
 			"Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Garaging Address"
-
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 
@@ -316,10 +314,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void verificationComparisonPage(Multimap<String, String> expectedSectionsAndUIFields, ListMultimap<String, String> expectedUIFieldsAndValuesFromTD,
 			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion) {
-		expectedSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(expectedSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections
-		actualSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(actualSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections
-		actualUIFieldsAndValues = ArrayListMultimap.create(actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections
-		removeNotImplementedFields(expectedSectionsAndUIFields, actualSectionsAndUIFields, actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections
+		expectedSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(expectedSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections/fields
+		actualSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(actualSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections/fields
+		actualUIFieldsAndValues = ArrayListMultimap.create(actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections/fields
+		removeNotImplementedFields(expectedSectionsAndUIFields, actualSectionsAndUIFields, actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections/fields
 
 		//verification of expected section/UI fields names and amount
 		verifySectionsAndUIFieldsNames(expectedSectionsAndUIFields, actualSectionsAndUIFields);
@@ -336,6 +334,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		}
 	}
 
+	/**
+	 * Remove all not implemented sections from actual/expected results
+	 * @param expectedSectionsAndUIFields expected list of sections/UI fields from section
+	 * @param actualSectionsAndUIFields actual list of sections/UI fields from section
+	 * @param actualUIFieldsAndValues actual list of UI fields from section/values
+	 */
 	private void removeNotImplementedFields(Multimap<String, String> expectedSectionsAndUIFields,
 			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues) {
 		expectedSectionsAndUIFields.keySet()
