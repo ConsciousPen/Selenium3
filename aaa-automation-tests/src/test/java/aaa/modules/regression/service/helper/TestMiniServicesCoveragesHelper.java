@@ -2,7 +2,9 @@ package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
@@ -11,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -2487,6 +2490,105 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oidTrailer, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		validateTrailerCoverages(viewEndorsementCoveragesByVehicleResponse);
 		assertThatOnlyOneInstanceOfPolicyLevelCoverages(viewEndorsementCoveragesByVehicleResponse);
+	}
+
+	protected void pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody() {
+
+		assertSoftly(softly -> {
+
+			TestData testData = getPolicyDefaultTD();
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+					AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
+					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP.getLabel()),
+					"Yes");
+
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+					AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
+					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP_POLICY_NUM.getLabel()),
+					"123");
+
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+					AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()),
+					"contains=$1,000,000/$1,000,000");
+
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+					AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel()),
+					"contains=$500,000");
+
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel()),
+					"contains=$20,00");
+
+			mainApp().open();
+			createCustomerIndividual();
+			String policyNumber = createPolicy(testData);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			PolicyCoverageInfo viewCoverageResponseBeforeUpdate = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage coverageBI = viewCoverageResponseBeforeUpdate.policyCoverages.stream().filter(coverage -> "BI".equals(coverage.coverageCd)).findFirst().orElse(null);
+			List<CoverageLimit> coverageLimitsBI = coverageBI.availableLimits;
+			Collections.reverse(coverageLimitsBI); //reverse, so that highest available limit is first element in the list
+
+			//validate with BI limits
+			validatePUPError_pas15379(softly, policyNumber, coverageLimitsBI, "BI");
+
+			//Update BI to the highest one so that all PD values are available
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			PolicyCoverageInfo coverageUpdateResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			//Get all PD limits
+			Coverage coveragePD = coverageUpdateResponse.policyCoverages.stream().filter(coverage -> "PD".equals(coverage.coverageCd)).findFirst().orElse(null);
+			List<CoverageLimit> coverageLimitsPD = coveragePD.availableLimits;
+			Collections.reverse(coverageLimitsPD);//reverse, so that highest available limit is first element in the list
+
+			//validate with PD limits
+			validatePUPError_pas15379(softly, policyNumber, coverageLimitsPD, "PD");
+
+			//Update PD to value with error expected and bind
+			Collections.reverse(coverageLimitsBI); //reverse, so that lowest available limit is first element in the list
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	private void validatePUPError_pas15379(ETCSCoreSoftAssertions softly, String policyNumber, List<CoverageLimit> coverageLimits, String coverageCd) {
+		UpdateCoverageRequest updateCoverageRequest;
+		PolicyCoverageInfo updateCoverageResponse;
+		BigDecimal coverageLimitThreshold;
+		BigDecimal coverageLimitFormatted;
+
+		if ("BI".equals(coverageCd)) {
+			coverageLimitThreshold = new BigDecimal("500000");
+		} else {
+			coverageLimitThreshold = new BigDecimal("100000");
+		}
+
+		for (CoverageLimit coverageLimit : coverageLimits) {
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageCd, coverageLimit.coverageLimit);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			if (coverageLimit.coverageLimit.contains("/")) {
+				coverageLimitFormatted = new BigDecimal(coverageLimit.coverageLimit.substring(0, coverageLimit.coverageLimit.indexOf("/")));
+			} else {
+				coverageLimitFormatted = new BigDecimal(coverageLimit.coverageLimit);
+			}
+
+			/*
+			BI values 500000/500000 or greater should not have error. Lower values should have error.
+			PD values 100000 or greater should not have error. Lower values should have error.
+			*/
+			if (coverageLimitFormatted.compareTo(coverageLimitThreshold) == -1) {
+				softly.assertThat(updateCoverageResponse.validations.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).as(coverageLimit.coverageLimit + " failed.").isTrue();
+
+			} else {
+				softly.assertThat(updateCoverageResponse.validations.size()).as(coverageCd + " " + coverageLimit.coverageLimit + " failed.").isEqualTo(0);
+
+				//Validate that coverage is updated
+				softly.assertThat(updateCoverageResponse.policyCoverages.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo(coverageLimit.coverageLimit);
+			}
+		}
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
