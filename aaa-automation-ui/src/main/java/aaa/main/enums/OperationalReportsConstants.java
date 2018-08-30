@@ -5,7 +5,7 @@ package aaa.main.enums;
 public final class OperationalReportsConstants {
 
 
-    public static final String EUW_DETAIL = "View Earn, Unearned, Written Premium (EUW) - Detail";
+    public static final String EUW_DETAIL = "PAS Earned / Unearned / Written (EUW) - Detail";
 
     private OperationalReportsConstants() {
     }

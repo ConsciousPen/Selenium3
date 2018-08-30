@@ -25,6 +25,7 @@ TestData1: {
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 
 }
+
 TestData2: {
    PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab',
@@ -131,6 +132,10 @@ NamedInsuredInformation6: {
   Residence: Own Home,
 }
 
+TestData_FiveDrivers: {
+    DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
+}
+
 DriverTab1: {
   Add drivers: 'Yes',
   DriverSearchDialog: {},
@@ -235,6 +240,26 @@ DriverTab6: {
          License Status: 'Licensed (US)',
 }
 
+DriverTab7: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
 VehicleTab1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -270,6 +295,7 @@ AssignedDriver4: {
     Driver: 'contains=Defensive',
     Select Vehicle: 'index=2'
 }
+
 
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
