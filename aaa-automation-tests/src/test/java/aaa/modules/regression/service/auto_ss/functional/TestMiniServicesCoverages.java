@@ -325,13 +325,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	/**
 	 * @author gzkvano
 	 * @name Check UIM delimiter
-	 * @megha Gubbala :PAS-17646 : Verify Policy and Vehicle level coverages
-	 */
+	  */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646","PAS-17646"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14646"})
 	public void pas14646_UimDelimiter(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14646_UimDelimiter(state, softly)
@@ -465,9 +464,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17629","PAS-17958"})
-	public void pas17629_Umuim_Update_coverage(@Optional("ID") String state) {
+	public void pas17629_Umuim_Update_coverage(@Optional("IN") String state) {
 		pas17629_Umuim_Update_coverageBody(getPolicyType());
 	}
+	/**
+	 * @author MeghaGubbala
+	 * @name  Verify Policy and Vehicle level coverages Order
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646"})
+	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas17646_OrderOfCoverageBody(state, softly)
+		);
+	}
+
 }
 
 

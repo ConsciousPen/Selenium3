@@ -267,5 +267,45 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15372_driverDetailsAndMvrRulesThatProvidedBody();
 	}
 
+	//Scenario2 For CO
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverCO(@Optional("CO") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario3 For NY
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverNY(@Optional("NY") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario4 For NJ
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverNJ(@Optional("NJ") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario5 For PA
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverPA(@Optional("PA") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
 }
 

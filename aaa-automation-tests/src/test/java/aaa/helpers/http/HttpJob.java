@@ -138,12 +138,12 @@ public class HttpJob {
 			String flowUrl = HtmlParser.getFlowUrl(httpRequestor.getResponse());
 			/* Prepare params for job start */
 			String params = processParams(httpRequestor.getResponse(), jobName);
-			int executeCountBefore = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
+			int executeCountBefore = getTotalExecuteCount(httpRequestor.getResponse(), jobName);
 			httpRequestor.sendPostRequest(flowUrl, params);
 			getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
 			/* Get job launch info */
 			String jobStatus = getCurrentJobStatus(httpRequestor.getResponse(), jobName);
-			int executeCountAfter = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
+			int executeCountAfter = getTotalExecuteCount(httpRequestor.getResponse(), jobName);
 			/* Wait till job finishes */
 			long endTime = System.currentTimeMillis() + JOB_TIMEOUT;
 			while (jobStatus.equals(JobStatus.RUNNING.get()) || jobStatus.equals(JobStatus.WAITING.get()) || executeCountAfter <= executeCountBefore) {
@@ -152,11 +152,11 @@ public class HttpJob {
 				}
 				getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
 				jobStatus = getCurrentJobStatus(httpRequestor.getResponse(), jobName);
-				executeCountAfter = getTotalJobExecuteCount(httpRequestor.getResponse(), jobName);
+				executeCountAfter = getTotalExecuteCount(httpRequestor.getResponse(), jobName);
 				Thread.sleep(JOB_SLEEP_RERUN);
 			}
 			/* Gather job run info */
-			String latestJobRunStatus = getLastJobRunStatus(httpRequestor.getResponse(), jobName);
+			String latestJobRunStatus = getLastRunStatus(httpRequestor.getResponse(), jobName);
 			if (!latestJobRunStatus.equals(JobStatus.PASSED.get())) {
 				throw new IstfException("HTTP Job ERROR: <--- Job '" + jobName + "' was executed with status " + latestJobRunStatus);
 			}
@@ -167,8 +167,20 @@ public class HttpJob {
 		String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
 		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
 
-		log.info("HTTP: Latest job result : {}", getLastJobProcessedItems(httpRequestor.getResponse(), jobName));
+		log.info("HTTP: Latest job result : {}", JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName));
 
+	}
+
+	public static String getJobProcessedStatistic(String jobName) throws IOException, ParseException {
+		log.info("HTTP: Starting login");
+		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
+		log.info("HTTP: Open SCHEDULER_SUMMARY_FLOW");
+		getSchedulerSummaryPage(httpRequestor, SCHEDULER_SUMMARY_FLOW);
+		log.info("HTTP: Open job statistic page");
+		String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
+		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
+
+		return JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName);
 	}
 
 	private static String getLastRunLinkId(String content, String jobName) throws IOException {
@@ -217,7 +229,7 @@ public class HttpJob {
 		log.info("HTTP Job: Waiting async task: {}. Processing async task: {}", waiting, processing);
 	}
 
-	private static String getLastJobRunStatus(String content, String jobName) throws IOException {
+	private static String getLastRunStatus(String content, String jobName) throws IOException {
 		String result = "";
 		String[] parts = content.split(JOB_ROW_SPLITTER_REGEX);
 		for (String part : parts) {
@@ -230,7 +242,7 @@ public class HttpJob {
 		return result;
 	}
 
-	private static Integer getTotalJobExecuteCount(String content, String jobName) throws IOException {
+	private static Integer getTotalExecuteCount(String content, String jobName) throws IOException {
 		Integer result = 0;
 		String jobRunStatistic = null;
 		/* Split admin scheduler page rows */
@@ -264,7 +276,7 @@ public class HttpJob {
 				try {
 					status = HttpHelper.find(part, JOB_STATUS_REGEX.replace("/JOB_NAME/", jobName));
 				} catch (IOException ioe) {
-					status = "Unknown"; // when job was executed and not in running/waiting state, span with status inside is not present at the page
+					status = "Unknown"; // when job was not executed and not in running/waiting state, span with status inside is not present at the page
 				}
 				break;
 			}
@@ -312,57 +324,6 @@ public class HttpJob {
 		return orderByParam;
 	}
 
-	/* Job's Statistics */
-	public static String goGetJobProcessedNumbers(String jobName) throws IOException, ParseException {
-		log.info("HTTP: Starting login");
-		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
-		log.info("HTTP: Open SCHEDULER_SUMMARY_FLOW");
-		httpRequestor.sendGetRequest(SCHEDULER_SUMMARY_FLOW);
-		log.info("HTTP: Open job \"Logs & Statistics\"");
-		String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
-		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
-
-		return getLastJobProcessedItems(httpRequestor.getResponse(), jobName);
-	}
-
-	public static String getLastJobProcessedItems(String response, String jobName) throws IOException {
-		log.info("HTTP: Gathering Statistics");
-		List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
-
-		return allStatistics.get(allStatistics.size() - 1);
-	}
-
-	private static List<String> getAllProcessedRowsByJob(String response, String jobName) throws IOException {
-		String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
-
-		List<String> allStatistics = new ArrayList<>();
-		for (String row : rows) {
-			if (row.contains("Job processed")) {
-				allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
-			}
-		}
-		return allStatistics;
-	}
-
-	private static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
-		List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
-
-		ArrayList<HashMap<String, String>> allData = new ArrayList<>();
-		for (String jobResultStatisics : allStatistics) {
-			List<String> temp = Arrays.asList(jobResultStatisics.toString().replace(",", "").replace(".", "").split(" "));
-			HashMap<String, String> splittedRow = new HashMap<>();
-			splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
-			splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
-			splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
-			splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
-			splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
-
-			allData.add(splittedRow);
-		}
-
-		return allData;
-	}
-
 	private static String getLastRunLinkParameters(String content, String jobName) throws IOException{
 		String buttonId = getLastRunLinkId(content, jobName);
 		String groupId = getJobGroupId(content, jobName);
@@ -371,5 +332,46 @@ public class HttpJob {
 		String groupIdParameter = String.format("&groupId=%s",groupId);
 
 		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&jobs:_idcl=" + buttonId + wereStartedFilter + orderResultsBy + groupIdParameter;
+	}
+
+	public static class JobStatistic {
+
+		public static String getLastProcessedStatistic(String response, String jobName) throws IOException {
+			log.info("HTTP: Gathering Statistics");
+			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
+
+			return allStatistics.get(allStatistics.size() - 1);
+		}
+
+		private static List<String> getAllProcessedRowsByJob(String response, String jobName) throws IOException {
+			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
+
+			List<String> allStatistics = new ArrayList<>();
+			for (String row : rows) {
+				if (row.contains("Job processed")) {
+					allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
+				}
+			}
+			return allStatistics;
+		}
+
+		private static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
+			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
+
+			ArrayList<HashMap<String, String>> allData = new ArrayList<>();
+			for (String jobResultStatisics : allStatistics) {
+				List<String> temp = Arrays.asList(jobResultStatisics.toString().replace(",", "").replace(".", "").split(" "));
+				HashMap<String, String> splittedRow = new HashMap<>();
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
+
+				allData.add(splittedRow);
+			}
+
+			return allData;
+		}
 	}
 }

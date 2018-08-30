@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import aaa.main.enums.SearchEnum;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -483,7 +482,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		//Check driver with 4 incidents
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "Karen", "Yifru", "2000-01-01", "A63341764", "CH", "VA", "female");
 
 		//Order reports through service
@@ -511,7 +509,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 				softly.assertThat(response2.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("4  EXPIRED")
 		);
 
-		pasDriverActivityReport(policyNumber, "4  EXPIRED", "Sam Fields");
+		pasDriverActivityReport(policyNumber, "4 EXPIRED", "Sam Fields");
 
 		String oidDriver4 = addAndUpdateDriver(policyNumber, "OSI1000", "Test3", "1971-02-09", "A12387656", "CH", "AZ", "female");
 		OrderReportsResponse response3 = HelperCommon.orderReports(policyNumber, oidDriver4, OrderReportsResponse.class, 200);
@@ -526,11 +524,11 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String acDate1 = pasDriverActivityReport1(policyNumber);
 		assertSoftly(softly -> {
 			softly.assertThat(response5.drivingRecords.get(0).accidentDate).isEqualTo(acDate1);
-			softly.assertThat(response5.drivingRecords.get(0).accidentDate).isEqualTo("MVR");
+			softly.assertThat(response5.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 			softly.assertThat(response5.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("2  SUSPENDED");
 		});
 
-		pasDriverActivityReport(policyNumber, "2  SUSPENDED", "OSI1000 Test4");
+		pasDriverActivityReport(policyNumber, "2 SUSPENDED", "OSI1000 Test4");
 
 		String oidDriver6 = addAndUpdateDriver(policyNumber, "DOUGLAS", "HENRY", "1972-10-01", "A1452390", "CH", "CA", "female");
 		OrderReportsResponse response6 = HelperCommon.orderReports(policyNumber, oidDriver6, OrderReportsResponse.class, 200);
@@ -576,7 +574,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String acDate2 = pasDriverActivityReport1(policyNumber);
 		assertSoftly(softly -> {
 			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(acDate2);
-			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo("MVR");
+			softly.assertThat(response11.drivingRecords.get(0).activitySource).isEqualTo("MVR");
 			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("VALID");
 		});
 		pasDriverActivityReport(policyNumber, "VALID", "One AutoTheft");
@@ -585,12 +583,49 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		OrderReportsResponse response12 = HelperCommon.orderReports(policyNumber, oidDriver12, OrderReportsResponse.class, 200);
 		assertSoftly(softly -> {
 			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isNotEmpty();
-			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isEqualTo("CLUE");
+			softly.assertThat(response12.drivingRecords.get(0).activitySource).isEqualTo("CLUE");
 			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("1  VALID");
 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
-			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isEqualTo("CLUE");
+			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
 		});
+		pasDriverActivityReport(policyNumber, "1 VALID", "Two AtFault");
+	}
+
+	protected void pas15369_reportOrderAndDriverOtherStateBody(String policyNumber) {
+
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Karen", "Yifru", "2000-01-01", "A63341764", "CH", "VA", "female");
+		//Order reports through service
+		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
+		assertSoftly(softly ->
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("1  VALID")
+		);
+		pasDriverActivityReport(policyNumber, "1 VALID", "Karen Yifru");
+
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "Minor", "1970-01-01", "B15384002", "CH", "VA", "female");
+		OrderReportsResponse response1 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
+		String acDate = pasDriverActivityReport1(policyNumber);
+		assertSoftly(softly -> {
+			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
+			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("VALID");
+		});
+
+		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
+
+		String oidDriver12 = addAndUpdateDriver(policyNumber, "Two", "AtFault", "1970-01-01", "B15383001", "CH", "VA", "female");
+		OrderReportsResponse response12 = HelperCommon.orderReports(policyNumber, oidDriver12, OrderReportsResponse.class, 200);
+		assertSoftly(softly -> {
+			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isNotEmpty();
+			softly.assertThat(response12.drivingRecords.get(0).activitySource).isEqualTo("CLUE");
+
+
+			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
+			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
+
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus).isEqualTo("1  VALID");
+		});
+
 		pasDriverActivityReport(policyNumber, "1 VALID", "Two AtFault");
 	}
 
