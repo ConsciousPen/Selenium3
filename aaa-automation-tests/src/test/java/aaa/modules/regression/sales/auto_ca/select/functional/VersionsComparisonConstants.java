@@ -9,7 +9,7 @@ import com.google.common.collect.Multimap;
 public class VersionsComparisonConstants {
 
 	//fields that have DB values, but not UI values on Comparison page
-	static final Map<String, String> comparisonPageDifferentValues = ImmutableMap.<String, String>builder()
+	static final Map<String, String> COMPARISON_PAGE_DIFFERENT_VALUES = ImmutableMap.<String, String>builder()
 			.put("Membership Override", "Override")
 			.put("Hamilton DSC - 500001003","500001003")
 			.put("Advantage Auto Ins Agency, LLC - Magnolia - 500023745","500023745")
@@ -22,7 +22,7 @@ public class VersionsComparisonConstants {
 
 	//TODO refactor it by taking values from UI
 	//values that we don't have in Test Date, but that are used in comparison
-	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
 			//TODO should be deleted/updated when Report tab is fixed
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Residential Address", "VII residence address 1, VII residence address 2, Culver City, Los Angeles, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
@@ -99,8 +99,8 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
-	static final Multimap<String, String> uiFieldsToTDMapping = ImmutableListMultimap.<String, String>builder()
-			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
+	static final Multimap<String, String> UI_FIELDS_TO_TD_MAPPING = ImmutableListMultimap.<String, String>builder()
+			//Named Insured Information section (all other fields are mapped from MultiMap PREDEFINED_EXPECTED_VALUES)
 			.put("Driver Information (VIFirstName VI VILastName).First Name", "First Name")
 			.put("Driver Information (VIFirstName VI VILastName).Middle Name", "Middle Name")
 			.put("Driver Information (VIFirstName VI VILastName).Last Name", "Last Name")
@@ -217,7 +217,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for data gather comparison
-	static final Multimap<String, String> dataGatherNamedInsuredInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DATA_GATHER_NAMED_INSURED_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			//TODO should be deleted/updated when Report tab is fixed
 			//start
 			.put("AAA Claims Report Order", "First Name")
@@ -244,17 +244,17 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Named Insured Information section for endorsement/renewal comparison
-	public static final Multimap<String, String> endorsementRenewalNamedInsuredInformation;
+	public static final Multimap<String, String> ENDORSEMENT_RENEWAL_NAMED_INSURED_INFORMATION;
 	static {
-		Multimap<String, String> endorsementModified = ArrayListMultimap.create(dataGatherNamedInsuredInformation);
+		Multimap<String, String> endorsementModified = ArrayListMultimap.create(DATA_GATHER_NAMED_INSURED_INFORMATION);
 		endorsementModified.remove("AAA Credit History Order", "Order Date");
 		endorsementModified.remove("AAACredit Score Info", "First Name");
 		endorsementModified.remove("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Garaging Address");
-		endorsementRenewalNamedInsuredInformation = ImmutableListMultimap.copyOf(endorsementModified);
+		ENDORSEMENT_RENEWAL_NAMED_INSURED_INFORMATION = ImmutableListMultimap.copyOf(endorsementModified);
 	}
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
-	static final Multimap<String, String> aaaProductOwned = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
 			.put("AAAMembership Order", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
@@ -269,7 +269,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
-	static final Multimap<String, String> contactInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> CONTACT_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("Contact Information", "Home Phone Number")
 			.put("Contact Information", "Work Phone Number")
 			.put("Contact Information", "Mobile Phone Number")
@@ -278,7 +278,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
-	static final Multimap<String, String> currentCarrierInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> CURRENT_CARRIER_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			//TODO Should be return after implementation story - Clean up for Current Carrier
 			//.put("Current Carrier Information","More than 6 months Total Insurance Experience")
 			.put("Current Carrier Information","Agent Entered Current/Prior Carrier")
@@ -293,7 +293,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
-	static final Multimap<String, String> policyInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> POLICY_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Information","Source of Business")
 			.put("Policy Information","Source Policy #")
 			.put("Policy Information","Channel Type")
@@ -310,12 +310,12 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
-	static final Multimap<String, String> thirdPartyDesignee = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> THIRD_PARTY_DESIGNEE = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Information","Source of Business")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Driver Information section
-	static final Multimap<String, String> dataGatherDriverInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DATA_GATHER_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("ADBEndorsement Form", "Automobile Death Benefit")
 			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
 			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
@@ -357,7 +357,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Driver Information section
-	static final Multimap<String, String> endorsementRenewalDriverInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> ENDORSEMENT_RENEWAL_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("ADBEndorsement Form", "Automobile Death Benefit")
 			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
 			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
@@ -398,7 +398,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Vehicle Information section
-	static final Multimap<String, String> vehicleInformation = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("LSOPCEndorsement Form", "VIN")
 			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")

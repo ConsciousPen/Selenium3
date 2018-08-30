@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.Assertions;
 import org.openqa.selenium.InvalidArgumentException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
@@ -718,7 +717,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			}
 		}
 		//verification that number of all expected conflicts are resolved
-		Assertions.assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for %1$s.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
+		assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for %1$s.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
 	}
 
 	/**
@@ -749,7 +748,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	/**
 	 * Select needed version (current or available)
-	 * @param uiFieldRow row for the UI field; -1 if section is resolvale and has no fields
+	 * @param uiFieldRow row for the UI field; -1 if section is resolvable and has no fields
 	 * @param columnCount last column for select version
 	 * @param versionValue version value current/available
 	 * @param sectionName name of the section

@@ -10,7 +10,7 @@ public class VersionsConflictConstants {
 	private static final String CURRENT = "Current";
 
 	//Values that are not in Test Data, but are used in comparison
-	static final Multimap<String, String> predefinedExpectedValues = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
 			.putAll("Named Insured Information (VIFirstName VI VILastName).Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insured Information (VIIFirstName VII VIILastName).Prior Address", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245")
@@ -65,8 +65,8 @@ public class VersionsConflictConstants {
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
-	static final Multimap<String, String> uiFieldsToTDMapping = ImmutableListMultimap.<String, String>builder()
-			//Named Insured Information section (all other fields are mapped from MultiMap predefinedExpectedValues)
+	static final Multimap<String, String> UI_FIELDS_TO_TD_MAPPING = ImmutableListMultimap.<String, String>builder()
+			//Named Insured Information section (all other fields are mapped from MultiMap PREDEFINED_EXPECTED_VALUES)
 			.put("Driver Information (VIFirstName VI VILastName).First Name", "First Name")
 			.put("Driver Information (VIFirstName VI VILastName).Middle Name", "Middle Name")
 			.put("Driver Information (VIFirstName VI VILastName).Last Name", "Last Name")
@@ -167,7 +167,7 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> namedInsuredInformation = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> NAMED_INSURED_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAA Claims Report Order.First Name", CURRENT)
 					.put("AAA Claims Report Order.Last Name", CURRENT)
@@ -188,7 +188,7 @@ public class VersionsConflictConstants {
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> namedInsuredInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> NAMED_INSURED_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("Named Insured Information (VIIFirstName VII VIILastName)", "Prefix")
 			.put("Named Insured Information (VIIFirstName VII VIILastName)", "Move-In Date")
 			.put("Named Insured Information (VIIFirstName VII VIILastName)", "Prior Address")
@@ -196,7 +196,7 @@ public class VersionsConflictConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
-	static final Multimap<String, String> namedInsuredInformationVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> NAMED_INSURED_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			//TODO should be deleted/updated when Report tab is fixed
 			//start
 			.put("AAA Claims Report Order", "First Name")
@@ -220,7 +220,7 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> aaaProductOwnedManual = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 					ImmutableListMultimap.<String, String>builder()
 							.put("AAA Membership Order.Last Name", CURRENT)
 							.put("AAA Membership Order.Membership Number", CURRENT)
@@ -241,7 +241,7 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> aaaProductOwnedAutomatic = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAA Products Owned.Current AAA Member", CURRENT)
 					.put("AAA Products Owned.Policy #", AVAILABLE)
@@ -253,7 +253,7 @@ public class VersionsConflictConstants {
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> aaaProductOwnedVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
@@ -263,7 +263,7 @@ public class VersionsConflictConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> aaaProductOwnedVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("AAA Products Owned", "Current AAA Member")
 			.put("AAA Products Owned", "Override Type")
 			.put("AAA Products Owned", "Member Since Date")
@@ -273,7 +273,7 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> contactInformation = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> CONTACT_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
 					.put("Contact Information.Home Phone Number", CURRENT)
@@ -281,13 +281,13 @@ public class VersionsConflictConstants {
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> contactInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("AAAPolicy Issue Summary", "Insured Email")
 			.put("Contact Information", "Email")
 			.build();
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> contactInformationVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("Contact Information", "Home Phone Number")
 			.put("Contact Information", "Work Phone Number")
 			.put("Contact Information", "Mobile Phone Number")
@@ -297,15 +297,15 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> currentCarrierInformation = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> CURRENT_CARRIER_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> currentCarrierInfrmationVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> CURRENT_CARRIER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 					.build();
 
-	protected static final ArrayListMultimap<String, String> policyInformationManual = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> POLICY_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Policy Information.Source of Business", CURRENT)
 					.put("Policy Information.Override ASD Level", AVAILABLE)
@@ -313,7 +313,7 @@ public class VersionsConflictConstants {
 					.put("Policy Information.TollFree Number", AVAILABLE)
 					.build());
 
-	protected static final ArrayListMultimap<String, String> policyInformationAutomatic = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> POLICY_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Policy Information.Source of Business", CURRENT)
 					.put("Policy Information.Advance Shopping Discount Override", AVAILABLE)
@@ -321,9 +321,8 @@ public class VersionsConflictConstants {
 					.put("Policy Information.TollFree Number", AVAILABLE)
 					.build());
 
-
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
-	static final Multimap<String, String> policyInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> POLICY_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Information","Override ASD Level")
 			.put("Policy Information","Advance Shopping Discount Override")
 			.put("Policy Information","ASD Overriden By")
@@ -347,7 +346,7 @@ public class VersionsConflictConstants {
 
 	//TODO should be deleted when Policy Information.Renewal Term Premium - Old Rater is fixed, RenewalMerge test need to have policyInformationVersion1, not policyInformationRenewal
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
-	static final Multimap<String, String> policyInformationRenewalVersion1= ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> POLICY_INFORMATION_RENEWAL_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("Policy Information","Source of Business")
 			.put("Policy Information","Source Policy #")
 			.put("Policy Information","Renewal Term Premium - Old Rater")
@@ -363,7 +362,7 @@ public class VersionsConflictConstants {
 	/**
 	 *  Maps full attribute path on conflict page to version to select (Current, Available).
 	 */
-	protected static final ArrayListMultimap<String, String> driverInformationManual = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAA Claims Report Order.Date of Birth", AVAILABLE)
 					.put("AAA Claims Report Order.License Number", AVAILABLE)
@@ -388,7 +387,7 @@ public class VersionsConflictConstants {
 					.put("Driver Information (NBFirstName NB NBLastName).Date of Birth", CURRENT)
 					.build());
 
-	protected static final ArrayListMultimap<String, String> driverInformationAutomatic = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					//TODO return when Activity section is done
 /*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
@@ -400,7 +399,7 @@ public class VersionsConflictConstants {
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
-	static final Multimap<String, String> driverInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("AAA Claims Report Order", "Automobile Death Benefit")
 			.put("AAAMvr Report Order", "Automobile Death Benefit")
 			//TODO return when Activity section is done
@@ -415,7 +414,7 @@ public class VersionsConflictConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
-	static final Multimap<String, String> driverInformationVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("AAAADBCoverage", "Automobile Death Benefit")
 			.put("AZ_ADBEEndorsement Form", "Automobile Death Benefit")
 			.put("AZ_SR22FREndorsement Form", "Automobile Death Benefit")
@@ -445,7 +444,7 @@ public class VersionsConflictConstants {
 			.build();
 
 
-	protected static final ArrayListMultimap<String, String> vehicleInformationManual = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
@@ -453,7 +452,7 @@ public class VersionsConflictConstants {
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
 					.build());
 
-	protected static final ArrayListMultimap<String, String> vehicleInformationAutomatic = ArrayListMultimap.create(
+	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
 					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
@@ -461,7 +460,7 @@ public class VersionsConflictConstants {
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
-	static final Multimap<String, String> vehicleInformationVersion2 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> VEHICLE_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Is Garaging different from Residential?")
 			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Garaging Address")
 			//Additional Interest Information
@@ -471,7 +470,7 @@ public class VersionsConflictConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
-	static final Multimap<String, String> vehicleInformationVersion1 = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> VEHICLE_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Usage")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
