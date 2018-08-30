@@ -23,7 +23,7 @@ public class AAAMembershipQueries {
 
     /**
      * Returns the AAA BestMembership Status from DB
-     * @param quoteOrPolicyNumber
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return
      */
     public static Optional<AAABestMembershipStatus> getAAABestMembershipStatusFromSQL(String quoteOrPolicyNumber) {
@@ -31,11 +31,11 @@ public class AAAMembershipQueries {
 
         Optional<String> dbResponse = DBService.get().getValue(query);
 
-        Optional<AAABestMembershipStatus> bestMembershipStatus = Optional.ofNullable(null);
+        Optional<AAABestMembershipStatus> bestMembershipStatus = Optional.empty();
 
         if(dbResponse.isPresent()){
             AAABestMembershipStatus bestMembershipValue = AAABestMembershipStatus.valueOf(dbResponse.get());
-            bestMembershipStatus = Optional.ofNullable(bestMembershipValue);
+            bestMembershipStatus = Optional.of(bestMembershipValue);
         }
 
         return bestMembershipStatus;
@@ -43,8 +43,7 @@ public class AAAMembershipQueries {
 
     /**
      * Returns the AAA Membership Member Since Date from DB.
-     *
-     * @param quoteOrPolicyNumber
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return
      */
     public static java.util.Optional<String> getAAAMemberSinceDateFromSQL(String quoteOrPolicyNumber) {
@@ -53,9 +52,9 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Returns the AAA Order Membership Number from DB.
+     * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
-     * @param quoteOrPolicyNumber
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return
      */
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
@@ -64,10 +63,10 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Changes the Membership status *After* policy was created to specific status.
+     * Changes the Membership status *After* policy was created to specific status. <br>
      * Does NOT support Quotes.
-     * @param policyNumber
-     * @param updatedStatus
+     * @param policyNumber is the policy number to query against.
+     * @param updatedStatus is what AAA Membership Status to set in the database.
      * @throws IllegalArgumentException When given a Quote Number.
      */
     public static void updateAAAMembershipStatusInSQL(String policyNumber, AAAMembershipStatus updatedStatus)
@@ -92,10 +91,10 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Returns the standard membership db query returning only the column name requested.
-     * @param selectStatmentColumn
-     * @param quoteOrPolicyNumber
-     * @return
+     * Returns the standard membership db query for the column and appropriate quote/policy joined on.
+     * @param selectStatmentColumn sets which column you want the query to return
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return SQL Query that will get specific requested column based on quoteOrPolicyNumber
      */
     private static String getStandardMembershipQuery(String selectStatmentColumn, String quoteOrPolicyNumber) {
         String query =
@@ -110,25 +109,24 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Returns True if quoteOrPolicyNumber starts with Q.
-     * @param quoteOrPolicyNumber
-     * @return
+     * Evaluates whether or not quoteOrPolicyNumber starts with a Q
+     * @param quoteOrPolicyNumber The quote or policy number to be evaluated
+     * @return true if quoteOrPolicyNumber starts with Q
      */
     private static boolean isQuote(String quoteOrPolicyNumber) {
         return quoteOrPolicyNumber.toUpperCase().startsWith("Q");
     }
 
     /**
-     * Used to get an appropriate AND column statement using passed in quoteOrPolicyNumber for AAA Membership Queries.
-     * EX: quoteOrPolicyNumber("QAZSS952918540") returns "AND ps.quotenumber='QAZSS952918540' "
-     * EX: quoteOrPolicyNumber("AZSS952918540" ) returns "AND ps.policynumber='AZSS952918540' "
-     *
-     * @param quoteOrPolicyNumber
-     * @return
+     * Used to get an appropriate AND column statement using passed in quoteOrPolicyNumber for AAA Membership Queries. <br>
+     * <br>
+     * EX: quoteOrPolicyNumber("QAZSS952918540") returns "AND ps.quotenumber='QAZSS952918540' " <br>
+     * EX: quoteOrPolicyNumber("AZSS952918540" ) returns "AND ps.policynumber='AZSS952918540' " <br>
+     * @param quoteOrPolicyNumber quote or policy number to query on
+     * @return SQL join statement with appropriate column selection and inserted quote or policy number.
      */
     private static String getQuoteOrPolicyNumberJoinSQL(String quoteOrPolicyNumber) {
         String quoteOrPolicyColumnName = isQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
-        String SQL = String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
-        return SQL;
+        return String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
     }
 }

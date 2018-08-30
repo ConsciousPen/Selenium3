@@ -36,7 +36,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Create Policy with a Fallback to specific number.
-     * @param fallbackMemberNumber
+     * @param fallbackMemberNumber Specifies an initial member number to use.
      * @return Policy Number
      */
     protected String createFallbackPolicy(String fallbackMemberNumber){
@@ -53,7 +53,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Create Policy with a Fallback to specific number then move to NB+15
-     * @param fallbackMemberNumber
+     * @param fallbackMemberNumber Specifies an initial member number to use.
      * @return Policy Number
      */
     protected String createFallbackPolicyAndMoveToNB15(String fallbackMemberNumber){
@@ -193,9 +193,14 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Used to get test data when AAA Member Number provided
-     * @param keypathCurrentMember
-     * @param keypathMemberNum
-     * @param aaaMemberNumber
+     * @param keypathCurrentMember Describes path to find Current Member on page. <br>
+     * EX: "GeneralTab|AAAProductOwned|Current AAA Member" <br>
+     * <br>
+     * @param keypathMemberNum Describes path to find AAA Member Number on page. <br>
+     * EX: "GeneralTab|AAAProductOwned|Membership Number" <br>
+     * <br>
+     * @param aaaMemberNumber The AAA Membership Number value you want to set in the PAS UI. <br>
+     * EX: "9999994444444440"
      * @return TestData that ensures Current AAA Member to Yes and automation uses specific Member Number
      */
     private TestData getAAAMemberPolicyTestData
@@ -209,8 +214,11 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Used to get test data when no AAA Member Number provided
-     * @param keypathCurrentMember
-     * @param keypathMemberNum
+     * @param keypathCurrentMember Describes path to find Current Member on page. <br>
+     * EX: "GeneralTab|AAAProductOwned|Current AAA Member" <br>
+     * @param keypathMemberNum Describes path to find AAA Member Number on page. <br>
+     * EX: "GeneralTab|AAAProductOwned|Membership Number" <br>
+     * <br>
      * @return TestData that sets Current AAA Member to No and hides any member number the default TD would have entered.
      */
     private TestData getNonAAAMemberPolicyTestData (String keypathCurrentMember, String keypathMemberNum)
@@ -227,7 +235,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Used to set a DB Error Status for RMS response so BML will attempt to override provided number.
-     * @param policyNumber
+     * @param policyNumber The policy number you want to update to an error status.
      */
     private void setErrorStatus(String policyNumber){
         AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.Error);
@@ -239,7 +247,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Logs out the policy effective date and Moves to New Business + 15 days.
-     * @param policyEffectiveDate
+     * @param policyEffectiveDate The Current policy effective date to move ahead by 15 days.
      */
     private void moveToNB15(LocalDateTime policyEffectiveDate){
         log.info("Policy Effective Date: " + policyEffectiveDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
