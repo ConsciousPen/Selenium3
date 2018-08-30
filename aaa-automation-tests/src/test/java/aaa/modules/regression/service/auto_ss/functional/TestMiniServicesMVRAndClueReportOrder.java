@@ -188,18 +188,18 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name
+	 * @name Drivers with a major violation -<=33 months - 200009
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
-	 * 3. Add driver with:
-	 *
-	 *
-	 *
-	 *
+	 * 3. Add driver with one major violation.
 	 * 4. Order reports for new driver.
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
+	 *
+	 * Repeat with drivers, which have:
+	 * FEL, HOM, DR, FLE, HAR, LTS, NGD,
+	 * RKD, SUS violations.
 	 */
 
 	@Parameters({"state"})

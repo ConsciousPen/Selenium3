@@ -33,6 +33,7 @@ public final class ErrorDxpEnum {
 		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104)"),
 		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable. (200096)"),
 		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
+		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS_C("200005_C", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005_C)"),
 		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable (200004)"),
 		DRIVER_WITH_MAJOR_VIOLATION("200009", "Driver with a Major violation, including a DUI is unacceptable (200009)"),
 		DRIVER_WITH_MAJOR_VIOLATION_DRUG_AND_FELONY_VA("200005","Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
