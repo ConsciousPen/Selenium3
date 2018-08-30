@@ -264,6 +264,7 @@ public class Scenario6 extends ScenarioBaseTest {
 				leapDays = (policyEffectiveDate.getDayOfMonth() - 28)>0 ? 1 : 0;
 			}
 			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1).plusDays(leapDays)));
+			leapDays = 0;
 		}
 		totalDue = BillingSummaryPage.getTotalDue();
 	}
