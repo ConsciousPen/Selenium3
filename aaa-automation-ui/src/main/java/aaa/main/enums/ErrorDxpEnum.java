@@ -36,6 +36,7 @@ public final class ErrorDxpEnum {
 		DRIVER_WITH_MAJOR_VIOLATION_VA("200009_VA", "Driver with a Major violation, including a DUI is unacceptable (200009)"),
 		DRIVER_WITH_MAJOR_VIOLATION_DRUG_AND_FELONY_VA("200005","Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
 		DRIVER_WITH_MAJOR_VIOLATION_DUI_VA("200009_VA","Driver with a Major violation, including a DUI is unacceptable (200009)"),
+		MVR_ERROR_C("MVR Error (200119_C"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS_BRACKETS("PFO017", "Error occurred during operation execution: {1}"),
 		VALIDATION_ERROR_HAPPENED_DURING_BIND("ERROR_SERVICE_VALIDATION", "Validation error happened during bind of the policy"),
@@ -54,6 +55,7 @@ public final class ErrorDxpEnum {
 		UNIQUE_VIN("200031", "Each vehicle must have a unique Vehicle Identification Number (200031)"),
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile (200016)"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit (200022)"),
+		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date (AAA_SS7120048)"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating (AAA_CSA6220000)"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating (AAA_CSA6220000)"), //the same as in PAS
