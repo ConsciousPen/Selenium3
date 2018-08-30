@@ -46,7 +46,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Create Default Policy using Default Fallback Member Number then move to NB+15
-     * @return
+     * @return Policy Number
      */
     protected String CreateDefaultFallbackPolicyAndMoveToNB15(){
         return CreateFallbackPolicyAndMoveToNB15(DefaultFallbackMemberNumber);
@@ -55,7 +55,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     /**
      * Create Policy with a Fallback to specific number then move to NB+15
      * @param fallbackMemberNumber
-     * @return
+     * @return Policy Number
      */
     protected String CreateFallbackPolicyAndMoveToNB15(String fallbackMemberNumber){
         String policyNumber = CreateFallbackPolicy(fallbackMemberNumber);
@@ -68,7 +68,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     /**
      * Creates a policy with the intention of going through BML.
      * @param inputQuoteMemberNumber If blank, will set No to AAAMember during quote.
-     * @return
+     * @return Policy Number
      */
      private String CreateBMLPolicy(String inputQuoteMemberNumber){
 
@@ -195,7 +195,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param keypathCurrentMember
      * @param keypathMemberNum
      * @param aaaMemberNumber
-     * @return
+     * @return TestData
      */
     private TestData getAAAMemberPolicyTestData
             (String keypathCurrentMember, String keypathMemberNum, String aaaMemberNumber) {
@@ -210,7 +210,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Used to get test data when no AAA Member Number provided
      * @param keypathCurrentMember
      * @param keypathMemberNum
-     * @return
+     * @return TestData
      */
     private TestData getNonAAAMemberPolicyTestData (String keypathCurrentMember, String keypathMemberNum)
             throws NotImplementedException{
