@@ -68,8 +68,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Creates a policy with the intention of going through BML.
      * @param inputQuoteMemberNumber If blank, will set No to AAAMember during quote.
      * @return Policy Number
+     * @throws NotImplementedException when evaluating policy types for keypath generation if no match.
      */
-     private String createBMLPolicy(String inputQuoteMemberNumber){
+     private String createBMLPolicy(String inputQuoteMemberNumber) throws NotImplementedException{
 
         String keypathCurrentMember;
         String keypathMemberNum;
