@@ -261,9 +261,9 @@ public class Scenario6 extends ScenarioBaseTest {
 		int leapDays = 0;
 		for (LocalDateTime date : installmentDueDates) {
 			if (date.plusYears(1).isEqual(TimeSetterUtil.getInstance().parse("02/28/2020", DateTimeUtils.MM_DD_YYYY))) {
-				leapDays = policyEffectiveDate.getDayOfMonth() - 28;
+				leapDays = (policyEffectiveDate.getDayOfMonth() - 28)>0 ? 1 : 0;
 			}
-			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1)));
+			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1).plusDays(leapDays)));
 		}
 		totalDue = BillingSummaryPage.getTotalDue();
 	}
