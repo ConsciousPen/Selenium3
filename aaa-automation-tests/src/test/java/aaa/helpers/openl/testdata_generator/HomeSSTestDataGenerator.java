@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_generator;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -97,7 +98,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	public TestData getAutoPolicyData(TestData td, HomeSSOpenLPolicy openLPolicy) {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-				openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+				LocalDate.now().format(DateTimeUtils.MM_DD_YYYY));
 		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
@@ -119,18 +120,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				PurchaseTab.class.getSimpleName(), td.getTestData(PurchaseTab.class.getSimpleName())
 		);
 
-		TestData mortgageeTabData = DataProviderFactory.dataOf(
-				new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
-						HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
-						HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), DataProviderFactory.dataOf(
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "John Smith",
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.STREET_ADDRESS_1.getLabel(), "111 Street Address",
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), true,
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
-								HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
-		);
-		policyIssueData = TestDataHelper.merge(mortgageeTabData, policyIssueData);
+		policyIssueData = TestDataHelper.merge(getMortgageeTabData(openLPolicy), policyIssueData);
 
 		TestData documentsTabData = DataProviderFactory.dataOf(
 				DocumentsTab.class.getSimpleName(), getDocumentsToBindData(openLPolicy));
@@ -243,6 +233,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 		removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCoverageCd())).findFirst().get().getLimit())));
+		removeFormData = removeFormData.adjust(getMortgageeTabData(openLPolicy));
+
 		return removeFormData;
 	}
 
@@ -834,6 +826,20 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			);
 		}
 		return premiumAndCoveragesQuoteTabData;
+	}
+
+	private TestData getMortgageeTabData(HomeSSOpenLPolicy openLPolicy) {
+		return DataProviderFactory.dataOf(
+				new MortgageesTab().getMetaKey(), DataProviderFactory.dataOf(
+						HomeSSMetaData.MortgageesTab.MORTGAGEE.getLabel(), "Yes",
+						HomeSSMetaData.MortgageesTab.MORTGAGEE_INFORMATION.getLabel(), DataProviderFactory.dataOf(
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.NAME.getLabel(), "John Smith",
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.STREET_ADDRESS_1.getLabel(), "111 Street Address",
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_BTN.getLabel(), true,
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
+								HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER.getLabel(), "123456789"))
+		);
 	}
 
 	private String getNumberOfFamilyUnits(HomeSSOpenLPolicy openLPolicy) {
