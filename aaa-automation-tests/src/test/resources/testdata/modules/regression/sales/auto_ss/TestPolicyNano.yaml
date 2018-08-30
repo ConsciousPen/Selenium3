@@ -356,7 +356,7 @@ TestData_ID: {
   FormsTab: {},
   PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab_without_NANO',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ID',
   PurchaseTab: '@PurchaseTab'
 }
 
@@ -386,6 +386,14 @@ DriverTab_ID: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: AA223456A
+}
+
+DocumentsAndBindTab_ID: {
+ RequiredToBind: {
+     Auto Insurance Application: Physically Signed,
+     UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+   },
+   Agreement: I agree
 }
 
 #seems IN does't work, need to investigate

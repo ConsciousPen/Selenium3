@@ -33,9 +33,9 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new HdesConversionData(file, effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
-//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
+		//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
+		//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -66,6 +66,7 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	protected void hdesCAConversion_renewWithLapse(String file, ITestContext context) {
@@ -96,7 +97,6 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
-
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1));
 		mainApp().open();
@@ -142,10 +142,10 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
 
-//		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(15));
-//		mainApp().open();
-//		SearchPage.openBilling(policyNum);
-//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
+		//		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(15));
+		//		mainApp().open();
+		//		SearchPage.openBilling(policyNum);
+		//		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(effDate);
 
 		Dollar rAmount = BillingHelper.getBillMinDueAmount(effDate, BillingConstants.BillsAndStatementsType.OFFER);
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), rAmount);

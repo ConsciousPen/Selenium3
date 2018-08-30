@@ -78,7 +78,7 @@
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
-                    <include name="pas13252_UpdateVehicleGaragingAddressProblemBody"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas15483_deleteOriginalVehicle"/>
@@ -181,9 +181,10 @@
                     <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
                     <include name="pas502_DuplicateVinAddVehicleService"/>
                     <include name="pas14721_UpdateCoveragesBI_PD"/>
-                    <include name="pas14536_TransportationExpensePart1Body"/>
-                    <include name="pas14536_TransportationExpensePart2Body"/>
-                    <include name="pas14536_TransportationExpensePart3Body"/>
+                    <include name="pas14536_TransportationExpensePart1"/>
+                    <include name="pas14536_TransportationExpensePart2"/>
+                    <include name="pas14536_TransportationExpensePart3"/>
+                    <include name="pas17646_OrderOfCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -355,7 +356,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
                 <methods>
-                    <include name="pas16982_ViewInstallmentScheduleServiceBody"/>
+                    <include name="pas16982_ViewInstallmentScheduleService"/>
                 </methods>
             </class>
         </classes>
@@ -524,6 +525,7 @@
                     <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
                     <include name="pas14963_remove_driver_transaction_history"/>
                     <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
+                    <include name="pas17769_tooOldDriverErrorAndNoHintFromReportResponse"/>
                 </methods>
             </class>
         </classes>
@@ -564,11 +566,51 @@
         </classes>
     </test>
     <test name="pas17629_Umuim_Update_coverage">
-        <parameter name="state" value="IN"/>
+    <parameter name="state" value="IN"/>
+    <classes>
+        <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+            <methods>
+                <include name="pas17629_Umuim_Update_coverage"/>
+            </methods>
+        </class>
+    </classes>
+</test>
+    <test name="pas15369_reportOrderAndDriverPA">
+        <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas17629_Umuim_Update_coverage"/>
+                    <include name="pas15369_reportOrderAndDriverPA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15369_reportOrderAndDriverNJ">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverNJ"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15369_reportOrderAndDriverNY">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverNY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15369_reportOrderAndDriverCO">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverCO"/>
                 </methods>
             </class>
         </classes>

@@ -27,15 +27,16 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
-		MORE_THAN_TWO_MINOR_VIOLATIONS_VA("200095", "Driver with more than (2) Minor violations are unacceptable."),
-		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable"),
-		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable"),
-		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable."),
-		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION_VA("200009_VA", "Driver with a Major violation, including a DUI is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION_DRUG_AND_FELONY_VA("200005","Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION_DUI_VA("200009_VA","Driver with a Major violation, including a DUI is unacceptable"),
+		MORE_THAN_TWO_MINOR_VIOLATIONS_VA("200095", "Driver with more than (2) Minor violations are unacceptable. (200095)"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable (200010)"),
+		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104)"),
+		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable. (200096)"),
+		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
+		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable (200004)"),
+		DRIVER_WITH_MAJOR_VIOLATION_VA("200009_VA", "Driver with a Major violation, including a DUI is unacceptable (200009)"),
+		DRIVER_WITH_MAJOR_VIOLATION_DRUG_AND_FELONY_VA("200005","Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable (200005)"),
+		DRIVER_WITH_MAJOR_VIOLATION_DUI_VA("200009_VA","Driver with a Major violation, including a DUI is unacceptable (200009)"),
+		MVR_ERROR_C("MVR Error (200119_C"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS_BRACKETS("PFO017", "Error occurred during operation execution: {1}"),
 		VALIDATION_ERROR_HAPPENED_DURING_BIND("ERROR_SERVICE_VALIDATION", "Validation error happened during bind of the policy"),
@@ -47,13 +48,14 @@ public final class ErrorDxpEnum {
 
 		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 
-		ZIP_CODE_IS_NOT_APPLICABLE("AAA_SS1273145", "Zip code is not applicable; please check again. If this is incorrect, please contact Agency Support."),
-		GARAGED_OUT_OF_STATE("200019", "Unacceptable due to one or more vehicles garaged out of the policy state"),
-		GARAGED_IN_MICHIGAN("200020", "Unacceptable due to one or more vehicles garaged in Michigan"),
-		GARAGED_OUT_OF_STATE_ONLY_VEHICLE("200018", "Unacceptable due to all vehicles garaged out of the policy state"),
-		UNIQUE_VIN("200031", "Each vehicle must have a unique Vehicle Identification Number"),
-		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
-		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
+		ZIP_CODE_IS_NOT_APPLICABLE("AAA_SS1273145", "Zip code is not applicable; please check again. If this is incorrect, please contact Agency Support. (AAA_SS1273145)"),
+		GARAGED_OUT_OF_STATE("200019", "Unacceptable due to one or more vehicles garaged out of the policy state (200019)"),
+		GARAGED_IN_MICHIGAN("200020", "Unacceptable due to one or more vehicles garaged in Michigan (200020)"),
+		GARAGED_OUT_OF_STATE_ONLY_VEHICLE("200018", "Unacceptable due to all vehicles garaged out of the policy state (200018)"),
+		UNIQUE_VIN("200031", "Each vehicle must have a unique Vehicle Identification Number (200031)"),
+		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile (200016)"),
+		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit (200022)"),
+		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date (AAA_SS7120048)"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating"), //the same as in PAS
@@ -70,7 +72,8 @@ public final class ErrorDxpEnum {
 		DRIVER_GENDER_MISMATCH("The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
 		DRIVER_DOB_MISMATCH("The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
 		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
-	;
+		ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR("ERROR_SERVICE_VALIDATION","Cannot order reports for existing drivers.")
+		;
 
 		private final String code;
 		private final String message;
