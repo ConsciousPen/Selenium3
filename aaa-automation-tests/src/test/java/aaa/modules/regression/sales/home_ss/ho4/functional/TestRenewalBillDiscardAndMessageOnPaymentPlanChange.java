@@ -112,6 +112,6 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 
 		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
 				true, true, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL,
-				notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
+				automaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 }
