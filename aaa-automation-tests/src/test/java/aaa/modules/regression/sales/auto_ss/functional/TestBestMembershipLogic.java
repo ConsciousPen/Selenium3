@@ -46,13 +46,13 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = CreateDefaultFallbackPolicyAndMoveToNB15();
+        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
 
         /*--Step 5--*/
-        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
 
-        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+        assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(DefaultBMLResponseMemberNumber);
     }
 
@@ -79,13 +79,13 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate after policy effective date.
 
         /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = CreateDefaultFallbackPolicyAndMoveToNB15();
+        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
 
         /*--Step 5--*/
-        assertThat(AAAMembershipQueries.GetAAABestMembershipStatusFromSQL(policyNumber))
+        assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber))
                 .isNotNull().hasValue(AAAMembershipQueries.AAABestMembershipStatus.FOUND_STG1);
 
-        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+        assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(DefaultBMLResponseMemberNumber);
     }
 
@@ -112,10 +112,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = CreateDefaultFallbackPolicyAndMoveToNB15();
+        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
 
         /*--Step 5--*/
-        assertThat(AAAMembershipQueries.GetAAAOrderMembershipNumberFromSQL(policyNumber))
+        assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(DefaultFallbackMemberNumber);
     }
 }

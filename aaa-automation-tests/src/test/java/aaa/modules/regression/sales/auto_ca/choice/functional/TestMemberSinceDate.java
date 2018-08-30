@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -61,7 +60,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        assertThat(AAAMembershipQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
+        assertThat(AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
@@ -75,7 +74,7 @@ public class TestMemberSinceDate extends AutoCaChoiceBaseTest {
         /*--Step 5--*/
         log.info("Step 5: Validate that the Member Since Date in the DB now matches the Stub response.");
 
-        String dbMemberSinceDate = AAAMembershipQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
+        String dbMemberSinceDate = AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
 
         LocalDateTime DateTime = LocalDateTime.parse(dbMemberSinceDate, formatSQL);
 

@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -31,8 +30,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Create Default Policy using Default Fallback Member Number.
      * @return Policy Number
      */
-    protected String CreateDefaultFallbackPolicy(){
-        return CreateFallbackPolicy(DefaultFallbackMemberNumber);
+    protected String createDefaultFallbackPolicy(){
+        return createFallbackPolicy(DefaultFallbackMemberNumber);
     }
 
     /**
@@ -40,16 +39,16 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param fallbackMemberNumber
      * @return Policy Number
      */
-    protected String CreateFallbackPolicy(String fallbackMemberNumber){
-        return CreateBMLPolicy(fallbackMemberNumber);
+    protected String createFallbackPolicy(String fallbackMemberNumber){
+        return createBMLPolicy(fallbackMemberNumber);
     }
 
     /**
      * Create Default Policy using Default Fallback Member Number then move to NB+15
      * @return Policy Number
      */
-    protected String CreateDefaultFallbackPolicyAndMoveToNB15(){
-        return CreateFallbackPolicyAndMoveToNB15(DefaultFallbackMemberNumber);
+    protected String createDefaultFallbackPolicyAndMoveToNB15(){
+        return createFallbackPolicyAndMoveToNB15(DefaultFallbackMemberNumber);
     }
 
     /**
@@ -57,11 +56,11 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param fallbackMemberNumber
      * @return Policy Number
      */
-    protected String CreateFallbackPolicyAndMoveToNB15(String fallbackMemberNumber){
-        String policyNumber = CreateFallbackPolicy(fallbackMemberNumber);
+    protected String createFallbackPolicyAndMoveToNB15(String fallbackMemberNumber){
+        String policyNumber = createFallbackPolicy(fallbackMemberNumber);
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        MoveToNB15(policyEffectiveDate);
-        STG1STG2JobExecute();
+        moveToNB15(policyEffectiveDate);
+        executeSTG1STG2Job();
         return policyNumber;
     }
 
@@ -70,7 +69,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param inputQuoteMemberNumber If blank, will set No to AAAMember during quote.
      * @return Policy Number
      */
-     private String CreateBMLPolicy(String inputQuoteMemberNumber){
+     private String createBMLPolicy(String inputQuoteMemberNumber){
 
         String keypathCurrentMember;
         String keypathMemberNum;
@@ -153,7 +152,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             }
 
             default: {
-                String msg = "CreateBMLPolicy does not implement policy type: [" + getPolicyType().getShortName() +
+                String msg = "createBMLPolicy does not implement policy type: [" + getPolicyType().getShortName() +
                         "] Keypaths must be mapped for the type for CurrentAAAMembership and AAAMembership Number";
                 throw new NotImplementedException(msg);
             }
@@ -184,7 +183,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         // Set error status if necessary //
         if (hasMemberNumber) {
-            SetErrorStatus(policyNumber);
+            setErrorStatus(policyNumber);
         }
 
         return policyNumber;
@@ -228,8 +227,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Used to set a DB Error Status for RMS response so BML will attempt to override provided number.
      * @param policyNumber
      */
-    private void SetErrorStatus(String policyNumber){
-        AAAMembershipQueries.UpdateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.Error);
+    private void setErrorStatus(String policyNumber){
+        AAAMembershipQueries.updateAAAMembershipStatusInSQL(policyNumber, AAAMembershipQueries.AAAMembershipStatus.Error);
 
         // Clear cache to avoid BML result getting overridden by the original number.
         //adminApp().open();
@@ -240,7 +239,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Logs out the policy effective date and Moves to New Business + 15 days.
      * @param policyEffectiveDate
      */
-    private void MoveToNB15(LocalDateTime policyEffectiveDate){
+    private void moveToNB15(LocalDateTime policyEffectiveDate){
         log.info("Policy Effective Date: " + policyEffectiveDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(15));
     }
@@ -248,7 +247,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     /**
      * Executes the required jobs for BML at STG1 (NB+15) or STG2 (NB+30).
      */
-    private void STG1STG2JobExecute() {
+    private void executeSTG1STG2Job() {
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
         JobUtils.executeJob(Jobs.automatedProcessingRatingJob);

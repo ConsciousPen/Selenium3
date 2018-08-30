@@ -63,7 +63,7 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        assertThat(AAAMembershipQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
+        assertThat(AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
@@ -77,7 +77,7 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
         /*--Step 5--*/
         log.info("Step 5: Validate that the Member Since Date in the DB now matches the Stub response.");
 
-        String dbMemberSinceDate = AAAMembershipQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
+        String dbMemberSinceDate = AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
 
         LocalDateTime DateTime = LocalDateTime.parse(dbMemberSinceDate, formatSQL);
 

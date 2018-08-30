@@ -26,8 +26,8 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    public static Optional<AAABestMembershipStatus> GetAAABestMembershipStatusFromSQL(String quoteOrPolicyNumber) {
-        String query = GetStandardMembershipQuery("MS.AAABESTMEMBERSHIPSTATUS", quoteOrPolicyNumber);
+    public static Optional<AAABestMembershipStatus> getAAABestMembershipStatusFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("MS.AAABESTMEMBERSHIPSTATUS", quoteOrPolicyNumber);
 
         Optional<String> dbResponse = DBService.get().getValue(query);
 
@@ -47,8 +47,8 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    public static java.util.Optional<String> GetAAAMemberSinceDateFromSQL(String quoteOrPolicyNumber) {
-        String query = GetStandardMembershipQuery("MS.MEMBERSINCEDATE AS MS_MEMBERSINCEDATE", quoteOrPolicyNumber);
+    public static java.util.Optional<String> getAAAMemberSinceDateFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("MS.MEMBERSINCEDATE AS MS_MEMBERSINCEDATE", quoteOrPolicyNumber);
         return DBService.get().getValue(query);
     }
 
@@ -58,8 +58,8 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    public static java.util.Optional<String> GetAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
-        String query = GetStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
+    public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
         return DBService.get().getValue(query);
     }
 
@@ -70,11 +70,11 @@ public class AAAMembershipQueries {
      * @param updatedStatus
      * @throws IllegalArgumentException When given a Quote Number.
      */
-    public static void UpdateAAAMembershipStatusInSQL(String policyNumber, AAAMembershipStatus updatedStatus)
+    public static void updateAAAMembershipStatusInSQL(String policyNumber, AAAMembershipStatus updatedStatus)
             throws IllegalArgumentException {
 
-        if (IsQuote(policyNumber)) {
-            throw new IllegalArgumentException("UpdateAAAMembershipStatusInSQL() does not support Quotes. " +
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAAMembershipStatusInSQL() does not support Quotes. " +
                     "Arg policyNumber: " + policyNumber);
         }
 
@@ -97,12 +97,12 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    private static String GetStandardMembershipQuery(String selectStatmentColumn, String quoteOrPolicyNumber) {
+    private static String getStandardMembershipQuery(String selectStatmentColumn, String quoteOrPolicyNumber) {
         String query =
                 "SELECT " + selectStatmentColumn.trim() + " " +
                         "FROM policysummary ps " +
                         "JOIN OTHERORPRIORPOLICY OP ON OP.POLICYDETAIL_ID=ps.POLICYDETAIL_ID AND OP.PRODUCTCD ='membership' " +
-                        GetQuoteOrPolicyNumberJoinSQL(quoteOrPolicyNumber) +
+                        getQuoteOrPolicyNumberJoinSQL(quoteOrPolicyNumber) +
                         "JOIN MEMBERSHIPSUMMARYENTITY MS ON MS.ID=ps.MEMBERSHIPSUMMARY_ID " +
                         "ORDER BY ps.EFFECTIVE DESC"; // Makes sure first returned row is latest DB Entry.
 
@@ -114,7 +114,7 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    private static boolean IsQuote(String quoteOrPolicyNumber) {
+    private static boolean isQuote(String quoteOrPolicyNumber) {
         return quoteOrPolicyNumber.toUpperCase().startsWith("Q");
     }
 
@@ -126,8 +126,8 @@ public class AAAMembershipQueries {
      * @param quoteOrPolicyNumber
      * @return
      */
-    private static String GetQuoteOrPolicyNumberJoinSQL(String quoteOrPolicyNumber) {
-        String quoteOrPolicyColumnName = IsQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
+    private static String getQuoteOrPolicyNumberJoinSQL(String quoteOrPolicyNumber) {
+        String quoteOrPolicyColumnName = isQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
         String SQL = String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
         return SQL;
     }
