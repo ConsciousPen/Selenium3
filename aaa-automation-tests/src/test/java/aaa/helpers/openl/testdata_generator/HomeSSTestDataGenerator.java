@@ -1,6 +1,7 @@
 package aaa.helpers.openl.testdata_generator;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -97,7 +98,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	public TestData getAutoPolicyData(TestData td, HomeSSOpenLPolicy openLPolicy) {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-				openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+				LocalDate.now().format(DateTimeUtils.MM_DD_YYYY));
 		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
