@@ -239,7 +239,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).maritalStatusCd).isEqualTo("DSS");
-
 		});
 	}
 
@@ -516,7 +515,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
 			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
-
 		});
 
 		mainApp().open();
@@ -1383,7 +1381,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponseAfterBind.driverList.size()).isEqualTo(1);
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
 		});
-
 	}
 
 	private void validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver1, DriversDto driver2) {
@@ -1730,7 +1727,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(premiumWithoutCoveragesDXP).isEqualByComparingTo(premiumWithoutCoveragesUI);
 			premiumAndCoveragesTab.saveAndExit();
 
-			///////////////Change "Death Indemnity and Specific Disability" to yes ///////////////////////
+			//Change "Death Indemnity and Specific Disability" to yes
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(true, null);
 			DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, false, softly);
@@ -1760,7 +1757,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			premiumAndCoveragesTab.saveAndExit();
 
-			///////////////Change "Total Disability" to yes//////////////////////
+			//Change "Total Disability" to yes
 			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, true);
 			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, true, true, softly);
@@ -1790,7 +1787,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(premiumWithTotalDisabilityCovDXP).isGreaterThan(premiumWithSpecDisabilityCovDXP);
 			premiumAndCoveragesTab.saveAndExit();
 
-			//////////////Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null ///////////////////////
+			//Change "Death Indemnity and Specific Disability" to No, when also "Total Disability" = yes ---> "Total Disability"  should be defaulted to null
 			updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(false, null);
 			updateDriverResponse = HelperCommon.updateDriver(policyNumber, addDriverResponse.oid, updateDriverRequest);
 			validateSelectedAndAvailableCoverages(true, updateDriverResponse.driver, false, null, softly);
@@ -1891,7 +1888,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			premiumAndCoveragesTab.saveAndExit();
 			softly.assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
 
-			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" ////////////////
+			//Nafr driver should not have option to select "Death Indemnity and Specific Disability"
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -1994,7 +1991,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			premiumAndCoveragesTab.saveAndExit();
 			assertThat(premiumAfterChangesDXP).isEqualByComparingTo(premiumAfterChangesUI).isEqualByComparingTo(premiumBeforeChangesDXP).isEqualByComparingTo(premiumBeforeChangesUI);
 
-			///////////////Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability" ////////////////
+			//Nafr driver should not have option to select "Death Indemnity and Specific Disability" and "Total Disability"
 			DriversDto addDriverResponse = addDriverWithChecks(policyNumber, softly);
 
 			viewEndorsementDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);

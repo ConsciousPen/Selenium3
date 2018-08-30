@@ -187,6 +187,30 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with:
+	 *
+	 *
+	 *
+	 *
+	 * 4. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15374"})
+	public void pas15374_driverWithMajorViolationsError(@Optional("VA") String state) {
+
+		pas15374_driverWithMajorViolationsErrorBody();
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name driver With One Or More Fault Accidents
 	 * @scenario 1. Create policy.

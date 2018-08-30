@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import aaa.main.enums.SearchEnum;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -266,8 +267,8 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(binErrorResponseDto.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode());
 			softly.assertThat(binErrorResponseDto.errors.get(0).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage());
 			softly.assertThat(binErrorResponseDto.errors.get(0).field).isEqualTo("attributeForRules");
-			softly.assertThat(binErrorResponseDto.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_VA.getCode());
-			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_VA.getMessage());
+			softly.assertThat(binErrorResponseDto.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode());
+			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage());
 			softly.assertThat(binErrorResponseDto.errors.get(1).field).isEqualTo("attributeForRules");
 		});
 	}
@@ -307,7 +308,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "One", "DUI", "2000-09-01", "B16848001", "CH", "VA", "female");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C);
 
 		countViolationsInPas(policyNumber, 1);
 
@@ -319,7 +320,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//D2-DUD violation
 		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "DUD", "2000-09-01", "B16848002", "CH", "VA", "female");
 
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C);
 
 		countViolationsInPas(policyNumber, 1);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -330,12 +331,208 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//D2-TLQ violation
 		String oidDriver3 = addAndUpdateDriver(policyNumber, "One", "TLQ", "2000-09-01", "B16848006", "CH", "VA", "female");
 
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver3, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C);
 
 		countViolationsInPas(policyNumber, 1);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getCode(), ErrorDxpEnum.Errors.DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21.getMessage(), "attributeForRules");
 
+	}
+
+	protected void pas15374_driverWithMajorViolationsErrorBody() {
+		mainApp().open();
+
+		//createCustomerIndividual();
+		//String policyNumber = createPolicy();
+		String policyNumber = "VASS952918558";
+		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+//		//Driver with "AutoTheft" violation
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//		String oidDriver1 = addAndUpdateDriver(policyNumber, "One", "AutoTheft", "1970-01-01", "B15374001", "CH", "VA", "male");
+//		helperMiniServices.orderReportErrors(policyNumber, oidDriver1,  ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI_C);
+//		countViolationsInPas(policyNumber, 1);
+//
+//		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+//		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage(), "attributeForRules");
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+//		//Driver with "DragRacing" violation
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//		String oidDriver2 = addAndUpdateDriver(policyNumber, "One", "DragRacing", "1970-01-01", "B15374003", "CH", "VA", "male");
+//		helperMiniServices.orderReportErrors(policyNumber, oidDriver2,  ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI_C);
+//		countViolationsInPas(policyNumber, 1);
+//
+//		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+//		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage(), "attributeForRules");
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		//Driver with "SpeedExhibition" violation
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "One", "SpeedExhibition", "1970-01-01", "B15374004", "CH", "VA", "male");
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver3,  ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI_C);
+		countViolationsInPas(policyNumber, 1);
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage(), "attributeForRules");
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+
+
+
+
+
+
+
+
+//
+//
+//
+//		AddDriverRequest addDriverRequest1 = DXPRequestFactory.createAddDriverRequest("One", null, "VehicleManslaughter", "1970-01-01", null);
+//		DriversDto addedDriver1 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest1);
+//
+//		UpdateDriverRequest updateDriverRequest1 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374002", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver1.oid, updateDriverRequest1);
+//
+//		errorMassageForMoreThatOne(policyNumber, addedDriver1);
+//
+//		verifyPasAndVerifyRateBind(policyNumber, true,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("One", null, "DragRacing", "1970-01-01", null);
+//		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
+//
+//		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374003", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest2);
+//
+//		verifyErrorMassage(policyNumber, addedDriver2);
+//
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("One", null, "SpeedExhibition", "1970-01-01", null);
+//		DriversDto addedDriver3 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest3);
+//
+//		UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374004", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver3.oid, updateDriverRequest3);
+//
+//		verifyErrorMassage(policyNumber, addedDriver3);
+//
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest4 = DXPRequestFactory.createAddDriverRequest("One", null, "FleeingArrest", "1970-01-01", null);
+//		DriversDto addedDriver4 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest4);
+//
+//		UpdateDriverRequest updateDriverRequest4 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374005", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver4.oid, updateDriverRequest4);
+//
+//		verifyErrorMassage(policyNumber, addedDriver4);
+//
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest5 = DXPRequestFactory.createAddDriverRequest("One", null, "HitRun", "1970-01-01", null);
+//		DriversDto addedDriver5 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest5);
+//
+//		UpdateDriverRequest updateDriverRequest5 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374006", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver5.oid, updateDriverRequest5);
+//
+//		verifyErrorMassage(policyNumber, addedDriver5);
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest6 = DXPRequestFactory.createAddDriverRequest("One", null, "LeavingScene", "1970-01-01", null);
+//		DriversDto addedDriver6 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest6);
+//
+//		UpdateDriverRequest updateDriverRequest6 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374007", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver6.oid, updateDriverRequest6);
+//
+//		verifyErrorMassage(policyNumber, addedDriver6);
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest7 = DXPRequestFactory.createAddDriverRequest("One", null, "NegligentDriving", "1970-01-01", null);
+//		DriversDto addedDriver7 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest7);
+//
+//		UpdateDriverRequest updateDriverRequest7 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374008", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver7.oid, updateDriverRequest7);
+//
+//		verifyErrorMassage(policyNumber, addedDriver7);
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest8 = DXPRequestFactory.createAddDriverRequest("One", null, "RecklessDriving", "1970-01-01", null);
+//		DriversDto addedDriver8 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest8);
+//
+//		UpdateDriverRequest updateDriverRequest8 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374009", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver8.oid, updateDriverRequest8);
+//
+//		verifyErrorMassage(policyNumber, addedDriver8);
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest9 = DXPRequestFactory.createAddDriverRequest("One", null, "DrivingSuspension", "1970-01-01", null);
+//		DriversDto addedDriver9 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest9);
+//
+//		UpdateDriverRequest updateDriverRequest9 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374010", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver9.oid, updateDriverRequest9);
+//
+//		verifyErrorMassage(policyNumber, addedDriver9);
+//		verifyPasAndVerifyRateBind(policyNumber, false,1);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest10 = DXPRequestFactory.createAddDriverRequest("Multiple", null, "Majors", "1970-01-01", null);
+//		DriversDto addedDriver10 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest10);
+//
+//		UpdateDriverRequest updateDriverRequest10 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374013", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver10.oid, updateDriverRequest10);
+//
+//		errorMassageForMoreThatOne(policyNumber, addedDriver10);
+//
+//		verifyPasAndVerifyRateBind(policyNumber, true,3);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+//
+//		helperMiniServices.createEndorsementWithCheck(policyNumber);
+//
+//		AddDriverRequest addDriverRequest11 = DXPRequestFactory.createAddDriverRequest("No", null, "Majors", "1970-01-01", null);
+//		DriversDto addedDriver11 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest11);
+//
+//		UpdateDriverRequest updateDriverRequest11 = DXPRequestFactory.createUpdateDriverRequest("female", "B15374014", 16, "VA", "CH", "SSS");
+//		HelperCommon.updateDriver(policyNumber, addedDriver11.oid, updateDriverRequest11);
+//
+//		//HelperCommon.orderReports(policyNumber, updateDriverRequest11,);
+//
+//		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
