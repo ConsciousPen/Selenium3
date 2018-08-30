@@ -37,7 +37,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details Ignores termExpirationDate and only cares about status on Active.
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Ignores_termExpirationDate_for_Active_Status(@Optional("") String state) {
         /*--Step 1--*/
@@ -70,7 +70,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML valid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Valid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
@@ -103,7 +103,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(/*enabled = false,*/ groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: NB15 BML invalid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-17193")
     public void pas15944_BML_NB15_Invalid_Expiration_Date_And_TransferIn_Status(@Optional("") String state) {
         /*--Step 1--*/
