@@ -123,7 +123,6 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Policy #", "Home Motorcycle Policy #")
 			.put("AAA Products Owned.Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Policy #", "Condo Policy #")
-			.put("AAA Products Owned.Policy #", "PUP Motorcycle Policy #")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -256,6 +255,7 @@ public class VersionsComparisonConstants {
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> aaaProductOwned = ImmutableListMultimap.<String, String>builder()
 			.put("AAAMembership Order", "Last Name")
+			.put("AA59 Existing Damage Endorsement Form", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 /*			.put("AAA Products Owned", "Override Type")*/

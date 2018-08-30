@@ -46,7 +46,9 @@ GeneralTab: {
  AAAProductOwned: '@AAAProductOwned',
  ContactInformation: '@ContactInformation',
  CurrentCarrierInformation: '@CurrentCarrierInformation',
- PolicyInformation: '@PolicyInformation'
+ PolicyInformation: '@PolicyInformation',
+ 'Is there any Third Party Designee?': 'Yes',
+ ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation',
 }
 
 #test data for creation NB in Data Gather scenarios
@@ -81,7 +83,9 @@ GeneralTab_Quote: {
  AAAProductOwned: '@AAAProductOwned_Version1',
  ContactInformation: '@ContactInformation_Version1',
  CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
- PolicyInformation: '@PolicyInformation_Version1_QuoteCreation'
+ PolicyInformation: '@PolicyInformation_Version1_QuoteCreation',
+ 'Is there any Third Party Designee?': 'Yes',
+ ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version1',
 }
 
 #General Tab - Named Insured Information section
@@ -416,20 +420,6 @@ TestData_PolicyInformation_Version1: {
  DocumentsAndBindTab: {},
 }
 
-TestData_PolicyInformation_Version1_QuoteCreation: {
-  GeneralTab: {
-    PolicyInformation: '@PolicyInformation_Version1_QuoteCreation'
-  },
-  DriverTab: {},
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
-}
-
 TestData_PolicyInformation_Version2: {
  GeneralTab: {
   PolicyInformation: '@PolicyInformation_Version2'
@@ -477,9 +467,9 @@ PolicyInformation_Version1: {
  Source of Business: 'Split',
  "Source Policy #": 123456111,
  Channel Type: 'Phone (Direct Sales Unit)',
- Agency: 'Hamilton DSC - 500001003',
+ Agency: 'SMTestCC - 400000092',
  Sales Channel: 'IE DSC-District Sales and Marketing',
- #Agent: 'House Agent CSAA DSU Hamilton',
+ Agent: 'House Agent SMTestCC',
  Authorized by: QA version1,
  TollFree Number: 2222222222,
  Language Preference: Spanish,
@@ -506,7 +496,7 @@ PolicyInformation_Version2: {
  Channel Type: 'Sub Producer',
  Agency: 'Advantage Auto Ins Agency, LLC - Magnolia - 500023745',
  Sales Channel: 'SubProducer',
- Agent: 'HouseAgent Magnolia',
+ #Agent: 'contains=HouseAgent Magnolia',
  Authorized by: QA version2,
  TollFree Number: 3333333333,
  Language Preference: English,
@@ -525,6 +515,63 @@ PolicyInformation_Version2_QuoteCreation: {
   TollFree Number: 3333333333,
   Language Preference: English,
   Suppress Print: 'Divert Declaration'
+}
+
+#Third Party Designee Information
+
+TestData_ThirdPartyDesigneeInformation_Version1: {
+  GeneralTab: {
+    ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_ThirdPartyDesigneeInformation_Version2: {
+  GeneralTab: {
+    ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+ThirdPartyDesigneeInformation: {
+  Name: NB Third Party,
+  Zip Code: 90201,
+  Address Line 1: NB third party address 1,
+  Address Line 2: NB third party address 2,
+  City: Bell,
+  State: CA,
+}
+
+ThirdPartyDesigneeInformation_Version1: {
+  Name: VI Third Party,
+  Zip Code: 90255,
+  Address Line 1: VI third party address 1,
+  Address Line 2: VI third party address 2,
+  City: HUNTINGTON PARK,
+  State: CA,
+}
+
+ThirdPartyDesigneeInformation_Version2: {
+  Name: VII Third Party,
+  Zip Code: 90232,
+  Address Line 1: VII third party address 1,
+  Address Line 2: VII third party address 2,
+  City: Culver City,
+  State: CA,
 }
 
 #Driver Tab - Driver Information section

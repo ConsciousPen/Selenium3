@@ -309,6 +309,11 @@ public class VersionsComparisonConstants {
 			.put("Policy Information","Suppress Print")
 			.build();
 
+	//all components/attributes that should be on Comparison page for AAA Product Owned section
+	static final Multimap<String, String> thirdPartyDesignee = ImmutableListMultimap.<String, String>builder()
+			.put("Policy Information","Source of Business")
+			.build();
+
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> dataGatherDriverInformation = ImmutableListMultimap.<String, String>builder()
 			.put("ADBEndorsement Form", "Automobile Death Benefit")

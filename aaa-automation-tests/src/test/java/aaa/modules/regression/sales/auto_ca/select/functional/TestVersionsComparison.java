@@ -208,6 +208,37 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		renewalComparison(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsComparisonConstants.policyInformation, "GeneralTab", "PolicyInformation");
 	}
 
+	//Third Party Designee Information section
+
+	private TestData getTDThirdPartyDesigneeVersion1() {
+		return getTestSpecificTD("TestData_ThirdPartyDesigneeInformation_Version1");
+	}
+
+	private TestData getTDThirdPartyDesigneeVersion2() {
+		return getTestSpecificTD("TestData_ThirdPartyDesigneeInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-13589"})
+	public void pas13589_dataGatherComparisonThirdPartyDesignee(@Optional("CA") String state) {
+		dataGatherComparison(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsComparisonConstants.thirdPartyDesignee, "GeneralTab", "ThirdPartyDesigneeInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-13589"})
+	public void pas13589_endorsementsComparisonThirdPartyDesignee(@Optional("CA") String state) {
+		endorsementComparison(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsComparisonConstants.thirdPartyDesignee, "GeneralTab", "ThirdPartyDesigneeInformation");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-13589"})
+	public void pas13589_renewalComparisonThirdPartyDesignee(@Optional("CA") String state) {
+		renewalComparison(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsComparisonConstants.thirdPartyDesignee, "GeneralTab", "ThirdPartyDesigneeInformation");
+	}
+
 	//Driver Information section
 
 	private TestData getTDDriverInformationVersion1() {

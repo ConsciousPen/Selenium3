@@ -7,7 +7,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="General tab/Named Insured Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -20,7 +20,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -33,7 +33,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Contact Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -46,7 +46,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Current Carrier Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -58,7 +58,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Policy Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -71,7 +71,7 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Information section, Activity Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -84,7 +84,7 @@
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -97,7 +97,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Named Insured Information section/Conflict" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -110,7 +110,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Conflict" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -123,7 +123,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Contact Information section/Conflict" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -136,7 +136,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Current Carrier Information section/Conflict" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -147,7 +147,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Policy Information section/Conflict" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -160,7 +160,7 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Information section/Conflict" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -173,7 +173,7 @@
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Additional Interest section/Conflict" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Additional Interest section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -186,7 +186,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Named Insured Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -199,7 +199,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -212,7 +212,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Contact Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -225,7 +225,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Current Carrier Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -237,7 +237,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Policy Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -250,7 +250,7 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Information section, Activity Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -263,7 +263,7 @@
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, Garaging Address section, Ownership section, Additional Interest section/Comparison CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
@@ -276,7 +276,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Named Insured Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Named Insured Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -289,7 +289,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/AAA Products Owned section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -302,7 +302,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Contact Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Contact Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -315,7 +315,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Current Carrier Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Current Carrier Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -327,7 +327,7 @@
         </classes>
     </test>
 
-    <test name="General tab/Policy Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="General tab/Policy Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -340,7 +340,7 @@
         </classes>
     </test>
 
-    <test name="Driver tab/Driver Information section, Activity Information section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Driver tab/Driver Information section, Activity Information section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
@@ -353,7 +353,7 @@
         </classes>
     </test>
 
-    <test name="Vehicle tab/Vehicle Information section, UBI section, Garaging Address section, Ownership section, Additional Interest section/Comparison" parallel="methods" thread-count="1024">
+    <test name="Vehicle tab/Vehicle Information section, Garaging Address section, Ownership section, Additional Interest section/Comparison CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">

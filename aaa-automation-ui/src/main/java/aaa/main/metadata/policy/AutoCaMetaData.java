@@ -303,7 +303,6 @@ public final class AutoCaMetaData {
 	}
 
 	public static final class MembershipTab extends MetaData {
-		public static final AssetDescriptor<Button> ORDER_REPORT = declare("Order Report", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:submitReports"));
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
 
@@ -326,6 +325,7 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:addMemberSinceDateButton']"));
 			public static final AssetDescriptor<Button> BTN_CANCEL = declare("Cancel", Button.class, Waiters.AJAX, By.xpath("//*[@id='memberSinceDateFrom:cancelMemberSinceDateButton']"));
 		}
+		public static final AssetDescriptor<Button> ORDER_REPORT = declare("Order Report", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:submitReports"));
 	}
 
 	public static final class VehicleTab extends MetaData {
@@ -731,6 +731,8 @@ public final class AutoCaMetaData {
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_NEW_DRIVER_COURSE_COMPLETION = declare("Proof of New Driver Course Completion", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> CANADIAN_MVR_FOR_DRIVER = declare("Canadian MVR for (driver)", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PHOTOS_SHOWING_ALL_4_SIDES_OF_SALVAGED_VEHICLES = declare("Photos showing all 4 sides of Salvaged Vehicle(s)", RadioGroup.class);
+			public static final AssetDescriptor<RadioGroup> PROOF_OF_MATURE_DRIVER_COURSE_COMPLETION = declare("Proof of Mature Driver Course Completion", RadioGroup.class);
 		}
 
 		public static final class PaperlessPreferences extends MetaData {
