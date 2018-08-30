@@ -277,19 +277,22 @@ public class VersionsConflictConstants {
 			ImmutableListMultimap.<String, String>builder()
 					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
 					.put("Contact Information.Home Phone Number", CURRENT)
+					.put("Contact Information.Work Phone Number", AVAILABLE)
+					.put("Contact Information.Mobile Phone Number", CURRENT)
+					.put("Contact Information.Preferred Phone #", CURRENT)
 					.put("Contact Information.Email", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("AAAPolicy Issue Summary", "Insured Email")
+			.put("Contact Information", "Work Phone Number")
 			.put("Contact Information", "Email")
 			.build();
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> CONTACT_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("Contact Information", "Home Phone Number")
-			.put("Contact Information", "Work Phone Number")
 			.put("Contact Information", "Mobile Phone Number")
 			.put("Contact Information", "Preferred Phone #")
 			.build();
