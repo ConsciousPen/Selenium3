@@ -195,7 +195,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param keypathCurrentMember
      * @param keypathMemberNum
      * @param aaaMemberNumber
-     * @return TestData
+     * @return TestData that ensures Current AAA Member to Yes and automation uses specific Member Number
      */
     private TestData getAAAMemberPolicyTestData
             (String keypathCurrentMember, String keypathMemberNum, String aaaMemberNumber) {
@@ -210,7 +210,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Used to get test data when no AAA Member Number provided
      * @param keypathCurrentMember
      * @param keypathMemberNum
-     * @return TestData
+     * @return TestData that sets Current AAA Member to No and hides any member number the default TD would have entered.
      */
     private TestData getNonAAAMemberPolicyTestData (String keypathCurrentMember, String keypathMemberNum)
             throws NotImplementedException{
