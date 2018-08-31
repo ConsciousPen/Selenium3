@@ -78,7 +78,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
@@ -117,7 +117,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
@@ -155,7 +155,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_AutoPay_ManualBillGeneration(@Optional("") String state) {
 
