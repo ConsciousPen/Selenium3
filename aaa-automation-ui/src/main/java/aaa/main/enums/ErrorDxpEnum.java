@@ -26,29 +26,33 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
-		MORE_THAN_TWO_MINOR_VIOLATIONS_VA("200095", "Driver with more than (2) Minor violations are unacceptable."),
-		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable"),
-		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C("200010_C", "Driver under the age of 21 years with a DUI is unacceptable"),
-		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable"),
-		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable."),
-		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS_C("200005_C", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA("200004_VA", "Driver with more than 20 points is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION("200009", "Driver with a Major violation, including a DUI is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION_DRUG_AND_FELONY_VA("200005","Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
-		DRIVER_WITH_MAJOR_VIOLATION_DUI_VA("200009_VA","Driver with a Major violation, including a DUI is unacceptable"),
-		MVR_ERROR_C("MVR Error (200119_C"),
-		DRIVER_WITH_MAJOR_VIOLATION_DUI_C("200009_C","Driver with a Major violation, including a DUI is unacceptable"),
+
+		//Mvr and Clue Errors
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS_BRACKETS("PFO017", "Error occurred during operation execution: {1}"),
+		ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR("ERROR_SERVICE_VALIDATION","Cannot order reports for existing drivers."),
+		MVR_ERROR_C("MVR Error (200119_C"),
+		DRIVER_WITH_MORE_THAN_TWENTY_POINTS("200004", "Driver with more than 20 points is unacceptable"),
+		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C("200004_C", "Driver with more than 20 points is unacceptable"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_C("200010_C", "Driver under the age of 21 years with a DUI is unacceptable"),
+		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
+		DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS_C("200005_C", "Driver with a narcotics, drug or felony conviction involving a motor vehicle is unacceptable"),
+		DRIVER_WITH_MAJOR_VIOLATION_DUI("200009","Driver with a Major violation, including a DUI is unacceptable"),
+		DRIVER_WITH_MAJOR_VIOLATION_DUI_C("200009_C","Driver with a Major violation, including a DUI is unacceptable"),
+		MORE_THAN_TWO_MINOR_VIOLATIONS("200095", "Driver with more than (2) Minor violations are unacceptable."),
+		MORE_THAN_TWO_MINOR_VIOLATIONS_C("200095_C", "Driver with more than (2) Minor violations are unacceptable."),
+		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable."),
+		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C("200096_C", "Drivers with more than (3) Incidents are unacceptable."),
+		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable"),
+		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS_C("200104_C", "Driver with 2 or more At-fault accidents are unacceptable"),
+
 		VALIDATION_ERROR_HAPPENED_DURING_BIND("ERROR_SERVICE_VALIDATION", "Validation error happened during bind of the policy"),
 		OPERATION_NOT_APPLICABLE_FOR_THE_STATE("ERROR_SERVICE_VALIDATION", "Operation not applicable for the state."),
 
 		INCOMPLETE_OR_UNACCEPTABLE_SELECTION("AAA_SS072412", "Incomplete or unacceptable selection(s) made on the Assignment page"),
 		INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA("AAA_SS10230241_VA", "Incomplete or unacceptable selection(s) made on the Assignment page"),
 		INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2("AAA_SS10230238_VA", "Incomplete or unacceptable selection(s) made on the Assignment page"),
-
-		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 
 		ZIP_CODE_IS_NOT_APPLICABLE("AAA_SS1273145", "Zip code is not applicable; please check again. If this is incorrect, please contact Agency Support."),
 		GARAGED_OUT_OF_STATE("200019", "Unacceptable due to one or more vehicles garaged out of the policy state"),
@@ -73,7 +77,8 @@ public final class ErrorDxpEnum {
 		DRIVER_NAME_MISMATCH("Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
 		DRIVER_GENDER_MISMATCH("The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
 		DRIVER_DOB_MISMATCH("The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
-		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
+		DRIVER_GENDER_MISMATCHES("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
+		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 		;
 
 		private final String code;

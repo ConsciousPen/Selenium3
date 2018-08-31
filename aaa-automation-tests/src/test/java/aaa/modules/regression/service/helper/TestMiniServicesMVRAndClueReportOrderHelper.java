@@ -463,7 +463,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_NAME_MISMATCH, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCH);
 
 		String oidDriver2 = addAndUpdateDriver(policyNumber, "Other", "Mismatches", "1971-01-01", "B15383001", "SP", "VA", "female");
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCHS, ErrorDxpEnum.Errors.DRIVER_DOB_MISMATCH);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCHES, ErrorDxpEnum.Errors.DRIVER_DOB_MISMATCH);
 
 		String oidDriver3 = addAndUpdateDriver(policyNumber, "Other", "Mismatches", "1970-01-01", "B15383001", "SP", "VA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver3);
