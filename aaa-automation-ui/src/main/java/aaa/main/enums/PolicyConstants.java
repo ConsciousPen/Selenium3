@@ -251,4 +251,14 @@ public final class PolicyConstants {
         public static final String PROGRAM_CODE = "Program Code";
         public static final String MANUAL_CAPPING_FACTOR = "Manual Capping Factor (%)";
     }
+
+    public static final class PropertyInfoClaimHistoryTable {
+        public static final String DATE_OF_LOSS = "Date of loss";
+        public static final String CAUSE_OF_LOSS = "Cause of loss";
+        public static final String AMOUNT_OF_LOSS = "Amount of loss";
+        public static final String CLAIM_STATUS = "Claim Status";
+        public static final String CHARGEABLE = "Chargeable";
+        public static final String SOURCE = "Source";
+        public static final String MODIFY = "Modify";
+    }
 }
