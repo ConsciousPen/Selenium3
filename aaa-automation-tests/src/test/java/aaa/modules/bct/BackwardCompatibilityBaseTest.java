@@ -1,19 +1,6 @@
 package aaa.modules.bct;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.Job;
-import aaa.helpers.jobs.JobUtils;
-import aaa.main.modules.policy.IPolicy;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.SkipException;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
-import toolkit.verification.CustomSoftAssertions;
-
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,6 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.testng.SkipException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.Job;
+import aaa.helpers.jobs.JobUtils;
+import aaa.main.modules.policy.IPolicy;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.modules.BaseTest;
+import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.db.DBService;
+import toolkit.verification.CustomSoftAssertions;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
 
@@ -59,11 +58,13 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
-	protected List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
+	public List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
 		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
 		query = query.replace("/EXECDATE/", executionDate);
-		query = query.replace("/STATE/", getState());
+		if(!testName.toLowerCase().contains("endorsement")){
+			query = query.replace("/STATE/", getState());
+		}
 		query = query.replace("pasadm.", "");
 		query = query.replace("PASADM.", "");
 		query = query.replace("/DATE1/", date1);
