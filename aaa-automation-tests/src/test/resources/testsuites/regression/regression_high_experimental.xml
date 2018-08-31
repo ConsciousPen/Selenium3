@@ -1,0 +1,128 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Functional tests" verbose="1" parallel="tests" thread-count="2048">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Auto SS Functional Tests" parallel="methods">
+        <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <include name="High"/>
+                <include name="Medium"/>
+                <include name="Low"/>
+                <include name="Timepoint"/>
+                <exclude name="Smoke"/>
+                <exclude name="Blocker"/>
+                <exclude name="Critical"/>
+                <exclude name="Functional"/>
+                <exclude name="DocGen"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="aaa.modules.regression.sales.auto_ss.*"/>
+            <package name="aaa.modules.regression.service.auto_ss.*"/>
+            <package name="aaa.modules.regression.billing_and_payments.auto_ss.*"/>
+            <package name="aaa.modules.regression.conversions.auto_ss.*"/>
+            <package name="aaa.modules.regression.document_fulfillment.auto_ss.*"/>
+        </packages>
+    </test>
+    <test name="Home SS Functional Tests" parallel="methods">
+        <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <include name="High"/>
+                <include name="Medium"/>
+                <include name="Low"/>
+                <include name="Timepoint"/>
+                <exclude name="Smoke"/>
+                <exclude name="Blocker"/>
+                <exclude name="Critical"/>
+                <exclude name="Functional"/>
+                <exclude name="DocGen"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="aaa.modules.regression.sales.home_ss.*"/>
+            <package name="aaa.modules.regression.service.home_ss.*"/>
+            <package name="aaa.modules.regression.billing_and_payments.home_ss.*"/>
+            <package name="aaa.modules.regression.conversions.home_ss.*"/>
+            <package name="aaa.modules.regression.document_fulfillment.home_ss.*"/>
+        </packages>
+    </test>
+    <test name="Auto CA Functional Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <include name="High"/>
+                <include name="Medium"/>
+                <include name="Low"/>
+                <include name="Timepoint"/>
+                <exclude name="Smoke"/>
+                <exclude name="Blocker"/>
+                <exclude name="Critical"/>
+                <exclude name="Functional"/>
+                <exclude name="DocGen"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="aaa.modules.regression.sales.auto_ca.*"/>
+            <package name="aaa.modules.regression.service.auto_ca.*"/>
+            <package name="aaa.modules.regression.billing_and_payments.auto_ca.*"/>
+            <package name="aaa.modules.regression.conversions.auto_ca.*"/>
+            <package name="aaa.modules.regression.document_fulfillment.auto_ca.*"/>
+        </packages>
+    </test>
+    <test name="Home CA Functional Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <include name="High"/>
+                <include name="Medium"/>
+                <include name="Low"/>
+                <include name="Timepoint"/>
+                <exclude name="Smoke"/>
+                <exclude name="Blocker"/>
+                <exclude name="Critical"/>
+                <exclude name="Functional"/>
+                <exclude name="DocGen"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="aaa.modules.regression.sales.home_ca.*"/>
+            <package name="aaa.modules.regression.service.home_ca.*"/>
+            <package name="aaa.modules.regression.billing_and_payments.home_ca.*"/>
+            <package name="aaa.modules.regression.conversions.home_ca.*"/>
+            <package name="aaa.modules.regression.document_fulfillment.home_ca.*"/>
+        </packages>
+    </test>
+    <test name="PUP Functional Tests" parallel="methods">
+        <parameter name="state" value="UT, CA, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <include name="High"/>
+                <include name="Medium"/>
+                <include name="Low"/>
+                <include name="Timepoint"/>
+                <exclude name="Smoke"/>
+                <exclude name="Blocker"/>
+                <exclude name="Critical"/>
+                <exclude name="Functional"/>
+                <exclude name="DocGen"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="aaa.modules.regression.sales.pup.*"/>
+            <package name="aaa.modules.regression.service.pup.*"/>
+            <package name="aaa.modules.regression.billing_and_payments.pup.*"/>
+            <package name="aaa.modules.regression.conversions.pup.*"/>
+            <package name="aaa.modules.regression.document_fulfillment.pup.*"/>
+        </packages>
+    </test>
+</suite>

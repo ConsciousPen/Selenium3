@@ -49,7 +49,7 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
-	public void testPolicyEndorsement(@Optional("UT") String state) {
+	public void testPolicyEndorsement(@Optional("") String state) {
 		mainApp().open();
 
 		getCopiedPolicy(); // fails by timeout

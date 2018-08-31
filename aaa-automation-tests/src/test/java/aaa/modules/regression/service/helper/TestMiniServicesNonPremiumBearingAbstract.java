@@ -13,6 +13,8 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.db.DBService;
+import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBaseTest {
@@ -57,48 +59,51 @@ public abstract class TestMiniServicesNonPremiumBearingAbstract extends PolicyBa
 		String authorizedBy = "John Smith";
 		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
-		emailUpdateTransactionHistoryCheck(policyNumber);
-		emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			emailUpdateTransactionHistoryCheck(policyNumber, softly);
+			emailAddressChangedInEndorsementCheck(emailAddressChanged, authorizedBy, softly);
 
-		//PAS-343 start
-		assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery)).isEqualTo(numberOfDocumentsRecordsInDb);
-		//PAS-343 end
+			//PAS-343 start
+			softly.assertThat(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery)).isEqualTo(numberOfDocumentsRecordsInDb);
+			//PAS-343 end
 
-		HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
+			HelperCommon.executeContactInfoRequest(policyNumber, emailAddressChanged, authorizedBy);
 
-		//Popup to avoid conflicting transactions
-		policy.endorse().start();
-		assertThat(Page.dialogConfirmation.labelMessage).hasValue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.");
-		Page.dialogConfirmation.reject();
+			//Popup to avoid conflicting transactions
+			policy.endorse().start();
+			softly.assertThat(Page.dialogConfirmation.labelMessage)
+					.hasValue("Policy version you are working with is marked as NOT current (Probable cause - another user working with the same policy). Please reload policy to continue working with it.");
+			Page.dialogConfirmation.reject();
 
-		SearchPage.openPolicy(policyNumber);
-		testEValueDiscount.secondEndorsementIssueCheck();
+			SearchPage.openPolicy(policyNumber);
+			testEValueDiscount.secondEndorsementIssueCheck();
+		});
 	}
 
 
-	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy) {
+	private void emailAddressChangedInEndorsementCheck(String emailAddressChanged, String authorizedBy, ETCSCoreSoftAssertions softly) {
 		policy.policyInquiry().start();
 
-		assertThat(getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
+		softly.assertThat(getGeneralTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		NavigationPage.toViewTab(getDocumentsAndBindTab());
 
 		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).isPresent()) {
-			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
+			softly.assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL)).hasValue(emailAddressChanged);
 		}
 		if (getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY).isPresent()) {
-			assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
+			softly.assertThat(getDocumentsAndBindTabElement().getInquiryAssetList().getStaticElement(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.AUTHORIZED_BY)).hasValue(authorizedBy);
 		}
 		Tab.buttonCancel.click();
 	}
 
-	private void emailUpdateTransactionHistoryCheck(String policyNumber) {
+	private void emailUpdateTransactionHistoryCheck(String policyNumber, ETCSCoreSoftAssertions softly) {
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+		softly.assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
 		PolicySummaryPage.buttonTransactionHistory.click();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason")).hasValue("Email Updated - Exte...");
+		softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1)).exists();
+		softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason")).hasValue("Email Updated - Exte...");
 		Tab.buttonCancel.click();
 	}
 }

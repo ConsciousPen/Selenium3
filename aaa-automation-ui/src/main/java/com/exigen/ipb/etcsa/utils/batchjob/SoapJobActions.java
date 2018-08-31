@@ -28,7 +28,7 @@ public class SoapJobActions implements JobActions {
 	@ClassConfigurator.Configurable
 	private static long jobCreationWaitTime = 20000;
 	@ClassConfigurator.Configurable
-	private static boolean waitForResponse;
+	private static boolean waitForResponse = true;
 	@ClassConfigurator.Configurable(byClassName = true)
 	private static JobListener listener = new DefaultJobListener();
 	private BatchJobExecutorService service;

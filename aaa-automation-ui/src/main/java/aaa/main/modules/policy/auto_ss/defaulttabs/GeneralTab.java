@@ -53,8 +53,12 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), AssetList.class);
 	}
 
-	public AssetList getPolicyInfoInquiryAssetList() {
-		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), InquiryAssetList.class);
+	public InquiryAssetList getPolicyInfoInquiryAssetList() {
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
+	}
+
+	public InquiryAssetList getAAAProductOwnedInquiryAssetList() {
+		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), InquiryAssetList.class);
 	}
 
 	@Override
