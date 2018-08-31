@@ -19,9 +19,9 @@ import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
- * @author
+ * @author 
  * @name Test Create CA Select Auto Policy
- * @scenario
+ * @scenario 
  * 1. Create Customer 
  * 2. Create CA Select Auto Policy
  * 3. Verify Policy status is '	 Policy Active'

@@ -21,7 +21,8 @@ import toolkit.utils.TestInfo;
 /**
  * @author N. Belakova
  * @name Test Create CA Choice Auto Policy
- * @scenario 1. Create Customer
+ * @scenario
+ * 1. Create Customer 
  * 2. Create CA Choice Auto Policy
  * 3. Verify Policy status is '	 Policy Active'
  * 4. Inqury Policy and verify Policy Product is 'CA Select'

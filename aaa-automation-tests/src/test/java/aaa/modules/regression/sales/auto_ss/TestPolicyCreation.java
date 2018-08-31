@@ -31,7 +31,9 @@ public class TestPolicyCreation extends AutoSSBaseTest {
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyCreation(@Optional("") String state) {
+
 		mainApp().open();
+
 		createCustomerIndividual();
 		createPolicy();
 
