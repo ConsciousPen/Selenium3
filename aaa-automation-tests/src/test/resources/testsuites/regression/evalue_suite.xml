@@ -5,18 +5,8 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
 
-
-    <test name="TestRefundProcessJobAdding" parallel="methods" thread-count="1024">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
     <test name="VA Auto SS Refunds Credit Card" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA"/>

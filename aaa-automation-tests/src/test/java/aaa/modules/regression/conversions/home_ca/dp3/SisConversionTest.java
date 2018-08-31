@@ -42,14 +42,14 @@ public class SisConversionTest extends HomeCaDP3BaseTest {
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest(@Optional("CA") String state, @Optional("1.xml") String file, ITestContext context) {
+	public void sisCADP3ConversionTest(@Optional("CA") String state, @Optional("1.xml") String file) {
 		sisConversion(file, context);
 	}
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ConversionTest_renewWithLapse(@Optional("CA") String state, @Optional("1.xml") String file, ITestContext context) {
+	public void sisCADP3ConversionTest_renewWithLapse(@Optional("CA") String state, @Optional("1.xml") String file) {
 		sisConversion_renewWithLapse(file, context);
 	}
 

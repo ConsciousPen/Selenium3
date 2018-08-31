@@ -244,7 +244,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).maritalStatusCd).isEqualTo("DSS");
-
 		});
 	}
 
@@ -539,7 +538,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
 			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
-
 		});
 
 		mainApp().open();
@@ -1404,7 +1402,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponseAfterBind.driverList.size()).isEqualTo(1);
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
 		});
-
 	}
 
 	private void validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver1, DriversDto driver2) {
