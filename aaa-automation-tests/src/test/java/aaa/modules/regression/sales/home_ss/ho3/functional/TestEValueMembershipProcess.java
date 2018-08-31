@@ -19,7 +19,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -42,7 +42,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements TestEValueMembershipProcessPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -50,10 +50,7 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	private PremiumsAndCoveragesQuoteTab premiumAndCoveragesTab = new PremiumsAndCoveragesQuoteTab();
 	private ReportsTab reportsTab = new ReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private SSHController sshControllerRemote = new SSHController(
-			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
+	private SSHController sshControllerRemote = new SSHController(PropertyProvider.getProperty(CsaaTestProperties.APP_HOST), PropertyProvider.getProperty(CsaaTestProperties.SSH_USER), PropertyProvider.getProperty(CsaaTestProperties.SSH_PASSWORD));
 
 	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
