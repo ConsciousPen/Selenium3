@@ -351,14 +351,6 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
-PAS-18339:
-  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.pup.*,
-            aaa.modules.regression.conversions.pup.*,
-            aaa.modules.regression.service.pup.*]
-    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]
 PT-2385:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
