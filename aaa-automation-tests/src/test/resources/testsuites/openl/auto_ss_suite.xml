@@ -59,15 +59,14 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!-- AutoSS [IN] is excluded from suite since policy effective date is too old and there are no newer generated files for IN state -->
-    <!--<test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
+    <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20170806_part1.xls"/>
         <parameter name="policyNumbers" value="1, 2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="AutoSS [KS] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="KS"/>
         <parameter name="fileName" value="KSTests-20171001.xls"/>
