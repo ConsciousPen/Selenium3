@@ -13,11 +13,10 @@ public class TestClaimPointsVRDPageTemplate extends PolicyBaseTest {
 	private PropertyInfoTab propertyInfoTabSS = new PropertyInfoTab();
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabSS = new PremiumsAndCoveragesQuoteTab();
 
-	aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab propertyInfoTabCA = new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab();
-	aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabCA = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
+	private aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab propertyInfoTabCA = new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab();
+	private aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabCA = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
 
-	protected void pas17772_testClaimPointsVRDPageSS() {
-
+	protected void pas17772_testAAAClaimPointsVRDPageSS() {
 		createQuoteAndFillUpTo(getTdWithClaims(), premiumsAndCoveragesQuoteTabSS.getClass());
 		PropertyQuoteTab.RatingDetailsView.open();
 
