@@ -2557,7 +2557,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//Additionally validating that it is possible to Rate And bind with some of states(VA, AZ). Can not do that for all states,
+			// because for some of them there is other hard stop errors at the end.
+			if ("AZ, VA".contains(getState())){
+				helperMiniServices.endorsementRateAndBind(policyNumber);
+			}
 		});
 	}
 
@@ -2588,14 +2592,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			PD values 100000 or greater should not have error. Lower values should have error.
 			*/
 			if (coverageLimitFormatted.compareTo(coverageLimitThreshold) == -1) {
-				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.errors.stream().
-						anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage())))).
-						as(coverageLimit.coverageLimit + " should have error").isTrue();
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.message.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).
+						as(coverageCd + " " + coverageLimit.coverageLimit + " should have error").isTrue();
 			} else {
-				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.errors.stream().
-						anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage())))).
-						as(coverageLimit.coverageLimit + " should not have error").isFalse();
-
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.message.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).
+						as(coverageCd + " " +coverageLimit.coverageLimit + " should not have error").isFalse();
 			}
 
 			//Validate that coverage is updated
