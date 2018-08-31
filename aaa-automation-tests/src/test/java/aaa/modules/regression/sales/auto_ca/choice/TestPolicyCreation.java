@@ -21,7 +21,8 @@ import toolkit.utils.TestInfo;
 /**
  * @author N. Belakova
  * @name Test Create CA Choice Auto Policy
- * @scenario 1. Create Customer
+ * @scenario
+ * 1. Create Customer 
  * 2. Create CA Choice Auto Policy
  * 3. Verify Policy status is '	 Policy Active'
  * 4. Inqury Policy and verify Policy Product is 'CA Select'
@@ -35,17 +36,15 @@ public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
-
 		createPolicy();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-
 		log.info("CA Choice Policy Product Verification Started...");
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+
 		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
 	}
 }

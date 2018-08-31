@@ -217,4 +217,14 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-14059 Check that Conversion Specific Special Non-renewal letter is triggered on R-80" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestSpecialNonRenewalLetterKY"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY"/>
+            <class name="aaa.modules.regression.conversions.pup.functional.TestSpecialNonRenewalLetterKY"/>
+        </classes>
+    </test>
 </suite>
