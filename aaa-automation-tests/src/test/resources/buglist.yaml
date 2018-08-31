@@ -161,12 +161,10 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-12257:
-  summary: "Conversion: XML import failed for PUP FoxPro, HDES and SIS DP3: Unmarshalling error, Invalid content was found starting with element 'category'"
+PAS-18399:
+  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForConversion]
-      messages: ["Cannot set value of ComboBox"]
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
 PAS-17051:
@@ -192,14 +190,6 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
-PAS-12478:
-  summary: "Enable Fuel related fields on the Property info tab is not disabled for all stated on second renewal"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["AssetList {OilFuelOrPropaneStorageTank"]
-    - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["ComboBox {Oil Fuel or Propane Storage Tank"]
 PAS-13203:
   summary: "Regression: Auto: Birthday value is not returned from stub"
   reason: PROD
@@ -216,12 +206,6 @@ PAS-15989:
   failures:
     - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pas15989_testManuallyAddedAutoTier]
       messages: ["expected", "but was"]
-PAS-13338:
-  summary: "Unable to rate Home_SS PA conversion policies"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
-      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy", "Cannot get value of Cell {", "Column Percentage of Coverage C was not found in the table", "Column Percentage of Coverage A was not found in the table"]
 PAS-13651:
   summary: "Instantiate state specific coverages"
   reason: PROD

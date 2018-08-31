@@ -1,7 +1,6 @@
 package aaa.modules.regression.conversions.home_ca.ho3;
 
 import java.time.LocalDateTime;
-import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,7 +23,7 @@ public class HdesImportSmokeTest extends HomeCaHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO3ImportTest(@Optional("CA") String state, ITestContext context) {
+	public void hdesCAHO3ImportTest(@Optional("CA") String state) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new HdesConversionData("HO3/20170808_045542_CNV_B_HDESPROP_EXGPAS_8435_D_20170908_30000506_XE65055.xml", effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context, false);
