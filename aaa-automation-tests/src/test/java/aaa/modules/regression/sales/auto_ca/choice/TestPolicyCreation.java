@@ -36,9 +36,7 @@ public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
-
 		createPolicy();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

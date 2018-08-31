@@ -32,7 +32,6 @@ public class TestPolicyCreation extends HomeCaDP3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createPolicy();
 

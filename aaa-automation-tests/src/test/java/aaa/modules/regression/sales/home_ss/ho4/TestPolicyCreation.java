@@ -34,7 +34,6 @@ public class TestPolicyCreation extends HomeSSHO4BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4)
 	public void testPolicyCreation(@Optional("") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createPolicy();
 

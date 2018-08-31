@@ -33,7 +33,6 @@ public class TestPolicyCreation extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testPolicyCreation(@Optional("") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createPolicy();
 
