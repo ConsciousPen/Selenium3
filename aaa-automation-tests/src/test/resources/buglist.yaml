@@ -379,3 +379,11 @@ PAS-18349:
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-9290:
+  summary: "CLUE: Systematic nonchargeable item missing reason code"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    messages: ["'Reason claim is not chargeable' is required Need to be created"]
+  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    messages: ["Unable to locate element: {\"method\":\"id\",\"selector\":\"policyDataGatherForm:premiumRecalcCov\"}"]

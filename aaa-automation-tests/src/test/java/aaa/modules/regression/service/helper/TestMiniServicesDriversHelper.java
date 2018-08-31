@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
+
+import aaa.common.pages.Page;
+
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
@@ -240,7 +244,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).driverType).isEqualTo(DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING);
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).relationToApplicantCd).isEqualTo("CH");
 			softly.assertThat(responseViewDriverEndorsement.driverList.get(2).maritalStatusCd).isEqualTo("DSS");
-
 		});
 	}
 
@@ -270,9 +273,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				.filter(driver -> DRIVER_STATUS_ACTIVE.equals(driver.driverStatus))
 				.filter(driver -> !DRIVER_FIRST_NAME_INSURED.equals(driver.namedInsuredType))
 				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType)).findFirst().orElse(null);
-		RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
-		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, driverSt.oid, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverSt.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
 		// add driver
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jackie", "Ann", "Jones", "1964-02-08", "I");
@@ -300,9 +301,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// remove previously added driver
-		RemoveDriverRequest removeDriverRequest3 = new RemoveDriverRequest();
-		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest3);
+		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
 		// verify order: pending remove should be first, then pending add
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -415,20 +414,18 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	public void pas14475_NameInsuredMaritalStatusBodyT(ETCSCoreSoftAssertions softly, boolean flag, String mStatus) {
 
 		mainApp().open();
-		createCustomerIndividual();
-
-		// create policy via pas
 		String policyNumber = getCopiedPolicy();
-		// Endorsement
+
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
 		String dOid = responseViewDrivers1.driverList.get(0).oid;
-
 		UpdateDriverRequest updateDriverRequestExisting = new UpdateDriverRequest();
 
 		//Update existing driver with SSS
 		updateDriver(softly, policyNumber, dOid, updateDriverRequestExisting, mStatus);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// addDriver via dxp
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", null);
@@ -465,13 +462,37 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
-
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
-
 		softly.assertThat(DriverTab.tableDriverList.getRow(2).getCell(2).getValue()).isEqualTo("Spouse");
-
+		DriverTab.tableDriverList.selectRow(2);
 		softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo("Married");
-		driverTab.saveAndExit();
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		Page.dialogConfirmation.confirm();
+
+		//Start PAS-17503
+		checkFniMaritalStatusAfterSpouseWasRemoved(policyNumber, mStatus, driverOid, dOid);
+ 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void checkFniMaritalStatusAfterSpouseWasRemoved (String policyNumber, String mStatus, String spouseOid, String fniDriverOid){
+		assertSoftly(softly -> {
+
+			HelperCommon.removeDriver(policyNumber, spouseOid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+			String sMaritalStatus = mStatus.replace("WSS", "Windowed").replace("SSS", "Single").replace("DSS", "Divorced").replace("PSS", "Separated");
+
+			ViewDriversResponse viewDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
+			softly.assertThat(viewDrivers.driverList.get(0).oid).isEqualTo(fniDriverOid);
+			softly.assertThat(viewDrivers.driverList.get(0).maritalStatusCd).isEqualTo(mStatus);
+
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.MARITAL_STATUS).getValue()).isEqualTo(sMaritalStatus);
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+			Page.dialogConfirmation.confirm();
+		});
 	}
 
 	protected void pas477_UpdateDriversBody(PolicyType policyType) {
@@ -517,7 +538,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(updateDriverResponse.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
 			softly.assertThat(updateDriverResponse.driver.maritalStatusCd).isEqualTo(updateDriverRequest.maritalStatusCd);
 			softly.assertThat(updateDriverResponse.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
-
 		});
 
 		mainApp().open();
@@ -1347,13 +1367,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			expectedSortedDriverListAfterRemove.sort(DriversDto.DRIVERS_COMPARATOR);
 
 			//Remove driver 1
-			removeDriverRequest.removalReasonCode = "RD1001";
-			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, removeDriverRequest);
+			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 			softly.assertThat(removeDriver1Response).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
 
 			//Remove driver 2
-			removeDriverRequest.removalReasonCode = "RD1002";
-			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, removeDriverRequest);
+			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, DXPRequestFactory.createRemoveDriverRequest("RD1002"));
 			softly.assertThat(removeDriver2Response).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run viewEndorsementDrivers and validate that it still contains drivers that will be removed
@@ -1384,7 +1402,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponseAfterBind.driverList.size()).isEqualTo(1);
 			softly.assertThat(viewDriversResponseAfterBind.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
 		});
-
 	}
 
 	private void validateDriverAssignmentAfterRemove_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driver1, DriversDto driver2) {
@@ -1500,13 +1517,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver2ExpectedAfterRemove.totalDisabilityInd = null;
 
 			//Remove driver 1
-			removeDriverRequest.removalReasonCode = "RD1003";
-			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, removeDriverRequest);
+			DriversDto removeDriver1Response = HelperCommon.removeDriver(policyNumber, driver1.oid, DXPRequestFactory.createRemoveDriverRequest("RD1003"));
 			softly.assertThat(removeDriver1Response).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
 
 			//Remove driver 2
-			removeDriverRequest.removalReasonCode = "RD1004";
-			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, removeDriverRequest);
+			DriversDto removeDriver2Response = HelperCommon.removeDriver(policyNumber, driver2.oid, DXPRequestFactory.createRemoveDriverRequest("RD1004"));
 			softly.assertThat(removeDriver2Response).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
 
 			//Run viewEndorsementDrivers and validate that it still contains both drivers and they both are updated
@@ -1560,8 +1575,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String stateLicensed = viewDriver.driverList.get(1).drivingLicense.stateLicensed;
 		String licenseNumber = viewDriver.driverList.get(1).drivingLicense.licenseNumber;
 
-		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverOid2, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableDriver driver1 = policyResponse.drivers.get(driverOid2);
@@ -1633,43 +1647,92 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		// add update driver
-		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Jovita", "Lara", "Puk", "1984-02-08", "I");
-		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
-		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D32329555", 18, "VA", "CH", "MSS");
-		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse2.oid, removeDriverRequest);
+		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
+		String firstDriverOid = (responseViewDriverEndorsement.driverList.get(0).oid);
 
-		//check Task
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, false);
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		// add update driver
+		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt","CH", "D32329588");
+		HelperCommon.removeDriver(policyNumber, driverOid1, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+		checkIfTaskWasCreated(policyNumber, 1, 1 ,0);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jackie", "Ann", "Jones", "1964-02-08", "I");
-		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "CH", "MSS");
-		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+		String driverOid2 = addRegularDriverOrNI(policyNumber, "DriverNd","CH", "D32111585");
 
 		//Order reports through service
-		HelperCommon.orderReports(policyNumber, addedDriverResponse.oid, OrderReportsResponse.class, 200);
+		HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
+
+		//START PAS-17957
+		ErrorResponseDto orderResponse = HelperCommon.orderReports(policyNumber, firstDriverOid,ErrorResponseDto.class, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(orderResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
+			softly.assertThat(orderResponse.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
+		});
 
 		//Remove Driver
-		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, addedDriverResponse.oid, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverOid2, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
-		//check Task
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_TASK_CREATED, true);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 1);
+
+		//Check with NI driver
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String driverOid3 = addRegularDriverOrNI(policyNumber, "DriverRd","SP", "D32329555");
+		HelperCommon.removeDriver(policyNumber, driverOid3, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+		checkIfTaskWasCreated(policyNumber, 1, 1 ,1);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// add update driver
+		String driverOid4 = addRegularDriverOrNI(policyNumber, "DriverTh", "SP", "D32118795");
+
+		//Order reports through service
+		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
+		HelperCommon.removeDriver(policyNumber, driverOid4, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+		checkIfTaskWasCreated(policyNumber, 1, 1, 2);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String driverOid5 = addRegularDriverOrNI(policyNumber, "DriverLast","CH", "D32354588");
+		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		policy.policyInquiry().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(1);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		ErrorResponseDto orderResponse2 = HelperCommon.orderReports(policyNumber, driverOid5,ErrorResponseDto.class, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(orderResponse2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
+			softly.assertThat(orderResponse2.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
+		});
+	}
+
+	private String addRegularDriverOrNI(String policyNumber,  String driverName, String relationToApplicantCd, String licenseNumber){
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(driverName, "Lara", "Puk", "1984-02-08", "II");
+		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenseNumber, 18, "VA", relationToApplicantCd, "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
+
+		return  addedDriverResponse.oid;
+	}
+
+	private void checkIfTaskWasCreated(String policyNumber, int countNamedInsured, int countDrivers, int countTasks){
+		assertSoftly(softly -> {
+			mainApp().reopen();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			assertThat(NotesAndAlertsSummaryPage.countActivitiesAndUserNotes(MESSAGE_TASK_CREATED)).isEqualTo(countTasks);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+			//Check if driver was removed
+			softly.assertThat(PolicySummaryPage.tableInsuredInformation.getRowsCount()).isEqualTo(countNamedInsured);
+
+			policy.policyInquiry().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(DriverTab.tableDriverList.getAllRowsCount()).isEqualTo(countDrivers);
+			driverTab.cancel();
+		});
 	}
 
 	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
