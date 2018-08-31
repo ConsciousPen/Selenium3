@@ -42,6 +42,7 @@ public class TestClaimPointsVRDPageTemplate extends PolicyBaseTest {
 		PropertyQuoteTab.RatingDetailsView.open();
 		TestData claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
 		assertThat(claimsVRD.getTestData(priorClaims).getKeys()).isEmpty();
+		assertThat(claimsVRD.getTestData(aaaClaims).getKeys().size()).isEqualTo(2);
 		assertThat(claimsVRD.getTestData(aaaClaims).getTestData(claim1).getValue(date))
 				.isEqualTo(td.getTestData(propertyInfoTabSS.getClass().getSimpleName()).getTestDataList(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel()).get(2).getValue(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()));
 		assertThat(claimsVRD.getTestData(aaaClaims).getTestData(claim1).getValue(points))
@@ -53,7 +54,6 @@ public class TestClaimPointsVRDPageTemplate extends PolicyBaseTest {
 		PropertyQuoteTab.RatingDetailsView.close();
 
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-
 
 	}
 
