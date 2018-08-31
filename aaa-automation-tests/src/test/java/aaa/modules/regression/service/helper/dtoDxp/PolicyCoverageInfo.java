@@ -13,4 +13,5 @@ public class PolicyCoverageInfo{
     public List<Coverage> policyCoverages;
     public List<VehicleCoverageInfo> vehicleLevelCoverages;
     public List<Coverage> driverCoverages;
+    public List<ValidationError> validataions;
 }
