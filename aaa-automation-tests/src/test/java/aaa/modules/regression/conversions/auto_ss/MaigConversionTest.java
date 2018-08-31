@@ -111,9 +111,9 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData(file, effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
-//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
+		//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
+		//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -145,6 +145,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {
