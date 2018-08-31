@@ -118,7 +118,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 						.anyMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
 			} else {
 				assertThat(orderReportErrorResponse.validations.stream()
-						.anyMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
+						.noneMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
 			}
 		}
 		if(errors.length == 0) {

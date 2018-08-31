@@ -269,7 +269,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 	protected void pas15385_driverWithFourOrMoreIncidentsErrorBody() {
 		mainApp().open();
-		String policyNumber =getCopiedPolicy() ;
+		String policyNumber = getCopiedPolicy() ;
 
 		//Check driver with 4 incidents
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "Four", "Incidents", "1970-01-01", "B16848123", "CH", "VA", "male");
@@ -285,7 +285,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Check Driver with one outdated incident
-		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Incident", "1970-01-01", "B16848385", "CH", "VA", "female");
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Incident", "1970-01-01", "B16848385", "CH", "VA", "male");
 
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, false, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C);
 
