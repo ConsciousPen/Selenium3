@@ -1,17 +1,5 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.apache.commons.lang.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.inject.internal.ImmutableList;
-import com.google.inject.internal.ImmutableMap;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -32,8 +20,22 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.inject.internal.ImmutableList;
+import com.google.inject.internal.ImmutableMap;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static org.apache.commons.lang.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
@@ -744,7 +746,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	/**
 	 * Verify that tag value is present in the Documents section
 	 */
-	private void verifyTagData(Document document, String tag, String textFieldValue) {
+	protected void verifyTagData(Document document, String tag, String textFieldValue) {
 		assertThat(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()).isEqualTo(textFieldValue);
 	}
 
