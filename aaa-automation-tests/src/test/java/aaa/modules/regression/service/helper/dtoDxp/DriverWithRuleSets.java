@@ -1,16 +1,16 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.util.List;
 
 public class DriverWithRuleSets {
 
 	@JsonUnwrapped
 	public DriversDto driver;
 
-	@ApiModelProperty(value = "List of rules that failed with validation errors or warnings.",
-			dataType = "com.eisgroup.aaa.policy.services.dto.ValidationRuleSet")
-	public List<ValidationRuleSet> ruleSets;
+	@ApiModelProperty(value = "List of driver related validation errors")
+	public List<ValidationError> validations;
 
 }
