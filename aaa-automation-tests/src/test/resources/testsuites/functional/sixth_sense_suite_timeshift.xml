@@ -59,27 +59,6 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
-        </classes>
-    </test>
-
-    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
-        </classes>
-    </test>
-
-    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
-        </classes>
-    </test>
-
     <!--Tests for Property-->
 
     <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
@@ -105,18 +84,6 @@
                     <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-
-    <test name="Test Replacement Cost Value for Endorsed Renewal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
         </classes>
     </test>
 
