@@ -41,8 +41,7 @@ public class HdesConversionTestTemplate extends HomeCaHO3BaseTest {
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 
-		//TODO Verify coverages
-		//TODO Generate notification letter
+		//TODO Generate notification letter (docgen notification, verify if emails to customer are generated)
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
