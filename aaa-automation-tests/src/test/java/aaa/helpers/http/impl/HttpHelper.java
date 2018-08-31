@@ -5,24 +5,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import aaa.helpers.http.impl.HttpConstants;
-import aaa.helpers.http.impl.HttpHelper;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import toolkit.exceptions.IstfException;
 
 public class HttpHelper {
 
-	private static String host = PropertyProvider.getProperty(TestProperties.APP_HOST);
-	private static String euTemplate = PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE);
-	private static String adTemplate = PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE);
-
 	private HttpHelper() {
 	}
 
-	public static String find(String string, String regex) throws IOException {
-		return HttpHelper.find(string, regex, 1);
+	public static int getAdPort() {
+		return CSAAApplicationFactory.get().adminApp().getPort();
 	}
 
 	public static String find(String string, String regex, int index) throws IOException {
@@ -45,22 +37,22 @@ public class HttpHelper {
 		return getAdUrl().getHost() + ":" + getAdUrl().getPort();
 	}
 
-	public static String getAdPort() {
-		return getAdUrl().getPort() + "";
-	}
-
-	public static String getEuPort() {
-		return getEuUrl().getPort() + "";
+	public static int getEuPort() {
+		return CSAAApplicationFactory.get().mainApp().getPort();
 	}
 
 	public static String getHost() {
-		return host;
+		return CSAAApplicationFactory.get().mainApp().getHost();
+	}
+
+	public static String find(String string, String regex) throws IOException {
+		return find(string, regex, 1);
 	}
 
 	private static URL getEuUrl() {
 		URL url;
 		try {
-			url = new URL(HttpConstants.URL_PROTOCOL + host + euTemplate);
+			url = new URL(CSAAApplicationFactory.get().mainApp().getUrl());
 		} catch (MalformedURLException e) {
 			throw new IstfException(e);
 	}
@@ -74,7 +66,7 @@ public class HttpHelper {
 	private static URL getAdUrl() {
 		URL url;
 		try {
-			url = new URL(HttpConstants.URL_PROTOCOL + host + adTemplate);
+			url = new URL(CSAAApplicationFactory.get().adminApp().getUrl());
 		} catch (MalformedURLException e) {
 			throw new IstfException(e);
 		}
@@ -83,14 +75,6 @@ public class HttpHelper {
 
 	public static String getAdLoginUrl() {
 		return getAdUrl().toString();
-	}
-
-	public static String getEuPath() {
-		return getEuUrl().getPath();
-	}
-
-	public static String getAdPath() {
-		return getAdUrl().getPath();
 	}
 
 }
