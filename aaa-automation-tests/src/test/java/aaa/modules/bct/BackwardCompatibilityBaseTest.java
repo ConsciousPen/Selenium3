@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.testng.SkipException;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.Job;
@@ -107,6 +108,15 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		log.info("Policies found by '" + queryName + "' query: " + policies);
 
 		return policies;
+	}
+
+	protected Dollar getPreEndorsementPremium(IPolicy ipolicy, String policyNumber) {
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		deletePendingTransaction(ipolicy);
+		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
+		log.info(String.format("Pre-Endorsement Premium: '%s'", policyPremium));
+		return policyPremium;
 	}
 
 	protected void deletePendingTransaction(IPolicy policy) {
