@@ -59,21 +59,21 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior">
+    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
         </classes>
     </test>
 
-    <test name="Test Nano Enhanced UIM Coverage Behavior">
+    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
         </classes>
     </test>
 
-    <test name="Test Locked BI Limits And UW Points">
+    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
@@ -108,7 +108,7 @@
         </classes>
     </test>
 
-    <test name="Test Replacement Cost Value for Endorsed Renewal">
+    <test name="Test Replacement Cost Value for Endorsed Renewal" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
