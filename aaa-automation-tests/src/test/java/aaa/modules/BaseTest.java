@@ -61,7 +61,8 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	private TestData tdSpecific;
-	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
+	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
+	protected ITestContext context;
 
 	static {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -214,6 +215,10 @@ public class BaseTest {
 		log.debug(message);
 	}
 
+	public ITestContext getTestContext() {
+		return context;
+	}
+
 	@BeforeMethod(alwaysRun = true)
 	public void beforeMethodStateConfiguration(Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
@@ -239,6 +244,11 @@ public class BaseTest {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
+	}
+
+	@BeforeSuite
+	public void beforeSuite(ITestContext context) {
+		this.context = context;
 	}
 
 	/**
