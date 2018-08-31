@@ -2,6 +2,19 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
+import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.MainApplication;
+import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -24,28 +37,11 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -64,6 +60,7 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
+	protected ITestContext context;
 
 	static {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -216,6 +213,10 @@ public class BaseTest {
 		log.debug(message);
 	}
 
+	public ITestContext getTestContext() {
+		return context;
+	}
+
 	@BeforeMethod(alwaysRun = true)
 	public void beforeMethodStateConfiguration(Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
@@ -241,6 +242,11 @@ public class BaseTest {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
+	}
+
+	@BeforeSuite
+	public void beforeSuite(ITestContext context) {
+		this.context = context;
 	}
 
 	/**
@@ -396,9 +402,11 @@ public class BaseTest {
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
 		log.info("Policy Creation Started...");
 		getPolicyType().get().getDefaultView().fill(tdPolicy);
-		if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
-			PolicySummaryPage.buttonBackFromRenewals.click();}
+		if (PolicySummaryPage.buttonBackFromRenewals.isEnabled()) {
+			PolicySummaryPage.buttonBackFromRenewals.click();
+		}
 		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
+		log.info("CONVERSION POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 		return policyNumber;
 	}
 
