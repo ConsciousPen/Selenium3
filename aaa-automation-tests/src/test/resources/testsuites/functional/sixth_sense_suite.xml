@@ -43,27 +43,6 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
-        </classes>
-    </test>
-
-    <test name="Test Nano Enhanced UIM Coverage Behavior">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
-        </classes>
-    </test>
-
-    <test name="Test Locked BI Limits And UW Points">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
-        </classes>
-    </test>
-
     <test name="Test UM And UIM Coverages opted in HardStop Rule">
         <parameter name="state" value="ID"/>
         <classes>
