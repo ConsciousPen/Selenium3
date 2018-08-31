@@ -41,10 +41,10 @@ public class TestPolicyCreation extends AutoCaChoiceBaseTest {
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
-
 		log.info("CA Choice Policy Product Verification Started...");
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+
 		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
 	}
 }

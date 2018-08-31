@@ -28,11 +28,8 @@ public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.PUP)
 	public void testPolicyCreation(@Optional("") String state) {
-
 		mainApp().open();
-
 		createCustomerIndividual();
-
 		createPolicy();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
