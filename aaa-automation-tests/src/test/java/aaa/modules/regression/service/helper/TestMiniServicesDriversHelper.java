@@ -1560,7 +1560,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas16551_relation_to_fni_hard_stopBody(PolicyType policyType) {
+	protected void pas16551_relationToFniHardStopBody(PolicyType policyType) {
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -1585,7 +1585,31 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		// bind policy and check error
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
 
-		// update driver
+		//Start PAS-18357
+		//bind policy from PAS
+		TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+		testEValueDiscount.simplifiedPendedEndorsementIssue();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest2 = DXPRequestFactory.createAddDriverRequest("Lisa", "Maria", "Jones", "1970-02-08", "III");
+		DriversDto addedDriverResponse2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest2);
+
+		UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest("female", "D58329585", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse2.oid, updateDriverRequest2);
+		HelperCommon.orderReports(policyNumber, addedDriverResponse2.oid, OrderReportsResponse.class, 200);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		//Add one more driver CH
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Nina", "Mia", "Jones", "1978-02-08", "III");
+		DriversDto addedDriverResponse3 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest3);
+
+		UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("female", "D11329585", 16, "VA", "CH", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedDriverResponse3.oid, updateDriverRequest3);
+		//End PAS-18357
+
 		UpdateDriverRequest updateDriverRequestORR = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "ORR", "MSS");
 		DriverWithRuleSets updateDriverResponseORR = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequestORR);
 		errorValidationRelationToFni(updateDriverResponseORR);
