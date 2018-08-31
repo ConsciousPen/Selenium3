@@ -15,7 +15,7 @@ public class MainApplication extends Application {
 		this.host = PropertyProvider.getProperty(TestProperties.APP_HOST);
 		this.name = "MAIN_APP";
 		this.path = PropertyProvider.getProperty(CsaaTestProperties.APP_PATH, "aaa-app/login.xhtml");
-		this.port = PropertyProvider.getProperty(CsaaTestProperties.APP_PORT, 9081);
+		this.port = PropertyProvider.getProperty(CsaaTestProperties.APP_PORT, 0000);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
 		this.login = new LoginPage(PropertyProvider.getProperty(TestProperties.APP_USER), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
 		this.url = formatUrl();

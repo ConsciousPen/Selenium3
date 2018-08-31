@@ -7,26 +7,11 @@ import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
 public class CSAAApplicationFactory {
 	static CSAAApplicationFactory appFactory;
 
-	private static ThreadLocal<MainApplication> mainApp = new ThreadLocal<MainApplication>() {
-		@Override
-		public MainApplication initialValue() {
-			return new MainApplication();
-		}
-	};
+	private static ThreadLocal<MainApplication> mainApp = ThreadLocal.withInitial(MainApplication::new);
 
-	private static ThreadLocal<AdminApplication> adminApp = new ThreadLocal<AdminApplication>() {
-		@Override
-		public AdminApplication initialValue() {
-			return new AdminApplication();
-		}
-	};
+	private static ThreadLocal<AdminApplication> adminApp = ThreadLocal.withInitial(AdminApplication::new);
 
-	private static ThreadLocal<OperationalReportApplication> opReportApp = new ThreadLocal<OperationalReportApplication>() {
-		@Override
-		public OperationalReportApplication initialValue() {
-			return new OperationalReportApplication();
-		}
-	};
+	private static ThreadLocal<OperationalReportApplication> opReportApp = ThreadLocal.withInitial(OperationalReportApplication::new);
 
 	public static synchronized CSAAApplicationFactory get() {
 		return InstanceHolder.HOLDER_INSTANCE;
