@@ -560,7 +560,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin);
-		assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+		assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 

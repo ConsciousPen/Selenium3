@@ -124,7 +124,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 			}
 		}
 		if(errors.length == 0) {
-			assertThat(orderReportErrorResponse.ruleSets).isEmpty();
+			assertThat(orderReportErrorResponse.validations).isEmpty();
 		}
 		return orderReportErrorResponse;
 	}
