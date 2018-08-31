@@ -1,16 +1,15 @@
 package aaa.modules.regression.finance.operational_reports;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Test;
 import aaa.admin.metadata.reports.OperationalReportsMetaData;
 import aaa.admin.modules.reports.operationalreports.defaulttabs.OperationalReportsTab;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTest {
 
@@ -48,12 +47,12 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
             softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.ADDITIONAL_EMAIL)).isPresent();
         });
 
-        orTab.buttonGenerateReport.click();
+		OperationalReportsTab.buttonGenerateReport.click();
 
         //Verify, that errors 'Field is required' for 'E-mail Address' Selection and 'Additional E-mail Address'
         assertSoftly(softly -> {
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.EMAIL_ADDRESS)).hasWarningWithText("Field is required");
-            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.ADDITIONAL_EMAIL)).hasWarningWithText("Field is required");
+			softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.EMAIL_ADDRESS).getWarning()).contains("Field is required");
+			softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.ADDITIONAL_EMAIL).getWarning()).contains("Field is required");
         });
     }
 }
