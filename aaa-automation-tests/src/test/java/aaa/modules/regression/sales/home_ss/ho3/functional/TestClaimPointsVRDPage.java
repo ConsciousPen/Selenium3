@@ -55,7 +55,7 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageTemplate {
 	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3, testCaseId = "PAS-17772")
 	public void pas17772_testAAAClaimPointsVRDPageNB(@Optional("") String state) {
 
-		pas17772_testAAAClaimPointsVRDPageSS();
+		pas17772_testAAAClaimPointsVRDPageNB_SS();
 
 	}
 
