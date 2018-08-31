@@ -9,10 +9,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
 import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
@@ -60,9 +58,9 @@ public class BaseTest {
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
-	private TestData tdSpecific;
-	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
 	protected ITestContext context;
+	private TestData tdSpecific;
+	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
 	static {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
@@ -213,10 +211,6 @@ public class BaseTest {
 	public static void printToDebugLog(String message) {
 		log.debug("----------------------------------------------------------------");
 		log.debug(message);
-	}
-
-	public ITestContext getTestContext() {
-		return context;
 	}
 
 	@BeforeMethod(alwaysRun = true)
