@@ -109,12 +109,11 @@ public class HelperMiniServices extends PolicyBaseTest {
 	OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
 		OrderReportsResponse orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 		for(ErrorDxpEnum.Errors error : errors) {
-			assertThat(orderReportErrorResponse.ruleSets.stream()
-					.flatMap(ruleSet -> ruleSet.errors.stream())
-					.anyMatch(valError -> valError.startsWith(error.getMessage()))).isTrue();
+			assertThat(orderReportErrorResponse.validations.stream()
+					.anyMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
 		}
 		if(errors.length == 0) {
-			assertThat(orderReportErrorResponse.ruleSets).isEmpty();
+			assertThat(orderReportErrorResponse.validations).isEmpty();
 		}
 		return orderReportErrorResponse;
 	}
