@@ -1,0 +1,13 @@
+OtherActiveAAAPolicies: ['@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup', '@<home_ss_ho3>@DataGather@OtherCompanionAutoPolicy']
+
+OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_Pup: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: {
+    Policy type: PUP,
+    "Companion PUP/DP3 Pending with Discount?": 'No',
+    Policy number: '123456789',
+    Effective date: '$<today+2d:MM/dd/yyyy>',
+  }
+}

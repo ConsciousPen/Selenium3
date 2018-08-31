@@ -76,8 +76,10 @@ public class ScenarioBaseTest extends BaseTest {
 		BillingSummaryPage.showPriorTerms();
 
 		for (int i = 1; i < installmentDates.size(); i++) { // Do not include Deposit bill
-			new BillingInstallmentsScheduleVerifier(softly).setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
-					.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
+			if (!installmentDates.get(i).plusYears(1).isEqual(TimeSetterUtil.getInstance().parse("02/28/2020", DateTimeUtils.MM_DD_YYYY))) { //skip verification for last days February of leap year
+				new BillingInstallmentsScheduleVerifier(softly).setDescription(BillingConstants.InstallmentDescription.INSTALLMENT)
+						.setInstallmentDueDate(installmentDates.get(i).plusYears(1)).verifyPresent();
+			}
 		}
 		if (!getState().equals(Constants.States.CA)) {
 			new BillingBillsAndStatementsVerifier(softly).setType(BillingConstants.BillsAndStatementsType.OFFER).verifyPresent(false);
