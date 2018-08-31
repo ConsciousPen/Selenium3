@@ -46,10 +46,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT.getLabel(), "No"
 				)
 		);
-		if (Constants.States.AZ.equals(openLPolicy.getCappingDetails().getState())) {
-			td = TestDataHelper.merge(td, DataProviderFactory.dataOf(new InitiateRenewalEntryActionTab().getMetaKey(), DataProviderFactory.dataOf(CustomerMetaData.InitiateRenewalEntryActionTab.UNDERWRITING_COMPANY.getLabel(), "CSAA Affinity Insurance Company")));
-		}
-		return TestDataHelper.merge(initiateRenewalEntryActionData, td);
+		initiateRenewalEntryActionData = TestDataHelper.merge(td, initiateRenewalEntryActionData);
+		return initiateRenewalEntryActionData;
 	}
 
 	@Override
