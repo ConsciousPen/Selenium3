@@ -2507,44 +2507,41 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP_POLICY_NUM.getLabel()),
 					"123");
 
-			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-					AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()),
-					"contains=$1,000,000/$1,000,000");
-
-			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-					AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel()),
-					"contains=$500,000");
-
-			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel()),
-					"contains=$20,00");
-
 			mainApp().open();
 			createCustomerIndividual();
 			String policyNumber = createPolicy(testData);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			PolicyCoverageInfo viewCoverageResponseBeforeUpdate = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			Coverage coverageBI = viewCoverageResponseBeforeUpdate.policyCoverages.stream().filter(coverage -> "BI".equals(coverage.coverageCd)).findFirst().orElse(null);
+			PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage coverageBI = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "BI".equals(coverage.coverageCd)).findFirst().orElse(null);
 			List<CoverageLimit> coverageLimitsBI = coverageBI.availableLimits;
 			Collections.reverse(coverageLimitsBI); //reverse, so that highest available limit is first element in the list
+
+			//Update BI to the highest one so that all PD limits are available
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			//Get all PD limits
+			viewCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage coveragePD = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "PD".equals(coverage.coverageCd)).findFirst().orElse(null);
+			List<CoverageLimit> coverageLimitsPD = coveragePD.availableLimits;
+			Collections.reverse(coverageLimitsPD);//reverse, so that highest available limit is first element in the list
+
+			//update PD to highest one, so that it doesn't give error
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PD", coverageLimitsPD.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 			//validate with BI limits
 			validatePUPError_pas15379(softly, policyNumber, coverageLimitsBI, "BI");
 
 			//Update BI to the highest one so that all PD values are available
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
-			PolicyCoverageInfo coverageUpdateResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			//Get all PD limits
-			Coverage coveragePD = coverageUpdateResponse.policyCoverages.stream().filter(coverage -> "PD".equals(coverage.coverageCd)).findFirst().orElse(null);
-			List<CoverageLimit> coverageLimitsPD = coveragePD.availableLimits;
-			Collections.reverse(coverageLimitsPD);//reverse, so that highest available limit is first element in the list
-
-			//validate with PD limits
+			//validate with BI limits
 			validatePUPError_pas15379(softly, policyNumber, coverageLimitsPD, "PD");
 
-			//Update PD to value with error expected and bind
+			//Update BI to value with error expected and bind
 			Collections.reverse(coverageLimitsBI); //reverse, so that lowest available limit is first element in the list
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
@@ -2560,9 +2557,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		BigDecimal coverageLimitFormatted;
 
 		if ("BI".equals(coverageCd)) {
-			coverageLimitThreshold = new BigDecimal("500000");
+			coverageLimitThreshold = new BigDecimal("500000");//for BI
 		} else {
-			coverageLimitThreshold = new BigDecimal("100000");
+			coverageLimitThreshold = new BigDecimal("100000");//for PD
 		}
 
 		for (CoverageLimit coverageLimit : coverageLimits) {
@@ -2580,14 +2577,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			PD values 100000 or greater should not have error. Lower values should have error.
 			*/
 			if (coverageLimitFormatted.compareTo(coverageLimitThreshold) == -1) {
-				softly.assertThat(updateCoverageResponse.validations.get(0).errors.stream().anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).as(coverageLimit.coverageLimit + " failed.").isTrue();
-
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.errors.stream().
+						anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage())))).
+						as(coverageLimit.coverageLimit + " should have error").isTrue();
 			} else {
-				softly.assertThat(updateCoverageResponse.validations.size()).as(coverageCd + " " + coverageLimit.coverageLimit + " failed.").isEqualTo(0);
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.errors.stream().
+						anyMatch(error -> error.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage())))).
+						as(coverageLimit.coverageLimit + " should not have error").isFalse();
 
-				//Validate that coverage is updated
-				softly.assertThat(updateCoverageResponse.policyCoverages.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo(coverageLimit.coverageLimit);
 			}
+
+			//Validate that coverage is updated
+			softly.assertThat(updateCoverageResponse.policyCoverages.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo(coverageLimit.coverageLimit);
 		}
 	}
 
