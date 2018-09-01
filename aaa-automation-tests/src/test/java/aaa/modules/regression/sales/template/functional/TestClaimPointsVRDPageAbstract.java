@@ -73,7 +73,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(getClaimDateOfLossLabel()));
 		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.WATER, "3"));
 		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(getClaimDateOfLossLabel()));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.THEFT, "4"));
+		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.THEFT, "3"));
 
 		navigateToPropertyInfoTab();
 		viewEditClaim(Labels.LIABILITY);
@@ -87,7 +87,6 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		getClaimHistoryAssetList().getAsset(getAAAClaimAsset()).setValue("No");
 
 		calculatePremiumAndOpenVRD();
-		PropertyQuoteTab.RatingDetailsView.open();
 		claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
 		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys()).isEmpty();
 		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys().size()).isEqualTo(4);
@@ -98,7 +97,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(getClaimDateOfLossLabel()));
 		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.THEFT, "3"));
 		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(getClaimDateOfLossLabel()));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.LIABILITY, "4"));
+		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.LIABILITY, "3"));
 
 		navigateToPropertyInfoTab();
 		viewEditClaim(Labels.FIRE);
