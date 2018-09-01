@@ -97,7 +97,7 @@ GeneralTab_Quote: {
   AAAProductOwned: '@AAAProductOwned_Version1',
   ContactInformation: '@ContactInformation_Version1',
   CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
-  PolicyInformation: '@PolicyInformation_Version1_QuoteCreation',
+  PolicyInformation: '@PolicyInformation_Version1',
   'Is there any Third Party Designee?': 'Yes',
   ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version1',
 }
@@ -209,7 +209,7 @@ NamedInsuredInformation_Version2: {
   City: Culver City,
   State: CA,
   "Has lived here for less than three years?": 'Yes',
-  Move-In Date: $<today-2d>,
+  Move-In Date: $<today-2y-1M>,
   Prior Zip Code: 90232,
   Prior Address Line 1: VII prior address 1,
   Prior Address Line 2: VII prior address 2,
@@ -448,20 +448,6 @@ TestData_PolicyInformation_Version2: {
   DocumentsAndBindTab: {},
 }
 
-TestData_PolicyInformation_Version2_QuoteCreation: {
-  GeneralTab: {
-    PolicyInformation: '@PolicyInformation_Version2_QuoteCreation'
-  },
-  DriverTab: {},
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {},
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {},
-}
-
 PolicyInformation: {
   Source of Business: 'New Business',
   Policy Type: Standard,
@@ -490,41 +476,15 @@ PolicyInformation_Version1: {
   Suppress Print: 'Print Declaration'
 }
 
-PolicyInformation_Version1_QuoteCreation: {
-  Source of Business: 'Split',
-  "Source Policy #": 123456111,
-  Channel Type: 'Phone (Direct Sales Unit)',
-  Agency: 'Hamilton DSC - 500001003',
-  Sales Channel: 'IE DSC-District Sales and Marketing',
-  #Agent: 'House Agent CSAA DSU Hamilton',
-  Authorized by: QA version1,
-  TollFree Number: 2222222222,
-  Language Preference: Spanish,
-  Suppress Print: 'Print Declaration'
-}
-
 PolicyInformation_Version2: {
   Source of Business: 'Spin-Off',
   "Source Policy #": 123456222,
   Override ASD Level: 'No',
-  Channel Type: 'Sub Producer',
-  Agency: 'Advantage Auto Ins Agency, LLC - Magnolia - 500023745',
-  Sales Channel: 'SubProducer',
-  #Agent: 'contains=HouseAgent Magnolia',
-  Authorized by: QA version2,
-  TollFree Number: 3333333333,
-  Language Preference: English,
-  Suppress Print: 'Divert Declaration'
-}
-
-PolicyInformation_Version2_QuoteCreation: {
-  Source of Business: 'Spin-Off',
-  "Source Policy #": 123456222,
-  Override ASD Level: 'No',
-  Channel Type: 'Sub Producer',
-  Agency: 'Advantage Auto Ins Agency, LLC - Magnolia - 500023745',
-  Sales Channel: 'SubProducer',
-  #Agent: 'HouseAgent Magnolia',
+  Channel Type: 'AAA Agent',
+  Agency: 'SMTestNCNU - 400001005',
+  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+  Sales Channel: 'Captive Branch Agents',
+  Agent: 'House Agent SMTestNCNU LOCATION',
   Authorized by: QA version2,
   TollFree Number: 3333333333,
   Language Preference: English,
@@ -652,19 +612,10 @@ DriverInformation: {
   Filling Type: SR-1P,
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
-  ActivityInformation: {
-    Activity Source: Company Input,
-    Type: '10-yr Major Violation',
-    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
-    Description: 'Driving under the influence of drugs',
-    Conviction Date: '$<today-3M:MM/dd/yyyy>',
-    "Include in Points and/or YAF?": 'No',
-    Not Included in Points and/or YAF - Reason Codes: 'Report errors',
-  }
 }
 
 DriverInformation_Version1: {
-  Date of Birth: $<today-55y>,
+  Date of Birth: $<today-57y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: 'Dentist',
@@ -683,15 +634,6 @@ DriverInformation_Version1: {
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
   Ridesharing Coverage: 'No',
-  ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
-    Occurrence Date: '07/20/2018',
-    Conviction Date: '07/20/2018',
-    'Include in Points and/or YAF?': 'No',
-    'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
-  }
 }
 
 DriverInformation_Version2: {
@@ -714,14 +656,6 @@ DriverInformation_Version2: {
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
-  ActivityInformation: {
-    Activity Sorce: Company Input,
-    Type: 'Minor Violation',
-    Occurrence Date: '06/20/2018',
-    Conviction Date: '06/20/2018',
-    Description: 'Child seat belt violation',
-    "Include in Points and/or YAF?": 'Yes',
-  }
 }
 
 #Vehicle Tab - Vehicle Information section
@@ -843,5 +777,4 @@ VehicleInformation_Version2: {
     Validate Address Dialog: {},
   },
 }
-
 

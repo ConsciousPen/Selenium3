@@ -11,10 +11,10 @@ public class VersionsComparisonConstants {
 	//fields that have DB values, but not UI values on Comparison page
 	static final Map<String, String> COMPARISON_PAGE_DIFFERENT_VALUES = ImmutableMap.<String, String>builder()
 			.put("Membership Override", "Override")
-			.put("Hamilton DSC - 500001003","500001003")
-			.put("Advantage Auto Ins Agency, LLC - Magnolia - 500023745","500023745")
+			.put("SMTestCC - 400000092","400000092")
+			.put("SMTestNCNU - 400001005","400001005")
 			.put("IE DSC-District Sales and Marketing","2512")
-			.put("SubProducer","2515")
+			.put("Captive Branch Agents","2507")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
 			.put("A Student","astud")
@@ -33,10 +33,13 @@ public class VersionsComparisonConstants {
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
-			.putAll("Policy Information.Agency of Record","500023745","500001003")
-			.putAll("Policy Information.Agent","500034992","500013270")
-			.putAll("Policy Information.Agent of Record","500034992","500013270")
-			.putAll("Policy Information.Agent Number","500034992","500013270")
+			.putAll("Policy Information.Agency Location","400001105","")
+			.putAll("Policy Information.Agency of Record","400001005","400000092")
+			.putAll("Policy Information.Agent","400010108","400004092")
+			.putAll("Policy Information.Agent of Record","400010108","400004092")
+			.putAll("Policy Information.Agent Number","400010108","400004092")
+			//Third Party
+			.putAll("Policy Information.Third Party Designee Address","VII third party address 1, VII third party address 2, Culver City, CA, 90232","VI third party address 1, VI third party address 2, HUNTINGTON PARK, CA, 90255")
 			//Driver Tab
 			//data gather data
 			.putAll("Driver Information (VIFirstName VI VILastName).Age", "18","55")
@@ -155,6 +158,8 @@ public class VersionsComparisonConstants {
 			.put("Policy Information.TollFree Number","TollFree Number")
 			.put("Policy Information.Language Preference","Language Preference")
 			.put("Policy Information.Suppress Print","Suppress Print")
+			//Third Party
+			.put("Policy Information.Third Party Designee Name","Name")
 			//Driver Tab
 			//data gather
 			.put("Driver Information (VIFirstName VI VILastName).Date of Birth", "Date of Birth")
@@ -258,7 +263,7 @@ public class VersionsComparisonConstants {
 			.put("AAAMembership Order", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
-/*			.put("AAA Products Owned", "Override Type")*/
+			/*			.put("AAA Products Owned", "Override Type")*/
 			.put("AAA Products Owned", "Membership Number")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
@@ -299,6 +304,7 @@ public class VersionsComparisonConstants {
 			.put("Policy Information","Channel Type")
 			.put("Policy Information","Agency")
 			.put("Policy Information","Agency of Record")
+			.put("Policy Information","Agency Location")
 			.put("Policy Information","Sales Channel")
 			.put("Policy Information","Agent")
 			.put("Policy Information","Agent of Record")
@@ -311,7 +317,8 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> THIRD_PARTY_DESIGNEE = ImmutableListMultimap.<String, String>builder()
-			.put("Policy Information","Source of Business")
+			.put("Policy Information","Third Party Designee Name")
+			.put("Policy Information","Third Party Designee Address")
 			.build();
 
 	//all components/attributes that should be on Comparison page for Driver Information section
@@ -332,7 +339,6 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (VIFirstName VI VILastName)", "Total Years Driving Experience")
 			.put("Driver Information (VIFirstName VI VILastName)", "Date First Licensed")
 			.put("Driver Information (VIFirstName VI VILastName)", "Licensed in US/Canada for 18 or More Months?")
-			.put("Driver Information (VIFirstName VI VILastName)", "License Type")
 			.put("Driver Information (VIFirstName VI VILastName)", "License State")
 			.put("Driver Information (VIFirstName VI VILastName)", "License #")
 			.put("Driver Information (VIFirstName VI VILastName)", "Employee Benefit Type")
@@ -374,7 +380,6 @@ public class VersionsComparisonConstants {
 			.put("Driver Information (NBFirstName NB NBLastName)", "Total Years Driving Experience")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Date First Licensed")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Licensed in US/Canada for 18 or More Months?")
-			.put("Driver Information (NBFirstName NB NBLastName)", "License Type")
 			.put("Driver Information (NBFirstName NB NBLastName)", "License State")
 			.put("Driver Information (NBFirstName NB NBLastName)", "License #")
 			.put("Driver Information (NBFirstName NB NBLastName)", "Employee Benefit Type")
@@ -414,7 +419,6 @@ public class VersionsComparisonConstants {
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft Recovery Device")
-			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Existing Damage")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Salvaged?")
 			//TODO defect should be fixed
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
