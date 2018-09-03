@@ -68,7 +68,6 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas1952_MessageWhenOnlyMethodIsCheck"/>
                 </methods>
             </class>
@@ -79,7 +78,6 @@
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="eRefundLastPaymentMethodConfigCheck"/>
                     <include name="pas1952_MessageWhenOnlyMethodIsCheckNoElectronicRefund"/>
                 </methods>
             </class>
