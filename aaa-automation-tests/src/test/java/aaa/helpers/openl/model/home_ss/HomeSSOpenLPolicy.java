@@ -302,6 +302,12 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 			requiredMocks.add(propertyRiskReportsMockData);
 		}
 
+		//TODO-dchubkov: does not work well, to be investigated...
+		/*if (!mockGenerator.isAddressReferenceMockPresent(getPolicyAddress().getZip(), getPolicyAddress().getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getPolicyAddress().getZip(), getPolicyAddress().getState());
+			requiredMocks.add(addressReferenceMock);
+		}*/
+
 		return requiredMocks;
 	}
 
