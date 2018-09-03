@@ -12,7 +12,7 @@ import org.testng.xml.XmlPackage;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 import aaa.common.enums.Constants;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.logging.CustomLogger;
 
@@ -31,7 +31,7 @@ public class AlterSuiteListener implements IAlterSuiteListener {
 	}
 
 	private List<String> getStates(XmlTest test) {
-		String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
+		String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 		String temp = test.getParameter("state");
 		List<String> states = new ArrayList<>();
 		if (StringUtils.isNotBlank(temp)) {

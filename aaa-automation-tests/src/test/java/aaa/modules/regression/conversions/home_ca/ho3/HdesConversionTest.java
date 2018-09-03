@@ -17,7 +17,7 @@ public class HdesConversionTest extends HdesConversionTestTemplate {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
 	public void hdesCAHO3ConversionTest(@Optional("CA") String state, String file) {
-		hdesCAConversion(file, getTestContext());
+		hdesCAConversion(file, context);
 	}
 
 	@Parameters({"state", "file"})

@@ -79,15 +79,15 @@ public class NavigationPage extends Page {
 		new JavaScriptLink(By.xpath(String.format(LABEL_NAVIGATION_VIEW_LEFT_MENU, link))).click();
 	}
 
-	public static void toFlow(Application.AppType appType, String flow) {
-		String serverUrl = Application.getURL(appType);
+	public static void toFlow(Application appType, String flow) {
+		String serverUrl = appType.getUrl();
 		String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
 		BrowserController.get().open(serverUrl + flowNavigate);
 		log.info("[navigateToFlow] {}{}", serverUrl, flowNavigate);
 	}
 
-	public static void toFlow(Application.AppType appType, String flow, String flowParameter) {
-		String serverUrl = Application.getURL(appType);
+	public static void toFlow(Application appType, String flow, String flowParameter) {
+		String serverUrl = appType.getUrl();
 		String flowNavigate = MessageFormat.format(FLOW_NAVIGATE_TEMPLATE, flow, resolveWindowId());
 		BrowserController.get().open(serverUrl + flowNavigate + flowParameter);
 		log.info("[navigateToFlow] {}{}{}", serverUrl, flowNavigate, flowParameter);

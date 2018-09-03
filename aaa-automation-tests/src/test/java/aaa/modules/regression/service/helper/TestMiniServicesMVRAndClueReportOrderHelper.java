@@ -1,9 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,12 +24,9 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import javax.ws.rs.core.Response;
-import java.util.Date;
-import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.time.DateUtils;
 
 public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
@@ -50,7 +45,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 
 		//Update driver
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", null);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
@@ -75,7 +70,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		///////////Repeat with driver 2///////////
+		//Repeat with driver 2
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -85,7 +80,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 
 		//Update driver
-		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", null);
+		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, addedDriver2.oid, updateDriverRequest);
 		assertSoftly(softly -> softly.assertThat(updateDriverResponse2.driver.namedInsuredType).isEqualTo("Not a Named Insured")); //Make sure that added driver is NOT a Named Insured
 
@@ -188,15 +183,15 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String policyNumber = getCopiedPolicy();
 
 		//Check driver with more that two minor violations
-		String oidDriver1 = addAndUpdateDriver(policyNumber, "Three", "Minors", "1970-01-01", "B15384001", "CH", "VA", "Female");
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Two", "Minors", "1970-01-01", "B15384001", "CH", "VA", "male");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_C);
 
 		countViolationsInPas(policyNumber, 3);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getMessage(), "attributeForRules");
 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
@@ -204,7 +199,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Minor", "1970-01-01", "B15384003", "CH", "VA", "female");
 
 		HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
-		countViolationsInPas(policyNumber, 3);
+		countViolationsInPas(policyNumber, 2);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
@@ -240,22 +235,22 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String policyNumber = getCopiedPolicy();
 
 		//Check driver with more than 20 points
-		String oidDriver1 = addAndUpdateDriver(policyNumber, "Twenty", "Points", "1970-01-01", "B16848001", "CH", "VA", "female");
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Twenty", "Points", "1970-01-01", "B16848001", "CH", "VA", "male");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C);
 
 		countViolationsInPas(policyNumber, 5);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS.getMessage(), "attributeForRules");
 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Check Driver with one outdated violation
-		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Twenty", "1970-01-01", "B16848004", "CH", "VA", "female");
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Twenty", "1970-01-01", "B16848004", "CH", "VA", "male");
 
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_VA);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, false, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C);
 
 		countViolationsInPas(policyNumber, 5);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -266,21 +261,21 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(binErrorResponseDto.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode());
 			softly.assertThat(binErrorResponseDto.errors.get(0).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage());
 			softly.assertThat(binErrorResponseDto.errors.get(0).field).isEqualTo("attributeForRules");
-			softly.assertThat(binErrorResponseDto.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode());
-			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage());
+			softly.assertThat(binErrorResponseDto.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getCode());
+			softly.assertThat(binErrorResponseDto.errors.get(1).message).contains(ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getMessage());
 			softly.assertThat(binErrorResponseDto.errors.get(1).field).isEqualTo("attributeForRules");
 		});
 	}
 
 	protected void pas15385_driverWithFourOrMoreIncidentsErrorBody() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = getCopiedPolicy() ;
 
 		//Check driver with 4 incidents
-		String oidDriver1 = addAndUpdateDriver(policyNumber, "Four", "Incidents", "1970-01-01", "B16848123", "CH", "VA", "female");
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Four", "Incidents", "1970-01-01", "B16848123", "CH", "VA", "male");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C);
 
 		countViolationsInPas(policyNumber, 4);
 
@@ -290,13 +285,13 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Check Driver with one outdated incident
-		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Incident", "1970-01-01", "B16848385", "CH", "VA", "female");
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Outdated", "Incident", "1970-01-01", "B16848385", "CH", "VA", "male");
 
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, false, ErrorDxpEnum.Errors.DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C);
 
 		countViolationsInPas(policyNumber, 4);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_VA.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getMessage(), "attributeForRules");
 	}
 
 	protected void pas15375_duiIsUnacceptableForDriverUnderTheAgeErrorBody() {
@@ -360,7 +355,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		countViolationsInPas(policyNumber, 3);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getMessage(), "attributeForRules");
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Outdated violation
@@ -448,7 +443,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "Two", "AtFault", "2000-09-01", "B15383001", "SP", "VA", "female");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS_C);
 
 		countViolationsInPas(policyNumber, 2);
 
@@ -468,7 +463,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.DRIVER_NAME_MISMATCH, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCH);
 
 		String oidDriver2 = addAndUpdateDriver(policyNumber, "Other", "Mismatches", "1971-01-01", "B15383001", "SP", "VA", "female");
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCHS, ErrorDxpEnum.Errors.DRIVER_DOB_MISMATCH);
+		helperMiniServices.orderReportErrors(policyNumber, oidDriver2, ErrorDxpEnum.Errors.DRIVER_GENDER_MISMATCHES, ErrorDxpEnum.Errors.DRIVER_DOB_MISMATCH);
 
 		String oidDriver3 = addAndUpdateDriver(policyNumber, "Other", "Mismatches", "1970-01-01", "B15383001", "SP", "VA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver3);
@@ -634,7 +629,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		countViolationsInPas(policyNumber, 1);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION.getMessage(), "attributeForRules");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_MAJOR_VIOLATION_DUI.getMessage(), "attributeForRules");
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 	}
 

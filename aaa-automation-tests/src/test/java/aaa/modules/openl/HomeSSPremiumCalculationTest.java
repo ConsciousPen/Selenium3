@@ -37,7 +37,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		// create real Auto Policy for PA state
 		if (Constants.States.PA.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getPolicyDiscountInformation().isAutoPolicyInd()) {
 			TestData autoPolicyData = tdGenerator.getAutoPolicyData(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData"), openLPolicy);
-			PolicyType.AUTO_SS.get().createQuote(autoPolicyData);
+			PolicyType.AUTO_SS.get().createPolicy(autoPolicyData);
 			tdGenerator.autoPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}

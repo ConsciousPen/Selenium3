@@ -16,8 +16,7 @@ public class OrderReportsResponse {
 	@ApiModelProperty(value = "Ordered mvr reports data (license status)", required = true)
 	public List<MvrReport> mvrReports;
 
-	@ApiModelProperty(value = "List of rules that failed with validation errors or warnings.",
-			dataType = "com.eisgroup.aaa.policy.services.dto.ValidationRuleSet")
-	public List<ValidationRuleSet> ruleSets;
+	@ApiModelProperty(value = "List of rules that failed with validation errors.")
+	public List<ValidationError> validations;
 
 }

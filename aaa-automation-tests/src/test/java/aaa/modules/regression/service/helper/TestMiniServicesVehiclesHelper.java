@@ -199,7 +199,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).ruleSets.get(0).errors.get(0)).contains("Usage is Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).isEqualTo("Usage is Business");
 		});
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
@@ -239,7 +239,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		VehicleUpdateResponseDto updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.registeredOwner).isEqualTo(false);
-			softly.assertThat(hasError(updateVehicleResponse.ruleSets, "Registered Owners")).isTrue();
+			softly.assertThat(hasError(updateVehicleResponse.validations, "Registered Owners")).isTrue();
 		});
 		//TODO jpukenaite-issue or not, "Usage is Business" should not be displaying
 		//Check premium after new vehicle was added
@@ -275,7 +275,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 			softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin);
-			assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+			assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 		});
 
 		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -456,18 +456,19 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 		//PAS-14501 end
 
-		//Rate endorsement
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-
 		if (!"VA".equals(state)) {
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
 			VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
 			updateGaragingAddressVehicleRequest2.garagingDifferent = false;
 			Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
 			softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		}else {
+			//Rate endorsement
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		}
+
 		//Bind endorsement
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
@@ -1037,7 +1038,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oidForVin1);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
-			assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+			assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 		});
 
 		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -1387,7 +1388,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid3);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin3);
-		softly.assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+		softly.assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 
 		ComparablePolicy response2 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle replaceVeh2 = response2.vehicles.get(replaceVehOid2);
@@ -1642,14 +1643,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(oid0);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin0);
-		softly.assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+		softly.assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 
 		//Delete V1 vehicle
 		VehicleUpdateResponseDto deleteVehicleResponse2 = HelperCommon.deleteVehicle(policyNumber, oid1);
 		softly.assertThat(deleteVehicleResponse2.oid).isEqualTo(oid1);
 		softly.assertThat(deleteVehicleResponse2.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse2.vehIdentificationNo).isEqualTo(vin1);
-		softly.assertThat(deleteVehicleResponse2.ruleSets).isEqualTo(null);
+		softly.assertThat(deleteVehicleResponse2.validations).isEqualTo(null);
 
 		//Check first vehicle
 		ComparablePolicy response5 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
@@ -1770,7 +1771,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isNull();
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
 		//PAS-13920 end
@@ -2607,8 +2608,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 						&& StringUtils.startsWith(error.message, expectedError.getMessage()));
 	}
 
-	private boolean hasError(List<ValidationRuleSet> ruleSets, String expectedMessage) {
-		return ruleSets.stream().flatMap(ruleSet -> ruleSet.errors.stream()).anyMatch(error -> error.startsWith(expectedMessage));
+	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
+		return validations.stream().anyMatch(error -> error.message.equals(expectedMessage));
 	}
 }
 

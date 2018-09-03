@@ -9,7 +9,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -404,9 +404,9 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	}
 
 	private String getPolicy(String testName, String date1, String date2) {
-		if (!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty()) {
-			date1 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1);
-			date2 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2);
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
+			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
 		}
 		return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
