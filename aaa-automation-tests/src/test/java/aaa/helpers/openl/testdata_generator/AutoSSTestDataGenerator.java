@@ -108,17 +108,39 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
 						.format(DateTimeUtils.MM_DD_YYYY));
 
-		TestData aAAProductOwnedData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), getYesOrNo(openLPolicy.getAaaHomePolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), getYesOrNo(openLPolicy.getAaaRentersPolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), getYesOrNo(openLPolicy.getAaaCondoPolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), getYesOrNo(openLPolicy.isAaaLifePolicy())
-				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
-		);
+		Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "No");
+		}
+		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
@@ -151,7 +173,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aAAProductOwnedData,
+				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), currentCarrierInformationData,
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
@@ -443,11 +465,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getPremiumAndCoveragesTabData(AutoSSOpenLPolicy openLPolicy) {
-		if (Boolean.TRUE.equals(openLPolicy.isEMember())) {
-			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
-			throw new NotImplementedException("Test data generation for enabled isEMember is not implemented.");
-		}
-
 		if (Boolean.TRUE.equals(openLPolicy.isSupplementalSpousalLiability())) {
 			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
 			throw new NotImplementedException("Test data generation for enabled supplementalSpousalLiability is not implemented.");
@@ -556,19 +573,25 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 		}
 
-		return DataProviderFactory.dataOf(
-				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().getTerm()),
-				AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk(),
-				AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
-				AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
-				AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData),
-				AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList)
+		Map<String, Object> premiumAndCoveragesTabData = new HashMap<>();
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().getTerm()));
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk());
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes"); //TODO-dchubkov: enable only if need to fill expanded section
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar());
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData));
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList);
+		if (Boolean.TRUE.equals(openLPolicy.isEMember())) {
+			premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel(), "Yes");
+		}
+
+		return new SimpleDataProvider(premiumAndCoveragesTabData)
 				.adjust(new SimpleDataProvider(policyCoveragesData))
 				.adjust(getPolicyPersonalInjuryProtectionCoveragesData(openLPolicy));
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
-		String vin = getVinFromDb(vehicle);
+		//String vin = getVinFromDb(vehicle);
+		String vin = null; //TODO-dchubkov: improve VIN search DB query to include all openl field values
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = getStatCode(vehicle);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
