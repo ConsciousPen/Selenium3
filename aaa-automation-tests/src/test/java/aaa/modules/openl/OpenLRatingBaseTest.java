@@ -19,7 +19,7 @@ import com.google.common.collect.Maps;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.listeners.RatingEngineLogsGrabber;
 import aaa.helpers.listeners.RatingEngineLogsHolder;
@@ -38,8 +38,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	private static final Object TESTS_PREPARATIONS_LOCK = new Object();
 	private static final Object RATING_LOCK = new Object();
 	private static final String DATA_PROVIDER_NAME = "openLTestDataProvider";
-	private static final String OPENL_GRAB_RATING_LOGS = PropertyProvider.getProperty(CustomTestProperties.OPENL_ATTACH_RATING_LOGS);
-	private static final boolean ARCHIVE_RATING_LOGS = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.OPENL_ARCHIVE_RATING_LOGS));
+	private static final String OPENL_GRAB_RATING_LOGS = PropertyProvider.getProperty(CsaaTestProperties.OPENL_ATTACH_RATING_LOGS);
+	private static final boolean ARCHIVE_RATING_LOGS = Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.OPENL_ARCHIVE_RATING_LOGS));
 	private static OpenLTestsManager openLTestsManager;
 	private static RatingEngineLogsGrabber ratingEngineLogsGrabber = new RatingEngineLogsGrabber();
 

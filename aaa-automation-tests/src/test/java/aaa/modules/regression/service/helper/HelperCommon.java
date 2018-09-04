@@ -10,8 +10,6 @@ import javax.ws.rs.client.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
@@ -22,8 +20,9 @@ import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
@@ -102,15 +101,14 @@ public class HelperCommon {
 	}
 
 	private static String urlBuilderDxp(String endpointUrlPart) {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
-			return PropertyProvider.getProperty(CustomTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CustomTestProperties.APP_HOST)
-					.replace(PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CustomTestProperties.DXP_PORT) + endpointUrlPart;
+		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+			return PropertyProvider.getProperty(CsaaTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CsaaTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CsaaTestProperties.DXP_PORT) + endpointUrlPart;
 		}
-		return PropertyProvider.getProperty(CustomTestProperties.DOMAIN_NAME) + endpointUrlPart;
+		return PropertyProvider.getProperty(CsaaTestProperties.DOMAIN_NAME) + endpointUrlPart;
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
-		return "http://" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + PropertyProvider.getProperty(CustomTestProperties.ADMIN_PORT) + endpointUrlPart;
+		return "http://" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + PropertyProvider.getProperty(CsaaTestProperties.ADMIN_PORT) + endpointUrlPart;
 	}
 
 	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
@@ -790,7 +788,7 @@ public class HelperCommon {
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CustomTestProperties.OAUTH2_ENABLED))) {
+		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CsaaTestProperties.OAUTH2_ENABLED))) {
 			String token = getBearerToken();
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
@@ -804,8 +802,7 @@ public class HelperCommon {
 		Response response = null;
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE)
-					+ PropertyProvider.getProperty(CustomTestProperties.PING_HOST));
+			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + PropertyProvider.getProperty(CsaaTestProperties.PING_HOST));
 			response = target
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)

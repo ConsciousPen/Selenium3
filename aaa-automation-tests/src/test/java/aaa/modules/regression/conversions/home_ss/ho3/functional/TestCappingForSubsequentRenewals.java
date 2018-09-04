@@ -1,12 +1,5 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -27,9 +20,18 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.Button;
+
+import java.time.LocalDateTime;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	private static String policyNumber;
@@ -57,7 +59,7 @@ public class TestCappingForSubsequentRenewals extends HomeSSHO3BaseTest {
 	 **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = "PAS-11383")
 	public void testCappingForSubsequentRenewals(@Optional("AZ") String state) {
 

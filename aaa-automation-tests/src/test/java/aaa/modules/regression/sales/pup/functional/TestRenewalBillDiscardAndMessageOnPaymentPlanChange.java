@@ -79,7 +79,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends Persona
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-16405, PAS-16526")
 	public void testMessageOnPaymentPlanChangeOnRenewal_QuarterlyToSemiAnnual(@Optional("NY") String state) {
 
@@ -118,7 +118,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends Persona
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-16405, PAS-16526")
 	public void testMessageOnPaymentPlanChangeOnRenewal_SemiAnnualToQuarterly(@Optional("NY") String state) {
 
@@ -156,7 +156,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends Persona
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-16405, PAS-16526")
 	public void testMessageOnPaymentPlanChangeOnRenewal_AutoPay_ManualBillGeneration(@Optional("NY") String state) {
 

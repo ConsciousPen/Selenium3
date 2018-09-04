@@ -65,9 +65,7 @@ public class OperationalReport implements IOperationalReport {
 	            LoginPage.textBoxPassword.setValue(PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
                 LoginPage.buttonLogin.click();
             } else {
-                CSAAApplicationFactory.get().opReportApp(new LoginPage(
-		                PropertyProvider.getProperty(TestProperties.APP_USER),
-		                PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).getLogin().login();
+                CSAAApplicationFactory.get().opReportApp().getLogin().login();
             }
         }
     }

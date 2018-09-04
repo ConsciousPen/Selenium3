@@ -42,7 +42,7 @@ public class TestSpecialNonRenewalLetterKY extends TestSpecialNonRenewalLetterKY
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-18121")
 	public void pas18121_specialNonRenewalLetterBeforeR80_withEndorsement(@Optional("KY") String state) throws NoSuchFieldException {
 		specialNonRenewalLetterBeforeR80Generated(true);
@@ -71,7 +71,7 @@ public class TestSpecialNonRenewalLetterKY extends TestSpecialNonRenewalLetterKY
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-18121")
 	public void pas18121_specialNonRenewalLetterBeforeR80_withoutEndorsement(@Optional("KY") String state) throws NoSuchFieldException {
 		specialNonRenewalLetterBeforeR80Generated(false);
@@ -89,7 +89,7 @@ public class TestSpecialNonRenewalLetterKY extends TestSpecialNonRenewalLetterKY
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-18121")
 	public void pas18121_specialNonRenewalLetterAfterR80(@Optional("KY") String state) {
 		specialNonRenewalLetterAfterR80NotGenerated();

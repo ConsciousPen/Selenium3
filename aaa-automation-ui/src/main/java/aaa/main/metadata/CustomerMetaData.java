@@ -31,7 +31,7 @@ public final class CustomerMetaData {
 		public static final AssetDescriptor<ComboBox> LEAD_STATUS = declare("Lead Status", ComboBox.class);
 		public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class);
 		public static final AssetDescriptor<ComboBox> GENDER = declare("Gender", ComboBox.class);
-		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> MARITAL_STATUS = declare("Marital Status", ComboBox.class, Waiters.AJAX.then(Waiters.AJAX));
 		public static final AssetDescriptor<TextBox> SSN = declare("SSN", TextBox.class);
 		public static final AssetDescriptor<TextBox> TAX_IDENTIFICATION = declare("Tax Identification", TextBox.class);
 

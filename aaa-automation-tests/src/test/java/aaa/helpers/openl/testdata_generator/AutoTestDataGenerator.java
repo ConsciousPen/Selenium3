@@ -54,6 +54,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if (isTrailerType(statCode)) {
 			return "Trailer";
 		}
+		if ("GC".equals(statCode)) {
+			return "Golf Cart";
+		}
 		throw new IstfException("Unknown vehicle type for statCode: " + statCode);
 	}
 
@@ -117,7 +120,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return codes.contains(statCode);
 	}
 
-	boolean isTrailerOrMotorHomeType(String usage) {
+	boolean isTrailerOrMotorHomeOrGolfCartType(String usage) {
 		return Arrays.asList("P1", "P2", "P3", "PT", "PR").contains(usage);
 	}
 

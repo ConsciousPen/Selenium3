@@ -456,18 +456,19 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(updateVehicleGaragingAddressResponse.garagingAddress.stateProvCd).isEqualTo(stateGarage);
 		//PAS-14501 end
 
-		//Rate endorsement
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-
 		if (!"VA".equals(state)) {
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
+			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getCode(), ErrorDxpEnum.Errors.GARAGED_OUT_OF_STATE.getMessage(), "attributeForRules");
 
 			VehicleUpdateDto updateGaragingAddressVehicleRequest2 = new VehicleUpdateDto();
 			updateGaragingAddressVehicleRequest2.garagingDifferent = false;
 			Vehicle updateVehicleGaragingAddressResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateGaragingAddressVehicleRequest2);
 			softly.assertThat(updateVehicleGaragingAddressResponse2.garagingDifferent).isEqualTo(false);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		}else {
+			//Rate endorsement
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		}
+
 		//Bind endorsement
 		helperMiniServices.bindEndorsementWithCheck(policyNumber);
 
@@ -1770,7 +1771,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isNull();
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
 		//PAS-13920 end

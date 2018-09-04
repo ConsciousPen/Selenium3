@@ -1,12 +1,5 @@
 package aaa.modules.regression.billing_and_payments.home_ca.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.time.LocalDateTime;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -28,9 +21,18 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 
@@ -55,7 +57,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
 	public void testPremiumAndMinDueAfterRPForCurrentTerm(@Optional("CA") String state) {
 		mainApp().open();
@@ -90,7 +92,7 @@ public class TestPremiumAndMinDueAfterRP extends HomeCaHO3BaseTest {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3, testCaseId = "PAS-13762")
 	public void testPremiumAndMinDueAfterRPForRenewalTerm(@Optional("CA") String state) {
 		mainApp().open();
