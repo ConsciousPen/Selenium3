@@ -16,7 +16,8 @@ TestData_MembershipPending: {
 
 ApplicantTab: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  #AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -27,7 +28,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  #AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #RiskMeterReport: [{Report: 'Order Report'}],
   FirelineReport: [{Report: 'Order Report'}],
@@ -44,20 +45,31 @@ NamedInsured: {
   Employer: '1234567890',
 }
 
+#pending status is not used any more
 AAAMembership: {
   Current AAA Member: Membership Pending
 }
 
-# ------ TestData: Copy Policy with Membership Pending -----
-# -------------- (no Reports tab filling) ------------------
+# ------ TestData: Copy Policy  -----
 TestData_CopyPolicy: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  ReportsTab: '@ReportsTab_Copy',
   UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
   PurchaseTab: '@<home_ss_ho3>@DataGather@PurchaseTab'
 }
 
 CopyFromPolicyActionTab: {
     Quote Effective Date: '$<today>'
+}
+
+ReportsTab_Copy: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
+  #RiskMeterReport: [{Report: 'Order Report'}],
+  #FirelineReport: [{Report: 'Order Report'}],
+  #PublicProtectionClass: [{Report: 'Order Report'}],
+  #CLUEreport: [{Report: 'Order report'}]
 }
 
 UnderwritingAndApprovalTab: {
@@ -73,7 +85,8 @@ UnderwritingAndApprovalTab: {
 TestData_MembershipYes: {
   GeneralTab: {},
   ApplicantTab: '@ApplicantTab_MembershipYes', 
-  ReportsTab: '@ReportsTab_MembershipYes',
+  #ReportsTab: '@ReportsTab_MembershipYes',
+  ReportsTab: {},
   PropertyInfoTab: {},
   ProductOfferingTab: {},
   EndorsementTab: {}, 
@@ -141,7 +154,7 @@ TestData_MembershipPending_AZ: {
 
 ApplicantTab_AZ: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_AZ',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -168,7 +181,7 @@ TestData_MembershipPending_CO: {
 
 ApplicantTab_CO: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CO',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -195,7 +208,7 @@ TestData_MembershipPending_CT: {
 
 ApplicantTab_CT: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_CT',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -243,7 +256,7 @@ TestData_MembershipPending_DC: {
 
 ApplicantTab_DC: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DC',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -277,7 +290,7 @@ TestData_MembershipPending_DE: {
 
 ApplicantTab_DE: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_DE',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -312,7 +325,7 @@ TestData_MembershipPending_ID: {
 
 ApplicantTab_ID: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_ID',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -339,7 +352,7 @@ TestData_MembershipPending_IN: {
 
 ApplicantTab_IN: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_IN',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -373,7 +386,7 @@ TestData_MembershipPending_KS: {
 
 ApplicantTab_KS: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KS',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -407,7 +420,7 @@ TestData_MembershipPending_KY: {
 
 ApplicantTab_KY: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_KY',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -455,7 +468,7 @@ TestData_MembershipPending_MD: {
 
 ApplicantTab_MD: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_MD',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -504,7 +517,7 @@ TestData_MembershipPending_MT: {
 
 ApplicantTab_MT: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_MT',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -538,7 +551,7 @@ TestData_MembershipPending_NJ: {
 
 ApplicantTab_NJ: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NJ',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -573,7 +586,7 @@ TestData_MembershipPending_NV: {
 
 ApplicantTab_NV: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NV',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -616,7 +629,7 @@ TestData_MembershipPending_NY: {
 
 ApplicantTab_NY: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_NY',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -651,7 +664,7 @@ TestData_MembershipPending_OH: {
 
 ApplicantTab_OH: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OH',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -685,7 +698,7 @@ TestData_MembershipPending_OK: {
 
 ApplicantTab_OK: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OK',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -719,7 +732,7 @@ TestData_MembershipPending_OR: {
 
 ApplicantTab_OR: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_OR',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -761,7 +774,7 @@ TestData_MembershipPending_PA: {
 
 ApplicantTab_PA: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_PA',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -795,7 +808,7 @@ TestData_MembershipPending_SD: {
 
 ApplicantTab_SD: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_SD',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -829,7 +842,7 @@ TestData_MembershipPending_VA: {
 
 ApplicantTab_VA: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_VA',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -864,7 +877,7 @@ TestData_MembershipPending_WV: {
 
 ApplicantTab_WV: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_WV',
   PreviousDwellingAddress: {},
   MailingAddress: {},
@@ -898,7 +911,7 @@ TestData_MembershipPending_WY: {
 
 ApplicantTab_WY: {
   NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
+  AAAMembership: '@AAAMembership_Yes',
   DwellingAddress: '@<home_ss_ho3>@DataGather@DwellingAddress_WY',
   PreviousDwellingAddress: {},
   MailingAddress: {},
