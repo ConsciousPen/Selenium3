@@ -125,7 +125,7 @@
                     <include name="pas15076_MetadataServiceDriver"/>
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
-                    <include name="pas16551_relation_to_fni_hard_stop"/>
+                    <include name="pas16551_relationToFniHardStop"/>
                 </methods>
             </class>
         </classes>
