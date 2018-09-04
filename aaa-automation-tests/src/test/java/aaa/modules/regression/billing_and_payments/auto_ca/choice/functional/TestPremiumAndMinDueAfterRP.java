@@ -33,7 +33,7 @@ public class TestPremiumAndMinDueAfterRP extends TestPremiumAndMinDueAfterRPTemp
      */
     @Parameters({"state"})
     @StateList(states = {Constants.States.CA})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT })
     @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForCurrentTerm(@Optional("CA") String state) {
         checkMinDueForCurrentTerm();
@@ -53,7 +53,7 @@ public class TestPremiumAndMinDueAfterRP extends TestPremiumAndMinDueAfterRPTemp
      */
     @Parameters({"state"})
     @StateList(states = {Constants.States.CA})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH })
+    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT })
     @TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE, testCaseId = "PAS-13762")
     public void testPremiumAndMinDueAfterRPForRenewalTerm(@Optional("CA") String state) {
         checkMinDueForRenewalTerm();

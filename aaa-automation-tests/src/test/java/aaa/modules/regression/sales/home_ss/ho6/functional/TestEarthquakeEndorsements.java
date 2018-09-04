@@ -316,7 +316,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabTemplate {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement document trigger")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "OK Earthquake endorsement document trigger")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17498")
 	public void pas17498_checkDocGenTrigger_Renewal(@Optional("OK") String state) {
 		checkDocGenTrigger_RenewalTx(parentEndorsementFormId, subEndorsementFormId, parentEndorsementDocGenId, subEndorsementDocGenId);

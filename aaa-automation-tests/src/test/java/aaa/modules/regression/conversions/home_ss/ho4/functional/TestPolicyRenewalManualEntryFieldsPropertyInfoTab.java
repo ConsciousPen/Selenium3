@@ -58,7 +58,7 @@ public class TestPolicyRenewalManualEntryFieldsPropertyInfoTab extends HomeSSHO4
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ,Constants.States.MD, Constants.States.PA, Constants.States.CT})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO4, testCaseId = "PAS-10512, PAS-10978")
     public void propertyInfoTabconvPolicyRenewal(@Optional("CT") String state) {
         TestData td = getConversionPolicyDefaultTD();

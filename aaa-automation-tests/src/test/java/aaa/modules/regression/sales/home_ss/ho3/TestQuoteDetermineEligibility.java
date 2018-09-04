@@ -1,28 +1,22 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 
@@ -55,22 +49,18 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		propertyInfoTab.submitTab();
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-			
 			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.HOME_RENOVATION).getAsset(
-					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION)).hasWarningWithText(ER0906);
-			
+					HomeSSMetaData.PropertyInfoTab.HomeRenovation.ROOF_RENOVATION).getWarning()).contains(ER0906);
 			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
-					HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT)).hasWarningWithText(ER0908);
+					HomeSSMetaData.PropertyInfoTab.Stoves.IS_THE_STOVE_THE_SOLE_SOURCE_OF_HEAT).getWarning()).contains(ER0908);
 			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
-					HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR)).hasWarningWithText(ER0909);
+					HomeSSMetaData.PropertyInfoTab.Stoves.WAS_THE_STOVE_INSTALLED_BY_A_LICENSED_CONTRACTOR).getWarning()).contains(ER0909);
 			softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.STOVES).getAsset(
-					HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY)).hasWarningWithText(ER0522);
-			
+					HomeSSMetaData.PropertyInfoTab.Stoves.DOES_THE_DWELLING_HAVE_AT_LEAST_ONE_SMOKE_DETECTOR_PER_STORY).getWarning()).contains(ER0522);
 			if (!getState().equals("MD")) {
 				softly.assertThat(propertyInfoTab.getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PETS_OR_ANIMALS).getAsset(
-								HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE)).hasWarningWithText(ER0903);
+						HomeSSMetaData.PropertyInfoTab.PetsOrAnimals.ANIMAL_TYPE).getWarning()).contains(ER0903);
 			}
-			
 		});	
 		
 		/*

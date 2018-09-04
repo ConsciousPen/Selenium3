@@ -3,11 +3,8 @@
 package aaa.admin.modules.security.profile;
 
 import static aaa.admin.metadata.security.ProfileMetaData.GeneralProfileTab.AGENCY_LOCATIONS;
-
-import com.exigen.ipb.etcsa.base.app.Application.AppType;
-
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import aaa.admin.metadata.security.ProfileMetaData;
-import aaa.admin.metadata.security.ProfileMetaData.SearchByField;
 import aaa.admin.modules.security.ChannelType;
 import aaa.admin.modules.security.profile.defaulttabs.AuthorityLevelsTab;
 import aaa.admin.modules.security.profile.defaulttabs.GeneralProfileTab;
@@ -57,7 +54,7 @@ public class Profile implements IProfile {
     @Override
     public void initiate() {
         navigateToFlow();
-        ProfilePage.assetListSearchForm.getAsset(SearchByField.CHANNEL).setValue(channelType.getName());
+        ProfilePage.assetListSearchForm.getAsset(ProfileMetaData.SearchByField.CHANNEL).setValue(channelType.getName());
         ProfilePage.buttonAddNewProfile.click();
     }
 
@@ -74,6 +71,6 @@ public class Profile implements IProfile {
 
     @Override
     public void navigateToFlow() {
-        NavigationPage.toFlow(AppType.ADMIN, NavigationEnum.AdminAppLeftMenu.SECURITY_PROFILE.getFlow());
+        NavigationPage.toFlow(CSAAApplicationFactory.get().adminApp(), NavigationEnum.AdminAppLeftMenu.SECURITY_PROFILE.getFlow());
     }
 }
