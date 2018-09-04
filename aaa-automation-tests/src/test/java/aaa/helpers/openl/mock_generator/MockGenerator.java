@@ -11,6 +11,8 @@ import org.apache.commons.lang3.math.NumberUtils;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.model.address.AddressReference;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.MembershipRequest;
 import aaa.helpers.mock.model.membership.MembershipResponse;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -81,6 +83,10 @@ public class MockGenerator {
 
 	public boolean isMembershipSummaryMockPresent(LocalDate policyEffectiveDate, Integer memberPersistency, Double avgAnnualERSperMember) {
 		return getMock(RetrieveMembershipSummaryMock.class).getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, avgAnnualERSperMember) != null;
+	}
+
+	public boolean isAddressReferenceMockPresent(String postalCode, String state) {
+		return getMock(AddressReferenceMock.class).hasAddress(postalCode, state);
 	}
 
 	public RetrievePropertyClassificationMock getRetrievePropertyClassificationMock() {
@@ -156,6 +162,22 @@ public class MockGenerator {
 
 		generatedMocks.add(membershipMock);
 		return membershipMock;
+	}
+
+	public AddressReferenceMock getAddressReferenceMock(String postalCode, String state) {
+		AddressReferenceMock addressReferenceMock = new AddressReferenceMock();
+		List<AddressReference> addressReferences = new ArrayList<>();
+		AddressReference addressReference = new AddressReference();
+		addressReference.setPostalCode(postalCode);
+		addressReference.setCity("SomeCity " + RandomStringUtils.randomAlphabetic(5));
+		addressReference.setState(state);
+		addressReference.setCounty("SomeCounty " + RandomStringUtils.randomAlphabetic(5));
+		addressReference.setCountry("US");
+		addressReferences.add(addressReference);
+		addressReferenceMock.setAddressReferences(addressReferences);
+
+		generatedMocks.add(addressReferenceMock);
+		return addressReferenceMock;
 	}
 
 	protected static synchronized String generateMockId(List<String> existingMockIDs) {

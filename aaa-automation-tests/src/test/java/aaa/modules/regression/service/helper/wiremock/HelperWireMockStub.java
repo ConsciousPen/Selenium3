@@ -1,10 +1,7 @@
 package aaa.modules.regression.service.helper.wiremock;
 
-import aaa.helpers.config.CustomTestProperties;
-import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import toolkit.config.PropertyProvider;
-
+import java.lang.reflect.Field;
+import java.util.UUID;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -12,8 +9,10 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Field;
-import java.util.UUID;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import aaa.config.CsaaTestProperties;
+import aaa.modules.regression.service.helper.wiremock.dto.WireMockTemplateData;
+import toolkit.config.PropertyProvider;
 
 public class HelperWireMockStub {
 
@@ -25,7 +24,7 @@ public class HelperWireMockStub {
 	private static final String ID_PROPERTY = "${id}";
 	private static final String ENV_PREFIX_PROPERTY = "${envPrefix}";
 
-	private static  final String ENVIRONMENT_PATH = PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE);
+	private static final String ENVIRONMENT_PATH = PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE);
 	private final String templateName;
 	private final String id;
 	private final WireMockTemplateData templateData;
@@ -47,7 +46,7 @@ public class HelperWireMockStub {
 		String template = getTemplate();
 		try {
 			for (Field field : templateData.getClass().getFields()) {
-				final Object value = field.get(templateData);
+				Object value = field.get(templateData);
 				if (value != null) {
 					template = template.replace(String.format(REPLACEABLE_PROPERTY_FORMAT, field.getName()), field.get(templateData).toString());
 				} else {
@@ -58,7 +57,7 @@ public class HelperWireMockStub {
 			throw new RuntimeException("Failed to update template parameters", e);
 		}
 		template = template.replace(ID_PROPERTY, id);
-		template = template.replace(ENV_PREFIX_PROPERTY, PropertyProvider.getProperty(CustomTestProperties.APP_HOST));
+		template = template.replace(ENV_PREFIX_PROPERTY, PropertyProvider.getProperty(CsaaTestProperties.APP_HOST));
 		executePost(template);
 		return this;
 	}

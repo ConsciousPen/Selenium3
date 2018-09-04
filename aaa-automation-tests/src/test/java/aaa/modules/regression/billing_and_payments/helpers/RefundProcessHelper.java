@@ -1,11 +1,11 @@
 package aaa.modules.regression.billing_and_payments.helpers;
 
-import static org.assertj.core.api.Assertions.fail;
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
 import static aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions.REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL;
+import static org.assertj.core.api.Assertions.fail;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -22,9 +22,9 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -51,9 +51,9 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class RefundProcessHelper extends PolicyBilling {
 
 	private static final String REFUND_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
-	private static final String REFUND_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_GENERATION_FOLDER;
+	private static final String REFUND_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + REFUND_GENERATION_FOLDER;
 	private static final String REFUND_VOID_GENERATION_FOLDER = "DSB_E_PASSYS_DSBCTRL_7026_D/outbound/";
-	private static final String REFUND_VOID_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + REFUND_VOID_GENERATION_FOLDER;
+	private static final String REFUND_VOID_GENERATION_FOLDER_PATH = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + REFUND_VOID_GENERATION_FOLDER;
 	private static final String LOCAL_FOLDER_PATH = "src/test/resources/stubs/";
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private AdvancedAllocationsActionTab advancedAllocationsActionTab = new AdvancedAllocationsActionTab();

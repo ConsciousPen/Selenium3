@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.xml.XmlTest;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.helpers.ssh.Ssh;
@@ -22,8 +22,8 @@ public class RatingEngineLogsGrabber {
 
 	public static final String RATING_REQUEST_TEST_CONTEXT_ATTR_NAME = "ratingRequestLog";
 	public static final String RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME = "ratingResponseLog";
-	public static final String OPENL_RATING_LOGS_FOLDER = PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FOLDER);
-	public static final Pattern OPENL_RATING_LOGS_FILENAME_PATTERN = Pattern.compile(PropertyProvider.getProperty(CustomTestProperties.OPENL_RATING_LOGS_FILENAME_REGEXP));
+	public static final String OPENL_RATING_LOGS_FOLDER = PropertyProvider.getProperty(CsaaTestProperties.OPENL_RATING_LOGS_FOLDER);
+	public static final Pattern OPENL_RATING_LOGS_FILENAME_PATTERN = Pattern.compile(PropertyProvider.getProperty(CsaaTestProperties.OPENL_RATING_LOGS_FILENAME_REGEXP));
 	public static final Pattern RATING_LOG_SECTION_ID_PATTERN = Pattern.compile("ID:\\s(\\d+)\\R", Pattern.MULTILINE);
 	public static final Pattern RATING_LOG_SECTION_POLICY_PREMIUM_ADDRESS_PATTERN = Pattern.compile(".*Address:\\s(.*/[dD]eterminePolicyPremium(?:\\d+)?)\\R.*", Pattern.DOTALL);
 

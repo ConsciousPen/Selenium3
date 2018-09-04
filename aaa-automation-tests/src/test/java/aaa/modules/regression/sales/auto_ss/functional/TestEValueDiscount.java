@@ -27,9 +27,9 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
@@ -69,8 +69,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDiscountPreConditions {
 
-	private static final String PAPERLESS_WIRE_MOCK_STUB_URL =
-			PropertyProvider.getProperty(CustomTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CustomTestProperties.APP_HOST) + "/policy/preferences";
+	private static final String PAPERLESS_WIRE_MOCK_STUB_URL = PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + "/policy/preferences";
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440, PAS-235 - rumors have it, that discount might be renamed
 	private static Map<String, Integer> policyCount = new HashMap<>();
 
