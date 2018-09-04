@@ -1561,10 +1561,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16551_relationToFniHardStopBody(PolicyType policyType) {
-
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		//Create a pended Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
