@@ -356,11 +356,10 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@DataProvider(name = "getPolicies", parallel = true)
 	public Iterator<Object[]> getPolicyNumbersFromDataBase(Method m, ITestContext context) {
-		String state = context.getCurrentXmlTest().getAllParameters().get(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE));
-		if(state == null){ // for local runs only
-			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
-		}
+		String state = context.getCurrentXmlTest().getAllParameters().get("state");
+		log.info("DataProvider got state: {}", state);
 		List<String> policyNumbers = getPolicies(m.getName(), date1, date2);
+		log.info("DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
 		return data.iterator();
