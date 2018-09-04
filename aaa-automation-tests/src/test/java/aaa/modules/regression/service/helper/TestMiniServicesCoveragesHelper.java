@@ -2532,6 +2532,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD(testDataMap.get(getState())).resolveLinks());
 			}
 
+			if ("NY".contains(getState())) {
+				TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+				testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+			}
+
 			mainApp().open();
 			createCustomerIndividual();
 			String policyNumber = createPolicy(testData);
@@ -2580,8 +2585,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			}
 
-			helperMiniServices.endorsementRateAndBind(policyNumber);
-
+			/*Not trying to rate and bind with NY and IN, because there is error on rate not related with this US - for IN- "UMPD limit may not exceed PD limit",
+			for NY - "UM/SUM limits may not exceed BI limits". Currently not possible to update them through DXP.
+			 */
+			if(!"NY, IN".contains(getState())){
+				helperMiniServices.endorsementRateAndBind(policyNumber);
+			}
 		});
 	}
 
