@@ -85,13 +85,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
+	public void BCT_ONL_EmptyEndorsementAutoSS(String state, String policyNumber) {
 		IPolicy policy = PolicyType.AUTO_SS.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -108,13 +106,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementHomeSSDp3(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_SS", date1, date2);
+	public void BCT_ONL_EmptyEndorsementHomeSSDp3(String state, String policyNumber) {
 		IPolicy policy = PolicyType.HOME_SS_DP3.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -133,13 +129,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementHomeSSHo3(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_SS", date1, date2);
+	public void BCT_ONL_EmptyEndorsementHomeSSHo3(String state, String policyNumber) {
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -158,13 +152,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementHomeSSHo4(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_SS", date1, date2);
+	public void BCT_ONL_EmptyEndorsementHomeSSHo4(String state, String policyNumber) {
 		IPolicy policy = PolicyType.HOME_SS_HO4.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -183,13 +175,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementHomeSSHo6(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_SS", date1, date2);
+	public void BCT_ONL_EmptyEndorsementHomeSSHo6(String state, String policyNumber) {
 		IPolicy policy = PolicyType.HOME_SS_HO6.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -229,13 +219,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {CA})
-	public void BCT_ONL_EmptyEndorsementAutoCAChoice(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Choice", date1, date2);
+	public void BCT_ONL_EmptyEndorsementAutoCAChoice(String state, String policyNumber) {
 		IPolicy policy = PolicyType.AUTO_CA_CHOICE.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -253,12 +241,9 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {CA})
-	public void BCT_ONL_EmptyEndorsementAutoCASelect(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Select", date1, date2);
+	public void BCT_ONL_EmptyEndorsementAutoCASelect(String state, String policyNumber) {
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
