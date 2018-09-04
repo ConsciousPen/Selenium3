@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -2518,12 +2520,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP_POLICY_NUM.getLabel()),
 					"123");
 
+			//Adjusting P&C tab for specific states so that there ar no other errors related with coverages that can interrupt test
+			Map<String, String> testDataMap = ImmutableMap.of(
+					"DC", "PremiumAndCoveragesTab_DC",
+					"IN", "PremiumAndCoveragesTab_IN",
+					"NJ", "PremiumAndCoveragesTab_NJ",
+					"NY", "PremiumAndCoveragesTab_NY",
+					"WV", "PremiumAndCoveragesTab_WV");
+
+			if (testDataMap.containsKey(getState())) {
+				testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD(testDataMap.get(getState())).resolveLinks());
+			}
+
 			mainApp().open();
 			createCustomerIndividual();
 			String policyNumber = createPolicy(testData);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			Coverage coverageBI = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "BI".equals(coverage.coverageCd)).findFirst().orElse(null);
 			List<CoverageLimit> coverageLimitsBI = coverageBI.availableLimits;
 			Collections.reverse(coverageLimitsBI); //reverse, so that highest available limit is first element in the list
@@ -2533,7 +2547,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 			//Get all PD limits
-			viewCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			Coverage coveragePD = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "PD".equals(coverage.coverageCd)).findFirst().orElse(null);
 			List<CoverageLimit> coverageLimitsPD = coveragePD.availableLimits;
 			Collections.reverse(coverageLimitsPD);//reverse, so that highest available limit is first element in the list
@@ -2549,19 +2563,25 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			//validate with BI limits
+			//validate with PD limits
 			validatePUPError_pas15379(softly, policyNumber, coverageLimitsPD, "PD");
 
-			//Update BI to value with error expected and bind
-			Collections.reverse(coverageLimitsBI); //reverse, so that lowest available limit is first element in the list
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
-			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			/*Update BI to value with error expected and bind. For OH not setting to the lowest BI and PD limits,
+			 because otherwise on rate there is error "Limits selected are lower than state minimums. Referral will be denied." */
+			if ("OH".contains(getState())) {
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", "25000/50000");
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PD", "25000");
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			//Additionally validating that it is possible to Rate And bind with some of states(VA, AZ). Can not do that for all states,
-			// because for some of them there is other hard stop errors at the end.
-			if ("AZ, VA".contains(getState())){
-				helperMiniServices.endorsementRateAndBind(policyNumber);
+			} else {
+				Collections.reverse(coverageLimitsBI); //reverse, so that lowest available limit is first element in the list
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			}
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
 		});
 	}
 
@@ -2596,7 +2616,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 						as(coverageCd + " " + coverageLimit.coverageLimit + " should have error").isTrue();
 			} else {
 				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.message.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).
-						as(coverageCd + " " +coverageLimit.coverageLimit + " should not have error").isFalse();
+						as(coverageCd + " " + coverageLimit.coverageLimit + " should not have error").isFalse();
 			}
 
 			//Validate that coverage is updated

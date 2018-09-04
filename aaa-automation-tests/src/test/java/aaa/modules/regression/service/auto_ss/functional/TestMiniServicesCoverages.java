@@ -495,7 +495,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15379"})
-	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("VA") String state) {
+	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("OH") String state) {
 		pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody();
 	}
 }
