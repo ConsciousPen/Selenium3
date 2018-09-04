@@ -484,7 +484,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
-	 * @scenario validate "Verify PUP Policy" error
+	 * @scenario validate "Verify PUP Policy" error.
 	 * 1. Create Auto SS policy with companion PUP policy
 	 * 2. Create endorsement through service
 	 * 3. validate for all available BI limits, that error "Verify PUP Policy" is displayed if limit is lower than 500000/500000
@@ -495,8 +495,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15379"})
-	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("OH") String state) {
+	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("VA") String state) {
 		pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody();
+		//NOTE: This test forks for ALL states. (Except CA)
 	}
 }
 
