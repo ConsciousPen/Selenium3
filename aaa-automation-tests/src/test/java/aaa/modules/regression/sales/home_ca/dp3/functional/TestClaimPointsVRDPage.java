@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -25,7 +25,7 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
+		return PolicyType.HOME_CA_DP3;
 	}
 
 	@Override
@@ -82,10 +82,10 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test Claims points refresh on VRD page for CA HO3 policies during NB
+	 * @name Test Claims points refresh on VRD page for CA DP3 policies during NB
 	 * @scenario
 	 * 1.  Create customer
-	 * 2.  Initiate CA HO3 quote
+	 * 2.  Initiate CA DP3 quote
 	 * 3.  Fill quote with 4 claims:
 	 * 		a. Fire, $500, Closed, date of loss = 12 months ago, AAA Claim = 'Yes', Catastrophe = 'No'
 	 * 		b. Water, $5000, Closed, date of loss = 10 months ago, AAA Claim = 'Yes', Catastrophe = 'Yes'
@@ -113,7 +113,7 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = "PAS-17772")
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-17772")
 	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
 
 		testClaimsPointsVRDPage();
@@ -122,3 +122,4 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 
 
 }
+

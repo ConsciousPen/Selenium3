@@ -14,12 +14,10 @@ import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.regression.sales.template.functional.TestClaimPointsVRDPageAbstract;
-import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(statesExcept = Constants.States.CA)
@@ -36,19 +34,19 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	}
 
 	@Override
+	protected PremiumsAndCoveragesQuoteTab getPremiumAndCoveragesQuoteTab() {
+		return new PremiumsAndCoveragesQuoteTab();
+	}
+
+	@Override
 	protected void calculatePremiumAndOpenVRD() {
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		getPremiumAndCoveragesQuoteTab().calculatePremium();
 		PropertyQuoteTab.RatingDetailsView.open();
 	}
 
 	@Override
 	protected Table getClaimHistoryTable() {
 		return getPropertyInfoTab().tblClaimsList;
-	}
-
-	@Override
-	protected MultiInstanceAfterAssetList getClaimHistoryAssetList() {
-		return getPropertyInfoTab().getClaimHistoryAssetList();
 	}
 
 	@Override
@@ -63,23 +61,23 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	}
 
 	@Override
-	protected AssetDescriptor<TextBox> getClaimDateOfLossAsset() {
-		return HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS;
+	protected TextBox getClaimDateOfLossAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
 	}
 
 	@Override
-	protected AssetDescriptor<RadioGroup> getClaimCatastropheAsset() {
-		return HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS;
+	protected RadioGroup getClaimCatastropheAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
 	}
 
 	@Override
-	protected AssetDescriptor<RadioGroup> getAAAClaimAsset() {
-		return HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM;
+	protected RadioGroup getAAAClaimAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
 	}
 
 	@Override
-	protected AssetDescriptor<TextBox> getClaimAmountAsset() {
-		return HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS;
+	protected TextBox getClaimAmountAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
 	}
 
 	/**
@@ -118,7 +116,6 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-17772")
 	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
 
-		createQuoteAndFillUpTo(adjustTdWithClaims(getPolicyTD()), PremiumsAndCoveragesQuoteTab.class);
 		testClaimsPointsVRDPage();
 
 	}

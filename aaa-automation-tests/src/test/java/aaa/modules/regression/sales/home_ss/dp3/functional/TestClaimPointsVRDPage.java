@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ss.dp3.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -8,11 +8,11 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.regression.sales.template.functional.TestClaimPointsVRDPageAbstract;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -20,12 +20,12 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
-@StateList(states = Constants.States.CA)
+@StateList(statesExcept = Constants.States.CA)
 public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
+		return PolicyType.HOME_SS_DP3;
 	}
 
 	@Override
@@ -51,41 +51,41 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 
 	@Override
 	protected String getClaimHistoryLabel() {
-		return HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
+		return HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
 	}
 
 	@Override
 	protected void navigateToPropertyInfoTab() {
 		PropertyQuoteTab.RatingDetailsView.close();
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 	}
 
 	@Override
 	protected TextBox getClaimDateOfLossAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
 	}
 
 	@Override
 	protected RadioGroup getClaimCatastropheAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
 	}
 
 	@Override
 	protected RadioGroup getAAAClaimAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
 	}
 
 	@Override
 	protected TextBox getClaimAmountAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
 	}
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test Claims points refresh on VRD page for CA HO3 policies during NB
+	 * @name Test Claims points refresh on VRD page for SS DP3 policies during NB
 	 * @scenario
 	 * 1.  Create customer
-	 * 2.  Initiate CA HO3 quote
+	 * 2.  Initiate SS DP3 quote
 	 * 3.  Fill quote with 4 claims:
 	 * 		a. Fire, $500, Closed, date of loss = 12 months ago, AAA Claim = 'Yes', Catastrophe = 'No'
 	 * 		b. Water, $5000, Closed, date of loss = 10 months ago, AAA Claim = 'Yes', Catastrophe = 'Yes'
@@ -113,12 +113,11 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = "PAS-17772")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-17772")
 	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
 
 		testClaimsPointsVRDPage();
 
 	}
-
 
 }
