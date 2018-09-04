@@ -1563,7 +1563,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas16551_relationToFniHardStopBody(PolicyType policyType) {
 
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 
 		//Create a pended Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1611,7 +1612,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		//End PAS-18357
 
 		UpdateDriverRequest updateDriverRequestORR = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "ORR", "MSS");
-		DriverWithRuleSets updateDriverResponseORR = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequestORR);
+		DriverWithRuleSets updateDriverResponseORR = HelperCommon.updateDriver(policyNumber, addedDriverResponse3.oid, updateDriverRequestORR);
 		errorValidationRelationToFni(updateDriverResponseORR);
 
 		//Rate Policy and check Error
@@ -1625,7 +1626,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		// update driver
 		UpdateDriverRequest updateDriverRequestOT = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "OT", "MSS");
-		DriverWithRuleSets updateDriverResponseOT = HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequestOT);
+		DriverWithRuleSets updateDriverResponseOT = HelperCommon.updateDriver(policyNumber, addedDriverResponse3.oid, updateDriverRequestOT);
 		errorValidationRelationToFni(updateDriverResponseOT);
 
 		//Rate Policy and check Error
@@ -1734,7 +1735,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
 		assertThat(updateDriverResponse.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()))).isTrue();
-		assertThat(updateDriverResponse.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode()))).isTrue();
 	}
 
 	private void rateFromPas(String policyNumber) {
