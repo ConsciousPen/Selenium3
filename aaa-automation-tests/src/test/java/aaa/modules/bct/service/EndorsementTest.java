@@ -17,7 +17,7 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -209,13 +209,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState()).isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
-	@Parameters({"state"})
-	@Test
+	@Test(dataProvider = "getPolicies")
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementPUP(@Optional("") String state) {
-		mainApp().open();
-		String policyNumber = getPolicy("BCT_Empty_Endorsement_PUP", date1, date2);
+	public void BCT_ONL_EmptyEndorsementPUP(String state, String policyNumber) {
 		IPolicy policy = PolicyType.PUP.get();
+
 		Dollar policyPremium = getPreEndorsementPremium(policy, policyNumber);
 
 		policy.policyInquiry().start();
@@ -373,9 +371,9 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@DataProvider(name = "getPolicies", parallel = true)
 	public Iterator<Object[]> getPolicyNumbersFromDataBase(Method m, ITestContext context) {
-		String state = context.getCurrentXmlTest().getParameter(CustomTestProperties.TEST_USSTATE);
-		if(state == null){
-			state = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
+		String state = context.getCurrentXmlTest().getAllParameters().get(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE));
+		if(state == null){ // for local runs only
+			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 		}
 		List<String> policyNumbers = getPolicies(m.getName(), date1, date2);
 		String finalState = state;
@@ -383,24 +381,31 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		return data.iterator();
 	}
 
-
-
 	public List<String> getPolicies(String testName, String date1, String date2) {
-		if (!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty() &&
-				!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2).isEmpty()) {
-			date1 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1);
-			date2 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2);
-		}
+		date1 = getCUSTOM_DATE1(date1);
+		date2 = getCUSTOM_DATE2(date2);
+
 		return getPoliciesWithDateRangeByQuery(testName, date1, date2);
 	}
 
 	private String getPolicy(String testName, String date1, String date2) {
-		if (!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty() &&
-				!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2).isEmpty()) {
-			date1 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1);
-			date2 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2);
-		}
+		date1 = getCUSTOM_DATE1(date1);
+		date2 = getCUSTOM_DATE2(date2);
 		return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
+	}
+
+	private String getCUSTOM_DATE1(String date1) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
+		}
+		return date1;
+	}
+
+	private String getCUSTOM_DATE2(String date2) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2).isEmpty()) {
+			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
+		}
+		return date2;
 	}
 
 }

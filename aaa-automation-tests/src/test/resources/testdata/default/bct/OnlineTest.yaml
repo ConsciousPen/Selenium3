@@ -643,7 +643,7 @@ BCT_Empty_Endorsement_AAA_SS: {
   SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and LOB = 'AUTO' and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum=1"
 }
 
-BCT_Empty_Endorsement_PUP: {
+BCT_ONL_EmptyEndorsementPUP: {
   SelectPolicy: "select policynumber from pasadm.policysummary where txtype in ('policy') and policystatuscd = 'issued' and productcd = 'AAA_PUP_SS' and currentrevisionind = '1' and timedpolicystatuscd in ('inForce') and riskstatecd = '/STATE/' and effective between '/DATE1/' and '/DATE2/' and rownum=1"
 }
 
