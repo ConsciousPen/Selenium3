@@ -615,4 +615,15 @@
             </class>
         </classes>
     </test>
+    <test name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits">
+        <!--can run for all states (Except CA)-->
+        <parameter name="state" value="VA, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
