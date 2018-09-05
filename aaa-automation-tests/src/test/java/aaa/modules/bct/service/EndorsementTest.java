@@ -325,26 +325,35 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.get().policyInquiry().getView()
 				.fillFromTo(getTestSpecificTD(testData), generalTab.getClass(), bindTab.getClass(), false);
 
-		if (policy.getShortName().toLowerCase().contains("home_ca")){
-			assertThat(bindTabHomeCa.btnPurchase.isPresent()).isTrue();
-			bindTabHomeCa.cancel();
-		}
-		else if (policy.getShortName().toLowerCase().contains("autoca")){
-			assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.btnPurchase.isPresent()).isTrue();
-			new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
-		}
-		else if (policy.getShortName().toLowerCase().contains("pup")){
-			new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
-		}
-		else if (policy.getShortName().toLowerCase().contains("autoss")){
-			assertThat(new DocumentsAndBindTab().getDocumentPrintingDetailsAssetList().isVisible()).isTrue();
-			new DocumentsAndBindTab().cancel();
-		}
-		else if (policy.getShortName().toLowerCase().contains("homess")){
-			assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
-			new BindTab().cancel();
-		}
-		else{throw new IstfException("Product is not supported" + policy.getShortName());
+		switch (policy.getShortName()){
+			case "HomeCA_HO3":
+			case "HomeCA_HO4":
+			case "HomeCA_HO6":
+			case "HomeCA_DP3":
+				assertThat(bindTabHomeCa.btnPurchase.isPresent()).isTrue();
+				bindTabHomeCa.cancel();
+				break;
+			case "HomeSS_HO3":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+				new BindTab().cancel();
+				break;
+			case "AutoCA":
+			case "AutoCAC":
+				assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.btnPurchase.isPresent()).isTrue();
+				new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
+				break;
+			case "AutoSS":
+				assertThat(new DocumentsAndBindTab().getDocumentPrintingDetailsAssetList().isVisible()).isTrue();
+				new DocumentsAndBindTab().cancel();
+				break;
+			case "PUP":
+				new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
+				break;
+			default:
+				throw new IstfException("Product is not supported: " + policy.getShortName());
 		}
 	}
 
@@ -355,7 +364,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 		}
 		log.info(" DataProvider got state: {}", state);
-		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2);
+		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2, state);
 		log.info(" DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
@@ -376,11 +385,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		return date2;
 	}
 
-	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2) {
+	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2, String state) {
 		date1 = getCUSTOM_DATE1(date1);
 		date2 = getCUSTOM_DATE2(date2);
 
-		return getEmptyEndorsementPolicies(testName, date1, date2);
+		return getEmptyEndorsementPolicies(testName, date1, date2, state);
 		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
 

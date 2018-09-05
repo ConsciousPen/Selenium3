@@ -59,14 +59,11 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
-	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate) {
+	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate, String state) {
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
-		/* have no idea why this replacements here*/
-		query = query.replace("pasadm.", "");
-		query = query.replace("PASADM.", "");
-
+		query = query.replace("/STATE/", state);
 
 		return getPoliciesFromQuery(DBService.get().getRows(query), "SelectPolicy");
 	}
