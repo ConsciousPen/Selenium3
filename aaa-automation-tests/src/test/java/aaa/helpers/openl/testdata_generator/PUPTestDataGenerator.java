@@ -135,7 +135,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
 		TestData dwellingAddressData = new SimpleDataProvider();
 		// Some ZIP codes lead to AAA_HO_SS6260765 error after policy purchase, temporary commented this adjustment since it should not affect rating
-		if (!"VA".equals(getState())) {
+		if (!("CT".equals(getState()) || "VA".equals(getState()))) {
 			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
 		}
 		if ("IN".equals(getState()) || "WV".equals(getState()) || "OH".equals(getState())) {
