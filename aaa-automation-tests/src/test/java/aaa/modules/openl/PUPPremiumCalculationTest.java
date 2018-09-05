@@ -1,6 +1,9 @@
 package aaa.modules.openl;
 
 import java.util.Map;
+
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -14,6 +17,11 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.PUP;
+	}
+
+	@Override
+	protected TestData getRatingDataPattern() {
+		return super.getRatingDataPattern().mask(new PrefillTab().getMetaKey(), new UnderlyingRisksAutoTab().getMetaKey());
 	}
 
 	@Override
