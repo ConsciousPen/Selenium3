@@ -51,8 +51,8 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
-    public void testPolicyFuturedated(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+    public void testPolicyFuturedated(@Optional("UT") String state) {
         mainApp().open();
         
         createCustomerIndividual();
@@ -68,7 +68,7 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
         generalTab.fillTab(effective_date_today_plus_91_days);
 
         assertThat(generalTab.getAssetList().getAsset(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE)
-                .getWarning()).contains("Policy effective date cannot be more than 90 days from today's date.");
+                .getWarning().toString()).contains("Policy effective date cannot be more than 90 days from today's date.");
 
         generalTab.fillTab(effective_date_today_plus_10_days);
         generalTab.submitTab();
