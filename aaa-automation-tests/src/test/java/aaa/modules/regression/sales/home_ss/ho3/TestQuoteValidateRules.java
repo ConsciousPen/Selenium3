@@ -31,7 +31,7 @@ import toolkit.utils.TestInfo;
  * 5. Fill all mandatory fields on all tabs, order reports, calculate premium. 
  * 6. Bind a policy.
  * 7. Verify policy status is Policy Pending.  
- * 
+ *
  * TestPolicyBackdated steps:
  * 1. Create a customer or open existed.
  * 2. Initiate new HSS quote creation.
@@ -41,28 +41,27 @@ import toolkit.utils.TestInfo;
  * 6. Navigate to General tab, change Effective Date to Today - 3 days. 
  * 7. Recalculate premium and bind policy. 
  * 8. Verify policy status is Active.
- * 
+ *
  * 5700:US PO-02 Capture Effective Date
  * 19740:US CL Capture Effective Date - V02
  * </pre>
  **/
 public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
-	
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
-    public void testPolicyFuturedated(@Optional("UT") String state) {
+	public void testPolicyFuturedated(@Optional("") String state) {
         mainApp().open();
-        
+
         createCustomerIndividual();
 
         TestData td = getPolicyTD("DataGather", "TestData");
         TestData effective_date_today_plus_10_days = getTestSpecificTD("TestData_TodayPlus10Days");
         TestData effective_date_today_plus_91_days = getTestSpecificTD("TestData_TodayPlus91Days");
-        		
+
         policy.initiate();
-       
+
         GeneralTab generalTab = new GeneralTab();
         generalTab.fillTab(td);
         generalTab.fillTab(effective_date_today_plus_91_days);
@@ -72,51 +71,51 @@ public class TestQuoteValidateRules extends HomeSSHO3BaseTest {
 
         generalTab.fillTab(effective_date_today_plus_10_days);
         generalTab.submitTab();
-        
-        policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);  
+
+		policy.getDefaultView().fillFromTo(td, ApplicantTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
-                
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
+
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_PENDING);
 	}
 
 	@Parameters({"state"})
 	@StateList(statesExcept = { States.CA })
 	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testBackdatedPolicy(@Optional("") String state) {
 		mainApp().open();
-        
-        createCustomerIndividual();
-        
-        TestData td = getPolicyTD("DataGather", "TestData");
+
+		createCustomerIndividual();
+
+		TestData td = getPolicyTD("DataGather", "TestData");
         TestData effective_date_today_minus_10_days = getTestSpecificTD("TestData_TodayMinus10Days");
         TestData effective_date_today_minus_3_days = getTestSpecificTD("TestData_TodayMinus3Days");
-        
-        policy.initiate();
+
+		policy.initiate();
         GeneralTab generalTab = new GeneralTab();
         generalTab.fillTab(td);
         generalTab.fillTab(effective_date_today_minus_10_days);
         generalTab.submitTab();
-        
-        policy.getDefaultView().fillFromTo(td, ApplicantTab.class, BindTab.class);  
+
+		policy.getDefaultView().fillFromTo(td, ApplicantTab.class, BindTab.class);
         new BindTab().btnPurchase.click();
-        
-        ErrorTab errorTab = new ErrorTab();
+
+		ErrorTab errorTab = new ErrorTab();
         errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3230000);
         errorTab.cancel();
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
         generalTab.fillTab(effective_date_today_minus_3_days);
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
-        
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-        policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);  
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
-        
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
-	
+
 }
