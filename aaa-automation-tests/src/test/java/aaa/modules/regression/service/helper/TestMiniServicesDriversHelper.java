@@ -2128,15 +2128,12 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "D8571783", 18, "CA", "CH", "SSS");
 			HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
 
-			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
 			helperMiniServices.orderReportErrors(policyNumber, driverOid, ErrorDxpEnum.Errors.MVR_ERROR_C);
-
 
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
 			softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
 			DriverActivityReportsTab.buttonSaveAndExit.click();
 
