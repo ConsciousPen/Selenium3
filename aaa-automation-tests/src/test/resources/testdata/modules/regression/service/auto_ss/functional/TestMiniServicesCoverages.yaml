@@ -98,3 +98,24 @@ VehicleTab_VAN_PICKUP_2_other_than_VA: {
     Usage: Pleasure,
     VIN: 2GTEC19K8S1525936,
     }
+
+PremiumAndCoveragesTab_DC: {
+  Uninsured Motorist Property Damage: index=1,
+  Underinsured Motorist Property Damage: index=1
+}
+
+PremiumAndCoveragesTab_IN: {
+  Uninsured Motorist Property Damage Limit: index=1,
+}
+
+PremiumAndCoveragesTab_NJ: {
+  Uninsured Motorist Property Damage: index=1,
+}
+
+PremiumAndCoveragesTab_NY: {
+  Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
+}
+
+PremiumAndCoveragesTab_WV: {
+  Underinsured Motorist Property Damage: index=1,
+}

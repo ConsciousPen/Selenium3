@@ -125,7 +125,7 @@
                     <include name="pas15076_MetadataServiceDriver"/>
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
-                    <include name="pas16551_relation_to_fni_hard_stop"/>
+                    <include name="pas16551_relationToFniHardStop"/>
                 </methods>
             </class>
         </classes>
@@ -611,6 +611,17 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
                     <include name="pas15369_reportOrderAndDriverCO"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits">
+        <!--can run for all states (Except CA)-->
+        <parameter name="state" value="VA, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
                 </methods>
             </class>
         </classes>

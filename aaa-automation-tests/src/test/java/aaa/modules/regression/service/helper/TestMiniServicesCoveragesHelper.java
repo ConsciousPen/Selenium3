@@ -2,15 +2,20 @@ package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -2498,6 +2503,134 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, oidTrailer, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		validateTrailerCoverages(viewEndorsementCoveragesByVehicleResponse);
 		assertThatOnlyOneInstanceOfPolicyLevelCoverages(viewEndorsementCoveragesByVehicleResponse);
+	}
+
+	protected void pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody() {
+
+		assertSoftly(softly -> {
+
+			TestData testData = getPolicyDefaultTD();
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+					AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
+					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP.getLabel()),
+					"Yes");
+
+			testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
+					AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
+					AutoSSMetaData.GeneralTab.AAAProductOwned.PUP_POLICY_NUM.getLabel()),
+					"123");
+
+			//Adjusting P&C tab for specific states so that there ar no other errors related with coverages that can interrupt test
+			Map<String, String> testDataMap = ImmutableMap.of(
+					"DC", "PremiumAndCoveragesTab_DC",
+					"IN", "PremiumAndCoveragesTab_IN",
+					"NJ", "PremiumAndCoveragesTab_NJ",
+					"NY", "PremiumAndCoveragesTab_NY",
+					"WV", "PremiumAndCoveragesTab_WV");
+
+			if (testDataMap.containsKey(getState())) {
+				testData.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD(testDataMap.get(getState())).resolveLinks());
+			}
+
+			if ("NY".contains(getState())) {
+				TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+				testData.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+			}
+
+			mainApp().open();
+			createCustomerIndividual();
+			String policyNumber = createPolicy(testData);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage coverageBI = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "BI".equals(coverage.coverageCd)).findFirst().orElse(null);
+			List<CoverageLimit> coverageLimitsBI = coverageBI.availableLimits;
+			Collections.reverse(coverageLimitsBI); //reverse, so that highest available limit is first element in the list
+
+			//Update BI to the highest one so that all PD limits are available
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			//Get all PD limits
+			viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage coveragePD = viewCoverageResponse.policyCoverages.stream().filter(coverage -> "PD".equals(coverage.coverageCd)).findFirst().orElse(null);
+			List<CoverageLimit> coverageLimitsPD = coveragePD.availableLimits;
+			Collections.reverse(coverageLimitsPD);//reverse, so that highest available limit is first element in the list
+
+			//update PD to highest one, so that it doesn't give error
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PD", coverageLimitsPD.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			//validate with BI limits
+			validatePUPError_pas15379(softly, policyNumber, coverageLimitsBI, "BI");
+
+			//Update BI to the highest one so that all PD values are available
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			//validate with PD limits
+			validatePUPError_pas15379(softly, policyNumber, coverageLimitsPD, "PD");
+
+			/*Update BI to value with error expected and bind. For OH not setting to the lowest BI and PD limits,
+			 because otherwise on rate there is error "Limits selected are lower than state minimums. Referral will be denied." */
+			if ("OH".contains(getState())) {
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", "25000/50000");
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PD", "25000");
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			} else {
+				Collections.reverse(coverageLimitsBI); //reverse, so that lowest available limit is first element in the list
+				updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageLimitsBI.get(0).coverageLimit);
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			}
+
+			/*Not trying to rate and bind with NY and IN, because there is error on rate not related with this US - for IN- "UMPD limit may not exceed PD limit",
+			for NY - "UM/SUM limits may not exceed BI limits". Currently not possible to update them through DXP.
+			 */
+			if(!"NY, IN".contains(getState())){
+				helperMiniServices.endorsementRateAndBind(policyNumber);
+			}
+		});
+	}
+
+	private void validatePUPError_pas15379(ETCSCoreSoftAssertions softly, String policyNumber, List<CoverageLimit> coverageLimits, String coverageCd) {
+		UpdateCoverageRequest updateCoverageRequest;
+		PolicyCoverageInfo updateCoverageResponse;
+		BigDecimal coverageLimitThreshold;
+		BigDecimal coverageLimitFormatted;
+
+		if ("BI".equals(coverageCd)) {
+			coverageLimitThreshold = new BigDecimal("500000");//for BI
+		} else {
+			coverageLimitThreshold = new BigDecimal("100000");//for PD
+		}
+
+		for (CoverageLimit coverageLimit : coverageLimits) {
+			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageCd, coverageLimit.coverageLimit);
+			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			if (coverageLimit.coverageLimit.contains("/")) {
+				coverageLimitFormatted = new BigDecimal(coverageLimit.coverageLimit.substring(0, coverageLimit.coverageLimit.indexOf("/")));
+			} else {
+				coverageLimitFormatted = new BigDecimal(coverageLimit.coverageLimit);
+			}
+
+			/*
+			BI values 500000/500000 or greater should not have error. Lower values should have error.
+			PD values 100000 or greater should not have error. Lower values should have error.
+			*/
+			if (coverageLimitFormatted.compareTo(coverageLimitThreshold) == -1) {
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.message.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).
+						as(coverageCd + " " + coverageLimit.coverageLimit + " should have error").isTrue();
+			} else {
+				softly.assertThat(updateCoverageResponse.validations.stream().anyMatch(validation -> validation.message.contains(ErrorDxpEnum.Errors.VERIFY_PUP_POLICY.getMessage()))).
+						as(coverageCd + " " + coverageLimit.coverageLimit + " should not have error").isFalse();
+			}
+
+			//Validate that coverage is updated
+			softly.assertThat(updateCoverageResponse.policyCoverages.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo(coverageLimit.coverageLimit);
+		}
 	}
 
 	protected void pas18624_CustomisedEquipmentBody() {
