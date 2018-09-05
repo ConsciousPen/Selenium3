@@ -1,11 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public interface EvalueInsertSetupPreConditions {
 
-	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";

@@ -79,12 +79,10 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-7 steps with new added drivers:
 	 * 1) 2minor violations <=36months.
 	 * 2) 3minor violations, 1 is outdated >36months.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15384"})
@@ -106,7 +104,6 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 8. Create endorse, update driver from previous endorsement.
 	 * 9. Try to rate and bind endorsement.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371", "PAS-17648"})
@@ -125,12 +122,10 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-7 steps with new added drivers:
 	 * 1)Driver with 20 points (less than 20 in 33months)
 	 * 2)Driver with less than 20 points.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15370"})
@@ -149,11 +144,9 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-6 steps with new added driver:
 	 * 1)Driver with 4 incidents, one is outdated.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15385"})
@@ -173,17 +166,37 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-6 steps with new added driver which have:
 	 * Violation: DUI, DUD, TLQ,
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15375"})
 	public void pas15375_duiIsUnacceptableForDriverUnderTheAgeError(@Optional("VA") String state) {
 
 		pas15375_duiIsUnacceptableForDriverUnderTheAgeErrorBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Drivers with a major violation -<=33 months - 200009
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with one major violation.
+	 * 4. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 * Repeat with drivers, which have:
+	 * FEL, HOM, DR, FLE, HAR, LTS, NGD,
+	 * RKD, SUS violations.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15374"})
+	public void pas15374_driverWithMajorViolationsError(@Optional("VA") String state) {
+
+		pas15374_driverWithMajorViolationsErrorBody();
 	}
 
 	/**
@@ -214,7 +227,6 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 4. Verify response on DXP in License status and conviction date as correct
 	 * 5. Check Pas And verify if the dates are matching to pas.
 	 * 6. Verify driver activity and verify status there.
-
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -223,6 +235,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15369_reportOrderAndDriverBody();
 	}
+
 	/**
 	 * @author Megha Gubbala
 	 * @name Driver Details and the MVR

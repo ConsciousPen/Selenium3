@@ -1,6 +1,7 @@
 package aaa.modules.regression.finance.operational_reports;
 
 import aaa.admin.metadata.security.RoleMetaData;
+import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.admin.modules.security.role.IRole;
 import aaa.admin.modules.security.role.RoleType;
 import aaa.admin.modules.security.role.defaulttabs.GeneralRoleTab;
@@ -14,6 +15,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class OperationalReportsBaseTest extends BaseTest {
+
+    protected OperationalReport operationalReport = new OperationalReport();
 
     protected void searchAndUpdateOrCreateRole(TestData role, RoleType roleType) {
         IRole securityRole = roleType.get();

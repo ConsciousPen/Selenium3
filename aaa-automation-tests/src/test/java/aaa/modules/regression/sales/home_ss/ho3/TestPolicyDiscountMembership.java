@@ -99,22 +99,22 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 
-			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+			//if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
 				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
-			} else {
-				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
-			}
+			//} else {
+			//	softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+			//}
 
 			//Policy#1: Rating Details verification
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Creation: Membership discount is not applied")
 					.isNotEqualTo("0.0");
 
-			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
+			//if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
 				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Creation: Loyalty discount is not applied").isNotEqualTo("0.0");
-			} else {
-				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 creation: Loyalty discount is applied").isEqualTo("0.0");
-			}
+			//} else {
+			//	softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 creation: Loyalty discount is applied").isEqualTo("0.0");
+			//}
 			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 
 			new PremiumsAndCoveragesQuoteTab().submitTab();

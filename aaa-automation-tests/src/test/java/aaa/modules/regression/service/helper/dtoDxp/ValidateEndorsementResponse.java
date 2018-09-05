@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class ValidateEndorsementResponse implements RestBodyRequest {
 
 	@ApiModelProperty(value = "List of rules that failed with validation errors or warnings.")
-	public List<ValidateEndorsementRuleSet> ruleSets;
+	public List<ValidationRuleSet> ruleSets;
 
 	@ApiModelProperty(value = "List of allowed endorsement actions that can be done on policy",
 			example = "UpdateVehicle, UpdateDriver, UpdateCoverages")

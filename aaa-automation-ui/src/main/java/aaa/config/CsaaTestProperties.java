@@ -1,8 +1,13 @@
-package aaa.helpers.config;
+package aaa.config;
 
 import toolkit.config.TestProperties;
 
-public class CustomTestProperties extends TestProperties {
+public class CsaaTestProperties extends TestProperties {
+
+	public static final String AD_PORT = "app.ad.port";            //	e.g. "9082"
+	public static final String AD_PATH = "app.ad.path";            //	e.g. "/aaa-admin/admin/login.xhtml"
+	public static final String OR_PATH = "app.or.path";
+	public static final String OR_PORT = "app.or.port";
 
 	public static final String IS_CI_MODE = "isCiMode";
 	public static final String DXP_PORT = "dxp.port";

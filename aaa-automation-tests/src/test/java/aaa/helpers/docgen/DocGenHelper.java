@@ -1,7 +1,18 @@
 package aaa.helpers.docgen;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static toolkit.verification.CustomAssertions.assertThat;
+import aaa.helpers.db.DbXmlHelper;
+import aaa.helpers.docgen.searchNodes.SearchBy;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.helpers.xml.XmlHelper;
+import aaa.helpers.xml.model.*;
+import aaa.main.enums.DocGenEnum;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
+
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -14,18 +25,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import aaa.helpers.db.DbXmlHelper;
-import aaa.helpers.docgen.searchNodes.SearchBy;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.helpers.xml.XmlHelper;
-import aaa.helpers.xml.model.*;
-import aaa.main.enums.DocGenEnum;
-import toolkit.exceptions.IstfException;
-import toolkit.verification.CustomAssertions;
-import toolkit.verification.ETCSCoreSoftAssertions;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class DocGenHelper {
 	public static final String DOCGEN_SOURCE_FOLDER = "/home/DocGen/";
@@ -242,6 +244,27 @@ public class DocGenHelper {
 				.findFirst().orElseThrow(() -> new NoSuchFieldException("Tag " + tag + " not found."))
 				.getDataElementChoice().getTextField();
 	}
+
+	/**
+	 * Get All Documents from Document Package List
+	 * @param allDocumentPackages getAllDocumentPackages()
+	 * @return List<Document>
+	 */
+	public static List<String> getPackageDataElementsByNameFromDocumentPackageList(List<DocumentPackage> allDocumentPackages, String sectionName, String tag) throws NoSuchFieldException{
+		List<String> dataElements = new ArrayList<>();
+		for( DocumentPackage documentPackage: allDocumentPackages){
+			List<DocumentDataSection> documentDataSection = documentPackage.getDocumentPackageData().getDocumentDataSection();
+			dataElements.add(documentDataSection.stream()
+					.filter(a -> a.getSectionName().equals(sectionName))
+					.findFirst().orElseThrow(() -> new NoSuchFieldException("Section " + sectionName + " not found."))
+					.getDocumentDataElements().stream()
+					.filter(b -> b.getName().equals(tag))
+					.findFirst().orElseThrow(() -> new NoSuchFieldException("Tag " + tag + " not found."))
+					.getDataElementChoice().getTextField());
+		}
+		return dataElements;
+	}
+
 	/**
 	 * Extracts list of documents from {@link DocumentPackage} model
 	 *
@@ -370,6 +393,21 @@ public class DocGenHelper {
 		}
 		log.info(MessageFormat.format((CollectionUtils.isEmpty(documents) ? "Document(s) not found " : "Found document(s) ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return documents;
+	}
+
+	/**
+	 * Check that documents DOES NOT exist in XML in aaaDocGenEntity event (XML is sent to DCS to create actual .pdf documents)
+	 *
+	 * @param policyNumber - policy number
+	 * @param eventName - event name on which documents are suppose to be generated
+	 * @param docs - documents
+	 */
+	public static void checkDocumentsDoesNotExistInXml(String policyNumber, AaaDocGenEntityQueries.EventNames eventName, DocGenEnum.Documents... docs) {
+		List<Document> policyDocuments = getDocumentsList(policyNumber, eventName);
+		Object[] documentTemplate = policyDocuments.stream().map(Document::getTemplateId).toArray();
+		for (DocGenEnum.Documents doc : docs) {
+			assertThat(documentTemplate).doesNotContain(doc.getIdInXml());
+		}
 	}
 
 	public static Document getDocument(DocGenEnum.Documents value, String query) {

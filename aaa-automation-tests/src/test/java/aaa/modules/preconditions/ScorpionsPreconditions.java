@@ -1,10 +1,6 @@
 package aaa.modules.preconditions;
 
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_AGREEMENT_WEB_CLIENT;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.AAA_RETRIEVE_DOCUMENT_WEB_CLIENT;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.DOC_GEN_WEB_CLIENT;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_UPDATE;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +8,7 @@ import org.testng.annotations.Test;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.modules.BaseTest;
@@ -21,8 +17,8 @@ import toolkit.db.DBService;
 
 public class ScorpionsPreconditions extends BaseTest {
 
-	private String propertyAppHost = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
-	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URL_TEMPLATE);
+	private String propertyAppHost = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
+	private String propertyAppStubURLTemplate = PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_URL_TEMPLATE);
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
 	public void renewalJobAdding() {
