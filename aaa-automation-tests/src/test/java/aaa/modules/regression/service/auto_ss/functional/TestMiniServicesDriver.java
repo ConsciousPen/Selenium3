@@ -592,12 +592,19 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 7. Run Bind service And verify message.
 	 * 8. Repeat steps 4 to 7 For Relationship to FNI Other Resident Relative
 	 * 9.Repeat steps 4 to 7 For Relationship to FNI Other.
+	 *
+	 *@ Jovita Pukenaite: PAS-18357
+	 * 1. Create policy 1 FNI and 1 NI (Relationship to fni = EMP).
+	 * 2. Add new Driver (Relationship to fni = CH).
+	 * 3. Order reports.
+	 * 4. Hit rate service and check if "Relationship to FNI needs review"
+	 * error doesn't exist.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551"})
-	public void pas16551_relation_to_fni_hard_stop(@Optional("VA") String state) {
-		pas16551_relation_to_fni_hard_stopBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551", "PAS-17941"})
+	public void pas16551_relationToFniHardStop(@Optional("VA") String state) {
+		pas16551_relationToFniHardStopBody(getPolicyType());
 	}
 
 	/**
