@@ -93,7 +93,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	void bindEndorsementWithCheck(String policyNumber) {
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
