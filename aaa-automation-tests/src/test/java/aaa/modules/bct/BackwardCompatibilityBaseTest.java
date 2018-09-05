@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.testng.ITestContext;
 import org.testng.SkipException;
 import org.testng.annotations.DataProvider;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -60,8 +61,8 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 	}
 
 	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
-	public Iterator<Object[]> getPolicyNumbersFromDB(Method m) {
-		String state = context.getCurrentXmlTest().getAllParameters().get("state");
+	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
+		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if(state == null){
 			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 		}

@@ -92,8 +92,10 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		TestData td = getTestSpecificTD("TestDataEndorseAutoSS");
 		policy.get().endorse().perform(td);
 		new GeneralTab().fillTab(td);
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
+
 		new PremiumAndCoveragesTab().calculatePremium();
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(PremiumAndCoveragesTab.getActualPremium());
@@ -163,15 +165,16 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementPUP(String state, String policyNumber) {
 		PolicyType policy = PolicyType.PUP;
+		TestData td = getTestSpecificTD("TestDataEndorsePUP");
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
 		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryPUP", new aaa.main.modules.policy.pup.defaulttabs.PrefillTab(), new aaa.main.modules.policy.pup.defaulttabs.BindTab());
 
-		TestData td = getTestSpecificTD("TestDataEndorsePUP");
 		policy.get().endorse().perform(td);
 		policy.get().dataGather().getView().fillFromTo(td, PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyTermPremium());
+
 		PremiumAndCoveragesQuoteTab.btnCalculatePremium.click();
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(PremiumAndCoveragesQuoteTab.getPolicyActualPremium());
