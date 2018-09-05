@@ -58,3 +58,43 @@ VehicleTab_Trailer_NY: {
    "Less Than 3,000 Miles": 'No'
     }
 
+TestData_VAN_PICKUP_VA: {
+   VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_without_coverage_VA', '@VehicleTab_VAN_PICKUP_with_coverage_VA'],
+    }
+
+VehicleTab_regular_vehicle: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1FM5K8D86JGA29926,
+}
+
+VehicleTab_VAN_PICKUP_without_coverage_VA: {
+     Add Vehicle: Click,
+     Usage: Pleasure,
+     VIN: 2GTEC19V531282646,
+     Customizing Equipment: 'No',
+    }
+
+VehicleTab_VAN_PICKUP_with_coverage_VA: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 2GTEC19K8S1525936,
+    Customizing Equipment: 'Yes',
+    Stated Amount: 2500.25,
+    }
+
+TestData_VAN_PICKUP_other_than_VA: {
+   VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_1_other_than_VA', '@VehicleTab_VAN_PICKUP_2_other_than_VA'],
+    }
+
+VehicleTab_VAN_PICKUP_1_other_than_VA: {
+     Add Vehicle: Click,
+     Usage: Pleasure,
+     VIN: 2GTEC19V531282646,
+    }
+
+VehicleTab_VAN_PICKUP_2_other_than_VA: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 2GTEC19K8S1525936,
+    }
