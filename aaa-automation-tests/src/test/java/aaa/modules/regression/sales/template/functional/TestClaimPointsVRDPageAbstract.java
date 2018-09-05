@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import aaa.common.Tab;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.modules.policy.PolicyBaseTest;
@@ -190,7 +191,16 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 	}
 
 	private List<TestData> getClaimsTD() {
-		return testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
+		List<TestData> tdList = testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
+		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+			for (TestData td : tdList) {
+				td.adjust(HomeCaMetaData.PropertyInfoTab.ClaimHistory.ZIP.getLabel(), "90255")
+						.adjust(HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADDRESS_LINE_1.getLabel(), "6586 Porcupine Way")
+						.adjust(HomeCaMetaData.PropertyInfoTab.ClaimHistory.POLICY_NUMBER.getLabel(), "123456789")
+						.adjust(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM.getLabel(), "Yes");
+			}
+		}
+		return tdList;
 	}
 
 	private void viewEditClaim(String claimType) {
