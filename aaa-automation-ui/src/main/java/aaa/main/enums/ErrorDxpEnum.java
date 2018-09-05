@@ -31,7 +31,7 @@ public final class ErrorDxpEnum {
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS_BRACKETS("PFO017", "Error occurred during operation execution: {1}"),
 		ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR("ERROR_SERVICE_VALIDATION","Cannot order reports for existing drivers."),
-		MVR_ERROR_C("MVR Error (200119_C"),
+		MVR_ERROR_C("200119_C", "MVR Error"),
 		DRIVER_WITH_MORE_THAN_TWENTY_POINTS("200004", "Driver with more than 20 points is unacceptable"),
 		DRIVER_WITH_MORE_THAN_TWENTY_POINTS_C("200004_C", "Driver with more than 20 points is unacceptable"),
 		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21("200010_VA", "Driver under the age of 21 years with a DUI is unacceptable"),

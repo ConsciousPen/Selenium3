@@ -480,7 +480,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			HelperCommon.removeDriver(policyNumber, spouseOid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
-			String sMaritalStatus = mStatus.replace("WSS", "Windowed").replace("SSS", "Single").replace("DSS", "Divorced").replace("PSS", "Separated");
+			String sMaritalStatus = mStatus.replace("WSS", "Widowed").replace("SSS", "Single").replace("DSS", "Divorced").replace("PSS", "Separated");
 
 			ViewDriversResponse viewDrivers = HelperCommon.viewEndorsementDrivers(policyNumber);
 			softly.assertThat(viewDrivers.driverList.get(0).oid).isEqualTo(fniDriverOid);
@@ -2129,15 +2129,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
 
 			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
-			//ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
-			//assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.MVR_ERROR_C.getMessage());
+			helperMiniServices.orderReportErrors(policyNumber, driverOid, ErrorDxpEnum.Errors.MVR_ERROR_C);
+
 
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 			//Defect PAS-18604: MVR Error (200119_C) is not showing anymore when i have "No Hit" (Dxp)
-			//softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
+			softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
 			DriverActivityReportsTab.buttonSaveAndExit.click();
 
 			removeDriverRequest.removalReasonCode = "RD1001";
@@ -2155,6 +2155,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Robert", "Davis", "Smith", "1900-01-01", "I");
 			DriversDto addDriver3 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class, 201);
 
+			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("male", "D8578883", 21, "CA", "CH", "SSS");
+			HelperCommon.updateDriver(policyNumber, addDriver3.oid, updateDriverRequest3);
 			HelperCommon.orderReports(policyNumber, addDriver3.oid, OrderReportsResponse.class, 200);
 
 			ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);

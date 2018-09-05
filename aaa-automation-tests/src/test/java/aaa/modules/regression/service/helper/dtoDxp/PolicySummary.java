@@ -63,4 +63,7 @@ public class PolicySummary {
 
 	@ApiModelProperty(value = "Policy term", example = "12")
 	public String policyTerm;
+
+	@ApiModelProperty(value = "Policy endorsement ID", example = "ivB8QApZ3n9oaVHM3CFIpQ", required = true)
+	public String endorsementId;
 }
