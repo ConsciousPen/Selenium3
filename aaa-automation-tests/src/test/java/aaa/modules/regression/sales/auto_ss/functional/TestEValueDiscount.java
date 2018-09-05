@@ -2087,7 +2087,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	private void checkIfEvalueWasRemovedBySystem(String policyNumber, Boolean removed) {
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
-		assertThat("eValue Removed - ACH...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
+		assertThat("eValue Removed - Pay...".equals(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Reason").getValue())).isEqualTo(removed);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		assertThat("Endorsement - Other".equals(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(5).getValue())).isEqualTo(removed);
 	}

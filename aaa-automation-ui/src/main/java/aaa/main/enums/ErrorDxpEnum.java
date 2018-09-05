@@ -79,7 +79,9 @@ public final class ErrorDxpEnum {
 		DRIVER_DOB_MISMATCH("The date of birth returned from DMV does not match the DOB entered for Other Mismatches. Please verify that Driver date of birth provided on the application is correct"),
 		DRIVER_GENDER_MISMATCHES("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
 		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
-		;
+		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
+		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
+	;
 
 		private final String code;
 		private final String message;

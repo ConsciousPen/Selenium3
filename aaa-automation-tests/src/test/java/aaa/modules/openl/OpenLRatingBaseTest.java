@@ -2,7 +2,6 @@ package aaa.modules.openl;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
-import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -204,9 +203,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		Map<String, String> openLFieldsMap = openLPolicy.getOpenLFieldsMap();
 		openLFieldsMap.entrySet().removeIf(e -> e.getValue() == null || "null".equalsIgnoreCase(e.getValue())); // usually we don't care about null values of OpenL fields in test file during comparision
 		openLFieldsMap.remove("policy.policyNumber"); // policy number in test always differs from value in rating request log
-		if (openLFieldsMap.containsKey("policy.effectiveDate")) {
-			openLFieldsMap.put("policy.effectiveDate", String.valueOf(openLPolicy.getEffectiveDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()));
-		}
 		return openLFieldsMap;
 	}
 

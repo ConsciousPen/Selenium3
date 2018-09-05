@@ -373,3 +373,9 @@ PAS-9290:
     messages: ["'Reason claim is not chargeable' is required Need to be created"]
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["Unable to locate element: {\"method\":\"id\",\"selector\":\"policyDataGatherForm:premiumRecalcCov\"}"]
+PAS-18945:
+  summary: "Enhanced Transportation Expense Coverage Error is Thrown For non-Regular Vehicles on CA Choice Quotes"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
+      messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]
