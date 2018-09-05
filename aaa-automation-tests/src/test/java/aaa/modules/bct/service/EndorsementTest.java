@@ -2,7 +2,12 @@ package aaa.modules.bct.service;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.testng.ITestContext;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,6 +17,7 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -29,12 +35,17 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
+
+	private String date1 = "Date1 isn't specified";
+	private String date2 = "Date2 isn't specified";
+
 	private static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 	private static final String TESTDATA_NAME_ENDORSE_HOME_CA = "TestDataEndorseHomeCA";
 	/* HOME CA */
@@ -335,6 +346,42 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		}
 		else{throw new IstfException("Product is not supported" + policy.getShortName());
 		}
+	}
+
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
+	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
+		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
+		if(state == null){
+			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
+		}
+		log.info(" DataProvider got state: {}", state);
+		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2);
+		log.info(" DataProvider got policies: {}", policyNumbers);
+		String finalState = state;
+		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
+		return data.iterator();
+	}
+
+	private String getCUSTOM_DATE1(String date1) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
+		}
+		return date1;
+	}
+
+	private String getCUSTOM_DATE2(String date2) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2).isEmpty()) {
+			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
+		}
+		return date2;
+	}
+
+	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2) {
+		date1 = getCUSTOM_DATE1(date1);
+		date2 = getCUSTOM_DATE2(date2);
+
+		return getEmptyEndorsementPolicies(testName, date1, date2);
+		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
 
 }
