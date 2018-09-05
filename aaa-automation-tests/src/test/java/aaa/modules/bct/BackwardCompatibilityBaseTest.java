@@ -1,28 +1,32 @@
 package aaa.modules.bct;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.lang.reflect.Method;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.testng.SkipException;
+import org.testng.annotations.DataProvider;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
+import toolkit.config.PropertyProvider;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
+
+	private String date1 = "Date1 isn't specified";
+	private String date2 = "Date2 isn't specified";
 
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
@@ -55,21 +59,54 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		});
 	}
 
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
+	public Iterator<Object[]> getPolicyNumbersFromDB(Method m) {
+		String state = context.getCurrentXmlTest().getAllParameters().get("state");
+		if(state == null){
+			state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
+		}
+		log.info(" DataProvider got state: {}", state);
+		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2);
+		log.info(" DataProvider got policies: {}", policyNumbers);
+		String finalState = state;
+		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
+		return data.iterator();
+	}
+
+	private String getCUSTOM_DATE1(String date1) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
+		}
+		return date1;
+	}
+
+	private String getCUSTOM_DATE2(String date2) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2).isEmpty()) {
+			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
+		}
+		return date2;
+	}
+
+	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2) {
+		date1 = getCUSTOM_DATE1(date1);
+		date2 = getCUSTOM_DATE2(date2);
+
+		return getEmptyEndorsementPolicies(testName, date1, date2);
+		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
+	}
+
 	protected List<String> getPoliciesByQuery(String testName, String queryName) {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
-	public List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
-		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate) {
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
-		query = query.replace("/EXECDATE/", executionDate);
-		if(!testName.toLowerCase().contains("endorsement")){
-			query = query.replace("/STATE/", getState());
-		}
+		query = query.replace("/DATE1/", startRangeDate);
+		query = query.replace("/DATE2/", endRangeDate);
+		/* have no idea why this replacements here*/
 		query = query.replace("pasadm.", "");
 		query = query.replace("PASADM.", "");
-		query = query.replace("/DATE1/", date1);
-		query = query.replace("/DATE2/", date2);
+
 
 		return getPoliciesFromQuery(DBService.get().getRows(query), "SelectPolicy");
 	}
