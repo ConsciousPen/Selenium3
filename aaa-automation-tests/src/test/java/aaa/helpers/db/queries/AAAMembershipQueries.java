@@ -1,8 +1,7 @@
 package aaa.helpers.db.queries;
 
-import toolkit.db.DBService;
-
 import java.util.Optional;
+import toolkit.db.DBService;
 
 public class AAAMembershipQueries {
 

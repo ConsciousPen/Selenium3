@@ -51,8 +51,10 @@ public class TestOperationalReportsCheckDeliveryTypeForEuwDetail extends BaseTes
 
         //Verify, that errors 'Field is required' for 'E-mail Address' Selection and 'Additional E-mail Address'
         assertSoftly(softly -> {
-			softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.EMAIL_ADDRESS).getWarning()).contains("Field is required");
-			softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.ADDITIONAL_EMAIL).getWarning()).contains("Field is required");
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.EMAIL_ADDRESS)
+                    .getWarning().toString()).contains("Field is required");
+            softly.assertThat(orTab.getAssetList().getAsset(OperationalReportsMetaData.OperationalReportsTab.ADDITIONAL_EMAIL)
+                    .getWarning().toString()).contains("Field is required");
         });
     }
 }

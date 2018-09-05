@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-
 import java.util.List;
 
 /**

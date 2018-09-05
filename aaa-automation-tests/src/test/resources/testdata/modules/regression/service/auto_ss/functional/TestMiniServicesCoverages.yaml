@@ -58,3 +58,24 @@ VehicleTab_Trailer_NY: {
    "Less Than 3,000 Miles": 'No'
     }
 
+
+PremiumAndCoveragesTab_DC: {
+  Uninsured Motorist Property Damage: index=1,
+  Underinsured Motorist Property Damage: index=1
+}
+
+PremiumAndCoveragesTab_IN: {
+  Uninsured Motorist Property Damage Limit: index=1,
+}
+
+PremiumAndCoveragesTab_NJ: {
+  Uninsured Motorist Property Damage: index=1,
+}
+
+PremiumAndCoveragesTab_NY: {
+  Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
+}
+
+PremiumAndCoveragesTab_WV: {
+  Underinsured Motorist Property Damage: index=1,
+}
