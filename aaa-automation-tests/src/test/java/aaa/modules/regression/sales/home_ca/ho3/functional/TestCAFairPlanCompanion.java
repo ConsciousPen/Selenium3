@@ -72,8 +72,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * 2. Bind Quote.
      * 3. Initiate Mid-Term Endorsement.
      * 4. Observe FPCECA is visible.
-     * 5. After opting to add FPCECA, a message is displayed.
-     * 6. Verify message will match mock data.
+     * 5. Validated endorsement is added to policy
      * @param state
      */
     @Parameters({"state"})
@@ -90,9 +89,8 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         createPolicy(defaultPolicyData);
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
-        myHelper.verifyFPCECAEndorsementAvailable(getPolicyType().getShortName());
 
-        // Click FPCECA Endorsement
+        //verifies FPCECA availability in endorsements and that it can be added
         myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
         
     }

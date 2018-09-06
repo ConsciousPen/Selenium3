@@ -626,4 +626,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas18624_CustomisedEquipment">
+        <parameter name="state" value="VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas18624_CustomisedEquipment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
