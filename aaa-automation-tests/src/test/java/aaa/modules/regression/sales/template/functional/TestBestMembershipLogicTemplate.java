@@ -59,9 +59,34 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     protected String createFallbackPolicyAndMoveToNB15(String fallbackMemberNumber){
         String policyNumber = createFallbackPolicy(fallbackMemberNumber);
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
-        moveToNB15(policyEffectiveDate);
+        moveJVMNumberOfDaysFromEffectiveDate(policyEffectiveDate, 15);
         executeSTG1STG2Job();
         return policyNumber;
+    }
+
+    /**
+     * Move Policy with a Fallback to NB+30 <br>
+     * Fallback is Insuredcd = Yes with a provided Member Number.
+     * @return Policy Number
+     */
+    protected LocalDateTime moveFallbackPolicyToNB30(String policyNumber){
+
+        setErrorStatus(policyNumber);
+
+        AAAMembershipQueries.updateAAABestMembershipStatusInSQL(policyNumber,
+                AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG1);
+
+        String dbPolicyEffectiveDate =
+                AAAMembershipQueries.getPolicyEffectiveDateFromSQL(policyNumber).orElse("Null Value");
+
+        LocalDateTime policyEffectiveDateTime =
+                LocalDateTime.parse(dbPolicyEffectiveDate, AAAMembershipQueries.SQLDateTimeFormatter);
+
+        moveJVMNumberOfDaysFromEffectiveDate(policyEffectiveDateTime, 30);
+
+        executeSTG1STG2Job();
+
+        return policyEffectiveDateTime;
     }
 
     /**
@@ -246,12 +271,13 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     }
 
     /**
-     * Logs out the policy effective date and Moves to New Business + 15 days.
-     * @param policyEffectiveDate The Current policy effective date to move ahead by 15 days.
+     * Logs out the policy effective date and Moves to specified date offset.
+     * @param policyEffectiveDate The Current policy effective date to move ahead
+     * @param numberOfDays Number of days from provided policy effective date to move JVM to.
      */
-    private void moveToNB15(LocalDateTime policyEffectiveDate){
+    private void moveJVMNumberOfDaysFromEffectiveDate(LocalDateTime policyEffectiveDate, int numberOfDays){
         log.info("Policy Effective Date: " + policyEffectiveDate.format(DateTimeFormatter.ofPattern("MM-dd-yyyy")));
-        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(15));
+        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(numberOfDays));
     }
 
     /**

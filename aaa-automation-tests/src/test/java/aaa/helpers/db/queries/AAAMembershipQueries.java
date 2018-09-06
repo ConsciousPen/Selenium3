@@ -1,9 +1,19 @@
 package aaa.helpers.db.queries;
 
-import java.util.Optional;
 import toolkit.db.DBService;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class AAAMembershipQueries {
+
+    /**
+     * Use this formatter to load SQL date/time results that have not been truncated, into a LocalDateTime instance. <br>
+     * Example: <br>
+     * | String dbMemberSinceDate = getAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value"); <br>
+     * | LocalDateTime memberSinceDateTime = LocalDateTime.parse(dbMemberSinceDate, SQLDateTimeFormatter); <br>
+     * <br>
+     */
+    public static final DateTimeFormatter SQLDateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Verified Membership states from PAS.
@@ -23,7 +33,7 @@ public class AAAMembershipQueries {
     /**
      * Returns the AAA BestMembership Status from DB
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return
+     * @return an optional AAABestMembershipStatus. If no DB rows come back, will be null.
      */
     public static Optional<AAABestMembershipStatus> getAAABestMembershipStatusFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.AAABESTMEMBERSHIPSTATUS", quoteOrPolicyNumber);
@@ -43,7 +53,7 @@ public class AAAMembershipQueries {
     /**
      * Returns the AAA Membership Member Since Date from DB.
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return
+     * @return an optional String. If no DB rows come back, will be null.
      */
     public static java.util.Optional<String> getAAAMemberSinceDateFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.MEMBERSINCEDATE AS MS_MEMBERSINCEDATE", quoteOrPolicyNumber);
@@ -54,7 +64,7 @@ public class AAAMembershipQueries {
      * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return
+     * @return an optional String. If no DB rows come back, will be null.
      */
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
@@ -62,7 +72,45 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Changes the Membership status *After* policy was created to specific status. <br>
+     * Returns the Policy Effective Date from DB. <br>
+     * @param policyNumber is the policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     * @throws IllegalArgumentException if a quote number is provided.
+     */
+    public static java.util.Optional<String> getPolicyEffectiveDateFromSQL(String policyNumber) throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)){
+            throw new IllegalArgumentException(
+                    "getMembershipEffectiveDataFromSQL() only accepts policy numbers. Attempted policy: " + policyNumber);
+        }
+
+        String query = getStandardMembershipQuery("ps.EFFECTIVE", policyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
+     * Changes the AAA Best Membership Status *After* policy was created to specific status. <br>
+     * Does NOT support Quotes.
+     * @param policyNumber is the policy number to query against.
+     * @param updatedStatus is what AAA Membership Status to set in the database.
+     * @throws IllegalArgumentException When given a Quote Number.
+     */
+    public static void updateAAABestMembershipStatusInSQL(String policyNumber, AAABestMembershipStatus updatedStatus)
+            throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAABestMembershipStatusInSQL() does not support Quotes. " +
+                    "Arg policyNumber: " + policyNumber);
+        }
+
+        String query = getStandardMSEUpdateSQL("mse.aaabestmembershipstatus", updatedStatus.name(),
+                policyNumber, 1);
+
+        DBService.get().executeUpdate(query);
+    }
+
+    /**
+     * Changes the Membership Status *After* policy was created to specific status. <br>
      * Does NOT support Quotes.
      * @param policyNumber is the policy number to query against.
      * @param updatedStatus is what AAA Membership Status to set in the database.
@@ -76,15 +124,8 @@ public class AAAMembershipQueries {
                     "Arg policyNumber: " + policyNumber);
         }
 
-        String query =
-                String.format(
-                        "UPDATE membershipsummaryentity mse SET mse.membershipstatus = '%1s' " +
-                                "WHERE mse.id IN (" +
-                                "SELECT ms.id FROM policysummary ps " +
-                                "JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id " +
-                                "AND PS.policynumber='%2s')",
-                        updatedStatus.name(),   //%1s
-                        policyNumber);          //%2s
+        String query = getStandardMSEUpdateSQL("mse.membershipstatus", updatedStatus.name(),
+                policyNumber, 1);
 
         DBService.get().executeUpdate(query);
     }
@@ -104,6 +145,52 @@ public class AAAMembershipQueries {
                         "JOIN MEMBERSHIPSUMMARYENTITY MS ON MS.ID=ps.MEMBERSHIPSUMMARY_ID " +
                         "ORDER BY ps.EFFECTIVE DESC"; // Makes sure first returned row is latest DB Entry.
 
+        return query;
+    }
+
+    /**
+     * Returns the standard membership summary entity db update query for the column and appropriate quote/policy joined on.
+     * @param updateColumn is the column name to update the value of. EX: membershipsummaryentity
+     * @param updateData is the String Value to insert into that column in the database.
+     * @param quoteOrPolicyNumber is the quote or policy number to update rows against.
+     * @param limitUpdateToNumberOfRows is the number of rows to update. Null or less than 1 updates ALL rows.
+     *                                  Rows are in descending order so newest rows are first.
+     * @return SQL Query that will update specific requested column with updateData based on quoteOrPolicyNumber
+     */
+    private static String getStandardMSEUpdateSQL(String updateColumn, String updateData, String quoteOrPolicyNumber,
+                                                  Integer limitUpdateToNumberOfRows) throws IllegalArgumentException{
+
+        // Validate column to update is in Membership Summary Entity table.
+        if (!updateColumn.toLowerCase().startsWith("mse.")){
+            throw new IllegalArgumentException(
+                    "getStandardMSEUpdateSQL() only works with membership summary entity columns. " +
+                            "Column must be prefixed from the membership summary entity table (mse.).");
+        }
+
+        // If limitUpdateToNumberOfRows is null or less than 1, update all rows.
+        String rowLimiterLine = "";
+
+        if (limitUpdateToNumberOfRows == 1){
+            rowLimiterLine = "fetch first row only";
+        }
+
+        if (limitUpdateToNumberOfRows > 1){
+            rowLimiterLine = "fetch first " + limitUpdateToNumberOfRows.toString() + "rows only";
+        }
+
+        String query =
+                String.format(
+                        "UPDATE membershipsummaryentity mse SET %1s = '%2s' " +
+                                "WHERE mse.id IN (" +
+                                "SELECT ms.id FROM policysummary ps " +
+                                "JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id " +
+                                "AND PS.policynumber='%3s' " +
+                                "ORDER BY ps.EFFECTIVE DESC " + // Makes sure first returned row is latest DB Entry.
+                                "%4s)",
+                        updateColumn,           //%1s
+                        updateData,             //%2s
+                        quoteOrPolicyNumber,    //%3s
+                        rowLimiterLine );       //%4s
         return query;
     }
 
