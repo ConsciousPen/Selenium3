@@ -15,10 +15,7 @@
                     <include name="paperlessPreferencesStubEndpointUpdate"/>
                     <include name="lastPaymentMethodStubPointUpdate"/>
                     <include name="refundConfigurationUpdate"/>
-                    <include name="workaroundForJobsNBplus15plus30runNoChecksPAS_6162"/>
-                    <include name="paperlessPreferencesPopupStubEndpointUpdate"/>
-                    <include name="paperlessPreferencesStubEndpointConfigCheck"/>
-                    <include name="eValueConfigInsert"/>
+                    <include name="preconditionsForMiniServicesAuthenticationInAws"/>
                 </methods>
             </class>
         </classes>
