@@ -1,7 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static aaa.helpers.db.queries.AAAMembershipQueries.updateAAABestMembershipStatusInSQL;
-import static aaa.helpers.db.queries.AAAMembershipQueries.updateAAAMembershipStatusInSQL;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 import aaa.modules.regression.sales.template.functional.TestBestMembershipLogicTemplate;
@@ -15,8 +13,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
 
 // Use statesExcept for SS
 @StateList(statesExcept = Constants.States.CA)
