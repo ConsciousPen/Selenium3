@@ -78,7 +78,6 @@
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
-                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas15483_deleteOriginalVehicle"/>
@@ -147,6 +146,7 @@
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
                     <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
                     <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                 </methods>
             </class>
         </classes>
