@@ -98,7 +98,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoSS", new GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoSS", new GeneralTab(), new DocumentsAndBindTab());
 
 		TestData td = getTestSpecificTD("TestDataEndorseAutoSS");
 		policy.get().endorse().perform(td);
@@ -119,7 +119,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", new GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS",new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
 
 		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
 
@@ -134,7 +134,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquirySSHo3", new GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquirySSHo3", new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
 
 		fillEmptyEndorsementHomeSS(policy.get(),  getTestSpecificTD("TestDataEndorseSSHo3"));
 
@@ -149,7 +149,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", new GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS",new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
 
 		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
 
@@ -164,7 +164,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", new GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
 
 		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
 
@@ -298,7 +298,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	private void fillEmptyEndorsementHomeSS(IPolicy policy, TestData td) {
 		policy.endorse().perform(td);
 		policy.dataGather().getView()
-				.fillFromTo(td, GeneralTab.class, ReportsTab.class, false);
+				.fillFromTo(td, aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, ReportsTab.class, false);
 		new ReportsTab().reorderReports();
 		policy.dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
@@ -311,9 +311,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		policy.get().dataGather().getView()
 				.fillFromTo(testDataEnd, generalTab.getClass(), reportsTab.getClass(), false);
 
-		if (policy.getShortName().equalsIgnoreCase(PolicyType.HOME_CA_HO3.getShortName())) {
-			new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
-		}
+		new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
 
 		policy.get().dataGather().getView()
 				.fillFromTo(testDataEnd, reportsTab.getClass(), premiumsAndCoveragesQuoteTab.getClass(), false);
@@ -353,11 +351,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
 				break;
 			default:
-				throw new IstfException("Product is not supported: " + policy.getShortName());
+				throw new IstfException(String.format("Product %s is not supported", policy.getShortName()));
 		}
 	}
 
-	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = false)
 	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
 		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if(state == null){
