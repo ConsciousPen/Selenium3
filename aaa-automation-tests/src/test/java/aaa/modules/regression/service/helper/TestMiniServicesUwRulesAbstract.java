@@ -227,9 +227,9 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(1).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
-			softly.assertThat(rateResponse.errors.get(1).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
-			softly.assertThat(rateResponse.errors.get(1).field).isEqualTo("vehTypeCd");
+			softly.assertThat(rateResponse.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
+			softly.assertThat(rateResponse.errors.get(0).message).contains(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage());
+			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("vehTypeCd");
 
 			rateEndorsementInPas(policyNumber);
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode(), ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getMessage(), "vehTypeCd");
