@@ -1172,7 +1172,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		assertThat(addDriverRequestService.firstName).isEqualTo(addDriverRequest.firstName);
 
 		// updateDriver via dxp as sp
-		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "SP", null);
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32345585", 16, "AZ", "SP", null);
 		DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 		softly.assertThat(updateDriverResponse1.driver.gender).isEqualTo(updateDriverRequest.gender);
@@ -1181,10 +1181,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(updateDriverResponse1.driver.drivingLicense.stateLicensed).isEqualTo(updateDriverRequest.stateLicensed);
 		softly.assertThat(updateDriverResponse1.driver.maritalStatusCd).isEqualTo("MSS");
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
-		//Bug PAS-17579
 		if (flag) {
 			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()))).isTrue();
 		} else {
+			// issue PAS-19028
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
 		}
 
@@ -1233,16 +1233,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas16696_AddANameInsuredSameDayNotPolicyEffectiveDateBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
-			createCustomerIndividual();
-
 			String policyNumber = getCopiedPolicy();
-
 			String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(3).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
 			HelperCommon.createEndorsement(policyNumber, endorsementDate);
-
 			addDriverAndVerify(policyNumber, softly, false);
-
 		});
 	}
 
@@ -1269,7 +1263,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			softly.assertThat(responseViewDriver.driverList.get(4).oid).isNotNull();
 			softly.assertThat(responseViewDriver.driverList.get(4).availableActions).isEmpty();
-
 		});
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1330,10 +1323,14 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
 			driver1ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
+			driver1ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
+			driver1ExpectedAfterRemove.specificDisabilityInd = null;
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
+			driver2ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
+			driver2ExpectedAfterRemove.specificDisabilityInd = null;
 
 			//Sort drivers list as it should be after drivers are removed
 			List<DriversDto> expectedSortedDriverListAfterRemove = viewDriversResponse.driverList;
@@ -1694,7 +1691,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		String driverOid5 = addRegularDriverOrNI(policyNumber, "DriverLast","CH", "D32354588");
-		HelperCommon.orderReports(policyNumber, driverOid4, OrderReportsResponse.class, 200);
+		HelperCommon.orderReports(policyNumber, driverOid5, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);

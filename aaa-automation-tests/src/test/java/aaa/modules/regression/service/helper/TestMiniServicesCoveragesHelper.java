@@ -2326,7 +2326,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(availableLimitsNd.get(3).coverageLimitDisplay).isEqualTo("$1,500");
 
 		//Other Than Collision
-		coverageXproperties(softly, 0, coveragesVehicle, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
+		coverageXproperties(softly, 0, coveragesVehicle2, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
 		assertCoverageLimitForCompColl(updateCoverageResponse2);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
