@@ -14,11 +14,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- <project.version>1.0-SNAPSHOT</project.version> -->
         <maven.compiler.version>3.5.1</maven.compiler.version>
-        <pef.version>1.7.7</pef.version>
-        <etcs.version>9.2</etcs.version>
-        <istf.version>3.6.2</istf.version>
+        <pef.version>2.0.1</pef.version>
+        <etcs.version>9.11</etcs.version>
+        <istf.version>3.7.2</istf.version>
         <webdriver.version>3.8.1</webdriver.version>
-        <testanalytics.version>2.16.0</testanalytics.version>
+        <testanalytics.version>2.17.2</testanalytics.version>
         <!--<product>ALL</product> -->
     </properties>
     <build>
@@ -164,20 +164,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.exigen.istf.exec</groupId>
-            <artifactId>istf-exec-timeshift-client</artifactId>
-            <version>${pef.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.exigen.istf.exec</groupId>
-            <artifactId>istf-exec-browser</artifactId>
-            <version>${pef.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.exigen.istf.timesetter</groupId>
             <artifactId>istf-timesetter-client</artifactId>
-            <version>2.2.1</version>
+            <version>2.2.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.exigen.istf</groupId>

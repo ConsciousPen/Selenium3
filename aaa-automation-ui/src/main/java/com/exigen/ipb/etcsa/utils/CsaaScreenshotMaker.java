@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import com.assertthat.selenium_shutterbug.utils.web.ScrollStrategy;
-import com.exigen.istf.exec.browser.configuration.BrowserControllerConfig;
-import com.exigen.istf.exec.browser.configuration.BrowserPoolConfig;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
@@ -61,12 +59,7 @@ public class CsaaScreenshotMaker extends BasicScreenshotMaker {
 	}
 
 	private boolean isProfileChrome() {
-		String actualProfile;
-		if (TimeSetterUtil.getInstance().isPEF()) {
-			actualProfile = new BrowserPoolConfig(BrowserControllerConfig.getInstance().getBrowserPoolConfigFilePath()).getDefaultBrowserProfile().getBrowserProfileValue();
-		} else {
-			actualProfile = PropertyProvider.getProperty(TestProperties.WEBDRIVER_PROFILE);
-		}
+		String actualProfile = PropertyProvider.getProperty(TestProperties.WEBDRIVER_PROFILE);
 		return actualProfile.equals("chrome") || actualProfile.equals("googlechrome");
 	}
 

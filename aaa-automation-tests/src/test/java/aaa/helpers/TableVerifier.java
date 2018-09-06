@@ -3,23 +3,22 @@
 package aaa.helpers;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public abstract class TableVerifier {
 
     protected Map<String, String> values = new HashMap<>();
     protected ETCSCoreSoftAssertions softly;
 
-    public TableVerifier() {};
+    public TableVerifier() {}
 
     public TableVerifier(ETCSCoreSoftAssertions softly) {
         this.softly = softly;
-    };
+    }
 
     protected abstract Table getTable();
 
@@ -66,7 +65,7 @@ public abstract class TableVerifier {
 
     public TableVerifier verifyDollar(int rowNumber, String column, Dollar value, double precision) {
         Dollar actualDollar = new Dollar(getTable().getRow(rowNumber).getCell(column).getValue());
-        actualDollar.verify.equals(value, precision);
+        actualDollar.verify.isEqual(value, precision);
         return this;
     }
 

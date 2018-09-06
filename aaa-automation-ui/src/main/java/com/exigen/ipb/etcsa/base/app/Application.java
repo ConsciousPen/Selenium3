@@ -4,7 +4,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
 
@@ -114,9 +113,7 @@ public abstract class Application {
 			} catch (Exception e) {
 				log.info("Cannot close application: " + e);
 			}
-			if (!TimeShiftTestUtil.isContextAvailable()) {
-				closeSession();
-			}
+			closeSession();
 		}
 	}
 
@@ -135,17 +132,9 @@ public abstract class Application {
 		CSAAApplicationFactory.get().adminApp().close();
 		CSAAApplicationFactory.get().mainApp().close();
 		CSAAApplicationFactory.get().opReportApp().close();
-		if (TimeShiftTestUtil.isContextAvailable()) {
-			if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
-				TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
-			}
-			BrowserController.initBrowser(TimeShiftTestUtil.getContext().getBrowser(0).getWebDriver());
-		} else {
-			BrowserController.initBrowser();
-		}
-
+		BrowserController.initBrowser();
 		BrowserController.get().open(url);
-		BrowserController.get().maximize();
+		BrowserController.get().driver().manage().window().maximize();
 		setApplicationOpened(true);
 	}
 

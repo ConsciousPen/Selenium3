@@ -4,24 +4,23 @@ import java.lang.reflect.Constructor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang3.NotImplementedException;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
+import com.exigen.istf.timesetter.client.config.ClientConfig;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-import toolkit.utils.datetime.DateTimeUtils;
 
 public class TimeSetterUtil {
 
 	private static final String TIME_FORMAT = "HH:mm:ss";
+	private static final Boolean isLocalTime = Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.USE_LOCAL_TIME_AS_SERVER, "true"));
 	protected static Logger log = LoggerFactory.getLogger(TimeSetterUtil.class);
 	private static Boolean isPEF = false;
 	private static TimeSetterUtil instance;
@@ -31,13 +30,15 @@ public class TimeSetterUtil {
 	// LoggerFactory.getLogger(TimeSetterUtil.class);
 
 	private TimeSetterUtil() {
+	}
 
-		if (TimeShiftTestUtil.isContextAvailable()) {
-			isPEF = true;
-		}
+	private TimeSetterUtil(ClientConfig config) {
 	}
 
 	public static synchronized TimeSetterUtil getInstance() {
+		if (TimeShiftTestUtil.isContextAvailable()) {
+			isPEF = true;
+		}
 		if (instance == null) {
 			instance = new TimeSetterUtil();
 		}
@@ -48,7 +49,7 @@ public class TimeSetterUtil {
 				timeSetterClient = ctor.newInstance(PropertyProvider.getProperty("app.host"));
 			} catch (ReflectiveOperationException e) {
 				log.error("Can't instatiate TimeSetter from class: " + PropertyProvider.getProperty("time.service.class"), e);
-				timeSetterClient = new TimeSetterClient(PropertyProvider.getProperty("app.host"));
+				timeSetterClient = new TimeSetterClient();
 			}
 		}
 		return instance;
@@ -57,9 +58,9 @@ public class TimeSetterUtil {
 	public LocalDateTime getStartTime() {
 		LocalDateTime startTime;
 		if (isPEF) {
-			startTime = jodaDateToJava(getContext().startTime());
+			startTime = getContext().getStartTime();
 		} else {
-			startTime = istfDateToJava(timeSetterClient.getStartTime());
+			startTime = timeSetterClient.getStartTime();
 		}
 		return startTime;
 	}
@@ -67,9 +68,9 @@ public class TimeSetterUtil {
 	public LocalDateTime getCurrentTime() {
 		LocalDateTime currentTime;
 		if (isPEF) {
-			currentTime = jodaDateToJava(getContext().currentTime());
+			currentTime = getContext().getCurrentTime();
 		} else {
-			currentTime = istfDateToJava(timeSetterClient.getDateTime());
+			currentTime = timeSetterClient.getDateTime();
 		}
 		return currentTime;
 	}
@@ -77,7 +78,7 @@ public class TimeSetterUtil {
 	public LocalDateTime getPhaseStartTime() {
 		LocalDateTime phaseStartTime;
 		if (isPEF) {
-			phaseStartTime = jodaDateToJava(getContext().phaseStartTime());
+			phaseStartTime = getContext().getPhaseStartTime();
 		} else {
 			phaseStartTime = getCurrentTime();
 		}
@@ -88,29 +89,6 @@ public class TimeSetterUtil {
 		return TimeShiftTestUtil.getContext();
 	}
 
-	public static LocalDateTime jodaDateToJava(DateTime date) {
-		return LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
-	}
-
-	public static DateTime javaDateToYoda(LocalDateTime date) {
-		return new DateTime(date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
-	}
-
-	@SuppressWarnings("deprecation")
-	public static LocalDateTime istfDateToJava(toolkit.utils.datetime.DateTime date) {
-		try {
-			LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return LocalDateTime.parse(date.toString("yyyyMMddHHmmss"), DateTimeUtils.TIME_STAMP);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static toolkit.utils.datetime.DateTime javaDateToIstf(LocalDateTime date) {
-		return new toolkit.utils.datetime.DateTime(date.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")), "yyyyMMddHHmmss");
-	}
-
 	/**
 	 * Before any nextphase it is necessary to close current app:
 	 * BaseTest.mainApp().close(); BaseTest.adminApp().close();
@@ -119,6 +97,9 @@ public class TimeSetterUtil {
 	 */
 
 	public void nextPhase(LocalDateTime time) {
+		if (isLocalTime) {
+			throw new IstfException("User Local System time is used, Date can't shifted");
+		}
 		if (time == null) {
 			throw new IstfException("Provided time to shift is null");
 		}
@@ -141,10 +122,10 @@ public class TimeSetterUtil {
 		}
 		closeAllApps();
 		if (isPEF) {
-			getContext().nextPhase(javaDateToYoda(adjDate));
+			getContext().nextPhase(adjDate);
 			log.info(String.format("+++++ Application date is set to %s +++++", adjDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"))));
 		} else {
-			timeSetterClient.setDateTime(javaDateToIstf(adjDate));
+			timeSetterClient.setDateTime(adjDate);
 		}
 	}
 
@@ -156,7 +137,7 @@ public class TimeSetterUtil {
 		if (!isPEF) {
 			timeSetterClient.adjustTime();
 		} else {
-			throw new NotImplementedException("Not applicable fpr PEF mode");
+			throw new IstfException("Not applicable for PEF mode");
 		}
 	}
 

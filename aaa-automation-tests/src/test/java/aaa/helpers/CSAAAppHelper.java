@@ -2,12 +2,12 @@ package aaa.helpers;
 
 import java.net.URL;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.utils.EISAppHelper;
 import toolkit.config.ClassConfigurator;
 import toolkit.utils.http.HttpExecutor;
 import toolkit.utils.http.HttpHelper;
 import toolkit.utils.http.HttpRequest;
 import toolkit.utils.http.HttpResponse;
-import toolkit.utils.teststoragex.utils.helpers.EISAppHelper;
 
 public class CSAAAppHelper extends EISAppHelper {
 
@@ -43,8 +43,8 @@ public class CSAAAppHelper extends EISAppHelper {
 		} catch (Exception e) {
 			buildInfo = "N/A";
 		}
-		log.info("Application URL: " + host);
-		log.info("Build num : " + buildInfo);
+		LOGGER.info("Application URL: " + host);
+		LOGGER.info("Build num : " + buildInfo);
 		return buildInfo;
 	}
 }

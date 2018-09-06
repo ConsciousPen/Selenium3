@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
@@ -95,7 +94,7 @@ public class ApplicationMocksManager {
 
 	public static synchronized void restartStubServer() {
 		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
-		LocalDate serverDate = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
+		LocalDate serverDate = new TimeSetterClient().getStartTime().toLocalDate();
 		assertThat(serverDate).as("Stub server restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
 				.isEqualTo(LocalDate.now());
 

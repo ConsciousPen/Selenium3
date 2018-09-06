@@ -1,24 +1,21 @@
 package aaa.modules.regression.finance.operational_reports;
 
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.helpers.product.OperationalReportsHelper;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import static aaa.helpers.cft.CFTHelper.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.StringUtils;
+import org.testng.annotations.Test;
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import org.apache.commons.lang3.StringUtils;
-import org.testng.annotations.Test;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.helpers.product.OperationalReportsHelper;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-import static aaa.helpers.cft.CFTHelper.*;
 
 
 public class TestOperationalReportsEuwDetailsGeneration extends OperationalReportsBaseTest {
@@ -38,7 +35,7 @@ public class TestOperationalReportsEuwDetailsGeneration extends OperationalRepor
         opReportApp().open();
         // get map from OR reports
         if (StringUtils.isNotEmpty(remoteFileLocation)) {
-            String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+            String monitorInfo = "To implement after migration to Selenoids"; //TimeShiftTestUtil.getContext().getBrowser().toString();
             String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
             log.info("Monitor address: {}", monitorAddress);
             SSHController sshControllerRemote = new SSHController(

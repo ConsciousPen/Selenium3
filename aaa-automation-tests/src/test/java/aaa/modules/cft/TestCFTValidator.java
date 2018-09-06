@@ -1,29 +1,24 @@
 package aaa.modules.cft;
 
+import static aaa.helpers.cft.CFTHelper.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import com.jayway.awaitility.Awaitility;
-import com.jayway.awaitility.Duration;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
-
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
+import aaa.helpers.constants.Groups;
+import aaa.modules.cft.report.ReportGeneratorService;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
-import aaa.helpers.constants.Groups;
-import aaa.modules.cft.report.ReportGeneratorService;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
-
-import static aaa.helpers.cft.CFTHelper.*;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
@@ -58,7 +53,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		opReportApp().open();
 		// get map from OR reports
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {
-			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			String monitorInfo = "To implement after migration to Selenoids"; //TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor address: {}", monitorAddress);
 			SSHController sshControllerRemote = new SSHController(
