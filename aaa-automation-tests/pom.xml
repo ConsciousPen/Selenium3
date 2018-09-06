@@ -91,7 +91,7 @@
                             <properties>
                                 <property>
                                     <name>listener</name>
-                                    <value>aaa.helpers.listeners.AlterSuiteListener2,com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener</value>
+                                    <value>aaa.helpers.listeners.AlterSuiteListener2,com.exigen.istf.exec.testng.TimeShiftTestNgListener</value>
                                 </property>
                             </properties>
                             <systemPropertyVariables>

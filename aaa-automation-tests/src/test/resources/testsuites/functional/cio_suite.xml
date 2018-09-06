@@ -1,11 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="CIO Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
      </listeners>
-
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
     <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)">
         <parameter name="state" value="UT"/>
         <classes>

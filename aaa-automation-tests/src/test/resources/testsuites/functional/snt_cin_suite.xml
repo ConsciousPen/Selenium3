@@ -3,10 +3,8 @@
     <listeners>
         <!-- Listener commented out for local runs-->
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="Auto CA AHAUXX generation" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>

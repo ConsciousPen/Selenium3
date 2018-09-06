@@ -2,9 +2,9 @@
 <suite name="Refresh Renewal Merge Tests" verbose="1" parallel="false">
     <!--<listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        &lt;!&ndash;<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>&ndash;&gt;
+        &lt;!&ndash;<listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>&ndash;&gt;
     </listeners>-->
-    <!-- <parameter name="timeshift-scenario-mode" value="test"/>-->
+    <!-- -->
     <test name="AZ Auto">
         <parameter name="state" value="AZ"/>
         <classes>

@@ -2,10 +2,8 @@
 <suite name="Manual Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
 		<listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ, DE, VA, PA, MD" />
         <classes>

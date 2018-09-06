@@ -2,9 +2,8 @@
 <suite name="E2E Scenario 8" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="HSS Scenario 8 E2E with DP3" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ, OK" />
         <classes>

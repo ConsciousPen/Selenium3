@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Conversion Test" verbose="1" parallel="tests" thread-count="1024">
 	<listeners>
-		<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
 	</listeners>
-	<parameter name="timeshift-scenario-mode" value="method"/>
-
-	<suite-files>
+    <suite-files>
 		<suite-file path="./hdes_ho3_conversion.xml"/>
 		<suite-file path="./hdes_ho4_conversion.xml"/>
 		<suite-file path="./hdes_ho6_conversion.xml"/>

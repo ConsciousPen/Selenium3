@@ -2,9 +2,8 @@
 <suite name="Functional tests" verbose="1" parallel="tests" thread-count="2048">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="Auto SS Functional Tests" parallel="methods">
         <parameter name="state" value="UT, AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, VA, WV, WY"/>
         <groups>

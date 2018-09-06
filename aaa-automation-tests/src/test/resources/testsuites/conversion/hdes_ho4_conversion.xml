@@ -1,9 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="HDES HO4 Conversion Test" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
     <test name="HDES HO4 Conversion Test 1" parallel="methods" thread-count="200">
         <parameter name="state" value="CA"/>
         <parameter name="file" value="HO4/20170120_075316_CNV_B_HDESPROP_EXGPAS_8435_D_20161208_30000614_XT81685.xml"/>

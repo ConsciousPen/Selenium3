@@ -2,10 +2,8 @@
 <suite name="Scorpions Precondition configuration changes" verbose="1" parallel="tests" thread-count="1024">
     <!-- Listener commented out for local runs-->
     <listeners>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
     <test name="enable Vin Refresh">
         <classes>
             <class name="aaa.modules.preconditions.ScorpionsPreconditions">
