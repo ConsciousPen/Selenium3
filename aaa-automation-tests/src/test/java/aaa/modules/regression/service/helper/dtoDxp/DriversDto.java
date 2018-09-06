@@ -24,6 +24,7 @@ public class DriversDto implements RestBodyRequest {
 	private static final String DRIVER_STATUS_PENDING_REMOVAL = "pendingRemoval";
 	private static final String DRIVER_STATUS_PENDING_ADD = "pendingAdd";
 	private static final String	DRIVER_STATUS_ACTIVE = "active";
+	private static final String DRIVER_STATUS_DRIVER_TYPE_CHANGED = "driverTypeChanged";
 
 	@JsonProperty("firstName")
 	public String firstName;
@@ -110,6 +111,7 @@ public class DriversDto implements RestBodyRequest {
 	public static final Comparator<DriversDto> DRIVERS_COMPARATOR = (driver1, driver2) -> ComparisonChain.start()
 			.compareTrueFirst(DRIVER_STATUS_PENDING_REMOVAL.equals(driver1.driverStatus), DRIVER_STATUS_PENDING_REMOVAL.equals(driver2.driverStatus))
 			.compareTrueFirst(DRIVER_STATUS_PENDING_ADD.equals(driver1.driverStatus), DRIVER_STATUS_PENDING_ADD.equals(driver2.driverStatus))
+			.compareTrueFirst(DRIVER_STATUS_DRIVER_TYPE_CHANGED.equals(driver1.driverStatus), DRIVER_STATUS_DRIVER_TYPE_CHANGED.equals(driver2.driverStatus))
 			.compareTrueFirst(DRIVER_STATUS_ACTIVE.equals(driver1.driverStatus), DRIVER_STATUS_ACTIVE.equals(driver2.driverStatus))
 			.compareTrueFirst(DRIVER_FIRST_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_FIRST_NAME_INSURED.equals(driver2.namedInsuredType))
 			.compareTrueFirst(DRIVER_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_NAME_INSURED.equals(driver2.namedInsuredType))

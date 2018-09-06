@@ -13,15 +13,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
-
-import aaa.common.pages.Page;
-
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
 import aaa.main.enums.ErrorDxpEnum;
@@ -258,7 +255,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody() {
 		TestData td = getPolicyTD("DataGather", "TestData");
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FiveDrivers").getTestDataList("DriverTab")).resolveLinks();
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_SixDrivers").getTestDataList("DriverTab")).resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -273,7 +270,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				.filter(driver -> DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver.driverType))
 				.filter(driver -> DRIVER_STATUS_ACTIVE.equals(driver.driverStatus))
 				.filter(driver -> !DRIVER_FIRST_NAME_INSURED.equals(driver.namedInsuredType))
-				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType)).findFirst().orElse(null);
+				.filter(driver -> !DRIVER_NAME_INSURED.equals(driver.namedInsuredType))
+				.filter(driver -> !"T68785298".equals(driver.drivingLicense.licenseNumber)) // this driver will be needed later, so not selecting this one
+				.findFirst().orElse(null);
 		HelperCommon.removeDriver(policyNumber, driverSt.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
 		// add driver
@@ -284,7 +283,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "VA", "CH", "MSS");
 		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
 
-		// verify order: pending remove should be first, then pending add
+		//PAS-18457 Get driver (by License number) to remove with code RD1003 or RD1004 and check order of drivers
+		DriversDto driverToRemove = getDriverByLicenseNumber(viewDriversResponse, "T68785298");
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1003");
+		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
+		assertSoftly(softly ->
+				softly.assertThat(removeDriverResponse.driverStatus).isEqualTo("driverTypeChanged") //make sure that driver status is as required to check order of drivers
+		);
+
+		// verify order: pending remove should be first, then pending add. driverTypeChanged should be after pending drivers
 		viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		validateDriverListOrdering(viewDriversResponse.driverList);
 
@@ -1475,7 +1482,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
 			driver1ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
-			driver1ExpectedAfterRemove.driverStatus = "updated";
+			driver1ExpectedAfterRemove.driverStatus = "driverTypeChanged";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
 			driver1ExpectedAfterRemove.availableCoverages.clear(); // for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
 			driver1ExpectedAfterRemove.specificDisabilityInd = null;
@@ -1483,7 +1490,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
-			driver2ExpectedAfterRemove.driverStatus = "updated";
+			driver2ExpectedAfterRemove.driverStatus = "driverTypeChanged";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 			driver2ExpectedAfterRemove.availableCoverages.clear();// for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
 			driver2ExpectedAfterRemove.specificDisabilityInd = null;
@@ -2409,5 +2416,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private DriversDto getDriverByOid(List<DriversDto> driverList, String oid) {
 		return driverList.stream().filter(driver -> oid.equals(driver.oid))
 				.findFirst().orElseThrow(() -> new IllegalArgumentException("No driver found for oid: " + oid));
+	}
+
+	private DriversDto getDriverByLicenseNumber(ViewDriversResponse viewDriversResponse, String licenseNumber) {
+		return viewDriversResponse.driverList.stream().filter(driver -> licenseNumber.equals(driver.drivingLicense.licenseNumber)).findFirst().orElse(null);
 	}
 }

@@ -92,8 +92,8 @@ NamedInsuredInformation6: {
   Residence: Own Home,
 }
 
-TestData_FiveDrivers: {
-    DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
+TestData_SixDrivers: {
+    DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
 }
 
 DriverTab1: {
