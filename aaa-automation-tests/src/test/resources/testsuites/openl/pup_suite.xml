@@ -180,4 +180,12 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [MD] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="MD"/>
+        <parameter name="fileName" value="MDTests.xls"/>
+        <parameter name="policyNumbers" value="1229927,1239029"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
