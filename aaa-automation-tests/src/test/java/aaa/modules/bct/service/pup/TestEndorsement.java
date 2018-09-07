@@ -2,8 +2,11 @@ package aaa.modules.bct.service.pup;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
@@ -21,6 +24,16 @@ public class TestEndorsement extends EndorsementTemplate {
 
 	private PrefillTab prefillTab = new PrefillTab();
 	private BindTab bindTab = new BindTab();
+
+
+	@Test
+	@Parameters({STATE_PARAM})
+	@StateList(states = {Constants.States.CA})
+	public void test(@Optional("") String state) {
+		TestData td = getTestSpecificTD("TestDataInquiryPUP");
+		TestData td1 = getTestSpecificTD("TestDataEndorsePUP");
+	}
+
 
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})

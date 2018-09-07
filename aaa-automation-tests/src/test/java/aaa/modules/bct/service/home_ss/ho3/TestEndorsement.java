@@ -30,7 +30,7 @@ public class TestEndorsement extends EndorsementTemplate {
 
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(),"TestDataInquirySSHo3", generalTab, bindTab);
 
-		performNonBearingEndorsement(getPolicyType(), TESTDATA_NAME_ENDORSE_HOME_SS);
+		performNonBearingEndorsement(getPolicyType(), "TestDataEndorseSSHo3");
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
