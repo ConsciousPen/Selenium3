@@ -93,6 +93,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 9. Delete the newest driver.
 	 * 10.Hit View Driver service verify order.
      *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 *@scenario PAS-18457: try to remove driver with code RD1003/RD1004 (driverStatus will be updated to driverTypeChanged), and validate that driverTypeChanged drivers are displayed after pending drivers
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
