@@ -5,6 +5,7 @@ import java.util.stream.IntStream;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,8 +15,10 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestPremiumRecalculationFactors extends AutoSSBaseTest {
 
 	private DriverTab driverTab = new DriverTab();
