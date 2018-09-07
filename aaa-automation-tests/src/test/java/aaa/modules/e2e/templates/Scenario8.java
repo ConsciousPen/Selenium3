@@ -4,11 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -28,6 +30,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import aaa.common.Tab;
 import toolkit.verification.CustomAssertions;
@@ -67,6 +70,20 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	protected void generateFirstBill(ETCSCoreSoftAssertions softly) {
 		generateAndCheckBill(installmentDueDates.get(1), softly);
+	}
+	
+	protected void generateAndCheckBillAfterEndorsement(LocalDateTime installmentDate, LocalDateTime effectiveDate, ETCSCoreSoftAssertions softly) {
+		LocalDateTime previousDate = DateTimeUtils.getCurrentDateTime();
+		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDate);
+		TimeSetterUtil.getInstance().nextPhase(billGenDate);
+		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNum);
+		
+		Dollar correctionAmount = BillingHelper.DZERO;
+		correctionAmount = BillingHelper.getTransactionsAmountSum(previousDate).add(BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1)));
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDate, billGenDate, effectiveDate, correctionAmount);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 	}
 
 	protected void renewalImageGeneration() {

@@ -6,7 +6,6 @@ import java.util.List;
 
 public class VehicleUpdateResponseDto extends Vehicle {
 
-	@ApiModelProperty(value = "List of rules that failed with validation errors or warnings.")
-	public List<ValidationRuleSet> ruleSets;
-
+	@ApiModelProperty(value = "List of vehicle related validation errors")
+	public List<ValidationError> validations;
 }

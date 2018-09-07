@@ -98,8 +98,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470"})
 	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
-		TestData td = getTestSpecificTD("TestData1");
-		pas14653_ViewDriverServiceOrderOfPendingDeleteBody(td);
+		pas14653_ViewDriverServiceOrderOfPendingDeleteBody();
 	}
 
 	/**
@@ -330,11 +329,15 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
-	public void pas14475_NameInsuredMaritalStatus(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
+	public void pas14475_NameInsuredMaritalStatus(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "SSS")
 		);
@@ -352,10 +355,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "DSS")
@@ -374,10 +383,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "WSS")
@@ -396,10 +411,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 6. Verify married status of primary driver is changed to Married
 	 * 7. Verify married status in view driver response
 	 * 8. Verify PAS pended endorsement driver tab data status is married
+	 * 9. Remove spouse.
+	 * 10. Check the FNI driver status.
+	 *
+	 * @ Jovita Pukenaite: PAS-17503
+	 * 9. Remove Spouse.
+	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
@@ -472,7 +493,6 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
 		TestData td = getTestSpecificTD("TestData2");
 		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
-
 	}
 
 	/**
@@ -572,12 +592,19 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 7. Run Bind service And verify message.
 	 * 8. Repeat steps 4 to 7 For Relationship to FNI Other Resident Relative
 	 * 9.Repeat steps 4 to 7 For Relationship to FNI Other.
+	 *
+	 *@ Jovita Pukenaite: PAS-18357
+	 * 1. Create policy 1 FNI and 1 NI (Relationship to fni = EMP).
+	 * 2. Add new Driver (Relationship to fni = CH).
+	 * 3. Order reports.
+	 * 4. Hit rate service and check if "Relationship to FNI needs review"
+	 * error doesn't exist.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551"})
-	public void pas16551_relation_to_fni_hard_stop(@Optional("VA") String state) {
-		pas16551_relation_to_fni_hard_stopBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16551", "PAS-17941"})
+	public void pas16551_relationToFniHardStop(@Optional("VA") String state) {
+		pas16551_relationToFniHardStopBody(getPolicyType());
 	}
 
 	/**
@@ -616,7 +643,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01Body();
 	}
@@ -655,7 +682,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-16913", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02Body();
 	}
@@ -692,7 +719,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14650", "PAS-17046", "PAS-14652", "PAS-17050", "PAS-17968"})
 	public void pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03(@Optional("VA") String state) {
 		pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03Body();
 	}
@@ -702,24 +729,56 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * @name Removing a driver - Create a Task?
 	 * @scenario 1. Create policy.
 	 * 2. Start do endorsement outside of PAS.
-	 * 3. Add new Driver. Update that driver.
+	 * 3. Add new Driver CH. Update that driver.
 	 * 4. Order report.
-	 * 5. Delete Driver.
-	 * 6. Check if Task was created.
-	 * 7. Rate and Bind.
-	 * 8. Create new endorsement outside of PAS.
-	 * 9. Add new Driver. Update.
-	 * 10. Delete new Driver.
-	 * 11. Check if Task wasn't created.
+	 * 5. Try order reports for existing driver. Check error.
+	 * 6. Delete Driver.
+	 * 7. Check if Task was created.
+	 * 8. Rate and Bind.
+	 * 9. Create new endorsement outside of PAS.
+	 * 10. Add new Driver CH. Update.
+	 * 11. Delete new Driver.
+	 * 12. Check if Task wasn't created.
+	 * 13. Create endorsement.
+	 * 14. Add new Driver, rate and bind endorsement.
+	 * 15. Create endorsement and try to order report
+	 * for previous added driver. Check error.
+	 *
+	 * Repeat the same scenario with SP drivers.
 	 */
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957" })
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
 
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Order report error / too old (earlier than 1900) Driver error
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add new Driver (with "no hint" from the stubs). Update that driver.
+	 * 4. Order report. Check response in dxp and PAS.
+	 * 5. Delete Driver.
+	 * 6. Try add new Driver with a birth year earlier than 1900
+	 * 7. Check error.
+	 * 8. Check if Driver wasnt added.
+	 * 9. Try to add one more time with 1900
+	 * 10. No errors, check if driver was added.
+	 * 11. Rate and Bind
+	 */
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17769", "PAS-17658"})
+	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
+
+		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
+	}
+
 }
 
 

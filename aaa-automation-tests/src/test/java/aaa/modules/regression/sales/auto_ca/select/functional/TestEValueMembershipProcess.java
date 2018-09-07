@@ -18,7 +18,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -44,7 +44,7 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements TestEValueMembershipProcessPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private Random random = new Random();
 	private GeneralTab generalTab = new GeneralTab();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();

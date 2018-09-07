@@ -296,7 +296,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<RadioGroup> CLEAN_DRIVER_RENEWAL = declare("Clean Driver Renewal", RadioGroup.class);
 		// "Clean Driver Renewal Reason" meta key on UI displays as "Reason" textbox and appears only for MD state on policy renewal if effective date - base date >=3 years;
 		// meta key was renamed to not clash with "Reason" combobox within same section
-		public static final AssetDescriptor<TextBox> CLEAN_DRIVER_RENEWAL_REASON = declare("Clean Driver Renewal Reason", TextBox.class, By.id("policyDataGatherForm:driverMVOInformation_driverRatingInfo_cleanDrRenewalReason"));
+		public static final AssetDescriptor<TextBox> CLEAN_DRIVER_RENEWAL_REASON = declare("Clean Driver Renewal Reason", TextBox.class, By.id("policyDataGatherForm:driverMVOInformation_cleanDrRenewalReason"));
 
 		public static final class ListOfDriver extends MetaData {
 			public static final AssetDescriptor<StaticElement> NUM_COLUMN = declare("column=1", StaticElement.class);
@@ -425,6 +425,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<TextBox> OTHER_SERIES = declare("Other Series", TextBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> OTHER_BODY_STYLE = declare("Other Body Style", AdvancedComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> STAT_CODE = declare("Stat Code", AdvancedComboBox.class, Waiters.AJAX);
+		public static final AssetDescriptor<RadioGroup> CUSTOMISING_EQUIPMENT = declare("Customizing Equipment", RadioGroup.class);
 		public static final AssetDescriptor<TextBox> STATED_AMOUNT =
 				declare("Stated Amount", TextBox.class, By.xpath(".//input[contains(@id, '_costPurchase')]"));
 		public static final AssetDescriptor<ComboBox> EXISTING_DAMAGE = declare("Existing Damage", ComboBox.class);

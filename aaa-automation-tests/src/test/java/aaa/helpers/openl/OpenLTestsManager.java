@@ -22,7 +22,7 @@ import org.testng.xml.XmlTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
 import aaa.common.enums.Constants;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -163,7 +163,7 @@ public final class OpenLTestsManager {
 	}
 
 	private File downloadOpenLFile(String filePath, String branchName) throws IOException {
-		String authString = PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_PASSWORD);
+		String authString = PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_PASSWORD);
 		String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 		String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=" + URLEncoder.encode("refs/heads/" + branchName, "UTF-8");
 
@@ -266,11 +266,9 @@ public final class OpenLTestsManager {
 
 	private enum TestParams {
 		TESTS_DIR("testsDir", null, true, ""),
-		LOCAL_TESTS("localTests", null, false, "false"),
-		TESTS_BRANCH("testsBranch", CustomTestProperties.RATING_REPO_BRANCH, false, "master"),
+		LOCAL_TESTS("localTests", null, false, "false"), TESTS_BRANCH("testsBranch", CsaaTestProperties.RATING_REPO_BRANCH, false, "master"),
 		TEST_FILENAME("fileName", null, true, ""),
-		POLICY_TYPE("policyType", null, true, ""),
-		STATE("state", CustomTestProperties.TEST_USSTATE, true, Constants.States.UT),
+		POLICY_TYPE("policyType", null, true, ""), STATE("state", CsaaTestProperties.TEST_USSTATE, true, Constants.States.UT),
 		POLICY_NUMBERS("policyNumbers", null, false, "");
 
 		private final String nameInXml;

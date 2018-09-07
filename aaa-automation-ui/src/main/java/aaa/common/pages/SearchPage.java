@@ -74,6 +74,9 @@ public class SearchPage extends MainPage {
 
 	public static void openPolicy(String policyNum) {
 		openPolicy(policyNum, ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		}
 	}
 
 	public static void openPolicy(String policyNum, String status) {
