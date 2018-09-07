@@ -57,6 +57,8 @@ public class TestOperationalReportsEuwDetailsGeneration extends OperationalRepor
         } else {
             operationalReport.create(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));
             Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, OperationalReportsHelper.EXCEL_FILE_EXTENSION) == 1);
+
+            checkDirectory(downloadDir);
         }
     }
 }
