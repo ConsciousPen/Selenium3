@@ -24,7 +24,6 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -49,13 +48,10 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	private static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 	private static final String TESTDATA_NAME_ENDORSE_HOME_CA = "TestDataEndorseHomeCA";
 	/* HOME CA */
-	private aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab generalTabHomeCa = new aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab();
-	private aaa.main.modules.policy.home_ca.defaulttabs.BindTab bindTabHomeCa = new aaa.main.modules.policy.home_ca.defaulttabs.BindTab();
-	private aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabHomeCa = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
+	 private aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTabHomeCa = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
 	private aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab reportsTabHomeCa = new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab();
 
 	/* Auto CA*/
-	private aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab generalTabAutoCA = new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
 	private aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab documentsAndBindTabAutoCA = new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab();
 	private aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab premiumAndCoveragesTabAutoCA = new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab();
 
@@ -98,11 +94,13 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoSS", new GeneralTab(), new DocumentsAndBindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoSS", getGeneralTab(policy), new DocumentsAndBindTab());
+		assertThat(new DocumentsAndBindTab().getDocumentPrintingDetailsAssetList().isVisible()).isTrue();
+		new DocumentsAndBindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseAutoSS");
 		policy.get().endorse().perform(td);
-		new GeneralTab().fillTab(td);
+		getGeneralTab(policy).fillTab(td);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		assertThat(policyPremium).isEqualTo(PremiumAndCoveragesTab.getActualPremium());
@@ -119,27 +117,34 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS",new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS",getGeneralTab(policy), new BindTab());
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
 
-		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
+		fillEmptyEndorsementHomeSS(policy, getTestSpecificTD("TestDataEndorseHomeSS"));
 
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
-	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
+	//@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
+	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_EmptyEndorsementHomeSSHo3(String state, String policyNumber) {
+	@Parameters({"state"})
+	public void BCT_ONL_EmptyEndorsementHomeSSHo3(@Optional("") String state) {
+	//public void BCT_ONL_EmptyEndorsementHomeSSHo3(String state, String policyNumber) {
 		PolicyType policy = PolicyType.HOME_SS_HO3;
+		//Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
+		mainApp().open();
+		SearchPage.openPolicy("AZH3206382672");
+//		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquirySSHo3", getGeneralTab(policy), new BindTab());
+//		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+//		new BindTab().cancel();
 
-		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
+		fillEmptyEndorsementHomeSS(policy,  getTestSpecificTD("TestDataEndorseSSHo3"));
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquirySSHo3", new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
-
-		fillEmptyEndorsementHomeSS(policy.get(),  getTestSpecificTD("TestDataEndorseSSHo3"));
-
-		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
-				.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
+		//assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
+		//	.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
 	}
 
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
@@ -149,9 +154,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS",new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", getGeneralTab(policy), new BindTab());
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
 
-		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
+		fillEmptyEndorsementHomeSS(policy, getTestSpecificTD("TestDataEndorseHomeSS"));
 
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -164,9 +171,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab(), new BindTab());
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryHomeSS", getGeneralTab(policy), new BindTab());
+		assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
+		new BindTab().cancel();
 
-		fillEmptyEndorsementHomeSS(policy.get(), getTestSpecificTD("TestDataEndorseHomeSS"));
+		fillEmptyEndorsementHomeSS(policy, getTestSpecificTD("TestDataEndorseHomeSS"));
 
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(PremiumsAndCoveragesQuoteTab.getPolicyTermPremium());
@@ -181,6 +190,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
 		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryPUP", new aaa.main.modules.policy.pup.defaulttabs.PrefillTab(), new aaa.main.modules.policy.pup.defaulttabs.BindTab());
+		new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
 
 		policy.get().endorse().perform(td);
 		policy.get().dataGather().getView().fillFromTo(td, PrefillTab.class, PremiumAndCoveragesQuoteTab.class, false);
@@ -214,9 +224,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, generalTabHomeCa, bindTabHomeCa);
+		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, getGeneralTab(policy), new aaa.main.modules.policy.home_ca.defaulttabs.BindTab());
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
-		performNonBearingEndorsementHomeCA(policy, generalTabHomeCa, reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
+		performNonBearingEndorsementHomeCA(policy, getGeneralTab(policy), reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
 
 		Dollar policyTermPremium = PropertyQuoteTab.getPolicyTermPremium();
 
@@ -224,7 +236,6 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(policyTermPremium);
 	}
-
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
 	@StateList(states = {Constants.States.CA})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo3(String state, String policyNumber) {
@@ -232,9 +243,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, generalTabHomeCa, bindTabHomeCa);
+		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, getGeneralTab(policy), new aaa.main.modules.policy.home_ca.defaulttabs.BindTab());
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
-		performNonBearingEndorsementHomeCA(policy, generalTabHomeCa, reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
+		performNonBearingEndorsementHomeCA(policy, getGeneralTab(policy), reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
 
 		Dollar postEndorsementPremium = PropertyQuoteTab.getPolicyTermPremium();
 
@@ -250,9 +263,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, generalTabHomeCa, bindTabHomeCa);
+		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, getGeneralTab(policy), new aaa.main.modules.policy.home_ca.defaulttabs.BindTab());
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
-		performNonBearingEndorsementHomeCA(policy, generalTabHomeCa, reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
+		performNonBearingEndorsementHomeCA(policy, getGeneralTab(policy), reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
 
 		Dollar postEndorsementPremium = PropertyQuoteTab.getPolicyTermPremium();
 
@@ -268,9 +283,11 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, generalTabHomeCa, bindTabHomeCa);
+		checkAbilityToOpenAllTabsInInquiryMode(policy, TESTDATA_INQUIRY_HOME_CA, getGeneralTab(policy), new aaa.main.modules.policy.home_ca.defaulttabs.BindTab());
+		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
-		performNonBearingEndorsementHomeCA(policy, generalTabHomeCa, reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
+		performNonBearingEndorsementHomeCA(policy, getGeneralTab(policy), reportsTabHomeCa, premiumsAndCoveragesQuoteTabHomeCa);
 
 		Dollar policyTermPremium = PropertyQuoteTab.getPolicyTermPremium();
 
@@ -282,12 +299,14 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	private void testEmptyEndorsementAutoCA(String policyNumber, PolicyType policy) {
 		Dollar policyPremium = getPreEndorsementPremium(policy.get(), policyNumber);
 
-		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoCA", generalTabAutoCA, documentsAndBindTabAutoCA);
+		checkAbilityToOpenAllTabsInInquiryMode(policy,"TestDataInquiryAutoCA", getGeneralTab(policy), documentsAndBindTabAutoCA);
+		assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.btnPurchase.isPresent()).isTrue();
+		new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
 
 		TestData td = getTestSpecificTD("TestDataEndorseAutoCA");
 		policy.get().endorse().perform(td);
 		policy.get().dataGather().getView()
-				.fillFromTo(td, generalTabAutoCA.getClass(), premiumAndCoveragesTabAutoCA.getClass(), false);
+				.fillFromTo(td, getGeneralTab(policy).getClass(), premiumAndCoveragesTabAutoCA.getClass(), false);
 
 		assertThat(policyPremium).isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
 		premiumAndCoveragesTabAutoCA.calculatePremium();
@@ -295,12 +314,12 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				.isEqualTo(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.getPolicyTermPremium());
 	}
 
-	private void fillEmptyEndorsementHomeSS(IPolicy policy, TestData td) {
-		policy.endorse().perform(td);
-		policy.dataGather().getView()
-				.fillFromTo(td, aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab.class, ReportsTab.class, false);
+	private void fillEmptyEndorsementHomeSS(PolicyType policy, TestData td) {
+		//policy.get().endorse().perform(td);
+		policy.get().dataGather().getView()
+				.fillFromTo(td, getGeneralTab(policy).getClass(), ReportsTab.class, false);
 		new ReportsTab().reorderReports();
-		policy.dataGather().getView()
+		policy.get().dataGather().getView()
 				.fillFromTo(td, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 	}
@@ -318,41 +337,10 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		PropertyQuoteTab.btnCalculatePremium.click();
 	}
 
-	private void checkAbilityToOpenAllTabsInInquiryMode(PolicyType policy, String testData, Tab generalTab, Tab bindTab) {
+	private void checkAbilityToOpenAllTabsInInquiryMode(PolicyType policy, String testData, Tab fillFromTab, Tab fillToTab) {
 		policy.get().policyInquiry().start();
 		policy.get().policyInquiry().getView()
-				.fillFromTo(getTestSpecificTD(testData), generalTab.getClass(), bindTab.getClass(), false);
-
-		switch (policy.getShortName()){
-			case "HomeCA_HO3":
-			case "HomeCA_HO4":
-			case "HomeCA_HO6":
-			case "HomeCA_DP3":
-				assertThat(bindTabHomeCa.btnPurchase.isPresent()).isTrue();
-				bindTabHomeCa.cancel();
-				break;
-			case "HomeSS_HO3":
-			case "HomeSS_HO4":
-			case "HomeSS_HO6":
-			case "HomeSS_DP3":
-				assertThat(new BindTab().btnPurchase.isPresent()).isTrue();
-				new BindTab().cancel();
-				break;
-			case "AutoCA":
-			case "AutoCAC":
-				assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab.btnPurchase.isPresent()).isTrue();
-				new aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab().cancel();
-				break;
-			case "AutoSS":
-				assertThat(new DocumentsAndBindTab().getDocumentPrintingDetailsAssetList().isVisible()).isTrue();
-				new DocumentsAndBindTab().cancel();
-				break;
-			case "PUP":
-				new aaa.main.modules.policy.pup.defaulttabs.BindTab().cancel();
-				break;
-			default:
-				throw new IstfException(String.format("Product %s is not supported", policy.getShortName()));
-		}
+				.fillFromTo(getTestSpecificTD(testData), fillFromTab.getClass(), fillToTab.getClass(), false);
 	}
 
 	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = false)
@@ -391,4 +379,27 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
 
+	private Tab getGeneralTab(PolicyType policy) {
+		switch (policy.getShortName()){
+			case "HomeCA_HO3":
+			case "HomeCA_HO4":
+			case "HomeCA_HO6":
+			case "HomeCA_DP3":
+				return new aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab();
+			case "HomeSS_HO3":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				return new aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab();
+			case "AutoCA":
+			case "AutoCAC":
+				return new aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab();
+			case "AutoSS":
+				return new aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab();
+			case "PUP":
+				return null;
+			default:
+				throw new IstfException(String.format("Product %s is not supported", policy.getShortName()));
+		}
+	}
 }

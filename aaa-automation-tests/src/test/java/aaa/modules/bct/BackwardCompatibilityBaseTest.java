@@ -1,17 +1,18 @@
 package aaa.modules.bct;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import org.json.simple.parser.ParseException;
 import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.JobResultEnum;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.http.HttpJob;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.main.modules.policy.IPolicy;
@@ -30,7 +31,40 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return BctType.ONLINE_TEST;
 	}
 
-	protected void executeBatchTest(String name, Job job) {
+	protected void executeBatchTest(Job job) throws IOException, ParseException {
+		JobUtils.executeJob(job);
+
+		String result = HttpJob.getJobProcessedStatistic(job.getJobName());
+
+		List<String> temp = Arrays.asList(result.toString().replace(",", "").replace(".", "").split(" "));
+
+		HashMap<String, String> splittedRow = new HashMap<>();
+		splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
+		splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
+		splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
+		splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
+		splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
+
+		long processedCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
+		long successCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
+		long errorCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
+		boolean erorrsCountLessOfFivePercents = false;
+
+		long percentage = 0;
+		if(processedCount > 0){
+			if(errorCount > 0){
+				percentage = errorCount * 100 / processedCount ;
+				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
+			}
+			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
+		}else {
+			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
+		}
+
+		assertThat(erorrsCountLessOfFivePercents).as(String.format("Errors %s from Processed Count %s is %d ",errorCount,processedCount,percentage)).isEqualTo(true);
+	}
+
+	protected void executeBatchTestWithQueries(String name, Job job) {
 		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
 		synchronized (name) {
 			if (!queryResult.containsKey(preKey)) {

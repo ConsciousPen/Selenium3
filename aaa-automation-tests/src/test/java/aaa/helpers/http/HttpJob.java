@@ -155,6 +155,7 @@ public class HttpJob {
 				executeCountAfter = getTotalExecuteCount(httpRequestor.getResponse(), jobName);
 				Thread.sleep(JOB_SLEEP_RERUN);
 			}
+			log.info("HTTP Job: Current {} status is {}", jobName, jobStatus);
 			/* Gather job run info */
 			String latestJobRunStatus = getLastRunStatus(httpRequestor.getResponse(), jobName);
 			if (!latestJobRunStatus.equals(JobStatus.PASSED.get())) {
@@ -169,6 +170,73 @@ public class HttpJob {
 
 		log.info("HTTP: Latest job result : {}", JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName));
 
+	}
+
+	private static void checkAsyncTask() throws IOException {
+		HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
+		String waiting, processing;
+
+		getSchedulerSummaryPage(httpRequestor2, ASYNC_TASK_STATISTICS_FLOW);
+		waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
+		processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
+
+		//TODO Temporary removed Asynk tasks verification. Need to improve verification logic.
+		/*long endTime = System.currentTimeMillis() + ASYNC_TIMEOUT;
+
+		while (!processing.equals("0") || !waiting.equals("0")) {
+			if (endTime < System.currentTimeMillis()) {
+				throw new IstfException("Async tasks process is timed out after " + ASYNC_TIMEOUT + " milliseconds. Waiting async task = " + waiting + ". Processing async task = " + processing);
+			}
+			log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
+
+			Thread.sleep(5000);
+			httpRequestor2.sendGetRequest(request);
+			waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
+			processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
+		}*/
+
+		log.info("HTTP Job: Waiting async task: {}. Processing async task: {}", waiting, processing);
+	}
+
+	public static class JobStatistic {
+
+		public static String getLastProcessedStatistic(String response, String jobName) throws IOException {
+			log.info("HTTP: Gathering Statistics");
+			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
+
+			return allStatistics.get(allStatistics.size() - 1);
+		}
+
+		private static List<String> getAllProcessedRowsByJob(String response, String jobName) throws IOException {
+			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
+
+			List<String> allStatistics = new ArrayList<>();
+			for (String row : rows) {
+				if (row.contains("Job processed")) {
+					allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
+				}
+			}
+			return allStatistics;
+		}
+
+		private static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
+			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
+
+			ArrayList<HashMap<String, String>> allData = new ArrayList<>();
+			for (String jobResultStatisics : allStatistics) {
+				List<String> temp = Arrays.asList(jobResultStatisics.toString().replace(",", "").replace(".", "").split(" "));
+				HashMap<String, String> splittedRow = new HashMap<>();
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
+				splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
+
+				allData.add(splittedRow);
+			}
+
+			return allData;
+		}
 	}
 
 	public static String getJobProcessedStatistic(String jobName) throws IOException, ParseException {
@@ -201,32 +269,6 @@ public class HttpJob {
 			}
 		}
 		return null;
-	}
-
-	private static void checkAsyncTask() throws IOException {
-		HttpAAARequestor httpRequestor2 = HttpLogin.loginAd();
-		String waiting, processing;
-
-		getSchedulerSummaryPage(httpRequestor2, ASYNC_TASK_STATISTICS_FLOW);
-		waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
-		processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
-
-		//TODO Temporary removed Asynk tasks verification. Need to improve verification logic.
-		/*long endTime = System.currentTimeMillis() + ASYNC_TIMEOUT;
-
-		while (!processing.equals("0") || !waiting.equals("0")) {
-			if (endTime < System.currentTimeMillis()) {
-				throw new IstfException("Async tasks process is timed out after " + ASYNC_TIMEOUT + " milliseconds. Waiting async task = " + waiting + ". Processing async task = " + processing);
-			}
-			log.info("HTTP Job: Waiting async task: " + waiting + ". Processing async task: " + processing);
-
-			Thread.sleep(5000);
-			httpRequestor2.sendGetRequest(request);
-			waiting = HttpHelper.find(httpRequestor2.getResponse(), WAITING_REGEX);
-			processing = HttpHelper.find(httpRequestor2.getResponse(), PROCESSING_REGEX);
-		}*/
-
-		log.info("HTTP Job: Waiting async task: {}. Processing async task: {}", waiting, processing);
 	}
 
 	private static String getLastRunStatus(String content, String jobName) throws IOException {
@@ -264,7 +306,7 @@ public class HttpJob {
 		}catch(IOException io) { // if it never started, block with data is not present
 			result = 0;
 		}
-		log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
+		//log.info("HTTP: Job executed {} times, detailed job runs statistic: {}", result, jobRunStatistic);
 		return result;
 	}
 
@@ -281,7 +323,7 @@ public class HttpJob {
 				break;
 			}
 		}
-		log.info("HTTP: Current {} run status: {}", jobName, status);
+		//log.info("HTTP: Current {} run status: {}", jobName, status);
 		return status;
 	}
 
@@ -334,44 +376,4 @@ public class HttpJob {
 		return "jobs_SUBMIT=1&javax.faces.ViewState=" + HttpHelper.find(content, HttpConstants.REGEX_VIEW_STATE) + "&jobs:_idcl=" + buttonId + wereStartedFilter + orderResultsBy + groupIdParameter;
 	}
 
-	public static class JobStatistic {
-
-		public static String getLastProcessedStatistic(String response, String jobName) throws IOException {
-			log.info("HTTP: Gathering Statistics");
-			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
-
-			return allStatistics.get(allStatistics.size() - 1);
-		}
-
-		private static List<String> getAllProcessedRowsByJob(String response, String jobName) throws IOException {
-			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
-
-			List<String> allStatistics = new ArrayList<>();
-			for (String row : rows) {
-				if (row.contains("Job processed")) {
-					allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
-				}
-			}
-			return allStatistics;
-		}
-
-		private static ArrayList<HashMap<String, String>> gatherAllJobStatistics(String response, String jobName) throws IOException {
-			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
-
-			ArrayList<HashMap<String, String>> allData = new ArrayList<>();
-			for (String jobResultStatisics : allStatistics) {
-				List<String> temp = Arrays.asList(jobResultStatisics.toString().replace(",", "").replace(".", "").split(" "));
-				HashMap<String, String> splittedRow = new HashMap<>();
-				splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
-				splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
-				splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
-				splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
-				splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
-
-				allData.add(splittedRow);
-			}
-
-			return allData;
-		}
-	}
 }
