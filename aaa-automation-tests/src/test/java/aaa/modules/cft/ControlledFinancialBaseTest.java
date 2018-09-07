@@ -1050,7 +1050,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		String cancellationPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Subtype/Reason", "Cancellation - Insured Non-Payment Of Premium").getCell("Amount").getValue();
+		//String cancellationPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Subtype/Reason", "Cancellation - Insured Non-Payment Of Premium").getCell("Amount").getValue();
 		log.info("Cancellation action completed successfully");
 	}
 
