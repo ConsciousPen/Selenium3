@@ -5,6 +5,7 @@ import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
+import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
 import java.io.File;
@@ -15,7 +16,7 @@ import java.util.Map;
 public class OperationalReportsHelper {
 
     public static final String EXCEL_FILE_EXTENSION = ".xlsx";
-    private static final String ORIGIN_OP_REPORTS_PATH = "src/test/resources/op_reports/";
+    private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
 
     private static final String DELETE_EUW_OP_REPORTS_PRIVILEGES = "DELETE S_ROLE_PRIVILEGES\n"
             + "WHERE PRIV_ID IN (SELECT ID FROM S_AUTHORITY WHERE DTYPE='PRIV' AND NAME IN\n"
@@ -66,12 +67,12 @@ public class OperationalReportsHelper {
         return totalsFromOpReport;
     }
 
-    private static ExcelSheet readOpReport(String originalFileName) {
-        File readFile = new File(ORIGIN_OP_REPORTS_PATH + originalFileName + EXCEL_FILE_EXTENSION);
+    public static ExcelSheet readOpReport(String originalFileName) {
+        File readFile = new File(DOWNLOAD_DIR + originalFileName + EXCEL_FILE_EXTENSION);
         return new ExcelManager(readFile).getFirstSheet();
     }
 
-    private static ExcelTable getEuwOpReportTable(String originalFileName) {
+    public static ExcelTable getEuwOpReportTable(String originalFileName) {
         ExcelSheet report = readOpReport(originalFileName);
         return report.getTable(report.getRow(OperationalReportsConstants.EuwDetailOpReportTableHeaders.BUSINESS_UNIT).getIndex());
     }
