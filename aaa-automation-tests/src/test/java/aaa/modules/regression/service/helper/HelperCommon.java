@@ -556,11 +556,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
 
-	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
+	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
+		return runJsonRequestPostDxp(requestUrl, request, PolicySummary.class, status);
 	}
 
 	public static String deleteEndorsement(String policyNumber, int status) {
