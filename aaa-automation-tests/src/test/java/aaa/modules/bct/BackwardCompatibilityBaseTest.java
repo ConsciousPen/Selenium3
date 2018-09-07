@@ -113,14 +113,14 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 		return DBService.get().getRows(query);
 	}
 
-	private List<String> getPoliciesFromQuery(List<Map<String, String>> queryResult, String queryName) {
+	public List<String> getPoliciesFromQuery(List<Map<String, String>> queryResult, String queryName) {
 		List<String> policies = queryResult.stream()
 				.filter(map -> (!map.containsKey("RISKSTATECD") || map.get("RISKSTATECD").equals(getState())) && (!map.containsKey("RISKSTATE") || map.get("RISKSTATE").equals(getState())))
 				.map(map -> map.get("POLICYNUMBER")).collect(Collectors.toList());
 		switch (queryName) {
 			case "PreValidation":
-				if (policies.size() == 0) {
-					log.error("No policies found by '" + queryName + "' query");
+				if (policies.isEmpty()) {
+					log.error("No policies found by '{}' query", queryName);
 					throw new SkipException("No policies found by '" + queryName + "' query");
 				}
 				break;
@@ -128,12 +128,12 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 				assertThat(policies).as("No policies found by '" + queryName + "' query").isEmpty();
 				break;
 			default:
-				if (policies.size() == 0) {
-					log.error("No policies found by '" + queryName + "' query");
+				if (policies.isEmpty()) {
+					log.error("No policies found by '{}' query", queryName);
 					throw new SkipException("No policies found by '" + queryName + "' query");
 				}
 		}
-		log.info("Policies found by '" + queryName + "' query: " + policies);
+		log.info("Policies found by '{}' query: {}", queryName, policies);
 
 		return policies;
 	}
