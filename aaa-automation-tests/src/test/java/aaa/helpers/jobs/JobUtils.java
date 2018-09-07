@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
@@ -26,6 +27,7 @@ public class JobUtils {
 	private static LocalDateTime currentPhase;
 
 	public static void executeJob(Job job, Boolean forceExecution) {
+		CSAAApplicationFactory.get().closeAllApps();
 		if (isPef()) {
 			LocalDateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
 			if (!phaseTime.equals(currentPhase)) {

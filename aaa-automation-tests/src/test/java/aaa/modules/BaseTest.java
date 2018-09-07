@@ -527,8 +527,6 @@ public class BaseTest {
 	}
 
 	private void closeAllApps() {
-		mainApp().close();
-		adminApp().close();
-		opReportApp().close();
+		CSAAApplicationFactory.get().closeAllApps();
 	}
 }

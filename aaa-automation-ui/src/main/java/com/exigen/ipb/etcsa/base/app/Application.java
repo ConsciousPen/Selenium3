@@ -130,9 +130,7 @@ public abstract class Application {
 	protected abstract void switchPanel();
 
 	private void openSession() {
-		CSAAApplicationFactory.get().adminApp().close();
-		CSAAApplicationFactory.get().mainApp().close();
-		CSAAApplicationFactory.get().opReportApp().close();
+		CSAAApplicationFactory.get().closeAllApps();
 		BrowserController.initBrowser();
 		BrowserController.get().open(url);
 		if (BrowserController.getBrowserName().equals("chrome")) {

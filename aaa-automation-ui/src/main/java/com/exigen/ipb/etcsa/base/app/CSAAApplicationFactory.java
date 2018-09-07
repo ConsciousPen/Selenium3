@@ -33,4 +33,10 @@ public class CSAAApplicationFactory {
 		public static final CSAAApplicationFactory HOLDER_INSTANCE = new CSAAApplicationFactory();
 	}
 
+	public void closeAllApps() {
+		mainApp().close();
+		adminApp().close();
+		opReportApp().close();
+	}
+
 }

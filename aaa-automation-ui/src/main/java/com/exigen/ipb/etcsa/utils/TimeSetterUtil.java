@@ -120,7 +120,7 @@ public class TimeSetterUtil {
 				throw new IstfException(String.format("Shift the time in the past is not possible. Current time: %s; Desired time: %s.", currentTime, time));
 			}
 		}
-		closeAllApps();
+		CSAAApplicationFactory.get().closeAllApps();
 		if (isPEF) {
 			getContext().nextPhase(adjDate);
 			log.info(String.format("+++++ Application date is set to %s +++++", adjDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss"))));
@@ -155,11 +155,5 @@ public class TimeSetterUtil {
 		if (getCurrentTime().isBefore(algoEffectiveDate)) {
 			nextPhase(algoEffectiveDate);
 		}
-	}
-
-	private void closeAllApps() {
-		CSAAApplicationFactory.get().mainApp().close();
-		CSAAApplicationFactory.get().adminApp().close();
-		CSAAApplicationFactory.get().opReportApp().close();
 	}
 }
