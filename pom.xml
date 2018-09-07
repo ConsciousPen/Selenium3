@@ -152,18 +152,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.exigen.istf.exec</groupId>
-            <artifactId>istf-exec-web-console</artifactId>
-            <version>${pef.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>slf4j-log4j12</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.exigen.istf.timesetter</groupId>
             <artifactId>istf-timesetter-client</artifactId>
             <version>2.2.3</version>
