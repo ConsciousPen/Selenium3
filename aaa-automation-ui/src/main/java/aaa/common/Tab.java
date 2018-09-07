@@ -116,6 +116,13 @@ public abstract class Tab {
 	}
 
 	/**
+	 * @return String Quote/Policy status from tab header
+	 */
+	public String getPolicyStatus() {
+		return labelStatus.getValue();
+	}
+
+	/**
 	 * Return the effective date from the tab header
 	 * @return LocalDateTime effective date
 	 */
