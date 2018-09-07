@@ -108,7 +108,7 @@ public class TestPremiumRecalculationFactors extends AutoSSBaseTest {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-16430")
+	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-16430")
 	public void pas16430_testMaritalStatusRenewal(@Optional("") String state) {
 
 		// Create policy with marital status = 'Single' and initiate endorsement
