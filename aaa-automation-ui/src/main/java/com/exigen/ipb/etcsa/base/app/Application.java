@@ -1,6 +1,7 @@
 package com.exigen.ipb.etcsa.base.app;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -134,14 +135,27 @@ public abstract class Application {
 		CSAAApplicationFactory.get().opReportApp().close();
 		BrowserController.initBrowser();
 		BrowserController.get().open(url);
-		BrowserController.get().driver().manage().window().maximize();
+		if (BrowserController.getBrowserName().equals("chrome")) {
+			BrowserController.get().driver().manage().window().setSize(new Dimension(1920, 1080));
+		} else {
+			BrowserController.get().driver().manage().window().maximize();
+		}
 		setApplicationOpened(true);
 	}
 
 	private void closeSession() {
 		WebDriver driver = BrowserController.get().driver();
 		driver.getWindowHandles().forEach(handle -> driver.switchTo().window(handle).close());
-		driver.quit();
+		if (BrowserController.getBrowserName().equals("chrome")) {
+			driver.quit();
+		} else {
+			try {
+				BrowserController.get().quit();
+			} catch (Exception e) {
+				log.info("Unexpected exception during quit non chrome browser {}", e);
+			}
+		}
+
 	}
 
 	private void setApplicationOpened(boolean status) {
