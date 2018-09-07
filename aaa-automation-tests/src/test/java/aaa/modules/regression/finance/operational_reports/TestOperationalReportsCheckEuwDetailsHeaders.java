@@ -78,6 +78,7 @@ public class TestOperationalReportsCheckEuwDetailsHeaders extends OperationalRep
         }
 
         assertThat(OperationalReportsHelper.getOpReportTableHeaders(FILE_NAME)).isEqualTo(getTestSpecificTD("TestData_CheckHeaders").getList("Headers"));
+        checkDirectory(downloadDir);
     }
 }
 
