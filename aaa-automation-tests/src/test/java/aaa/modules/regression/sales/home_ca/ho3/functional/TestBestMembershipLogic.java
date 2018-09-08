@@ -45,8 +45,11 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
-        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
+        /*--Step 2--*/
+        String policyNumber = createDefaultFallbackPolicy();
+
+        /*--Step 3--*/ /*--Step 4--*/
+        movePolicyToSTG1NB15(policyNumber);
 
         /*--Step 5--*/
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber))
@@ -78,8 +81,11 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate after policy effective date.
 
-        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
+        /*--Step 2--*/
+        String policyNumber = createDefaultFallbackPolicy();
+
+        /*--Step 3--*/ /*--Step 4--*/
+        movePolicyToSTG1NB15(policyNumber);
 
         /*--Step 5--*/
         assertThat(AAAMembershipQueries.getAAABestMembershipStatusFromSQL(policyNumber))
@@ -111,8 +117,11 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Modify the enterpriseSearchService.enterpriseCustomerDetailsSearchUri in admin to point at the mock.
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
-        /*--Step 2--*/ /*--Step 3--*/ /*--Step 4--*/
-        String policyNumber = createDefaultFallbackPolicyAndMoveToNB15();
+        /*--Step 2--*/
+        String policyNumber = createDefaultFallbackPolicy();
+
+        /*--Step 3--*/ /*--Step 4--*/
+        movePolicyToSTG1NB15(policyNumber);
 
         /*--Step 5--*/
         assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))

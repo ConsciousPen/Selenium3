@@ -40,24 +40,25 @@ public class TimePointQueries {
     private static int getRenewalTimePoint(String columnName, PolicyType policyType, String state){
 
         String productCd = getProductCdFromPolicy(policyType);
+        String trimmedState = state.trim();
 
         String query =
                 String.format(
                         "select %1s" +
                                 " from lookupvalue " +
                                 "where LOOKUPLIST_ID in (Select ID from PASADM.LOOKUPLIST " +
-                                "where Lookupname='RenewalMembershipCheckPoint') and productcd in ('%2s') and RISKSTATECD='%3s';",
+                                "where Lookupname='RenewalMembershipCheckPoint') and productcd in ('%2s') and RISKSTATECD='%s'",
                         columnName,    //%1s
                         productCd,     //%2s
-                        state);        //%3s
+                        trimmedState); //%3s Had to remove the 3 from the final %s because for some reason was inserting a space?
 
         Optional<String> response = DBService.get().getValue(query);
 
         if (!response.isPresent()){
             throw new NullPointerException(String.format(
                     "Could not find a Renewal Timepoint match in DB for productCd [%1s] and state [%2s]",
-                    productCd,  // %1s
-                    state));    // %2s
+                    productCd,      // %1s
+                    trimmedState)); // %2s
         }
 
         return Integer.parseInt(response.get());

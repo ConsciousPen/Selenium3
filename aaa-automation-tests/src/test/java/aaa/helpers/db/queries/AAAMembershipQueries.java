@@ -89,6 +89,23 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Returns the Policy Expiration Date from DB. <br>
+     * @param policyNumber is the policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     * @throws IllegalArgumentException if a quote number is provided.
+     */
+    public static java.util.Optional<String> getPolicyExpirationDateFromSQL(String policyNumber) throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)){
+            throw new IllegalArgumentException(
+                    "getMembershipEffectiveDataFromSQL() only accepts policy numbers. Attempted policy: " + policyNumber);
+        }
+
+        String query = getStandardMembershipQuery("ps.EXPIRATION", policyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
      * Changes the AAA Best Membership Status *After* policy was created to specific status. <br>
      * Does NOT support Quotes.
      * @param policyNumber is the policy number to query against.
