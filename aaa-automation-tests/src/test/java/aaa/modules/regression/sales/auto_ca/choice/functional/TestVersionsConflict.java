@@ -203,22 +203,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
-	public void pas16049_ooseConflictManualThirdPartyDesignee(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_ooseConflictManualThirdPartyDesignee(@Optional("CA") String state) {
 		ooseConflict(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_2, VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
-	public void pas16049_ooseConflictAutomaticThirdPartyDesignee(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_ooseConflictAutomaticThirdPartyDesignee(@Optional("CA") String state) {
 		ooseConflict(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_2, VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
-	public void pas16049_renewalMergeThirdPartyDesignee(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_renewalMergeThirdPartyDesignee(@Optional("CA") String state) {
 		renewalMerge(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation");
 	}
 
