@@ -38,7 +38,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 	/**
 	 * @author Deloite
-	 * @name View Cancelled <br>Auto</br> policy status
+	 * @name View Cancelled Auto policy status
 	 * @scenario
 	 * Naviagate to Billing Page and pay min due
 	 * Naviagate to Policy consolidated view and verify the policy cancelled notice flag is removed
