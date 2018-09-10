@@ -1,22 +1,43 @@
 package aaa.helpers.product;
 
+import aaa.admin.modules.reports.operationalreports.OperationalReport;
+import aaa.config.CsaaTestProperties;
 import aaa.main.enums.OperationalReportsConstants;
+import aaa.modules.BaseTest;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
+import com.exigen.istf.exec.testng.TimeShiftTestUtil;
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.utils.SSHController;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import static aaa.helpers.cft.CFTHelper.*;
 
 public class OperationalReportsHelper {
 
-    public static final String EXCEL_FILE_EXTENSION = ".xlsx";
-    private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
+    public static final String DOWNLOAD_DIR = PropertyProvider.getProperty(CsaaTestProperties.USER_DIR_PROP) + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
+    private static final String REMOTE_DOWNLOAD_FOLDER = "/home/autotest/Downloads";
+    private static final String REMOTE_FILE_LOCATION = PropertyProvider.getProperty(CsaaTestProperties.REMOTE_DOWNLOAD_FOLDER_PROP);
+    private static final String EXCEL_FILE_EXTENSION = ".xlsx";
+    private static OperationalReport operationalReport = new OperationalReport();
+    private static Logger log = LoggerFactory.getLogger(BaseTest.class);
 
     private static final String DELETE_EUW_OP_REPORTS_PRIVILEGES = "DELETE S_ROLE_PRIVILEGES\n"
             + "WHERE PRIV_ID IN (SELECT ID FROM S_AUTHORITY WHERE DTYPE='PRIV' AND NAME IN\n"
@@ -35,6 +56,33 @@ public class OperationalReportsHelper {
         DBService.get().executeUpdate(INSERT_EUW_OP_REPORTS_PRIVILEGES);
     }
 
+    public static void downloadReport(TestData td) throws SftpException, JSchException, IOException {
+        File downloadDir = new File(DOWNLOAD_DIR);
+        checkDirectory(downloadDir);
+
+        if (StringUtils.isNotEmpty(REMOTE_FILE_LOCATION)) {
+            String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+            String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
+            log.info("Monitor address: {}", monitorAddress);
+            SSHController sshControllerRemote = new SSHController(
+                    monitorAddress,
+                    PropertyProvider.getProperty("test.ssh.user"),
+                    PropertyProvider.getProperty("test.ssh.password"));
+            Duration threeMinutes = new Duration(180L, TimeUnit.SECONDS);
+            sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
+            Awaitility.await().atMost(threeMinutes).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 0);
+            operationalReport.create(td);
+            Awaitility.await().atMost(threeMinutes).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
+            // moving Balances from monitor to download dir
+            sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
+            Awaitility.await().atMost(threeMinutes).until(() -> downloadComplete(downloadDir, OperationalReportsHelper.EXCEL_FILE_EXTENSION) == 1);
+            sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
+        } else {
+            operationalReport.create(td);
+            Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, OperationalReportsHelper.EXCEL_FILE_EXTENSION) == 1);
+        }
+    }
+
     public static List<String> getOpReportTableHeaders(String originalFileName) {
         return getEuwOpReportTable(originalFileName).getHeader().getColumnsNames();
     }
@@ -50,7 +98,7 @@ public class OperationalReportsHelper {
 
         HashMap<String, Double> totalsFromOpReport = new HashMap<>();
 
-        for (TableRow row: rows.subList(0, rows.size() - 1)) {
+        for (TableRow row : rows.subList(0, rows.size() - 1)) {
             writtenPremium += row.getDoubleValue(OperationalReportsConstants.EuwDetailOpReportTableHeaders.WRITTEN_PREMIUM);
             unearnedPremium += row.getDoubleValue(OperationalReportsConstants.EuwDetailOpReportTableHeaders.UNEARNED_PREMIUM);
             earnedPremium += row.getDoubleValue(OperationalReportsConstants.EuwDetailOpReportTableHeaders.EARNED_PREMIUM_CHANGE_IN_UNEARNED);
