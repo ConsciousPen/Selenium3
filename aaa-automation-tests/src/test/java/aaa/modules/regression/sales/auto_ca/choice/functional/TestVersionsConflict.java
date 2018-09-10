@@ -228,11 +228,11 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_DriverInformation_Version1");
 	}
 
-	private TestData getTDDriverInformationVersion2() { return getTestSpecificTD("TestData_DriverInformation_Version2"); }
-
-	private TestData getTDDriverInformationRenewalVersion2() {
-		return getTestSpecificTD("TestData_DriverInformation_Renewal_Version2");
+	private TestData getTDDriverInformationRenewalVersion1() {
+		return getTestSpecificTD("TestData_DriverInformation_Renewal_Version1");
 	}
+
+	private TestData getTDDriverInformationVersion2() { return getTestSpecificTD("TestData_DriverInformation_Version2"); }
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -252,7 +252,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-17151"})
 	public void pas17151_renewalMergeDriverInformation(@Optional("CA") String state) {
-		renewalMerge(getTDDriverInformationVersion1(), getTDDriverInformationRenewalVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation");
+		renewalMerge(getTDDriverInformationRenewalVersion1(), getTDDriverInformationVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation");
 	}
 
 	//Vehicle Information section
