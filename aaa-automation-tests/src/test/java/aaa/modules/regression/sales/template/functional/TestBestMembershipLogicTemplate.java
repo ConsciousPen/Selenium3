@@ -121,7 +121,24 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         return policyExpirationDate;
     }
 
+    /**
+     * Move Policy to STG4 - Final Renewal jobs.
+     * @param policyNumber The Policy Number you want to move to STG4.
+     */
+    protected void movePolicyToSTG4Renewal(String policyNumber, LocalDateTime policyExpirationDate){
 
+        setAAAMembershipErrorStatus(policyNumber);
+
+        setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG3);
+
+        executeSTG4Jobs(policyExpirationDate);
+
+        executeSTG4Rating(policyExpirationDate);
+
+        executeSTG4OfferIssue(policyExpirationDate);
+
+        generateSTG4RenewalBill(policyExpirationDate);
+    }
 
     /**
      * Creates a policy with the intention of going through BML.
@@ -410,10 +427,63 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      */
     private void generatePostSTG3ReportsAndRating(LocalDateTime policyExpirationDate){
 
+        // Usually R-57
         LocalDateTime reportServices = getTimePoints().getRenewCheckUWRules(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(reportServices);
 
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+    }
+
+    /**
+     * Moves JVM to appropriate date and generates Renewal Image.
+     * @param policyExpirationDate The Policy Expiration Date to renew off of.
+     */
+    private void executeSTG4Jobs(LocalDateTime policyExpirationDate){
+
+        int timepoint2_STG4_Offset = TimePointQueries.getRenewalTimePoint2_STG4(getPolicyType(), getState());
+        moveJVMNumberOfDaysBeforeExpirationDate(policyExpirationDate, timepoint2_STG4_Offset);
+
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+    }
+
+    /**
+     * Moves JVM to appropriate date and executes STG4 jobs.
+     * @param policyExpirationDate The Policy Expiration Date to renew off of.
+     */
+    private void executeSTG4Rating(LocalDateTime policyExpirationDate){
+
+        // Usually R-45
+        LocalDateTime ratePolicy = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(ratePolicy);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+    }
+
+    /**
+     * Moves JVM to appropriate date and executes jobs to Issue Offer.
+     * @param policyExpirationDate The Policy Expiration Date to renew off of.
+     */
+    private void executeSTG4OfferIssue(LocalDateTime policyExpirationDate){
+
+        // Usually R-35
+        LocalDateTime offerIssue = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(offerIssue);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
+    }
+
+    /**
+     * Moves JVM to appropriate date and executes jobs to Send Renewal Bill.
+     * @param policyExpirationDate The Policy Expiration Date to renew off of.
+     */
+    private void generateSTG4RenewalBill(LocalDateTime policyExpirationDate){
+
+        // Usually R-20
+        LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(billDate);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
     }
 }
