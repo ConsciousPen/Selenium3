@@ -267,7 +267,7 @@ TestData_AAAProductOwned_Version2: {
 }
 
 AAAProductOwned: {
-  Current AAA Member: 'Membership Pending',
+  Current AAA Member: 'No',
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 1111111111,
   Life: 'Yes',
