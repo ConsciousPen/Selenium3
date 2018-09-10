@@ -1,5 +1,19 @@
 package aaa.helpers.product;
 
+import static aaa.helpers.cft.CFTHelper.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.jayway.awaitility.Awaitility;
+import com.jayway.awaitility.Duration;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.SftpException;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.config.CsaaTestProperties;
 import aaa.main.enums.OperationalReportsConstants;
@@ -8,27 +22,10 @@ import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import com.jayway.awaitility.Awaitility;
-import com.jayway.awaitility.Duration;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.SftpException;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.SSHController;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static aaa.helpers.cft.CFTHelper.*;
 
 public class OperationalReportsHelper {
 
@@ -61,7 +58,9 @@ public class OperationalReportsHelper {
         checkDirectory(downloadDir);
 
         if (StringUtils.isNotEmpty(REMOTE_FILE_LOCATION)) {
-            String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			//TODO: aperapecha - Fix file download
+			String monitorInfo = ""; //TimeShiftTestUtil.getContext().getBrowser().toString();
+
             String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
             log.info("Monitor address: {}", monitorAddress);
             SSHController sshControllerRemote = new SSHController(
@@ -75,11 +74,11 @@ public class OperationalReportsHelper {
             Awaitility.await().atMost(threeMinutes).until(() -> remoteDownloadComplete(sshControllerRemote, new File(REMOTE_DOWNLOAD_FOLDER)) == 1);
             // moving Balances from monitor to download dir
             sshControllerRemote.downloadFolder(new File(REMOTE_DOWNLOAD_FOLDER), downloadDir);
-            Awaitility.await().atMost(threeMinutes).until(() -> downloadComplete(downloadDir, OperationalReportsHelper.EXCEL_FILE_EXTENSION) == 1);
+			Awaitility.await().atMost(threeMinutes).until(() -> downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
             sshControllerRemote.deleteFile(new File(REMOTE_DOWNLOAD_FOLDER + "/*.*"));
         } else {
             operationalReport.create(td);
-            Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, OperationalReportsHelper.EXCEL_FILE_EXTENSION) == 1);
+			Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> downloadComplete(downloadDir, EXCEL_FILE_EXTENSION) == 1);
         }
     }
 
