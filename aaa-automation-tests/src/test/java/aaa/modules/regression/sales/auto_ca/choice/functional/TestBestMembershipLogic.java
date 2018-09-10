@@ -336,7 +336,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG4 BML valid expiration date and active status")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG4 BML valid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-15944")
     public void pas15944_BML_Valid_Expiration_Date_And_TransferIn_Status_STG4(@Optional("") String state) {
         /*--Step 1--*/
@@ -391,7 +391,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG4 BML invalid expiration date and active status")
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG4 BML invalid expiration date and active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-15944")
     public void pas15944_BML_Invalid_Expiration_Date_And_TransferIn_Status_STG4(@Optional("") String state) {
 
