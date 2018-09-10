@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ss.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import java.util.Map;
 import org.testng.annotations.Optional;
@@ -12,14 +12,14 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
 import aaa.modules.regression.sales.template.functional.TestComparisonConflictAbstract;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-@StateList(states = Constants.States.AZ)
+@StateList(states = Constants.States.CA)
 public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Override
@@ -44,7 +44,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	protected Tab getDocumentsAndBindTab() { return new DocumentsAndBindTab(); }
 
 	@Override
-	protected void navigateToGeneralTab() { NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); }
+	protected void navigateToGeneralTab() { NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get()); }
 
 	@Override
 	protected TestData getTdPolicy() {
@@ -52,7 +52,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Override
-	protected PolicyType getPolicyType() { return PolicyType.AUTO_SS; }
+	protected PolicyType getPolicyType() { return PolicyType.AUTO_CA_SELECT; }
 
 	//Named Insured Information section
 
@@ -66,22 +66,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513", "PAS-15542"})
-	public void pas13513_ooseConflictManualNamedInsuredInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14826"})
+	public void pas14826_ooseConflictManualNamedInsuredInformation(@Optional("CA") String state) {
 		ooseConflict(getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), VersionsConflictConstants.NAMED_INSURED_INFORMATION,  VersionsConflictConstants.NAMED_INSURED_INFORMATION_VERSION_2, VersionsConflictConstants.NAMED_INSURED_INFORMATION_VERSION_1,  "GeneralTab", "NamedInsuredInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513", "PAS-15542"})
-	public void pas13513_ooseConflictAutomaticNamedInsuredInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14826"})
+	public void pas14826_ooseConflictAutomaticNamedInsuredInformation(@Optional("CA") String state) {
 		ooseConflict(getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), VersionsConflictConstants.NAMED_INSURED_INFORMATION,  VersionsConflictConstants.NAMED_INSURED_INFORMATION_VERSION_2, VersionsConflictConstants.NAMED_INSURED_INFORMATION_VERSION_1,  "GeneralTab", "NamedInsuredInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-13513", "PAS-15542"})
-	public void pas13513_renewalMergeNamedInsuredInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14826"})
+	public void pas14826_renewalMergeNamedInsuredInformation(@Optional("CA") String state) {
 		renewalMerge(getTDNamedInsuredInformationVersion1(), getTDNamedInsuredInformationVersion2(), VersionsConflictConstants.NAMED_INSURED_INFORMATION,  VersionsConflictConstants.NAMED_INSURED_INFORMATION_VERSION_1,  "GeneralTab", "NamedInsuredInformation");
 	}
 
@@ -97,23 +97,23 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
-	public void pas17141_ooseConflictManualAAAProductOwned(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17148"})
+	public void pas17148_ooseConflictManualAAAProductOwned(@Optional("CA") String state) {
 		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.AAA_PRODUCT_OWNED_MANUAL,  VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_2, VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_1,  "GeneralTab", "AAAProductOwned", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
-	public void pas17141_ooseConflictAutomaticAAAProductOwned(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17148"})
+	public void pas17148_ooseConflictAutomaticAAAProductOwned(@Optional("CA") String state) {
 		ooseConflict(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.AAA_PRODUCT_OWNED_AUTOMATIC,  VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_2, VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_1,  "GeneralTab", "AAAProductOwned", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17141"})
-	public void pas17141_renewalMergeAAAProductOwned(@Optional("AZ") String state) {
-		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.AAA_PRODUCT_OWNED_AUTOMATIC,  VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_1,  "GeneralTab", "AAAProductOwned");
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17148"})
+	public void pas17148_renewalMergeAAAProductOwned(@Optional("CA") String state) {
+		renewalMerge(getTDAAAProductOwnedVersion1(), getTDAAAProductOwnedVersion2(), VersionsConflictConstants.AAA_PRODUCT_OWNED_AUTOMATIC_RENEWAL,  VersionsConflictConstants.AAA_PRODUCT_OWNED_VERSION_1,  "GeneralTab", "AAAProductOwned");
 	}
 
 	//Contact Information section
@@ -126,22 +126,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17142"})
-	public void pas17142_ooseConflictManualContactInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17149"})
+	public void pas17149_ooseConflictManualContactInformation(@Optional("CA") String state) {
 		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_2, VersionsConflictConstants.CONTACT_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17142"})
-	public void pas17142_ooseConflictAutomaticContactInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17149"})
+	public void pas17149_ooseConflictAutomaticContactInformation(@Optional("CA") String state) {
 		ooseConflict(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_2, VersionsConflictConstants.CONTACT_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17142"})
-	public void pas17142_renewalMergeContactInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17149"})
+	public void pas17149_renewalMergeContactInformation(@Optional("CA") String state) {
 		renewalMerge(getTDContactInformationVersion1(), getTDContactInformationVersion2(), VersionsConflictConstants.CONTACT_INFORMATION,  VersionsConflictConstants.CONTACT_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
 	}
 
@@ -155,8 +155,8 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17143"})
-	public void pas17143_renewalMergeCurrentCarrierInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17150"})
+	public void pas17150_renewalMergeCurrentCarrierInformation(@Optional("CA") String state) {
 		renewalMerge(getTDCurrentCarrierInformationVersion1(), getTDCurrentCarrierInformationVersion2(), VersionsConflictConstants.CURRENT_CARRIER_INFORMATION,  VersionsConflictConstants.CURRENT_CARRIER_INFORMATION_VERSION_1,  "GeneralTab", "CurrentCarrierInformation");
 	}
 
@@ -172,23 +172,54 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-16047", "PAS-16056"})
-	public void pas16047_ooseConflictManualPolicyInformation(@Optional("AZ") String state) {
-		ooseConflict(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_MANUAL,  VersionsConflictConstants.POLICY_INFORMATION_VERSION_2, VersionsConflictConstants.policyInformationVersion1,  "GeneralTab", "PolicyInformation", false);
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
+	public void pas16049_ooseConflictManualPolicyInformation(@Optional("CA") String state) {
+		ooseConflict(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_MANUAL,  VersionsConflictConstants.POLICY_INFORMATION_VERSION_2, VersionsConflictConstants.POLICY_INFORMATION_VERSION_1,  "GeneralTab", "PolicyInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-16047", "PAS-16056"})
-	public void pas16047_ooseConflictAutomaticPolicyInformation(@Optional("AZ") String state) {
-		ooseConflict(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_AUTOMATIC,  VersionsConflictConstants.POLICY_INFORMATION_VERSION_2, VersionsConflictConstants.policyInformationVersion1,  "GeneralTab", "PolicyInformation", true);
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
+	public void pas16049_ooseConflictAutomaticPolicyInformation(@Optional("CA") String state) {
+		ooseConflict(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_AUTOMATIC,  VersionsConflictConstants.POLICY_INFORMATION_VERSION_2, VersionsConflictConstants.POLICY_INFORMATION_VERSION_1,  "GeneralTab", "PolicyInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-16047", "PAS-16056"})
-	public void pas16047_renewalMergePolicyInformation(@Optional("AZ") String state) {
-		renewalMerge(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_AUTOMATIC,  VersionsConflictConstants.POLICY_INFORMATION_RENEWAL_VERSION_1,  "GeneralTab", "PolicyInformation");
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16049", "PAS-16058"})
+	public void pas16049_renewalMergePolicyInformation(@Optional("CA") String state) {
+		renewalMerge(getTDPolicyInformationVersion1(), getTDPolicyInformationVersion2(), VersionsConflictConstants.POLICY_INFORMATION_AUTOMATIC,  VersionsConflictConstants.POLICY_INFORMATION_VERSION_1,  "GeneralTab", "PolicyInformation");
+	}
+
+	//Third Party Designee Information section
+
+	private TestData getTDThirdPartyDesigneeVersion1() {
+		return getTestSpecificTD("TestData_ThirdPartyDesigneeInformation_Version1");
+	}
+
+	private TestData getTDThirdPartyDesigneeVersion2() {
+		return getTestSpecificTD("TestData_ThirdPartyDesigneeInformation_Version2");
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_ooseConflictManualThirdPartyDesignee(@Optional("CA") String state) {
+		ooseConflict(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_2, VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation", false);
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_ooseConflictAutomaticThirdPartyDesignee(@Optional("CA") String state) {
+		ooseConflict(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_2, VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation", true);
+	}
+
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
+	public void pas16563_renewalMergeThirdPartyDesignee(@Optional("CA") String state) {
+		renewalMerge(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation");
 	}
 
 	//Driver Information section
@@ -199,29 +230,25 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	private TestData getTDDriverInformationVersion2() { return getTestSpecificTD("TestData_DriverInformation_Version2"); }
 
-	private TestData getTDDriverInformationRenewalVersion2() {
-		return getTestSpecificTD("TestData_DriverInformation_Renewal_Version2");
-	}
-
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17144"})
-	public void pas17144_ooseConflictManualDriverInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17151"})
+	public void pas17151_ooseConflictManualDriverInformation(@Optional("CA") String state) {
 		ooseConflict(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_MANUAL,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_2, VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17144"})
-	public void pas17144_ooseConflictAutomaticDriverInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17151"})
+	public void pas17151_ooseConflictAutomaticDriverInformation(@Optional("CA") String state) {
 		ooseConflict(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_2, VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-17144"})
-	public void pas17144_renewalMergeDriverInformation(@Optional("AZ") String state) {
-		renewalMerge(getTDDriverInformationVersion1(), getTDDriverInformationRenewalVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation");
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-17151"})
+	public void pas17151_renewalMergeDriverInformation(@Optional("CA") String state) {
+		renewalMerge(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation");
 	}
 
 	//Vehicle Information section
@@ -236,22 +263,22 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-14121", "PAS-14246", "PAS-14122", "PAS-15247", "PAS-16565", "PAS-13523", "PAS-17147", "PAS-17146"})
-	public void pas14121_ooseConflictManualVehicleInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-15242", "PAS-14204", "PAS-14203", "PAS-14265", "PAS-17154", "PAS-17153"})
+	public void pas15242_ooseConflictManualVehicleInformation(@Optional("CA") String state) {
 		ooseConflict(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsConflictConstants.VEHICLE_INFORMATION_MANUAL,  VersionsConflictConstants.VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.VEHICLE_INFORMATION_VERSION_1,  "VehicleTab", "VehicleInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-14121", "PAS-14246", "PAS-14122", "PAS-15247", "PAS-16565", "PAS-13523", "PAS-17147", "PAS-17146"})
-	public void pas14121_ooseConflictAutomaticVehicleInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-15242", "PAS-14204", "PAS-14203", "PAS-14265", "PAS-17154", "PAS-17153"})
+	public void pas15242_ooseConflictAutomaticVehicleInformation(@Optional("CA") String state) {
 		ooseConflict(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsConflictConstants.VEHICLE_INFORMATION_AUTOMATIC,  VersionsConflictConstants.VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.VEHICLE_INFORMATION_VERSION_1,  "VehicleTab", "VehicleInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-14121", "PAS-14246", "PAS-14122", "PAS-15247", "PAS-16565", "PAS-13523", "PAS-17147", "PAS-17146"})
-	public void pas14121_renewalMergeVehicleInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-15242", "PAS-14204", "PAS-14203", "PAS-14265", "PAS-17154", "PAS-17153"})
+	public void pas15242_renewalMergeVehicleInformation(@Optional("CA") String state) {
 		renewalMerge(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsConflictConstants.VEHICLE_INFORMATION_AUTOMATIC,  VersionsConflictConstants.VEHICLE_INFORMATION_VERSION_1,  "VehicleTab", "VehicleInformation");
 	}
 }

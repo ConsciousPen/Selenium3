@@ -365,7 +365,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(viewEndorsementVehicleResponse2.vehicleList).containsAll(sortedVehicles);
 		Vehicle newVehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> newVehOid.equals(veh.oid)).findFirst().orElse(null);
 		assertThat(newVehicle1.vehIdentificationNo).isEqualTo(newVin);
-
 	}
 
 	protected void pas11633_ViewDriverAssignmentAutoAssignService(PolicyType policyType) {
