@@ -320,8 +320,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> LOSS_PAYMENT_AMOUNT = declare("Loss Payment Amount", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CLAIM_POINTS = declare("Claim Points", TextBox.class);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_POINTS_AND_OR_TIER = declare("Include in Points and/or Tier?", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES =
-					declare("Not Included in Points and/or Tier - Reason Codes", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES =
+					declare("Not Included in Points and/or Tier - Reason Codes", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> INCLUDE_IN_RATING = declare("Include in Rating?", RadioGroup.class);
 			public static final AssetDescriptor<ComboBox> NOT_INCLUDED_IN_RATING_REASON = declare("Not Included in Rating Reasons", ComboBox.class);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
@@ -509,7 +509,7 @@ public final class AutoSSMetaData {
 		public static final class AdditionalInterestInformation extends MetaData {
 			public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class);
 			public static final AssetDescriptor<TextBox> SECOND_NAME = declare("Second Name", TextBox.class);
-			public static final AssetDescriptor<RadioGroup> ZIP_CODE = declare("Zip Code", RadioGroup.class);
+			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_1 = declare("Address Line 1", TextBox.class);
 			public static final AssetDescriptor<TextBox> ADDRESS_LINE_2 = declare("Address Line 2", TextBox.class);
 			public static final AssetDescriptor<TextBox> CITY = declare("City", TextBox.class);
