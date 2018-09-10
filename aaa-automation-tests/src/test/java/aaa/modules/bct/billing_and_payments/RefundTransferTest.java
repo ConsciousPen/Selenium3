@@ -1,6 +1,10 @@
 package aaa.modules.bct.billing_and_payments;
 
 import static aaa.common.enums.Constants.States.*;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -8,10 +12,6 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 
@@ -21,7 +21,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -43,7 +43,7 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);

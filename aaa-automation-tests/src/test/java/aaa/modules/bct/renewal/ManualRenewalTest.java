@@ -2,6 +2,9 @@ package aaa.modules.bct.renewal;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -13,9 +16,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.datax.impl.SimpleDataProvider;
 
@@ -37,7 +37,7 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	public void BCT_ONL_055_ManualRenewal(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_055_ManualRenewal", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_055_ManualRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();

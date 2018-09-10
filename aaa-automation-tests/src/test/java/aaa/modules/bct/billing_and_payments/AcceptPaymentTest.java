@@ -1,5 +1,10 @@
 package aaa.modules.bct.billing_and_payments;
 
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -9,15 +14,9 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
-
-import java.util.List;
 
 public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 
@@ -26,7 +25,7 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 	@StateList(states =  Constants.States.CA)
 	public void BCT_ONL_030_ProcessAcceptPayment(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_030_ProcessAcceptPayment", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_030_ProcessAcceptPayment", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);

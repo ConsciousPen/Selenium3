@@ -22,7 +22,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -44,7 +44,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -62,7 +62,7 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);

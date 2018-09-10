@@ -20,7 +20,7 @@ public class DoNotRenewTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_048_NonRenewal(@Optional("") String state) {
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_048_NonRenewal", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_048_NonRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 
 		SearchPage.openPolicy(policyNumber);

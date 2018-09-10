@@ -24,8 +24,9 @@ import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
 
 public class BackwardCompatibilityBaseTest extends BaseTest {
-
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
+
+	public static final String SELECT_POLICY_QUERY_TYPE = "SelectPolicy";
 
 	protected BctType getBctType() {
 		return BctType.ONLINE_TEST;
@@ -94,12 +95,12 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 	}
 
 	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate, String state) {
-		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
+		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(SELECT_POLICY_QUERY_TYPE);
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
 		query = query.replace("/STATE/", state);
 
-		return getPoliciesFromQuery(DBService.get().getRows(query), "SelectPolicy");
+		return getPoliciesFromQuery(DBService.get().getRows(query), SELECT_POLICY_QUERY_TYPE);
 	}
 
 	private List<Map<String, String>> getQueryResult(String testName, String queryName) {
@@ -163,11 +164,15 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 
 	protected IPolicy findAndOpenPolicy(String queryName, PolicyType policyType) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery(queryName, "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery(queryName, SELECT_POLICY_QUERY_TYPE).get(0);
 		log.info(String.format("Policy #%s has been selected for test using %s query", policyNumber, queryName));
 		IPolicy policy = policyType.get();
 		SearchPage.openPolicy(policyNumber);
 		return policy;
+	}
+
+	public String getMethodName() {
+		return Thread.currentThread().getStackTrace()[2].getMethodName();
 	}
 
 }

@@ -1,7 +1,6 @@
 package aaa.modules.bct.billing_and_payments;
 
 import static aaa.common.enums.Constants.States.*;
-import static aaa.common.enums.Constants.States.UT;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -25,7 +24,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	public void BCT_ONL_076_Decline_Payment(@Optional("") String state) {
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_076_Decline_Payment", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_076_Decline_Payment", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -49,7 +48,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@StateList(states = AZ)
 	public void BCT_ONL_120_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_120_Payments", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_120_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -85,7 +84,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@StateList(states = AZ)
 	public void BCT_ONL_121_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_121_Payments", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_121_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
@@ -123,7 +122,7 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@StateList(states = AZ)
 	public void BCT_ONL_122_Payments(@Optional("") String state) {
 		mainApp().open();
-		String policyNumber = getPoliciesByQuery("BCT_ONL_122_Payments", "SelectPolicy").get(0);
+		String policyNumber = getPoliciesByQuery("BCT_ONL_122_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
 		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
