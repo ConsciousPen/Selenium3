@@ -9,7 +9,6 @@ TestData: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 TestData1: {
@@ -23,7 +22,6 @@ TestData1: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab1',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 TestData2: {
@@ -37,7 +35,6 @@ TestData2: {
     DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
     DocumentsAndBindTab: '@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 GeneralTab1: {

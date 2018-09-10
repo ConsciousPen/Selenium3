@@ -3,7 +3,7 @@ package aaa.modules.regression.service.helper.wiremock.dto;
 import java.util.Random;
 import org.apache.log4j.helpers.ISO8601DateFormat;
 import org.joda.time.DateTime;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 /**
@@ -44,13 +44,13 @@ public class LastPaymentTemplateData implements WireMockTemplateData {
 			EligibilityStatusEnum eligibilityStatus, String eligibilityStatusDescription,
 			PaymentMethodEnum paymentMethod, PaymentMethodSubTypeEnum paymentMethodSubType, CardSubTypeEnum cardSubType,
 			String last4, String cardExpirationDate) {
-		final LastPaymentTemplateData data = new LastPaymentTemplateData();
-		data.envPrefix = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+		LastPaymentTemplateData data = new LastPaymentTemplateData();
+		data.envPrefix = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 		data.agreementNumber = policyNumber;
 		data.eligibilityStatus = eligibilityStatus != null ? eligibilityStatus.get() : null;
 		data.eligibilityStatusDescription = eligibilityStatusDescription;
 		data.transactionDateTime = ISO8601DateFormat.getDateTimeInstance().format(DateTime.now().toDate());
-		final Random rnd = new Random();
+		Random rnd = new Random();
 		data.transactionId = Integer.valueOf(100000 + rnd.nextInt(900000)).toString();
 		data.lineItemAmt = refundableAmt;
 		data.paymentMethod = paymentMethod != null ? paymentMethod.get() : null;

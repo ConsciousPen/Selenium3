@@ -161,12 +161,10 @@ PAS-12248:
     - tests: [
     aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas325_eValueCommissionRelatedFields]
       messages: ["expected [eValue Renewal] but found [Renewal]"]
-PAS-12257:
-  summary: "Conversion: XML import failed for PUP FoxPro, HDES and SIS DP3: Unmarshalling error, Invalid content was found starting with element 'category'"
+PAS-18399:
+  summary: "Conversion: XML import is failing when policy has EFT Tags - Billing account creation has failed Caused by: java.lang.RuntimeException: Unexpected exception during import rule validation"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas9716_policySummaryForConversion]
-      messages: ["Cannot set value of ComboBox"]
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
 PAS-17051:
@@ -192,14 +190,6 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
-PAS-12478:
-  summary: "Enable Fuel related fields on the Property info tab is not disabled for all stated on second renewal"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["AssetList {OilFuelOrPropaneStorageTank"]
-    - tests: [aaa.modules.regression.conversions.home_ss.*]
-      messages: ["ComboBox {Oil Fuel or Propane Storage Tank"]
 PAS-13203:
   summary: "Regression: Auto: Birthday value is not returned from stub"
   reason: PROD
@@ -216,12 +206,6 @@ PAS-15989:
   failures:
     - tests: [aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails.pas15989_testManuallyAddedAutoTier]
       messages: ["expected", "but was"]
-PAS-13338:
-  summary: "Unable to rate Home_SS PA conversion policies"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.conversions.home_ss.*,aaa.modules.regression.document_fulfillment.home_ss.*]
-      messages: ["no such element: Unable to locate element: {", "Errors: Error; Failed to rate policy", "Cannot get value of Cell {", "Column Percentage of Coverage C was not found in the table", "Column Percentage of Coverage A was not found in the table"]
 PAS-13651:
   summary: "Instantiate state specific coverages"
   reason: PROD
@@ -361,26 +345,12 @@ PAS-18111:
               aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
       messages: ["is not present as expected"]
-PAS-18165:
-  summary: "Earthquake Endorsement can be seen by non-privileged user on new business transaction DP3"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements.*]
-      messages: ['DS 04 69"))]])[1]} is not absent as expected.']
 PAS-15144:
   summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
   reason: PROD
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
-PAS-18339:
-  summary: "DriverType Lookup Error when clicking 'Continue' on Underlying Risks Auto Tab"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.pup.*,
-            aaa.modules.regression.conversions.pup.*,
-            aaa.modules.regression.service.pup.*]
-    messages: ["Cannot set value of AssetList", "'Driver Type' is not in within range"]
 PT-2385:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
@@ -395,3 +365,17 @@ PAS-18349:
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["failed due to difference between pre-endorsement and post-endorsement premiums"]
+PAS-9290:
+  summary: "CLUE: Systematic nonchargeable item missing reason code"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    messages: ["'Reason claim is not chargeable' is required Need to be created"]
+  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    messages: ["Unable to locate element: {\"method\":\"id\",\"selector\":\"policyDataGatherForm:premiumRecalcCov\"}"]
+PAS-18945:
+  summary: "Enhanced Transportation Expense Coverage Error is Thrown For non-Regular Vehicles on CA Choice Quotes"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
+      messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]

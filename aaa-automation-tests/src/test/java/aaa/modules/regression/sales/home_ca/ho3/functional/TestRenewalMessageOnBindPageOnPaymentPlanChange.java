@@ -34,7 +34,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
@@ -60,7 +60,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
@@ -89,7 +89,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToMortgageeBill(@Optional("") String state) {
 
@@ -118,7 +118,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_MortgageeBillToMonthly(@Optional("") String state) {
 
@@ -143,7 +143,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_AutoPay(@Optional("") String state) {
 

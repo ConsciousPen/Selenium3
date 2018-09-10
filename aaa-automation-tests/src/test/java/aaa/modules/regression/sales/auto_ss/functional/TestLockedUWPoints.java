@@ -276,8 +276,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.AUGUST, 28, 0, 0));
-
 		// get time for min due payments
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
