@@ -59,50 +59,6 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
-                <methods>
-                    <include name="pas11620_testEUIMCoverageBehaviorNB"/>
-                    <include name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorEndorsement"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorRenewal"/>
-                    <include name="pas11620_testEUIMCoverageBehaviorConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
-                <methods>
-                    <include name="pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorNB"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
-                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
-                <methods>
-                    <include name="pas9063_verifyLockedUWPoints"/>
-                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
-                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
-                    <include name="pas9063_verifyLockedUWPointsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <!--Tests for Property-->
 
     <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
@@ -126,48 +82,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
                 <methods>
                     <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Replacement Cost Value for Endorsed Renewal SS">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Replacement Cost Value for Endorsed Renewal CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement">
-                <methods>
-                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
                 </methods>
             </class>
         </classes>
