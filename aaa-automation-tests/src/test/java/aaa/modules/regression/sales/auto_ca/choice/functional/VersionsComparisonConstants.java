@@ -432,7 +432,7 @@ public class VersionsComparisonConstants {
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Occurrence Date")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Description")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Date")
-			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Points")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Violation Points")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Include in Points and/or YAF?")
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Not Included in Points and/or YAF - Reason Codes")
 			.build();
