@@ -2377,9 +2377,9 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateViewEndorsementDrivers_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, String policyNumber, DriversDto driverFNI, DriversDto driver1ExpectedAfterRemove, DriversDto driver2ExpectedAfterRemove) {
 		ViewDriversResponse viewDriversResponseAfterDelete = HelperCommon.viewEndorsementDrivers(policyNumber);
 		softly.assertThat(viewDriversResponseAfterDelete.driverList.size()).isEqualTo(3);
-		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driverFNI);
-		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
-		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(0)).isEqualToComparingFieldByFieldRecursively(driver1ExpectedAfterRemove);
+		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(1)).isEqualToComparingFieldByFieldRecursively(driver2ExpectedAfterRemove);
+		softly.assertThat(viewDriversResponseAfterDelete.driverList.get(2)).isEqualToComparingFieldByFieldRecursively(driverFNI);
 	}
 
 	private void validateDriverPreconditions_pas14641_pas14640_pas14642(ETCSCoreSoftAssertions softly, DriversDto driverFNI, DriversDto driver) {
