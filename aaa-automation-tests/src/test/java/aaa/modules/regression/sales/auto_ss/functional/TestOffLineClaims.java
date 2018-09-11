@@ -22,7 +22,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-@StateList(states = Constants.States.AZ)
+//@StateList(states = Constants.States.AZ)
 public class TestOffLineClaims extends AutoSSBaseTest
 {
     /**
@@ -83,4 +83,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
     }
+
 }
+
+
