@@ -473,16 +473,14 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
-					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Enroll in Usage Based Insurance?", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).VIN", CURRENT)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).VIN", CURRENT)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
 					.build());
 
@@ -490,10 +488,6 @@ public class VersionsConflictConstants {
 	static final Multimap<String, String> VEHICLE_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
 			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Is Garaging different from Residential?")
 			.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN)", "Garaging Address")
-			//Additional Interest Information
-			.put("Additional Interest Information (First Name version2, Second Name version2)", "First Name")
-			.put("Additional Interest Information (First Name version2, Second Name version2)", "Second Name")
-			.put("Additional Interest Information (First Name version2, Second Name version2)", "Additional Interest Address")
 			.build();
 
 	//all components/attributes that should be on Comparison page Renewal or Endorsement
@@ -522,5 +516,4 @@ public class VersionsConflictConstants {
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")
 			.build();
-
 }

@@ -503,13 +503,14 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).VIN", CURRENT)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Usage", CURRENT)
+					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).VIN", CURRENT)
 					.put("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", AVAILABLE)
 					.build());
 
@@ -535,15 +536,16 @@ public class VersionsConflictConstants {
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft Recovery Device")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Existing Damage")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Salvaged?")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Miles One-way to Work or School")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading Date")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Customer Declared Annual Miles")
 			//Ownership address
-			/*			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
-						.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
-						.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")*/
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")
 			.build();
 
 }

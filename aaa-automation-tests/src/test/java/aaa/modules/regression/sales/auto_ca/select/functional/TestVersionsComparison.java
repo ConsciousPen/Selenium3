@@ -284,20 +284,20 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14145","PAS-14144","PAS-14160","PAS-14159"})
 	public void pas14145_dataGatherComparisonVehicleInformation(@Optional("CA") String state) {
-		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
+		dataGatherComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.DATA_GATHER_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14145","PAS-14144","PAS-14160","PAS-14159"})
 	public void pas14145_endorsementsComparisonVehicleInformation(@Optional("CA") String state) {
-		endorsementComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
+		endorsementComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14145","PAS-14144","PAS-14160","PAS-14159"})
 	public void pas14145_renewalComparisonVehicleInformation(@Optional("CA") String state) {
-		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
+		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
 }

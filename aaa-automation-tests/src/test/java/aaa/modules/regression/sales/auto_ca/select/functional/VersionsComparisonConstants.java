@@ -444,7 +444,39 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Vehicle Information section
-	static final Multimap<String, String> VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DATA_GATHER_VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("LSOPCEndorsement Form", "VIN")
+			//Vehicle Information section
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Year")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Make")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Model")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Series")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Body Style")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Primary Use")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Is the vehicle used in any commercial business operations?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Business Use Description")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Air Bags")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft Recovery Device")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Existing Damage")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Salvaged?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Miles One-way to Work or School")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading Date")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Customer Declared Annual Miles")
+			//Garaging address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Is Garaging different from Residential?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Garaging Address")
+			//Ownership address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Vehicle Information section
+	static final Multimap<String, String> ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("LSOPCEndorsement Form", "VIN")
 			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
