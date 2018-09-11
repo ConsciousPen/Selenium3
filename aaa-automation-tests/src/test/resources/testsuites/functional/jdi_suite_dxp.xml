@@ -627,13 +627,13 @@
             </class>
         </classes>
     </test>
-    <test name="pas16035_View_Coverage_Update_Coverage">
+    <test name="pas16035ViewCoverageUpdateCoverage">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas16035_View_Coverage_Update_Coverage"/>
-                    <include name="pas17628_View_Coverage_Update_Coverage_UMPD_Deductible"/>
+                    <include name="pas16035_ViewCoverageUpdateCoverage"/>
+                    <include name="pas17628_ViewCoverageUpdateCoverageUmpdDeductible"/>
                 </methods>
             </class>
         </classes>

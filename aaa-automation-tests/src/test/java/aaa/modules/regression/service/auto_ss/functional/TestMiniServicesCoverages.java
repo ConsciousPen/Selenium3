@@ -547,8 +547,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas16035"})
-	public void pas16035_View_Coverage_Update_Coverage(@Optional("IN") String state) {
-		pas16035_View_Coverage_Update_CoverageBody(getPolicyType());
+	public void pas16035_ViewCoverageUpdateCoverage(@Optional("IN") String state) {
+		pas16035ViewCoverageUpdateCoverageBody(getPolicyType());
 	}
 
 	/**
@@ -578,8 +578,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17628"})
-	public void pas17628_View_Coverage_Update_Coverage_UMPD_Deductible(@Optional("IN") String state) {
-		pas17628_View_Coverage_Update_Coverage_UMPD_Deductible_Body(getPolicyType());
+	public void pas17628_ViewCoverageUpdateCoverageUmpdDeductible(@Optional("IN") String state) {
+		pas17628_pas17628_ViewCoverageUpdateCoverageUmpdDeductibleBody(getPolicyType());
 	}
 
 }

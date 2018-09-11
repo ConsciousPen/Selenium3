@@ -2456,7 +2456,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas16035_View_Coverage_Update_CoverageBody(PolicyType policyType) {
+	protected void pas16035ViewCoverageUpdateCoverageBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -2504,7 +2504,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas17628_View_Coverage_Update_Coverage_UMPD_Deductible_Body(PolicyType policyType) {
+	protected void pas17628_pas17628_ViewCoverageUpdateCoverageUmpdDeductibleBody(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
