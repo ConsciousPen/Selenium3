@@ -52,7 +52,8 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSDP3BaseTest {
         //Verify that "Legacy policy had Multi-Policy discount" radio button is mandatory on RME screen
         initiateRenewalEntryActionTab.submitTab();
         assertThat(initiateRenewalEntryActionTab.getAssetList()
-                .getAsset(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT).getWarning())
+                .getAsset(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT)
+                .getWarning().toString())
                 .contains(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
 
         initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData

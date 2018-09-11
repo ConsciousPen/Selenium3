@@ -2397,7 +2397,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);

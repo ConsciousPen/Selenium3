@@ -315,7 +315,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				if (claimPoints <= dsr) {
 					LocalDate occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsAtFaultAccidentFree());
 					TestData activityInformationData = ai.getTestData(occurrenceDate);
-					if (getState().equals(Constants.States.PA) || getState().equals(Constants.States.NY)) {
+					if (getState().equals(Constants.States.PA)) {
 						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					}
 					activityInformationList.add(activityInformationData);
@@ -328,7 +328,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				ActivityInformation ai = ActivityInformation.ofMinimumPoints("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation");
 				int claimPoints = ai.getPoints(openLPolicy.getYearsIncidentFree());
 				if (claimPoints <= dsr) {
-					activityInformationList.add(ai.getTestData(openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsIncidentFree())));
+					LocalDate occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsIncidentFree());
+					TestData activityInformationData = ai.getTestData(occurrenceDate);
+					if (getState().equals(Constants.States.NY)) {
+						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
+					}
+					activityInformationList.add(activityInformationData);
 					isAccidentFreeSet = true;
 					dsr = dsr - claimPoints;
 				}
@@ -627,7 +632,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState())) {
+				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState()) || Constants.States.DE.equals(getState())) {
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
 				}
 			}
@@ -892,6 +897,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				activityInformationList.add(new ActivityInformation("Speeding Violation", "Speeding", false, 0));
 				activityInformationList.add(new ActivityInformation("Comprehensive Claim", "Comprehensive Claim", false, 0));
 				activityInformationList.add(new ActivityInformation("Minor Violation", "Disregard Police", false, 0));
+				activityInformationList.add(new ActivityInformation("Non-Moving Violation", "Commercial Vehicle Violations", false, 0));
 				activityInformationList.add(new ActivityInformation("Major Violation", "Drag Racing or Speed Contest", false, 4));
 				activityInformationList.add(new ActivityInformation("Alcohol-Related Violation", "Driving Under the Influence of Alcohol", false, 4));
 				activityInformationList.add(new ActivityInformation("At-Fault Accident", "Accident (Property Damage Only)", true, 6));

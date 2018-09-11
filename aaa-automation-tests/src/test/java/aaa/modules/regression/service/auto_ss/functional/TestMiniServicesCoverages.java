@@ -499,6 +499,34 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody();
 		//NOTE: This test forks for ALL states. (Except CA)
 	}
+	/**
+	 * @author Maris Strazds
+	 * @name Customized Equipment (CUSTEQUIP)
+	 * @scenario for VA
+	 * 1. Create a policy in PAS with one regular vehicle, one VANS/PICKUP without CUSTEQUIP coverage and one VANS/PICKUP with CUSTEQUIP coverage
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
+	 * 4. validate that responses contains Customized Equipment coverage (CUSTEQUIP)
+	 *    AND canChange = false
+	 *    and customerDisplay = true
+	 *    and value is as per the UI
+	 *    and the coverage is displayed after Collision.
+	 *
+	 * @scenario for states other than VA (states without CUSTEQUIP)
+	 * 1. Create a policy in PAS with one regular vehicle and two VAN/PICKUP (CUSTEQUIP coverage is applicable only to VA)
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
+	 * 4. Validate that responses don't contain Customized Equipment coverage (CUSTEQUIP)
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624"})
+	public void pas18624_CustomisedEquipment(@Optional("VA") String state) {
+		pas18624_CustomisedEquipmentBody();
+
+	}
+
 }
 
 

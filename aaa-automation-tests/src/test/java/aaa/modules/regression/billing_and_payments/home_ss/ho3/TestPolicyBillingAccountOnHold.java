@@ -64,15 +64,15 @@ public class TestPolicyBillingAccountOnHold extends HomeSSHO3BaseTest {
 		CustomSoftAssertions.assertSoftly(softly -> {
 					ahaTab.fillTab(getTestSpecificTD("TestData_1"));
 					AddHoldActionTab.buttonAddUpdate.click();
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_NAME).getWarning()).contains("Value is required");
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_DESCRIPTION).getWarning()).contains("Value is required");
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_TYPE).getWarning()).contains("Value is required");
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE).getWarning()).contains("Cannot be earlier than today");
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE).getWarning()).contains("Date must be after effective date");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_NAME).getWarning().toString()).contains("Value is required");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_DESCRIPTION).getWarning().toString()).contains("Value is required");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_TYPE).getWarning().toString()).contains("Value is required");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EFFECTIVE_DATE).getWarning().toString()).contains("Cannot be earlier than today");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.HOLD_EXPIRATION_DATE).getWarning().toString()).contains("Date must be after effective date");
 
 					ahaTab.fillTab(getTestSpecificTD("TestData_1").adjust(TestData.makeKeyPath("AddHoldActionTab", "Reason"), "Other"));
 					AddHoldActionTab.buttonAddUpdate.click();
-			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO).getWarning()).contains("Value is required");
+			assertThat(ahaTab.getAssetList().getAsset(BillingAccountMetaData.AddHoldActionTab.ADDITIONAL_INFO).getWarning().toString()).contains("Value is required");
 				});
 
 		//Step #10

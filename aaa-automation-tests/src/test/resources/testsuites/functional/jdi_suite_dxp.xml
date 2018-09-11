@@ -78,7 +78,6 @@
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas11618_UpdateVehicleLeasedInfo"/>
                     <include name="pas11618_UpdateVehicleFinancedInfo"/>
-                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                     <include name="pas9546_maxVehicles"/>
                     <include name="pas488_VehicleDelete"/>
                     <include name="pas15483_deleteOriginalVehicle"/>
@@ -147,6 +146,7 @@
                     <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
                     <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
                     <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
                 </methods>
             </class>
         </classes>
@@ -347,6 +347,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas14501_garagingDifferent"/>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
                 </methods>
             </class>
         </classes>
@@ -543,16 +544,6 @@
             </class>
         </classes>
     </test>
-    <test name="Test add/replace vehicle with duplicate VIN when status is pendingRemoval">
-        <parameter name="state" value="VA"/>
-        <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
-                <methods>
-                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)">
         <parameter name="state" value="VA"/>
         <classes>
@@ -622,6 +613,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas18624_CustomisedEquipment">
+        <parameter name="state" value="VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas18624_CustomisedEquipment"/>
                 </methods>
             </class>
         </classes>
