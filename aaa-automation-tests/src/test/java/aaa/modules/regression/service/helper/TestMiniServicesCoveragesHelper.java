@@ -2518,12 +2518,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
 		assertSoftly(softly -> {
 
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("UMPDDED");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Uninsured Motorist Property Damage Deductible");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("250");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimitDisplay).isEqualTo("$250");
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).customerDisplayed).isEqualTo(true);
-			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).canChangeCoverage).isEqualTo(true);
+			List<Coverage> coveragesV1 = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages;
+			coverageXproperties(softly, 0, coveragesV1, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
 
 			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("0");
 			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("250");
@@ -2559,7 +2555,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
 
-		String new_Umpdded= "0";
+		String new_Umpdded = "0";
 		String new_CoverageCd = "UMPDDED";
 
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(new_CoverageCd, new_Umpdded), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
