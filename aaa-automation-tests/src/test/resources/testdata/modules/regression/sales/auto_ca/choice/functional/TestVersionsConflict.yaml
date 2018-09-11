@@ -572,6 +572,8 @@ ThirdPartyDesigneeInformation_Version2: {
 
 #Driver Tab - Driver Information section
 
+#Driver Tab - Driver Information section
+
 TestData_DriverInformation_Version1: {
   GeneralTab: {},
   DriverTab: '@DriverInformation_Version1',
@@ -637,7 +639,6 @@ TestData_DriverInformation_Version2: {
   },
 }
 
-
 DriverInformation: {
   Date of Birth: $<today-35y>,
   Gender: Female,
@@ -659,6 +660,15 @@ DriverInformation: {
   Filling Type: SR-1P,
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  #ActivityInformation: {
+  #  Activity Source: Company Input,
+  #  Type: '10-yr Major Violation',
+  #  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  #  Description: 'Driving under the influence of drugs',
+  #  Conviction Date: '$<today-3M:MM/dd/yyyy>',
+  #  "Include in Points and/or YAF?": 'No',
+  #  Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+  #}
 }
 
 DriverInformation_Version1: {
@@ -682,15 +692,15 @@ DriverInformation_Version1: {
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
   Ridesharing Coverage: 'No',
-  ActivityInformation: {
-    Activity Source: Customer Input,
-    Type: 'Major Violation',
-    Description: 'Hit and run',
-    Occurrence Date: '07/20/2018',
-    Conviction Date: '07/20/2018',
-    'Include in Points and/or YAF?': 'No',
-    'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
-  }
+  #ActivityInformation: {
+  #  Activity Source: Customer Input,
+  #  Type: 'Major Violation',
+  #  Description: 'Hit and run',
+  #  Occurrence Date: '07/20/2018',
+  #  Conviction Date: '07/20/2018',
+  #  'Include in Points and/or YAF?': 'No',
+  #  'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
+  #}
 }
 
 DriverInformation_Version2: {
@@ -701,9 +711,10 @@ DriverInformation_Version2: {
   Age First Licensed: 16,
   Permit Before License: 'Yes',
   "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1y-2M>,
   License Type: 'Licensed (US)',
-  License State: AZ,
-  "License #": 333333333,
+  License State: CA,
+  "License #": A3333333,
   Employee Benefit Type: Surviving spouse,
   #should be No always
   #ADB Coverage: 'No',
@@ -715,14 +726,14 @@ DriverInformation_Version2: {
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
-  ActivityInformation: {
-    Activity Sorce: Company Input,
-    Type: 'Minor Violation',
-    Occurrence Date: '06/20/2018',
-    Conviction Date: '06/20/2018',
-    Description: 'Child seat belt violation',
-    "Include in Points and/or YAF?": 'Yes',
-  }
+  #ActivityInformation: {
+  #  Activity Sorce: Company Input,
+  #  Type: 'Minor Violation',
+  #  Occurrence Date: '06/20/2018',
+  #  Conviction Date: '06/20/2018',
+  #  Description: 'Child seat belt violation',
+  #  "Include in Points and/or YAF?": 'Yes',
+  #}
 }
 
 #Vehicle Tab - Vehicle Information section
