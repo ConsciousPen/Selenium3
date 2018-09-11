@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.jayway.awaitility.Awaitility;
 import com.jayway.awaitility.Duration;
 import com.jcraft.jsch.JSchException;
@@ -57,7 +56,8 @@ public class OperationalReportsHelper {
 		checkDirectory(downloadDir);
 
 		if (StringUtils.isNotEmpty(REMOTE_FILE_LOCATION)) {
-			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
+			//TODO Aperapecha: Fix it!!!!
+			String monitorInfo = ""; //TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor address: {}", monitorAddress);
 			SSHController sshControllerRemote = new SSHController(
