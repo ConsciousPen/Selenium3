@@ -71,7 +71,16 @@
         </classes>
     </test>
 
+    <test name="Test Premium Recalculation Factors">
+        <parameter name="state" value="AZ, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
+        </classes>
+    </test>
+
+
     <!--Tests for Property-->
+
 
     <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
         <parameter name="state" value="MD"/>
@@ -89,7 +98,6 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
         </classes>
     </test>
-
 
     <test name="Test MD Hurricane Deductible">
         <parameter name="state" value="MD"/>
@@ -245,7 +253,9 @@
         </classes>
     </test>
 
+
             <!--Tests for PUP-->
+
 
     <test name="Test Pup Info Section View Rating Details">
         <parameter name="state" value="PA"/>
@@ -325,7 +335,9 @@
         </classes>
     </test>
 
+
     <!--Tests for Defects-->
+
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
         <parameter name="state" value="CO, OH, UT"/>
@@ -358,14 +370,12 @@
         </classes>
     </test>
 
-
     <test name="Remove Vehicle on Current Term Endorsement">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
         </classes>
     </test>
-
 
     <test name="Test CLUE reports on new copied policies for SS Auto">
         <parameter name="state" value="AZ, PA, OH"/>

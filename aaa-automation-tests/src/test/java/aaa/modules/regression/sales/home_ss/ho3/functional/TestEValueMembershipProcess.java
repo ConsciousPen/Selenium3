@@ -52,7 +52,6 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private SSHController sshControllerRemote = new SSHController(PropertyProvider.getProperty(CsaaTestProperties.APP_HOST), PropertyProvider.getProperty(CsaaTestProperties.SSH_USER), PropertyProvider.getProperty(CsaaTestProperties.SSH_PASSWORD));
 
-	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).orElse(""))
 				.as("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate").contains(APP_HOST);
@@ -91,9 +90,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -126,9 +126,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -161,9 +162,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForCancelledMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -196,9 +198,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 

@@ -4,19 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
-import aaa.helpers.listeners.AaaTestListener;
+import aaa.modules.BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
 
-@Listeners({AaaTestListener.class})
-public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
+public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreConditions {
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
+	private static Boolean isScrumEnv = PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH, false);
 
 	@Test(description = "Delete old tasks", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void deleteOldTasksUpdate() {
@@ -68,7 +67,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition for eValue related Document Generation, different endpoint than Master or PAS13", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueDocGenStubEndpointInsert() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+		if (isScrumEnv) {
 			log.info("not a scrum env");
 			DBService.get().executeUpdate(DOC_GEN_WEB_CLIENT);
 			DBService.get().executeUpdate(AAA_RETRIEVE_AGREEMENT_WEB_CLIENT);
@@ -96,15 +95,6 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition for Current BI Limits configurations", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValueCurrentBiConfigUpdateInsert() {
 		DBService.get().executeUpdate(EVALUE_CURRENT_BI_CONFIG_INSERT);
-	}
-
-	private static void insertConfigForRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
-	}
-
-	private static void insertConfigForLimitsRegularStates(String state) {
-		DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
-		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
 	@Test(description = "Precondition for eValue Channel and Territory configurations", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -180,7 +170,7 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 
 	@Test(description = "Precondition updating Payperless Preferences Popup Endpoint to a Stub", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void preconditionsForMiniServicesAuthenticationInAws() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(false)) {
+		if (!isScrumEnv) {
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientId", "cc_PAS"));
 			DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.clientSecret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"));
@@ -196,6 +186,15 @@ public class EvalueInsertSetup implements EvalueInsertSetupPreConditions {
 	@Test(description = "Precondition to update endpoint for oauth2 to wiremock for DXP", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void wiremockOauth() {
 		DBService.get().executeUpdate(String.format(DXP_AUTHENTICATION_PARAMETERS_INSERT, "test", "DXP wiremock authentication parameters for AWS", "restOAuth2RemoteTokenServices.checkTokenEndpointUrl", PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + "/as/token.oauth2"));
+	}
+
+	private static void insertConfigForRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CONFIGURATION_PER_STATE_INSERT, state));
+	}
+
+	private static void insertConfigForLimitsRegularStates(String state) {
+		DBService.get().executeUpdate(String.format(EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT, state));
+		DBService.get().executeUpdate(String.format(EVALUE_PRIOR_BI_LIMIT_CONFIGURATION_INSERT, state));
 	}
 
 }

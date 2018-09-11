@@ -83,7 +83,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 
 	public Set<String> getActiveAndPrimaryMembershipNumbers(LocalDate memberSinceDate) {
 		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
-		LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
+		//LocalDate today = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
 		Set<String> validMembershipNumbers = new HashSet<>();
 		for (String membershipNumber : getActiveAndPrimaryMembershipNumbersWithoutFaultCodes()) {
 			for (MembershipResponse r : getMembershipResponses(membershipNumber)) {
@@ -92,8 +92,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 					validMembershipNumbers.add(membershipNumber);
 					break;
 				}
-
-				//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
+				/*//Response is valid if memberStartDate is empty AND today - memberStartDateMonthsOffset = memberSinceDate
 				if (r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() != null && Objects.equals(today.minusMonths(Math.abs(r.getMemberStartDateMonthsOffset())), memberSinceDate)) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
@@ -103,7 +102,7 @@ public class RetrieveMembershipSummaryMock extends AbstractMock {
 				if (Objects.equals(today, memberSinceDate) && r.getMemberStartDate() == null && r.getMemberStartDateMonthsOffset() == null) {
 					validMembershipNumbers.add(membershipNumber);
 					break;
-				}
+				}*/
 			}
 		}
 		return validMembershipNumbers;

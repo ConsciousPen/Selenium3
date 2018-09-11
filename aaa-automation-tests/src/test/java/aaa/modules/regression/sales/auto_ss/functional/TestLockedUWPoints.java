@@ -23,9 +23,7 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,9 +74,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
-		// Get Reinstatement with lapse date.
-		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
-
 		TestData testData = getPolicyTD();
 
 		// Initiate Policy, calculate premium and open Rating Details View
@@ -99,6 +94,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime reinstatementDate = PolicySummaryPage.getEffectiveDate().plusMonths(2);
 
 		// Cancel Policy
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
@@ -128,8 +124,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Change system date
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(10);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
@@ -149,7 +145,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNumber);
+		purchaseRenewal(renewalEff, policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -185,10 +181,10 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		mainApp().open();
 		getCopiedPolicy();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		// Change Time to renew policy and have and issued renewal
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 
 		// Issue Renewal
 		mainApp().open();
@@ -199,7 +195,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNumber);
+		purchaseRenewal(renewalEff, policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -277,8 +273,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
 		// get time for min due payments
-		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String today = effDate.format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -329,8 +325,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Change system date
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		LocalDateTime renewalEff = effDate.plusYears(1);
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
@@ -346,7 +342,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNum);
+		purchaseRenewal(renewalEff, policyNum);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
