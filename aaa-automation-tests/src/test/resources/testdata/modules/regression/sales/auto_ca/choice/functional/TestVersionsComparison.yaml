@@ -694,10 +694,10 @@ DriverInformation_Version2: {
   Age First Licensed: 16,
   Permit Before License: 'Yes',
   "Licensed in US/Canada for 18 or More Months?": 'No',
-  "First US/Canada License Date": $<today-2y-1M>,
+  "First US/Canada License Date": $<today-1y-2M>,
   License Type: 'Licensed (US)',
-  License State: AZ,
-  "License #": 333333333,
+  License State: CA,
+  "License #": A3333333,
   Employee Benefit Type: Surviving spouse,
   #should be No always
   #ADB Coverage: 'No',
