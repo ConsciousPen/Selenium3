@@ -128,14 +128,13 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	protected void dataGatherComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
-		SearchPage.openQuote("QCAAC952918598");
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		createQuote(getTestSpecificTD("TestData_NB_Quote"));
 		policy.dataGather().start();
 		getGeneralTab().createVersion();
 		navigateToGeneralTab();
 		policy.getDefaultView().fillUpTo(tdVersion2, getDocumentsAndBindTab().getClass(), false);
-		getDocumentsAndBindTab().saveAndExit();*/
+		getDocumentsAndBindTab().saveAndExit();
 		PolicySummaryPage.buttonQuoteVersionHistory.click();
 		verifyTransactionHistoryType(1, QUOTE);
 		verifyTransactionHistoryType(2, QUOTE);
