@@ -22,9 +22,10 @@ public class RenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = NJ)
 	public void BCT_ONL_107_ManualChangesRenewal(@Optional("NJ") String state) {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_107_ManualChangesRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
+
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_107_ManualChangesRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 
 		SearchPage.openPolicy(policyNumber);

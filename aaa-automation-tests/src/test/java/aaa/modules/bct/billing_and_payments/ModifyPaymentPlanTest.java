@@ -15,15 +15,15 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
+	private BillingAccount billingAccount = new BillingAccount();
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_086_ModifyPaymentPlan(@Optional("") String state) {
-		mainApp().open();
-
 		String policyNumber = getPoliciesByQuery("BCT_ONL_086_ModifyPaymentPlan", SELECT_POLICY_QUERY_TYPE).get(0);
-		BillingAccount billingAccount = new BillingAccount();
+
+		mainApp().open();
 
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
@@ -41,11 +41,10 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_185_Refund_Validation(@Optional("") String state) {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
 
-		String policyNumber = getPoliciesByQuery("BCT_ONL_185_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
-		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
 
@@ -59,11 +58,9 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_186_Refund_Validation(@Optional("") String state) {
+		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
-
-		String policyNumber = getPoliciesByQuery("BCT_ONL_186_Refund_Validation", SELECT_POLICY_QUERY_TYPE).get(0);
-		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
 

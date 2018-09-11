@@ -36,8 +36,8 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_055_ManualRenewal(@Optional("") String state) {
-		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_055_ManualRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
+		mainApp().open();
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();

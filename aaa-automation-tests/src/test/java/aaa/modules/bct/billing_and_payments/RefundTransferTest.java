@@ -14,15 +14,15 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class RefundTransferTest extends BackwardCompatibilityBaseTest {
+	private BillingAccount billingAccount = new BillingAccount();
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
-		mainApp().open();
-
 		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
-		BillingAccount billingAccount = new BillingAccount();
+
+		mainApp().open();
 
 		SearchPage.openBilling(policyNumber);
 		Dollar refundAmount = new Dollar(500);
@@ -41,10 +41,9 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
-		mainApp().open();
-
 		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
-		BillingAccount billingAccount = new BillingAccount();
+
+		mainApp().open();
 
 		SearchPage.openBilling(policyNumber);
 		Dollar refundAmount = new Dollar(500);

@@ -163,8 +163,8 @@ public class BackwardCompatibilityBaseTest extends BaseTest {
 	}
 
 	protected IPolicy findAndOpenPolicy(String queryName, PolicyType policyType) {
-		mainApp().open();
 		String policyNumber = getPoliciesByQuery(queryName, SELECT_POLICY_QUERY_TYPE).get(0);
+		mainApp().open();
 		log.info(String.format("Policy #%s has been selected for test using %s query", policyNumber, queryName));
 		IPolicy policy = policyType.get();
 		SearchPage.openPolicy(policyNumber);

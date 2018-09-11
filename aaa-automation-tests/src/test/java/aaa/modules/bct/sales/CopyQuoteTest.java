@@ -21,9 +21,10 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_023_CopyQuote(@Optional("") String state) {
+		String quoteNumber = getPoliciesByQuery("BCT_ONL_023_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
+
 		mainApp().open();
 
-		String quoteNumber = getPoliciesByQuery("BCT_ONL_023_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.AUTO_SS.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
 
@@ -41,9 +42,10 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {CA})
 	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
+		String quoteNumber = getPoliciesByQuery("BCT_ONL_025_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
+
 		mainApp().open();
 
-		String quoteNumber = getPoliciesByQuery("BCT_ONL_025_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 
@@ -61,9 +63,10 @@ public class CopyQuoteTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_040_CopyQuote(@Optional("") String state) {
+		String quoteNumber = getPoliciesByQuery("BCT_ONL_040_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
+
 		mainApp().open();
 
-		String quoteNumber = getPoliciesByQuery("BCT_ONL_040_CopyQuote", SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 		TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 
