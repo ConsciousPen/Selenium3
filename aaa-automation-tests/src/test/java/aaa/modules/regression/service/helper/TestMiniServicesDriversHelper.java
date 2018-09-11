@@ -1331,13 +1331,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver1ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
 			driver1ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
-			driver1ExpectedAfterRemove.specificDisabilityInd = null;
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
 			driver2ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
-			driver2ExpectedAfterRemove.specificDisabilityInd = null;
 
 			//Sort drivers list as it should be after drivers are removed
 			List<DriversDto> expectedSortedDriverListAfterRemove = viewDriversResponse.driverList;
