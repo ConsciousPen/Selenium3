@@ -31,6 +31,7 @@ public class TestOperationalReportsCheckEuwDetailsHeaders extends OperationalRep
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17631")
 	public void testOperationalReportsCheckEuwDetailsHeaders() throws SftpException, JSchException, IOException {
+
 		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 		String FILE_NAME = "PAS+Earned+_+Unearned+_+Written+(EUW)+-+Detail_" + today.format(DateTimeFormatter.ofPattern("yyyy_MMM_d"));
 

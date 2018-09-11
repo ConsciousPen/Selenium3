@@ -2,6 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.SearchPage;
@@ -16,9 +19,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.modules.regression.sales.template.functional.TestPaperlessPreferencesAbstract;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -91,7 +91,8 @@ public class TestPaperlessPreferencesAllProducts extends TestPaperlessPreference
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-12458"})
 	public void pas12458_documentDeliverySectionDataGatherMode(@Optional("VA") String state) {
 		mainApp().open();
-		getCopiedQuote();
+		createCustomerIndividual();
+		createQuote();
 		pas12458_documentDeliverySectionDataGatherMode();
 	}
 
