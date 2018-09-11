@@ -34,7 +34,7 @@ public class Jobs {
 
 	public static Job renewalJob = new Job("Renewal job");
 
-	public static Job renewalOfferGenerationJob = new Job("renewalOfferAsyncTaskJob");
+	public static Job renewalOfferAsyncTaskJob = new Job("renewalOfferAsyncTaskJob");
 
 	public static Job aaaBillingInvoiceAsyncTaskJob = new Job("aaaBillingInvoiceAsyncTaskJob");
 
