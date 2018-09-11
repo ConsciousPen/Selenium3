@@ -55,8 +55,6 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	}
 
 	private void verifyCancelNoticeIsAbsent(String policyNumber) {
-		BillingAccount billingAccount = new BillingAccount();
-
 		mainApp().open();
 
 		SearchPage.openPolicy(policyNumber);
@@ -64,7 +62,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
-		billingAccount.acceptPayment().perform(testDataAcceptPaymentCash, totalDue);
+		new BillingAccount().acceptPayment().perform(testDataAcceptPaymentCash, totalDue);
 		BillingSummaryPage.openPolicy(1);
 
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
