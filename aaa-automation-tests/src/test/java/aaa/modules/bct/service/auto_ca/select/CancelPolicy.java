@@ -16,7 +16,7 @@ import aaa.utils.StateList;
 public class CancelPolicy extends BackwardCompatibilityBaseTest {
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	private IPolicy policy = PolicyType.AUTO_CA_SELECT.get();

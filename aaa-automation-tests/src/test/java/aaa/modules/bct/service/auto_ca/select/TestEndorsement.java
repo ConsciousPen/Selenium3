@@ -16,7 +16,7 @@ public class TestEndorsement extends EndorsementTemplate {
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_CHOICE;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
