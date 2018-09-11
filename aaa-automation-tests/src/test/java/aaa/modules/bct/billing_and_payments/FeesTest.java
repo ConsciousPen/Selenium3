@@ -8,7 +8,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
@@ -22,9 +21,8 @@ public class FeesTest extends BackwardCompatibilityBaseTest {
 		String policyNumber = getPoliciesByQuery("BCT_ONL_061_ManageFees", SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-		BillingAccount billingAccount = new BillingAccount();
-
 		SearchPage.openBilling(policyNumber);
+
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar feeAmount = new Dollar(10);

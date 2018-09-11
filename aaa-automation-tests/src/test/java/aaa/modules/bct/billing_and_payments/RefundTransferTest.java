@@ -8,41 +8,31 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class RefundTransferTest extends BackwardCompatibilityBaseTest {
-	private BillingAccount billingAccount = new BillingAccount();
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_037_RefundTransfer(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_037_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
-
-		SearchPage.openBilling(policyNumber);
-		Dollar refundAmount = new Dollar(500);
-		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
-
-		billingAccount.refund().perform(testDataManager.billingAccount.getTestData("Refund", "TestData_Check"), refundAmount);
-
-		billingAccount.approveRefund().perform(refundAmount);
-
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				.setAmount(refundAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
-		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid.subtract(refundAmount));
+		verifyRefundTransfer(policyNumber);
 	}
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_038_RefundTransfer(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_038_RefundTransfer", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
+		verifyRefundTransfer(policyNumber);
+	}
+
+	private void verifyRefundTransfer(String policyNumber) {
 		mainApp().open();
 
 		SearchPage.openBilling(policyNumber);
@@ -50,10 +40,10 @@ public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 
 		billingAccount.refund().perform(testDataManager.billingAccount.getTestData("Refund", "TestData_Check"), refundAmount);
-
 		billingAccount.approveRefund().perform(refundAmount);
 
-		new BillingPaymentsAndTransactionsVerifier().setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+		new BillingPaymentsAndTransactionsVerifier()
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 				.setAmount(refundAmount).setStatus(BillingConstants.PaymentsAndOtherTransactionStatus.APPROVED).verifyPresent();
 		BillingSummaryPage.getTotalPaid().verify.equals(initialTotalPaid.subtract(refundAmount));
 	}

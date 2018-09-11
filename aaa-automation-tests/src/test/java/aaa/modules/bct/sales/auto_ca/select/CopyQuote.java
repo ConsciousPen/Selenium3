@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
@@ -19,8 +18,6 @@ public class CopyQuote extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-
-	private IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 
 	/**
 	 * @author Deloite
@@ -44,7 +41,7 @@ public class CopyQuote extends BackwardCompatibilityBaseTest {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 
-		policy.copyQuote().perform(getStateTestData( testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
+		policy.copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));
 		policy.dataGather().start();
 		Tab.buttonSaveAndExit.click();
 

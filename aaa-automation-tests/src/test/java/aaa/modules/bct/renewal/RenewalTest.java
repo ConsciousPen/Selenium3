@@ -9,7 +9,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -17,16 +16,18 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class RenewalTest extends BackwardCompatibilityBaseTest {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = NJ)
 	public void BCT_ONL_107_ManualChangesRenewal(@Optional("NJ") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_107_ManualChangesRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-
-		IPolicy policy = PolicyType.HOME_SS_HO3.get();
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();

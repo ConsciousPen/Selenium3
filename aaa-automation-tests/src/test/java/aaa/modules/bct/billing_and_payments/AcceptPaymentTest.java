@@ -10,8 +10,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
@@ -24,24 +22,24 @@ public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states =  Constants.States.CA)
 	public void BCT_ONL_030_ProcessAcceptPayment(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_030_ProcessAcceptPayment", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-
-		BillingAccount billingAccount = new BillingAccount();
 
 		SearchPage.openBilling(policyNumber);
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
 
 		billingAccount.acceptPayment().start();
-		AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 		ComboBox paymentMethod = paymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
 		List<String> values = paymentMethod.getAllValues();
 		values.remove("");
+
 		CustomAssertions.assertThat(values.size()).as("There is Credit Card payment method present").isGreaterThan(2);
+
 		values.remove(BillingConstants.AcceptPaymentMethod.CASH);
 		values.remove(BillingConstants.AcceptPaymentMethod.CHECK);
 		paymentMethod.setValue(values.get(0));
+
 		paymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT).setValue(initialMinDue.toString());
 		paymentTab.submitTab();
 

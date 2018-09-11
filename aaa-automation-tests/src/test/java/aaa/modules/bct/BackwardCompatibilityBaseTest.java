@@ -15,18 +15,23 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.http.HttpJob;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.BaseTest;
+import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
 
-public class BackwardCompatibilityBaseTest extends BaseTest {
+public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	public static final String SELECT_POLICY_QUERY_TYPE = "SelectPolicy";
+
+	public BillingAccount billingAccount = new BillingAccount();
+	public AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 
 	protected BctType getBctType() {
 		return BctType.ONLINE_TEST;

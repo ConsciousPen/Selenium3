@@ -9,7 +9,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
@@ -22,16 +21,13 @@ public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_031_Define_Payment_Method(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_031_PaymentMethod", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-		BillingAccount billingAccount = new BillingAccount();
-		AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
-
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = BillingSummaryPage.getMinimumDue();
-		billingAccount.acceptPayment().start();
 
+		billingAccount.acceptPayment().start();
 		ComboBox paymentMethod = new AcceptPaymentActionTab().getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
 		assertThat(paymentMethod).containsAllOptions(BillingConstants.AcceptPaymentMethod.CASH, BillingConstants.AcceptPaymentMethod.CHECK);
 

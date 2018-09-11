@@ -10,25 +10,24 @@ import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.verification.CustomSoftAssertions;
 
 public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
-	BillingAccount billingAccount = new BillingAccount();
+	private BillingAccountPoliciesVerifier billingAccountPoliciesVerifier = new BillingAccountPoliciesVerifier();
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {UT, NJ, PA})
 	public void BCT_ONL_076_Decline_Payment(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_076_Decline_Payment", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
 		mainApp().open();
-
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar feeAmount = new Dollar(10);
@@ -47,12 +46,12 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_120_Payments(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_120_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);
@@ -83,12 +82,12 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_121_Payments(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_121_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);
@@ -121,12 +120,12 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_122_Payments(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_122_Payments", SELECT_POLICY_QUERY_TYPE).get(0);
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();
-
 		SearchPage.openBilling(policyNumber);
-		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
+
 		Dollar initialTotalDue = BillingSummaryPage.getTotalDue();
 		Dollar initialTotalPaid = BillingSummaryPage.getTotalPaid();
 		Dollar amount = new Dollar(100);

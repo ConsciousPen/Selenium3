@@ -25,7 +25,8 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_047_ManualRenewal(@Optional("") String state) {
-		IPolicy policy = findAndOpenPolicy("BCT_ONL_047_ManualRenewal", PolicyType.AUTO_SS);
+		IPolicy policy = findAndOpenPolicy(getMethodName(), PolicyType.AUTO_SS);
+
 		policy.doNotRenew().start();
 		Page.dialogConfirmation.confirm();
 		policy.doNotRenew().getView().fill(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
@@ -36,9 +37,10 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_055_ManualRenewal(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery("BCT_ONL_055_ManualRenewal", SELECT_POLICY_QUERY_TYPE).get(0);
-		mainApp().open();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
+
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
@@ -47,12 +49,14 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	public void BCT_ONL_001_ManualRenewal(@Optional("") String state) {
-		IPolicy policy = findAndOpenPolicy("BCT_ONL_001_ManualRenewal", PolicyType.AUTO_SS);
+		IPolicy policy = findAndOpenPolicy(getMethodName(), PolicyType.AUTO_SS);
+
 		policy.renew().start();
 		Tab.buttonOk.click();
 		Page.dialogConfirmation.confirm();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
 		new PremiumAndCoveragesTab().calculatePremium();
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
 	}
@@ -61,10 +65,12 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_003_ManualRenewal(@Optional("") String state) {
-		IPolicy policy = findAndOpenPolicy("BCT_ONL_003_ManualRenewal", PolicyType.AUTO_SS);
+		IPolicy policy = findAndOpenPolicy(getMethodName(), PolicyType.AUTO_SS);
+
 		deletePendingRenewals(policy);
 		policy.doNotRenew().perform(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DoNotRenew", "TestData"));
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
+
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 	}
@@ -73,7 +79,8 @@ public class ManualRenewalTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, IN, MD, NJ, NV, OH, OK, OR, PA, VA})
 	public void BCT_ONL_004_ManualRenewal(@Optional("") String state) {
-		IPolicy policy = findAndOpenPolicy("BCT_ONL_004_ManualRenewal", PolicyType.AUTO_SS);
+		IPolicy policy = findAndOpenPolicy(getMethodName(), PolicyType.AUTO_SS);
+
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 	}
