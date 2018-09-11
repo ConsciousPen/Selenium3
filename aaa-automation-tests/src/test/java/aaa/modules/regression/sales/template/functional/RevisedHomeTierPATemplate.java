@@ -46,7 +46,6 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
     private ReportsTab reportsTab = new ReportsTab();
     private BindTab bindTab = new BindTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
-    private LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.SEPTEMBER, 12, 0, 0);
 
     private ComboBox policyTier = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -141,8 +140,6 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
 
         List<String> rangeAutoTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeAutoTier.add("N/A");
-
-		TimeSetterUtil.getInstance().confirmDateIsAfter(algoEffectiveDate);
 
         mainApp().open();
         createCustomerIndividual();
