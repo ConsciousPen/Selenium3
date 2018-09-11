@@ -335,6 +335,27 @@ public class TestMaigConversionHomeHO6 extends TestMaigConversionHomeAbstract {
      * 1. Create Customer
      * 2. Initiate Renewal Entry
      * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSPISKY documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSPISKY document is NOT generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = States.KY)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO6, testCaseId = {"PAS-18432"})
+    public void pas18432_policyInformationSheetHSPISKY(@Optional("KY") String state) throws NoSuchFieldException {
+        super.pas18432_policyInformationSheetHSPISKY(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
      * 4. Check that HSFLD documents are getting generated
      * 5. Buy Conversion Policy
      * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)

@@ -288,7 +288,7 @@ TestData_KY: {
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
   UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab_KY',
-  DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab_KY',
+  DocumentsTab: '@DocumentsTab_KY',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
 
@@ -301,6 +301,13 @@ ApplicantTab_KY: {
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
   OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_KY'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_KY'
+}
+
+DocumentsTab_KY: {
+  DocumentsToIssue: {
+    Coverage Acceptance Statement: Physically Signed,
+    Signed policy application: Physically Signed
+  }
 }
 
 # ---------- Conversion Data for MD ---------------
