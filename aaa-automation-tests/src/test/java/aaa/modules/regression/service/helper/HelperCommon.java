@@ -17,6 +17,8 @@ import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -100,6 +102,10 @@ public class HelperCommon {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 
+	private static AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp();
+	}
+
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			return PropertyProvider.getProperty(CsaaTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CsaaTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CsaaTestProperties.DXP_PORT) + endpointUrlPart;
@@ -108,7 +114,7 @@ public class HelperCommon {
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
-		return "http://" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + PropertyProvider.getProperty(CsaaTestProperties.ADMIN_PORT) + endpointUrlPart;
+		return adminApp().getProtocol() + adminApp().getHost() + adminApp().getPort() + endpointUrlPart;
 	}
 
 	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
@@ -556,11 +562,11 @@ public class HelperCommon {
 		return runJsonRequestPostDxp(requestUrl, null, ErrorResponseDto.class, 422);
 	}
 
-	public static String endorsementBind(String policyNumber, String authorizedBy, int status) {
+	public static PolicySummary endorsementBind(String policyNumber, String authorizedBy, int status) {
 		AAABindEndorsementRequestDTO request = new AAABindEndorsementRequestDTO();
 		request.authorizedBy = authorizedBy;
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_BIND, policyNumber));
-		return runJsonRequestPostDxp(requestUrl, request, String.class, status);
+		return runJsonRequestPostDxp(requestUrl, request, PolicySummary.class, status);
 	}
 
 	public static String deleteEndorsement(String policyNumber, int status) {

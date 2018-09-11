@@ -31,6 +31,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.residentialAddress.stateProvCd).isNotEmpty();
 		assertThat(response.residentialAddress.postalCode).isNotEmpty();
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
+		assertThat(response.policyTerm).isNotEmpty();
+		assertThat(response.endorsementId).isNotEmpty();
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
@@ -91,7 +93,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	void bindEndorsementWithCheck(String policyNumber) {
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
@@ -115,10 +118,14 @@ public class HelperMiniServices extends PolicyBaseTest {
 		for(ErrorDxpEnum.Errors error : errors) {
 			if(errorExistsCheck) {
 				assertThat(orderReportErrorResponse.validations.stream()
-						.anyMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
+						.anyMatch(valError ->  valError.message.equals(error.getMessage()))).isTrue();
+				assertThat(orderReportErrorResponse.validations.stream()
+						.anyMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
 			} else {
 				assertThat(orderReportErrorResponse.validations.stream()
 						.noneMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
+				assertThat(orderReportErrorResponse.validations.stream()
+						.noneMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
 			}
 		}
 		if(errors.length == 0) {

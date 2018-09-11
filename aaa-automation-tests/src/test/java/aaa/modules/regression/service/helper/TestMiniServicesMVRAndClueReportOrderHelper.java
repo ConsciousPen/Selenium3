@@ -467,7 +467,6 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		String oidDriver3 = addAndUpdateDriver(policyNumber, "Other", "Mismatches", "1970-01-01", "B15383001", "SP", "VA", "male");
 		helperMiniServices.orderReportErrors(policyNumber, oidDriver3);
-
 	}
 
 	protected void pas15369_reportOrderAndDriverBody() {

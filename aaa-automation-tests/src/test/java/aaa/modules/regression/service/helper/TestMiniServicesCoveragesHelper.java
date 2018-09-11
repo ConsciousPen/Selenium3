@@ -1557,8 +1557,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coverage.coverageDescription).isEqualTo(coverageDesc);
 		softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
 
-		//for SPECEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
-		if ("SPECEQUIP".equals(coverage.coverageCd)) {
+		//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
+		if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
 			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
 		} else {
 			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
@@ -2326,7 +2326,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(availableLimitsNd.get(3).coverageLimitDisplay).isEqualTo("$1,500");
 
 		//Other Than Collision
-		coverageXproperties(softly, 0, coveragesVehicle, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
+		coverageXproperties(softly, 0, coveragesVehicle2, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
 		assertCoverageLimitForCompColl(updateCoverageResponse2);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2631,6 +2631,97 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//Validate that coverage is updated
 			softly.assertThat(updateCoverageResponse.policyCoverages.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo(coverageLimit.coverageLimit);
 		}
+	}
+
+	protected void pas18624_CustomisedEquipmentBody() {
+
+		assertSoftly(softly -> {
+			TestData testData = getPolicyTD("DataGather", "TestData");
+
+			if ("VA".equals(getState())) {
+				testData = testData.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VAN_PICKUP_VA").getTestDataList("VehicleTab")).resolveLinks();
+			} else {
+				testData = testData.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VAN_PICKUP_other_than_VA").getTestDataList("VehicleTab")).resolveLinks();
+			}
+
+			mainApp().open();
+			createCustomerIndividual();
+			String policyNumber = createPolicy(testData);
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			List<Vehicle> vehicleList = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList;
+			Vehicle regularVehicle = getVehicleByVin(vehicleList, "1FM5K8D86JGA29926");
+			Vehicle vanWithoutCE = getVehicleByVin(vehicleList, "2GTEC19V531282646");
+			Vehicle vanWithCE = getVehicleByVin(vehicleList, "2GTEC19K8S1525936");
+
+			//viewEndorsementCoverages
+			PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, regularVehicle.oid, viewEndorsementCoveragesResponse);
+			validateCustomEquipCov(softly, false, vanWithoutCE.oid, viewEndorsementCoveragesResponse);
+			validateCustomEquipCov(softly, true, vanWithCE.oid, viewEndorsementCoveragesResponse);
+
+			//viewPolicyCoverages
+			PolicyCoverageInfo viewPolicyCoveragesResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, regularVehicle.oid, viewPolicyCoveragesResponse);
+			validateCustomEquipCov(softly, false, vanWithoutCE.oid, viewPolicyCoveragesResponse);
+			validateCustomEquipCov(softly, true, vanWithCE.oid, viewPolicyCoveragesResponse);
+
+			// viewPolicyCoveragesByVehicle
+			PolicyCoverageInfo policyCoveragesRegularVehicle = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, regularVehicle.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, regularVehicle.oid, policyCoveragesRegularVehicle);
+
+			PolicyCoverageInfo policyCoveragesVanWithoutCE = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vanWithoutCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, vanWithoutCE.oid, policyCoveragesVanWithoutCE);
+
+			PolicyCoverageInfo policyCoveragesVanWithCE = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vanWithCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, true, vanWithCE.oid, policyCoveragesVanWithCE);
+
+			//viewEndorsementCoveragesByVehicle
+			PolicyCoverageInfo endorsementCoveragesRegularVehicle = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, regularVehicle.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, regularVehicle.oid, endorsementCoveragesRegularVehicle);
+
+			PolicyCoverageInfo endorsementCoveragesVanWithoutCE = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vanWithoutCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, false, vanWithoutCE.oid, endorsementCoveragesVanWithoutCE);
+
+			PolicyCoverageInfo endorsementCoveragesVanWithCE = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			validateCustomEquipCov(softly, true, vanWithCE.oid, endorsementCoveragesVanWithCE);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		});
+	}
+
+	private void validateCustomEquipCov(ETCSCoreSoftAssertions softly, boolean coverageExpected, String oid, PolicyCoverageInfo policyCoverageInfo) {
+		VehicleCoverageInfo vehicleCoverageInfo = getVehicleCoverages(policyCoverageInfo, oid);
+		Coverage custEquip = getCoverage(vehicleCoverageInfo.coverages, "CUSTEQUIP");
+
+		if (coverageExpected && "VA".equals(getState())) {
+			assertThat(vehicleCoverageInfo.coverages.stream().anyMatch(coverage -> "CUSTEQUIP".equals(coverage.coverageCd))).as("CUSTEQUIP is expected").isTrue();
+			coverageXproperties(softly, custEquip, "CUSTEQUIP", "Customized Equipment", "2500.25", "$2,500.25", null, true, false);
+			validateCustomEquipCoverageOrder_pas18624(softly, vehicleCoverageInfo, custEquip);
+		} else {
+			softly.assertThat(vehicleCoverageInfo.coverages.stream().anyMatch(coverage -> "CUSTEQUIP".equals(coverage.coverageCd))).as("CUSTEQUIP is not expected").isFalse();
+		}
+	}
+
+	private Vehicle getVehicleByVin(List<Vehicle> vehicleList, String vin) {
+		return vehicleList.stream().filter(vehicle -> vin.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null);
+	}
+
+	private VehicleCoverageInfo getVehicleCoverages(PolicyCoverageInfo policyCoverageInfo, String oid) {
+		return policyCoverageInfo.vehicleLevelCoverages.stream().filter(vehicleCoverageInfo -> oid.equals(vehicleCoverageInfo.oid)).findFirst().orElse(null);
+	}
+
+	private Coverage getCoverage(List<Coverage> coverageList, String coverageCd) {
+		return coverageList.stream().filter(coverage -> coverageCd.equals(coverage.coverageCd)).findFirst().orElse(null);
+	}
+
+	private void validateCustomEquipCoverageOrder_pas18624(ETCSCoreSoftAssertions softly, VehicleCoverageInfo vehicleCoverageInfo, Coverage custEquip) {
+		Coverage collded = getCoverage(vehicleCoverageInfo.coverages, "COLLDED");
+		int custEquipIndex = vehicleCoverageInfo.coverages.indexOf(custEquip);
+		int colldedIndex = vehicleCoverageInfo.coverages.indexOf(collded);
+		softly.assertThat(custEquipIndex).as("CUSTEQUIP should be displayed after COLLDED").isEqualTo(colldedIndex + 1);
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
