@@ -547,9 +547,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 1. Create a policy in PAS with multiple drivers
 	 * 2. Create endorsement through service
 	 * 3. Run Remove Driver Service with the reason Rule RD1003 for Driver 1
-	 * 4. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 4. Validate that driverStatus in response is changed to "driverTypeChanged" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
 	 * 5. Run Remove Driver Service with the reason Rule RD1004 for Driver 2
-	 * 6. Validate that driverStatus in response is changed to "updated" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
+	 * 6. Validate that driverStatus in response is changed to "driverTypeChanged" for the driver 1, driver is change to "Not Available for Rating", reason is "Other" AND if there is other text - put rule
 	 * 7. Run View driver assignments service and validate that driver 1 and driver 2 are not available for assignment (response should not contain Driver at all in any section) (because they are Not available for Rating)
 	 * 8. Open Endorsement in PAS an validate that both drivers are Updated
 	 * 9. Rate and bind the policy through service
@@ -557,7 +557,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14641", "PAS-18457"})
 	public void pas14641_NotNamedInsuredUpdateToNotAvailableForRating(@Optional("VA") String state) {
 		pas14641_NotNamedInsuredUpdateToNotAvailableForRatingBody();
 	}
