@@ -159,7 +159,6 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 
-			getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null, "String");
 			getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10", "String");
