@@ -68,7 +68,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -106,7 +106,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -135,7 +135,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -153,7 +153,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCheck(@Optional("VA") String state) {
 
@@ -165,7 +165,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -183,7 +183,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCheck(@Optional("VA") String state) {
 
