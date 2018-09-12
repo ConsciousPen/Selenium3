@@ -133,19 +133,17 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
-		TestData dwellingAddressData = new SimpleDataProvider();
-		// Some ZIP codes lead to AAA_HO_SS6260765 error after policy purchase, temporary commented this adjustment since it should not affect rating
-		if (!("CT".equals(getState()) || "VA".equals(getState()))) {
-			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
-		}
+		Map<String, Object> dwellingAddressData = new HashMap<>();
+		dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+
 		if ("IN".equals(getState()) || "WV".equals(getState()) || "OH".equals(getState())) {
-			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
+			dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
 		}
 		if (Boolean.TRUE.equals(openLPolicy.getDwelling().getRetirementCommunityInd())) {
-			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
+			dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
 		}
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData
+				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), new SimpleDataProvider(dwellingAddressData)
 		);
 	}
 

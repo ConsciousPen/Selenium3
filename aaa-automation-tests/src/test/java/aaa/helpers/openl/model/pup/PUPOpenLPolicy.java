@@ -4,7 +4,9 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
@@ -105,6 +107,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public PUPOpenLPolicy createFrom(JsonElement jsonElement) {
+		return new PUPOpenLPolicy();
+	}
+
+	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new MockGenerator();
@@ -117,6 +124,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		if (!mockGenerator.isPropertyRiskReportsMockPresent()) {
 			RetrievePropertyRiskReportsMock propertyRiskReportsMockData = mockGenerator.getRetrievePropertyRiskReportsMock();
 			requiredMocks.add(propertyRiskReportsMockData);
+		}
+
+		if (!mockGenerator.isAddressReferenceMockPresent(getDwelling().getAddress().getZipCode(), getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getDwelling().getAddress().getZipCode(), getState());
+			requiredMocks.add(addressReferenceMock);
 		}
 
 		return requiredMocks;

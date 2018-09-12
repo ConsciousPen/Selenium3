@@ -8,7 +8,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import toolkit.datax.TestData;
 
-public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extends OpenLRatingBaseTest<P> {
+public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?, ?>> extends OpenLRatingBaseTest<P> {
 	@Override
 	protected TestData getRatingDataPattern() {
 		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());

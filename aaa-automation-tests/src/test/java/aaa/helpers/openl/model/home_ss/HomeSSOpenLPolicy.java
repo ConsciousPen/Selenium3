@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
@@ -282,6 +284,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public HomeSSOpenLPolicy createFrom(JsonElement jsonElement) {
+		return new HomeSSOpenLPolicy();
+	}
+
+	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new HomeSSMockGenerator();
@@ -302,11 +309,10 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 			requiredMocks.add(propertyRiskReportsMockData);
 		}
 
-		//TODO-dchubkov: does not work well, to be investigated...
-		/*if (!mockGenerator.isAddressReferenceMockPresent(getPolicyAddress().getZip(), getPolicyAddress().getState())) {
-			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getPolicyAddress().getZip(), getPolicyAddress().getState());
+		if (!mockGenerator.isAddressReferenceMockPresent(getPolicyAddress().getZip(), getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getPolicyAddress().getZip(), getState());
 			requiredMocks.add(addressReferenceMock);
-		}*/
+		}
 
 		return requiredMocks;
 	}

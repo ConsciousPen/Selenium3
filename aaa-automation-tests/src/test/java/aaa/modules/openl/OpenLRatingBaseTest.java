@@ -78,7 +78,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		//Sort policies list by effective date for further valid time shifts
 		return testInfo.getOpenLPolicies().stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate))
-				.map(p -> new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
+				.map(p -> new Object[] {p.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
 	}
 
 	/**
@@ -158,6 +158,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 
 		Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
+		//Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder, openLPolicy);
 		if (MapUtils.isEmpty(requestOpenLFields)) {
 			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
 			return;
@@ -191,6 +192,15 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				log.warn(missedFieldsMessage.toString());
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy) {
+		P openLPolicyFromRequest = (P) openLPolicy.createFrom(ratingLogsHolder.getRequestLog().getJsonElement());
+		//openLPolicyFromRequest.sortInnerObjectsAccordingTo(openLPolicy);
+		Map<String, String> openLFieldsMap = new HashMap<>(openLPolicyFromRequest.getOpenLFieldsMap());
+		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
+		return openLFieldsMap;
 	}
 
 	protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {

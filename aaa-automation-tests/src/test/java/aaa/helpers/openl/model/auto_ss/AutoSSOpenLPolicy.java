@@ -3,7 +3,9 @@ package aaa.helpers.openl.model.auto_ss;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
@@ -93,6 +95,14 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember());
 			requiredMocks.add(membershipMock);
 		}
+
+		for (AutoSSOpenLVehicle vehicle : getVehicles()) {
+			if (!mockGenerator.isAddressReferenceMockPresent(vehicle.getAddress().getZip(), getState())) {
+				AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(vehicle.getAddress().getZip(), getState());
+				requiredMocks.add(addressReferenceMock);
+			}
+		}
+
 		return requiredMocks;
 	}
 
@@ -392,6 +402,12 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoSSTestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public AutoSSOpenLPolicy createFrom(JsonElement jsonElement) {
+		//to be done...
+		return new AutoSSOpenLPolicy();
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.home_ca.dp3;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
@@ -9,7 +10,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
-public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> {
+public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, HomeCaDP3OpenLDwelling> {
 
 	private HomeCaDP3OpenLDwelling dwelling;
 	private List<HomeCaDP3OpenLForm> forms;
@@ -27,6 +28,7 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	private Integer yearsOwned;
 	private Integer yearsSinceLoan;
 
+	@Override
 	public HomeCaDP3OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -143,6 +145,11 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	@Override
 	public HomeCaDP3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeCaDP3TestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public HomeCaDP3OpenLPolicy createFrom(JsonElement jsonElement) {
+		return new HomeCaDP3OpenLPolicy();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.utils.excel.bind.ReflectionHelper;
@@ -21,6 +22,9 @@ public abstract class OpenLPolicy {
 
 	@ExcelTransient
 	private Dollar expectedPremium;
+
+	@ExcelTransient
+	private String state;
 
 	public Integer getNumber() {
 		return number;
@@ -44,6 +48,14 @@ public abstract class OpenLPolicy {
 
 	public void setExpectedPremium(Dollar expectedPremium) {
 		this.expectedPremium = expectedPremium;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public abstract Integer getTerm();
@@ -79,6 +91,8 @@ public abstract class OpenLPolicy {
 		}
 		return openLFieldsMap;
 	}
+
+	public abstract OpenLPolicy createFrom(JsonElement jsonElement);
 
 	private Map<String, String> getOpenLFieldsMap(Field openLField, Object classInstance, String parentOpenLFieldPath) {
 		Map<String, String> openLFieldsMap = new LinkedHashMap<>();

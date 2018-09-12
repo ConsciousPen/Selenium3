@@ -4,13 +4,14 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, HomeCaHO6OpenLDwelling> {
 	private HomeCaHO6OpenLDwelling dwelling;
 	private List<HomeCaHO6OpenLForm> forms;
 	private List<HomeCaHO6OpenLCoverage> coverages;
@@ -27,6 +28,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	private Boolean isRented;
 	private String occupation;
 
+	@Override
 	public HomeCaHO6OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -139,10 +141,15 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-	
+
 	@Override
 	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeCaHO6TestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public HomeCaHO6OpenLPolicy createFrom(JsonElement jsonElement) {
+		return new HomeCaHO6OpenLPolicy();
 	}
 
 	@Override

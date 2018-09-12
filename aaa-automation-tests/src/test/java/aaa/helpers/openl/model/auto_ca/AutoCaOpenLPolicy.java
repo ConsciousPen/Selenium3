@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.auto_ca;
 
 import java.util.List;
+import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
 
@@ -27,6 +28,11 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 	@Override
 	public String getUnderwriterCode() {
 		return null;
+	}
+
+	@Override
+	public String getState() {
+		return Constants.States.CA;
 	}
 
 	@Override
