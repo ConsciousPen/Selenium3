@@ -15,6 +15,18 @@ import toolkit.verification.CustomAssertions;
 
 public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 
+	/**
+	 * @author Deloite
+	 * @name Realtime Payments - Accept Direct Payment
+	 * @scenario
+	 * 1. Pick an active CA policy with atleast 1 bill need to be generated.
+	 * 2. Navigate to billing page and select the option generate the future statement from the drop dowm.
+	 * 3. A pop up is generated Validate by  Clicking of No , page remains on Billing.
+	 * 4. Validate by  Clicking of Yes ,  Bill should be generated.
+	 * Check:
+	 * 1. Future bill need to be generated
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)

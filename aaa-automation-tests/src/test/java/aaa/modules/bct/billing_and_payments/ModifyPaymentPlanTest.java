@@ -14,7 +14,20 @@ import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 
 public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
-
+	/**
+	 * @author Deloite
+	 * @name Modify Payment Plan
+	 * @scenario
+	 * @param state
+	 * 1.On the billing screen User changes payment plan (e.g : from lower number of installments to a higher number of installments) by clicking on the payment plan given on the billing page as hyperlink and updating the payment plan to Monthly pay plan policy).
+	 * 2.System immediately determines the 'Total Amount Due' and the ‘Number of future Installments’ according to the new payment plan as User clicks "OK"  - No error is observed.
+	 * 3.System displays the Billing Screen with the updated Payment plan in the Billing Account Policies and the new Installment Schedule.
+	 * 4.Initiate a mid term cancellation(System determines Cancellation effective date is GREATER THAN the Policy effective date.) and validate that :-
+	 *     Seismic fee is not reversed for the policy (no entry is displayed for the policy on Billing page with the following details( in Payments and Other Transactions section) : -
+	 *     Type = "Fee"
+	 *     Subtype = "Seismic Safety Fee"
+	 *
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)
@@ -33,7 +46,20 @@ public class ModifyPaymentPlanTest extends BackwardCompatibilityBaseTest {
 
 //		CustomAssert.assertTrue("Installments count reduced", BillingSummaryPage.tableInstallmentSchedule.getRowsCount() < initialInstallmentsCount);
 	}
-
+	/**
+	 * @author Deloite
+	 * @name Modify Payment Plan
+	 * @scenario
+	 * @param state
+	 * 1.On the billing screen User changes payment plan (e.g : from lower number of installments to a higher number of installments) by clicking on the payment plan given on the billing page as hyperlink and updating the payment plan to Monthly pay plan policy).
+	 * 2.System immediately determines the 'Total Amount Due' and the ‘Number of future Installments’ according to the new payment plan as User clicks "OK"  - No error is observed.
+	 * 3.System displays the Billing Screen with the updated Payment plan in the Billing Account Policies and the new Installment Schedule.
+	 * 4.Initiate a mid term cancellation(System determines Cancellation effective date is GREATER THAN the Policy effective date.) and validate that :-
+	 *     Seismic fee is not reversed for the policy (no entry is displayed for the policy on Billing page with the following details( in Payments and Other Transactions section) : -
+	 *     Type = "Fee"
+	 *     Subtype = "Seismic Safety Fee"
+	 *
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)

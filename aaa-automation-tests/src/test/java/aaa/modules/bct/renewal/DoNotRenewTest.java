@@ -16,7 +16,25 @@ public class DoNotRenewTest extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-
+	/**
+	 * @author Deloite
+	 * @name Non Renewal of a policy
+	 * @scenario
+	 * @param state
+	 * Preconditions:
+	 * 1. Policy status is active and a renewal offer has not been generated (policy is more than 35 days prior to renewal)
+	 * 2. User has privilege <Policy Do Not Renew>
+	 * Steps:
+	 * 1. User Navigates to Policy Consolidated View tab
+	 * 2. User selects action <Do Not Renew> and clicks ‘Go’
+	 * 3. User enters following details:
+	 * a. Reason
+	 * b. Other Reason (if reason is selected as <Other>)
+	 * 4. System displays pop-up message (MES-RE-0002) asking for confirmation as user clicks ‘OK’
+	 * 5. User Clicks ‘OK’
+	 * Check:
+	 * Policy has successfully been set for Do Not Renew
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)

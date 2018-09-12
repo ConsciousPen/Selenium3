@@ -16,7 +16,17 @@ import aaa.utils.StateList;
 import toolkit.webdriver.controls.ComboBox;
 
 public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
-
+	/**
+	 * @author Deloite
+	 * @name Payment Method – Cash/Check
+	 * @scenario
+	 * @param state
+	 * 1. System displays the following Payment Method to apply Minimum Required Down payment:
+	 *     a.Cash
+	 *     b.Check
+	 * Check:
+	 * User can pay the amount using the listed Payment Method
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = CA)

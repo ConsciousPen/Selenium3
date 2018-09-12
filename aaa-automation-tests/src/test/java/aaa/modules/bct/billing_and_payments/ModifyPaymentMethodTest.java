@@ -22,7 +22,24 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
-
+	/**
+	 * @author Deloite
+	 * @name Update Preferred Payment method
+	 * @scenario
+	 * @param state
+	 * 1. System displays the following Payment Method to apply Minimum Required Down payment:
+	 * a.Cash
+	 * b.Check
+	 * "mid-term, update from direct to recurring using credit card - CC payment method details stored in account
+	 * Check:
+	 * 1. Following transaction is created and displayed in the Payments & Other Transactions section
+	 *     Transaction 1
+	 *     Type = Fee
+	 *     Subtype = 'Subtype' of the transaction selected
+	 *     Amount= Value entered by the user
+	 *     Status = Applied
+	 * 2. Total Amount due is increased by the
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})

@@ -20,7 +20,21 @@ public class RenewalTest extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
 	}
-
+	/**
+	 * @author Deloite
+	 * @name Renewal-OilPropaneTank
+	 * @scenario
+	 * @param state
+	 * Preconditions:
+	 * Retrieve a HO3 Policy with renewal image created
+	 * Steps:
+	 * 1.Retrieve a HO3 active policy with Renewal image created
+	 * 2.Agent clicks on renewal image link and navigates to property info page
+	 * 3.System displays the "Oil Fuel or Propane Storage Tank"' field
+	 * 4.User  cannot edit the value for the field  ""Oil Fuel or Propane Storage Tank"'."
+	 * Check:
+	 * "Oil Fuel or Propane Storage Tank"' field is disable at Renewals
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = NJ)

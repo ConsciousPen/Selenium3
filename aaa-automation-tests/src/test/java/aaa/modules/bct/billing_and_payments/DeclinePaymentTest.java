@@ -18,6 +18,19 @@ import toolkit.verification.CustomSoftAssertions;
 public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	private BillingAccountPoliciesVerifier billingAccountPoliciesVerifier = new BillingAccountPoliciesVerifier();
 
+	/**
+	 * @author Deloite
+	 * @name Decline Payment with Fee and Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank is NSF by rejecting the payment
+	 * that was made through check by declining in payments & Transactions section with the reason : "Fee+ No Restriction "
+	 *
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ No Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {UT, NJ, PA})
@@ -42,6 +55,19 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		BillingSummaryPage.getTotalDue().verify.equals(initialTotalDue.add(feeAmount));
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline-Fee+ No Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank is NSF by rejecting the payment
+	 * that was made through check by declining in payments & Transactions section with the reason : "Fee+ No Restriction "
+	 *
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ No Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)
@@ -78,6 +104,19 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		});
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline Fee+Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank as Rejected by rejecting the payment that was made through check by declining in payments & Transactions section with the reason : Fee+Restriction:
+	 * 4. Verify the declined reason by selecting  declined payment link
+	 * 5. Validate  e_folder and review the Payment Restriction Notice_ check(60 5000)
+	 * Check:
+	 * 1. Payment should be declined by selecting "Fee+ Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)
@@ -116,6 +155,19 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 		});
 	}
 
+	/**
+	 * @author Deloite
+	 * @name Decline Fee+Restriction
+	 * @scenario
+	 * 1. Retrieve a Policy and navigate to billing page
+	 * 2. Make a payment of $100 and decline the payment by clicking on decline payment Link
+	 * 3. Validate if Check payment  be returned from bank as Rejected by rejecting the payment that was made through check by declining in payments & Transactions section with the reason :NO Fee+ NO Restriction:
+	 * 4. Verify the declined reason by selecting  declined payment link
+	 * 5. Validate  e_folder and review the NSF notice in e_folder(605002)
+	 * Check:
+	 * 1. Payment should be declined by selecting "NO Fee+NO  Restriction " decline reason
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states = AZ)

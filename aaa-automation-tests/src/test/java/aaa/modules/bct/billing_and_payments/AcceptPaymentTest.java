@@ -18,6 +18,17 @@ import toolkit.webdriver.controls.ComboBox;
 
 public class AcceptPaymentTest extends BackwardCompatibilityBaseTest {
 
+	/**
+	 * @author Deloite
+	 * @name Realtime Payments - Accept Direct Payment
+	 * @scenario
+	 * 1.User navigates to the billing page
+	 * 2.Accept payment via CC
+	 * 3.Min due after payment must be zero
+	 * Check:
+	 * 1. Payment is posted.
+	 * @param state
+	 */
 	@Parameters({"state"})
 	@Test
 	@StateList(states =  Constants.States.CA)
