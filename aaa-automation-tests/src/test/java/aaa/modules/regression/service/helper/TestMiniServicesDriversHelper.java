@@ -254,8 +254,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas14653_ViewDriverServiceOrderOfPendingDeleteBody() {
-		TestData td = getPolicyTD("DataGather", "TestData");
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_SixDrivers").getTestDataList("DriverTab")).resolveLinks();
+		TestData td = getTestSpecificTD("TestData_SixDrivers");
 
 		mainApp().open();
 		createCustomerIndividual();
