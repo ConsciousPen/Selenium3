@@ -610,7 +610,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
-	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("VA") String state) {
+	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {
 
 		pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody();
 	}

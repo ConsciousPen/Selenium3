@@ -84,6 +84,17 @@
                     <include name="pas12246_ViewVehiclePendingRemoval"/>
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="VehiclesNV">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
                 </methods>
             </class>
         </classes>
