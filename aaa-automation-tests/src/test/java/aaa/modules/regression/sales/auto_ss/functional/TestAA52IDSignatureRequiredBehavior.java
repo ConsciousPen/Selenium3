@@ -46,7 +46,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	public void pas18892_testResetSignatureOptionNB(@Optional("ID") String state) {
 
 		createQuoteAndFillUpTo(getPolicyTD(), DocumentsAndBindTab.class);
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		testResetSignatureOption();
 
@@ -76,7 +75,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		openAppAndCreatePolicy();
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		testResetSignatureOption();
 
@@ -109,7 +107,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		openAppAndCreatePolicy();
 		policy.renew().perform();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		testResetSignatureOption();
 
@@ -170,6 +167,9 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 	private void testResetSignatureOption() {
+
+		// Validate signature status is anything but 'Not Signed'
+		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Reject UM Coverage and validate signature option
 		setCoverage(umCoverage, Coverage.NONE);
