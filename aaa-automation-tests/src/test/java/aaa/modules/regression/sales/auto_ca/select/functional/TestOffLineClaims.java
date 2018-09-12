@@ -14,16 +14,16 @@ import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.policy.AutoCaSelectBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 //@StateList(states = Constants.States.AZ)
-public class TestOffLineClaims extends AutoSSBaseTest
+public class TestOffLineClaims extends AutoCaSelectBaseTest
 {
 	/**
 	 * * @author Chris Johns
@@ -46,7 +46,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	public void PAS14679_TestCase2(@Optional("CA") String state) {
 		PurchaseTab purchaseTab = new PurchaseTab();
 		TestData testData = getPolicyTD();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
+		TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim_CA").resolveLinks();
 
 		//Create Customer and Policy with 3 drivers
 		mainApp().open();
@@ -56,7 +56,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 		policy.getDefaultView().fill(driverTab);
 
 		//Fill remaining Policy info and bind
-		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PurchaseTab.class, true);
+		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 
 		//Gather Policy details: Policy Number and expiration date

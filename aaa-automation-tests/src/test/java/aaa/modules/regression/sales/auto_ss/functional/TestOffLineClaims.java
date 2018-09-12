@@ -61,16 +61,16 @@ public class TestOffLineClaims extends AutoSSBaseTest
 
 	    //Gather Policy details: Policy Number and expiration date
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-	    LocalDateTime policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
+	    LocalDateTime policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
 	    mainApp().close();
 
         //Move to R-63, run batch job part 1 and offline claims batch job
 	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
+//        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
 
         //Move to R-46 and run batch job part 2
-	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(43));
+	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
 	    JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
         //Retrieve policy
