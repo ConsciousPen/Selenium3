@@ -159,7 +159,6 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 		executeBatchTest(job);
 	}
 
-	
 	@Parameters({"state"})
 	@Test(description = "batchJob18.xml")
 	public void BCT_BTCH_Cancellation_Cancellation_Notice_Bill_023(@Optional("") String state) throws IOException, ParseException {
@@ -202,7 +201,14 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 		executeBatchTest(job);
 	}
 
-	
+	//todo addthis to the suite
+	@Parameters({"state"})
+	@Test(description = "batchJob26.xml")
+	public void BCT_BTCH_aaaRefundDisbursementAsyncJob(@Optional("") String state) throws IOException, ParseException {
+		Job job = Jobs.aaaRefundDisbursementAsyncJob;
+		executeBatchTest(job);
+	}
+
 	@Parameters({"state"})
 	@Test(description = "batchJob22.xml")
 	public void BCT_BTCH_Generate_Bill_Generate_Installment_Bill_029(@Optional("") String state) throws IOException, ParseException {
@@ -210,7 +216,6 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 		executeBatchTest(job);
 	}
 
-	
 	@Parameters({"state"})
 	@Test(description = "batchJob23.xml")
 	public void BCT_BTCH_Manage_OffcycleBill_031(@Optional("") String state) throws IOException, ParseException {
@@ -264,6 +269,22 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Test(description = "batchJob25.xml")
 	public void BCT_BTCH_Automated_NonRenewal_CustomerDeclined_Rewrite_017(@Optional("") String state) throws IOException, ParseException {
 		Job job = GroupJobs.grouplapsedRenewalProcessJob;
+		executeBatchTest(job);
+	}
+
+	//todo add to the suite
+	@Parameters({"state"})
+	@Test(description = "batchJob26.xml")
+	public void BCT_BTCH_aaaAutomatedProcessingInitiationJob(@Optional("") String state) throws IOException, ParseException {
+		Job job = Jobs.aaaAutomatedProcessingInitiationJob;
+		executeBatchTest(job);
+	}
+
+	//todo add to the suite
+	@Parameters({"state"})
+	@Test(description = "batchJob26.xml")
+	public void BCT_BTCH_automatedProcessingRatingJob(@Optional("") String state) throws IOException, ParseException {
+		Job job = Jobs.automatedProcessingRatingJob;
 		executeBatchTest(job);
 	}
 
