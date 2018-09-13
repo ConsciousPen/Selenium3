@@ -2,6 +2,10 @@ TestData_Drivers: {
     DriverTab: ['@<auto_ss>@DataGather@DriverTab','@DriverTab_2'],
 }
 
+TestData_Driver: {
+    DriverTab: ['@Driver_First', '@Driver_Second'],
+}
+
 TestData_Assignments: {'@AssignmentTab'}
 
 AssignmentTab: {
@@ -16,6 +20,34 @@ AssignedDriver1: {
 AssignedDriver2: {
     Driver: 'contains=Second',
     Select Vehicle: 'index=2'
+}
+
+Driver_First: {
+  DriverSearchDialog: {},
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 407378541
+}
+
+Driver_Second: {
+   Add drivers: 'Yes',
+    DriverSearchDialog: {},
+   "Policy #": '123456789',
+    Rel. to First Named Insured: Child,
+    First Name: 'John',
+    Middle Name: 'Sam',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '860355298',
+    License Status: 'Licensed (US)'
 }
 
 DriverTab_2: {

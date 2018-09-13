@@ -1772,7 +1772,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
 		//PAS-13920 end
 
@@ -1839,7 +1839,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isNull();
+		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
 		//PAS-13920 end
@@ -2566,6 +2566,90 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		vehicleTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	protected void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody(){
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab"))
+				.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Driver").getTestDataList("DriverTab"))
+				.resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+		policy.createPolicy(testData);
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String vin1 = testData.getTestDataList("VehicleTab").get(0).getValue("VIN");
+		String vin2 = testData.getTestDataList("VehicleTab").get(1).getValue("VIN");
+
+		//get vehicles oid's
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle vehicle1 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		Vehicle vehicle2 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+
+		assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
+		String vehicleOid1 = vehicle1.oid;
+		assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
+		String vehicleOid2 = vehicle2.oid;
+
+		String replacedVehicleVin1 = "2T1BURHE4JC034340"; //Toyota Corolla 2018
+		String replacedVehicleVin2 = "1HGFA16526L081415"; //Honda Civic 2006
+
+		String replacedVehicleOid1 = replaceVehicleWithUpdates(policyNumber, vehicleOid1, replacedVehicleVin1, true, true);
+		String replacedVehicleOid2 = replaceVehicleWithUpdates(policyNumber, vehicleOid2, replacedVehicleVin2, false, true);
+
+		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
+		viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+		viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+
+		ViewVehicleResponse viewReplacedVehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
+
+		//Check statuses of the vehicles
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> vehicleOid1.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pendingRemoval");
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> vehicleOid2.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pendingRemoval");
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> replacedVehicleOid1.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pending");
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> replacedVehicleOid2.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pending");
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> replacedVehicleVin1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isEqualTo(vehicleOid1);
+		assertThat(viewReplacedVehicles.vehicleList.stream().filter(vehicle -> replacedVehicleVin2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isEqualTo(vehicleOid2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String purchaseDate3 = "2013-01-21";
+		String vin3 = "JF1GJAH65EH007244"; //Subaru Impreza 2014
+		String vehicleOid3 = addVehicleWithChecks(policyNumber, purchaseDate3, vin3, true);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//run delete vehicle service
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, replacedVehicleOid1);
+		assertSoftly(softly -> {
+			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(replacedVehicleOid1);
+			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			assertThat(deleteVehicleResponse.validations).isEqualTo(null);
+		});
+
+		String replacedVehicleVin3 = "3FAFP31341R200709"; //FORD 2001
+		String replacedVehicleVin4 = "1D7HW22N95S201385"; //DODGE 2005
+
+		String replacedVehicleOid3 = replaceVehicleWithUpdates(policyNumber, vehicleOid3, replacedVehicleVin3, true, true);
+		String replacedVehicleOid4 = replaceVehicleWithUpdates(policyNumber, replacedVehicleOid2, replacedVehicleVin4, false, true);
+
+		ViewVehicleResponse viewReplacedVehicles2 = HelperCommon.viewEndorsementVehicles(policyNumber);
+
+		//Check statuses of the vehicles
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> vehicleOid3.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pendingRemoval");
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleOid2.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pendingRemoval");
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleOid1.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pendingRemoval");
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleOid3.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pending");
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleOid4.equals(vehicle.oid)).findFirst().orElse(null).vehicleStatus).isEqualTo("pending");
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleVin3.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isEqualTo(vehicleOid3);
+		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleVin4.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isEqualTo(replacedVehicleOid2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
