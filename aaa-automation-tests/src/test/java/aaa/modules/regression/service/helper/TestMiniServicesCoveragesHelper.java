@@ -1555,15 +1555,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void coverageXproperties(ETCSCoreSoftAssertions softly, Coverage coverage, String coverageCd, String coverageDesc, String coverageLimit, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(coverage.coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(coverage.coverageDescription).isEqualTo(coverageDesc);
-		softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
-
-		//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
-		if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
-			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
-		} else {
-			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+		if ((coverage.coverageCd) == "WL") {
+			softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
+			//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
+			if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
+				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
+			} else {
+				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+			}
 		}
-
 		softly.assertThat(coverage.coverageType).isEqualTo(coverageType);
 		softly.assertThat(coverage.customerDisplayed).isEqualTo(customerDisplay);
 		softly.assertThat(coverage.canChangeCoverage).isEqualTo(canChangeCoverage);
