@@ -12,6 +12,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.bct.service.EndorsementTemplate;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
 
 public class TestEndorsement extends EndorsementTemplate {
 
@@ -20,8 +21,6 @@ public class TestEndorsement extends EndorsementTemplate {
 		return PolicyType.HOME_CA_HO3;
 	}
 
-	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
-	private ReportsTab reportsTab = new ReportsTab();
 	private BindTab bindTab = new BindTab();
 	private GeneralTab generalTab = new GeneralTab();
 
@@ -34,7 +33,7 @@ public class TestEndorsement extends EndorsementTemplate {
 		assertThat(bindTab.btnPurchase.isPresent()).isTrue();
 		bindTab.cancel();
 
-		performNonBearingEndorsement(getPolicyType(), TESTDATA_NAME_ENDORSE_HOME_CA);
+		performNonBearingEndorsement(TESTDATA_NAME_ENDORSE_HOME_CA);
 		PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
 
 		Dollar postEndorsementPremium = PropertyQuoteTab.getPolicyTermPremium();
@@ -42,5 +41,24 @@ public class TestEndorsement extends EndorsementTemplate {
 		log.info(String.format("Endorsement Premium: '%s'", postEndorsementPremium));
 		assertThat(policyPremium).as("Test for state %s has failed due to difference between pre-endorsement and post-endorsement premiums", getState())
 				.isEqualTo(postEndorsementPremium);
+	}
+
+	@Override
+	public void reorderReports() {
+		new ReportsTab().reorderReports();
+	}
+
+	@Override
+	public void performNonBearingEndorsement(String testDataName) {
+		TestData testDataEnd = getTestSpecificTD(testDataName);
+
+		policy.endorse().perform(testDataEnd);
+		policy.dataGather().getView()
+				.fillFromTo(testDataEnd, GeneralTab.class, ReportsTab.class, false);
+
+		reorderReports();
+
+		policy.dataGather().getView()
+				.fillFromTo(testDataEnd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
 	}
 }

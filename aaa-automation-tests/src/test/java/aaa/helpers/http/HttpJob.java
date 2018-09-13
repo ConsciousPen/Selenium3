@@ -3,7 +3,6 @@ package aaa.helpers.http;
 import static aaa.common.enums.JobResultEnum.JobStatus;
 import java.io.IOException;
 import java.util.*;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.common.enums.JobResultEnum;
@@ -200,20 +199,24 @@ public class HttpJob {
 
 	public static class JobStatistic {
 
-		public static String getLastProcessedStatistic(String response, String jobName) throws IOException {
+		public static String getLastProcessedStatistic(String response, String jobName){
 			log.info("HTTP: Gathering Statistics");
 			List<String> allStatistics = getAllProcessedRowsByJob(response, jobName);
 
 			return allStatistics.get(allStatistics.size() - 1);
 		}
 
-		private static List<String> getAllProcessedRowsByJob(String response, String jobName) throws IOException {
+		private static List<String> getAllProcessedRowsByJob(String response, String jobName){
 			String[] rows = response.split(JOB_LOGS_ROW_SPLITTER_REGEX);
 
 			List<String> allStatistics = new ArrayList<>();
 			for (String row : rows) {
 				if (row.contains("Job processed")) {
-					allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
+					try {
+						allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, jobName)));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 			return allStatistics;
@@ -239,7 +242,7 @@ public class HttpJob {
 		}
 	}
 
-	public static String getJobProcessedStatistic(String jobName) throws IOException, ParseException {
+	public static String getJobProcessedStatistic(String jobName) throws IOException {
 		log.info("HTTP: Starting login");
 		HttpAAARequestor httpRequestor = HttpLogin.loginAd();
 		log.info("HTTP: Open SCHEDULER_SUMMARY_FLOW");

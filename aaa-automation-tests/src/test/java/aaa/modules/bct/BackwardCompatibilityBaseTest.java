@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import org.json.simple.parser.ParseException;
 import org.testng.SkipException;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -37,10 +36,15 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return BctType.ONLINE_TEST;
 	}
 
-	protected void executeBatchTest(Job job) throws IOException, ParseException {
+	protected void executeBatchTest(Job job){
 		JobUtils.executeJob(job);
 
-		String result = HttpJob.getJobProcessedStatistic(job.getJobName());
+		String result = null;
+		try {
+			result = HttpJob.getJobProcessedStatistic(job.getJobName());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		List<String> temp = Arrays.asList(result.toString().replace(",", "").replace(".", "").split(" "));
 

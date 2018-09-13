@@ -43,7 +43,11 @@ public class HttpLogin {
 		System.setProperty("http.proxyPort", "8888");*/
 
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
-		queryBuilder.readParamsFile(PARAMS_FILENAME);
+		try {
+			queryBuilder.readParamsFile(PARAMS_FILENAME);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		try {
 			httpRequestor.sendGetRequest(HttpHelper.getAdLoginUrl());
@@ -94,11 +98,7 @@ public class HttpLogin {
 				location = "/aaa-admin/" + location;
 			}
 			httpRequestor.sendGetRequest(location);
-			try {
-				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
-			} catch (IOException e) {
-				log.error("Can't get windowId");
-			}
+			sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
 		}
 		httpRequestor.setSessionWindowId(sessionWindowId);
 		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));

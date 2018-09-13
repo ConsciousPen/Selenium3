@@ -47,7 +47,7 @@ public class HttpQueryBuilder {
 		return params.size();
 	}
 
-	public String buildQueryString(int index, Map<String, String> mapping) throws IOException {
+	public String buildQueryString(int index, Map<String, String> mapping){
 		return buildQueryString(index, mapping, null);
 	}
 

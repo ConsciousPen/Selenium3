@@ -9,12 +9,8 @@ import org.testng.annotations.DataProvider;
 import aaa.common.Tab;
 import aaa.config.CsaaTestProperties;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
 
 public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 
@@ -41,18 +37,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		return data.iterator();
 	}
 
-	public void performNonBearingEndorsement(PolicyType policy, String testDataName) {
-		TestData testDataEnd = getTestSpecificTD(testDataName);
 
-		policy.get().endorse().perform(testDataEnd);
-		policy.get().dataGather().getView()
-				.fillFromTo(testDataEnd, GeneralTab.class, ReportsTab.class, false);
-
-		reorderReports();
-
-		policy.get().dataGather().getView()
-				.fillFromTo(testDataEnd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, false);
-	}
 
 	public void checkAbilityToOpenAllTabsInInquiryMode(PolicyType policy, String testData, Tab fillFromTab, Tab fillToTab) {
 		policy.get().policyInquiry().start();
@@ -82,21 +67,14 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
 
+	/**
+	 * Have to be overridden
+	 */
 	public void reorderReports() {
-		switch (getPolicyType().getShortName()) {
-			case "HomeSS_HO3":
-			case "HomeSS_HO4":
-			case "HomeSS_HO6":
-			case "HomeSS_DP3":
-				new aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab().reorderReports();
-				break;
-			case "HomeCA_HO3":
-			case "HomeCA_HO4":
-			case "HomeCA_HO6":
-			case "HomeCA_DP3":
-				new aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab().reorderReports();
-				break;
-		}
 	}
-
+	/**
+	 * Have to be overridden
+	 */
+	public void performNonBearingEndorsement(String testDataName) {
+	}
 }
