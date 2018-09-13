@@ -31,6 +31,8 @@ public class TestNewBusiness extends FinancialsBaseTest {
 				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 			}
 		}
+		createCustomerIndividual();
+		PolicyType.PUP.get().createPolicy(getStateTestData(testDataManager.policy.get(PolicyType.PUP), "DataGather", "TestData"));
 	}
 
 
