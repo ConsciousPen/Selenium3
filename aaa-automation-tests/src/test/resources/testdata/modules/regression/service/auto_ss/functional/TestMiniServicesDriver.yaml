@@ -1,4 +1,41 @@
+TestData: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
 
+TestData1: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab3','@DriverTab5','@DriverTab4','@DriverTab6'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab1',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+TestData2: {
+   PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+    GeneralTab: '@GeneralTab',
+    DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5','@DriverTab6','@Driver_two1'],
+    RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+    VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+    FormsTab: '@<auto_ss>@DataGather@FormsTab',
+    PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+    DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+    DocumentsAndBindTab: '@DocumentsAndBindTab',
+    PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
 
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
@@ -92,8 +129,18 @@ NamedInsuredInformation6: {
   Residence: Own Home,
 }
 
-TestData_FiveDrivers: {
-    DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4'],
+TestData_SixDrivers: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DriverTab1: {

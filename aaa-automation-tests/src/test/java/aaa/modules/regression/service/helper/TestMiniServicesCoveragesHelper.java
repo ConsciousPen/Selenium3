@@ -1407,6 +1407,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		testEValueDiscount.secondEndorsementIssueCheck();
 
 	}
+
 	protected void pas17646_OrderOfCoverageBody(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -1434,7 +1435,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
 		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
 	}
-
 
 	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
 		mainApp().open();
@@ -2326,7 +2326,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(availableLimitsNd.get(3).coverageLimitDisplay).isEqualTo("$1,500");
 
 		//Other Than Collision
-		coverageXproperties(softly, 0, coveragesVehicle, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
+		coverageXproperties(softly, 0, coveragesVehicle2, "COMPDED", "Other Than Collision", "100", "$100", "Deductible", true, true);
 		assertCoverageLimitForCompColl(updateCoverageResponse2);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2454,6 +2454,136 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredCoverageResponseBI1.coverageLimit).isEqualTo("25000/50000");
 			softly.assertThat(filteredCoverageResponseUMUIM1.coverageLimit).isEqualTo("50000/50000");
 		});
+	}
+
+	protected void pas16035ViewCoverageUpdateCoverageBody(PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Perform Endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		assertSoftly(softly -> {
+			Coverage filteredCoverageResponseUmpd = viewCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseUmpd.coverageType).isEqualTo("Per Accident");
+			softly.assertThat(filteredCoverageResponseUmpd.customerDisplayed).isEqualTo(true);
+			softly.assertThat(filteredCoverageResponseUmpd.canChangeCoverage).isEqualTo(false);
+		});
+		//To Do uncomment after PAS 15788 Done
+	/*	String coverageCd1 = "PD";
+		String newBILimits1 = "15000";
+
+		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newBILimits1);
+		assertSoftly(softly -> {
+
+			Coverage filteredCoverageResponseUmpd = coverageResponse1.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponsePD = coverageResponse1.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseUmpd.coverageLimit).isEqualTo("25000");
+			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newBILimits1);
+		}); */
+
+		String coverageCd = "PD";
+		String newBILimits = "300000";
+
+		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newBILimits);
+		assertSoftly(softly -> {
+
+			Coverage filteredCoverageResponseUmpd = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseUmpd.coverageLimit).isEqualTo(newBILimits);
+			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newBILimits);
+		});
+
+	}
+
+	protected void pas17628_pas17628_ViewCoverageUpdateCoverageUmpdDeductibleBody(PolicyType policyType) {
+		mainApp().open();
+
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Perform Endorsementgbvgfc
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber);
+		assertSoftly(softly -> {
+
+			List<Coverage> coveragesV1 = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages;
+			coverageXproperties(softly, 0, coveragesV1, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
+
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimit).isEqualTo("0");
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimit).isEqualTo("250");
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(0).coverageLimitDisplay).isEqualTo("$0");
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).availableLimits.get(1).coverageLimitDisplay).isEqualTo("$250");
+
+		});
+
+		goToPasAndChangeUMPD(policyNumber);
+
+		String coverageCd = "PD";
+		String newBILimits = "300000";
+
+		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd, newBILimits);
+		assertSoftly(softly -> {
+
+			Coverage filteredCoverageResponseUmpd = coverageResponse1.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponsePD = coverageResponse1.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseUmpd.coverageLimit).isEqualTo(newBILimits);
+			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newBILimits);
+
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageDescription).isEqualTo("Uninsured Motorist Property Damage Deductible");
+
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("UMPDDED");
+			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("250");
+		});
+
+		String purchaseDate = "2013-02-22";
+		String vin = "1HGFA16526L081415";
+		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		assertThat(addVehicle.oid).isNotEmpty();
+		String oid1 = addVehicle.oid;
+		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
+
+		String new_Umpdded = "0";
+		String new_CoverageCd = "UMPDDED";
+
+		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid1, DXPRequestFactory.createUpdateCoverageRequest(new_CoverageCd, new_Umpdded), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		assertSoftly(softly -> {
+			softly.assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("UMPDDED");
+			softly.assertThat(updateCoverageResponse2.vehicleLevelCoverages.get(0).coverages.get(0).coverageLimit).isEqualTo("0");
+		});
+
+		String coverageCd1 = "PD";
+		String newBILimits1 = "50000";
+
+		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newBILimits1);
+		assertSoftly(softly -> {
+
+			List<Coverage> coverages1 = coverageResponse.vehicleLevelCoverages.get(0).coverages;
+			List<Coverage> coverages2 = coverageResponse.vehicleLevelCoverages.get(1).coverages;
+
+			Coverage filteredCoverageResponseUmpd = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.coverageCd)).findFirst().orElse(null);
+
+			softly.assertThat(filteredCoverageResponseUmpd.coverageLimit).isEqualTo(newBILimits1);
+			softly.assertThat(filteredCoverageResponsePD.coverageLimit).isEqualTo(newBILimits1);
+
+			softly.assertThat(coverages1.get(0).coverageLimit).isEqualTo("250");
+			softly.assertThat(coverages2.get(0).coverageLimit).isEqualTo("0");
+		});
+
 	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
@@ -2588,7 +2718,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			/*Not trying to rate and bind with NY and IN, because there is error on rate not related with this US - for IN- "UMPD limit may not exceed PD limit",
 			for NY - "UM/SUM limits may not exceed BI limits". Currently not possible to update them through DXP.
 			 */
-			if(!"NY, IN".contains(getState())){
+			if (!"NY, IN".contains(getState())) {
 				helperMiniServices.endorsementRateAndBind(policyNumber);
 			}
 		});
@@ -3062,6 +3192,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$100,000");
 		});
 	}
+
+	private void goToPasAndChangeUMPD(String policyNumber) {
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+	}
+
 }
 
 
