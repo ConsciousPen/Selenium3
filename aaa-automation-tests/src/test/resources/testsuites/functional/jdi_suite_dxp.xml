@@ -556,15 +556,15 @@
         </classes>
     </test>
     <test name="pas17629_Umuim_Update_coverage">
-    <parameter name="state" value="IN"/>
-    <classes>
-        <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
-            <methods>
-                <include name="pas17629_Umuim_Update_coverage"/>
-            </methods>
-        </class>
-    </classes>
-</test>
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17629_Umuim_Update_coverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas15369_reportOrderAndDriverPA">
         <parameter name="state" value="PA"/>
         <classes>
@@ -622,6 +622,17 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas18624_CustomisedEquipment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas16035ViewCoverageUpdateCoverage">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas16035_ViewCoverageUpdateCoverage"/>
+                    <include name="pas17628_ViewCoverageUpdateCoverageUmpdDeductible"/>
                 </methods>
             </class>
         </classes>

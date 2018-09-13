@@ -173,8 +173,8 @@
     </test>
     <test name="PUP [VA] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="VA"/>
-        <parameter name="fileName" value="VATests.xls"/>
-        <parameter name="policyNumbers" value="88,306"/>
+        <parameter name="fileName" value="VATests - 20181101.xls"/>
+        <parameter name="policyNumbers" value="2,23"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
