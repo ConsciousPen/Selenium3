@@ -27,7 +27,7 @@ public class TestFinanceEliminateManualEscheatmentReversalCapability extends Fin
 	OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-19072")
+	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-19072")
 	public void pas19072_testFinanceEliminateManualEscheatmentReversalCapability() {
 		mainApp().open();
 		createCustomerIndividual();
