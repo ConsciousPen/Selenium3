@@ -65,13 +65,18 @@ public class VersionsConflictConstants {
 			//TODO should be return to TD when True/False vs Yes/No is fixed
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Salvaged?", "true","false")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is the vehicle used in any commercial business operations?", "","false")
-			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Air Bags","Both Front","Both Front and Side")
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Anti-theft", "NONE","STD")
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Air Bags","000E","000K")
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Alternative Fuel Vehicle","true","false")
 			//Garaging address
 			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Is Garaging different from Residential?", "false", "true")
-			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245")
+			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Garaging Address", "NB residence address 1, NB residence address 2, Bell, CA, 90201","VII garaging address 1, VII garaging address 2, Culver City, CA, 90232")
 			//Usage Based Insurance
 			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Enroll in Usage Based Insurance?", "false","true")
+			//Ownership address
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Ownership Type", "Financed","Owned")
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).First Name", "LI011","")
+			.putAll("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Vehicle Ownership Address", "PO BOX 674, VII ownership address 2, Bell, CA, 55440-0674","")
 			//Ownership address
 			/*			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", "Financed","Owned")
 						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).First Name", "LI011","")
@@ -192,7 +197,11 @@ public class VersionsConflictConstants {
 						.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Is the vehicle used in any commercial business operations?", "Is the vehicle used in any commercial business operations?")*/
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Business Use Description", "Business Use Description")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Miles One-way to Work or School", "Miles One-way to Work or School")
-			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Anti-theft", "Anti-theft")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Odometer Reading", "Odometer Reading")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Odometer Reading Date", "Odometer Reading Date")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Customer Declared Annual Miles", "Customer Declared Annual Miles")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Anti-theft Recovery Device", "Anti-theft Recovery Device")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER).Primary Use", "Primary Use")
 			.build();
 
 	/**

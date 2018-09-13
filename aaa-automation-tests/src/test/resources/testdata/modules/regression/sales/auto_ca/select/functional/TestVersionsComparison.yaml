@@ -25,7 +25,7 @@ TestData_NB_Policy: {
     }
   },
   FormsTab: {},
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -72,7 +72,7 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'

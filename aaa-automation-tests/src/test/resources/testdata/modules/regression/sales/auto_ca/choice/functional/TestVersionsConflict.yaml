@@ -19,11 +19,34 @@ TestData_Plus25Days: {
   }
 }
 
+TestData_Plus27Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+27d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
 TestData_Minus1Month: {
   EndorsementActionTab: {
     Endorsement Date: $<today-1M>,
     Endorsement Reason: 'Maintain General Information'
   }
+}
+
+TestData_Blank: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes'
+    }
+  },
 }
 
 #test data for creation NB in Endorsement/Renewal scenarios
@@ -41,7 +64,6 @@ TestData_NB_Policy: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Product: CA Choice,
-    Payment Plan: Annual,
   },
   DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
@@ -92,7 +114,6 @@ TestData_NB_Quote: {
   },
   PremiumAndCoveragesTab: {
     Product: CA Choice,
-    Payment Plan: Annual,
   },
   DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {

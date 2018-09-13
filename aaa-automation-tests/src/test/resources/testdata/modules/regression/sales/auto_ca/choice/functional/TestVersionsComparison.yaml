@@ -27,7 +27,6 @@ TestData_NB_Policy: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Product: CA Choice,
-    Payment Plan: Annual,
   },
   DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
@@ -60,7 +59,10 @@ TestData_NB_Quote: {
   PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab_Quote',
   DriverTab: '@DriverInformation_Version1',
-  MembershipTab: {},
+  MembershipTab: {
+    AAAMembershipReport: [{Select: 'Yes'}],
+    Order Report: click,
+  },
   VehicleTab: '@VehicleInformation_Version1',
   AssignmentTab: {
     DriverVehicleRelationshipTable: {
@@ -78,7 +80,6 @@ TestData_NB_Quote: {
   },
   PremiumAndCoveragesTab: {
     Product: CA Choice,
-    Payment Plan: Annual,
   },
   DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
@@ -250,10 +251,7 @@ TestData_AAAProductOwned_Version2: {
     AAAProductOwned: '@AAAProductOwned_Version2'
   },
   DriverTab: {},
-  MembershipTab: {
-    AAAMembershipReport: [{Select: 'Yes'}],
-    Order Report: click,
-  },
+  MembershipTab: {},
   VehicleTab: {},
   AssignmentTab: {},
   FormsTab: {},
@@ -263,7 +261,8 @@ TestData_AAAProductOwned_Version2: {
 }
 
 AAAProductOwned: {
-  Current AAA Member: 'No',
+  Current AAA Member: 'Yes',
+  Membership Number: 4382127703153016,
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 1111111111,
   Life: 'Yes',
@@ -298,8 +297,7 @@ AAAProductOwned_Version1: {
 }
 
 AAAProductOwned_Version2: {
-  Current AAA Member: 'Yes',
-  Membership Number: 4382127703153016,
+  Current AAA Member: 'No',
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 3333333331,
   Life: 'Yes',

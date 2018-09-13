@@ -177,6 +177,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName);
+
+
 	}
 
 	/**
@@ -218,6 +220,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		policy.getDefaultView().fill(tdVersion);
 	}
 
+	private void renewalBlankVersionCreation() {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getTestSpecificTD("TestData_Blank"));
+	}
+
 	/**
 	 * Mid-term endorsement transaction effective date + 20 days
 	 * @param td test data that is used for endorsement transaction
@@ -233,6 +241,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void processPlus25DaysEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus25Days"));
+		policy.endorse().performAndFill(endorsementTD);
+	}
+
+	/**
+	 * Blank Mid-term endorsement transaction effective date + 27 days to validate that all rules/validations for policies are set correctly
+	 */
+	private void processPlus27DaysBlankEndorsement() {
+		TestData endorsementTD = getTestSpecificTD("TestData_Blank").adjust(getTestSpecificTD("TestData_Plus27Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
@@ -562,6 +578,9 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsEndorsement, tabName, sectionName);
 		Tab.buttonCancel.click();
+		Tab.buttonCancel.click();
+
+		processPlus27DaysBlankEndorsement();
 	}
 
 	/**
@@ -616,6 +635,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
 		Tab.buttonCancel.click();
+
+		renewalBlankVersionCreation();
 	}
 
 	/**
