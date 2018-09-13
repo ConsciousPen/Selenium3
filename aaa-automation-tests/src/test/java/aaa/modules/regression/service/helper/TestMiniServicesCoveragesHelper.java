@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
@@ -1555,8 +1556,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void coverageXproperties(ETCSCoreSoftAssertions softly, Coverage coverage, String coverageCd, String coverageDesc, String coverageLimit, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(coverage.coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(coverage.coverageDescription).isEqualTo(coverageDesc);
-		if ((coverage.coverageCd) == "WL") {
+
+		//check coverageLimit
+		if (StringUtils.isEmpty(coverageLimit)) {
+			softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit);
+		} else {
 			softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
+		}
+
+		//check coverageLimitDisplay
+		if (StringUtils.isEmpty(coverageLimitDisplay)) {
+			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
+		} else {
 			//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
 			if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
 				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
@@ -1564,6 +1575,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
 			}
 		}
+
 		softly.assertThat(coverage.coverageType).isEqualTo(coverageType);
 		softly.assertThat(coverage.customerDisplayed).isEqualTo(customerDisplay);
 		softly.assertThat(coverage.canChangeCoverage).isEqualTo(canChangeCoverage);
