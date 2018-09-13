@@ -11,6 +11,7 @@ import aaa.modules.financials.template.TestNewBusinessTemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestNewBusiness extends TestNewBusinessTemplate {
 
 	@Override
@@ -25,7 +26,6 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @details New business, bound ON or AFTER policy effective date, WITHOUT employee benefit.
 	 */
 	@Parameters({"state"})
-	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FINANCE})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testNBZ_01(@Optional("") String state) {
@@ -39,7 +39,6 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @details New business, bound BEFORE policy effective date, WITHOUT employee benefit. (Including entries recorded via batch job at effective date.)
 	 */
 	@Parameters({"state"})
-	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FINANCE})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testNBZ_03(@Optional("") String state) {
