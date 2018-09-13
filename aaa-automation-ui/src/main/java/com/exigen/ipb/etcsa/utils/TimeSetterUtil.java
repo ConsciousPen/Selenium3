@@ -36,7 +36,7 @@ public class TimeSetterUtil {
 	}
 
 	public static synchronized TimeSetterUtil getInstance() {
-		if (TimeShiftTestUtil.isContextAvailable()) {
+		if (TimeShiftTestUtil.isPEFAvailable()) {
 			isPEF = true;
 		}
 		if (instance == null) {

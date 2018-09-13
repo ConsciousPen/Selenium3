@@ -172,7 +172,7 @@ public class JobUtils {
 	}
 
 	private static Boolean isPef() {
-		return TimeShiftTestUtil.isContextAvailable();
+		return TimeShiftTestUtil.isPEFAvailable();
 	}
 
 	private static String getFullName() {
