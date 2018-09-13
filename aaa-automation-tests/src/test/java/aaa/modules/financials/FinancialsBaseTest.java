@@ -28,6 +28,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		types.add(PolicyType.AUTO_CA_CHOICE); types.add(PolicyType.AUTO_CA_SELECT);
 		types.add(PolicyType.HOME_CA_HO3); types.add(PolicyType.HOME_CA_HO4); types.add(PolicyType.HOME_CA_HO6); types.add(PolicyType.HOME_CA_DP3);
 		return types;
+		//test
 	}
 
 }
