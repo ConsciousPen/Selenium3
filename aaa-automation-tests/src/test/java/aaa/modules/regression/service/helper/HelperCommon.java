@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.ClientConfig;
@@ -114,7 +115,7 @@ public class HelperCommon {
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
-		return adminApp().getProtocol() + adminApp().getHost() + adminApp().getPort() + endpointUrlPart;
+		return new URIBuilder().setScheme(adminApp().getProtocol()).setHost(adminApp().getHost()).setPort(adminApp().getPort()).setPath(endpointUrlPart).toString();
 	}
 
 	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {
