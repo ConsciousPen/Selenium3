@@ -1,4 +1,4 @@
-package aaa.modules.regression.finance.billing;
+package aaa.modules.regression.finance.billing.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Test;
@@ -8,10 +8,12 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
 import toolkit.utils.TestInfo;
 
-public class TestFinanceEliminateManualEscheatmentReversalCapability extends FinanceBaseTest {
+public class TestFinanceEliminateManualEscheatmentReversalCapability extends PolicyBaseTest {
 
 	/**
 	 * @author Maksim Piatrouski
@@ -25,6 +27,11 @@ public class TestFinanceEliminateManualEscheatmentReversalCapability extends Fin
 	 */
 
 	OtherTransactionsActionTab otherTransactionsActionTab = new OtherTransactionsActionTab();
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-19072")

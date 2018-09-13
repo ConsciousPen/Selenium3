@@ -52,7 +52,7 @@
     </test>
     <test name="TestFinanceEliminateManualEscheatmentReversalCapability" preserve-order="true">
         <classes>
-            <class name="aaa.modules.regression.finance.billing.TestFinanceEliminateManualEscheatmentReversalCapability"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceEliminateManualEscheatmentReversalCapability"/>
         </classes>
     </test>
 </suite>
