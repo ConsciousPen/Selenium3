@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.db.queries.TimePointQueries;
 import aaa.helpers.jobs.JobUtils;
@@ -16,6 +18,7 @@ import toolkit.datax.TestData;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 /**
  * This template is used to test Best Membership Logic (BML) operations. BML is only used in cases where either No
@@ -54,16 +57,36 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @param fallbackMemberNumber Specifies an initial member number to use.
      * @return Policy Number
      */
-    protected String createFallbackPolicy(String fallbackMemberNumber){
-        return createBMLPolicy(fallbackMemberNumber);
+    protected String createYesAAAMembershipPolicy(String fallbackMemberNumber){
+
+        TestData testData = getAAAMemberPolicyTestData(fallbackMemberNumber);
+
+        String policyNumber = createBMLPolicy(testData);
+
+        setAAAMembershipErrorStatus(policyNumber);
+
+        return policyNumber;
     }
 
     /**
      * Create Default Policy using Default Fallback Member Number.
      * @return Policy Number
      */
-    protected String createDefaultFallbackPolicy(){
-        return createFallbackPolicy(DefaultFallbackMemberNumber);
+    protected String createDefaultYesAAAMembershipPolicy(){
+        return createYesAAAMembershipPolicy(DefaultFallbackMemberNumber);
+    }
+
+    /**
+     * Create a Policy without a Fallback and Current AAA Member = No
+     * @return Policy Number
+     */
+    protected String createNoAAAMembershipPolicy(){
+
+        TestData testData = getNonAAAMemberPolicyTestData();
+
+        String policyNumber = createBMLPolicy(testData);
+
+        return policyNumber;
     }
 
     /**
@@ -83,15 +106,18 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     }
 
     /**
-     * Move Policy to NB+30 <br>
+     * Move Policy to STG2 NB+30 <br>
      * @param policyNumber The Policy Number you want to move to STG2 / NB+30.
      * @param policyEffectiveDateTime The policy effective date for the timesetter calculations.
      */
     protected void movePolicyToSTG2NB30(String policyNumber, LocalDateTime policyEffectiveDateTime){
 
-        setAAAMembershipErrorStatus(policyNumber);
-
-        setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG1);
+        // Only set error statuses if Current AAA Member set to Yes.
+        if (isAAAMemberInputAtQuoteTime(policyNumber)) {
+            // Set status for BML
+            setAAAMembershipErrorStatus(policyNumber);
+            setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG1);
+        }
 
         moveJVMNumberOfDaysFromEffectiveDate(policyEffectiveDateTime, 30);
 
@@ -106,9 +132,12 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      */
     protected LocalDateTime movePolicyToSTG3Renewal(String policyNumber){
 
-        setAAAMembershipErrorStatus(policyNumber);
+        // Only Set error status if there was a prior ordered membership number.
+        if (AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber).isPresent()) {
 
-        setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG2);
+            setAAAMembershipErrorStatus(policyNumber);
+            setAAABestMemberStatus(policyNumber, AAAMembershipQueries.AAABestMembershipStatus.ERROR_STG2);
+        }
 
         LocalDateTime policyExpirationDate = getPolicyExpirationDate(policyNumber);
 
@@ -142,11 +171,39 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
     /**
      * Creates a policy with the intention of going through BML.
-     * @param inputQuoteMemberNumber If blank, will set No to AAAMember during quote.
+     * @param testData Runs createPolicy with specified TD
      * @return Policy Number
+     */
+     private String createBMLPolicy(TestData testData) {
+         // Create the policy and save policy number //
+         mainApp().open();
+         createCustomerIndividual();
+         return createPolicy(testData);
+    }
+
+    /**
+     * Queries DB to find out if Current AAA Membership Yes was selected at quote time.
+     * @param policyNumber The policy number to check against.
+     * @return True if Yes was used during quote time.
+     */
+    private boolean isAAAMemberInputAtQuoteTime(String policyNumber)throws NullPointerException{
+         String insurerCd = AAAMembershipQueries.getAAAInsurerCdFromSQL(policyNumber).orElse("Null");
+
+         // There is no scenario after binding where insurerCd should come back as null
+        if (insurerCd.equals("Null")){
+            throw new NullPointerException("InsurerCd query should never come back Null after policy binding");
+        }
+         return insurerCd.equals("Yes");
+    }
+
+    /**
+     * Used to get test data when AAA Member Number provided
+     * @param aaaMemberNumber The AAA Membership Number value you want to set in the PAS UI. <br>
+     * EX: "9999994444444440"
+     * @return TestData that ensures Current AAA Member to Yes and automation uses specific Member Number
      * @throws NotImplementedException when evaluating policy types for keypath generation if no match.
      */
-     private String createBMLPolicy(String inputQuoteMemberNumber) throws NotImplementedException{
+    private TestData getAAAMemberPolicyTestData(String aaaMemberNumber) throws NotImplementedException {
 
         String keypathCurrentMember;
         String keypathMemberNum;
@@ -230,57 +287,11 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             }
 
             default: {
-                String msg = "createBMLPolicy does not implement policy type: [" + getPolicyType().getShortName() +
+                String msg = "getAAAMemberPolicyTestData does not implement policy type: [" + getPolicyType().getShortName() +
                         "] Keypaths must be mapped for the type for CurrentAAAMembership and AAAMembership Number";
                 throw new NotImplementedException(msg);
             }
         }
-
-        // Create testData from keypaths //
-        TestData testData;
-
-        boolean hasMemberNumber = !inputQuoteMemberNumber.isEmpty();
-
-        // When the commented out code below is ready to be used, this code must be removed.
-        testData = getAAAMemberPolicyTestData(keypathCurrentMember, keypathMemberNum, inputQuoteMemberNumber);
-
-         /* // The else statement below is an untested code path for integrating with a future story.
-        if (hasMemberNumber) {
-            testData = getAAAMemberPolicyTestData(keypathCurrentMember, keypathMemberNum, inputQuoteMemberNumber);
-        }
-        else{
-            // This is an untested path put in place for integrating with another story.
-            testData = getNonAAAMemberPolicyTestData(keypathCurrentMember, keypathMemberNum);
-        }
-        */
-
-        // Create the policy and save policy number //
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy(testData);
-
-        // Set error status if necessary //
-        if (hasMemberNumber) {
-            setAAAMembershipErrorStatus(policyNumber);
-        }
-
-        return policyNumber;
-    }
-
-    /**
-     * Used to get test data when AAA Member Number provided
-     * @param keypathCurrentMember Describes path to find Current Member on page. <br>
-     * EX: "GeneralTab|AAAProductOwned|Current AAA Member" <br>
-     * <br>
-     * @param keypathMemberNum Describes path to find AAA Member Number on page. <br>
-     * EX: "GeneralTab|AAAProductOwned|Membership Number" <br>
-     * <br>
-     * @param aaaMemberNumber The AAA Membership Number value you want to set in the PAS UI. <br>
-     * EX: "9999994444444440"
-     * @return TestData that ensures Current AAA Member to Yes and automation uses specific Member Number
-     */
-    private TestData getAAAMemberPolicyTestData
-            (String keypathCurrentMember, String keypathMemberNum, String aaaMemberNumber) {
 
         return getPolicyTD()
                 .adjust(keypathCurrentMember, "Yes")
@@ -289,24 +300,116 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     }
 
     /**
-     * Used to get test data when no AAA Member Number provided
-     * @param keypathCurrentMember Describes path to find Current Member on page. <br>
-     * EX: "GeneralTab|AAAProductOwned|Current AAA Member" <br>
-     * @param keypathMemberNum Describes path to find AAA Member Number on page. <br>
-     * EX: "GeneralTab|AAAProductOwned|Membership Number" <br>
-     * <br>
-     * @return TestData that sets Current AAA Member to No and hides any member number the default TD would have entered.
+     * Used to get test data that will set No to Membership status.
+     * @return TestData that ensures Current AAA Member to No.
+     * @throws NotImplementedException when evaluating policy types for keypath generation if no match.
      */
-    private TestData getNonAAAMemberPolicyTestData (String keypathCurrentMember, String keypathMemberNum)
-            throws NotImplementedException{
+    private TestData getNonAAAMemberPolicyTestData() throws NotImplementedException {
 
-        throw new NotImplementedException("This is an untested path put in place for integrating with another BML story. " +
-                "It may work out of the box but has not been tested yet.");
-        /*
-        return getPolicyTD()
+        String keypathCurrentMember;
+        String keypathMemberNum;
+        String keypathOrderMembershipReports = ""; // This is only used for HO products.
+
+
+        // Set keypaths based on policy type.
+        switch (getPolicyType().getShortName())
+        {
+            case "AutoCA": {
+                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
+                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+
+                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+
+                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                break;
+            }
+
+            case "AutoCAC": {
+                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
+                        AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+
+                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                        AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+
+                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                        AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                break;
+            }
+
+            case "AutoSS": {
+                // keypathTabSection Result: "GeneralTab|AAAProductOwned"
+                String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
+                        AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+
+                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                        AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+
+                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());;
+                break;
+            }
+
+            case "HomeSS_HO3": {
+                // keypathTabSection Result: "ApplicantTab|AAAMembership"
+                String keypathTabSection = TestData.makeKeyPath(ApplicantTab.class.getSimpleName(),
+                        HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel());
+
+                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                        HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
+
+                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                        HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+                break;
+            }
+
+            case "HomeCA_HO3": {
+                // keypathTabSection Result: "ApplicantTab|AAAMembership"
+                String keypathTabSection = TestData.makeKeyPath(ApplicantTab.class.getSimpleName(),
+                        HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel());
+
+                // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+                keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                        HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
+
+                // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+                keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                        HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+
+                // keypathOrderMembershipReports Result: "ReportsTab|AAAMembershipReport"
+                keypathOrderMembershipReports = TestData.makeKeyPath(HomeCaMetaData.ReportsTab.class.getSimpleName(),
+                        HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+                break;
+            }
+
+            default: {
+                String msg = "getNonAAAMemberPolicyTestData does not implement policy type: [" + getPolicyType().getShortName() +
+                        "] Keypaths must be mapped for the type for CurrentAAAMembership and AAAMembership Number";
+                throw new NotImplementedException(msg);
+            }
+        }
+
+        TestData testData =  getPolicyTD()
                 .adjust(keypathCurrentMember, "No")
                 .mask(keypathMemberNum);
-        */
+
+        // Skip ordering the membership report if a keypath provided
+        if(!keypathOrderMembershipReports.isEmpty()){
+            testData.mask(keypathOrderMembershipReports);
+        }
+
+        return testData;
     }
 
     /**

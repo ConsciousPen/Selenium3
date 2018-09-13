@@ -51,6 +51,18 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Returns the AAA InsurerCd from DB. <br>
+     * InsurerCd represents the selection of Current AAA Member during Quoting in the UI. <br>
+     * If it is Yes, there should also be a fallback number available.
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     */
+    public static java.util.Optional<String> getAAAInsurerCdFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("OP.insurercd", quoteOrPolicyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
      * Returns the AAA Membership Member Since Date from DB.
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return an optional String. If no DB rows come back, will be null.
@@ -69,6 +81,26 @@ public class AAAMembershipQueries {
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
         return DBService.get().getValue(query);
+    }
+
+    /**
+     * Returns the AAA Membership Status from DB
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return an optional MembershipStatus. If no DB rows come back, will be null.
+     */
+    public static Optional<AAAMembershipStatus> getAAAMembershipStatusFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("MS.MEMBERSHIPSTATUS", quoteOrPolicyNumber);
+
+        Optional<String> dbResponse = DBService.get().getValue(query);
+
+        Optional<AAAMembershipStatus> membershipStatus = Optional.empty();
+
+        if(dbResponse.isPresent()){
+            AAAMembershipStatus membershipValue = AAAMembershipStatus.valueOf(dbResponse.get());
+            membershipStatus = Optional.of(membershipValue);
+        }
+
+        return membershipStatus;
     }
 
     /**

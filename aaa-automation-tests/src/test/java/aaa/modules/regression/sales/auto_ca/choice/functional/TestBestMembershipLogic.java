@@ -47,7 +47,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -83,7 +83,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate after policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -119,7 +119,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -155,7 +155,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -201,7 +201,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -245,7 +245,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -296,7 +296,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -345,7 +345,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -401,7 +401,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
