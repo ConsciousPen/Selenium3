@@ -17,7 +17,9 @@ TestData_NB_Policy: {
   PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab',
   DriverTab: '@DriverInformation',
-  MembershipTab: {},
+  MembershipTab: {
+    Order Report: click,
+  },
   VehicleTab: '@VehicleInformation',
   AssignmentTab: {
     DriverVehicleRelationshipTable: {
@@ -59,10 +61,7 @@ TestData_NB_Quote: {
   PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
   GeneralTab: '@GeneralTab_Quote',
   DriverTab: '@DriverInformation_Version1',
-  MembershipTab: {
-    AAAMembershipReport: [{Select: 'Yes'}],
-    Order Report: click,
-  },
+  MembershipTab: {},
   VehicleTab: '@VehicleInformation_Version1',
   AssignmentTab: {
     DriverVehicleRelationshipTable: {
