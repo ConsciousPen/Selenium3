@@ -4,7 +4,6 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
@@ -104,11 +103,6 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	@Override
 	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new PUPTestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public PUPOpenLPolicy createFrom(JsonElement jsonElement) {
-		return new PUPOpenLPolicy();
 	}
 
 	@Override

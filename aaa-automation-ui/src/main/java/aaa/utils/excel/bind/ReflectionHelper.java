@@ -76,7 +76,7 @@ public class ReflectionHelper {
 		}
 	}
 
-	public static Object getInstance(Class<?> clazz) {
+	public static <T> T getInstance(Class<T> clazz) {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

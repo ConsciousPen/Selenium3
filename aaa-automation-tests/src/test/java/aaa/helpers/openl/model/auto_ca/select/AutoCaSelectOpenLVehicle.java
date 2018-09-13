@@ -198,7 +198,6 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 				", compSymbol=" + compSymbol +
 				", id='" + id + '\'' +
 				", modelYear=" + modelYear +
-				", statCode='" + statCode + '\'' +
 				", oldStatCode='" + oldStatCode + '\'' +
 				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
 				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +

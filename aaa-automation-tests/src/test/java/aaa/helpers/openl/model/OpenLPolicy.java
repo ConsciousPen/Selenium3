@@ -6,7 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
-import com.google.gson.JsonElement;
+import com.google.common.collect.MapDifference;
+import com.google.common.collect.Maps;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.utils.excel.bind.ReflectionHelper;
@@ -92,7 +93,10 @@ public abstract class OpenLPolicy {
 		return openLFieldsMap;
 	}
 
-	public abstract OpenLPolicy createFrom(JsonElement jsonElement);
+	public MapDifference<String, String> diff(OpenLPolicy otherOpenLPolicy) {
+		//TODO-dchubkov: add correct sorting of inner lists elements
+		return Maps.difference(this.getOpenLFieldsMap(), otherOpenLPolicy.getOpenLFieldsMap());
+	}
 
 	private Map<String, String> getOpenLFieldsMap(Field openLField, Object classInstance, String parentOpenLFieldPath) {
 		Map<String, String> openLFieldsMap = new LinkedHashMap<>();

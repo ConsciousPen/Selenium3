@@ -1,9 +1,5 @@
 package aaa.modules.openl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
@@ -36,7 +32,7 @@ public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> ext
 		return new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue());
 	}
 
-	@Override
+	/*@Override
 	protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
 		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
 
@@ -53,5 +49,5 @@ public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> ext
 		List<String> coverageCDsList = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().endsWith("coverageCd")).map(Map.Entry::getKey).collect(Collectors.toList());
 		coverageCDsList.forEach(cd -> openLFieldsMap.put(cd.replace("coverageCd", "coverageCD"), openLFieldsMap.remove(cd)));
 		return openLFieldsMap;
-	}
+	}*/
 }

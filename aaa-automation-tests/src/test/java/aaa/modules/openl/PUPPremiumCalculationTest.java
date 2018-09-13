@@ -1,15 +1,13 @@
 package aaa.modules.openl;
 
-import java.util.Map;
-
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
+import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import toolkit.datax.TestData;
 
 public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy> {
@@ -41,12 +39,12 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 				: PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
 
-	@Override
+	/*@Override
 	protected Map<String, String> getOpenLFieldsMapFromTest(PUPOpenLPolicy openLPolicy) {
 		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
 		//does not affect rating
 		openLFieldsMap.remove("policy.dwelling.viciousDogCount");
 		openLFieldsMap.remove("policy.dwelling.address.county");
 		return openLFieldsMap;
-	}
+	}*/
 }

@@ -3,7 +3,6 @@ package aaa.helpers.openl.model.auto_ca.select;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
@@ -94,11 +93,6 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	@Override
 	public AutoCaSelectTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoCaSelectTestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public AutoCaSelectOpenLPolicy createFrom(JsonElement jsonElement) {
-		return new AutoCaSelectOpenLPolicy();
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

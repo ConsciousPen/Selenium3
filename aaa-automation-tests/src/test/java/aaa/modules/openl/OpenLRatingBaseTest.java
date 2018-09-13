@@ -3,9 +3,7 @@ package aaa.modules.openl;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -14,7 +12,6 @@ import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.MapDifference;
-import com.google.common.collect.Maps;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -157,15 +154,19 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			return;
 		}
 
-		Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
+		/*Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
 		//Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder, openLPolicy);
 		if (MapUtils.isEmpty(requestOpenLFields)) {
 			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
 			return;
 		}
-		Map<String, String> testOpenLFields = getOpenLFieldsMapFromTest(openLPolicy);
+		Map<String, String> testOpenLFields = getOpenLFieldsMapFromTest(openLPolicy);*/
 
-		MapDifference<String, String> differences = Maps.difference(requestOpenLFields, testOpenLFields);
+		//MapDifference<String, String> differences = Maps.difference(requestOpenLFields, testOpenLFields);
+		@SuppressWarnings("unchecked")
+		P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestLog().getOpenLPolicyObject(openLPolicy.getClass());
+		MapDifference<String, String> differences = openLPolicy.diff(openLPolicyFromRequest);
+
 		if (differences.entriesDiffering().isEmpty()) {
 			log.info("All common OpenL fields from rating json request and {} object from test excel file have same values", openLPolicy.getClass().getSimpleName());
 		} else {
@@ -194,27 +195,27 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	private Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy) {
 		P openLPolicyFromRequest = (P) openLPolicy.createFrom(ratingLogsHolder.getRequestLog().getJsonElement());
 		//openLPolicyFromRequest.sortInnerObjectsAccordingTo(openLPolicy);
 		Map<String, String> openLFieldsMap = new HashMap<>(openLPolicyFromRequest.getOpenLFieldsMap());
 		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
 		return openLFieldsMap;
-	}
+	}*/
 
-	protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
+	/*protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
 		Map<String, String> openLFieldsMap = new HashMap<>(ratingLogsHolder.getRequestLog().getOpenLFieldsMap());
 		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
 		return openLFieldsMap;
-	}
+	}*/
 
-	protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
+	/*protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
 		Map<String, String> openLFieldsMap = openLPolicy.getOpenLFieldsMap();
 		openLFieldsMap.entrySet().removeIf(e -> e.getValue() == null || "null".equalsIgnoreCase(e.getValue())); // usually we don't care about null values of OpenL fields in test file during comparision
 		openLFieldsMap.remove("policy.policyNumber"); // policy number in test always differs from value in rating request log
 		return openLFieldsMap;
-	}
+	}*/
 
 	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
 		saveLogs(null, testContext, openLPolicyNumber, isActualEqualToExpectedPremium);

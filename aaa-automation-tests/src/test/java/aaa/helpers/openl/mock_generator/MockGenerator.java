@@ -38,9 +38,8 @@ public class MockGenerator {
 		generatedMocks.clear();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) ReflectionHelper.getInstance(mockDataClass);
+		M mockInstance = ReflectionHelper.getInstance(mockDataClass);
 		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(mockDataClass)) {
 			ReflectionHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
 		}

@@ -1,8 +1,5 @@
 package aaa.modules.openl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -14,7 +11,10 @@ import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -112,14 +112,14 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
 	}
 
-	@Override
+	/*@Override
 	protected Map<String, String> getOpenLFieldsMapFromTest(HomeSSOpenLPolicy openLPolicy) {
 		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
 		openLFieldsMap.remove("policy.id");
 		List<String> policyKeys = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().startsWith("policy.")).map(Map.Entry::getKey).collect(Collectors.toList());
 		policyKeys.forEach(k -> openLFieldsMap.put(k.replace("policy.", "p."), openLFieldsMap.remove(k)));
 		return openLFieldsMap;
-	}
+	}*/
 
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
 		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && !openLPolicy.getForms().stream().anyMatch(c -> "DSMSI2".equals(c.getFormCode()))) {

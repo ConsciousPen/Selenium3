@@ -13,7 +13,6 @@ public abstract class OpenLVehicle {
 	protected Integer compSymbol;
 	protected String id;
 	protected Integer modelYear;
-	protected String statCode;
 	protected String oldStatCode;
 	protected String biLiabilitySymbol;
 	protected String pdLiabilitySymbol;
@@ -68,14 +67,6 @@ public abstract class OpenLVehicle {
 
 	public void setModelYear(Integer modelYear) {
 		this.modelYear = modelYear;
-	}
-
-	public String getStatCode() {
-		return statCode;
-	}
-
-	public void setStatCode(String statCode) {
-		this.statCode = statCode;
 	}
 
 	public String getOldStatCode() {

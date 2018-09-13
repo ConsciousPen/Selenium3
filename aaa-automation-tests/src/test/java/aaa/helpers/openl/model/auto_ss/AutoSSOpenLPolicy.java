@@ -3,7 +3,6 @@ package aaa.helpers.openl.model.auto_ss;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -402,12 +401,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoSSTestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public AutoSSOpenLPolicy createFrom(JsonElement jsonElement) {
-		//to be done...
-		return new AutoSSOpenLPolicy();
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

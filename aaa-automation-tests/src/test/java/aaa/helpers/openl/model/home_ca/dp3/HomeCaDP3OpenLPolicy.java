@@ -2,7 +2,6 @@ package aaa.helpers.openl.model.home_ca.dp3;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
@@ -145,11 +144,6 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, 
 	@Override
 	public HomeCaDP3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeCaDP3TestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public HomeCaDP3OpenLPolicy createFrom(JsonElement jsonElement) {
-		return new HomeCaDP3OpenLPolicy();
 	}
 
 	@Override

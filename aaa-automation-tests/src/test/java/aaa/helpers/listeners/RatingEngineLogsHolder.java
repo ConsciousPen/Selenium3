@@ -1,19 +1,30 @@
 package aaa.helpers.listeners;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
+import aaa.helpers.openl.model.OpenLPolicy;
+import aaa.utils.excel.bind.ReflectionHelper;
+import aaa.utils.excel.bind.annotation.ExcelColumnElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssertions;
 
 public class RatingEngineLogsHolder {
 	private static Logger log = LoggerFactory.getLogger(RatingEngineLogsHolder.class);
@@ -219,6 +230,158 @@ public class RatingEngineLogsHolder {
 			}
 
 			return this.jsonElement;
+		}
+
+		@SuppressWarnings("unchecked")
+		public <P extends OpenLPolicy> P getOpenLPolicyObject(Class<P> openLPolicyClass) {
+			return (P) getOpenLFieldValue(openLPolicyClass, getJsonElement().getAsJsonObject().getAsJsonObject("policy"));
+		}
+
+		private Object getFieldValue(Field openLField, JsonObject jsonObject) {
+			//TODO-dchubkov: add messages to exceptions
+			Object fieldValue = null;
+
+			if (openLField.isAnnotationPresent(ExcelTransient.class) ||
+					openLField.isAnnotationPresent(ExcelColumnElement.class) && openLField.getAnnotation(ExcelColumnElement.class).isPrimaryKey()) {
+				return null;
+			}
+
+			String fieldName = openLField.getName();
+			if (ReflectionHelper.isTableClassField(openLField)) {
+				Class<?> tableClass = ReflectionHelper.getFieldType(openLField);
+				if (List.class.isAssignableFrom(openLField.getType())) {
+					List<Object> fieldValueList = new ArrayList<>();
+					for (JsonElement je : jsonObject.getAsJsonArray(fieldName)) {
+						Object value = getOpenLFieldValue(tableClass, je.getAsJsonObject());
+						fieldValueList.add(value);
+					}
+					fieldValue = fieldValueList;
+				} else {
+					fieldValue = getOpenLFieldValue(tableClass, jsonObject.getAsJsonObject(fieldName));
+				}
+
+			} else {
+				if (jsonObject.isJsonNull()) {
+					return null;
+				}
+
+				JsonElement je = null;
+				if (openLField.isAnnotationPresent(ExcelColumnElement.class) && openLField.getAnnotation(ExcelColumnElement.class).ignoreCase()) {
+					for (Map.Entry<String, JsonElement> jsonElementEntry : jsonObject.entrySet()) {
+						if (jsonElementEntry.getKey().equalsIgnoreCase(fieldName)) {
+							je = jsonElementEntry.getValue();
+							break;
+						}
+					}
+				} else {
+					je = jsonObject.get(fieldName);
+				}
+				CustomAssertions.assertThat(je).as("fieldName = %s", fieldName).isNotNull();
+
+				if (je.isJsonNull()) {
+					return null;
+				}
+				//TODO-dchubkov: to be refactored...
+				switch (openLField.getType().getName()) {
+					case "java.lang.String":
+						fieldValue = je.getAsString();
+						break;
+					case "java.lang.Boolean":
+					case "java.lang.boolean":
+						fieldValue = je.getAsBoolean();
+						break;
+					case "java.lang.Integer":
+					case "java.lang.int":
+						fieldValue = je.getAsInt();
+						break;
+					case "java.lang.Double":
+					case "java.lang.double":
+						fieldValue = je.getAsDouble();
+						break;
+					case "java.lang.Float":
+					case "java.lang.float":
+						fieldValue = je.getAsFloat();
+						break;
+					case "java.lang.Short":
+					case "java.lang.short":
+						fieldValue = je.getAsShort();
+						break;
+					case "java.lang.Byte":
+					case "java.lang.byte":
+						fieldValue = je.getAsByte();
+						break;
+					case "java.lang.Number":
+						fieldValue = je.getAsNumber();
+						break;
+					//TODO-dchubkov: to be refactored Dates...
+					case "java.time.LocalDate":
+						if (je.isJsonPrimitive() && ((JsonPrimitive) je).isNumber()) {
+							long epochMilli = je.getAsLong();
+							fieldValue = Instant.ofEpochMilli(epochMilli).atZone(ZoneId.systemDefault()).toLocalDate();
+						} else {
+							List<String> dateTimeFormatterPatterns = new ArrayList<>();
+							if (openLField.isAnnotationPresent(ExcelColumnElement.class) && !ArrayUtils.isEmpty(openLField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns())) {
+								dateTimeFormatterPatterns = Arrays.asList(openLField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns());
+							} else {
+								dateTimeFormatterPatterns.add("MM/dd/yyyy");
+								dateTimeFormatterPatterns.add("yyyyMMdd");
+							}
+
+							for (String pattern : dateTimeFormatterPatterns) {
+								try {
+									DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+									fieldValue = LocalDate.parse(je.getAsString(), dateTimeFormatter);
+									break;
+								} catch (DateTimeParseException ignore) {
+								}
+							}
+							CustomAssertions.assertThat(fieldValue).as(">>>>>>>>>>>> fieldValue = %s", fieldValue).isNotNull();
+						}
+
+						break;
+					//TODO-dchubkov: to be refactored Dates...
+					case "java.time.LocalDateTime":
+						if (je.isJsonPrimitive() && ((JsonPrimitive) je).isNumber()) {
+							long epochMilli = je.getAsLong();
+							fieldValue = Instant.ofEpochMilli(epochMilli).atZone(ZoneId.systemDefault()).toLocalDateTime();
+						} else {
+							List<String> dateTimeFormatterPatterns = new ArrayList<>();
+							if (openLField.isAnnotationPresent(ExcelColumnElement.class) && !ArrayUtils.isEmpty(openLField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns())) {
+								dateTimeFormatterPatterns = Arrays.asList(openLField.getAnnotation(ExcelColumnElement.class).dateFormatPatterns());
+							} else {
+								dateTimeFormatterPatterns.add("MM/dd/yyyy HHmmss");
+							}
+							for (String pattern : dateTimeFormatterPatterns) {
+								try {
+									DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
+									fieldValue = LocalDateTime.parse(je.getAsString(), dateTimeFormatter);
+									break;
+								} catch (DateTimeParseException ignore) {
+								}
+							}
+							CustomAssertions.assertThat(fieldValue).as(">>>>>>>>>>>> fieldValue = %s", fieldValue).isNotNull();
+						}
+						break;
+					default:
+						throw new IstfException(">>>>>>>>>>>>>>>>>>");
+				}
+
+			}
+			//TODO-dchubkov: add support for multi columns fields
+
+			return fieldValue;
+		}
+
+		private Object getOpenLFieldValue(Class<?> tableClass, JsonObject jsonObject) {
+			//Class<?> tableClass = ReflectionHelper.getFieldType(openLField);
+			List<Field> tableColumnsFields = ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableClass);
+
+			Object tableClassInstance = ReflectionHelper.getInstance(tableClass);
+			for (Field tableColumnField : tableColumnsFields) {
+				Object value = getFieldValue(tableColumnField, jsonObject);
+				ReflectionHelper.setFieldValue(tableColumnField, tableClassInstance, value);
+			}
+			return tableClassInstance;
 		}
 
 		private Map<String, String> getOpenLFieldsMap(JsonElement je, String parentOpenLFieldPath) {

@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaChoiceTestDataGenerator;
@@ -70,11 +69,6 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	@Override
 	public AutoCaChoiceTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoCaChoiceTestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public AutoCaChoiceOpenLPolicy createFrom(JsonElement jsonElement) {
-		return new AutoCaChoiceOpenLPolicy();
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

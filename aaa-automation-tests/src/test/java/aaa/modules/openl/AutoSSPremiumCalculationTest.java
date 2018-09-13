@@ -1,11 +1,5 @@
 package aaa.modules.openl;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -63,7 +57,7 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		return totalPremium;
 	}
 
-	@Override
+	/*@Override
 	protected Map<String, String> getOpenLFieldsMapFromTest(AutoSSOpenLPolicy openLPolicy) {
 		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
 
@@ -88,5 +82,5 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 		coverageCDsList.forEach(cd -> openLFieldsMap.put(cd.replace("coverageCd", "coverageCD"), openLFieldsMap.remove(cd)));
 
 		return openLFieldsMap;
-	}
+	}*/
 }

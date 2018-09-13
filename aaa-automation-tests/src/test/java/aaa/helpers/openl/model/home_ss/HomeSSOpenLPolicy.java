@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -281,11 +280,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public HomeSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeSSTestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public HomeSSOpenLPolicy createFrom(JsonElement jsonElement) {
-		return new HomeSSOpenLPolicy();
 	}
 
 	@Override

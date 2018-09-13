@@ -4,7 +4,6 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.JsonElement;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -145,11 +144,6 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, 
 	@Override
 	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeCaHO6TestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public HomeCaHO6OpenLPolicy createFrom(JsonElement jsonElement) {
-		return new HomeCaHO6OpenLPolicy();
 	}
 
 	@Override
