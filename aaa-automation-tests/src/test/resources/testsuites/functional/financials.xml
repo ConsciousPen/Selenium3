@@ -6,12 +6,31 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <!--Tests for Auto-->
 
-    <test name="Scenarios">
+    <!--New Business Tests-->
+
+
+    <test name="New Business - SS">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.financials.pup.TestNewBusiness"/>
+            <class name="aaa.modules.financials.auto_ss.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness"/>
+        </classes>
+    </test>
+
+    <test name="New Business - CA">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name=""/>
+            <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
+            <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
+            <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
         </classes>
     </test>
 
