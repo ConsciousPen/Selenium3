@@ -21,28 +21,21 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test new business policy lifecycle WITHOUT employee benefit
-	 * @scenario NBZ-01, PMT-01, RNW-01
-	 * @details New business, bound ON or AFTER policy effective date, WITHOUT employee benefit.
+	 * @name Financial Scenario 1
+	 * @scenario
+	 * 1. Create new policy WITHOUT employee benefit, monthly payment plan
+	 * 2. Advance time one week
+	 * 3. Perform endorsement resulting in additional premium (add vehicle for for CA Auto)
+	 * 4. Advance time one week
+	 * 5. Cancel policy
+	 * 6. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
+	 * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19, FEE-01, FEE-15, FEE-06
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FINANCE})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testNewBusinessScenario_1(@Optional("CA") String state) {
-		testNBZ_01();
-	}
-
-	/**
-	 * @author Josh Carpenter
-	 * @name Test new business process number NBZ-03
-	 * @scenario NBZ-03
-	 * @details New business, bound BEFORE policy effective date, WITHOUT employee benefit. (Including entries recorded via batch job at effective date.)
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FINANCE})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
-	public void testNewBusinessScenario_2(@Optional("CA") String state) {
-		testNBZ_03();
+		testNewBusinessScenario_1();
 	}
 
 }
