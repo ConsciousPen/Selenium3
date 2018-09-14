@@ -1,10 +1,7 @@
 package aaa.modules.financials.template;
 
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
-import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
@@ -19,14 +16,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 	protected void testNBZ_03() {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = adjustTdEffectiveDate(getPolicyTD(), DateTimeUtils.getCurrentDateTime().plusWeeks(1).format(DateTimeUtils.MM_DD_YYYY));
-		if (getPolicyType().equals(PolicyType.PUP)) {
-			td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
-		}
-		createPolicy(td);
+		createPolicy(adjustTdEffectiveDate(getPolicyTD(), DateTimeUtils.getCurrentDateTime().plusWeeks(1).format(DateTimeUtils.MM_DD_YYYY)));
 		POLICIES.add(PolicySummaryPage.getPolicyNumber());
 	}
-
-
 
 }
