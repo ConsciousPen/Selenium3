@@ -74,19 +74,4 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoCaChoiceOpenLPolicy{" +
-				"drivers=" + drivers +
-				", vehicles=" + vehicles +
-				", effectiveDate=" + effectiveDate +
-				", multiCar=" + multiCar +
-				", nanoPolicyType='" + nanoPolicyType + '\'' +
-				", term=" + term +
-				", monsOfPriorIns=" + monsOfPriorIns +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
 }

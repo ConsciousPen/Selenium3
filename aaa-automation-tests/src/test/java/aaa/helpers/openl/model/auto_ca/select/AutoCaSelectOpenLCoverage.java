@@ -15,16 +15,4 @@ public class AutoCaSelectOpenLCoverage extends AutoOpenLCoverage {
 	public void setLimitCode(Integer limitCode) {
 		this.limitCode = limitCode;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLCoverage{" +
-				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCd='" + coverageCd + '\'' +
-				", deductible='" + deductible + '\'' +
-				", limitCode=" + limitCode +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

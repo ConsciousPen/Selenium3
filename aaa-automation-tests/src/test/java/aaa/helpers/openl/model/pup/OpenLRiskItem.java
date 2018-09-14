@@ -44,14 +44,4 @@ public class OpenLRiskItem {
 	public void setRiskItemCount(Integer riskItemCount) {
 		this.riskItemCount = riskItemCount;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLRiskItem{" +
-				"number=" + number +
-				", riskItemCategoryCd='" + riskItemCategoryCd + '\'' +
-				", riskItemCd='" + riskItemCd + '\'' +
-				", riskItemCount=" + riskItemCount +
-				'}';
-	}
 }

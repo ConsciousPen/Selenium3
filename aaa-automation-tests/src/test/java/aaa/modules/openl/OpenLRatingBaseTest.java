@@ -17,8 +17,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.listeners.RatingEngineLogsGrabber;
-import aaa.helpers.listeners.RatingEngineLogsHolder;
+import aaa.helpers.logs.RatingEngineLogsGrabber;
+import aaa.helpers.logs.RatingEngineLogsHolder;
 import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
@@ -154,15 +154,6 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			return;
 		}
 
-		/*Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
-		//Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder, openLPolicy);
-		if (MapUtils.isEmpty(requestOpenLFields)) {
-			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
-			return;
-		}
-		Map<String, String> testOpenLFields = getOpenLFieldsMapFromTest(openLPolicy);*/
-
-		//MapDifference<String, String> differences = Maps.difference(requestOpenLFields, testOpenLFields);
 		@SuppressWarnings("unchecked")
 		P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestLog().getOpenLPolicyObject(openLPolicy.getClass());
 		MapDifference<String, String> differences = openLPolicy.diff(openLPolicyFromRequest);

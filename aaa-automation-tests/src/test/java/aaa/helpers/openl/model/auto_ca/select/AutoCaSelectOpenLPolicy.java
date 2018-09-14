@@ -105,25 +105,6 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 		return 12;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLPolicy{" +
-				"drivers=" + drivers +
-				", vehicles=" + vehicles +
-				", baseYear=" + baseYear +
-				", multiCar=" + multiCar +
-				", nanoPolicyType='" + nanoPolicyType + '\'' +
-				", aaaMember=" + aaaMember +
-				", effectiveDate=" + effectiveDate +
-				", goodDriverPolicy=" + goodDriverPolicy +
-				", home3or4='" + home3or4 + '\'' +
-				", id=" + id +
-				", lifemoto='" + lifemoto + '\'' +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
-
 	public Boolean isAaaMember() {
 		return aaaMember;
 	}

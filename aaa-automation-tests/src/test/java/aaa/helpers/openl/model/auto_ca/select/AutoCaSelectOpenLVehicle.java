@@ -171,39 +171,4 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	public void setOptionalCoverages(String optionalCoverages) {
 		this.optionalCoverages = optionalCoverages;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLVehicle{" +
-				"coverages=" + coverages +
-				", primaryDriver=" + primaryDriver +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", aaaMembership=" + aaaMembership +
-				", applyFixedExpense=" + applyFixedExpense +
-				", commuteBand='" + commuteBand + '\'' +
-				", ete=" + ete +
-				", fullGlassCoverage=" + fullGlassCoverage +
-				", gapCoverage=" + gapCoverage +
-				", multiCarInd=" + multiCarInd +
-				", newCarProtection=" + newCarProtection +
-				", oemCoverage=" + oemCoverage +
-				", rideShareCov=" + rideShareCov +
-				", vehicleAge=" + vehicleAge +
-				", manuallyAssignedDriver=" + manuallyAssignedDriver +
-				", manuallyAssignedUndesignatedDriverInd=" + manuallyAssignedUndesignatedDriverInd +
-				", optionalCoverages='" + optionalCoverages + '\'' +
-				", number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
-	}
 }

@@ -32,13 +32,4 @@ public class OpenLForm {
 	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLForm{" +
-				"number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
-	}
 }

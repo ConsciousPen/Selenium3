@@ -99,20 +99,4 @@ public class HomeSSOpenLForm extends OpenLForm {
 	public void setNoOfPersons(Integer noOfPersons) {
 		this.noOfPersons = noOfPersons;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeSSOpenLForm{" +
-				"covPercentage=" + covPercentage +
-				", formOid=" + formOid +
-				", masonaryOrFarmPremisesInd=" + masonaryOrFarmPremisesInd +
-				", optionalValue=" + optionalValue +
-				", type='" + type + '\'' +
-				", noOfFamilies=" + noOfFamilies +
-				", noOfPersons=" + noOfPersons +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
-	}
 }

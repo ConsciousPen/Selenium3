@@ -116,36 +116,6 @@ public class AutoSSOpenLDriver extends OpenLDriver {
 		this.isExcludedDriver = isExcludedDriver;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoSSOpenLDriver{" +
-				"name='" + name + '\'' +
-				", hasSR22=" + hasSR22 +
-				", hasFR44=" + hasFR44 +
-				", driverAge=" + driverAge +
-				", ageBeforeEndorsement=" + ageBeforeEndorsement +
-				", defensiveDrivingCourse='" + defensiveDrivingCourse + '\'' +
-				", cleanDriver=" + cleanDriver +
-				", distantStudent=" + distantStudent +
-				", exposure=" + exposure +
-				", foreignLicense=" + foreignLicense +
-				", outOfStateLicenseSurcharge=" + outOfStateLicenseSurcharge +
-				", smartDriver=" + smartDriver +
-				", unverifiableDrivingRecord=" + unverifiableDrivingRecord +
-				", occasionalOperator=" + occasionalOperator +
-				", vehicleAssignedId='" + vehicleAssignedId + '\'' +
-				", hasTravelink=" + hasTravelink +
-				", isExcludedDriver=" + isExcludedDriver +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
-	}
-
 	public Boolean isDistantStudent() {
 		return distantStudent;
 	}

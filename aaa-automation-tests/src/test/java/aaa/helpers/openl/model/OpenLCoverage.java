@@ -34,13 +34,4 @@ public class OpenLCoverage {
 	public void setLimit(String limit) {
 		this.limit = limit;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLCoverage{" +
-				"number=" + number +
-				", coverageCd='" + coverageCd + '\'' +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

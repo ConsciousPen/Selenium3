@@ -233,31 +233,4 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	public String getUnderwriterCode() {
 		return null;
 	}
-
-	@Override
-	public String toString() {
-		return "PUPOpenLPolicy{" +
-				"coverages=" + coverages +
-				", dwelling=" + dwelling +
-				", riskItems=" + riskItems +
-				", autoTier='" + autoTier + '\'' +
-				", businessPursuitsInd=" + businessPursuitsInd +
-				", daycareChildrenCount=" + daycareChildrenCount +
-				", dropDownInd=" + dropDownInd +
-				", effectiveDate=" + effectiveDate +
-				", homeTier='" + homeTier + '\'' +
-				", incidentalFarmingInd=" + incidentalFarmingInd +
-				", numOfAccidents=" + numOfAccidents +
-				", numOfAddlResidences=" + numOfAddlResidences +
-				", numOfNanoVehicles=" + numOfNanoVehicles +
-				", numOfSeniorOps=" + numOfSeniorOps +
-				", numOfViolations=" + numOfViolations +
-				", numOfYouthfulOps=" + numOfYouthfulOps +
-				", permittedOccupancyInd=" + permittedOccupancyInd +
-				", rentalUnitsCount=" + rentalUnitsCount +
-				", signature='" + signature + '\'' +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
 }

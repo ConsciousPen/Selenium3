@@ -35,16 +35,6 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 		return Constants.States.CA;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoCaOpenLPolicy{" +
-				"multiCar=" + multiCar +
-				", nanoPolicyType='" + nanoPolicyType + '\'' +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
-
 	public Boolean isMultiCar() {
 		return multiCar;
 	}

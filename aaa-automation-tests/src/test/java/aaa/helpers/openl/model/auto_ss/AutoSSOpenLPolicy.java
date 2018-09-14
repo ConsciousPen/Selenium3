@@ -2,7 +2,10 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import com.google.common.collect.MapDifference;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -103,6 +106,25 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		}
 
 		return requiredMocks;
+	}
+
+	@Override
+	public MapDifference<String, String> diff(OpenLPolicy otherOpenLPolicy) {
+		AutoSSOpenLPolicy otherPolicy = (AutoSSOpenLPolicy) otherOpenLPolicy;
+
+		List<AutoSSOpenLDriver> otherDriversSorted = new ArrayList<>(otherPolicy.getDrivers());
+		for (int index = 0; index < this.getDrivers().size(); index++) {
+			String driverName = this.getDrivers().get(index).getName();
+			AutoSSOpenLDriver otherDriver = otherDriversSorted.stream().filter(d -> Objects.equals(driverName, d.getName())).findFirst().orElse(null);
+			if (otherDriver != null && otherDriversSorted.size() > index) {
+				int otherIndex = otherDriversSorted.indexOf(otherDriver);
+				Collections.swap(otherDriversSorted, index, otherIndex);
+			}
+		}
+		otherPolicy.setDrivers(otherDriversSorted);
+		//TODO-dchubkov: add sorting for vehicles and coverages
+
+		return super.diff(otherPolicy);
 	}
 
 	public Integer getCreditScore() {
@@ -449,63 +471,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setSupplementalSpousalLiability(Boolean supplementalSpousalLiability) {
 		this.supplementalSpousalLiability = supplementalSpousalLiability;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoSSOpenLPolicy{" +
-				"effectiveDate=" + effectiveDate +
-				", term=" + term +
-				", isHomeOwner=" + isHomeOwner +
-				", creditScore=" + creditScore +
-				", isAAAMember=" + isAAAMember +
-				", aaaHomePolicy='" + aaaHomePolicy + '\'' +
-				", aaaRentersPolicy='" + aaaRentersPolicy + '\'' +
-				", aaaCondoPolicy='" + aaaCondoPolicy + '\'' +
-				", aaaLifePolicy=" + aaaLifePolicy +
-				", aaaMotorcyclePolicy=" + aaaMotorcyclePolicy +
-				", isEMember=" + isEMember +
-				", memberPersistency=" + memberPersistency +
-				", autoInsurancePersistency=" + autoInsurancePersistency +
-				", aaaInsurancePersistency=" + aaaInsurancePersistency +
-				", aaaAsdInsurancePersistency=" + aaaAsdInsurancePersistency +
-				", isAARP=" + isAARP +
-				", isEmployee=" + isEmployee +
-				", isAdvanceShopping=" + isAdvanceShopping +
-				", paymentPlanType='" + paymentPlanType + '\'' +
-				", distributionChannel='" + distributionChannel + '\'' +
-				", unacceptableRisk=" + unacceptableRisk +
-				", priorBILimit='" + priorBILimit + '\'' +
-				", reinstatements=" + reinstatements +
-				", yearsAtFaultAccidentFree=" + yearsAtFaultAccidentFree +
-				", yearsIncidentFree=" + yearsIncidentFree +
-				", aggregateCompClaims=" + aggregateCompClaims +
-				", nafAccidents=" + nafAccidents +
-				", avgAnnualERSperMember=" + avgAnnualERSperMember +
-				", insuredAge=" + insuredAge +
-				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
-				", multiCar=" + multiCar +
-				", supplementalSpousalLiability=" + supplementalSpousalLiability +
-				", umbiConvCode=" + umbiConvCode +
-				", aaaAPIPIncomeContBenLimit=" + aaaAPIPIncomeContBenLimit +
-				", aaaAPIPLengthIncomeCont='" + aaaAPIPLengthIncomeCont + '\'' +
-				", aaaPIPExtMedPayLimit=" + aaaPIPExtMedPayLimit +
-				", aaaPIPMedExpDeductible=" + aaaPIPMedExpDeductible +
-				", aaaPIPMedExpLimit=" + aaaPIPMedExpLimit +
-				", aaaPIPNonMedExp='" + aaaPIPNonMedExp + '\'' +
-				", aaaPIPPrimaryInsurer='" + aaaPIPPrimaryInsurer + '\'' +
-				", noOfAPIPAddlNamedRel=" + noOfAPIPAddlNamedRel +
-				", previousAaaInsurancePersistency=" + previousAaaInsurancePersistency +
-				", rbTier='" + rbTier + '\'' +
-				", yafAfterInception=" + yafAfterInception +
-				", ycfAfterInception=" + ycfAfterInception +
-				", tort='" + tort + '\'' +
-				", cappingDetails=" + cappingDetails +
-				", vehicles=" + vehicles +
-				", drivers=" + drivers +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
 	}
 
 	public Boolean isHomeOwner() {

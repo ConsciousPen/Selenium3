@@ -116,22 +116,4 @@ public abstract class OpenLVehicle {
 	public void setAddress(OpenLAddress address) {
 		this.address = address;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLVehicle{" +
-				"number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
-	}
 }

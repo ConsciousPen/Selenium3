@@ -102,27 +102,4 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm, 
 	public HomeCaHO3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new HomeCaHO3TestDataGenerator(state, baseTestData);
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLPolicy{" +
-				"dwelling=" + dwelling +
-				", forms=" + forms +
-				", covALimit=" + covALimit +
-				", covELimit=" + covELimit +
-				", hasEmployeeDiscount=" + hasEmployeeDiscount +
-				", hasMultiPolicyDiscount=" + hasMultiPolicyDiscount +
-				", hasPolicySupportingForm=" + hasPolicySupportingForm +
-				", hasSeniorDiscount=" + hasSeniorDiscount +
-				", coverages=" + coverages +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
 }

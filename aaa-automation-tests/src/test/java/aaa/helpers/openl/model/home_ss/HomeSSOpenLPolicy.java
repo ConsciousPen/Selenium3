@@ -340,43 +340,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return getCappingDetails().getUnderwriterCode();
 	}
 
-	@Override
-	public String toString() {
-		return "HomeSSOpenLPolicy{" +
-				"policyNumber='" + policyNumber + '\'' +
-				", policyType='" + policyType + '\'' +
-				", level='" + level + '\'' +
-				", prevLevel='" + prevLevel + '\'' +
-				", coverages=" + coverages +
-				", policyAddress=" + policyAddress +
-				", policyNamedInsured=" + policyNamedInsured +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
-				", policyConstructionInfo=" + policyConstructionInfo +
-				", policyCoverageDeductible=" + policyCoverageDeductible +
-				", policyLossInformation=" + policyLossInformation +
-				", policyDiscountInformation=" + policyDiscountInformation +
-				", profession='" + profession + '\'' +
-				", transactionType='" + transactionType + '\'' +
-				", effectiveDate=" + effectiveDate +
-				", forms=" + forms +
-				", riskMeterData=" + riskMeterData +
-				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
-				", previousEffectiveDate=" + previousEffectiveDate +
-				", cappingDetails=" + cappingDetails +
-				", isVariationRequest=" + isVariationRequest +
-				", riskState='" + riskState + '\'' +
-				", policyId='" + policyId + '\'' +
-				", lob='" + lob + '\'' +
-				", productCd='" + productCd + '\'' +
-				", ignorable=" + ignorable +
-				", renewalCycle='" + renewalCycle + '\'' +
-				", policyVersion='" + policyVersion + '\'' +
-				", paymentPlanVariations=" + paymentPlanVariations +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
-
 	public Boolean isVariationRequest() {
 		return isVariationRequest;
 	}

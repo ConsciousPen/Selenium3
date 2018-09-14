@@ -76,10 +76,12 @@ public abstract class OpenLPolicy {
 
 	@Override
 	public String toString() {
-		return "OpenLPolicy{" +
-				"number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+		StringBuilder output = new StringBuilder(getClass().getSimpleName() + "{\n");
+		for (Map.Entry<String, String> openLFieldEntry : getOpenLFieldsMap().entrySet()) {
+			output.append("    ").append(openLFieldEntry.getKey()).append("=\"").append(openLFieldEntry.getValue()).append("\"\n");
+		}
+		output.append("}\n");
+		return output.toString();
 	}
 
 	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(String state, TestData baseTestData);
@@ -94,7 +96,23 @@ public abstract class OpenLPolicy {
 	}
 
 	public MapDifference<String, String> diff(OpenLPolicy otherOpenLPolicy) {
-		//TODO-dchubkov: add correct sorting of inner lists elements
+		//TODO-dchubkov: finish common list elements sorting
+		/*for (Field openLField : ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(getClass())) {
+			if (ReflectionHelper.isTableClassField(openLField) && List.class.isAssignableFrom(openLField.getType())) {
+
+				List<?> thisListObjects = ReflectionHelper.getValueAsList(openLField, this);
+				List<?> otherListObjects = new ArrayList<>(ReflectionHelper.getValueAsList(openLField, otherOpenLPolicy));
+				for (int index = 0; index < thisListObjects.size(); index++) {
+					Object obj = thisListObjects.get(index);
+
+					if (otherListObjects.contains(obj) && otherListObjects.size() > index) {
+						int otherIndex = otherListObjects.indexOf(obj);
+						Collections.swap(otherListObjects, index, otherIndex);
+					}
+				}
+				ReflectionHelper.setFieldValue(openLField, this, otherListObjects);
+			}
+		}*/
 		return Maps.difference(this.getOpenLFieldsMap(), otherOpenLPolicy.getOpenLFieldsMap());
 	}
 

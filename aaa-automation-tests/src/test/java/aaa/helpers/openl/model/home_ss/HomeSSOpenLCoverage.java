@@ -1,19 +1,20 @@
 package aaa.helpers.openl.model.home_ss;
 
-import aaa.helpers.openl.model.OpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 @ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = HomeSSOpenLFile.COVERAGE_HEADER_ROW_NUMBER)
-public class HomeSSOpenLCoverage extends OpenLCoverage {
+public class HomeSSOpenLCoverage {
 	@ExcelTransient
 	private Integer id; // IDs in some files are too big for Integer type (e.g. see "ORTests-20171023.xls" file) therefore it's skipped
 
-	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
-	@ExcelColumnElement(name = "code")
-	private String coverageCd;
+	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	private Integer number;
+
+	private String code;
+	private String limit;
 
 	public Integer getId() {
 		return id;
@@ -23,23 +24,27 @@ public class HomeSSOpenLCoverage extends OpenLCoverage {
 		this.id = id;
 	}
 
-	@Override
-	public String getCoverageCd() {
-		return coverageCd;
+	public Integer getNumber() {
+		return number;
 	}
 
-	@Override
-	public void setCoverageCd(String coverageCd) {
-		this.coverageCd = coverageCd;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 
-	@Override
-	public String toString() {
-		return "HomeSSOpenLCoverage{" +
-				"id=" + id +
-				", code='" + coverageCd + '\'' +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
+	public String getLimit() {
+		return limit;
+	}
+
+	public void setLimit(String limit) {
+		this.limit = limit;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
