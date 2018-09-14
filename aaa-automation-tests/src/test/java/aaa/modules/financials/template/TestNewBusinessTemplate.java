@@ -12,7 +12,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 	protected void testNBZ_01() {
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getPolicyDefaultTD());
+		createPolicy(getPolicyTD());
 		POLICIES.add(PolicySummaryPage.getPolicyNumber());
 	}
 
@@ -21,7 +21,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		createCustomerIndividual();
 		TestData td = getBackDatedPolicyTD(getPolicyType(), DateTimeUtils.getCurrentDateTime().plusWeeks(1).format(DateTimeUtils.MM_DD_YYYY));
 		if (getPolicyType().equals(PolicyType.PUP)) {
-			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
+			td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
 		}
 		createPolicy(td);
 		POLICIES.add(PolicySummaryPage.getPolicyNumber());
