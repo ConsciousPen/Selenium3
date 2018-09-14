@@ -21,8 +21,8 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test new business process number NBZ-01
-	 * @scenario NBZ-01
+	 * @name Test new business policy lifecycle WITHOUT employee benefit
+	 * @scenario NBZ-01, PMT-01, RNW-01
 	 * @details New business, bound ON or AFTER policy effective date, WITHOUT employee benefit.
 	 */
 	@Parameters({"state"})

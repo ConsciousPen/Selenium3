@@ -23,31 +23,13 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return td;
 	}
 
-	protected Map<String, String> getPupUnderlyingPolicies() {
-		Map<String, String> policies = new LinkedHashMap<>();
-		PolicyType type;
-		PolicyType typeAuto;
-		String hoPolicy;
-		String autoPolicy;
-		String state = getState().intern();
-		synchronized (state) {
-			if (getState().equals(Constants.States.CA)) {
-				type = PolicyType.HOME_CA_HO3;
-				typeAuto = PolicyType.AUTO_CA_SELECT;
-			} else {
-				type = PolicyType.HOME_SS_HO3;
-				typeAuto = PolicyType.AUTO_SS;
-			}
-			type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-			hoPolicy = PolicySummaryPage.getPolicyNumber();
-			policies.put("Primary_HO3", hoPolicy);
-			POLICIES.add(hoPolicy);
-			typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-			autoPolicy = PolicySummaryPage.getPolicyNumber();
-			policies.put("Primary_Auto", autoPolicy);
-			POLICIES.add(autoPolicy);
-		}
-		return policies;
+	protected void createFinancialPolicy() {
+		createFinancialPolicy(getPolicyTD());
+	}
+
+	protected void createFinancialPolicy(TestData td) {
+		createPolicy(td);
+		POLICIES.add(PolicySummaryPage.getPolicyNumber());
 	}
 
 	/**
@@ -118,6 +100,33 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 						PersonalUmbrellaMetaData.PrefillTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
 		}
 		return td;
+	}
+
+	private Map<String, String> getPupUnderlyingPolicies() {
+		Map<String, String> policies = new LinkedHashMap<>();
+		PolicyType type;
+		PolicyType typeAuto;
+		String hoPolicy;
+		String autoPolicy;
+		String state = getState().intern();
+		synchronized (state) {
+			if (getState().equals(Constants.States.CA)) {
+				type = PolicyType.HOME_CA_HO3;
+				typeAuto = PolicyType.AUTO_CA_SELECT;
+			} else {
+				type = PolicyType.HOME_SS_HO3;
+				typeAuto = PolicyType.AUTO_SS;
+			}
+			type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
+			hoPolicy = PolicySummaryPage.getPolicyNumber();
+			policies.put("Primary_HO3", hoPolicy);
+			POLICIES.add(hoPolicy);
+			typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
+			autoPolicy = PolicySummaryPage.getPolicyNumber();
+			policies.put("Primary_Auto", autoPolicy);
+			POLICIES.add(autoPolicy);
+		}
+		return policies;
 	}
 
 	@AfterSuite(alwaysRun = true)
