@@ -50,6 +50,47 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return policies;
 	}
 
+	/**
+	 * Adjusts the effective date of the policy for the given test data
+	 * @param td TestData to be adjusted
+	 * @param date String representation of new effective date in the format 'MM/dd/yyyy'
+	 * @return TestData object with effective date adjustment
+	 */
+	protected TestData adjustTdEffectiveDate(TestData td, String date) {
+		String type = getPolicyType().getShortName();
+		switch (type) {
+			case "AutoCA":
+			case "AutoCAC":
+				td.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+						AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), date);
+				break;
+			case "AutoSS":
+				td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+						AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), date);
+				break;
+			case "HomeSS_HO3":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				td.adjust(TestData.makeKeyPath(HomeSSMetaData.GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel()), date);
+				break;
+			case "HomeCA_HO3":
+			case "HomeCA_HO4":
+			case "HomeCA_HO6":
+			case "HomeCA_DP3":
+				td.adjust(TestData.makeKeyPath(HomeCaMetaData.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.POLICY_INFO.getLabel(),
+						HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()), date);
+				break;
+			case "PUP":
+				td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.POLICY_INFO.getLabel(),
+						PersonalUmbrellaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel()), date);
+				break;
+			default:
+				return td;
+		}
+		return td;
+	}
+
 	protected TestData adjustTdWithEmpBenefit(TestData td) {
 		String type = getPolicyType().getShortName();
 		switch (type) {

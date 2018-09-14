@@ -19,7 +19,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 	protected void testNBZ_03() {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getBackDatedPolicyTD(getPolicyType(), DateTimeUtils.getCurrentDateTime().plusWeeks(1).format(DateTimeUtils.MM_DD_YYYY));
+		TestData td = adjustTdEffectiveDate(getPolicyTD(), DateTimeUtils.getCurrentDateTime().plusWeeks(1).format(DateTimeUtils.MM_DD_YYYY));
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPupUnderlyingPolicies());
 		}
