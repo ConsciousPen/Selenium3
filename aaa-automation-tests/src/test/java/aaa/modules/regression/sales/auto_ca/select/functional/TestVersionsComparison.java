@@ -276,6 +276,10 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_VehicleInformation_Version1");
 	}
 
+	private TestData getTDVehicleInformationRenewalVersion1() {
+		return getTestSpecificTD("TestData_VehicleInformationRenewal_Version1");
+	}
+
 	private TestData getTDVehicleInformationVersion2() {
 		return getTestSpecificTD("TestData_VehicleInformation_Version2");
 	}
@@ -298,6 +302,6 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14145","PAS-14144","PAS-14160","PAS-14159"})
 	public void pas14145_renewalComparisonVehicleInformation(@Optional("CA") String state) {
-		renewalComparison(getTDVehicleInformationVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
+		renewalComparison(getTDVehicleInformationRenewalVersion1(), getTDVehicleInformationVersion2(), VersionsComparisonConstants.ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION, "VehicleTab", "VehicleInformation");
 	}
 }
