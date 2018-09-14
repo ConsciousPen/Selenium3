@@ -28,7 +28,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FINANCE})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
-	public void testNBZ_01(@Optional("") String state) {
+	public void testNewBusinessScenario_1(@Optional("") String state) {
 		testNBZ_01();
 	}
 
@@ -41,7 +41,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FINANCE})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
-	public void testNBZ_03(@Optional("") String state) {
+	public void testNewBusinessScenario_2(@Optional("") String state) {
 		testNBZ_03();
 	}
 
