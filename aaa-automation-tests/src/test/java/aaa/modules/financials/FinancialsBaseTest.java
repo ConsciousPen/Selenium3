@@ -120,7 +120,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return td;
 	}
 
-	@AfterSuite
+	@AfterSuite(alwaysRun = true)
 	public void testPolicyLogging() {
 		for (String policy : POLICIES) {
 			log.info(policy);
