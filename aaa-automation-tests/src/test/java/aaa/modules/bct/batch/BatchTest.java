@@ -20,7 +20,7 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test(description = "batchJob01.xml")
 	public void BCT_BTCH_AAA_BATCH_MARKER(@Optional("") String state) {
-		Job job = Jobs.aaaBatchMarkerJob;
+		Job job = GroupJobs.groupaaaBatchMarkerJob;
 		JobUtils.executeJob(job);
 	}
 
