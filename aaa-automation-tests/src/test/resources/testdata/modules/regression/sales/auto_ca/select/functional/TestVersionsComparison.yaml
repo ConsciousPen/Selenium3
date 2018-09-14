@@ -25,7 +25,10 @@ TestData_NB_Policy: {
     }
   },
   FormsTab: {},
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -72,7 +75,10 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'

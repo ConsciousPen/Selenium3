@@ -295,7 +295,6 @@ public class VersionsConflictConstants {
 	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_1 = ImmutableListMultimap.<String, String>builder()
 			.put("AAAMembership Order", "Receipt Date")
 			.put("AAA Products Owned", "Current AAA Member")
-			.put("AAA Products Owned", "Membership Number")
 			.put("AAA Products Owned", "Override Type")
 			.build();
 

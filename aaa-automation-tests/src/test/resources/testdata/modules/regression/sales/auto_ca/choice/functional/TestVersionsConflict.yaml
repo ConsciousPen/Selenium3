@@ -42,11 +42,7 @@ TestData_Blank: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    RequiredToIssue: {
-      Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes'
-    }
-  },
+  DocumentsAndBindTab: {},
 }
 
 #test data for creation NB in Endorsement/Renewal scenarios

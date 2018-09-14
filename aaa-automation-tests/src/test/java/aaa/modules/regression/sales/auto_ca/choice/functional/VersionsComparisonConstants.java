@@ -256,7 +256,6 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 			/*			.put("AAA Products Owned", "Override Type")*/
-			.put("AAA Products Owned", "Membership Number")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")
 			.put("AAA Products Owned", "Policy #")

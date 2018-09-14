@@ -67,7 +67,7 @@ TestData_NB_Quote: {
    }
   }
  },
- PremiumAndCoveragesTab: [],
+ PremiumAndCoveragesTab: {},
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
