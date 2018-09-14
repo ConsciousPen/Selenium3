@@ -2,6 +2,9 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.regression.sales.template.functional.TestBestMembershipLogicTemplate;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,6 +15,7 @@ import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
@@ -437,5 +441,213 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         /*--Step 12--*/
         assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(DefaultFallbackMemberNumber);
+    }
+
+    /**
+     * @Scenairo Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
+     * 12min Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC1(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+
+    }
+
+    /**
+     * @Scenairo Membership = Yes; BML = Not Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * 12min Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC2(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * @Scenairo Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC3(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * @Scenairo Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC4(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+
+    }
+
+    /**
+     * @Scenairo Membership = No; BML = Found; RMS = Active; Discount = Yes;
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC5(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+    }
+
+    /**
+     * @Scenairo Membership = No; BML = Not Found; Discount = No;
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC6(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * @Scenairo Membership = No; BML = Found; RMS = Inactive; Discount = No;
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC7(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * @Scenairo Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC11(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+    }
+
+    /**
+     * @Scenairo Membership = Override Term; BML = Not Found; Discount = No
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC12(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA, MembershipStatus.NO, RMSStatus.NA);
+    }
+
+    /**
+     * @Scenairo Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC13(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.Inactive, MembershipStatus.YES, RMSStatus.Inactive);
+    }
+
+    /**
+     * @Scenairo Membership = Override Life; Discount = Yes
+     * 15 Test Run.
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
+    public void PAS14048_FuncTest_AC14(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Life");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA);
     }
 }

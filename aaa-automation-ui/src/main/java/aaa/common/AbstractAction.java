@@ -58,4 +58,14 @@ public abstract class AbstractAction {
         log.info(getName() + " action has been finished.");
         return this;
     }
+
+    /**
+     * Initiate action.
+     * Override if action is initiated in non-standard manner.
+     */
+    public AbstractAction doAction(String actionName) {
+        log.info(getName() + " action initiated.");
+        NavigationPage.setActionAndGo(actionName);
+        return this;
+    }
 }
