@@ -8,6 +8,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		createFinancialPolicy();
+
+		policy.endorse().performAndFill(getTestSpecificTD("TestData_AddPremium"));
 	}
 
 }
