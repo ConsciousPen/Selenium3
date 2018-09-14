@@ -251,4 +251,11 @@ public final class PolicyConstants {
         public static final String PROGRAM_CODE = "Program Code";
         public static final String MANUAL_CAPPING_FACTOR = "Manual Capping Factor (%)";
     }
+
+    public static final class SignatureStatus {
+    	public static final String PHYSICALLY_SIGNED = "Physically Signed";
+    	public static final String ELECTRONICALLY_SIGNED = "Electronically Signed";
+		public static final String VOICE_SIGNED = "Voice Signed";
+		public static final String NOT_SIGNED = "Not Signed";
+	}
 }
