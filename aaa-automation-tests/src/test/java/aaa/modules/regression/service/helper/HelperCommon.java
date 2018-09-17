@@ -12,11 +12,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
 import org.apache.xerces.impl.dv.util.Base64;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -100,6 +103,10 @@ public class HelperCommon {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
 
+	private static AdminApplication adminApp() {
+		return CSAAApplicationFactory.get().adminApp();
+	}
+
 	private static String urlBuilderDxp(String endpointUrlPart) {
 		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			return PropertyProvider.getProperty(CsaaTestProperties.DXP_PROTOCOL) + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST).replace(PropertyProvider.getProperty(CsaaTestProperties.DOMAIN_NAME), "") + PropertyProvider.getProperty(CsaaTestProperties.DXP_PORT) + endpointUrlPart;
@@ -108,7 +115,7 @@ public class HelperCommon {
 	}
 
 	private static String urlBuilderAdmin(String endpointUrlPart) {
-		return "http://" + PropertyProvider.getProperty(CsaaTestProperties.APP_HOST) + PropertyProvider.getProperty(CsaaTestProperties.ADMIN_PORT) + endpointUrlPart;
+		return new URIBuilder().setScheme(adminApp().getProtocol()).setHost(adminApp().getHost()).setPort(adminApp().getPort()).setPath(endpointUrlPart).toString();
 	}
 
 	public static RfiDocumentResponse[] executeRequestRfi(String policyNumber, String date) {

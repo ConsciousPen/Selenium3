@@ -71,30 +71,21 @@
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
-                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
-
-
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
-                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
-
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
-                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
-
                 </methods>
             </class>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
                 <methods>
                     <include name="pas12047_noticeOfNonRenewalLetterHS65MD" />
-                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
-
                 </methods>
             </class>
         </classes>
@@ -125,6 +116,31 @@
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup">
                 <methods>
                     <include name="pas8789_insuranceRenewalBillHomeAHRBXX" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-18431: Important Notice Regarding Flood Insurance - IN, CT, MD, WV" parallel="methods" thread-count="1024">
+        <parameter name="state" value="IN, CT, MD, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+               </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas11772_importantNoticeRegardingFloodInsuranceHSFLD" />
                 </methods>
             </class>
         </classes>
@@ -225,6 +241,31 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestSpecialNonRenewalLetterKY"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY"/>
             <class name="aaa.modules.regression.conversions.pup.functional.TestSpecialNonRenewalLetterKY"/>
+        </classes>
+    </test>
+    <test name="PAS-18432 Policy Information Sheet - KY" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas18432_policyInformationSheetHSPISKY" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas18432_policyInformationSheetHSPISKY" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas18432_policyInformationSheetHSPISKY" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas18432_policyInformationSheetHSPISKY" />
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
