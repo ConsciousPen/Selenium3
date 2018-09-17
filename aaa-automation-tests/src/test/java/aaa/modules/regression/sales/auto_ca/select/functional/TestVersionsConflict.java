@@ -257,10 +257,6 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 		return getTestSpecificTD("TestData_VehicleInformation_Version1");
 	}
 
-	private TestData getTDVehicleInformationRenewalVersion1() {
-		return getTestSpecificTD("TestData_VehicleInformationRenewal_Version1");
-	}
-
 	private TestData getTDVehicleInformationVersion2() {
 		return getTestSpecificTD("TestData_VehicleInformation_Version2");
 	}
