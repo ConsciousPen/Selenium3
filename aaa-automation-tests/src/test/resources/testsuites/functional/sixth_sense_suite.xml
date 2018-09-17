@@ -15,13 +15,6 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
-        </classes>
-    </test>
-
     <test name="Test Enroll Usage Based Endorsement">
         <parameter name="state" value="PA"/>
         <classes>
