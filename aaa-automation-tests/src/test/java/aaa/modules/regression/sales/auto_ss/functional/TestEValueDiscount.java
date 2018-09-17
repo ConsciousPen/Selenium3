@@ -1133,7 +1133,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			documentsAndBindTab.saveAndExit();
 			SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 			//BUG INC0655981: summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
-			softly.assertThat(Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
+			softly.assertThat(Efolder.isDocumentExist("MISCELLANEOUS", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
 			//PAS-264 end
 
 			//PAS-721 Start

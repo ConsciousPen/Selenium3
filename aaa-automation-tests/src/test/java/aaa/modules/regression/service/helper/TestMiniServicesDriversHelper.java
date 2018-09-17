@@ -452,7 +452,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 		//Bug PAS-17579
 		if (flag) {
-			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).isTrue();
+			softly.assertThat(updateDriverResponse1.validations.stream().filter(error -> error.message.equals(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).size().isEqualTo(1);
 		} else {
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
 		}
