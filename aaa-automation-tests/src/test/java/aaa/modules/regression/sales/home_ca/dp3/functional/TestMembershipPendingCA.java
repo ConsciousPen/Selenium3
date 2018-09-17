@@ -11,9 +11,7 @@ import toolkit.utils.TestInfo;
 
 public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_DP3;
-    }
+    protected PolicyType getPolicyType() {return PolicyType.HOME_CA_DP3;}
     /**
      * @author Robert Boles
      * @name Test Align Current AAA Member for CA products (Auto and Property) with SS - PAS-17784
