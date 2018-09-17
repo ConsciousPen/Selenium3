@@ -41,6 +41,7 @@ public class PaymentsMaintenanceMetaData {
 		public static final AssetDescriptor<TextBox> SUSPENSE_AMOUNT = declare("Suspense Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> SUSPENSE_REFERENCE = declare("Suspense Reference #", TextBox.class);
 		public static final AssetDescriptor<ComboBox> PAYMENT_DESIGNATION = declare("Payment Designation", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> PAYMENT_CHANNEL = declare("Payment Channel", ComboBox.class);
 	}
 
 	public static final class AddPaymentBatchActionTab extends MetaData {
