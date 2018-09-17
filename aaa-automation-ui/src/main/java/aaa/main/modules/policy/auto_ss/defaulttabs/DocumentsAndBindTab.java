@@ -4,11 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -29,7 +29,7 @@ public class DocumentsAndBindTab extends Tab {
 	}
 	public static Button btnGenerateDocuments = new Button(By.id("policyDataGatherForm:generate_link"), Waiters.AJAX);
 	//public static Button btnPurchase = new Button(By.xpath(".//input[contains(@id, 'policyDataGatherForm:actionButton_moveToBilling') and contains(@id, 'footer')]"), Waiters.AJAX);
-	public static Button btnPurchase = new Button(By.xpath(".//input[@id='policyDataGatherForm:actionButton_moveToBilling_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"), Waiters.AJAX);
+	public static Button btnPurchase = new Button(By.xpath(".//input[@id='policyDataGatherForm:overridenActionButton_PurchaseAction_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"), Waiters.AJAX);
 	public static Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public static Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public static Dialog confirmRenewal = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_content']");

@@ -53,10 +53,10 @@ public final class DialogsMetaData {
 	}
 
 	public static final class MoratoriumOverrideDialog extends MetaData {
-		public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class, By.xpath("//table[@id='policyDataGatherForm:popupMessages_datagatherButtonsPanel']//span"));
+		public static final AssetDescriptor<StaticElement> MESSAGE = declare("Message", StaticElement.class, By.xpath("//table[@id='policyDataGatherForm:validationContentContainer_PurchaseAction']//span"));
 		public static final AssetDescriptor<ComboBox> MORATORIUM_OVERRIDE_REASON = declare("Moratorium Override Reason", ComboBox.class);
-		public static final AssetDescriptor<Button> OK = declare("OK", Button.class, By.id("policyDataGatherForm:actionPopupOk_datagatherButtonsPanel"));
-		public static final AssetDescriptor<Button> CANCEL = declare("Cancel", Button.class, By.id("policyDataGatherForm:actionPopupCancel_datagatherButtonsPanel"));
+		public static final AssetDescriptor<Button> OK = declare("OK", Button.class, By.id("policyDataGatherForm:buttonOK"));
+		public static final AssetDescriptor<Button> CANCEL = declare("Cancel", Button.class, By.id("policyDataGatherForm:buttonCancel"));
 
 	}
 

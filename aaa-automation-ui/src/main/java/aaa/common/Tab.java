@@ -4,13 +4,13 @@ package aaa.common;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
@@ -64,7 +64,7 @@ public abstract class Tab {
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
 	public static TextBox createVersionDescription = new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']"));
-	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionPopoup_datagatherButtonsPanel_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
+	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionValidationPopup_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
 	protected AbstractContainer<?, ?> assetList;
 	protected InquiryAssetList inquiryAssetList;
 

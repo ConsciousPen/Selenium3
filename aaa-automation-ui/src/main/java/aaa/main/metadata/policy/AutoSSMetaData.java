@@ -576,6 +576,7 @@ public final class AutoSSMetaData {
 	}
 
 	public static final class PremiumAndCoveragesTab extends MetaData {
+		public static final AssetDescriptor<AssetList> MORATORIUM_INFORMATION = declare("Moratorium Information", AssetList.class, MoratoriumInformationSection.class, By.xpath("//label[@id='policyDataGatherForm:componentViewPanelHeaderLabel_AAAMoratoriumInfoComponent']"));
 		//TODO-dchubkov: Workaround - Moved to the beginning of the section MD due to BLS issue.
 		public static final AssetDescriptor<TextBox> SPECIAL_EQUIPMENT_COVERAGE = declare("Special Equipment Coverage", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> APPLY_EVALUE_DISCOUNT = declare("Apply eValue Discount", RadioGroup.class, Waiters.AJAX);
@@ -728,6 +729,9 @@ public final class AutoSSMetaData {
 		}
 	}
 
+	public static final class MoratoriumInformationSection extends MetaData {
+		public static final AssetDescriptor<StaticElement> MORATORIUM_INFORMATION_MESSAGE = declare("Moratorium information message", StaticElement.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAMoratoriumInfoComponent_body']//span"));
+	}
 	public static final class DriverActivityReportsTab extends MetaData {
 		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE =
 				declare("Has the customer expressed interest in purchasing the quote?", RadioGroup.class);
