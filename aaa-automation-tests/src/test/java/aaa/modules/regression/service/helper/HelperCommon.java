@@ -618,6 +618,25 @@ public class HelperCommon {
         return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
     }
 
+
+	public static <T> T runJsonRequestPostClaims(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url; //https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims
+		restRequestInfo.bodyRequest = bodyRequest; //TODO figure out how to pass a request body - claimsmicro
+		restRequestInfo.responseType = responseType; //TODO - 200 is the code
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+	}
+
+
+
+
+
+
+
+
+
+
+
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
 	}
