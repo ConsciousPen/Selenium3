@@ -6,12 +6,9 @@ import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
 
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -64,7 +61,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -102,7 +100,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -137,7 +136,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -172,7 +172,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
