@@ -856,36 +856,38 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertThat(HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.size()).as("Max count of Vehicles (8) is needed for this test").isEqualTo(8);
 
-		//get any vehicle OID to remove
-		String removedVehicleOid = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(3).oid;
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, removedVehicleOid);
-		assertThat(deleteVehicleResponse.availableActions).containsExactly("revert");
-		validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, true);
+		assertSoftly(softly -> {
+			//get any vehicle OID to remove
+			String removedVehicleOid = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(3).oid;
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, removedVehicleOid);
+			softly.assertThat(deleteVehicleResponse.availableActions).containsExactly("revert");
+			validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, true, softly);
 
-		//add vehicle
-		Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest("5YMGY0C57C1661237", "2013-02-22");
-		String newVehicleOid = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, Response.Status.CREATED.getStatusCode()).oid;
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-		validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, false);
+			//add vehicle
+			Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest("5YMGY0C57C1661237", "2013-02-22");
+			String newVehicleOid = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, Response.Status.CREATED.getStatusCode()).oid;
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, false, softly);
 
-		VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
-		assertThat(vehicleUpdateResponseDto.availableActions).as("Newly added and then removed vehicles should not have revert option").isEmpty();
+			VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+			softly.assertThat(vehicleUpdateResponseDto.availableActions).as("Newly added and then removed vehicles should not have revert option").isEmpty();
+		});
 	}
 
-	private void validateRevertOptionForVehicle_pas18672(String policyNumber, String removedVehicleOid, boolean revertOptionExpected) {
+	private void validateRevertOptionForVehicle_pas18672(String policyNumber, String removedVehicleOid, boolean revertOptionExpected, ETCSCoreSoftAssertions softly) {
 		ViewVehicleResponse viewVehiclesResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
 		Vehicle deletedVehicle = getVehicleByOid(viewVehiclesResponse, removedVehicleOid);
 
 		if (revertOptionExpected) {
-			assertThat(deletedVehicle.availableActions).containsExactly("revert");
-			assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
+			softly.assertThat(deletedVehicle.availableActions).containsExactly("revert");
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
 					as("Removed vehicle should have availableOption 'revert'").isTrue();
-			assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> !"pendingRemoval".equals(vehicle.vehicleStatus)
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> !"pendingRemoval".equals(vehicle.vehicleStatus)
 					&& vehicle.availableActions.contains("revert"))).
 					as("Only Removed vehicles should have availableOption 'revert'").isFalse();
 		} else {
-			assertThat(deletedVehicle.availableActions).doesNotContain("revert").isEmpty();
-			assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
+			softly.assertThat(deletedVehicle.availableActions).doesNotContain("revert").isEmpty();
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
 					as("Removed vehicle should NOT have availableOption 'revert'").isFalse();
 		}
 	}

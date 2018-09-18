@@ -656,26 +656,28 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertThat(HelperCommon.viewEndorsementDrivers(policyNumber).driverList.size()).as("Max count of Drivers (7) is needed for this test").isEqualTo(7);
-		validateRevertOptionForDriver_18672(policyNumber, "RD1001");
-		validateRevertOptionForDriver_18672(policyNumber, "RD1003");
-		addDriver_18672(policyNumber);
-		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, true);
+		assertSoftly(softly -> {
+			validateRevertOptionForDriver_18672(policyNumber, "RD1001", softly);
+			validateRevertOptionForDriver_18672(policyNumber, "RD1003", softly);
+			addDriver_18672(policyNumber);
+			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, true, softly);
 
-		//remove newly added driver
-		getAnyPendingAddDriver(policyNumber);
-		validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1002");
-		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false);
+			//remove newly added driver
+			getAnyPendingAddDriver(policyNumber);
+			validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1002", softly);
+			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false, softly);
 
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		validateRevertOptionForDriver_18672(policyNumber, "RD1002");
-		validateRevertOptionForDriver_18672(policyNumber, "RD1004");
-		addDriver_18672(policyNumber);
-		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, true);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			validateRevertOptionForDriver_18672(policyNumber, "RD1002", softly);
+			validateRevertOptionForDriver_18672(policyNumber, "RD1004", softly);
+			addDriver_18672(policyNumber);
+			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, true, softly);
 
-		//remove newly added driver
-		getAnyPendingAddDriver(policyNumber);
-		validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1003");
-		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false);
+			//remove newly added driver
+			getAnyPendingAddDriver(policyNumber);
+			validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1003", softly);
+			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false, softly);
+		});
 	}
 
 	private void addDriver_18672(String policyNumber) {
@@ -685,47 +687,48 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
 	}
 
-	private void validateRevertOptionForDriver_18672(String policyNumber, String removalReasonCode) {
+	private void validateRevertOptionForDriver_18672(String policyNumber, String removalReasonCode, ETCSCoreSoftAssertions softly) {
 		String removedDriverOid = getAnyNotNIActiveDriver(policyNumber).oid;
 		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(removalReasonCode);
 		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, removedDriverOid, removeDriverRequest);
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
-		assertThat(removeDriverResponse.availableActions).containsExactly("revert");
-		assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> driver.oid.equals(removedDriverOid) && driver.availableActions.contains("revert"))).
+		softly.assertThat(removeDriverResponse.availableActions).containsExactly("revert");
+		softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> driver.oid.equals(removedDriverOid) && driver.availableActions.contains("revert"))).
 				as("Removed driver should have availableOption 'revert'").isTrue();
 
-		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false);
+		validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false, softly);
+
 	}
 
-	private void validateRevertOptionForNewDriver_pas18672(String policyNumber, String removalReasonCode) {
+	private void validateRevertOptionForNewDriver_pas18672(String policyNumber, String removalReasonCode, ETCSCoreSoftAssertions softly) {
 		String removedDriverOid = getAnyPendingAddDriver(policyNumber).oid;
 		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(removalReasonCode);
 		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, removedDriverOid, removeDriverRequest);
 
-		assertThat(removeDriverResponse.availableActions).as("Newly added and then removed drivers should not have revert option").isEmpty();
+		softly.assertThat(removeDriverResponse.availableActions).as("Newly added and then removed drivers should not have revert option").isEmpty();
 	}
 
-	private void validateRevertOptionForDriverInViewDriversResponse_pas18672(String policyNumber, boolean maxDriverCount) {
+	private void validateRevertOptionForDriverInViewDriversResponse_pas18672(String policyNumber, boolean maxDriverCount, ETCSCoreSoftAssertions softly) {
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 		if (maxDriverCount) {
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "pendingRemoval".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "pendingRemoval".equals(driver.driverStatus)
 					&& driver.availableActions.contains("revert"))).
 					as("pendingRemoval driver should not have availableOption 'revert', if there is max driver count").isFalse();
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "driverTypeChanged".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "driverTypeChanged".equals(driver.driverStatus)
 					&& !driver.availableActions.contains("revert"))).
 					as("driverTypeChanged driver should have availableOption 'revert', if there is max driver count").isFalse();
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> !"pendingRemoval".equals(driver.driverStatus) && !"driverTypeChanged".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> !"pendingRemoval".equals(driver.driverStatus) && !"driverTypeChanged".equals(driver.driverStatus)
 					&& driver.availableActions.contains("revert"))).
 					as("Only pendingRemoval and driverTypeChanged driver can have availableOption 'revert'").isFalse();
 		} else {
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "pendingRemoval".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "pendingRemoval".equals(driver.driverStatus)
 					&& !driver.availableActions.contains("revert"))).
 					as("pendingRemoval driver should have availableOption 'revert'").isFalse();
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "driverTypeChanged".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> "driverTypeChanged".equals(driver.driverStatus)
 					&& !driver.availableActions.contains("revert"))).
 					as("driverTypeChanged driver should have availableOption 'revert', if there is not max driver count").isFalse();
-			assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> !"pendingRemoval".equals(driver.driverStatus)
+			softly.assertThat(viewDriversResponse.driverList.stream().anyMatch(driver -> !"pendingRemoval".equals(driver.driverStatus)
 					&& !"driverTypeChanged".equals(driver.driverStatus)
 					&& driver.availableActions.contains("revert"))).
 					as("Only pendingRemoval and driverTypeChanged driver can have availableOption 'revert'").isFalse();
