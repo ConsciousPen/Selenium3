@@ -23,7 +23,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class BindTab extends Tab {
 	public Button btnPurchase = new Button(
-			By.xpath("//input[@id='policyDataGatherForm:actionButton_moveToBilling_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalPropose_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementBind_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"),
+			By.xpath("//input[@id='policyDataGatherForm:overridenActionButton_PurchaseAction_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalPropose_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementBind_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"),
 			Waiters.AJAX);
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
