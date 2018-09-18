@@ -478,10 +478,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		//Start PAS-17503
 		checkFniMaritalStatusAfterSpouseWasRemoved(policyNumber, mStatus, driverOid, dOid);
- 		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	private void checkFniMaritalStatusAfterSpouseWasRemoved (String policyNumber, String mStatus, String spouseOid, String fniDriverOid){
+	private void checkFniMaritalStatusAfterSpouseWasRemoved(String policyNumber, String mStatus, String spouseOid, String fniDriverOid) {
 		assertSoftly(softly -> {
 
 			HelperCommon.removeDriver(policyNumber, spouseOid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
@@ -831,7 +831,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(driver2.drivingLicense.licenseNumber).isEqualTo(dlDriver2);
 
 			//Add new driver
-			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jovita", null, "Smith",  "1990-02-08", null);
+			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Jovita", null, "Smith", "1990-02-08", null);
 			DriversDto addDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 			String newDriverOid = addDriver.oid;
 
@@ -1637,7 +1637,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getCode(), ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage(), "driverRelToApplicantCd");
 	}
 
-	protected void pas16578_removeDriverCheckIfTaskWasCreatedBody(){
+	protected void pas16578_removeDriverCheckIfTaskWasCreatedBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1647,21 +1647,21 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		String firstDriverOid = (responseViewDriverEndorsement.driverList.get(0).oid);
 
 		// add update driver
-		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt","CH", "D32329588");
+		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt", "CH", "D32329588");
 		HelperCommon.removeDriver(policyNumber, driverOid1, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
-		checkIfTaskWasCreated(policyNumber, 1, 1 ,0);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 0);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		// add update driver
-		String driverOid2 = addRegularDriverOrNI(policyNumber, "DriverNd","CH", "D32111585");
+		String driverOid2 = addRegularDriverOrNI(policyNumber, "DriverNd", "CH", "D32111585");
 
 		//Order reports through service
 		HelperCommon.orderReports(policyNumber, driverOid2, OrderReportsResponse.class, 200);
 
 		//START PAS-17957
-		ErrorResponseDto orderResponse = HelperCommon.orderReports(policyNumber, firstDriverOid,ErrorResponseDto.class, 422);
+		ErrorResponseDto orderResponse = HelperCommon.orderReports(policyNumber, firstDriverOid, ErrorResponseDto.class, 422);
 		assertSoftly(softly -> {
 			softly.assertThat(orderResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
 			softly.assertThat(orderResponse.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
@@ -1675,10 +1675,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		//Check with NI driver
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String driverOid3 = addRegularDriverOrNI(policyNumber, "DriverRd","SP", "D32329555");
+		String driverOid3 = addRegularDriverOrNI(policyNumber, "DriverRd", "SP", "D32329555");
 		HelperCommon.removeDriver(policyNumber, driverOid3, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 
-		checkIfTaskWasCreated(policyNumber, 1, 1 ,1);
+		checkIfTaskWasCreated(policyNumber, 1, 1, 1);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -1693,28 +1693,28 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		String driverOid5 = addRegularDriverOrNI(policyNumber, "DriverLast","CH", "D32354588");
+		String driverOid5 = addRegularDriverOrNI(policyNumber, "DriverLast", "CH", "D32354588");
 		HelperCommon.orderReports(policyNumber, driverOid5, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		ErrorResponseDto orderResponse2 = HelperCommon.orderReports(policyNumber, driverOid5,ErrorResponseDto.class, 422);
+		ErrorResponseDto orderResponse2 = HelperCommon.orderReports(policyNumber, driverOid5, ErrorResponseDto.class, 422);
 		assertSoftly(softly -> {
 			softly.assertThat(orderResponse2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getCode());
 			softly.assertThat(orderResponse2.message).isEqualTo(ErrorDxpEnum.Errors.ORDER_REPORT_FOR_EXISTING_DRIVER_ERROR.getMessage());
 		});
 	}
 
-	private String addRegularDriverOrNI(String policyNumber,  String driverName, String relationToApplicantCd, String licenseNumber){
+	private String addRegularDriverOrNI(String policyNumber, String driverName, String relationToApplicantCd, String licenseNumber) {
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(driverName, "Lara", "Puk", "1984-02-08", "II");
 		DriversDto addedDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", licenseNumber, 18, "VA", relationToApplicantCd, "MSS");
 		HelperCommon.updateDriver(policyNumber, addedDriverResponse.oid, updateDriverRequest);
 
-		return  addedDriverResponse.oid;
+		return addedDriverResponse.oid;
 	}
 
-	private void checkIfTaskWasCreated(String policyNumber, int countNamedInsured, int countDrivers, int countTasks){
+	private void checkIfTaskWasCreated(String policyNumber, int countNamedInsured, int countDrivers, int countTasks) {
 		assertSoftly(softly -> {
 			mainApp().reopen();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -2137,7 +2137,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody(){
+	protected void pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
@@ -2183,6 +2183,29 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
+	}
+
+	protected void pas17641_MetaDataServiceDriverAddADBBody(PolicyType policyType, TestData td) {
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//String policyNumber = "AZSS952918540";
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewDriversResponse response = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+		String driverAFR = response.driverList.get(1).oid;
+		String driverNAFR = response.driverList.get(2).oid;
+
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverAFR);
+
+		assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "adbCoverageInd", true, true, false, null, "Boolean"));
+
+		AttributeMetadata[] metaDataResponse1 = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverNAFR);
+		assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse1, "adbCoverageInd", true, false, false, null, "Boolean"));
+
 	}
 
 	private DriversDto addDriverWithChecks(String policyNumber, ETCSCoreSoftAssertions softly) {
@@ -2329,7 +2352,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		int driverCount = driversDtoList.size();
 		for (int i = 0; i < driverCount; i++) {
-            softly.assertThat(driversDtoList.get(i).middleName).isNullOrEmpty();  //assert that middle name is null, otherwise this method will not work
+			softly.assertThat(driversDtoList.get(i).middleName).isNullOrEmpty();  //assert that middle name is null, otherwise this method will not work
 			String firstNameLastName = driversDtoList.get(i).firstName + " " + driversDtoList.get(i).lastName;
 
 			if (BooleanUtils.isTrue(driversDtoList.get(i).specificDisabilityInd)) {

@@ -780,6 +780,17 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17641"})
+	public void pas17641_MetaDataServiceDriverAddADB(@Optional("AZ") String state) {
+
+		TestData td = getTestSpecificTD("TestData");
+
+		pas17641_MetaDataServiceDriverAddADBBody(getPolicyType(), td);
+
+	}
+
 }
 
 
