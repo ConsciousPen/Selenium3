@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogMultiSelectorParentDiv;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogMultiSelectorSuspense;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.AllocationAmount;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
@@ -18,7 +18,7 @@ public class PaymentsMaintenanceMetaData {
 	public static final class AddBulkPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> BULK_AMOUNT = declare("Bulk Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> BULK_REFERENCE = declare("Bulk Reference #", TextBox.class);
-		public static final AssetDescriptor<DialogMultiSelectorParentDiv> ALLOCATION = declare("Allocation", DialogMultiSelectorParentDiv.class,
+		public static final AssetDescriptor<DialogMultiSelectorSuspense> ALLOCATION = declare("Allocation", DialogMultiSelectorSuspense.class,
 				AllocationMultiSelector.class);
 		public static final AssetDescriptor<AllocationAmount> ALLOCATED_AMOUNT = declare("Allocated Amount", AllocationAmount.class);
 
@@ -59,7 +59,7 @@ public class PaymentsMaintenanceMetaData {
 	}
 
 	public static final class ClearSuspenseActionTab extends MetaData {
-		public static final AssetDescriptor<DialogMultiSelectorParentDiv> ALLOCATION = declare("Allocation", DialogMultiSelectorParentDiv.class,
+		public static final AssetDescriptor<DialogMultiSelectorSuspense> ALLOCATION = declare("Allocation", DialogMultiSelectorSuspense.class,
 				AllocationMultiSelector.class);
 
 		public static final class AllocationMultiSelector extends MetaData {

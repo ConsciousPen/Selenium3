@@ -9,32 +9,35 @@ import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
-public class DialogMultiSelectorParentDiv extends AbstractDialogMultiSearch {
+public class DialogMultiSelectorSuspense extends AbstractDialogMultiSearch {
 	public static final By POPUP_PARENT_LOC = By.xpath("//div[contains(@class, 'rf-pp-cntr')][parent::div]");
 
-	public DialogMultiSelectorParentDiv(By locator) {
+	public DialogMultiSelectorSuspense(By locator) {
 		super(locator);
 		this.POPUP_PARENT = new StaticElement(POPUP_PARENT_LOC);
 		this.POPUP_PARENT = new StaticElement(locator);
 	}
 
-	public DialogMultiSelectorParentDiv(By locator, Class<? extends MetaData> metaDataClass) {
+	public DialogMultiSelectorSuspense(By locator, Class<? extends MetaData> metaDataClass) {
 		super(locator, metaDataClass);
 	}
 
-	public DialogMultiSelectorParentDiv(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
+	public DialogMultiSelectorSuspense(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
 		super(parent, locator, metaDataClass);
 	}
 
+	@Override
 	protected void search() {
 		(new Button(By.xpath("//button[@id='policySearch:searchBtn']"))).click();
 	}
 
+	@Override
 	protected void select() {
 		((CheckBox)this.tableSearchResults.getRow(1).getCell(1).controls.checkBoxes.getFirst()).setValue(true);
 		(new Button(By.xpath("//button[@id='policySearch:selectBtn']"))).click();
 	}
 
+	@Override
 	public void fill(TestData td) {
 		if (td.containsKey(this.name)) {
 			this.openDialog();
