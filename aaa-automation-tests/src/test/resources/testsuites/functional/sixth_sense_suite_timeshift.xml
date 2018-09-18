@@ -79,7 +79,7 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
+    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
