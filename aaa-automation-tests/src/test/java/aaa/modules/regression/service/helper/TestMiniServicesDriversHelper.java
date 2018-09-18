@@ -1414,11 +1414,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			DriversDto driver1ExpectedAfterRemove = viewDriversResponse.driverList.get(1);
 			driver1ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
+			driver1ExpectedAfterRemove.availableActions.add("revert");
 			driver1ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
 
 			DriversDto driver2ExpectedAfterRemove = viewDriversResponse.driverList.get(2);
 			driver2ExpectedAfterRemove.driverStatus = "pendingRemoval";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
+			driver2ExpectedAfterRemove.availableActions.add("revert");
 			driver2ExpectedAfterRemove.availableCoverages.remove("deathAndSpecificDisability");
 
 			//Sort drivers list as it should be after drivers are removed
@@ -1563,6 +1565,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver1ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver1ExpectedAfterRemove.driverStatus = "driverTypeChanged";
 			driver1ExpectedAfterRemove.availableActions.remove("remove");
+			driver1ExpectedAfterRemove.availableActions.add("revert");
 			driver1ExpectedAfterRemove.availableCoverages.clear(); // for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
 			driver1ExpectedAfterRemove.specificDisabilityInd = null;
 			driver1ExpectedAfterRemove.totalDisabilityInd = null;
@@ -1571,6 +1574,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			driver2ExpectedAfterRemove.driverType = DRIVER_TYPE_NOT_AVAILABLE_FOR_RATING;
 			driver2ExpectedAfterRemove.driverStatus = "driverTypeChanged";
 			driver2ExpectedAfterRemove.availableActions.remove("remove");
+			driver2ExpectedAfterRemove.availableActions.add("revert");
 			driver2ExpectedAfterRemove.availableCoverages.clear();// for NAFR drivers there should not be availableCoverages, specificDisabilityInd and totalDisabilityInd should be null (not in scope of this US/test)
 			driver2ExpectedAfterRemove.specificDisabilityInd = null;
 			driver2ExpectedAfterRemove.totalDisabilityInd = null;
@@ -1612,6 +1616,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//Run viewPolicyDrivers and validate that drivers are updated
 			driver1ExpectedAfterRemove.driverStatus = "active";
 			driver2ExpectedAfterRemove.driverStatus = "active";
+			driver1ExpectedAfterRemove.availableActions.remove("revert");
+			driver2ExpectedAfterRemove.availableActions.remove("revert");
 
 			validateViewDriverResponseAfterBind_pas14641_pas14640_pas14642(softly, policyNumber, driverFNI, driver1ExpectedAfterRemove, driver2ExpectedAfterRemove);
 		});
