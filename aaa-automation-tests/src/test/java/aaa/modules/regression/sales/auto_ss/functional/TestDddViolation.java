@@ -8,6 +8,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
@@ -37,8 +38,8 @@ import toolkit.webdriver.controls.Button;
 @StateList(states = Constants.States.PA)
 public class TestDddViolation extends AutoSSBaseTest {
 
-	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2"));
-	private static final List<String> DRIVERS_WITH_DISCOUNT = new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1"));
+	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2")));
+	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
 	private List<TestData> driversTD;
 
 	/**
