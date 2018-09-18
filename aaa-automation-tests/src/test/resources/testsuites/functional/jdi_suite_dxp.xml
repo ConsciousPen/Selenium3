@@ -649,4 +649,24 @@
             </class>
         </classes>
     </test>
+    <test name="pas18672_driversRevertOptionForDelete">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas18672_driversRevertOptionForDelete"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas18672_vehiclesRevertOptionForDelete">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas18672_vehiclesRevertOptionForDelete"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
