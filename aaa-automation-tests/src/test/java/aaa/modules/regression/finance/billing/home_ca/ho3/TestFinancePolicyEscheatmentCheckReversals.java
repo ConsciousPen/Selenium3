@@ -1,6 +1,7 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -17,6 +18,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -60,8 +62,6 @@ public class TestFinancePolicyEscheatmentCheckReversals extends PolicyBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals() {
-
-		//preconditions
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
@@ -94,10 +94,31 @@ public class TestFinancePolicyEscheatmentCheckReversals extends PolicyBaseTest {
 		escheatmentActions.controls.links.get("Reverse").click();
 		Page.dialogConfirmation.reject();
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1)
-				.getCell("Subtype/Reason")).hasValue("Escheatment");
+				.getCell("Amount")).hasValue("$25.00");
 
 		escheatmentActions.controls.links.get("Reverse").click();
 		Page.dialogConfirmation.confirm();
-		//check new transaction, etc
+
+		Dollar totalPaid = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1)
+				.getCell("Total Paid").getValue());
+		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1)
+				.getCell("Total Due").getValue());
+		Dollar billableAmount = new Dollar(BillingSummaryPage.tableBillingGeneralInformation.getRow(1)
+				.getCell("Billable Amount").getValue());
+
+		assertSoftly(softly -> {
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1)
+					.getCell("Amount")).hasValue("($25.00)");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2)
+					.getCell("Status")).hasValue("Reversed");
+			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2)
+					.getCell("Action").getValue()).doesNotContain("Reverse");
+			softly.assertThat(totalDue.toString()).isEqualTo("($25.00)");
+			softly.assertThat(billableAmount).isEqualTo(totalPaid.add(totalDue));
+
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1)
+					.getCell("Description")).valueContains("Reversal");
+		});
 	}
 }
