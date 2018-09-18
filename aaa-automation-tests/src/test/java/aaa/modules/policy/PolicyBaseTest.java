@@ -2,11 +2,6 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.policy;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
@@ -23,10 +18,17 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.BaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class PolicyBaseTest extends BaseTest {
 
@@ -57,11 +59,9 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return getBackDatedPolicyTD(getPolicyType(), DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-
 	protected TestData getBackDatedPolicyTD(String date) {
 		return getBackDatedPolicyTD(getPolicyType(), date);
 	}
-
 
 	protected TestData getBackDatedPolicyTD(PolicyType type) {
 		return getBackDatedPolicyTD(type, DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
