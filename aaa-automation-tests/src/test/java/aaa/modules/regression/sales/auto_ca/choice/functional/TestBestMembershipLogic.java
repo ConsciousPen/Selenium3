@@ -43,7 +43,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @details Ignores termExpirationDate and only cares about status on Active.
      */
     @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG1 BML ignores expiration date on active status")
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "15944: STG1 BML ignores expiration date on active status")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-15944")
     public void pas15944_BML_Ignores_termExpirationDate_for_Active_Status(@Optional("") String state) {
         /*--Step 1--*/
@@ -429,265 +429,227 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
+     * Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
      * 12min Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC1(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario1(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getBMLPolicyTD(); //getPolicyTD();
+
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Not Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * Membership = Yes; BML = Not Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
      * 12min Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC2(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario2(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getBMLPolicyTD(); //getPolicyTD();
+
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC3(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario3(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
+     * Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC4(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario4(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_BML_MEMBERSHIP_NUMBER);
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
 
     /**
-     * @Scenairo Membership = No; BML = Found; RMS = Active; Discount = Yes;
+     * Membership = No; BML = Found; RMS = Active; Discount = Yes;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC5(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario5(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        /*
-        String keyPath = defaultTestData.makeKeyPath(GeneralTab.class.getSimpleName(),
-                AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(),
-                AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        defaultTestData.mask(keyPath);
-        */
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
 
     /**
-     * @Scenairo Membership = No; BML = Not Found; Discount = No;
+     * Membership = No; BML = Not Found; Discount = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC6(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario6(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
 
     /**
-     * @Scenairo Membership = No; BML = Found; RMS = Inactive; Discount = No;
+     * Membership = No; BML = Found; RMS = Inactive; Discount = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC7(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario7(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
+     * Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC11(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario11(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Not Found; Discount = No
+     * Membership = Override Term; BML = Not Found; Discount = No
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC12(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario12(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA);
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
+     * Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC13(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario13(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
     }
 
     /**
-     * @Scenairo Membership = Override Life; Discount = Yes
+     * Membership = Override Life; Discount = Yes
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC14(@Optional("") String state) {
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-14048")
+    public void PAS14048_AutoCAChoice_TestScenario14(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
-        defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoCaMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1970");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
         defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Life");
         defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()) ;
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.GENDER.getLabel(), "Male");
-        defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoCaMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = defaultTestData.resolveLinks();
 
         testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA);
     }

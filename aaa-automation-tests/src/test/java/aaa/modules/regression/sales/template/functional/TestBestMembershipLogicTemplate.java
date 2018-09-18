@@ -607,6 +607,10 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
     }
 
+    public TestData getBMLPolicyTD(){
+        return getPolicyTD();
+    }
+
     /**
      * Use to simplify adjusting test data.
      * @param td The input test data to be adjusted.
@@ -630,7 +634,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * @return
      */
     public TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel, String value){
-        td.adjust(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel), value);
+        String result = TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel);
+        td.adjust(result ,value);
         return td;
     }
 
@@ -666,7 +671,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     public LocalDateTime doTestReturnPolicyNumber(TestData inputTestData){
         log.info("==================== Beginning Policy Creation ====================");
         mainApp().open();
-        SearchPage.openCustomer("700032240");
+        createCustomerIndividual();
         createPolicy(inputTestData);
         return PolicySummaryPage.getExpirationDate();
     }
@@ -684,7 +689,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     public void doValidations(String in_policyNumber, MembershipStatus memberStatus, RMSStatus rms, String productType) {
         mainApp().open();
         SearchPage.openPolicy(in_policyNumber);
-        policy.renew().start().submit();
+        PolicySummaryPage.buttonRenewals.click();
 
         switch(productType){
             case "AutoSS":
@@ -693,7 +698,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             case "HomeSS_HO3":
                 homeSSSpecificValidations(memberStatus, rms);
                 break;
-            case "CAAuto":
+            case "AutoCAC":
                 CAAutoSelectSpecificValidations(memberStatus, rms);
                 break;
             case "HomeCA_HO3":
@@ -788,6 +793,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     }
 
     private void homeSSSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
+        Tab.buttonOk.click();
+        Page.dialogConfirmation.confirm();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         ApplicantTab at = new ApplicantTab();
         switch(memberStatus){
@@ -959,6 +966,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
     }
 
     private void CAHomeSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
+        Tab.buttonOk.click();
+        Page.dialogConfirmation.confirm();
+
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         ApplicantTab at = new ApplicantTab();
         switch(memberStatus){
@@ -1058,8 +1068,26 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         LocalDateTime _policyExpirationDate = doTestReturnPolicyNumber(td);
         String _policyNumber = scrapePolicyNumberandExit();
         movePolicyToSTG3Renewal(_policyNumber);
+        doDBReport(_policyNumber, "3");
         doValidations(_policyNumber, stage3MembershipStatus, stage3RMSExpectedStatus, getPolicyType().getShortName());
         movePolicyToSTG4Renewal(_policyNumber, _policyExpirationDate);
+        doDBReport(_policyNumber, "4");
         doValidations(_policyNumber, stage4MembershipStatus, stage4RMSExpectedStatus, getPolicyType().getShortName());
+    }
+
+    /**
+     * Query the DB to check Membership Status.
+     * @param in_policyNumber
+     * @param stage
+     */
+    private void doDBReport(String in_policyNumber, String stage) {
+
+        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> membershipStatus
+                = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
+        if(membershipStatus.isPresent()){
+            log.info("<QADEBUG> Membership Status["+stage+"]: " + membershipStatus.get().name());
+        }else {
+            log.info("<QADEBUG> Membership Status["+stage+"]: NULL, NOTHING!!!!!!! YOU GET NOTHING GOOD DAY SIR!");
+        }
     }
 }

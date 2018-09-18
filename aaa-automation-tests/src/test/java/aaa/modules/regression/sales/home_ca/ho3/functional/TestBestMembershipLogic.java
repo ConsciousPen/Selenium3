@@ -444,14 +444,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
+     * Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
      * 12min Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC1(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario1(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -466,11 +467,12 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @Scenairo Membership = Yes; BML = Not Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
      * 12min Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC2(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario2(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -481,14 +483,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC3(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario3(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -499,14 +502,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
+     * Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC4(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario4(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -518,14 +522,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = No; BML = Found; RMS = Active; Discount = Yes;
+     * Membership = No; BML = Found; RMS = Active; Discount = Yes;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC5(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario5(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -537,14 +542,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = No; BML = Not Found; Discount = No;
+     * Membership = No; BML = Not Found; Discount = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC6(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario6(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -556,14 +562,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = No; BML = Found; RMS = Inactive; Discount = No;
+     * Membership = No; BML = Found; RMS = Inactive; Discount = No;
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC7(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario7(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -575,14 +582,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
+     * Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC11(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario11(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -594,14 +602,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Not Found; Discount = No
+     * Membership = Override Term; BML = Not Found; Discount = No
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC12(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario12(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -613,14 +622,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
+     * Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC13(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario13(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -632,14 +642,15 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     }
 
     /**
-     * @Scenairo Membership = Override Life; Discount = Yes
+     * Membership = Override Life; Discount = Yes
      * 15 Test Run.
      * @param state
+     * @author Tyrone Jemison
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC14(@Optional("") String state) {
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario14(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");

@@ -435,9 +435,9 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC1(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario1(@Optional("") String state) {
 
-        TestData defaultTestData = getPolicyTD().resolveLinks();
+        TestData defaultTestData = getPolicyTD();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
         defaultTestData = defaultTestData.resolveLinks();
@@ -453,7 +453,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC2(@Optional("AZ") String state) {
+    public void PAS14048_HomeSS_TestScenario2(@Optional("AZ") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -471,7 +471,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC3(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario3(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -489,7 +489,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC4(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario4(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
@@ -507,7 +507,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC5(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario5(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -526,7 +526,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC6(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario6(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -545,7 +545,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC7(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario7(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
@@ -564,7 +564,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC8(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario8(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
@@ -583,7 +583,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC9(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario9(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
@@ -602,7 +602,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC10(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario10(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
@@ -621,7 +621,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC11(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario11(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -642,7 +642,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC12(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario12(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -663,7 +663,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC13(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario13(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
@@ -684,7 +684,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
-    public void PAS14048_FuncTest_AC14(@Optional("") String state) {
+    public void PAS14048_HomeSS_TestScenario14(@Optional("") String state) {
 
         TestData defaultTestData = getPolicyTD().resolveLinks();
         defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
