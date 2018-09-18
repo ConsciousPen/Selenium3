@@ -297,7 +297,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		LocalDateTime testStartDate = TimeSetterUtil.getInstance().getCurrentTime();
 
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 
 		//New Config Version testing for AZ = 0 days delay
 		PolicySummary responseNewConfigEffective = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -305,7 +306,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 				softly.assertThat(responseNewConfigEffective.policyNumber).isEqualTo(policyNumber)
 		);
 		//validation returns "can be deleted"
-		ValidateEndorsementResponse responseValidateCanCreateEndorsementNewConfigEffective = HelperCommon.startEndorsement(policyNumber, null);
+		ValidateEndorsementResponse responseValidateCanCreateEndorsementNewConfigEffective = HelperCommon.startEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 		assertSoftly(softly ->
 				softly.assertThat(responseValidateCanCreateEndorsementNewConfigEffective.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle")
 		);
