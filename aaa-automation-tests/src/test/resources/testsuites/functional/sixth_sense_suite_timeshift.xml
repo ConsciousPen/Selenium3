@@ -8,10 +8,14 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Propose Renewal Version after it was created with batch jobs">
+    <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal">
+                <methods>
+                    <include name="pas17788_MTManualRenewalVersionProposal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
