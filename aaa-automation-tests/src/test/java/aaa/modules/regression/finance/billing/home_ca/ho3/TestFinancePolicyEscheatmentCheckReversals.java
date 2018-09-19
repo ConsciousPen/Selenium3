@@ -78,7 +78,7 @@ public class TestFinancePolicyEscheatmentCheckReversals extends PolicyBaseTest {
 
 		JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
 
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
