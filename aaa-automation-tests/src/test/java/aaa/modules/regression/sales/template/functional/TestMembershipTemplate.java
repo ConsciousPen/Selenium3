@@ -181,6 +181,10 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         purchaseTab.submitTab();
     }
 
+    /**
+     * Navigate the quote to PnC tab - assert discounts present when Current AAA Member = No
+     * @param  policyType Uses policy Type to differentiate between product variation
+     */
     protected void premiumAndDiscountCheckAAANo(String policyType) {
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
@@ -192,6 +196,10 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         }
     }
 
+    /**
+     * Navigate the quote to PnC tab - assert discounts present when Current AAA Member = Pending
+     * @param  policyType Uses policy Type to differentiate between product variation
+     */
     protected void premiumAndDiscountCheckAAAPending(String policyType) {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -216,6 +224,9 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         }
     }
 
+    /**
+     * Create quote using default test data but adjusted to
+     */
     protected void setKeyPathsandGenerateQuote() {
         TestData testData = getPolicyTD();
         // keypathTabSection Result: "ApplicantTab|AAAMembership"
