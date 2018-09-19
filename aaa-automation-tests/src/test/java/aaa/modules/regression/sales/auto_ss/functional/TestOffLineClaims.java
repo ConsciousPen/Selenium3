@@ -23,13 +23,18 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.RestBodyRequest;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.ClaimsMatchingMicroservice;
+import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
 import aaa.modules.regression.service.helper.dtoDxp.ViewVehicleResponse;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 //@StateList(states = Constants.States.AZ)
 public class TestOffLineClaims extends AutoSSBaseTest
@@ -91,48 +96,21 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    policy.dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
     }
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-//	claimsmicro
-	public void PAS14679_TestCase1_DL_MATCH(@Optional("AZ") String state) {
-//		PurchaseTab purchaseTab = new PurchaseTab();
-//		TestData testData = getPolicyTD();
-//		TestData driverTab = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
-
-//		//hit view vehicle service to get Vehicle order
-//		ViewVehicleResponse viewVehicleResponse1 = HelperCommon.viewPolicyVehicles(policyNumber);
-//		assertThat(viewVehicleResponse1.canAddVehicle).isEqualTo(true);
-//		List<Vehicle> originalOrderingFromResponse = ImmutableList.copyOf(viewVehicleResponse1.vehicleList);
-//		List<Vehicle> sortedVehicles = viewVehicleResponse1.vehicleList;
-//		sortedVehicles.sort(Vehicle.ACTIVE_POLICY_COMPARATOR);
-	}
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void pas12465_MakeByYear(@Optional("AZ") String state) {
+	public void claims_test1(@Optional("AZ") String state) {
     	//Canned Details:
-		String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/";
-		String claimsRequest1 = "PATH TO CLAIMS REQUEST";
-		String responseType = "200"; //Response Code?
+		String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+//		String claimRequest = new String(Files.readAllBytes(Paths.get("duke.java")));
+//		RestBodyRequest claimsRequest1 = "PATH TO CLAIMS REQUEST";
 
-		ClaimsMatchingMicroservice claimsMatchingMicroserviceResponse =
-				HelperCommon.runJsonRequestPostClaims(claimsUrl, claimsRequest1, responseType);
+		ClaimsAssignmentResponse claimsMatchingMicroserviceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl);
+		log.info(claimsMatchingMicroserviceResponse.toString());
 
-		assertThat(claimsMatchingMicroserviceResponse).isNotNull();
-		log.info("\n\nMicroservice Response : " + claimsMatchingMicroserviceResponse.getListMake().toString() + "\n");
+//		assertThat(claimsMatchingMicroserviceResponse).isNotNull();
+//		log.info("\n\nMicroservice Response : " + claimsMatchingMicroserviceResponse.getListMake().toString() + "\n");
 	}
-//	Response headers
-//	connection: keep-alive
-//	content-length: 1585
-//	content-type: application/json;charset=UTF-8
-//	date: Tue, 18 Sep 2018 22:06:26 GMT
-//	server: nginx
-//	x-vcap-request-id: 0dff59a5-a1c7-488b-67b9-d933e4efc9bf
-
-
 
 }
 

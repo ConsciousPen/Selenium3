@@ -32,6 +32,7 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYe
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
+import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
@@ -618,19 +619,138 @@ public class HelperCommon {
         return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
     }
 
-
-	public static <T> T runJsonRequestPostClaims(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
-		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+//	public static DriversDto runJsonRequestPostClaims(String url, String jsonFileName, int status)
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String url) {
+		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url; //https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims
-		restRequestInfo.bodyRequest = bodyRequest; //TODO figure out how to pass a request body - claimsmicro
-		restRequestInfo.responseType = responseType; //TODO - 200 is the code
+		restRequestInfo.bodyRequest =  "{\n"
+				+ "   \"claims\":[\n"
+				+ "      {\n"
+				+ "         \"dateOfLoss\":\"2019-01-11\",\n"
+				+ "         \"policyReferenceNumber\":\"AZSS952918543\",\n"
+				+ "         \"cause\":\"cha\",\n"
+				+ "         \"totalAmountPaid\":2200,\n"
+				+ "         \"dateClosed\":\"2019-07-31\",\n"
+				+ "         \"type\":\"Accident\",\n"
+				+ "         \"claimDeductible\":500,\n"
+				+ "         \"driverInformation\":{\n"
+				+ "            \"relationToNamedInsured\":\"INSURED\",\n"
+				+ "            \"firstName\":\"Bilbo\",\n"
+				+ "            \"lastName\":\" \",\n"
+				+ "            \"issuedState\":\"AZ\",\n"
+				+ "            \"dateOfBirth\":\"1997-05-09\",\n"
+				+ "            \"licenseNumber\":\"A98769878\"\n"
+				+ "         },\n"
+				+ "         \"dateOpened\":\"2019-01-02\",\n"
+				+ "         \"lossSummary\":\"crashed into waving inflatable arm guy\",\n"
+				+ "         \"amountpaid\":2200,\n"
+				+ "         \"claimNumber\":\"1TAZ1111OHS\",\n"
+				+ "         \"status\":\"CLOSED\"\n"
+				+ "      },\n"
+				+ "      {\n"
+				+ "         \"dateOfLoss\":\"2019-01-11\",\n"
+				+ "         \"policyReferenceNumber\":\"AZSS952918543\",\n"
+				+ "         \"cause\":\"cha\",\n"
+				+ "         \"totalAmountPaid\":2200,\n"
+				+ "         \"dateClosed\":\"2019-07-31\",\n"
+				+ "         \"type\":\"Accident\",\n"
+				+ "         \"claimDeductible\":500,\n"
+				+ "         \"driverInformation\":{\n"
+				+ "            \"relationToNamedInsured\":\"BROTHER\",\n"
+				+ "            \"firstName\":\"Bruce\",\n"
+				+ "            \"lastName\":\" \",\n"
+				+ "            \"issuedState\":\"AZ\",\n"
+				+ "            \"dateOfBirth\":\"1997-08-30\",\n"
+				+ "            \"licenseNumber\":\"A12345222\"\n"
+				+ "         },\n"
+				+ "         \"dateOpened\":\"2019-01-02\",\n"
+				+ "         \"lossSummary\":\"collided with 1 passenger bus\",\n"
+				+ "         \"amountpaid\":2200,\n"
+				+ "         \"claimNumber\":\"7TZ02222OHS\",\n"
+				+ "         \"status\":\"CLOSED\"\n"
+				+ "      },\n"
+				+ "      {\n"
+				+ "         \"dateOfLoss\":\"2019-01-11\",\n"
+				+ "         \"policyReferenceNumber\":\"AZSS952918543\",\n"
+				+ "         \"cause\":\"cha\",\n"
+				+ "         \"totalAmountPaid\":2200,\n"
+				+ "         \"dateClosed\":\"2019-07-31\",\n"
+				+ "         \"type\":\"Accident\",\n"
+				+ "         \"claimDeductible\":500,\n"
+				+ "         \"driverInformation\":{\n"
+				+ "            \"relationToNamedInsured\":\"SISTER\",\n"
+				+ "            \"firstName\":\"Tony\",\n"
+				+ "            \"lastName\":\" \",\n"
+				+ "            \"issuedState\":\"AZ\",\n"
+				+ "            \"dateOfBirth\":\"1997-08-30\",\n"
+				+ "            \"licenseNumber\":\"A12345333\"\n"
+				+ "         },\n"
+				+ "         \"dateOpened\":\"2019-01-02\",\n"
+				+ "         \"lossSummary\":\"collided with 10 parked vehicles\",\n"
+				+ "         \"amountpaid\":2200,\n"
+				+ "         \"claimNumber\":\"3TAZ3333OHS\",\n"
+				+ "         \"status\":\"CLOSED\"\n"
+				+ "      }\n"
+				+ "   ],\n"
+				+ "   \"policy\":{\n"
+				+ "      \"termEndDate\":\"2022-07-07\",\n"
+				+ "      \"policyNumber\":\"AZSS952918543\",\n"
+				+ "      \"termEffectiveDate\":\"2021-07-07\",\n"
+				+ "      \"drivers\":[\n"
+				+ "         {\n"
+				+ "            \"firstName\":\"Fernando-GEHJJ\",\n"
+				+ "            \"lastName\":\"Smith\",\n"
+				+ "            \"relationshipToFNI\":\"IN\",\n"
+				+ "            \"licenseNumber\":\"A12345678\",\n"
+				+ "            \"middleName\":\"A12345678\",\n"
+				+ "            \"driverType\":\"afr\",\n"
+				+ "            \"existingActivities\":[\n"
+				+ "\n"
+				+ "            ]\n"
+				+ "         },\n"
+				+ "         {\n"
+				+ "            \"firstName\":\"Bruce\",\n"
+				+ "            \"lastName\":\"Banner\",\n"
+				+ "            \"relationshipToFNI\":\"SI\",\n"
+				+ "            \"licenseNumber\":\"A12345222\",\n"
+				+ "            \"middleName\":\"A12345222\",\n"
+				+ "            \"driverType\":\"afr\",\n"
+				+ "            \"existingActivities\":[\n"
+				+ "               {\n"
+				+ "                  \"description\":\"AAF\",\n"
+				+ "                  \"source\":\"CSAAClaims\",\n"
+				+ "                  \"oid\":\"hvwnBuC3FFSTZzIeR7VE9w\",\n"
+				+ "                  \"type\":\"afa\",\n"
+				+ "                  \"claimNumber\":\"7TZ02222OHS\",\n"
+				+ "                  \"LossPaymentAmout\":2200\n"
+				+ "               }\n"
+				+ "            ]\n"
+				+ "         },\n"
+				+ "         {\n"
+				+ "            \"firstName\":\"Tony\",\n"
+				+ "            \"lastName\":\"Stark\",\n"
+				+ "            \"relationshipToFNI\":\"SI\",\n"
+				+ "            \"licenseNumber\":\"A12345333\",\n"
+				+ "            \"middleName\":\"A12345333\",\n"
+				+ "            \"driverType\":\"afr\",\n"
+				+ "            \"existingActivities\":[\n"
+				+ "               {\n"
+				+ "                  \"description\":\"AAF\",\n"
+				+ "                  \"source\":\"CSAAClaims\",\n"
+				+ "                  \"oid\":\"oK6HhBpt67oFTmQ-vqxCzA\",\n"
+				+ "                  \"type\":\"afa\",\n"
+				+ "                  \"claimNumber\":\"3TAZ3333OHS\",\n"
+				+ "                  \"LossPaymentAmout\":2200\n"
+				+ "               }\n"
+				+ "            ]\n"
+				+ "         }\n"
+				+ "      ],\n"
+				+ "      \"annualTerm\":true\n"
+				+ "   }\n"
+				+ "}";
+		restRequestInfo.responseType = ClaimsAssignmentResponse.class; //TODO - 200 is the code
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
-
-
-
-
-
 
 
 
