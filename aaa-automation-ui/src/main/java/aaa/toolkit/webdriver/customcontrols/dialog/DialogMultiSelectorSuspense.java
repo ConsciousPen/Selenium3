@@ -37,13 +37,4 @@ public class DialogMultiSelectorSuspense extends AbstractDialogMultiSearch {
 		(new Button(By.xpath("//button[@id='policySearch:selectBtn']"))).click();
 	}
 
-	@Override
-	public void fill(TestData td) {
-		if (td.containsKey(this.name)) {
-			this.openDialog();
-			this.setValue(this.getValueToFill(td));
-			this.submit();
-		}
-
-	}
 }
