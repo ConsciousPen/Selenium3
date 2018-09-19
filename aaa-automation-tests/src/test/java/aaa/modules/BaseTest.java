@@ -236,8 +236,6 @@ public class BaseTest {
 					}
 				}
 				context.getCurrentXmlTest().addParameter(Constants.STATE_PARAM, state);
-				method.getParameters();
-				//context.getCurrentXmlTest().
 			}
 			setState(state);
 		}
