@@ -553,11 +553,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	protected void ooseConflict(TestData tdVersion1, TestData tdVersion2, ArrayListMultimap<String, String> conflictLinks, Multimap<String, String> expectedSectionsAndUIFieldsOOSE,
 			Multimap<String, String> expectedSectionsAndUIFieldsEndorsement, String tabName, String sectionName, Boolean isAutomatic) {
 		mainApp().open();
-		SearchPage.openPolicy("CAAS952918894");
-/*		createCustomerIndividual();
+		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
 		processPlus20DaysEndorsement(tdVersion1);
-		processPlus10DaysOOSEndorsement(tdVersion2);*/
+		processPlus10DaysOOSEndorsement(tdVersion2);
 		policy.rollOn().openConflictPage(isAutomatic);
 		resolveConflict(conflictLinks);
 		policy.rollOn().submit();
