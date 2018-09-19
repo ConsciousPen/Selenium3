@@ -4,9 +4,15 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
+
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import aaa.main.pages.summary.PolicySummaryPage;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -57,6 +63,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
 
+		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
+		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
 
@@ -66,6 +75,7 @@ public class TestDddViolation extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		policy.initiate();
+
 		policy.getDefaultView().fillUpTo(testData, DocumentsAndBindTab.class);
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
@@ -90,6 +100,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
+
+		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
+		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -123,6 +136,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
 
+		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
+		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
@@ -154,6 +170,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
+
+		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
+		TimeSetterUtil.getInstance().confirmDateIsAfter(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
