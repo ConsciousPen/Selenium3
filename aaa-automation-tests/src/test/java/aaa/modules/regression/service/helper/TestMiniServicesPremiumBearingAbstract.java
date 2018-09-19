@@ -293,7 +293,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(responseValidateCanCreateEndorsement3.allowedEndorsements.get(0)).isEqualTo("UpdateVehicle");
 	}
 
-	//The test was moved out from dxp_suite, need to refactor after
+	//The test was moved out from dxp_suite, need to refactor after PAS-19725
 	protected void pas8784_endorsementValidateStateSpecificConfigVersioning(PolicyType policyType) {
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT);
 		int numberOfDaysDelayBeforeDelete = 5;
