@@ -450,7 +450,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario1(@Optional("") String state) {
 
@@ -470,7 +470,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario2(@Optional("") String state) {
 
@@ -489,7 +489,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario3(@Optional("") String state) {
 
@@ -508,7 +508,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario4(@Optional("") String state) {
 
@@ -528,7 +528,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario5(@Optional("") String state) {
 
@@ -548,7 +548,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario6(@Optional("") String state) {
 
@@ -568,7 +568,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario7(@Optional("") String state) {
 
@@ -588,7 +588,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario11(@Optional("") String state) {
 
@@ -608,7 +608,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario12(@Optional("") String state) {
 
@@ -628,7 +628,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario13(@Optional("") String state) {
 
@@ -648,7 +648,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeCAHO3_TestScenario14(@Optional("") String state) {
 

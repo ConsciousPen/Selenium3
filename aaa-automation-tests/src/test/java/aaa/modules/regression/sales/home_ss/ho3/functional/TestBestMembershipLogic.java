@@ -433,7 +433,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario1(@Optional("") String state) {
 
@@ -451,7 +451,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario2(@Optional("AZ") String state) {
 
@@ -469,7 +469,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario3(@Optional("") String state) {
 
@@ -487,7 +487,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario4(@Optional("") String state) {
 
@@ -505,7 +505,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario5(@Optional("") String state) {
 
@@ -524,7 +524,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario6(@Optional("") String state) {
 
@@ -543,7 +543,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario7(@Optional("") String state) {
 
@@ -562,7 +562,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario8(@Optional("") String state) {
 
@@ -581,7 +581,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario9(@Optional("") String state) {
 
@@ -600,7 +600,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario10(@Optional("") String state) {
 
@@ -619,7 +619,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario11(@Optional("") String state) {
 
@@ -640,7 +640,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario12(@Optional("") String state) {
 
@@ -661,7 +661,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario13(@Optional("") String state) {
 
@@ -682,7 +682,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14048")
     public void PAS14048_HomeSS_TestScenario14(@Optional("") String state) {
 
