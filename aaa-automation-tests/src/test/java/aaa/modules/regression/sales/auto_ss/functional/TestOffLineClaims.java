@@ -99,17 +99,18 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void claims_test1(@Optional("AZ") String state) {
+	public void claims_test1(@Optional("AZ") String state) throws IOException {
     	//Canned Details:
+		String DEFAULT_PATH = "src/test/resources/claimsmatch/";
 		String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
-//		String claimRequest = new String(Files.readAllBytes(Paths.get("duke.java")));
-//		RestBodyRequest claimsRequest1 = "PATH TO CLAIMS REQUEST";
 
-		ClaimsAssignmentResponse claimsMatchingMicroserviceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl);
+		String claimsRequest = new String(Files.readAllBytes(Paths.get(DEFAULT_PATH + "DLMatch_NoMatch_ExistingMatch.json")));
+
+		ClaimsAssignmentResponse claimsMatchingMicroserviceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl, claimsRequest);
 		log.info(claimsMatchingMicroserviceResponse.toString());
 
-//		assertThat(claimsMatchingMicroserviceResponse).isNotNull();
-//		log.info("\n\nMicroservice Response : " + claimsMatchingMicroserviceResponse.getListMake().toString() + "\n");
+		assertThat(claimsMatchingMicroserviceResponse).isNotNull();
+
 	}
 
 }
