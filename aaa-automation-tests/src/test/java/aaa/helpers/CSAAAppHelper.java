@@ -1,9 +1,8 @@
 package aaa.helpers;
 
 import java.net.URL;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import toolkit.config.ClassConfigurator;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.utils.http.HttpExecutor;
 import toolkit.utils.http.HttpHelper;
 import toolkit.utils.http.HttpRequest;
@@ -34,8 +33,7 @@ public class CSAAAppHelper extends EISAppHelper {
 	@Override
 	public String getBuildInfo() {
 		String buildInfo = null;
-		String host = applicationProtocol + PropertyProvider.getProperty(TestProperties.APP_HOST) +
-				PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE);
+		String host = CSAAApplicationFactory.get().mainApp().formatUrl();
 
 		try {
 			HttpRequest request = new HttpRequest();

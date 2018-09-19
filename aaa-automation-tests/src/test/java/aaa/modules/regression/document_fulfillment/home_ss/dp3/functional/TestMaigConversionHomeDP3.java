@@ -320,16 +320,40 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeAbstract {
      * @scenario
      * 1. Create Customer
      * 2. Initiate Renewal Entry
-     * 3. Fill Conversion Policy data for Home - MD
-     * 4. Check that HSFLDMD documents are getting generated
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSPISKY documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSPISKY document is NOT generated
      * @details
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(states = States.MD)
+    @StateList(states = States.KY)
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-12589"})
-    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("MD") String state) throws NoSuchFieldException {
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-18432"})
+    public void pas18432_policyInformationSheetHSPISKY(@Optional("KY") String state) throws NoSuchFieldException {
+        super.pas18432_policyInformationSheetHSPISKY(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSFLD documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSFLD document is NOT generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = {States.MD, States.IN, States.CT, States.WV})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-12589", "PAS-18431"})
+    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("CT") String state) throws NoSuchFieldException {
         super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 

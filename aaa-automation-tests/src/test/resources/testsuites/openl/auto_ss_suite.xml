@@ -20,17 +20,16 @@
     </test>
     <test name="AutoSS [CO] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CO"/>
-        <parameter name="fileName" value="COTests-20171006.xls"/>
-        <parameter name="policyNumbers" value="1,9"/>
+        <parameter name="fileName" value="COTests-20181006.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="AutoSS [CT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CT"/>
-        <parameter name="fileName" value="CTTests-20171101.xls"/>
-        <!--<parameter name="policyNumbers" value="61, 71, 81, 91"/>-->
-        <parameter name="policyNumbers" value="61, 91"/>
+        <parameter name="fileName" value="CTTests-20181101.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -59,18 +58,19 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
+    <!-- AutoSS [IN] is excluded from suite since policy effective date is too old and there are no newer generated files for IN state -->
+    <!--<test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="IN"/>
         <parameter name="fileName" value="INTests-20170806_part1.xls"/>
         <parameter name="policyNumbers" value="1, 2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>
+    </test>-->
     <test name="AutoSS [KS] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="KS"/>
-        <parameter name="fileName" value="KSTests-20171001.xls"/>
-        <parameter name="policyNumbers" value="1, 7"/>
+        <parameter name="fileName" value="KSTests-20181001.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

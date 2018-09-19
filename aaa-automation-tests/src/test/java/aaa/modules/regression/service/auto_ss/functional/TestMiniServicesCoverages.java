@@ -65,7 +65,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601","PAS-17732"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601", "PAS-17732"})
 	public void pas11741_ManageVehicleLevelCoverages(@Optional("VA") String state) {
 
 		pas11741_ViewManageVehicleLevelCoverages(getPolicyType());
@@ -197,7 +197,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353","PAS-17740"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13353", "PAS-17740"})
 	public void pas13353_LoanLeaseCoverage(@Optional("VA") String state) {
 
 		pas13353_LoanLeaseCoverage(getPolicyType());
@@ -452,7 +452,136 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14730"})
 	public void pas14730_UpdateCoverageUMPDAndPD(@Optional("MD") String state) {
 		pas14730_UpdateCoverageUMPDAndPDBody(getPolicyType());
+
 	}
+
+	/**
+	 * @author MeghaGubbala
+	 * @name update and view coverage UMUIM and BI
+	 * Create a policy in pas Verify BI = UmUIM
+	 * update BI to 25/50000 verify UMUIM is the same
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17629", "PAS-17958"})
+	public void pas17629_Umuim_Update_coverage(@Optional("IN") String state) {
+		pas17629_Umuim_Update_coverageBody(getPolicyType());
+	}
+
+	/**
+	 * @author MeghaGubbala
+	 * @name Verify Policy and Vehicle level coverages Order
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646"})
+	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
+		assertSoftly(softly ->
+				pas17646_OrderOfCoverageBody(state, softly)
+		);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @scenario validate "Verify PUP Policy" error.
+	 * 1. Create Auto SS policy with companion PUP policy
+	 * 2. Create endorsement through service
+	 * 3. validate for all available BI limits, that error "Verify PUP Policy" is displayed if limit is lower than 500000/500000
+	 * 4. Set BI limit to the higher one so that all PD limits are available
+	 * 5. Validate for all available PD limits, that error "Verify PUP Policy" is displayed if limit is lower than 100000
+	 * 6. Set BI and PD so that the error is displayed, rate and bind the endorsement. (successfully)
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15379"})
+	public void pas15379_ValidatePUPErrorRelatedWithBiPdLimits(@Optional("VA") String state) {
+		pas15379_ValidatePUPErrorRelatedWithBiPdLimitsBody();
+		//NOTE: This test forks for ALL states. (Except CA)
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Customized Equipment (CUSTEQUIP)
+	 * @scenario for VA
+	 * 1. Create a policy in PAS with one regular vehicle, one VANS/PICKUP without CUSTEQUIP coverage and one VANS/PICKUP with CUSTEQUIP coverage
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
+	 * 4. validate that responses contains Customized Equipment coverage (CUSTEQUIP)
+	 *    AND canChange = false
+	 *    and customerDisplay = true
+	 *    and value is as per the UI
+	 *    and the coverage is displayed after Collision.
+	 *
+	 * @scenario for states other than VA (states without CUSTEQUIP)
+	 * 1. Create a policy in PAS with one regular vehicle and two VAN/PICKUP (CUSTEQUIP coverage is applicable only to VA)
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
+	 * 4. Validate that responses don't contain Customized Equipment coverage (CUSTEQUIP)
+	 * @details
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624"})
+	public void pas18624_CustomisedEquipment(@Optional("VA") String state) {
+		pas18624_CustomisedEquipmentBody();
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View_Coverage_Update_Coverage UMPD
+	 * @scenario for IN
+	 * @details
+	 * @scenario1:
+	 * 1.Create an IN policy
+	 * 2.run View Coverages Service
+	 * 3.Verify the delimiter is Per Accident
+	 * 4.Verify the canChangeCoverage = false
+	 * 5.Verify canViewCoverage = true
+	 *  * @scenario2
+	 *  1.update my PD Limit
+	 *  2.my UMPD Limit is set to the same as my PD Limit
+	 * **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas16035"})
+	public void pas16035_ViewCoverageUpdateCoverage(@Optional("IN") String state) {
+		pas16035ViewCoverageUpdateCoverageBody(getPolicyType());
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages/Update Coverages - UMPD Deductible - Indiana
+	 * @scenario for IN
+	 * * @details
+	 * Scenario1:
+	 *  1.Create an IN policy
+	 *  2.run View Coverages Service
+	 *  3.verify Uninsured Motorist Property Damage Deductible+ is vehicle level and the canChangeCoverage = true and canViewCoverage = true and available limits are provided
+	 *  @Scenario 2:
+	 *  1.go to pas update UMPD = no coverage
+	 *  2. update PD Limit
+	 *  3. verify UMPD Limit is set to the same as my PD Limit and UMPD Deductible is not updated
+	 * @Scenario 3 :
+	 * 1. update UMPD limit is other than No Coverage
+	 * 2. update my PD Limit
+	 * 3. verify  UMPD Limit is set to the same as my PD Limit
+	 * 4. verify UMPD Deductible is not updated
+	 * @Scenario 4:
+	 *1.Add new vehicle
+	 * 2. Update UMPDDED for new vehicle 0
+	 * 3. verify UMPDDED is updated
+	 * 4. And UMPDDED for existing vehicle is 250
+	 * 	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17628"})
+	public void pas17628_ViewCoverageUpdateCoverageUmpdDeductible(@Optional("IN") String state) {
+		pas17628_pas17628_ViewCoverageUpdateCoverageUmpdDeductibleBody(getPolicyType());
+	}
+
 }
 
 

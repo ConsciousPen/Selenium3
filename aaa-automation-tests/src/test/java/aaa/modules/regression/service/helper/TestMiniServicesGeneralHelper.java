@@ -159,7 +159,6 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 
-			getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null, "String");
 			getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10", "String");
@@ -478,8 +477,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
 		assertThat(responseViewDriver.driverList.stream().filter(driver -> originalDriver.equals(driver.oid)).findFirst().orElse(null)).isNotNull();
 
-		//View driver assignment if VA
-		if ("VA, NY, CA".contains(state)) {
+		//TODO jpukenaite add NY when this state will have driver assignment functionality
+		if ("VA, CA".contains(state)) {
 			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
@@ -488,7 +487,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
-		} else {
+		} else if (!state.contains("NY")){
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
 			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
@@ -560,7 +559,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin);
-		assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+		assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 

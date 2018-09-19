@@ -38,7 +38,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabTemplate {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-17479")
 	public void pas17479_Conversion_Privileged_NewBusiness(@Optional("OK") String state) {
 		newBusinessTx_Privileged_Conversion(parentEndorsementFormId, subEndorsementFormId);
@@ -62,7 +62,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabTemplate {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-17479")
 	public void pas17479_Conversion_Privileged_Endorsement(@Optional("OK") String state) {
 		endorsementTx_Privileged_Conversion(parentEndorsementFormId, subEndorsementFormId);
@@ -86,7 +86,7 @@ public class TestEarthquakeEndorsements extends TestEndorsementsTabTemplate {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "OK Earthquake endorsement check for privileged user")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "OK Earthquake endorsement check for privileged user")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-17479")
 	public void pas17479_Conversion_Privileged_Renewal(@Optional("OK") String state) {
 		renewalTx_Privileged_Conversion(parentEndorsementFormId, subEndorsementFormId);

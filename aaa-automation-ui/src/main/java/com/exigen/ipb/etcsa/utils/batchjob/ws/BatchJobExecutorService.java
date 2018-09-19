@@ -18,6 +18,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.slf4j.LoggerFactory;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import toolkit.config.ClassConfigurator;
 import toolkit.config.PropertyProvider;
 
@@ -83,7 +84,7 @@ public class BatchJobExecutorService extends Service {
 	}
 
 	private static URL getURL() throws MalformedURLException {
-		String urlString = String.format("http://%s%s/services/BatchJobTrigger?wsdl", PropertyProvider.getProperty("app.host", "Missing param app.host"), PropertyProvider.getProperty("app.ad.urltemplate", "Missing param app.ad.urltemplate").replace("/admin", "").replace("/login.xhtml", ""));
+		String urlString = CSAAApplicationFactory.get().adminApp().getUrl().replace("/admin", "").concat("/services/BatchJobTrigger?wsdl");
 		return new URL(PropertyProvider.getProperty("soap.batchjob.endpoint", urlString));
 	}
 

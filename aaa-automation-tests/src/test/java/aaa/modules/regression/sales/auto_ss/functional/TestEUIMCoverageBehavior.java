@@ -240,7 +240,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
 
         // open app search for policy
         mainApp().open();
@@ -439,9 +439,8 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
 
     private void purchaseRenewal(String policyNumber){
         // Open Billing account and Pay min due for the renewal
-        LocalDateTime minDueDate = TimeSetterUtil.getInstance().getCurrentTime();
         SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
+        Dollar minDue = BillingHelper.getPolicyMinimumDueAmount(policyNumber);
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 
         // Open Policy

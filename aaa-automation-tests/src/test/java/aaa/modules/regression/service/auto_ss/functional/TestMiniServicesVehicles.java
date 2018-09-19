@@ -323,6 +323,23 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed vehicles
+	 * @scenario
+	 * 1. Retrieve policy with 8 vehicles (max count)
+	 * 2. Remove 1 vehicle and validate that there is 'revert' option in response
+	 * 3. Run viewEndorsementVehicles and validate that there is 'revert' option for removed vehicle
+	 * 4. Add vehicle
+	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
+		pas18672_vehiclesRevertOptionForDeleteBody();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name no error about garaging address being different when binding endorsement
 	 * @scenario 1. see script body
@@ -482,7 +499,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
+	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("AZ") String state) {
 
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(true);
 	}
@@ -590,6 +607,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
 
 		pas12942_GaragingAddressConsistencyDXPBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Vehicle Assignments after replacing the vehicle (only states without driver assignment)
+	 * @scenario 1.Create a policy with 2 drivers and two vehicles
+	 * 2.Create new endorsement outside of PAS
+	 * 3.Replace one vehicle: KeepAssignment = true
+	 * 4.Replace second vehicle: KeepAssignment = false
+	 * 5.Rate and bind
+	 * 6.Create new endorsement outside of PAS.
+	 * 7.Add new vehicle, update, rate and bind.
+	 * 8.Create new endorsement outside of PAS.
+	 * 9.Delete one old vehicle.
+	 * 10. Replace the newest vehicle: KeepAssignment = true
+	 * 11. Issue and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
+	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {
+
+		pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody();
 	}
 }
 

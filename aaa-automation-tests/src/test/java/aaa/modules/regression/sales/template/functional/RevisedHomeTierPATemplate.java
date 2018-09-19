@@ -4,12 +4,9 @@ import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.INSURANCE_SCORE
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.InsuranceScoreReportRow.CUSTOMER_AGREEMENT;
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
@@ -18,7 +15,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import org.apache.commons.lang3.Range;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -46,7 +42,6 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
     private ReportsTab reportsTab = new ReportsTab();
     private BindTab bindTab = new BindTab();
     private Range<String> rangeMarketTier = Range.between("A", "J");
-    private LocalDateTime algoEffectiveDate = LocalDateTime.of(2018, Month.SEPTEMBER, 12, 0, 0);
 
     private ComboBox policyTier = applicantTab.getAssetList()
             .getAsset(HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES)
@@ -141,8 +136,6 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
 
         List<String> rangeAutoTier = IntStream.rangeClosed(1, 16).boxed().map(String::valueOf).collect(Collectors.toList());
         rangeAutoTier.add("N/A");
-
-		TimeSetterUtil.getInstance().confirmDateIsAfter(algoEffectiveDate);
 
         mainApp().open();
         createCustomerIndividual();
