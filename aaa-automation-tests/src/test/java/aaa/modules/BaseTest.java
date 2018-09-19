@@ -217,7 +217,7 @@ public class BaseTest {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Method method, Object[] param) {
+	public void beforeMethodStateConfiguration(Method method, ITestContext context) {
 		if (method.isAnnotationPresent(Test.class)) {
 			String state = new String();
 			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
@@ -255,8 +255,9 @@ public class BaseTest {
 		}
 	}
 
-	@BeforeSuite
+	@BeforeSuite(alwaysRun = true)
 	public void beforeSuite(ITestContext context) {
+		Thread.currentThread().getId();
 		this.context = context;
 	}
 
