@@ -31,7 +31,8 @@ ReinstatementActionTab: {
 
 AddSuspenseActionTab: {
   Suspense Amount: 50,
-  Payment Designation: 'Personal & Commercial Lines Accounts'
+  Payment Designation: 'Personal & Commercial Lines Accounts',
+  Payment Channel: 'Credit Card'
 }  
 
 ClearSuspenseActionTab: {
