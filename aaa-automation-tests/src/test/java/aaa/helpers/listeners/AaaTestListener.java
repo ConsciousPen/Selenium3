@@ -6,14 +6,11 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-import org.apache.commons.lang3.StringUtils;
 import org.testng.*;
 import com.exigen.ipb.etcsa.utils.RetrySuiteGenerator;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.config.CsaaTestProperties;
 import aaa.utils.StateList;
-import toolkit.config.PropertyProvider;
 import toolkit.metrics.ReportingContext;
 import toolkit.utils.teststoragex.listeners.TestngTestListener2;
 import toolkit.utils.teststoragex.models.Attachment;
@@ -67,7 +64,7 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 	@Override
 	public void beforeInvocation(IInvokedMethod method, ITestResult result) {
 		if (method.isTestMethod()) {
-			method.getTestResult().setParameters(getState(result));
+			String state = result.getTestContext().getCurrentXmlTest().getParameter(Constants.STATE_PARAM);
 			Method testMethod = result.getMethod().getConstructorOrMethod().getMethod();
 
 			StateList statesAnn = null;
@@ -79,7 +76,6 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 			if (statesAnn != null) {
 				List<String> applStates = Arrays.asList(statesAnn.states());
 				List<String> exclStates = Arrays.asList(statesAnn.statesExcept());
-				String state = result.getParameters()[0].toString();
 				if (!applStates.isEmpty() && !applStates.contains(state) || !exclStates.isEmpty() && exclStates.contains(state)) {
 					throw new SkipException(String.format("State '%s' is not applicable to this test", state));
 				}
@@ -118,8 +114,32 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 		}
 	}
 
-	private Object[] getState(ITestResult result) {
-		Object[] params = result.getParameters();
+	/*private String getState(ITestResult result) {
+		String state = "";
+		Method method = result.getMethod().getConstructorOrMethod().getMethod();
+		if (method.isAnnotationPresent(Parameters.class) && Arrays.asList(method.getAnnotation(Parameters.class).value()).stream().anyMatch(p -> "state".equals(p))) {
+			Parameter stateParam = Arrays.asList(method.getParameters()).stream().filter(p -> p.isAnnotationPresent(Optional.class)).findFirst().orElse(null);
+			if (stateParam != null) {
+				if (isCAProduct(result)) {
+					state = Constants.States.CA;
+				} else if (StringUtils.isNotBlank(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE))) {
+					state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
+				} else if (!stateParam.getAnnotation(Optional.class).value().isEmpty()) {
+					state = stateParam.getAnnotation(Optional.class).value();
+				}
+			}
+		}
+		return state;
+	}*/
+	/*	&& stateParam.isAnnotationPresent(Optional.class) && !stateParam.getAnnotation(Optional.class).value().isEmpty())
+			setState(stateParam.getAnnotation(Optional.class).value());
+		} else if (isStateCA()) {
+			setState(Constants.States.CA);
+		} else if (StringUtils.isNotBlank(usState)) {
+			setState(usState);
+		} else {
+			setState(Constants.States.UT);
+		}
 		if (params != null && params.length != 0 && "".equals(Arrays.asList(params[0]).get(0))) {
 			if (isCAProduct(result)) {
 				params = createParams(params, Constants.States.CA);
@@ -131,15 +151,15 @@ public class AaaTestListener extends TestngTestListener2 implements IExecutionLi
 			}
 		}
 		return params;
-	}
+	}*/
 
-	private Boolean isCAProduct(ITestResult result) {
+/*	private Boolean isCAProduct(ITestResult result) {
 		return result.getMethod() != null && result.getMethod().getTestClass().getName().contains("_ca.");
-	}
+	}*/
 
-	private Object[] createParams(Object[] inputParams, String state) {
+/*	private Object[] createParams(Object[] inputParams, String state) {
 		List<Object> list = Arrays.asList(inputParams);
 		list.set(0, state);
 		return list.toArray();
-	}
+	}*/
 }

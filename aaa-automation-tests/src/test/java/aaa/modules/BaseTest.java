@@ -3,6 +3,9 @@
 package aaa.modules;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -47,7 +50,7 @@ import toolkit.datax.impl.SimpleDataProvider;
 public class BaseTest {
 
 	protected static final String TEST_DATA_KEY = "TestData";
-	protected static final String STATE_PARAM = "state";
+	protected static final String STATE_PARAM = Constants.STATE_PARAM;
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
@@ -77,7 +80,7 @@ public class BaseTest {
 		return state.get();
 	}
 
-	private void setState(String newState) {
+	public static void setState(String newState) {
 		state.set(newState);
 	}
 
@@ -214,15 +217,29 @@ public class BaseTest {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Object[] parameters) {
-		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
-			setState(parameters[0].toString());
-		} else if (isStateCA()) {
-			setState(Constants.States.CA);
-		} else if (StringUtils.isNotBlank(usState)) {
-			setState(usState);
-		} else {
-			setState(Constants.States.UT);
+	public void beforeMethodStateConfiguration(Method method, Object[] param) {
+		if (method.isAnnotationPresent(Test.class)) {
+			String state = new String();
+			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
+				state = context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM);
+			} else {
+				if (method.isAnnotationPresent(Parameters.class) && Arrays.asList(method.getAnnotation(Parameters.class).value()).stream().anyMatch(p -> "state".equals(p))) {
+					Parameter stateParam = Arrays.asList(method.getParameters()).stream().filter(p -> p.isAnnotationPresent(Optional.class)).findFirst().orElse(null);
+					if (stateParam != null) {
+						if (!stateParam.getAnnotation(Optional.class).value().isEmpty()) {
+							state = stateParam.getAnnotation(Optional.class).value();
+						} else if (StringUtils.isNotBlank(PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE))) {
+							state = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
+						} else if (isStateCA()) {
+							state = Constants.States.CA;
+						}
+					}
+				}
+				context.getCurrentXmlTest().addParameter(Constants.STATE_PARAM, state);
+				method.getParameters();
+				//context.getCurrentXmlTest().
+			}
+			setState(state);
 		}
 	}
 
