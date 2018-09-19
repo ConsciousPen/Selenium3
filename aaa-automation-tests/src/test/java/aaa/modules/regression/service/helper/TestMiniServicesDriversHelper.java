@@ -2185,13 +2185,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas17641_MetaDataServiceDriverAddADBBody(PolicyType policyType, TestData td) {
+	protected void pas17641_MetaDataServiceDriverAddADBBody(ETCSCoreSoftAssertions softly, PolicyType policyType, TestData td) {
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//String policyNumber = "AZSS952918540";
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		ViewDriversResponse response = HelperCommon.viewEndorsementDrivers(policyNumber);
@@ -2201,10 +2201,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverAFR);
 
-		assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "adbCoverageInd", true, true, false, null, "Boolean"));
+		softly.assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "adbCoverageInd", true, true, false, null, "Boolean"));
 
 		AttributeMetadata[] metaDataResponse1 = HelperCommon.viewEndorsementDriversMetaData(policyNumber, driverNAFR);
-		assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse1, "adbCoverageInd", true, false, false, null, "Boolean"));
+		softly.assertThat(testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse1, "adbCoverageInd", true, false, false, null, "Boolean"));
 
 	}
 
