@@ -323,6 +323,23 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed vehicles
+	 * @scenario
+	 * 1. Retrieve policy with 8 vehicles (max count)
+	 * 2. Remove 1 vehicle and validate that there is 'revert' option in response
+	 * 3. Run viewEndorsementVehicles and validate that there is 'revert' option for removed vehicle
+	 * 4. Add vehicle
+	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
+		pas18672_vehiclesRevertOptionForDeleteBody();
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name no error about garaging address being different when binding endorsement
 	 * @scenario 1. see script body
