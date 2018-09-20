@@ -1,12 +1,18 @@
 package aaa.helpers.openl.model.auto_ss;
 
+import aaa.helpers.openl.annotation.MatchingField;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
+/**
+ * Note: this class has a natural ordering that is inconsistent with equals.
+ */
 @ExcelTableElement(containsSheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
-public class AutoSSOpenLDriver extends OpenLDriver {
+public class AutoSSOpenLDriver extends OpenLDriver implements Comparable<AutoSSOpenLDriver> {
+	@MatchingField
 	private String name;
+
 	private Boolean hasSR22;
 	private Boolean hasFR44; // VA specific
 	private Integer driverAge;
@@ -158,5 +164,10 @@ public class AutoSSOpenLDriver extends OpenLDriver {
 
 	public Boolean isExcludedDriver() {
 		return isExcludedDriver;
+	}
+
+	@Override
+	public int compareTo(AutoSSOpenLDriver otherDriver) {
+		return this.getName().compareTo(otherDriver.getName());
 	}
 }

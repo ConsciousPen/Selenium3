@@ -8,8 +8,10 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeSSOpenLForm extends OpenLForm {
 	private Integer covPercentage;
+
 	@ExcelTransient
 	private Integer formOid;
+
 	private Boolean masonaryOrFarmPremisesInd;
 	private Double optionalValue;
 	private Double optionalValue3;

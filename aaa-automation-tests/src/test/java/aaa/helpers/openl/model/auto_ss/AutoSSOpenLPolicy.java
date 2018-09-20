@@ -2,10 +2,8 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import com.google.common.collect.MapDifference;
+import java.util.Map;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -106,25 +104,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 		}
 
 		return requiredMocks;
-	}
-
-	@Override
-	public MapDifference<String, String> diff(OpenLPolicy otherOpenLPolicy) {
-		AutoSSOpenLPolicy otherPolicy = (AutoSSOpenLPolicy) otherOpenLPolicy;
-
-		List<AutoSSOpenLDriver> otherDriversSorted = new ArrayList<>(otherPolicy.getDrivers());
-		for (int index = 0; index < this.getDrivers().size(); index++) {
-			String driverName = this.getDrivers().get(index).getName();
-			AutoSSOpenLDriver otherDriver = otherDriversSorted.stream().filter(d -> Objects.equals(driverName, d.getName())).findFirst().orElse(null);
-			if (otherDriver != null && otherDriversSorted.size() > index) {
-				int otherIndex = otherDriversSorted.indexOf(otherDriver);
-				Collections.swap(otherDriversSorted, index, otherIndex);
-			}
-		}
-		otherPolicy.setDrivers(otherDriversSorted);
-		//TODO-dchubkov: add sorting for vehicles and coverages
-
-		return super.diff(otherPolicy);
 	}
 
 	public Integer getCreditScore() {
@@ -423,6 +402,17 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoSSTestDataGenerator(state, baseTestData);
+	}
+
+	@Override
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(),
+				"^policy\\.drivers\\[\\d+\\]\\.id$",
+				"^policy\\.vehicles\\[\\d+\\]\\.id$",
+				"^policy\\.vehicles\\[\\d+\\].annualMileage$",
+				"^policy\\.vehicles\\[\\d+\\]\\.ratedDriver\\.id$",
+				"^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$"
+		);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

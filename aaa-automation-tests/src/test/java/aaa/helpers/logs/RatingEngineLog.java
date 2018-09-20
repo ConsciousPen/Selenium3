@@ -118,9 +118,9 @@ public class RatingEngineLog {
 	}
 
 	/**
-	 * Builds and returns Map of openL fields and values from rating json request/response where key is path to the OpenL field and value - openL field value itself
+	 * Builds and returns Map of OpenL fields and values from rating json request/response where key is path to the OpenL field and value - OpenL field value itself
 	 *
-	 * @return Map of openL fields and values from rating json request/response where key is path to the OpenL field and value - openL field value itself
+	 * @return Map of OpenL fields and values from rating json request/response where key is path to the OpenL field and value - OpenL field value itself
 	 */
 	public Map<String, String> getOpenLFieldsMap() {
 		if (this.openLFieldsMap == null) {

@@ -29,7 +29,6 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 	@Override
 	protected String createQuote(HomeSSOpenLPolicy openLPolicy) {
-		//		ApplicationMocksManager.restartStubServer();
 		if (!getPolicyType().getShortName().contains(openLPolicy.getPolicyType())) {
 			throw new IstfException(String.format("Test can't use selected policy with policy type '%s'", openLPolicy.getPolicyType()));
 		}
@@ -112,17 +111,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
 	}
 
-	/*@Override
-	protected Map<String, String> getOpenLFieldsMapFromTest(HomeSSOpenLPolicy openLPolicy) {
-		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
-		openLFieldsMap.remove("policy.id");
-		List<String> policyKeys = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().startsWith("policy.")).map(Map.Entry::getKey).collect(Collectors.toList());
-		policyKeys.forEach(k -> openLFieldsMap.put(k.replace("policy.", "p."), openLFieldsMap.remove(k)));
-		return openLFieldsMap;
-	}*/
-
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
-		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && !openLPolicy.getForms().stream().anyMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
+		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getForms().stream().noneMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
 			if (PremiumsAndCoveragesQuoteTab.tableEndorsementForms.isPresent() && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").isPresent()) {
 				return new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue());
 			}

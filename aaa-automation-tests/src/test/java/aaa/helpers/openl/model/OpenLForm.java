@@ -1,12 +1,15 @@
 package aaa.helpers.openl.model;
 
+import aaa.helpers.openl.annotation.MatchingField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public class OpenLForm {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	protected Integer number;
 
+	@MatchingField
 	protected String formCode;
+
 	protected Double limit;
 
 	public Integer getNumber() {

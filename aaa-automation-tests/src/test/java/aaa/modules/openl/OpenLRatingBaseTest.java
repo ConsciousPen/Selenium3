@@ -156,57 +156,31 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		@SuppressWarnings("unchecked")
 		P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestLog().getOpenLPolicyObject(openLPolicy.getClass());
-		MapDifference<String, String> differences = openLPolicy.diff(openLPolicyFromRequest);
+		MapDifference<String, String> differences = openLPolicyFromRequest.diff(openLPolicy);
 
 		if (differences.entriesDiffering().isEmpty()) {
 			log.info("All common OpenL fields from rating json request and {} object from test excel file have same values", openLPolicy.getClass().getSimpleName());
 		} else {
 			StringBuilder diffMessage = new StringBuilder("There are differences between values of same OpenL fields from rating json request and test excel file. "
-					+ "OpenL.Field.Path=[\"value from request\", \"value from test\"]:\n");
+					+ "OpenL.Field.Path=[\"value from request\", \"value from excel file\"]:\n");
 			for (Map.Entry<String, MapDifference.ValueDifference<String>> diff : differences.entriesDiffering().entrySet()) {
 				diffMessage.append("    ").append(diff.getKey()).append("=[\"").append(diff.getValue().leftValue()).append("\", \"").append(diff.getValue().rightValue()).append("\"]\n");
 			}
 			log.warn(diffMessage.toString());
 
 			if (!differences.entriesOnlyOnLeft().isEmpty()) {
-				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in policy object from test excel file:\n");
-				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnLeft().entrySet()) {
-					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
-				}
-				log.warn(missedFieldsMessage.toString());
+				printMissedFields(differences.entriesOnlyOnLeft(), "There are missed OpenL fields in policy object from test excel file:");
 			}
 
 			if (!differences.entriesOnlyOnRight().isEmpty()) {
-				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in rating json request:\n");
-				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnRight().entrySet()) {
-					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
-				}
-				log.warn(missedFieldsMessage.toString());
+				printMissedFields(differences.entriesOnlyOnRight(), "There are missed OpenL fields in rating json request:");
 			}
+
+			log.info("----------------------------------------------------------------");
+			log.info("All OpenL field values from json request:\n{}", openLPolicyFromRequest);
+			log.info("All OpenL field values from excel file:\n{}", openLPolicy);
 		}
 	}
-
-	/*@SuppressWarnings("unchecked")
-	private Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder, P openLPolicy) {
-		P openLPolicyFromRequest = (P) openLPolicy.createFrom(ratingLogsHolder.getRequestLog().getJsonElement());
-		//openLPolicyFromRequest.sortInnerObjectsAccordingTo(openLPolicy);
-		Map<String, String> openLFieldsMap = new HashMap<>(openLPolicyFromRequest.getOpenLFieldsMap());
-		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
-		return openLFieldsMap;
-	}*/
-
-	/*protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
-		Map<String, String> openLFieldsMap = new HashMap<>(ratingLogsHolder.getRequestLog().getOpenLFieldsMap());
-		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
-		return openLFieldsMap;
-	}*/
-
-	/*protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
-		Map<String, String> openLFieldsMap = openLPolicy.getOpenLFieldsMap();
-		openLFieldsMap.entrySet().removeIf(e -> e.getValue() == null || "null".equalsIgnoreCase(e.getValue())); // usually we don't care about null values of OpenL fields in test file during comparision
-		openLFieldsMap.remove("policy.policyNumber"); // policy number in test always differs from value in rating request log
-		return openLFieldsMap;
-	}*/
 
 	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
 		saveLogs(null, testContext, openLPolicyNumber, isActualEqualToExpectedPremium);
@@ -232,5 +206,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
 			}
 		}
+	}
+
+	private void printMissedFields(Map<String, String> missedFieldsMap, String message) {
+		StringBuilder missedFieldsMessage = new StringBuilder(message + "\n");
+		for (Map.Entry<String, String> missedFields : missedFieldsMap.entrySet()) {
+			missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+		}
+		log.warn(missedFieldsMessage.toString());
 	}
 }

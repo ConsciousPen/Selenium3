@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.auto_ca.select;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
@@ -11,6 +12,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 
 	private List<AutoCaSelectOpenLCoverage> coverages;
+	private List<AutoCaSelectOpenLCoverage> optionalCoverages;
 	private AutoCaSelectOpenLDriver primaryDriver;
 	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
 
@@ -30,7 +32,6 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean rideShareCov;
 	private Integer vehicleAge;
 	private Boolean manuallyAssignedUndesignatedDriverInd;
-	private String optionalCoverages; // TODO-dchubkov: double check type, column in test is empty
 
 	public AutoCaSelectOpenLDriver getPrimaryDriver() {
 		return primaryDriver;
@@ -164,11 +165,11 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 		this.manuallyAssignedUndesignatedDriverInd = manuallyAssignedUndesignatedDriverInd;
 	}
 
-	public String getOptionalCoverages() {
-		return optionalCoverages;
+	public List<AutoCaSelectOpenLCoverage> getOptionalCoverages() {
+		return CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
 	}
 
-	public void setOptionalCoverages(String optionalCoverages) {
-		this.optionalCoverages = optionalCoverages;
+	public void setOptionalCoverages(List<AutoCaSelectOpenLCoverage> optionalCoverages) {
+		this.optionalCoverages = CollectionUtils.isNotEmpty(optionalCoverages) ? new ArrayList<>(optionalCoverages) : null;
 	}
 }

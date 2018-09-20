@@ -16,14 +16,4 @@ public class AutoCaSelectPremiumCalculationTest extends AutoCaPremiumCalculation
 	protected TestData getRatingDataPattern() {
 		return super.getRatingDataPattern().mask(new AssignmentTab().getMetaKey());
 	}
-
-	/*@Override
-	protected Map<String, String> getOpenLFieldsMapFromTest(AutoCaSelectOpenLPolicy openLPolicy) {
-		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
-		Pattern vehiclePrimaryDriverIdPattern = Pattern.compile("^policy\\.vehicles\\[\\d+\\]\\.primaryDriver\\.id$");
-		openLFieldsMap.entrySet().removeIf(e -> vehiclePrimaryDriverIdPattern.matcher(e.getKey()).matches());
-		openLFieldsMap.remove("policy.id");
-
-		return openLFieldsMap;
-	}*/
 }

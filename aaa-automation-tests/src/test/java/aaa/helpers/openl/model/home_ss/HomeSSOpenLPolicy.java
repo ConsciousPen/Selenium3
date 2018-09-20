@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -253,11 +254,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<OpenLVariationType> getPaymentPlanVariations() {
-		return paymentPlanVariations;
+		return new ArrayList<>(paymentPlanVariations);
 	}
 
 	public void setPaymentPlanVariations(List<OpenLVariationType> paymentPlanVariations) {
-		this.paymentPlanVariations = paymentPlanVariations;
+		this.paymentPlanVariations = new ArrayList<>(paymentPlanVariations);
 	}
 
 	public void setPolicyAddressHomeSSOpenLAddress(HomeSSOpenLAddress policyAddress) {
@@ -311,12 +312,10 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 		return requiredMocks;
 	}
 
-	/*
 	@Override
-	public HomeSSHO4TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeSSHO4TestDataGenerator(state, baseTestData);
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(), "policy.id");
 	}
-	*/
 
 	@Override
 	public String getPolicyNumber() {

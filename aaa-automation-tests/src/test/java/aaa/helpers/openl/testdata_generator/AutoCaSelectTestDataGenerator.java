@@ -300,7 +300,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	@Override
 	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
 		if ("ETEC".equals(coverage.getCoverageCd())) {
-			String limitCode = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
+			String limitCode = ((AutoCaSelectOpenLCoverage) coverage).getLimitCode();
 			String[] limitRange = limitCode.split("/");
 			assertThat(limitRange.length).as("Unknown mapping for limitCode: %s", limitCode).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 			return limitRange;

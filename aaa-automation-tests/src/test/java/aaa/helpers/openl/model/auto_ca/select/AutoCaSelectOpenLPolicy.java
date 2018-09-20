@@ -3,6 +3,7 @@ package aaa.helpers.openl.model.auto_ca.select;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
@@ -89,7 +90,7 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
-	
+
 	@Override
 	public AutoCaSelectTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
 		return new AutoCaSelectTestDataGenerator(state, baseTestData);
@@ -103,6 +104,14 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 	public Integer getTerm() {
 		//TODO-dchubkov: to be verified whether 12 is OK for default term or not
 		return 12;
+	}
+
+	@Override
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(),
+				"policy.id",
+				"^policy\\.vehicles\\[\\d+\\]\\.primaryDriver\\.id$",
+				"^policy\\.vehicles\\[\\d+\\]\\.optionalCoverages$");
 	}
 
 	public Boolean isAaaMember() {

@@ -243,9 +243,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
+				String[] firstLastName = driver.getName().split("\\s");
+				String firstName = firstLastName[0];
+				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
-						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
-						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
+						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName)
+						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
 			}
 
 			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
@@ -484,7 +487,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
 					isFirstDriver = false;
 				} else {
-					unverifiableDrivingRecordSurchargeData.put(driver.getName() + " " + driver.getName(), driver.isUnverifiableDrivingRecord());
+					String[] firstLastName = driver.getName().split("\\s");
+					String firstName = firstLastName[0];
+					String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
+					unverifiableDrivingRecordSurchargeData.put(firstName + " " + lastName, driver.isUnverifiableDrivingRecord());
 				}
 			}
 		}

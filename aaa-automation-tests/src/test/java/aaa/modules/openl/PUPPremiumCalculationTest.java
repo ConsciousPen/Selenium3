@@ -38,13 +38,4 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 				? PremiumAndCoveragesQuoteTab.getPUPCoveragePremium()
 				: PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
-
-	/*@Override
-	protected Map<String, String> getOpenLFieldsMapFromTest(PUPOpenLPolicy openLPolicy) {
-		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
-		//does not affect rating
-		openLFieldsMap.remove("policy.dwelling.viciousDogCount");
-		openLFieldsMap.remove("policy.dwelling.address.county");
-		return openLFieldsMap;
-	}*/
 }

@@ -4,6 +4,7 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
@@ -126,6 +127,14 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		}
 
 		return requiredMocks;
+	}
+
+	@Override
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(),
+				//do not affect rating:
+				"policy.dwelling.viciousDogCount",
+				"policy.dwelling.address.county");
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
