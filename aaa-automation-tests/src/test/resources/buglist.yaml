@@ -385,3 +385,5 @@ PAS-19445:
   failures:
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
     messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
+  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Error with message"]
