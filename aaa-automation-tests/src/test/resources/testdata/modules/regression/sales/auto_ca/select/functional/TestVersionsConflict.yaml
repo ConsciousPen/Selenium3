@@ -402,9 +402,7 @@ TestData_CurrentCarrierInformation_Version1: {
 }
 
 TestData_CurrentCarrierInformation_Version2: {
-  GeneralTab: {
-    CurrentCarrierInformation: '@CurrentCarrierInformation_Version2'
-  },
+  GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
   VehicleTab: {},
