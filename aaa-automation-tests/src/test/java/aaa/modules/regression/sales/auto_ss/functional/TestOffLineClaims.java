@@ -31,6 +31,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
     /**
      * * @author Chris Johns
      * @name Test Offline STUB/Mock Data Claims
+     * @IMPORTANT: This test is written under the current stub structure and is subject to change
      * @scenario
      * Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -90,14 +91,14 @@ public class TestOffLineClaims extends AutoSSBaseTest
 
 	/**
 	 * * @author Chris Johns
-	 * @name Test Claims Matching Micro Service - Test 1 - No match, Exiting match, DL Match
+	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:
-	 * 1. Send JSON Request to theClaims Matching Micro Service
-	 * 2. Verify the following claims match reqults:
-	 *      --Claim 1: No Match
-	 *      --Claim 2: Existing Match
-	 *      --Claim 3: DL Match
+	 * 1. Send JSON Request with 3 claims to the Claims Matching Micro Service
+	 * 2. Verify the following claims match results:
+	 *      --Claim 1, 1TAZ1111OHS: No Match
+	 *      --Claim 2, 7TZ02222OHS: Existing Match
+	 *      --Claim 3, 3TAZ3333OHS: DL Match
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -115,7 +116,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
 
-		//Verify the First claim returned from CAS is unmatched
+		//Verify the First claim returned from CAS is in the unmatched section
 		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
 
 		//Verify that the Second claim returned from CAS is an existing match and the Third claim is a DL match
