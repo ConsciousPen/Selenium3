@@ -4,9 +4,9 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "cause":"cha",
-      "totalAmountPaid":3300,
+      "totalAmountPaid":2200,
       "dateClosed":"2019-07-31",
-      "type":"Comprehensive",
+      "type":"Accident",
       "claimDeductible":500,
       "driverInformation":{
         "relationToNamedInsured":"INSURED",
@@ -18,7 +18,7 @@
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"crashed into waving inflatable arm guy",
-      "amountpaid":3300,
+      "amountpaid":2200,
       "claimNumber":"1TAZ1111OHS",
       "status":"CLOSED"
     },
@@ -114,7 +114,7 @@
             "source":"CSAAClaims",
             "oid":"oK6HhBpt67oFTmQ-vqxCzA",
             "type":"afa",
-            "claimNumber":"3TAZ3333OHS",
+            "claimNumber":"3TAZ9999OHS",
             "LossPaymentAmout":2200
           }
         ]

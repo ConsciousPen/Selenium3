@@ -1,15 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -23,20 +19,13 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.RestBodyRequest;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.ClaimsMatchingMicroservice;
 import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
-import aaa.modules.regression.service.helper.dtoDxp.Vehicle;
-import aaa.modules.regression.service.helper.dtoDxp.ViewVehicleResponse;
-import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-//@StateList(states = Constants.States.AZ)
 public class TestOffLineClaims extends AutoSSBaseTest
 {
     /**
@@ -81,7 +70,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
         //Move to R-63, run batch job part 1 and offline claims batch job
 	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-//        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
+        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_CLAIMS_BATCH);
 
         //Move to R-46 and run batch job part 2
 	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
@@ -95,22 +84,43 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    PolicySummaryPage.buttonRenewals.click();
 	    policy.dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+	    //TODO: Add Claim Assertion
     }
+
+	/**
+	 * * @author Chris Johns
+	 * @name Test Claims Matching Micro Service - Test 1 - No match, Exiting match, DL Match
+	 * @scenario
+	 * Test Steps:
+	 * 1. Send JSON Request to theClaims Matching Micro Service
+	 * 2. Verify the following claims match reqults:
+	 *      --Claim 1: No Match
+	 *      --Claim 2: Existing Match
+	 *      --Claim 3: DL Match
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void claims_test1(@Optional("AZ") String state) throws IOException {
-    	//Canned Details:
+	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		String DEFAULT_PATH = "src/test/resources/claimsmatch/";
 		String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(DEFAULT_PATH + "DLMatch_NoMatch_ExistingMatch.json")));
+		//Define which JSON request to use
+		String claimsRequest = new String(Files.readAllBytes(Paths.get(DEFAULT_PATH + "NoMatch_ExistingMatch_DLMatch.json")));
 
-		ClaimsAssignmentResponse claimsMatchingMicroserviceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl, claimsRequest);
-		log.info(claimsMatchingMicroserviceResponse.toString());
+		//Use runJsonRequestPostClaims to send the JSON request to the Claims Assignment Micro Service
+		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl, claimsRequest);
 
-		assertThat(claimsMatchingMicroserviceResponse).isNotNull();
+		//Throw the microServiceResponse to log - assists with debugging
+		log.info(microServiceResponse.toString());
 
+		//Verify the First claim returned from CAS is unmatched
+		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
+
+		//Verify that the Second claim returned from CAS is an existing match and the Third claim is a DL match
+		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
+		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("DL");
 	}
 
 }
