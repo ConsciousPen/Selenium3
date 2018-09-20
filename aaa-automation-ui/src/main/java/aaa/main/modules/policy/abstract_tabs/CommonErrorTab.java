@@ -3,7 +3,6 @@ package aaa.main.modules.policy.abstract_tabs;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import toolkit.verification.CustomSoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.slf4j.Logger;
@@ -14,6 +13,7 @@ import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
@@ -25,11 +25,10 @@ import toolkit.webdriver.controls.composite.table.Row;
  */
 public abstract class CommonErrorTab extends Tab {
 	public static final String KEY_ERRORS = "Errors";
+	protected static Logger log = LoggerFactory.getLogger(CommonErrorTab.class);
 	public Button buttonOverride = new Button(By.id("errorsForm:overrideRules"));
 	public Button buttonApproval = new Button(By.id("errorsForm:referForApproval"));
 	public Verify verify = new Verify();
-
-	protected static Logger log = LoggerFactory.getLogger(CommonErrorTab.class);
 
 	protected CommonErrorTab(Class<? extends MetaData> mdClass) {
 		super(mdClass);
@@ -37,6 +36,28 @@ public abstract class CommonErrorTab extends Tab {
 
 	public boolean isVisible() {
 		return buttonOverride.isPresent() && buttonOverride.isVisible();
+	}
+
+	public abstract FillableErrorTable getErrorsControl();
+
+	public List<String> getErrorCodesList() {
+		return getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
+	}
+
+	public List<String> getErrorMessagesList() {
+		return getErrorMessagesList(false);
+	}
+
+	public List<String> getHintErrorMessagesList() {
+		return getErrorMessagesList(true);
+	}
+
+	public Map<String, String> getErrorsMap() {
+		return getErrorsMap(false);
+	}
+
+	public Map<String, String> getErrorsWithHintMessagesMap() {
+		return getErrorsMap(true);
 	}
 
 	@Override
@@ -76,8 +97,6 @@ public abstract class CommonErrorTab extends Tab {
 				row.getCell("Reason for override").controls.comboBoxes.getFirst().setValue(reason.get());
 			}
 		}
-		//TODO @Aperapecha: Remove - not reqired, SubmitTab should be used instead.
-		//		buttonOverride.click();
 	}
 
 	public void overrideErrors(ErrorEnum.Errors... errors) {
@@ -93,8 +112,6 @@ public abstract class CommonErrorTab extends Tab {
 		for (ErrorEnum.Errors error : errors) {
 			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
 		}
-		//		TODO @Aperapecha: Remove - not reqired, SubmitTab should be used instead.
-		//		buttonOverride.click();
 	}
 
 	public void overrrideErrors(List<String> errors) {
@@ -121,28 +138,6 @@ public abstract class CommonErrorTab extends Tab {
 			getErrorsControl().fillRow(td.adjust("Code", error.getCode()));
 		}
 		buttonApproval.click();
-	}
-
-	public abstract FillableErrorTable getErrorsControl();
-
-	public List<String> getErrorCodesList() {
-		return getErrorsControl().getTable().getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue();
-	}
-
-	public List<String> getErrorMessagesList() {
-		return getErrorMessagesList(false);
-	}
-
-	public List<String> getHintErrorMessagesList() {
-		return getErrorMessagesList(true);
-	}
-
-	public Map<String, String> getErrorsMap() {
-		return getErrorsMap(false);
-	}
-
-	public Map<String, String> getErrorsWithHintMessagesMap() {
-		return getErrorsMap(true);
 	}
 
 	private List<String> getErrorMessagesList(boolean getHintMessages) {
