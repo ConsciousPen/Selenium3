@@ -10,4 +10,9 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
         </classes>
     </test>
+    <test name="TestFinancePolicyEscheatmentCheckReversals" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
+        </classes>
+    </test>
 </suite>
