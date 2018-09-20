@@ -619,7 +619,7 @@ public class HelperCommon {
         return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
     }
 
-//	public static DriversDto runJsonRequestPostClaims(String url, String jsonFileName, int status)
+	//Method to send JSON Request to Claims Matching Micro Service
 	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String url, String claimsRequest) {
 		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url; //https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims
@@ -627,11 +627,6 @@ public class HelperCommon {
 		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
-
-
-
-
-
 
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
