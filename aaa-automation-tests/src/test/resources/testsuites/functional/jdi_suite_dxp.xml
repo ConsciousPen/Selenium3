@@ -436,6 +436,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                    <include name="pas11654_MDEnhancedUIMBICoverage"/>
                 </methods>
             </class>
         </classes>
