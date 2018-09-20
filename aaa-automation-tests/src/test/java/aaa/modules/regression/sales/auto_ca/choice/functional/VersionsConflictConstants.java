@@ -265,22 +265,6 @@ public class VersionsConflictConstants {
 					.put("AAA Products Owned.Policy #", AVAILABLE)
 					.build());
 
-	/**
-	 *  Maps full attribute path on conflict page to version to select (Current, Available).
-	 */
-	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_AUTOMATIC_RENEWAL = ArrayListMultimap.create(
-			ImmutableListMultimap.<String, String>builder()
-					.put("AAAMembership Order.Receipt Date", CURRENT)
-					.put("AAAMembership Order.Status", CURRENT)
-					.put("AAA Products Owned.Current AAA Member", CURRENT)
-					.put("AAA Products Owned.Policy #", AVAILABLE)
-					.put("AAA Products Owned.Policy #", AVAILABLE)
-					.put("AAA Products Owned.Policy #", AVAILABLE)
-					.put("AAA Products Owned.Policy #", AVAILABLE)
-					.put("AAA Products Owned.Policy #", AVAILABLE)
-					.build());
-
-
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_2 = ImmutableListMultimap.<String, String>builder()
