@@ -650,4 +650,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas15376_3OrMoreMinorOrSpeedingViolations">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15376_3OrMoreMinorOrSpeedingViolations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
