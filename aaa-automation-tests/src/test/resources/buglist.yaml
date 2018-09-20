@@ -384,4 +384,4 @@ PAS-19445:
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
-    messages: ["Error", "Expecting", "[Error with message <Risks with a property liability limit less than $300,000 are ineligible.> is present in table] expected"]
+    messages: ["AAA_PUP_SS2220189", "Errors"]
