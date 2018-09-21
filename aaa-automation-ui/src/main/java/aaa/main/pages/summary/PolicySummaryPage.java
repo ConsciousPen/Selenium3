@@ -63,6 +63,8 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
 	public static Button buttonBackFromRenewals = new Button(By.id("renewalForm:backToSummary_footer"));
+	public static Button buttonOk = new Button(By.id("policyDataGatherForm:okButton_footer"));
+	public static Button buttonOkPopup = new Button(By.id("policyDataGatherForm:okBtn"));
 
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
 	public static StaticElement labellinkPolicy = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
