@@ -11,11 +11,6 @@ import toolkit.webdriver.OptionsModifier;
 
 public class CSAACapabilityModifier extends OptionsModifier {
 
-	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
-	private static final String USER_DIR_PROP = "user.dir";
-	private static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
-
-
 	@Override
 	public ChromeOptions chrome(ChromeOptions options) {
 		options.addArguments("disable-infobars", "--no-sandbox");

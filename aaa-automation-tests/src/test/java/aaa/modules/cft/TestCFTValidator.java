@@ -3,12 +3,13 @@ package aaa.modules.cft;
 import static aaa.helpers.cft.CFTHelper.*;
 import java.io.File;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.DownloadService;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
+import aaa.helpers.browser.DownloadsHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.report.ReportGeneratorService;
 import toolkit.config.PropertyProvider;
@@ -19,7 +20,6 @@ import toolkit.utils.TestInfo;
 
 public class TestCFTValidator extends ControlledFinancialBaseTest {
 
-	private static final String DOWNLOAD_DIR = PropertyProvider.getProperty("test.downloadfiles.location");
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
@@ -37,26 +37,24 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
-		checkDirectory(new File(DOWNLOAD_DIR));
-		checkFile(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
+		DownloadsHelper.checkFile(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
 		runCFTJobs();
 
+		String postfix = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy_MMM_d"));
 		opReportApp().open();
 		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Policy Trial Balance"));
-		DownloadService.download("*.*");
+		DownloadsHelper.getFile(String.format("Policy+Trial+Balance+(Sub+Ledger)_%s.xlsx", postfix));
+		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
+		DownloadsHelper.getFile(String.format("Billing+Trial+Balance+(Sub+Ledger)_%s.xlsx", postfix));
 		opReportApp().close();
 
-		opReportApp().open();
-		operationalReport.create(getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getTestData("Billing Trial Balance"));
-		DownloadService.download("*.*");
-
-		Map<String, Double> accountsMapSummaryFromOR = getExcelValues(DOWNLOAD_DIR, EXCEL_FILE_EXTENSION);
+		Map<String, Double> accountsMapSummaryFromOR = getExcelValues(DownloadsHelper.DOWNLOAD_DIR, EXCEL_FILE_EXTENSION);
 
 		// moving Feed file from App server to download dir
-		sshController.downloadFolder(new File(SOURCE_DIR), new File(DOWNLOAD_DIR));
-		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues(DOWNLOAD_DIR, FEED_FILE_EXTENSION);
+		sshController.downloadFolder(new File(SOURCE_DIR), new File(DownloadsHelper.DOWNLOAD_DIR));
+		Map<String, Double> accountsMapSummaryFromFeedFile = getFeedFilesValues(DownloadsHelper.DOWNLOAD_DIR, FEED_FILE_EXTENSION);
 
 		// get Map from DB
 		Map<String, Double> accountsMapSummaryFromDB = getDataBaseValues(sqlGetLedgerData);

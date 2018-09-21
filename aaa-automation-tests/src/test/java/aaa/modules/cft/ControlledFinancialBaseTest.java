@@ -7,8 +7,6 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
@@ -18,6 +16,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
 import aaa.helpers.billing.*;
 import aaa.helpers.conversion.ConversionPolicyData;
@@ -36,6 +35,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.PaymentsMaintenance;
+import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
 import aaa.main.modules.billing.paymentsmaintenance.actiontabs.SearchSuspenseActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
@@ -54,7 +54,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected static final String DEFAULT_TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = "state";
 	protected static final String SOURCE_DIR = "/home/mp2/pas/sit/FIN_E_EXGPAS_PSFTGL_7000_D/outbound";
-	protected static final String CFT_VALIDATION_DIRECTORY = System.getProperty("user.dir") + "/src/test/resources/cft/";
+	protected static final String CFT_VALIDATION_DIRECTORY = System.getProperty(CsaaTestProperties.USER_DIR_PROP) + "/src/test/resources/cft/";
 
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected OperationalReport operationalReport = new OperationalReport();

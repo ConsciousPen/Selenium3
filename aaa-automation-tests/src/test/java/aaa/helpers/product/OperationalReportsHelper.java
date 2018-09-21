@@ -1,6 +1,5 @@
 package aaa.helpers.product;
 
-import static aaa.helpers.cft.CFTHelper.checkDirectory;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,24 +7,21 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.DownloadService;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
-import aaa.config.CsaaTestProperties;
+import aaa.helpers.browser.DownloadsHelper;
 import aaa.main.enums.OperationalReportsConstants;
 import aaa.modules.BaseTest;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.entity.area.sheet.ExcelSheet;
 import aaa.utils.excel.io.entity.area.table.ExcelTable;
 import aaa.utils.excel.io.entity.area.table.TableRow;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 
 public class OperationalReportsHelper {
 
-	public static final String DOWNLOAD_DIR = PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
 	private static final String EXCEL_FILE_EXTENSION = ".xlsx";
 	private static final String DELETE_EUW_OP_REPORTS_PRIVILEGES = "DELETE S_ROLE_PRIVILEGES\n"
 			+ "WHERE PRIV_ID IN (SELECT ID FROM S_AUTHORITY WHERE DTYPE='PRIV' AND NAME IN\n"
@@ -46,10 +42,10 @@ public class OperationalReportsHelper {
 	}
 
 	public static void downloadReport(TestData td) throws SftpException, JSchException, IOException {
-		File downloadDir = new File(DOWNLOAD_DIR);
-		checkDirectory(downloadDir);
+		File downloadDir = new File(DownloadsHelper.DOWNLOAD_DIR);
 		operationalReport.create(td);
-		DownloadService.download("*.*");
+		DownloadsHelper.listFiles().forEach(p -> DownloadsHelper.checkFile(DownloadsHelper.DOWNLOAD_DIR, p));
+		DownloadsHelper.getAllFiles();
 	}
 
 	public static List<String> getOpReportTableHeaders(String originalFileName) {
@@ -85,7 +81,7 @@ public class OperationalReportsHelper {
 	}
 
 	public static ExcelSheet readOpReport(String originalFileName) {
-		File readFile = new File(DOWNLOAD_DIR + originalFileName + EXCEL_FILE_EXTENSION);
+		File readFile = new File(DownloadsHelper.DOWNLOAD_DIR + originalFileName + EXCEL_FILE_EXTENSION);
 		return new ExcelManager(readFile).getFirstSheet();
 	}
 

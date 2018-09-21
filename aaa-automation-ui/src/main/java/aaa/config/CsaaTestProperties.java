@@ -4,6 +4,9 @@ import toolkit.config.TestProperties;
 
 public class CsaaTestProperties extends TestProperties {
 
+	public static final String USER_DIR_PROP = "user.dir";
+	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
+
 	public static final String AD_PORT = "app.ad.port";            //	e.g. "9082"
 	public static final String AD_PATH = "app.ad.path";            //	e.g. "/aaa-admin/admin/login.xhtml"
 	public static final String OR_PATH = "app.or.path";
@@ -17,7 +20,6 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String APP_STUB_SCRIPT_STOP = "app.stub.script.stop";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
-	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
 
 	public static final String DXP_PORT = "dxp.port";
 	public static final String DXP_PROTOCOL = "dxp.protocol";
