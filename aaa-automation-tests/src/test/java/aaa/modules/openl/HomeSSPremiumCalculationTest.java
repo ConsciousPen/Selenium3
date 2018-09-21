@@ -112,17 +112,15 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	}
 
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
+		Dollar specificFees = new Dollar(0);
+		if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
+			specificFees = new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes.getRowContains("Description", "Total").getCell("Term Premium ($)").getValue());
+		}
 		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getForms().stream().noneMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
 			if (PremiumsAndCoveragesQuoteTab.tableEndorsementForms.isPresent() && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").isPresent()) {
-				return new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue());
+				specificFees = specificFees.add(new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue()));
 			}
 		}
-		if (Constants.States.WV.equals(openLPolicy.getPolicyAddress().getState())) {
-			if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
-				return new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes.getRowContains("Description", "Total").getCell("Term Premium ($)").getValue());
-			}
-		}
-		//TODO add other specific taxes and fees
-		return new Dollar(0);
+		return specificFees;
 	}
 }
