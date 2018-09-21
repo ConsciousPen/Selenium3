@@ -23,14 +23,41 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return td;
 	}
 
-	protected void createFinancialPolicy() {
-		createFinancialPolicy(getPolicyTD());
+	protected String createFinancialPolicy() {
+		return createFinancialPolicy(getPolicyTD());
 	}
 
-	protected void createFinancialPolicy(TestData td) {
-		createPolicy(td);
-		POLICIES.add(PolicySummaryPage.getPolicyNumber());
+	protected String createFinancialPolicy(TestData td) {
+		String policyNum = createPolicy(td);
+		POLICIES.add(policyNum);
+		return policyNum;
 	}
+
+	protected TestData getEndorsementTD() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData");
+	}
+
+	protected TestData getCancellationTD() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
+	}
+
+	protected TestData getReinstatementTD() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+	}
+
+//	protected boolean isAutoPolicy() {
+//		return getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
+//	}
+//
+//	protected boolean isPropertyPolicy() {
+//		return getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) ||
+//				getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_SS_HO3) ||
+//				getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6);
+//	}
+//
+//	protected boolean isPupPolicy() {
+//		return getPolicyType().equals(PolicyType.PUP);
+//	}
 
 	/**
 	 * Adjusts the effective date of the policy for the given test data

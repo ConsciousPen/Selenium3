@@ -6,9 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
 
-
     <!--New Business Tests-->
-
 
     <test name="New Business - SS">
         <parameter name="state" value="AZ"/>
@@ -25,6 +23,7 @@
     <test name="New Business - CA">
         <parameter name="state" value="CA"/>
         <classes>
+            <class name="aaa.modules.financials.pup.TestNewBusiness"/>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
