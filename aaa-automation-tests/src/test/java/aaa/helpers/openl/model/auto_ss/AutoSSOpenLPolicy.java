@@ -400,8 +400,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new AutoSSTestDataGenerator(state, baseTestData);
+	public AutoSSTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new AutoSSTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	@Override

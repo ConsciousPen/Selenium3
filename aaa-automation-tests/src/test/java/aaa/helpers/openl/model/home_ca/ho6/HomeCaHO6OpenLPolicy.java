@@ -142,7 +142,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, 
 	}
 
 	@Override
-	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaHO6TestDataGenerator(state, baseTestData);
+	public HomeCaHO6TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaHO6TestDataGenerator(this.getState(), baseTestData);
 	}
 }

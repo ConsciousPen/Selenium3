@@ -105,8 +105,8 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new PUPTestDataGenerator(state, baseTestData);
+	public PUPTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new PUPTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	@Override

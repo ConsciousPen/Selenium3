@@ -142,7 +142,7 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, 
 	}
 	
 	@Override
-	public HomeCaDP3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaDP3TestDataGenerator(state, baseTestData);
+	public HomeCaDP3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaDP3TestDataGenerator(this.getState(), baseTestData);
 	}
 }

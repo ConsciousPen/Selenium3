@@ -107,11 +107,10 @@ public abstract class OpenLPolicy {
 	/**
 	 * Returns {@link TestDataGenerator} object to be used as test data generator for this particular OpenL policy object
 	 *
-	 * @param state state for which test data should be generated
 	 * @param baseTestData default test data which will be merged with generated test specific data (used to add common field/values to the generated test data)
 	 * @return {@link TestDataGenerator} object to be used as test data generator for this particular OpenL policy object
 	 */
-	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(String state, TestData baseTestData);
+	public abstract TestDataGenerator<? extends OpenLPolicy> getTestDataGenerator(TestData baseTestData);
 
 	/**
 	 * Builds and returns Map of OpenL fields and values of this OpenL policy object where key is path to the OpenL field and value - OpenL field value itself

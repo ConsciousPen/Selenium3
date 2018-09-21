@@ -67,8 +67,8 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	}
 	
 	@Override
-	public AutoCaChoiceTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new AutoCaChoiceTestDataGenerator(state, baseTestData);
+	public AutoCaChoiceTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new AutoCaChoiceTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {

@@ -279,8 +279,8 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public HomeSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeSSTestDataGenerator(state, baseTestData);
+	public HomeSSTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeSSTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	@Override
