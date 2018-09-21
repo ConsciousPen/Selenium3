@@ -13,6 +13,7 @@ import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.PUPTestDataGenerator;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = PUP_POLICY_SHEET_NAME, headerRowIndex = PUPOpenLFile.POLICY_HEADER_ROW_NUMBER)
@@ -38,6 +39,8 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	private Boolean permittedOccupancyInd;
 	private Integer rentalUnitsCount;
 	private String signature;
+
+	@ExcelTransient
 	private Integer term;
 
 	public List<PUPOpenLCoverage> getCoverages() {
