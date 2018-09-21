@@ -375,5 +375,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3VWHX7AJ%A", "VOLKSWAGEN AG");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","JTEDC3EH%B","SYMBOL_2000","TOYOTA");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("JTEDC3EH%B", "TOYOTA MOTOR");
+		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1","1N4BL3AP%H","SYMBOL_2000","NISSAN");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1N4BL3AP%H", "NISSAN MOTOR");
 	}
 }
