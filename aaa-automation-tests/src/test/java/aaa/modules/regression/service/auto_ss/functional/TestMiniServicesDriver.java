@@ -219,10 +219,43 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9662_maxDrivers")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18672"})
 	public void pas18672_driversRevertOptionForDelete(@Optional("VA") String state) {
 		pas18672_driversRevertOptionForDeleteBody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed drivers
+	 * @scenario
+	 * 1.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})//, dependsOnMethods = "createPolicy2Drivers")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18643_CancelRemoveDriverWithoutChanges(@Optional("VA") String state) {
+		pas18643_CancelRemoveDriverWithoutChangesBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed drivers
+	 * @scenario
+	 * 1.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18643_CancelRemoveDriverWithChanges(@Optional("VA") String state) {
+		pas18643_CancelRemoveDriverWithChangesBody();
+	}
+
+	@Test
+	public void createPolicy2Drivers(){
+		createPolicy2DriversBody();
+
+	}
+
 
 	/**
 	 * @author Dakota Berg

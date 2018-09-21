@@ -4,14 +4,12 @@ import static aaa.main.enums.ErrorDxpEnum.Errors.INSURANCE_SCORE_ORDER_MESSAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.MIDDLE_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import static toolkit.webdriver.controls.composite.assets.metadata.MetaData.getAssets;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -37,6 +35,8 @@ import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
 public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
@@ -678,6 +678,163 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1003", softly);
 			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false, softly);
 		});
+
+		//Start PAS-18643 cancel the Remove Driver
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//TODO-mstrazds: update driver
+		DriversDto driverToUpdate = getAnyNotNIActiveDriver(policyNumber);
+		//assertThat(driverToUpdate.gend)
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male","333948586", 22, "VA", "PA", "SSS");
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, driverToUpdate.oid, updateDriverRequest);
+
+		//TODO-mstrazds:remove driver
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD1001");
+		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverToUpdate.oid, removeDriverRequest);
+
+		//TODO-mstrazds:add driver
+		addDriver_18672(policyNumber);
+
+		//TODO-mstrazds:try to remove pending remove driver and get error
+
+		//TODO-mstrazds:repeat with driverTypeChanged driver - NOT possible
+
+	}
+
+
+	protected void pas18643_CancelRemoveDriverWithoutChangesBody(){
+		String policyNumber = "VASS952919105";
+
+		mainApp().open();
+//		createCustomerIndividual();
+//
+//		TestData td = getPolicyDefaultTD();
+//		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_ThreeDrivers").getTestDataList("DriverTab")).resolveLinks();
+//
+//		String policyNumber = createPolicy(testData);
+
+		//get driver Info from UI
+		SearchPage.openPolicy(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(2);
+		Map<String, String> expectedDriverInfoInUI = getAssetValuesFromTab(AutoSSMetaData.DriverTab.class);
+		validateValuesFromTab(expectedDriverInfoInUI);
+
+		driverTab.saveAndExit();
+
+		//remove driver
+		SearchPage.openPolicy(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		DriversDto driverToRemove = getAnyNotNIActiveDriver(policyNumber);
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD001");
+		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
+
+		//revert delete
+		ErrorResponseDto revertDriverResponse = HelperCommon.revertDriver(policyNumber,driverToRemove.oid, ErrorResponseDto.class, Response.Status.OK.getStatusCode());
+		//validate revert driver response
+		assertThat(revertDriverResponse).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+
+		//validate viewEndorsementDrivers response
+		DriversDto revertedDriver = getDriverByOid(HelperCommon.viewEndorsementDrivers(policyNumber).driverList, driverToRemove.oid);
+		assertThat(revertedDriver).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+
+		//check in UI
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.viewDriver(2);
+		validateValuesFromTab(expectedDriverInfoInUI);
+
+		//rate and bind
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	private void validateValuesFromTab(Map<String, String> expectedValues) {
+		for (AssetDescriptor<?> assetDescriptor : AutoSSMetaData.DriverTab.getAssets(AutoSSMetaData.DriverTab.class)) {
+			if (expectedValues.containsKey(assetDescriptor.getLabel())) {
+				assertThat(driverTab.getAssetList().getAsset(assetDescriptor).getValue()).isEqualTo(expectedValues.get(assetDescriptor.getLabel()));
+			}
+		}
+	}
+
+	private Map<String, String> getAssetValuesFromTab(Class<? extends MetaData> metaDataClass) {
+		Map<String, String> assetValues = new LinkedHashMap<>();
+		for (AssetDescriptor<?> assetDescriptor : getAssets(metaDataClass)) {
+			if (driverTab.getAssetList().getAsset(assetDescriptor).isPresent()) {
+				assetValues.put(assetDescriptor.getLabel(), driverTab.getAssetList().getAsset(assetDescriptor).getValue().toString());
+			}
+		}
+
+		return assetValues;
+	}
+
+	protected void pas18643_CancelRemoveDriverWithChangesBody(){
+		String policyNumber = "VASS952919105";
+
+
+		//get driver Info from UI
+		SearchPage.openPolicy(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(2);
+		Map<String, String> expectedDriverInfoInUI = getAssetValuesFromTab(AutoSSMetaData.DriverTab.class);
+
+
+		//adjust expectedDriverInfoInUI accordingly to coming updates
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.GENDER.getLabel(), "Female");
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "101001010");
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), "22");
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.TOTAL_YEAR_DRIVING_EXPERIENCE.getLabel(), "22");//todo
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), "AZ");
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Parent");
+		expectedDriverInfoInUI.replace(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Single");
+
+		//get driver to remove
+		SearchPage.openPolicy(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		DriversDto driverToRemove = getAnyNotNIActiveDriver(policyNumber);
+
+		//update driver
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "101001010", 22, "AZ", "PA", "SSS");
+		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, driverToRemove.oid, updateDriverRequest);
+
+		//remove driver
+		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest("RD003");
+		DriversDto removeDriverResponse = HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
+
+		//revert delete
+		DriversDto revertDriverResponse = HelperCommon.revertDriver(policyNumber,driverToRemove.oid, DriversDto.class, Response.Status.OK.getStatusCode());
+		//validate revert driver response after revert
+		assertThat(revertDriverResponse).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+
+		//validate viewEndorsementDrivers response
+		DriversDto revertedDriver = getDriverByOid(HelperCommon.viewEndorsementDrivers(policyNumber).driverList, driverToRemove.oid);
+		assertThat(revertedDriver).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+
+		//check in UI
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.viewDriver(2);
+		validateValuesFromTab(expectedDriverInfoInUI);
+
+		//rate and bind
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	public String createPolicy2DriversBody() {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+		return createPolicy(testData);
+
 	}
 
 	private void addDriver_18672(String policyNumber) {
