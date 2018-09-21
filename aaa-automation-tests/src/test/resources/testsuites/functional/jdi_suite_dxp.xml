@@ -661,4 +661,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas17676_moreThanTwoMinorViolationsError">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas17676_moreThanTwoMinorViolationsError"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
