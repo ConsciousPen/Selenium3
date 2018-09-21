@@ -4,32 +4,84 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
     <!--New Business Tests-->
 
-    <test name="New Business - SS">
+    <test name="New Business - SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ss.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness"/>
+            <class name="aaa.modules.financials.pup.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
-    <test name="New Business - CA">
+    <test name="New Business - CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
+            <class name="aaa.modules.financials.pup.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness">
+                <methods>
+                    <include name="testNewBusinessScenario_1"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
