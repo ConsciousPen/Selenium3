@@ -28,11 +28,11 @@
     <!--</test>-->
     <test name="HomeSS DP3 [CT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CT"/>
-        <parameter name="policyType" value="HomeSS_DP3"/>
+        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="CTTests-20181101.xls"/>
         <parameter name="policyNumbers" value="1,4"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [DC] Premium Calculation Test" preserve-order="true">
@@ -178,11 +178,11 @@
     </test>-->
     <test name="HomeSS HO3 [SD] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="SD"/>
-        <parameter name="policyType" value="HomeSS_HO3"/>
+        <parameter name="policyType" value="HomeSS_HO6"/>
         <parameter name="fileName" value="SDTests-20181101.xls"/>
         <parameter name="policyNumbers" value="4,9"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSHO6PremiumCalculationTest"/>
         </classes>
     </test>
     <!--<test name="HomeSS [UT] Premium Calculation Test" preserve-order="true">-->
