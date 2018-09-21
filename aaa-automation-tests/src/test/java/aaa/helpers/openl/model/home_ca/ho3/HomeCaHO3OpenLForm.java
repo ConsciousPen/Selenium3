@@ -1,18 +1,14 @@
 package aaa.helpers.openl.model.home_ca.ho3;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLForm;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLScheduledPropertyItem;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
-/**
- * Note: this class has a natural ordering that is inconsistent with equals.
- */
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
-public class HomeCaHO3OpenLForm extends HomeCaOpenLForm implements Comparable<HomeCaHO3OpenLForm> {
+public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 	private Integer age;
@@ -95,12 +91,5 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm implements Comparable<Ho
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	@Override
-	public int compareTo(HomeCaHO3OpenLForm otherForm) {
-		return Comparator.comparing(HomeCaHO3OpenLForm::getFormCode)
-				.thenComparingDouble(HomeCaHO3OpenLForm::getLimit)
-				.compare(this, otherForm);
 	}
 }
