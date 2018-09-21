@@ -28,7 +28,7 @@ TestData_NB_Policy: {
    }
   }
  },
- PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+ PremiumAndCoveragesTab: {},
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: {
   RequiredToBind: {
@@ -67,7 +67,7 @@ TestData_NB_Quote: {
    }
   }
  },
- PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+ PremiumAndCoveragesTab: {},
  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
@@ -253,7 +253,7 @@ TestData_AAAProductOwned_Version2: {
 }
 
 AAAProductOwned: {
- Current AAA Member: 'Membership Pending',
+ Current AAA Member: 'No',
  Motorcycle: 'Yes',
  "Motorcycle Policy #": 1111111111,
  Life: 'Yes',

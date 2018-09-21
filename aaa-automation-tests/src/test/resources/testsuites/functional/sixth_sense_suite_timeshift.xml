@@ -8,10 +8,14 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Propose Renewal Version after it was created with batch jobs">
+    <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal">
+                <methods>
+                    <include name="pas17788_MTManualRenewalVersionProposal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -24,13 +28,6 @@
                     <include name="pas2443_calculateTierNyConversionCheckRenewal"/>
                 </methods>
             </class>
-        </classes>
-    </test>
-
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
 
@@ -68,7 +65,7 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
+    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
@@ -220,13 +217,33 @@
         </classes>
     </test>
 
-    <test name="Test Lexis Nexis MVR Ordering on DAR page" parallel="methods" thread-count="1024">
+    <test name="Test Lexis Nexis MVR Ordering on DAR page with WA License" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
                 <methods>
                     <include name="pas10099_testLexisNexisMVROrderingWA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Lexis Nexis MVR Ordering on DAR page with CA License" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
                     <include name="pas10099_testLexisNexisMVROrderingCA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Lexis Nexis MVR Ordering on DAR page with FL License" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
                     <include name="pas10099_testLexisNexisMVROrderingFL"/>
                 </methods>
             </class>

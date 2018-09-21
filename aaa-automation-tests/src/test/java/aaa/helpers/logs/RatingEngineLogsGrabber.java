@@ -1,4 +1,4 @@
-package aaa.helpers.listeners;
+package aaa.helpers.logs;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -85,6 +85,8 @@ public class RatingEngineLogsGrabber {
 			String logSectionPart = StringUtils.substringAfterLast(logContent, LOG_SECTIONS_SEPARATOR).trim();
 
 			if (!logSectionPart.isEmpty() || logContent.endsWith(LOG_SECTIONS_SEPARATOR)) {
+				logSectionPart = logSectionPart.replaceAll("(INFO|WARN|DEBUG|ERROR)\\s+\\|\\s+jvm\\s+\\d+\\s+\\|\\s+\\d{4}\\/\\d{2}\\/\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s+\\|\\s+", "");
+				logSectionPart = logSectionPart.replaceAll("(INFO|WARN|DEBUG|ERROR)\\s+\\|\\s+wrapper\\s+\\s+\\|\\s+\\d{4}\\/\\d{2}\\/\\d{2}\\s\\d{2}:\\d{2}:\\d{2}\\s+\\|.*", "");
 				previousLogSectionParts.insert(0, logSectionPart);
 				String fullSectionLog = previousLogSectionParts.toString().trim();
 				if (fullSectionLog.isEmpty()) {

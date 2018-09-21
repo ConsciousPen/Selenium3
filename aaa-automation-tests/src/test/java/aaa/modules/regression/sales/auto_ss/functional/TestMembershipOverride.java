@@ -33,7 +33,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 @StateList(states = Constants.States.AZ)
 public class TestMembershipOverride extends AutoSSBaseTest {
 
-	private static final String MEMBER_SINCE_DATE_WARNING_MESSAGE = "'Member Since Date' is required (AAA_SS02032018) [for ExistingPolicies.memberSinceDate]";
+	private static final String MEMBER_SINCE_DATE_WARNING_MESSAGE = "'Member Since Date' is required";
 
 	// "AAA Product Owned" section fields for validation in Inquiry mode
 	private static final StaticElement CURRENT_AAA_MEMBER_INQUIRY = new GeneralTab().getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED)

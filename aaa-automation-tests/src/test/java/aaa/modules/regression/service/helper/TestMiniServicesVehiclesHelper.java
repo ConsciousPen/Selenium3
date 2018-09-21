@@ -44,6 +44,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
+	private String policyNumber8Vehicles;
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
@@ -844,6 +845,51 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			helperMiniServices.bindEndorsementWithCheck(policyNumber);
 			testEValueDiscount.secondEndorsementIssueCheck();
 		});
+		policyNumber8Vehicles = policyNumber;
+	}
+
+	protected void pas18672_vehiclesRevertOptionForDeleteBody() {
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber8Vehicles);
+		policy.copyPolicy(getCopyFromPolicyTD());
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		assertThat(HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.size()).as("Max count of Vehicles (8) is needed for this test").isEqualTo(8);
+
+		assertSoftly(softly -> {
+			//get any vehicle OID to remove
+			String removedVehicleOid = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(3).oid;
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, removedVehicleOid);
+			softly.assertThat(deleteVehicleResponse.availableActions).containsExactly("revert");
+			validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, true, softly);
+
+			//add vehicle
+			Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest("5YMGY0C57C1661237", "2013-02-22");
+			String newVehicleOid = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, Response.Status.CREATED.getStatusCode()).oid;
+			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, false, softly);
+
+			VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+			softly.assertThat(vehicleUpdateResponseDto.availableActions).as("Newly added and then removed vehicles should not have revert option").isEmpty();
+		});
+	}
+
+	private void validateRevertOptionForVehicle_pas18672(String policyNumber, String removedVehicleOid, boolean revertOptionExpected, ETCSCoreSoftAssertions softly) {
+		ViewVehicleResponse viewVehiclesResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle deletedVehicle = getVehicleByOid(viewVehiclesResponse, removedVehicleOid);
+
+		if (revertOptionExpected) {
+			softly.assertThat(deletedVehicle.availableActions).containsExactly("revert");
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
+					as("Removed vehicle should have availableOption 'revert'").isTrue();
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> !"pendingRemoval".equals(vehicle.vehicleStatus)
+					&& vehicle.availableActions.contains("revert"))).
+					as("Only Removed vehicles should have availableOption 'revert'").isFalse();
+		} else {
+			softly.assertThat(deletedVehicle.availableActions).doesNotContain("revert").isEmpty();
+			softly.assertThat(viewVehiclesResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.oid.equals(removedVehicleOid) && vehicle.availableActions.contains("revert"))).
+					as("Removed vehicle should NOT have availableOption 'revert'").isFalse();
+		}
 	}
 
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(ETCSCoreSoftAssertions softly, String ownershipType) {
@@ -2694,6 +2740,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
 		return validations.stream().anyMatch(error -> error.message.equals(expectedMessage));
+	}
+
+	private Vehicle getVehicleByOid(ViewVehicleResponse viewVehicleResponse, String oid) {
+		return viewVehicleResponse.vehicleList.stream().filter(vehicle -> vehicle.oid.equals(oid)).findFirst()
+				.orElseThrow(() -> new IllegalArgumentException("No Vehicle found for oid: " + oid));
 	}
 }
 

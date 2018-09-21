@@ -73,29 +73,6 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 		return umLiabilitySymbol;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoCaChoiceOpenLVehicle{" +
-				"coverages=" + coverages +
-				", antiLock=" + antiLock +
-				", antiTheft=" + antiTheft +
-				", vehType='" + vehType + '\'' +
-				", vehicleUsageCd='" + vehicleUsageCd + '\'' +
-				", number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
-	}
-
 	public Boolean hasAntiLock() {
 		return antiLock;
 	}

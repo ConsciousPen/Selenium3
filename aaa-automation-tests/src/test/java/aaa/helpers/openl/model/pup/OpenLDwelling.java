@@ -63,16 +63,4 @@ public class OpenLDwelling {
 	public void setViciousDogCount(Integer viciousDogCount) {
 		this.viciousDogCount = viciousDogCount;
 	}
-
-	@Override
-	public String toString() {
-		return "PUPOpenLDwelling{" +
-				"number=" + number +
-				", address=" + address +
-				", recEquipmentInfo=" + recEquipmentInfo +
-				", firearmsCount=" + firearmsCount +
-				", retirementCommunityInd=" + retirementCommunityInd +
-				", viciousDogCount=" + viciousDogCount +
-				'}';
-	}
 }

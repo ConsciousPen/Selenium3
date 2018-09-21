@@ -27,32 +27,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 
 	/**
 	 * @author Josh Carpenter
-	 * @name Test that the signature option in the 'Required to Bind' section is reset after adding/removing UM/UIM coverage during NB
-	 * @scenario
-	 * 1. Create Customer
-	 * 2. Initiate Auto SS ID Quote and fill up to Documents & Bind tab
-	 * 3. Validate the signature option is set to anything except 'Not Signed'
-	 * 4. Reject UM Coverage and validate signature option
-	 * 5. Reject UIM Coverage and validate signature option
-	 * 6. Add UM Coverage and validate signature option
-	 * 7. Add UIM Coverage and validate signature option
-	 * 8. Reject both UM & UIM and validate signature option
-	 * 9. Add both UM & UIM and validate signature option
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18892")
-	public void pas18892_testResetSignatureOptionNB(@Optional("ID") String state) {
-
-		createQuoteAndFillUpTo(getPolicyTD(), DocumentsAndBindTab.class);
-
-		testResetSignatureOption();
-
-	}
-
-	/**
-	 * @author Josh Carpenter
 	 * @name Test that the signature option in the 'Required to Bind' section is reset after adding/removing UM/UIM coverage during Endorsement
 	 * @scenario
 	 * 1.  Create Customer
