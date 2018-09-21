@@ -72,8 +72,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
 
         //Update membership number in DB
         Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
-        assertThat(membershipStatus).isNotNull();
-        assertThat(membershipStatus).isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
 
         AAAMembershipQueries.updateAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
         AAAMembershipQueries.updatePriorAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
@@ -90,8 +89,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
         membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
-        assertThat(membershipStatus).isNotNull();
-        assertThat(membershipStatus).isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
     }
 
     protected void AutoCASpecificPolicy(TestData td) {
