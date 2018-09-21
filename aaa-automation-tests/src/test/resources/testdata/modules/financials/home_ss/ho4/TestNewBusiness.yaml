@@ -5,6 +5,7 @@ TestData_AddPremium: {
   ApplicantTab: {},
   ReportsTab: {},
   PropertyInfoTab: {},
+  ProductOfferingTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_AddPremium',
   MortgageesTab: {},
