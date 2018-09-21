@@ -167,8 +167,8 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PAS-17051:
-  summary: "Auto SS Defensive Driver Discount is not displayed correctly"
+PAS-19656:
+  summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
@@ -379,3 +379,11 @@ PAS-18945:
   failures:
     - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
       messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]
+PAS-19445:
+  summary: "Bind Rule Does Not Fire for a PUP Policy when the home policy has Cov E liability limit of $300,000 with NO SWIMMING Pool"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
+  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Risks with a property liability limit less than $300,000 are ineligible"]

@@ -2,9 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogMultiSelectorSuspense;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.AllocationAmount;
-import com.exigen.ipb.etcsa.controls.dialog.DialogMultiSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -18,7 +18,7 @@ public class PaymentsMaintenanceMetaData {
 	public static final class AddBulkPaymentActionTab extends MetaData {
 		public static final AssetDescriptor<TextBox> BULK_AMOUNT = declare("Bulk Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> BULK_REFERENCE = declare("Bulk Reference #", TextBox.class);
-		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class,
+		public static final AssetDescriptor<DialogMultiSelectorSuspense> ALLOCATION = declare("Allocation", DialogMultiSelectorSuspense.class,
 				AllocationMultiSelector.class);
 		public static final AssetDescriptor<AllocationAmount> ALLOCATED_AMOUNT = declare("Allocated Amount", AllocationAmount.class);
 
@@ -41,6 +41,7 @@ public class PaymentsMaintenanceMetaData {
 		public static final AssetDescriptor<TextBox> SUSPENSE_AMOUNT = declare("Suspense Amount", TextBox.class);
 		public static final AssetDescriptor<TextBox> SUSPENSE_REFERENCE = declare("Suspense Reference #", TextBox.class);
 		public static final AssetDescriptor<ComboBox> PAYMENT_DESIGNATION = declare("Payment Designation", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> PAYMENT_CHANNEL = declare("Payment Channel", ComboBox.class);
 	}
 
 	public static final class AddPaymentBatchActionTab extends MetaData {
@@ -58,7 +59,7 @@ public class PaymentsMaintenanceMetaData {
 	}
 
 	public static final class ClearSuspenseActionTab extends MetaData {
-		public static final AssetDescriptor<DialogMultiSelector> ALLOCATION = declare("Allocation", DialogMultiSelector.class,
+		public static final AssetDescriptor<DialogMultiSelectorSuspense> ALLOCATION = declare("Allocation", DialogMultiSelectorSuspense.class,
 				AllocationMultiSelector.class);
 
 		public static final class AllocationMultiSelector extends MetaData {
@@ -74,5 +75,9 @@ public class PaymentsMaintenanceMetaData {
 			public static final AssetDescriptor<Button> BUTTON_OPEN_POPUP = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class,
 					Waiters.SLEEP(3000), false, By.id("suspenseForm:showPolicySearchPopupLnk"));
 		}
+	}
+
+	public static final class ReverseSuspenseActionTab extends MetaData {
+		public static final AssetDescriptor<ComboBox> REASON_FOR_REVERSE = declare("Reason for Reverse", ComboBox.class);
 	}
 }

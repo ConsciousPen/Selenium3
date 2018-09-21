@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static aaa.main.enums.ProductConstants.TransactionHistoryType.*;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonQuoteOverview;
 import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -177,6 +178,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName);
+
+
 	}
 
 	/**
@@ -218,6 +221,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		policy.getDefaultView().fill(tdVersion);
 	}
 
+	private void renewalBlankVersionCreation() {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getTestSpecificTD("TestData_Blank"));
+	}
+
 	/**
 	 * Mid-term endorsement transaction effective date + 20 days
 	 * @param td test data that is used for endorsement transaction
@@ -233,6 +242,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void processPlus25DaysEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus25Days"));
+		policy.endorse().performAndFill(endorsementTD);
+	}
+
+	/**
+	 * Blank Mid-term endorsement transaction effective date + 27 days to validate that all rules/validations for policies are set correctly
+	 */
+	private void processPlus27DaysBlankEndorsement() {
+		TestData endorsementTD = getTestSpecificTD("TestData_Blank").adjust(getTestSpecificTD("TestData_Plus27Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
@@ -562,6 +579,9 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsEndorsement, tabName, sectionName);
 		Tab.buttonCancel.click();
+		Tab.buttonCancel.click();
+
+		processPlus27DaysBlankEndorsement();
 	}
 
 	/**
@@ -616,6 +636,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
 		Tab.buttonCancel.click();
+		buttonQuoteOverview.click();
+		renewalBlankVersionCreation();
 	}
 
 	/**
@@ -648,10 +670,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		}
 		//TODO verify method allSectionsPresentedOnConflictPage - can be deleted
 		allSectionsPresentedOnConflictPage(presentedSectionOnConflictPage, conflictLinks.keySet());
-		int sectionNamesExpected = conflictLinks.keySet().stream()
+		int withFieldsCount = conflictLinks.keys().stream()
+				.filter(section -> section.contains(SECTION_UIFIELD_SEPARATOR))
 				.map(param -> StringUtils.substringBefore(param, SECTION_UIFIELD_SEPARATOR))
-				.collect(Collectors.toSet()).size();
-		assertThat(presentedSectionOnConflictPage.size()).as("Invalid amount of sections on conflict screen").isEqualTo(sectionNamesExpected);
+				.collect(Collectors.toSet()).size(); // sections with fields
+		int withoutFieldsCount = conflictLinks.keys().stream()
+				.filter(section -> !section.contains(SECTION_UIFIELD_SEPARATOR))
+				.collect(Collectors.toList()).size(); // sections with no fields
+		assertThat(presentedSectionOnConflictPage.size()).as("Invalid amount of sections on conflict screen").isEqualTo(withFieldsCount + withoutFieldsCount);
 
 	}
 
@@ -714,14 +740,16 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			}
 		} else {
 			// resolve for section
-			String conflictVersionValue = conflictVersionValues.get(sectionName).get(0);
-			if (pressVersionLink(columnsCount, conflictVersionValue, sectionName)) {
-				log.debug("Select section [%1$s] -> [%2$s]", sectionName, conflictVersionValue);
-				actualResolvedUIFieldsConflicts++;
+			for (int sectionLinkNumber = 0; sectionLinkNumber < conflictVersionValues.get(sectionName).size(); sectionLinkNumber++) {
+				String conflictVersionValue = conflictVersionValues.get(sectionName).get(0);
+				if (pressVersionLink(columnsCount, conflictVersionValue, sectionName)) {
+					log.debug("Select section [{}] with index [{}] -> [{}]", sectionName, sectionLinkNumber, conflictVersionValue);
+					actualResolvedUIFieldsConflicts++;
+				}
 			}
 		}
 		//verification that number of all expected conflicts are resolved
-		assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for %1$s.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
+		assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for {}.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
 	}
 
 	/**
