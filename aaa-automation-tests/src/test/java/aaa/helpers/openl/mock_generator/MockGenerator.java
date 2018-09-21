@@ -21,7 +21,9 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsRequest;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsResponse;
 import aaa.utils.excel.bind.ReflectionHelper;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssertions;
 
 public class MockGenerator {
 	private static final Integer RISKREPORTS_ELEVATION = 2700;
@@ -36,9 +38,8 @@ public class MockGenerator {
 		generatedMocks.clear();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) ReflectionHelper.getInstance(mockDataClass);
+		M mockInstance = ReflectionHelper.getInstance(mockDataClass);
 		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(mockDataClass)) {
 			ReflectionHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
 		}
@@ -165,6 +166,9 @@ public class MockGenerator {
 	}
 
 	public AddressReferenceMock getAddressReferenceMock(String postalCode, String state) {
+		String getZipQuery = "select * from LOOKUPVALUE where POSTALCODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+		CustomAssertions.assertThat(DBService.get().getValue(getZipQuery, postalCode, state)).as("Zip code %s is not valid for %s state, mock generation is useless", postalCode, state).isPresent();
+
 		AddressReferenceMock addressReferenceMock = new AddressReferenceMock();
 		List<AddressReference> addressReferences = new ArrayList<>();
 		AddressReference addressReference = new AddressReference();

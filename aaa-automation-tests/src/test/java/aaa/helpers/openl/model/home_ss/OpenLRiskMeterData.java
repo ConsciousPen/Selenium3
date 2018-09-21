@@ -35,13 +35,4 @@ public class OpenLRiskMeterData {
 	public void setElevation(Double elevation) {
 		this.elevation = elevation;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLRiskMeterData{" +
-				"number=" + number +
-				", distanceToCoast=" + distanceToCoast +
-				", elevation=" + elevation +
-				'}';
-	}
 }

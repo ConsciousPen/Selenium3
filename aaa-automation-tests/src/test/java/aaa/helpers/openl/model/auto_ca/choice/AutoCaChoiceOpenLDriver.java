@@ -22,24 +22,6 @@ public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 		this.occasionalUse = occasionalUse;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoCaCOpenLDriver{" +
-				"driverTrainingDiscount=" + driverTrainingDiscount +
-				", goodDriver=" + goodDriver +
-				", matureDriver=" + matureDriver +
-				", nonSmoker=" + nonSmoker +
-				", occasionalUse=" + occasionalUse +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
-	}
-
 	public Boolean hasDriverTrainingDiscount() {
 		return driverTrainingDiscount;
 	}

@@ -81,6 +81,8 @@ public final class ErrorDxpEnum {
 		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
 		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
+		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C("200103_C", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 	;
 
 		private final String code;
