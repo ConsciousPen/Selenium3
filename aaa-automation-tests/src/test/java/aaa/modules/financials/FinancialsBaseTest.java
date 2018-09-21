@@ -38,7 +38,40 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	}
 
 	protected TestData getCancellationTD() {
-		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
+		String type = getPolicyType().getShortName();
+		switch (type) {
+			case "AutoCA":
+			case "AutoCAC":
+				td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
+						AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "AutoSS":
+				td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(),
+						AutoSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "HomeSS_HO3":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+						HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "HomeCA_HO3":
+			case "HomeCA_HO4":
+			case "HomeCA_HO6":
+			case "HomeCA_DP3":
+				td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(),
+						HomeCaMetaData.CancelActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "PUP":
+				td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+						PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			default:
+				return td;
+		}
+		return td;
 	}
 
 	protected TestData getReinstatementTD() {
