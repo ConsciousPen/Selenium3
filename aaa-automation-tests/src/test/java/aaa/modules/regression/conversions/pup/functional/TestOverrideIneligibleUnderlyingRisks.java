@@ -24,9 +24,7 @@ import toolkit.utils.TestInfo;
 @StateList(states = {Constants.States.MD, Constants.States.PA, Constants.States.DE, Constants.States.NJ, Constants.States.VA})
 public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 
-	private ErrorTab errorTab = policy.getDefaultView().getTab(ErrorTab.class);
 	private BindTab bindTab = policy.getDefaultView().getTab(BindTab.class);
-	private PurchaseTab purchaseTab = policy.getDefaultView().getTab(PurchaseTab.class);
 
 	/**
 	 * @author Dominykas Razgunas

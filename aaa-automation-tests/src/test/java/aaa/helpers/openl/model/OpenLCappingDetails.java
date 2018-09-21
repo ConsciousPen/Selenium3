@@ -24,12 +24,4 @@ public class OpenLCappingDetails {
 	public void setPlcyInceptionDate(LocalDate plcyInceptionDate) {
 		this.plcyInceptionDate = plcyInceptionDate;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLCappingDetails{" +
-				"number=" + number +
-				", plcyInceptionDate=" + plcyInceptionDate +
-				'}';
-	}
 }

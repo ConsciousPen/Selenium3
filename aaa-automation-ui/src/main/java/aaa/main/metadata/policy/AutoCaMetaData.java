@@ -305,6 +305,8 @@ public final class AutoCaMetaData {
 	public static final class MembershipTab extends MetaData {
 		public static final AssetDescriptor<FillableTable> AAA_MEMBERSHIP_REPORT = declare("AAAMembershipReport", FillableTable.class, AaaMembershipReportRow.class, By
 				.xpath("//table[@id='policyDataGatherForm:membershipReports']"));
+		public static final AssetDescriptor<StaticElement> WARNING_MESSAGE_BOX = declare("Warning Message Box", StaticElement.class, By
+				.xpath("//span[@id='policyDataGatherForm:componentContextHolder']/ul/li"));
 
 		public static final class AaaMembershipReportRow extends MetaData {
 			public static final AssetDescriptor<RadioGroup> SELECT = declare("Select", RadioGroup.class);

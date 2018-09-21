@@ -26,15 +26,4 @@ public class AutoOpenLCoverage extends OpenLCoverage {
 	public void setDeductible(String deductible) {
 		this.deductible = deductible;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoOpenLCoverage{" +
-				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCd='" + coverageCd + '\'' +
-				", deductible='" + deductible + '\'' +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

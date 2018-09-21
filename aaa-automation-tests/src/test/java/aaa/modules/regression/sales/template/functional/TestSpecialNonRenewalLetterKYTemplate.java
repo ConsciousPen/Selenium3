@@ -56,7 +56,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
 
 		//Try to generate Conversion Specific Special Non-renewal letter (FORM# HSSNRKY 01 18) (document should not be generated)
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
+		runPreRenewalNoticeJob(conversionExpDate.minusDays(81));
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL, false);
@@ -66,8 +66,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		//Move time to R-80 and try generating document
 		runPreRenewalNoticeJob(conversionExpDate.minusDays(80));
 
-		//Check that document is generated. In aaaDocGenEntity table 2 events are generated (eventName=PRE_RENEWAL),
-		//1 is specific for this story (packageName="aaaHOKYPreRenewalHomeNoticePackage") - PAS-14059 notes
+		//Check that 'HSSNRKY' document is generated.
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL);
 		assertThat(getPolicyTransactionCodes(policyNumber, PRE_RENEWAL)).contains("MCON");
 
@@ -136,6 +135,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 
 	private void runPreRenewalNoticeJob(LocalDateTime date) {
 		TimeSetterUtil.getInstance().nextPhase(date);
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 	}
 
