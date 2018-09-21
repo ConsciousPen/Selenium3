@@ -1,8 +1,5 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Date;
 
 public class DriverInformation {

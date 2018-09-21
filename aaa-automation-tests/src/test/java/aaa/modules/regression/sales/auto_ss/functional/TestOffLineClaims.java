@@ -86,7 +86,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    policy.dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-	    //TODO: Add Claim Assertion
+	    //TODO: Add Claim Assertion!
     }
 
 	/**
