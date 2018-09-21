@@ -26,7 +26,7 @@
     <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
     <!--</classes>-->
     <!--</test>-->
-    <test name="HomeSS DP3 [CT] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS HO3 [CT] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="CT"/>
         <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="CTTests-20181101.xls"/>
@@ -176,7 +176,7 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>-->
-    <test name="HomeSS HO3 [SD] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS HO6 [SD] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="SD"/>
         <parameter name="policyType" value="HomeSS_HO6"/>
         <parameter name="fileName" value="SDTests-20181101.xls"/>
