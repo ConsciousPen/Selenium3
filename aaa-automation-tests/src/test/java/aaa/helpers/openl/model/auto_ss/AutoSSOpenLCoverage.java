@@ -15,16 +15,4 @@ public class AutoSSOpenLCoverage extends AutoOpenLCoverage {
 	public void setGlassDeductible(String glassDeductible) {
 		this.glassDeductible = glassDeductible;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoSSOpenLCoverage{" +
-				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCd='" + coverageCd + '\'' +
-				", deductible='" + deductible + '\'' +
-				", glassDeductible='" + glassDeductible + '\'' +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

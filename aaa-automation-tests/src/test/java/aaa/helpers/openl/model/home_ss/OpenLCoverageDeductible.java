@@ -26,12 +26,4 @@ public class OpenLCoverageDeductible {
 	public void setCoverageDeductible(String coverageDeductible) {
 		this.coverageDeductible = coverageDeductible;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLCoverageDeductible{" +
-				"number=" + number +
-				", coverageDeductible=" + coverageDeductible +
-				'}';
-	}
 }
