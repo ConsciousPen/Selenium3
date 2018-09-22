@@ -54,7 +54,7 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_007_ReinstatePolicy(@Optional("AZ") String state) {
+	public void BCT_ONL_007_ReinstatePolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		verifyReinstateCase(true, policyNumber);

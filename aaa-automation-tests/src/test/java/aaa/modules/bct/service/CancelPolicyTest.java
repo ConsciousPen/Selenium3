@@ -31,7 +31,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_012_CancelPolicy(@Optional("AZ") String state) {
+	public void BCT_ONL_012_CancelPolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		verifyCancelNoticeIsAbsent(policyNumber);
 	}

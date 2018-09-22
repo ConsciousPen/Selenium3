@@ -11,14 +11,12 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.service.EndorsementTemplate;
 import aaa.utils.StateList;
 
 public class CancelPolicy extends EndorsementTemplate {
-	private IPolicy policy = PolicyType.HOME_SS_HO3.get();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -46,7 +44,7 @@ public class CancelPolicy extends EndorsementTemplate {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_009_CancelPolicy(@Optional("AZ") String state) {
+	public void BCT_ONL_009_CancelPolicy(@Optional("") String state) {
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		mainApp().open();

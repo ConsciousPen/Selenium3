@@ -36,6 +36,11 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
 		return data.iterator();
+		/*List<Object[]> data = new ArrayList<>();
+		data.add(new String[]{"CA", "ja"});
+		data.add(new String[]{"CA", "ja_JP.PCK"});
+		data.add(new String[]{"CA", "ja_JP.eucJP"});
+		return data.iterator() ;*/
 	}
 
 	public void checkAbilityToOpenAllTabsInInquiryMode(PolicyType policy, String testData, Tab fillFromTab, Tab fillToTab) {
