@@ -23,7 +23,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 	public static final String TESTDATA_NAME_ENDORSE_HOME_CA = "TestDataEndorseHomeCA";
 	public static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 
-	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests")
 	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
 		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if (state == null) {
