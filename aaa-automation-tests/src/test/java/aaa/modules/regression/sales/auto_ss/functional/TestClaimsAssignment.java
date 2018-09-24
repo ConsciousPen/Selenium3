@@ -20,6 +20,10 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 
 	/**
 	* * @author Chris Johns
+	 *
+	 * PAS-14679: MATCH MORE: Create Claim to Driver Match Logic (use DL # when not comp/not already assigned to driver)
+	 * PAS-18391: Add Existing Logic to Micro service (previously matched claims)
+	 *
 	* @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	* @scenario
 	* Test Steps:
