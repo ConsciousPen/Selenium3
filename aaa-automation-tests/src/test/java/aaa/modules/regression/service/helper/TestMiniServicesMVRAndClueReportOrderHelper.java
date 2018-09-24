@@ -178,21 +178,29 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas15384_moreThanTwoMinorViolationsErrorBody() {
+	protected void pas15384_moreThanTwoMinorViolationsErrorBody(String state) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		//Check driver with more that two minor violations
+		//Check driver with more than two minor violations
 		String oidDriver1 = addAndUpdateDriver(policyNumber, "Two", "Minors", "1970-01-01", "B15384001", "CH", "VA", "male");
 
 		//Order reports through service
-		helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_C);
-
+		if ("MD".equals(state)) {
+			helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_C_MD);
+		} else {
+			helperMiniServices.orderReportErrors(policyNumber, oidDriver1, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_C);
+		}
 		countViolationsInPas(policyNumber, 3);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getMessage(), "attributeForRules");
 
+		if ("MD".equals(state)) {
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_MD.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS_MD.getMessage(), "attributeForRules");
+
+		} else {
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getCode(), ErrorDxpEnum.Errors.MORE_THAN_TWO_MINOR_VIOLATIONS.getMessage(), "attributeForRules");
+		}
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 
 		//Check Driver with one outdated violation

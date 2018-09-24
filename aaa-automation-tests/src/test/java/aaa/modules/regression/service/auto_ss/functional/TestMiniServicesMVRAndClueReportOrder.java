@@ -88,7 +88,15 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15384"})
 	public void pas15384_moreThanTwoMinorViolationsError(@Optional("VA") String state) {
 
-		pas15384_moreThanTwoMinorViolationsErrorBody();
+		pas15384_moreThanTwoMinorViolationsErrorBody("VA");
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17676"})
+	public void pas17676_moreThanTwoMinorViolationsError(@Optional("MD") String state) {
+
+		pas15384_moreThanTwoMinorViolationsErrorBody("MD");
 	}
 
 	/**
