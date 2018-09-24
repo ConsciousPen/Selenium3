@@ -32,6 +32,7 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYe
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
+import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
@@ -98,6 +99,8 @@ public class HelperCommon {
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
+
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -617,6 +620,15 @@ public class HelperCommon {
 		restRequestInfo.status = status;
         return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
     }
+
+	//Method to send JSON Request to Claims Matching Micro Service
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
+		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = claimsUrl;
+		restRequestInfo.bodyRequest = claimsRequest;
+		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+	}
 
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());

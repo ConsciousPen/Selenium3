@@ -45,7 +45,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Change system date Initiate Renewal
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
@@ -88,7 +88,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Change system date Initiate Renewal
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
