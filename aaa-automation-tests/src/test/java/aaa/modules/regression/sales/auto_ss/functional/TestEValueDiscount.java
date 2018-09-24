@@ -157,7 +157,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomSoftAssertions.assertSoftly(softly -> {
 			List<String> configForStates = Arrays.asList("VA", "MD", "DC", "OR");
 			for (String configForState : configForStates) {
-				assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
+				softly.assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
 						.as("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
 			}
 		});
