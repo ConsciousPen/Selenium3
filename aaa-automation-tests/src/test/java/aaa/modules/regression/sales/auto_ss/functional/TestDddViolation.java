@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -42,6 +43,12 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
 	private List<TestData> driversTD;
 
+	@BeforeClass
+	public void setTime() {
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+		TimeSetterUtil.getInstance().nextPhase(effDate);
+	}
+
 	/**
 	* * @author Igor Garkusha
 	* @name Test NB - Defensive Driver Discount, Minor Violation
@@ -62,8 +69,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
+//		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+//		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -101,8 +108,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
+//		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+//		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -137,8 +144,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
+//		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+//		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -173,8 +180,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
 
 		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
+//		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
+//		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
