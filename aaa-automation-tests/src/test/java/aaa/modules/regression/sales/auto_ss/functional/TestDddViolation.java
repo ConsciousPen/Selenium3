@@ -71,6 +71,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
 
+		driversTD = getDriversTd();
 		TestData testData = getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
