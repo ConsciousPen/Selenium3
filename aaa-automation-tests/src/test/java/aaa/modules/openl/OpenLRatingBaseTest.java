@@ -90,6 +90,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	public void totalPremiumVerificationTest(@Optional String state, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
 
 		TimeSetterUtil.getInstance().confirmDateIsAfter(openLPolicy.getEffectiveDate().atStartOfDay());
@@ -97,13 +98,14 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		createOrOpenExistingCustomer(testInfo);
 
 		log.info("Premium calculation verification initiated for test #{} and expected premium {} from \"{}\" OpenL file (pas-rating branch: {})",
-				policyNumber, openLPolicy.getExpectedPremium(), filePath, testInfo.getOpenLFileBranch());
+				policyNumber, expectedPremium, filePath, testInfo.getOpenLFileBranch());
 		String quoteNumber = createQuote(openLPolicy);
 		log.info("Quote/policy created: {}", quoteNumber);
 
 		synchronized (RATING_LOCK) {
 			actualPremium = calculatePremium(openLPolicy);
-			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
+			log.info("Total premium is calculated\n    ACTUAL:   {}\n    EXPECTED: {}", actualPremium, expectedPremium);
+			if (!expectedPremium.equals(actualPremium)) {
 				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
 				compareOpenLFieldsValues(ratingLogs, openLPolicy, quoteNumber);
 				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
@@ -111,7 +113,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
 			}
 		}
-		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
+		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(expectedPremium);
 	}
 
 	/**
