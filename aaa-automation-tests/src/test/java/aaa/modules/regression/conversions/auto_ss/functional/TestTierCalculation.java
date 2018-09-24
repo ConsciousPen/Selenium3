@@ -21,7 +21,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -125,7 +124,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-        mainApp().reopen();
+        mainApp().open();
         SearchPage.openBilling(policyNumberConv);
         BillingSummaryPage.linkAcceptPayment.click();
         Tab acceptPayment = new AcceptPaymentActionTab();
@@ -135,7 +134,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-        mainApp().reopen();
+        mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumberConv);
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -145,10 +144,10 @@ public class TestTierCalculation extends AutoSSBaseTest {
     }
 
     private Map<String, String> getRenewalValues(String policyNumber) {
-        mainApp().reopen();
+        mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         PolicySummaryPage.buttonRenewals.click();
-        new AutoSSPolicyActions.DataGather().start();
+        policy.dataGather().start();
 	    new PremiumAndCoveragesTab().calculatePremium();
         Map<String, String> result = paramMapToCompere();
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
