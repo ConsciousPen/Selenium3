@@ -376,7 +376,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void billGeneration(LocalDateTime renewalOfferEffectiveDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
 	public String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
