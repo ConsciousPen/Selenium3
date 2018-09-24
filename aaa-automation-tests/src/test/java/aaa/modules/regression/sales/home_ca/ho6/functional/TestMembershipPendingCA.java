@@ -27,7 +27,7 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-17784")
     public void pas17784_AC1_CA_HO6_Pending_Option(@Optional("") String state) {
-        setKeyPathsandGenerateQuote();
+        setKeyPathsAndGenerateQuote();
         pendingMembershipValidations_AC1_3();
     }
 

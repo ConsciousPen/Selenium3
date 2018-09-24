@@ -4,12 +4,13 @@ import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheM
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.*;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
@@ -19,7 +20,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
@@ -33,6 +33,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private ApplicantTab applicantTab = new ApplicantTab();
 
     protected void pas16457_validateMembershipNB15() {
 
@@ -233,7 +234,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
     /**
      * Create quote using default test data but adjusted to set Current AAA Member to No
      */
-    protected void setKeyPathsandGenerateQuote() {
+    protected void setKeyPathsAndGenerateQuote() {
         TestData testData = getPolicyTD();
         // keypathTabSection Result: "ApplicantTab|AAAMembership"
         String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab.class.getSimpleName(),
@@ -285,6 +286,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().btnPurchase.click();
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CSA25636985);
+        errorTab.cancel();
     }
 
     /**
@@ -296,7 +298,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         createPolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
-        membebershipStatusCheckApplicantTab();
+        membershipStatusCheckApplicantTab();
         }
 
     /**
@@ -323,13 +325,13 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         PolicySummaryPage.buttonOk.click();
         PolicySummaryPage.buttonOkPopup.click();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
-        membebershipStatusCheckApplicantTab();
+        membershipStatusCheckApplicantTab();
     }
 
     /**
      * Validate Current AAA Member cannot be set to Membership Pending based upon policyType
      */
-    public void membebershipStatusCheckApplicantTab() {
+    public void membershipStatusCheckApplicantTab() {
         String policyType = getPolicyType().getShortName();
         String membershipValue = "Membership Pending";
         switch (policyType) {
