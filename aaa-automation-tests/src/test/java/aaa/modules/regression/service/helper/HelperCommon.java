@@ -100,7 +100,6 @@ public class HelperCommon {
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
 
-	private static final String defaultJSONPath = "src/test/resources/claimsmatch/";
 	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	static {
