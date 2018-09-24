@@ -38,6 +38,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		//Define which JSON request to use
+		//TODO - Consider using a JSON Request Builder for future tests
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(defaultJSONPath + "NoMatch_ExistingMatch_DLMatch.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
