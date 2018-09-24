@@ -11,11 +11,14 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -77,10 +80,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		TestData testData = getPolicyTD();
 
 		// Initiate Policy, calculate premium and open Rating Details View
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		// Save Locked UW Points value.
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -145,7 +145,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(renewalEff, policyNumber);
+		purchaseRenewal(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -178,9 +178,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
 		// Create Policy
-		mainApp().open();
-		getCopiedPolicy();
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		// Change Time to renew policy and have and issued renewal
@@ -195,7 +193,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(renewalEff, policyNumber);
+		purchaseRenewal(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -225,8 +223,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
 
 		// Create Policy
-		mainApp().open();
-		getCopiedPolicy();
+		openAppAndCreatePolicy();
 
 		// Initiate Renewal and Navigate to P&C Page.
 		policy.renew().start();
@@ -307,7 +304,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
-		purchaseRenewal(effDate, policyNum);
+		purchaseRenewal(policyNum);
 
 		// Initiate Endorsement
 		endorsementChanges();
@@ -342,7 +339,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(renewalEff, policyNum);
+		purchaseRenewal(policyNum);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -407,5 +404,16 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	}
+
+	private void purchaseRenewal(String policyNumber){
+
+		// Open Billing account and Pay min due for the renewal
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		// Open Policy (Renewal)
+		SearchPage.openPolicy(policyNumber);
 	}
 }

@@ -208,6 +208,23 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed drivers
+	 * @scenario
+	 * 1. Retrieve policy with 7 vehicles (max count)
+	 * 2. Remove 1 vehicle with reason code RD1001 or RD1002 and validate that there is 'revert' option in response
+	 * 3. Remove 1 vehicle with reason code RD1003 or RD1004 and validate that there is 'revert' option in response
+	 * 4. Add 1 new driver so that max count of drivers is reached again and validate that driver removed with code RD1001/RD1002 (pendingRemoval) have 'revert' option
+	 *    and driver removed with code RD1003/RD1004 (driverTypeChanged) has revert option
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9662_maxDrivers")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18672_driversRevertOptionForDelete(@Optional("VA") String state) {
+		pas18672_driversRevertOptionForDeleteBody();
+	}
+
+	/**
 	 * @author Dakota Berg
 	 * @name Test Meta Data Service for Drivers
 	 * @scenario 1. Create a customer and policy

@@ -36,13 +36,4 @@ public class HomeCaOpenLDwelling {
 	public void setPpcValue(Integer ppcValue) {
 		this.ppcValue = ppcValue;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaOpenLDwelling{" +
-				"number=" + number +
-				", address=" + address +
-				", ppcValue=" + ppcValue +
-				'}';
-	}
 }

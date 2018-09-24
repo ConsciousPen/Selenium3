@@ -103,7 +103,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.TYPE.getLabel(), vehicleType);
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.YEAR.getLabel(), openLVehicle.getModelYear());
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.VALUE.getLabel(),
-				getVehicleTabValueFromDb(openLVehicle.getCollSymbol(), openLVehicle.getCompSymbol(), openLVehicle.getModelYear(), openLVehicle instanceof AutoCaSelectOpenLVehicle, getStatCode(openLVehicle)));
+				getVehicleTabValueFromDb(openLVehicle.getCollSymbol(), openLVehicle.getCompSymbol(), openLVehicle.getModelYear(), openLVehicle instanceof AutoCaSelectOpenLVehicle, openLVehicle.getBiLiabilitySymbol()));
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.MAKE.getLabel(), "OTHER");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 		vehicleInformation.put(AutoCaMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
@@ -116,7 +116,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 		if ("Regular".equals(vehicleType)) {
 			//for other vehicle types Stat Code is disabled
-			String uiStatCode = getVehicleTabStatCode(getStatCode(openLVehicle), openLVehicle.getModelYear());
+			String uiStatCode = getVehicleTabStatCode(openLVehicle.getBiLiabilitySymbol(), openLVehicle.getModelYear());
 			vehicleInformation.put(AutoCaMetaData.VehicleTab.STAT_CODE.getLabel(), uiStatCode);
 			if ("Custom Van".equals(uiStatCode)) {
 				vehicleInformation.put(AutoCaMetaData.VehicleTab.SPECIAL_EQUIPMENT.getLabel(), "Yes");

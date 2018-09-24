@@ -47,6 +47,10 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return getPolicyTD("DataGather", "TestData");
 	}
 
+	protected TestData getCopyFromPolicyTD() {
+		return getPolicyTD("CopyFromPolicy", "TestData");
+	}
+
 	protected TestData getPolicyTD(String fileName, String tdName) {
 		return getStateTestData(tdPolicy, fileName, tdName);
 	}
@@ -55,16 +59,13 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return getBackDatedPolicyTD(getPolicyType(), DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
 
-
 	protected TestData getBackDatedPolicyTD(String date) {
 		return getBackDatedPolicyTD(getPolicyType(), date);
 	}
 
-
 	protected TestData getBackDatedPolicyTD(PolicyType type) {
 		return getBackDatedPolicyTD(type, DateTimeUtils.getCurrentDateTime().minusDays(2).format(DateTimeUtils.MM_DD_YYYY));
 	}
-
 
 	protected TestData getBackDatedPolicyTD(PolicyType type, String date) {
 		TestData returnValue = getPolicyTD();
