@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
@@ -34,13 +35,13 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.RadioGroup;
 
 @StateList(states = Constants.States.PA)
 public class TestDddViolation extends AutoSSBaseTest {
 
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2")));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
-	private List<TestData> driversTD;
 
 	@BeforeClass
 	public void setTime() {
@@ -69,9 +70,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
 
-		driversTD = getDriversTd();
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		policy.initiate();
@@ -169,7 +169,7 @@ public class TestDddViolation extends AutoSSBaseTest {
         createCustomerIndividual(getCustomerTD());
 
 		TestData testData = getConversionPolicyDefaultTD()
-                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
@@ -182,17 +182,17 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void renewAndEndorsementSteps() {
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd());
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().btnCalculatePremium().click();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
 		new DriverActivityReportsTab().getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
 		verifyDrivers();
 	}
 
