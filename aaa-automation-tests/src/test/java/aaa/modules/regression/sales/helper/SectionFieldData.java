@@ -9,16 +9,28 @@ public class SectionFieldData {
 
 	private final String fieldName;
 
+	/**
+	 * Marks section
+	 */
+	private boolean section;
+
 	private final List<Integer> treePosition;
+
 	public SectionFieldData(String sectionPath, String field, List<Integer> fieldTreePosition) {
+		this(sectionPath, field, fieldTreePosition, false);
+	}
+
+	public SectionFieldData(String sectionPath, String field, List<Integer> fieldTreePosition, boolean isSection) {
 		this.sectionPath = sectionPath;
 		this.treePosition = ImmutableList.copyOf(fieldTreePosition);
 		this.fieldName = field;
+		this.section = isSection;
 	}
 
 	public String getFieldName() {
 		return fieldName;
 	}
+
 	public String getSectionPath() {
 		return sectionPath;
 	}
@@ -27,7 +39,11 @@ public class SectionFieldData {
 		return treePosition;
 	}
 
+	public boolean isSection() {
+		return section;
+	}
+
 	public String getFullPath() {
-		return sectionPath + SECTION_UIFIELD_SEPARATOR + fieldName;
+		return section ? sectionPath : (sectionPath + SECTION_UIFIELD_SEPARATOR + fieldName);
 	}
 }

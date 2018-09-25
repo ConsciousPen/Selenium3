@@ -295,7 +295,6 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned", "Override Type")
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Renters Policy #")
-			.put("AAA Products Owned", "PUP Policy #")
 			.build();
 
 	/**

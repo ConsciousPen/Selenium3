@@ -68,6 +68,7 @@ public class VersionsComparisonConstants {
 			.putAll("Drivers.NBFirstName NB NBLastName.Smoker: Cigarettes, cigars or pipes", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filling Needed", "false","true")
 			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Conviction Points","1","")
+			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Violation Points","3","0")
 			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Include in Points and/or YAF?","true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes","","")
 			//Vehicle Information

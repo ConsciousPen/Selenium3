@@ -40,6 +40,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Drivers.NBFirstName NB NBLastName.AAAMvr Report Order",
 			"Named Insureds.VIFirstName VI VILastName.AAA Credit History Order",
 			"Named Insureds.VIIFirstName VII VIILastName.AAA Credit History Order",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Credit History Order",
 			"AAACredit Score Info",
 			"AAA Membership Order",
 			"AAAPolicy Issue Summary",
@@ -319,7 +320,11 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	private Multimap<String, String> toMultimap(List<SectionFieldData> actualSectionsAndUIFields) {
 		ListMultimap<String, String> result = MultimapBuilder.hashKeys().arrayListValues().build();
-		actualSectionsAndUIFields.forEach(field -> result.put(field.getSectionPath(), field.getFieldName()));
+		actualSectionsAndUIFields.forEach(field -> {
+			if (!field.isSection()) {
+				result.put(field.getSectionPath(), field.getFieldName());  // collects paths for fields only
+			}
+		});
 		return result;
 	}
 
@@ -664,7 +669,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		Tab.buttonCancel.click();
 		Tab.buttonCancel.click();
 
-		//TODO need to be rreutrned when Bind page is done
+		//TODO need to be returned when Bind page is done
 		//processPlus27DaysBlankEndorsement();
 	}
 
@@ -747,6 +752,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			if (sectionText.isPresent()) {
 				String sectionName = sectionText.getValue();
 				List<SectionFieldData> uiFields = parseUIFieldsForSection(sectionName, Collections.singletonList(sectionNumber));
+				presentedSectionOnConflictPage.add(new SectionFieldData(sectionName, null, Collections.singletonList(sectionNumber), true));
 				presentedSectionOnConflictPage.addAll(uiFields);
 			} else {
 				break;
