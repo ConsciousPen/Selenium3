@@ -680,25 +680,24 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			getAnyPendingAddDriver(policyNumber);
 			validateRevertOptionForNewDriver_pas18672(policyNumber, "RD1003", softly);
 			validateRevertOptionForDriverInViewDriversResponse_pas18672(policyNumber, false, softly);
+
+			//Start PAS-18643 cancel the Remove Driver
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			DriversDto driverToRemove = getAnyNotNIActiveDriver(policyNumber);
+
+			//remove driver
+			RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(getRandomDriverRemovalCode(true));
+			HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
+
+			//add driver
+			addDriver_18672(policyNumber);
+
+			//try to revert pending remove driver and get error
+			//revert delete
+			ErrorResponseDto revertDriverResponse = HelperCommon.revertDriver(policyNumber, driverToRemove.oid, ErrorResponseDto.class, 422);
+			assertThat(revertDriverResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getCode());
+			assertThat(revertDriverResponse.message).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getMessage());
 		});
-
-		//Start PAS-18643 cancel the Remove Driver
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		DriversDto driverToRemove = getAnyNotNIActiveDriver(policyNumber);
-
-		//remove driver
-		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(getRandomDriverRemovalCode(true));
-		HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
-
-		//add driver
-		addDriver_18672(policyNumber);
-
-		//try to revert pending remove driver and get error
-		//revert delete
-		ErrorResponseDto revertDriverResponse = HelperCommon.revertDriver(policyNumber, driverToRemove.oid, ErrorResponseDto.class, 422);
-		assertThat(revertDriverResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getCode());
-		assertThat(revertDriverResponse.message).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getMessage());
-
 	}
 
 	protected void pas18643_CancelRemoveDriverBody(boolean testWithUpdates, String removalReasonCode) {
