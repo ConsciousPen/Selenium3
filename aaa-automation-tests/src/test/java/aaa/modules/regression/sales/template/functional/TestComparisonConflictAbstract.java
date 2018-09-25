@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.InvalidArgumentException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
 import aaa.common.Tab;
@@ -193,8 +192,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFields, tabName, sectionName);
-
-
 	}
 
 	/**
@@ -759,32 +756,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			}
 		}
 		presentedSectionOnConflictPage.forEach(field -> selectUIFieldsVersions(field, conflictLinks));
-//		//TODO verify method allSectionsPresentedOnConflictPage - can be deleted
-//		allSectionsPresentedOnConflictPage(presentedSectionOnConflictPage, conflictLinks.keySet());
-//		int sectionNamesExpected = conflictLinks.keySet().stream()
-//				.map(param -> StringUtils.substringBefore(param, SECTION_UIFIELD_SEPARATOR))
-//				.collect(Collectors.toSet()).size();
-//		assertThat(presentedSectionOnConflictPage.size()).as("Invalid amount of sections on conflict screen").isEqualTo(sectionNamesExpected);
 	}
-
-	/**
-	 * Verify that all sections are present
-	 * @param presentedSectionOnConflictPage actual list of sections
-	 * @param uiFieldsPaths expected list of sections
-	 */
-//	private void allSectionsPresentedOnConflictPage(List<SectionFieldData> presentedSectionOnConflictPage, Set<String> uiFieldsPaths) {
-//		for (SectionFieldData sectionName : presentedSectionOnConflictPage) {
-//			assertSoftly(softly -> softly.assertThat(uiFieldsPaths.stream()
-//					.anyMatch(uiFieldPath -> hasSectionWithNameSeparator(sectionName.getSectionPath(), uiFieldPath)))
-//					.as("Section %1$s not present in UI fields configuration.", sectionName)
-//					.isTrue());
-//		}
-//	}
-
-//	private boolean hasSectionWithNameSeparator(String sectionName, String uiFieldPath) {
-//		return uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY)) ||
-//				!uiFieldPath.contains(SECTION_UIFIELD_SEPARATOR);
-//	}
 
 	/**
 	 * Resolve all conflicts based on current or available selection
@@ -802,75 +774,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 				}
 			}
 
-	/**
-	 * Resolving all conflicts (selecting current or available) for each section
-	 * @param sectionName section name
-	 * @param conflictLinks the whole list of values for resolving conflict (Section.UIField + version(current or available))
-	 * @param actualResolvedUIFieldsConflicts number of resolved conflicts for section
-	 * @param columnsCount column for resolving versions
-	 * @param uiFieldNumber number of UI field in the section
-	 * @param uiFieldPath Section.UIField combination
-	 * @return
-	 */
-	private int findAndPressVersionLinksInSection(String sectionName, ArrayListMultimap<String, String> conflictLinks, int actualResolvedUIFieldsConflicts, int columnsCount, int uiFieldNumber,
-			String uiFieldPath) {
-		//get list of needed versions foe each uiFieldPath (can be more than one only when UI fields have the same name, e.g. AAA Product Owned section)
-		List<String> versionsLinkValues = conflictLinks.get(uiFieldPath);
-		for (int uiFieldsWithSameNameNumber = 0; uiFieldsWithSameNameNumber < versionsLinkValues.size(); uiFieldsWithSameNameNumber++) {
-			String versionLinkValue = versionsLinkValues.get(uiFieldsWithSameNameNumber);
-			int uiFieldPosition = uiFieldNumber + uiFieldsWithSameNameNumber;
-			//press version link for UI Field (current or available)
-			if (pressVersionLink(uiFieldPosition, columnsCount, versionLinkValue, sectionName)) {
-				log.debug("Select [%1$s] -> [%2$s]", uiFieldPath, versionLinkValue);
-				actualResolvedUIFieldsConflicts++;
-			}
-		}
-		return actualResolvedUIFieldsConflicts;
-	}
-
-	/**
-	 * Select needed version (current or available)
-	 * @param uiFieldRow row for the UI field; -1 if section is resolvable and has no fields
-	 * @param columnCount last column for select version
-	 * @param versionValue version value current/available
-	 * @param sectionName name of the section
-	 * @return boolean value based on press or not link
-	 */
-	private boolean pressVersionLink(int uiFieldRow, int columnCount, String versionValue, String sectionName) {
-		Link linkSetValue;
-		int versionPosition;
-		switch (versionValue) {
-			case "Current": {
-				versionPosition = 1;
-				break;
-			}
-			case "Available": {
-				versionPosition = 2;
-				break;
-			}
-			default:
-				throw new InvalidArgumentException("Unknown conflict version.");
-		}
-		int sectionRowIndex = tableDifferences.getRow(SECTION_NAME_ROW_INDEX, sectionName).getIndex();
-		linkSetValue = tableDifferences.getRow(sectionRowIndex + uiFieldRow + 1).getCell(columnCount).controls.links.get(
-				versionPosition);
-		if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
-			linkSetValue.click();
-			return true;
-		}
-		return false;
-	}
-
 	private boolean pressVersionLink(SectionFieldData sectionFieldData, String versionValue) {
-		Link linkSetValue;
-		int versionPosition;
-		//todo
-		Link versinLink = PolicySummaryPage.TransactionHistory.provideLinkConflictVersion(sectionFieldData.getTreePosition(), versionValue);
-//		int sectionRowIndex = tableDifferences.getRow(SECTION_NAME_ROW_INDEX, sectionName).getIndex();
-//		linkSetValue = tableDifferences.getRow(sectionRowIndex + uiFieldRow + 1).getCell(columnCount).controls.links.get(
-//				versionPosition);
-		if (versinLink.isPresent() && versinLink.isVisible()) {
-			versinLink.click();
+		Link versionLink = PolicySummaryPage.TransactionHistory.provideLinkConflictVersion(sectionFieldData.getTreePosition(), versionValue);
+		if (versionLink.isPresent() && versionLink.isVisible()) {
+			versionLink.click();
 			return true;
 		}
 		return false;
