@@ -351,7 +351,6 @@ public class TestMembershipTemplate extends PolicyBaseTest {
                 assertThat(applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
                 break;
             }
-
             case "HomeSS_DP3" : {
                 assertThat(applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
             }
