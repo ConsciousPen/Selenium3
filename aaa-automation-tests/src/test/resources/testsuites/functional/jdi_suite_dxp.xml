@@ -650,4 +650,18 @@
             </class>
         </classes>
     </test>
+    <test name="pas18643_CancelRemoveDriver (Revert Deleted Driver)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
+                    <!--<include name="pas18672_driversRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="DriversVA"> -->
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
