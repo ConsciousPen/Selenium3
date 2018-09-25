@@ -702,9 +702,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	protected void pas18643_CancelRemoveDriverBody(boolean testWithUpdates, String removalReasonCode) {
 		mainApp().open();
-
 		createCustomerIndividual();
-
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DriverWithActivity").getTestDataList("DriverTab")).resolveLinks();
 		String policyNumber = createPolicy(testData);
@@ -2613,7 +2611,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		}
 		// Get Removal Reason Code from ArrayList using Random().nextInt()
 		String removalReasonCode = removalReasonCodes.get(new Random().nextInt(removalReasonCodes.size()));
-		log.info("==== Removal Reason Code used in test: " + removalReasonCode);
+		printToLog("==== Removal Reason Code used in test: " + removalReasonCode);
 		return removalReasonCode;
 	}
 
