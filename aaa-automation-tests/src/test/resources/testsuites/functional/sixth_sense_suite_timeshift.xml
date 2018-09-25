@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Time Shift Test Suite 1" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -58,6 +58,20 @@
                     <include name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
                     <include name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
                     <include name="pas12466_do_not_generate_AAEUIMMD_if_coverage_removed"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
+                <methods>
+                    <include name="pas2450_testDriversWithViolationsNB"/>
+                    <include name="pas2450_testDriversWithViolationsEndorsement"/>
+                    <include name="pas2450_testDriversWithViolationsRenewal"/>
+                    <include name="pas2450_testDriversWithViolationsConversion"/>
                 </methods>
             </class>
         </classes>
