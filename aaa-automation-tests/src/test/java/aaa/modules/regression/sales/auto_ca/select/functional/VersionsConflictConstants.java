@@ -493,7 +493,7 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Forms.LSOPCEndorsement Form", AVAILABLE)
+					.put("LSOPCEndorsement Form", AVAILABLE)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.VIN", CURRENT)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type", CURRENT)
