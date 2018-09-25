@@ -4,6 +4,7 @@ import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheM
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
@@ -23,6 +24,7 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMembershipTemplate extends PolicyBaseTest {
@@ -69,10 +71,11 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
         //Update membership number in DB
-        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Error");
+        Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
 
-        DBService.get().executeUpdate(UPDATE_MEMBERSHIP_NUMBER + policyNumber + "')");
-        DBService.get().executeUpdate(UPDATE_PRIOR_MEMBERSHIP_NUMBER + policyNumber + "')");
+        AAAMembershipQueries.updateAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
+        AAAMembershipQueries.updatePriorAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
 
         adminApp().open();
         new CacheManager().goClearCacheManagerTable();
@@ -85,7 +88,8 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(30));
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
-        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Active");
+        membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
     }
 
     protected void AutoCASpecificPolicy(TestData td) {
@@ -277,15 +281,4 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         new BindTab().btnPurchase.click();
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CSA25636985);
     }
-
-    public static final String UPDATE_MEMBERSHIP_NUMBER = "UPDATE membershipsummaryentity mse SET  mse.ordermembershipnumber = '4290023796712001' WHERE mse.id IN (" +
-            "SELECT ms.id FROM policysummary ps JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id and PS.policynumber='";
-
-    public static final String UPDATE_PRIOR_MEMBERSHIP_NUMBER = "UPDATE otherorpriorpolicy op SET op.policynumber = '4290023796712001'" +
-            "WHERE op.id IN (SELECT op.id FROM policysummary ps JOIN otherorpriorpolicy op ON op.policydetail_id = ps.policydetail_id AND op.productcd = 'membership' AND ps.policynumber = '";
-
-    public static final String GET_STATUS = "SELECT ms.membershipstatus AS msstatus, ms.id AS msid FROM policysummary ps JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id where ps.policynumber = '";
-
-    public static final String GET_STATUS_2 ="' ORDER BY msid DESC";
-
 }
