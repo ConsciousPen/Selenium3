@@ -159,7 +159,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Renewal navigate to P&C and calculate premium
         premiumAndCoveragesTab.saveAndExit();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.renew().start();
@@ -238,7 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
 
         // open app search for policy
         mainApp().open();
