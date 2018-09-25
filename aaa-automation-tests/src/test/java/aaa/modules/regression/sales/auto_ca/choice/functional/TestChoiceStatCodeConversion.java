@@ -38,6 +38,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
      * 1.3 Case3 - Partial Match: Liability symbol exist in DB for Best Match According to Y/M/M/S (Symbols: C);
      * 2. Proceed to the PremiumAndCoverages Tab;
      * 3. Verify VRD: liability symbols, Comp/Coll symbols and Special Hazard Surcharge Value
+     * @details
      */
     @StateList(states = Constants.States.CA)
     @Parameters({STATE_PARAM})
@@ -51,21 +52,20 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
 
         // Test Case 1 with VIN Match AND Not Converted Symbols = C
         createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
-        pas18994_checkVRD("C", "8", "Yes");
+        checkVRD("C", "8", "Yes");
 
         // Test Case 2 with VIN Match AND Not Converted Symbols = B
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
         vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.VIN).setValue(VINMATCH_CAC_B);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        pas18994_checkVRD("B", "13", "No");
+        checkVRD("B", "13", "No");
 
         // Test Case 3 with VIN Partial Match AND Not Converted Symbols = C
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
         vehicleTab.getAssetList().fill(tdPartialMatch);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        pas18994_checkVRD("C", "48", "Yes");
+        checkVRD("C", "48", "Yes");
 
-        PremiumAndCoveragesTab.buttonSaveAndExit.click();
     }
 
     /**
@@ -79,6 +79,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
      * 1.1 Case1 - VIN No Match: MSRP Match (Symbols: Y Converted to E)
      * 2. Proceed to the PremiumAndCoverages Tab;
      * 3. Verify VRD: liability symbols, Comp/Coll symbols and Special Hazard Surcharge Value
+     * @details
      */
     @StateList(states = Constants.States.CA)
     @Parameters({STATE_PARAM})
@@ -89,14 +90,13 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
         TestData tdMSRPMatch = getPolicyTD().adjust(getTestSpecificTD("TestData_MSRP").resolveLinks());
 
         createQuoteAndFillUpTo(tdMSRPMatch, PremiumAndCoveragesTab.class);
-        pas18994_checkVRD("E", "5", "Yes");
-        PremiumAndCoveragesTab.buttonSaveAndExit.click();
+        checkVRD("E", "5", "Yes");
     }
 
      /**
      Method validates VRD: Liability Symbols, Comp/Coll Symbols and Special Hazard Surcharge
      */
-    private void pas18994_checkVRD(String liabilitySymbol, String compCollSymbol, String specialHazardSurchargeValue){
+    private void checkVRD(String liabilitySymbol, String compCollSymbol, String specialHazardSurchargeValue){
 
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
