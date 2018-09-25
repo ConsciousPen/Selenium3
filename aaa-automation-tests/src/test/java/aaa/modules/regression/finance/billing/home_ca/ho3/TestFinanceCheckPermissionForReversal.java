@@ -42,14 +42,10 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals_L41(@Optional("CA") String state) {
-		TestData loginTD = initiateLoginTD()
-				.adjust("Groups", "L41")
-				.adjust("User", "g60land")
-				.adjust("Password", "g60land");
 
 		String policyNumber = createEscheatmentTransaction();
 
-		mainApp().open(loginTD);
+		openAppNonPrivilegedUser("L41");
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
@@ -67,7 +63,7 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 	 * 4. Run *aaaRefundDisbursementAsyncJob* to make refund status to issued
 	 * 5. Turn time for more than a year of Refund
 	 * 6. Run Esheatment async job at the beginning of the month:  *aaaEscheatmentProcessAsyncJob*
-	 * 7. Login with User (with L41 privileges)
+	 * 7. Login with User (with C32 privileges)
 	 * 7. Navigate to BA
 	 * TC Steps:
 	 * 1. Reverse action shouldn't exist
@@ -76,14 +72,10 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals_C32(@Optional("CA") String state) {
-		TestData loginTD = initiateLoginTD()
-				.adjust("Groups", "C32")
-				.adjust("User", "gac9syl")
-				.adjust("Password", "gac9syl");
 
 		String policyNumber = createEscheatmentTransaction();
 
-		mainApp().open(loginTD);
+		openAppNonPrivilegedUser("C32");
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
