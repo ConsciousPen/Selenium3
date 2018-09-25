@@ -12,9 +12,10 @@ import aaa.helpers.browser.DownloadsHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.OperationalReportsHelper;
+import aaa.modules.BaseTest;
 import toolkit.utils.TestInfo;
 
-public class TestOperationalReportsCheckEuwDetailsHeaders extends OperationalReportsBaseTest {
+public class TestOperationalReportsCheckEuwDetailsHeaders extends BaseTest {
 
 	/**
 	 * @author Maksim Piatrouski

@@ -15,14 +15,4 @@ public class HomeSSOpenLAddress extends OpenLAddress {
 	public void setRetCommunityPresent(Boolean retCommunityPresent) {
 		isRetCommunityPresent = retCommunityPresent;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeSSOpenLAddress{" +
-				"isRetCommunityPresent=" + isRetCommunityPresent +
-				", number=" + number +
-				", state='" + state + '\'' +
-				", zip='" + zip + '\'' +
-				'}';
-	}
 }

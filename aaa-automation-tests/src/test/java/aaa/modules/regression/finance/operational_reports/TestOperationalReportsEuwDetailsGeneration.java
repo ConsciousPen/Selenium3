@@ -7,9 +7,10 @@ import com.jcraft.jsch.SftpException;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.OperationalReportsHelper;
+import aaa.modules.BaseTest;
 import toolkit.utils.TestInfo;
 
-public class TestOperationalReportsEuwDetailsGeneration extends OperationalReportsBaseTest {
+public class TestOperationalReportsEuwDetailsGeneration extends BaseTest {
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17631")

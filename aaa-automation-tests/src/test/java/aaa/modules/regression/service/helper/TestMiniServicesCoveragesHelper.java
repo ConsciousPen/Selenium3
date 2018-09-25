@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
@@ -1555,13 +1556,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void coverageXproperties(ETCSCoreSoftAssertions softly, Coverage coverage, String coverageCd, String coverageDesc, String coverageLimit, String coverageLimitDisplay, String coverageType, boolean customerDisplay, boolean canChangeCoverage) {
 		softly.assertThat(coverage.coverageCd).isEqualTo(coverageCd);
 		softly.assertThat(coverage.coverageDescription).isEqualTo(coverageDesc);
-		softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
 
-		//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
-		if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
-			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
+		//check coverageLimit
+		if (StringUtils.isEmpty(coverageLimit)) {
+			softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit);
 		} else {
-			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+			softly.assertThat(coverage.coverageLimit).isEqualTo(coverageLimit.replace(".00", ""));
+		}
+
+		//check coverageLimitDisplay
+		if (StringUtils.isEmpty(coverageLimitDisplay)) {
+			softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
+		} else {
+			//for SPECEQUIP and CUSTEQUIP coverageLimitDisplay should be with ".00", for other coverages without ".00"
+			if ("SPECEQUIP, CUSTEQUIP".contains(coverage.coverageCd)) {
+				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace("(+$0)", "").trim());
+			} else {
+				softly.assertThat(coverage.coverageLimitDisplay).isEqualTo(coverageLimitDisplay.toString().replace(".00", "").replace("(+$0)", "").trim());
+			}
 		}
 
 		softly.assertThat(coverage.coverageType).isEqualTo(coverageType);
@@ -2584,6 +2596,50 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverages2.get(0).coverageLimit).isEqualTo("0");
 		});
 
+	}
+
+	protected void pas11654_MDEnhancedUIMBICoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Perform Endorsementgbvgfc
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		//Pas-18202 Order of coverage for MD
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(0).coverageCd).isEqualTo("BI");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(1).coverageCd).isEqualTo("PD");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(3).coverageCd).isEqualTo("EUIM");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(4).coverageCd).isEqualTo("UMPD");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(5).coverageCd).isEqualTo("MEDPM");
+		softly.assertThat(policyCoverageResponse.policyCoverages.get(6).coverageCd).isEqualTo("PIP");
+
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
+		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
+
+		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
+		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
+
+		String coverageCd1 = "EUIM";
+		String newBILimits1 = "true";
+		PolicyCoverageInfo coverageResponse = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd1, newBILimits1);
+		Coverage coverageEUIM1 = coverageResponse.policyCoverages.get(3);
+		coverageXproperties(softly, coverageEUIM1, "EUIM", "Enhanced UIM Selected", "true", "Yes", null, true, true);
+
+		String coverageCd2 = "EUIM";
+		String newBILimits2 = "false";
+		PolicyCoverageInfo coverageResponse1 = HelperCommon.updatePolicyLevelCoverageEndorsement(policyNumber, coverageCd2, newBILimits2);
+		Coverage coverageEUIM2 = coverageResponse1.policyCoverages.get(3);
+		coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
 	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {

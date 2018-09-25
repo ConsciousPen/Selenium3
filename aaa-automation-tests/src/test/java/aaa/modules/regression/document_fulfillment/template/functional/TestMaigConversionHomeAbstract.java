@@ -212,6 +212,24 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
 	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that HSPISKY documents are getting generated
+	 * 5. Buy Conversion Policy
+	 * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+	 * 7. Check that HSPISKY document is NOT generated
+	 * @details
+	 */
+	public void pas18432_policyInformationSheetHSPISKY(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSPISKY, false, state);
+		assertThat(numberOfLetters).isEqualTo(1);
+		checkSecondRenewalsOfferGenerationDoesNotGenerateForm(HSPISKY);
+	}
+
+	/**
+	 /**
+	 * @name Test Conversion Document generation (Non Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
 	 * 4. Check that HSFLD documents are getting generated
 	 * 5. Buy Conversion Policy
 	 * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
@@ -232,13 +250,19 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		purchaseRenewal(conversionExpDate, policyNumber);
 
 		LocalDateTime secondPolicyExpirationDate = PolicySummaryPage.getExpirationDate();
-
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(secondPolicyExpirationDate));
+
 		JOBS_FOR_EVENT.get(RENEWAL_OFFER).forEach(job -> JobUtils.executeJob(job));
+
+		//After first Renewal_Offer_Generation_Part2 run only Renewal Image is created in 'Data Gather' status
+		//Running 2nd time proposes renewal image.
+		if (DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size() == 1) {
+			JOBS_FOR_EVENT.get(RENEWAL_OFFER).forEach(job -> JobUtils.executeJob(job));
+		}
 
 		//Check that 2nd Renewal Offer is generated
 		assertThat(DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size()).isEqualTo(2);
-		//Check that 2nd Renewal Offer does not have the form (e.g. HSFLD)
+		//Check that 2nd Renewal Offer does not have the form (e.g. HSFLD, HSPISKY)
 		assertThat(DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER, false).size()).isEqualTo(1);
 	}
 
@@ -266,7 +290,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
-			if (form!=HSFLD) {
+			if (form!=HSFLD && form !=HSPISKY) {
 				verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
 			}
 		}

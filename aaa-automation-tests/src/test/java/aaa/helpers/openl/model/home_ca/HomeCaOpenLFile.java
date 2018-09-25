@@ -5,7 +5,7 @@ import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy<?>> extends OpenLFile<P> {
+public abstract class HomeCaOpenLFile<P extends HomeCaOpenLPolicy<?, ?>> extends OpenLFile<P> {
 	@ExcelTransient
 	public static final int SCHEDULED_PROPERTY_ITEM_HEADER_ROW_NUMBER = 3;
 
