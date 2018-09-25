@@ -41,11 +41,6 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
 	private List<TestData> driversTD;
 
-	@BeforeTest
-	public void setTime() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
-	}
-
 	/**
 	* * @author Igor Garkusha
 	* @name Test NB - Defensive Driver Discount, Minor Violation
@@ -64,6 +59,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -100,6 +97,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
 
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
@@ -132,6 +131,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
 
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
+
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
@@ -163,6 +164,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
