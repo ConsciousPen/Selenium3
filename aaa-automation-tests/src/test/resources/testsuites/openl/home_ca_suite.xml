@@ -10,7 +10,6 @@
     <!--<parameter name="localTests" value="true"/>-->
 
 	<test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="HomeCA_DP3"/>
         <parameter name="fileName" value="DP3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="2669, 2676, 2890, 3055, 3079, 3085, 3088, 3090, 3091, 3093"/ -->
@@ -21,7 +20,6 @@
     </test> 
    
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="HomeCA_HO3"/>
         <parameter name="fileName" value="HO3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="3322, 3324"/ -->
@@ -32,7 +30,6 @@
     </test> 
 
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="HomeCA_HO4"/>
         <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
         <!-- parameter name="policyNumbers" value="3863, 3864, 3865, 3866, 3867, 3868, 3869, 3870"/ -->
@@ -43,7 +40,6 @@
     </test> 
     
     <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="HomeCA_HO6"/>
         <parameter name="fileName" value="HO6Tests.xls"/>
         <!-- parameter name="policyNumbers" value="1, 1097, 3288, 3319, 3329, 3449, 3515, 3491, 3492, 3546, 3626, 3750"/ -->

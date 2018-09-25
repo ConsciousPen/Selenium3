@@ -51,17 +51,4 @@ public class HomeCaHO3OpenLDwelling extends HomeCaOpenLDwelling {
 	public void setNumOfFamilies(Integer numOfFamilies) {
 		this.numOfFamilies = numOfFamilies;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLDwelling{" +
-				"ageOfHome=" + ageOfHome +
-				", burglarAlarmType='" + burglarAlarmType + '\'' +
-				", constructionType='" + constructionType + '\'' +
-				", firelineScore=" + firelineScore +
-				", numOfFamilies=" + numOfFamilies +
-				", number=" + number +
-				", address=" + address +
-				'}';
-	}
 }

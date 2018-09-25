@@ -436,6 +436,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                    <include name="pas11654_MDEnhancedUIMBICoverage"/>
                 </methods>
             </class>
         </classes>
@@ -646,6 +647,26 @@
                 <methods>
                     <include name="pas16035_ViewCoverageUpdateCoverage"/>
                     <include name="pas17628_ViewCoverageUpdateCoverageUmpdDeductible"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15376_3OrMoreMinorOrSpeedingViolations">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15376_3OrMoreMinorOrSpeedingViolations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas17676_moreThanTwoMinorViolationsError">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas17676_moreThanTwoMinorViolationsError"/>
                 </methods>
             </class>
         </classes>

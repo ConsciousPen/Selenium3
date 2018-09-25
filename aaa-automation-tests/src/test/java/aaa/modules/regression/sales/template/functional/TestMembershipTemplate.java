@@ -4,15 +4,19 @@ import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheM
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.*;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -20,8 +24,8 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
 import java.time.LocalDateTime;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import java.util.Optional;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMembershipTemplate extends PolicyBaseTest {
 
@@ -67,10 +71,11 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
         //Update membership number in DB
-        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Error");
+        Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
 
-        DBService.get().executeUpdate(UPDATE_MEMBERSHIP_NUMBER + policyNumber + "')");
-        DBService.get().executeUpdate(UPDATE_PRIOR_MEMBERSHIP_NUMBER + policyNumber + "')");
+        AAAMembershipQueries.updateAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
+        AAAMembershipQueries.updatePriorAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
 
         adminApp().open();
         new CacheManager().goClearCacheManagerTable();
@@ -83,7 +88,8 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(30));
         JobUtils.executeJob(Jobs.membershipValidationJob);
 
-        assertThat(DBService.get().getValue(String.format(GET_STATUS + policyNumber + GET_STATUS_2)).get()).isEqualTo("Active");
+        membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
     }
 
     protected void AutoCASpecificPolicy(TestData td) {
@@ -179,14 +185,100 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         purchaseTab.submitTab();
     }
 
-    public static final String UPDATE_MEMBERSHIP_NUMBER = "UPDATE membershipsummaryentity mse SET  mse.ordermembershipnumber = '4290023796712001' WHERE mse.id IN (" +
-            "SELECT ms.id FROM policysummary ps JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id and PS.policynumber='";
+    /**
+     * Navigate the quote to PnC tab - assert discounts present when Current AAA Member = No
+     * @param  policyType Uses policy Type to differentiate between product variation
+     */
+    protected void premiumAndDiscountCheckAAANo(String policyType) {
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        if (policyType.equals("HomeCA_HO6")) {
+            assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New Policy");
+        } else {
+            assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts).isAbsent();
+        }
+    }
 
-    public static final String UPDATE_PRIOR_MEMBERSHIP_NUMBER = "UPDATE otherorpriorpolicy op SET op.policynumber = '4290023796712001'" +
-            "WHERE op.id IN (SELECT op.id FROM policysummary ps JOIN otherorpriorpolicy op ON op.policydetail_id = ps.policydetail_id AND op.productcd = 'membership' AND ps.policynumber = '";
+    /**
+     * Navigate the quote to PnC tab - assert discounts present when Current AAA Member = Pending
+     * @param  policyType Uses policy Type to differentiate between product variation
+     */
+    protected void premiumAndDiscountCheckAAAPending(String policyType) {
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        PremiumsAndCoveragesQuoteTab.btnCalculatePremium.click();
+        switch (policyType) {
+            case "HomeCA_HO6": {
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New Policy, AAA Membership");
+                break;
+            }
+            case "HomeCA_DP3": {
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts).isAbsent();
+                break;
+            }
+            case "HomeCA_HO3": {
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("AAA Membership");
+                break;
+            }
+            case "HomeCA_HO4": {
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("AAA Membership");
+                break;
+            }
+        }
+    }
 
-    public static final String GET_STATUS = "SELECT ms.membershipstatus AS msstatus, ms.id AS msid FROM policysummary ps JOIN membershipsummaryentity ms ON ms.id = ps.membershipsummary_id where ps.policynumber = '";
+    /**
+     * Create quote using default test data but adjusted to
+     */
+    protected void setKeyPathsandGenerateQuote() {
+        TestData testData = getPolicyTD();
+        // keypathTabSection Result: "ApplicantTab|AAAMembership"
+        String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab.class.getSimpleName(),
+                HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel());
 
-    public static final String GET_STATUS_2 ="' ORDER BY msid DESC";
+        //Make keypath to reports tab and hide ordering the report for AAA Mmembership
+        String keypathReportsSection = TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class.getSimpleName(),
+                HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
 
+        // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
+        String keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
+                HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
+
+        // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
+        String keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
+                HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+
+        testData.adjust(keypathCurrentMember, "No")
+                .mask(keypathMemberNum)
+                .mask(keypathReportsSection);
+
+        // Create the Quote //
+        mainApp().open();
+        createCustomerIndividual();
+        createQuote(testData);
+    }
+
+    public void pendingMembershipValidations_all_ACs() {
+        String policyType = getPolicyType().getShortName();
+
+        //Set Current AAA Member to "No" and save premiums / assert discounts
+        premiumAndDiscountCheckAAANo(policyType);
+
+        Dollar premiumCheckAAANo = aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+        new aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab().getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+
+        //Set Current AAA Member to "Membership Pending" and save premiums / assert discounts
+        premiumAndDiscountCheckAAAPending(policyType);
+        Dollar premiumCheckAAAPending = aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
+        if (policyType.equals("HomeCA_DP3")) {
+            assertThat(premiumCheckAAAPending.equals(premiumCheckAAANo)).isTrue();
+        } else {
+            assertThat(premiumCheckAAAPending.lessThan(premiumCheckAAANo)).isTrue();
+        }
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+        new BindTab().btnPurchase.click();
+        errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CSA25636985);
+    }
 }
