@@ -156,10 +156,10 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         Dollar enhancedUIMNBvalue1 = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
         assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue1)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue1).isTrue();
 
-                // Initiate Renewal navigate to P&C and calculate premium
+        // Initiate Renewal navigate to P&C and calculate premium
         premiumAndCoveragesTab.saveAndExit();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.renew().start();
@@ -238,7 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
 
         // open app search for policy
         mainApp().open();
