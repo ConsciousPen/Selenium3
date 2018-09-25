@@ -10,7 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_RENEWAL_VALIDATION"/>
+                    <include name="BCT_BTCH_Process_AcceptPayments_RecurringPayments_034"/>
                 </methods>
             </class>
         </classes>

@@ -10,7 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Premium_Calculation_007"/>
+                    <include name="BCT_BTCH_Manage_Payment_Exceptions_Payment_033"/>
                 </methods>
             </class>
         </classes>

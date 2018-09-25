@@ -10,7 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Cancellation_Legal_Notice_028"/>
+                    <include name="BCT_BTCH_Automated_Renewal_Premium_Calculation_007"/>
                 </methods>
             </class>
         </classes>

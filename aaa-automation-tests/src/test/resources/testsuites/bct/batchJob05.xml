@@ -10,7 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Reports_Ordering_003"/>
+                    <include name="BCT_BTCH_POLICY_STATUS_UPDATE"/>
                 </methods>
             </class>
         </classes>

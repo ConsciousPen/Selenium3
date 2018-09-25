@@ -10,7 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Image_Data_Gather_002"/>
+                    <include name="BCT_BTCH_Manage_OffcycleBill_031"/>
                 </methods>
             </class>
         </classes>

@@ -10,8 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_General_Renewal_Reminder_Notices_020"/>
-                    <include name="BCT_BTCH_Automated_Renewal_General_Renewal_Expiration_Notices_021"/>
+                    <include name="BCT_BTCH_Automated_Renewal_DoNotRenew_030"/>
                 </methods>
             </class>
         </classes>

@@ -10,8 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Generate_Mortgagee_Bill_Reminder_Notice_018"/>
-                    <include name="BCT_BTCH_Automated_Renewal_Mortgagee_Bill_Expiration_Notice_019"/>
+                    <include name="BCT_BTCH_Process_Refunds_Process_Refunds_032"/>
                 </methods>
             </class>
         </classes>

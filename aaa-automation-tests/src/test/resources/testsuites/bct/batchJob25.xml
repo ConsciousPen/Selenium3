@@ -10,12 +10,7 @@
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Bind_Issue_Renewal_Proposed_Issued_012"/>
-                    <include name="BCT_BTCH_Bind_Issue_Renewal_Proposed_Lapsed_013"/>
-                    <include name="BCT_BTCH_Bind_Issue_Renewal_Lapsed_Issued_014"/>
-                    <include name="BCT_BTCH_Expiration_Lapsed_Customer_Declined_015"/>
-                    <include name="BCT_BTCH_Manual_Renewal_Customer_Declined_Manual_016"/>
-                    <include name="BCT_BTCH_Automated_NonRenewal_CustomerDeclined_Rewrite_017"/>
+                    <include name="BCT_BTCH_aaaAutomatedProcessingInitiationJob"/>
                 </methods>
             </class>
         </classes>
