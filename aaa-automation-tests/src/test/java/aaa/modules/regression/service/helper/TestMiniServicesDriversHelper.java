@@ -684,7 +684,6 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		//Start PAS-18643 cancel the Remove Driver
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		//update driver
 		DriversDto driverToRemove = getAnyNotNIActiveDriver(policyNumber);
 
 		//remove driver
