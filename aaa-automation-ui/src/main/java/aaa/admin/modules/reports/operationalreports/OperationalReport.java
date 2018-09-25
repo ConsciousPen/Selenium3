@@ -19,12 +19,7 @@ public class OperationalReport implements IOperationalReport {
 
     @Override
     public void navigate() {
-        if (!NavigationPage.isMainTabSelected(NavigationEnum.AdminAppMainTabs.REPORTS.get())) {
-            NavigationPage.toMainTab(NavigationEnum.AdminAppMainTabs.REPORTS.get());
-            loginToReports();
-        }
         NavigationPage.toViewTab(NavigationEnum.ReportsTab.OPERATIONAL_REPORTS.get());
-        loginToReports();
     }
 
     @Override
