@@ -268,7 +268,7 @@ public class PolicySummaryPage extends SummaryPage {
 		}
 
 		/**
-		 * Provide link text for subtree: section-> subelement -> subelement...
+		 * Provide static element for subtree: section-> subelement -> subelement...
 		 * by constructing appropriate subtree id: comparisonTree_node_X_Y_..._Z
 		 * E.g. //*[@id="comparisonTreeForm:comparisonTree_node_0_0_1"]
 		 * <pre>
@@ -283,12 +283,6 @@ public class PolicySummaryPage extends SummaryPage {
 		 * |                  |                                 | Middle Name (1)
 		 * </pre>
 		 */
-//		public static StaticElement provideLinkTextComparisonTree(List<Integer> subsectionsTree) {
-//			String subsectionsTreeStr = StringUtils.join(subsectionsTree, '_');
-//			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + subsectionsTreeStr + "']"
-//					+ "/td[1]/span[2]"));
-//		}
-//
 		public static StaticElement provideAttributeExpandComparisonTree(List<Integer> subsectionsTree) {
 			String subsectionsTreeStr = StringUtils.join(subsectionsTree, '_');
 			int column = subsectionsTree.size() + 1;
