@@ -63,20 +63,6 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
-                <methods>
-                    <include name="pas2450_testDriversWithViolationsNB"/>
-                    <include name="pas2450_testDriversWithViolationsEndorsement"/>
-                    <include name="pas2450_testDriversWithViolationsRenewal"/>
-                    <include name="pas2450_testDriversWithViolationsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <!--Tests for Property-->
 
     <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
