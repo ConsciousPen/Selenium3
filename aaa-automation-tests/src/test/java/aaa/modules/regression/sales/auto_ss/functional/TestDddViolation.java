@@ -11,10 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -44,7 +41,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
 	private List<TestData> driversTD;
 
-	@BeforeClass
+	@BeforeTest
 	public void setTime() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 	}
