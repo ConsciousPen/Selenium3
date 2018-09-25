@@ -185,6 +185,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private void renewAndEndorsementSteps() {
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
+		RadioGroup saleAgentAgreement = new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
@@ -192,7 +193,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+		if (saleAgentAgreement.isPresent()) {
+			saleAgentAgreement.setValue("I Agree");
+		}
 		new DriverActivityReportsTab().getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();
 		new PremiumAndCoveragesTab().calculatePremium();
 		verifyDrivers();
