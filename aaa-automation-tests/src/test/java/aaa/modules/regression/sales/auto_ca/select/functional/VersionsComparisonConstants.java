@@ -363,7 +363,7 @@ public class VersionsComparisonConstants {
 			.build();
 
 	//all components/attributes that should be on Comparison page for Driver Information section
-	static final Multimap<String, String> ENDORSEMENT_RENEWAL_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> ENDORSEMENT_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("ADBEndorsement Form", "Automobile Death Benefit")
 			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
 			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
@@ -402,8 +402,49 @@ public class VersionsComparisonConstants {
 			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Not Included in Points and/or YAF - Reason Codes")
 			.build();
 
+	//all components/attributes that should be on Comparison page for Driver Information section
+	static final Multimap<String, String> RENEWAL_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("ADBEndorsement Form", "Automobile Death Benefit")
+			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
+			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
+			.put("CSAAEEndorsement Form", "Automobile Death Benefit")
+			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
+			.put("ENOCCEndorsement Form", "Automobile Death Benefit")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Date of Birth")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Age")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Gender")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Marital Status")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Occupation")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Age First Licensed")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Permit Before License")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Total Years Driving Experience")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Date First Licensed")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Licensed in US/Canada for 18 or More Months?")
+			.put("Driver Information (NBFirstName NB NBLastName)", "License State")
+			.put("Driver Information (NBFirstName NB NBLastName)", "License #")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Employee Benefit Type")
+			.put("Driver Information (NBFirstName NB NBLastName)", "ADB Coverage")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Most Recent GPA")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Good Driver Discount")
+			.put("Driver Information (NBFirstName NB NBLastName)", "New Driver Course Completed")
+			.put("Driver Information (NBFirstName NB NBLastName)", "New Driver Course Completion Date")
+			.put("Driver Information (NBFirstName NB NBLastName)", "New Driver Certification Number")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Mature driver course completed within 36 months")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Mature Driver Course Completion Date")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Smoker: Cigarettes, cigars or pipes")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Financial Responsibility Filling Needed")
+			.put("Driver Information (NBFirstName NB NBLastName)", "Filling Type")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Type")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Occurrence Date")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Description")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Date")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Conviction Points")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Include in Points and/or YAF?")
+			.put("Activity Information (Hit and run, 07/20/2018, Not included in Rating)", "Not Included in Points and/or YAF - Reason Codes")
+			.build();
+
 	//all components/attributes that should be on Comparison page for Vehicle Information section
-	static final Multimap<String, String> VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
+	static final Multimap<String, String> DATA_GATHER_VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
 			.put("LSOPCEndorsement Form", "VIN")
 			//Vehicle Information section
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
@@ -419,17 +460,49 @@ public class VersionsComparisonConstants {
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft Recovery Device")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Existing Damage")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Salvaged?")
-			//TODO defect should be fixed
-			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Miles One-way to Work or School")
-			//TODO defect should be fixed
-			//Garaging address
-			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Garaging Address")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading Date")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Customer Declared Annual Miles")
+			//Garaging address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Is Garaging different from Residential?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Garaging Address")
 			//Ownership address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")
+			.build();
+
+	//all components/attributes that should be on Comparison page for Vehicle Information section
+	static final Multimap<String, String> ENDORSEMENT_RENEWAL_VEHICLE_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("LSOPCEndorsement Form", "VIN")
+			//Vehicle Information section
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "VIN")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Year")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Make")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Model")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Series")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Body Style")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Primary Use")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Is the vehicle used in any commercial business operations?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Business Use Description")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Air Bags")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Alternative Fuel Vehicle")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Anti-theft Recovery Device")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Existing Damage")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Salvaged?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Miles One-way to Work or School")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Odometer Reading Date")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Customer Declared Annual Miles")
+			//Garaging address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Is Garaging different from Residential?")
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Garaging Address")
+			//Ownership address
+			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Ownership Type")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "First Name")
 			.put("Vehicle Information (2003, MERCEDES-BENZ, SL500R, ROADSTER)", "Vehicle Ownership Address")
 			.build();

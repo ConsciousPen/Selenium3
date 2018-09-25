@@ -14,21 +14,6 @@ public class AutoCaOpenLDriver extends OpenLDriver {
 		this.matureDriver = matureDriver;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoCaOpenLDriver{" +
-				"goodDriver=" + goodDriver +
-				", matureDriver=" + matureDriver +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
-	}
-
 	public Boolean isGoodDriver() {
 		return goodDriver;
 	}

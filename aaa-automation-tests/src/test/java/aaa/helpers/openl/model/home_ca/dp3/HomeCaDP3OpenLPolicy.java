@@ -9,7 +9,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
-public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> {
+public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, HomeCaDP3OpenLDwelling> {
 
 	private HomeCaDP3OpenLDwelling dwelling;
 	private List<HomeCaDP3OpenLForm> forms;
@@ -27,6 +27,7 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	private Integer yearsOwned;
 	private Integer yearsSinceLoan;
 
+	@Override
 	public HomeCaDP3OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -141,35 +142,7 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm> 
 	}
 	
 	@Override
-	public HomeCaDP3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaDP3TestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaDP3OpenLPolicy{" +
-				"coverages=" + coverages +
-				", dwelling=" + dwelling +
-				", forms=" + forms +
-				", ageOfOldestInsured=" + ageOfOldestInsured +
-				", covALimit=" + covALimit +
-				", covELimit=" + covELimit +
-				", deductible=" + deductible +
-				", frequencyOfDwellingLoss=" + frequencyOfDwellingLoss +
-				", hasAutoPolicy=" + hasAutoPolicy +
-				", hasCeaPolicy=" + hasCeaPolicy +
-				", isNewLoan=" + isNewLoan +
-				", propertyManagerType='" + propertyManagerType + '\'' +
-				", yearsOwned=" + yearsOwned +
-				", yearsSinceLoan=" + yearsSinceLoan +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+	public HomeCaDP3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaDP3TestDataGenerator(this.getState(), baseTestData);
 	}
 }

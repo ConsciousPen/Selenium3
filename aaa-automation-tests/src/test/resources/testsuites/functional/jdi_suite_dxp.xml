@@ -23,7 +23,6 @@
                     <include name="pas6562_endorsementValidateNotAllowedUBI"/>
                     <include name="pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService"/>
                     <include name="pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService"/>
-                    <include name="pas8784_endorsementValidateStateSpecificConfigVersioning"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForCancelPolicy"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForFuturePolicy"/>
                     <include name="pas9456_9455_PolicyLockUnlockServices"/>
@@ -85,6 +84,7 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                    <include name="pas18672_vehiclesRevertOptionForDelete"/> <!--depends on pas9546_maxVehicles-->
                 </methods>
             </class>
         </classes>
@@ -136,6 +136,7 @@
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
                     <include name="pas16551_relationToFniHardStop"/>
+                    <include name="pas18672_driversRevertOptionForDelete"/> <!--depends on pas9662_maxDrivers-->
                 </methods>
             </class>
         </classes>
@@ -435,6 +436,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                    <include name="pas11654_MDEnhancedUIMBICoverage"/>
                 </methods>
             </class>
         </classes>
@@ -649,22 +651,22 @@
             </class>
         </classes>
     </test>
-    <test name="pas18672_driversRevertOptionForDelete">
-        <parameter name="state" value="VA"/>
+    <test name="pas15376_3OrMoreMinorOrSpeedingViolations">
+        <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas18672_driversRevertOptionForDelete"/>
+                    <include name="pas15376_3OrMoreMinorOrSpeedingViolations"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="pas18672_vehiclesRevertOptionForDelete">
-        <parameter name="state" value="VA"/>
+    <test name="pas17676_moreThanTwoMinorViolationsError">
+        <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
-                    <include name="pas18672_vehiclesRevertOptionForDelete"/>
+                    <include name="pas17676_moreThanTwoMinorViolationsError"/>
                 </methods>
             </class>
         </classes>
