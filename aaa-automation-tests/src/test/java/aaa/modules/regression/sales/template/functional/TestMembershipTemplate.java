@@ -196,6 +196,8 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         if (policyType.equals("HomeCA_HO6")) {
             assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New Policy");
+        } else if (policyType.equals("HomeCA_HO3")){
+            assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New home");
         } else {
             assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts).isAbsent();
         }
@@ -219,7 +221,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
                 break;
             }
             case "HomeCA_HO3": {
-                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("AAA Membership");
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New home, AAA Membership");
                 break;
             }
             case "HomeCA_HO4": {
@@ -297,7 +299,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
         membershipStatusCheckApplicantTab();
-        }
+    }
 
     /**
      * Create policy - create renewal image at renewal TP1 - assert Current AAA Members cannot be set to pending.
