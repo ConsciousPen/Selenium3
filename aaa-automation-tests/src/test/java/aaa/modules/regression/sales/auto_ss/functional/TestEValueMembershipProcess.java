@@ -1295,46 +1295,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount removed when Membership is Not required for eValue and membership status = Cancelled. Renewal
-	 * @scenario
-	 * 0. upload configuration to require Membership for eValue
-	 * 1. change time to R-96, generate Renewal Image
-	 * 2. change time to R-63, run Order Membership Report Job, run Membership stub service, run Receive Membership Report Job
-	 * 3. change time to R-48, run Order Membership Report Job, run Membership stub service, run Receive Membership Report Job
-	 * 4. Check eValue discount is set to Yes in P&C tab of renewal
-	 * 5. Check AHDEXX is produced in the DB and contains only Membership discount info and no eValue discounts information
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11740")
-	public void pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState(@Optional("OK") String state) {
-		preconditionsClearFolders();
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", false);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			//TODO Question to Maris
-			//membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			lastTransactionHistoryMembershipDiscountCheck(true, softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed", softly);
-			lastTransactionHistoryMembershipDiscountCheck(false, softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Test eValue Cancelled policy is not picked up by NB+15, NB+30 jobs
 	 * @scenario
 	 * 0. upload configuration to require Membership for eValue

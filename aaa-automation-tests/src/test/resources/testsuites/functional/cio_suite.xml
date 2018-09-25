@@ -268,4 +268,36 @@
             </class>
         </classes>
     </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - DP3">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestMembershipPendingCA">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO6">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestMembershipPendingCA">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO3">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipPendingCA">
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO4">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestMembershipPendingCA">
+            </class>
+        </classes>
+    </test>
 </suite>

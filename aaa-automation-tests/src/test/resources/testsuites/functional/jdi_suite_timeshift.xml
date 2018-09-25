@@ -165,7 +165,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="preconditionsClearFolders"/>
-                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
                     <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
                 </methods>
             </class>
