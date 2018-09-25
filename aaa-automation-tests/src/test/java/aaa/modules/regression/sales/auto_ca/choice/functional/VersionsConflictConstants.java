@@ -64,7 +64,7 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style","SPORT VAN","ROADSTER")
 			//TODO should be return to TD when True/False vs Yes/No is fixed
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true","false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN).Is the vehicle used in any commercial business operations?", "","false")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "","false")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Anti-theft", "NONE","STD")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Air Bags","000E","000K")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle","true","false")
