@@ -12,6 +12,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.ComboBox;
@@ -122,19 +123,19 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		documentsAndBindTab.saveAndExit();
 
 		// Create new renewal image version, reject UIM coverage, validate signature option, and save
-		policy.renew().perform();
+		createRenewalVersion();
 		setCoverage(uimCoverage, Coverage.NONE);
 		validateSignatureStatusOnBindTab();
 		documentsAndBindTab.saveAndExit();
 
 		// Create new renewal image version, add UM coverage, validate signature option, and save
-		policy.renew().perform();
+		createRenewalVersion();
 		setCoverage(umCoverage, Coverage.COV_100_300);
 		validateSignatureStatusOnBindTab();
 		documentsAndBindTab.saveAndExit();
 
 		// Create new renewal image version, add UIM coverage, validate signature option
-		policy.renew().perform();
+		createRenewalVersion();
 		setCoverage(uimCoverage, Coverage.COV_100_300);
 		validateSignatureStatusOnBindTab();
 
@@ -183,6 +184,11 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		assertThat(disclosureStmtRadioBtn.getValue()).isEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 		disclosureStmtRadioBtn.setValue(PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
+	}
+
+	private void createRenewalVersion() {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
 	}
 	
 	private final class Coverage {
