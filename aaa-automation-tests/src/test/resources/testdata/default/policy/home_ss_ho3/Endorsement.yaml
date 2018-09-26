@@ -19,13 +19,6 @@ TestData_Plus1Month: {
   }
 }
 
-TestData_Plus2Months: {
-  EndorsementActionTab: {
-    Endorsement Date: $<today+2M>,
-    Endorsement Reason: 'Other Interest(s)/Mortgagees'
-  }
-}
-
 TestData_Minus1Week: {
   EndorsementActionTab: {
     Endorsement Date: $<today-7d>,
