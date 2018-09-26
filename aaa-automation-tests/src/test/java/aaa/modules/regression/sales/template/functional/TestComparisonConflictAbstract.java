@@ -554,9 +554,22 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	/**
 	 * Getting actual list of UI fields for a section
+	 * E.g.:
+	 * <pre>
+	 *  _____________________________________________________________________
+	 * |Named Insureds (0)|                                 |
+	 * |                  | VIIFirstName VII VIILastName (0)|
+	 * |                  |                                 | Prefix (0)
+	 * |                  |                                 | First Name (1)
+	 * |Drivers (1)       |                                 |
+	 * |                  | VIIFirstName VII VIILastName (0)|
+	 * |                  |                                 | First Name (0)
+	 * |                  |                                 | Middle Name (1)
+	 * </pre>
 	 *
-	 * @param sectionPath
-	 * @param elementTreePosition - FIXME position of element in the tree (mainSection, subsection1, subsection2...elementPosition)
+	 * List (1,0,1) represents path Drivers -> VIIFirstName VII VIILastName -> Middle Name
+	 * @param sectionPath path of the section
+	 * @param elementTreePosition - list that represetns position of the section/field element in the tree (mainSection, subsection1, subsection2...subsectionN)
 	 * @return multimap of UI fields and their full paths
 	 */
 	private List<SectionFieldData> parseUIFieldsForSection(String sectionPath, List<Integer> elementTreePosition) {
