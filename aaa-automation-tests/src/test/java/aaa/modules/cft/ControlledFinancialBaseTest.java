@@ -7,6 +7,8 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
@@ -853,6 +855,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				policyNumber));
 		SearchSuspenseActionTab.buttonSearch.click();
 		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
+		new ReverseSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		Tab.buttonOk.click();
 		log.info("Suspense refunded successfully");
 	}

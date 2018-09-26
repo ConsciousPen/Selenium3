@@ -6,7 +6,7 @@ public class RestRequestInfo<T> {
 
 	public String url;
 	public String sessionId;
-	public RestBodyRequest bodyRequest;
+	public Object bodyRequest;
 	public Class<T> responseType;
 	public int status = Response.Status.OK.getStatusCode();
 }
