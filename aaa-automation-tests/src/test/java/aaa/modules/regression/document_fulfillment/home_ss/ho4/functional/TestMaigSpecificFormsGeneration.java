@@ -65,7 +65,23 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9816"})
-	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
-		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks());
+	public void pas9816_BillingPacketGeneration_autopay(@Optional("DE") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks(), true);
+	}
+
+	/**
+	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
+	 *
+	 * @throws NoSuchFieldException See detailed steps in template file
+	 * @author Rokas Lazdauskas
+	 * PAS-9816
+	 * PAS-9607
+	 * PAS-9650
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9816"})
+	public void pas9816_BillingPacketGeneration_nonAutopay(@Optional("DE") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks(), false);
 	}
 }
