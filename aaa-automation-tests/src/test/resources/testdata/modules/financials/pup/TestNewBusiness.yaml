@@ -15,6 +15,21 @@ TestData_AddPremium: {
   ErrorTab: '@ErrorTab_AddPremium'
 }
 
+TestData_AddPremium_CA: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  UnderlyingRisksAllResidentsTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_AddPremium',
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
 PremiumAndCoveragesQuoteTab_AddPremium: {
   Personal Umbrella: 'contains=$2,000,000'
 }
