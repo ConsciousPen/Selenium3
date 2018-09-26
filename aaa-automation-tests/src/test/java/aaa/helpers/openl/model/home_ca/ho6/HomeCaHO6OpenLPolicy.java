@@ -10,7 +10,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, HomeCaHO6OpenLDwelling> {
 	private HomeCaHO6OpenLDwelling dwelling;
 	private List<HomeCaHO6OpenLForm> forms;
 	private List<HomeCaHO6OpenLCoverage> coverages;
@@ -27,6 +27,7 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	private Boolean isRented;
 	private String occupation;
 
+	@Override
 	public HomeCaHO6OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -139,37 +140,9 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-	
-	@Override
-	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaHO6TestDataGenerator(state, baseTestData);
-	}
 
 	@Override
-	public String toString() {
-		return "HomeCaHO6OpenLPolicy{" +
-				"dwelling=" + dwelling +
-				", forms=" + forms +
-				", covALimit=" + covALimit +
-				", covELimit=" + covELimit +
-				", deductible=" + deductible +
-				", hasEmployeeDiscount=" + hasEmployeeDiscount +
-				", ageOfOldestInsured=" + ageOfOldestInsured +
-				", hasPolicySupportingForm=" + hasPolicySupportingForm +
-				", hasSeniorDiscount=" + hasSeniorDiscount +
-				", hasAutoPolicy=" + hasAutoPolicy +
-				", hasCeaPolicy=" + hasCeaPolicy +
-				", isRented=" + isRented +
-				", occupation='" + occupation + '\'' +
-				", coverages=" + coverages +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+	public HomeCaHO6TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaHO6TestDataGenerator(this.getState(), baseTestData);
 	}
 }

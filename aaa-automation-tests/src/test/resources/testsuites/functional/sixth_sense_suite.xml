@@ -15,17 +15,17 @@
         </classes>
     </test>
 
+    <test name="Test Defensive Driver Discount">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
+        </classes>
+    </test>
+
     <test name="Test Enroll Usage Based Endorsement">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEnrollUsageBasedEndorsementCheck"/>
-        </classes>
-    </test>
-
-    <test name="Good Student Discount">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
         </classes>
     </test>
 

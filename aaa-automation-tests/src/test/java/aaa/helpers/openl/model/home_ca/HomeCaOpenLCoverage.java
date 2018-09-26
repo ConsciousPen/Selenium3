@@ -15,14 +15,4 @@ public class HomeCaOpenLCoverage extends OpenLCoverage {
 	public void setLimitAmount(Double limitAmount) {
 		this.limitAmount = limitAmount;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaOpenLCoverage{" +
-				"coverageCd='" + coverageCd + '\'' +
-				", limitAmount=" + limitAmount +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }
