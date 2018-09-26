@@ -5,7 +5,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="BCT Batch Tests aaacancellationNoticeAsyncJob" preserve-order="true">
+    <test name="BCT Batch Tests grouprenewalValidationAsyncTaskJob" preserve-order="true">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
