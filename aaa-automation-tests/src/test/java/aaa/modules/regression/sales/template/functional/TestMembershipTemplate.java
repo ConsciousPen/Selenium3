@@ -4,12 +4,13 @@ import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheM
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.*;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
@@ -19,7 +20,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 
@@ -33,6 +33,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
     private ErrorTab errorTab = new ErrorTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+    private ApplicantTab applicantTab = new ApplicantTab();
 
     protected void pas16457_validateMembershipNB15() {
 
@@ -195,6 +196,8 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         NavigationPage.toViewSubTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         if (policyType.equals("HomeCA_HO6")) {
             assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New Policy");
+        } else if (policyType.equals("HomeCA_HO3")){
+            assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New home");
         } else {
             assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts).isAbsent();
         }
@@ -218,7 +221,7 @@ public class TestMembershipTemplate extends PolicyBaseTest {
                 break;
             }
             case "HomeCA_HO3": {
-                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("AAA Membership");
+                assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(1).getCell("Discounts applied").getValue()).isEqualTo("New home, AAA Membership");
                 break;
             }
             case "HomeCA_HO4": {
@@ -229,15 +232,15 @@ public class TestMembershipTemplate extends PolicyBaseTest {
     }
 
     /**
-     * Create quote using default test data but adjusted to
+     * Create quote using default test data but adjusted to set Current AAA Member to No
      */
-    protected void setKeyPathsandGenerateQuote() {
+    protected void setKeyPathsAndGenerateQuote() {
         TestData testData = getPolicyTD();
         // keypathTabSection Result: "ApplicantTab|AAAMembership"
         String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab.class.getSimpleName(),
                 HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel());
 
-        //Make keypath to reports tab and hide ordering the report for AAA Mmembership
+        //Make keypath to reports tab and hide ordering the report for AAA Membership
         String keypathReportsSection = TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class.getSimpleName(),
                 HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
 
@@ -259,7 +262,10 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         createQuote(testData);
     }
 
-    public void pendingMembershipValidations_all_ACs() {
+    /**
+     * This method sets Current AAA Membership to pending and asserts that the policy cannot be bound with pending selected
+     */
+    public void pendingMembershipValidations_AC1_3() {
         String policyType = getPolicyType().getShortName();
 
         //Set Current AAA Member to "No" and save premiums / assert discounts
@@ -280,5 +286,74 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().btnPurchase.click();
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CSA25636985);
+        errorTab.cancel();
+    }
+
+    /**
+     * Create policy - add endorsement - assert Current AAA Members cannot be set to pending.
+     */
+    public void addEndorsementAndCheckForMSPending() {
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy();
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+        membershipStatusCheckApplicantTab();
+    }
+
+    /**
+     * Create policy - create renewal image at renewal TP1 - assert Current AAA Members cannot be set to pending.
+     */
+    public void generateRenewalImageAndCheckForMSPending() {
+
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+
+        log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+
+        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        PolicySummaryPage.buttonRenewals.click();
+
+        PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
+        PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.buttons.get("Go").click();
+        PolicySummaryPage.buttonOk.click();
+        PolicySummaryPage.buttonOkPopup.click();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+        membershipStatusCheckApplicantTab();
+    }
+
+    /**
+     * Validate Current AAA Member cannot be set to Membership Pending based upon policyType
+     */
+    public void membershipStatusCheckApplicantTab() {
+        String policyType = getPolicyType().getShortName();
+        String membershipValue = "Membership Pending";
+        switch (policyType) {
+            case "HomeCA_HO6": {
+                assertThat(applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
+                break;
+            }
+            case "HomeCA_DP3": {
+                assertThat(applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
+                break;
+            }
+            case "HomeCA_HO3": {
+                assertThat(applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
+                break;
+            }
+            case "HomeCA_HO4": {
+                assertThat(applicantTab.getAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
+                break;
+            }
+            case "HomeSS_DP3" : {
+                assertThat(applicantTab.getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains(membershipValue)).isFalse();
+            }
+        }
     }
 }

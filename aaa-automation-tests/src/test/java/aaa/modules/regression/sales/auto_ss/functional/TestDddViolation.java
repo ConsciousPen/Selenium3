@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -44,11 +43,6 @@ public class TestDddViolation extends AutoSSBaseTest {
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
 	private List<TestData> driversTD;
 
-	@BeforeClass
-	public void setTime() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
-	}
-
 	/**
 	* * @author Igor Garkusha
 	* @name Test NB - Defensive Driver Discount, Minor Violation
@@ -67,6 +61,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -185,6 +181,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private void renewAndEndorsementSteps() {
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
+		RadioGroup saleAgentAgreement = new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
@@ -192,7 +189,9 @@ public class TestDddViolation extends AutoSSBaseTest {
 		new PremiumAndCoveragesTab().calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-		new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+		if (saleAgentAgreement.isPresent()) {
+			saleAgentAgreement.setValue("I Agree");
+		}
 		new DriverActivityReportsTab().getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();
 		new PremiumAndCoveragesTab().calculatePremium();
 		verifyDrivers();
