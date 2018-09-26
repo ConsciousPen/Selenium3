@@ -124,6 +124,12 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyMoratorium">
+                <methods>
+                    <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
+                    <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="AZ PUP Regression Tests" parallel="methods">

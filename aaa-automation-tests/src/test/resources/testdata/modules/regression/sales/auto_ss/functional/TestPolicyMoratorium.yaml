@@ -13,7 +13,7 @@ TestData_Moratorium_Config_1: {
     AddRuleSection: {
       New Business Premium Calculation: Soft Stop,
       New Business Bind: Hard Stop,
-      Display Message: 'Test Moratorium Message 1'
+      Display Message: '$<rx:Test Moratorium Message 1 \d{5}>'
     }
   }
 }
@@ -33,7 +33,7 @@ TestData_Moratorium_Config_2: {
     AddRuleSection: {
       New Business Bind: Hard Stop (Overridable),
       New Business Bind Level: Level 4,
-      Display Message: 'Test Moratorium Message 2'
+      Display Message: '$<rx:Test Moratorium Message 2 \d{5}>'
     }
   }
 }

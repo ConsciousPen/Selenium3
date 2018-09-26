@@ -31,7 +31,6 @@ public class ProductOfferingTab extends Tab {
 	}
 
 	public Button addEndorsement = new Button(By.id("policyDataGatherForm:addEndorsements_footer"), Waiters.AJAX);
-	//public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov_footer"));
 	public Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:actionButton_AAAHOComparisonButtonsComponent_footer"));
 	public Button btnAddAdditionalVariation = new Button(By.id("policyDataGatherForm:addAdditionalVariation"));
 	public Table tableEndorsement = new Table(By.id("policyDataGatherForm:panel")).applyConfiguration("IncludedEndorsementsTable"); //"rowThatTemplate": "//div/table/tbody/tr[%s+1]",

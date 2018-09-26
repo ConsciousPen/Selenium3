@@ -84,6 +84,12 @@
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPolicyMoratorium">
+                <methods>
+                    <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
+                    <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CO Auto Regression Tests" parallel="methods">

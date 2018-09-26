@@ -5,13 +5,12 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import java.text.DecimalFormat;
-
-import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -34,7 +33,6 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnOverridePremium = new Button(By.xpath("//a[@id='policyDataGatherForm:overridePremiumLinkHo' or @id='policyDataGatherForm:overridePremiumLinkPup']"));
-	//public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
 	public static Button btnCalculatePremium = new Button(By.xpath("//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
 	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
