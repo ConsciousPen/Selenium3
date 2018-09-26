@@ -893,83 +893,85 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String policyNumber = createPolicy(testData);
 		SearchPage.openPolicy(policyNumber);
 
-		//get vehicle OID to remove
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		SearchPage.openPolicy(policyNumber);
+		assertSoftly(softly -> {
+			//get vehicle OID to remove
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			SearchPage.openPolicy(policyNumber);
 
-		Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data
+			Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data
 
-		if (testWithUpdates) {
-			//update vehicle info
-			String address1 = "2011 CORAL AVE";
-			String city = "Chesapeake";
-			String zip = "23324";
-			VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-			updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
-			updateVehicleRequest.vehicleOwnership.ownership = "OWN";
-			updateVehicleRequest.usage = "Pleasure";
-			updateVehicleRequest.salvaged = false;
-			updateVehicleRequest.garagingDifferent = true;
-			updateVehicleRequest.garagingAddress = new Address();
-			updateVehicleRequest.garagingAddress.addressLine1 = address1;
-			updateVehicleRequest.garagingAddress.city = city;
-			updateVehicleRequest.garagingAddress.postalCode = zip;
-			updateVehicleRequest.garagingAddress.stateProvCd = "VA";
-			updateVehicleRequest.antiTheft = "STD";
-			updateVehicleRequest.registeredOwner = true;
+			if (testWithUpdates) {
+				//update vehicle info
+				String address1 = "2011 CORAL AVE";
+				String city = "Chesapeake";
+				String zip = "23324";
+				VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+				updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
+				updateVehicleRequest.vehicleOwnership.ownership = "OWN";
+				updateVehicleRequest.usage = "Pleasure";
+				updateVehicleRequest.salvaged = false;
+				updateVehicleRequest.garagingDifferent = true;
+				updateVehicleRequest.garagingAddress = new Address();
+				updateVehicleRequest.garagingAddress.addressLine1 = address1;
+				updateVehicleRequest.garagingAddress.city = city;
+				updateVehicleRequest.garagingAddress.postalCode = zip;
+				updateVehicleRequest.garagingAddress.stateProvCd = "VA";
+				updateVehicleRequest.antiTheft = "STD";
+				updateVehicleRequest.registeredOwner = true;
 
-			HelperCommon.updateVehicle(policyNumber, vehicleToRemove.oid, updateVehicleRequest);
-			vehicleToRemove = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
-		}
+				HelperCommon.updateVehicle(policyNumber, vehicleToRemove.oid, updateVehicleRequest);
+				vehicleToRemove = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
+			}
 
-		//Get expected Vehicle info after revert
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		//get policyCoverageInfo to validate vehicle level coverages (and also other coverages)
-		PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.tableVehicleList.selectRow(1);
-		Map<String, String> expectedVehicleInfoInUI = testMiniServicesDriversHelper.getAssetValuesFromTab(AutoSSMetaData.VehicleTab.class, vehicleTab);
-		expectedVehicleInfoInUI.remove("List of Vehicle"); //not validating this, because order can change after revert
-		vehicleTab.saveAndExit();
+			//Get expected Vehicle info after revert
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			//get policyCoverageInfo to validate vehicle level coverages (and also other coverages)
+			PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.tableVehicleList.selectRow(1);
+			Map<String, String> expectedVehicleInfoInUI = testMiniServicesDriversHelper.getAssetValuesFromTab(AutoSSMetaData.VehicleTab.class, vehicleTab);
+			expectedVehicleInfoInUI.remove("List of Vehicle"); //not validating this, because order can change after revert
+			vehicleTab.saveAndExit();
 
-		//remove vehicle
-		HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid);
+			//remove vehicle
+			HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid);
 
-		//revert delete
-		Vehicle revertVehicleResponse = HelperCommon.revertVehicle(policyNumber, vehicleToRemove.oid, Vehicle.class, Response.Status.OK.getStatusCode());
-		//validate revert driver response after revert
-		assertThat(revertVehicleResponse).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
+			//revert delete
+			Vehicle revertVehicleResponse = HelperCommon.revertVehicle(policyNumber, vehicleToRemove.oid, Vehicle.class, Response.Status.OK.getStatusCode());
+			//validate revert driver response after revert
+			softly.assertThat(revertVehicleResponse).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
 
-		//validate viewEndorsementVehicles response
-		Vehicle revertedVehicle = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
-		assertThat(revertedVehicle).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
+			//validate viewEndorsementVehicles response
+			Vehicle revertedVehicle = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
+			softly.assertThat(revertedVehicle).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
 
-		//Validate that Vehicle level coverages of removed vehicle are the same after revert (not directly in scope of the US)
-		PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		String vehicleToRemoveOid = vehicleToRemove.oid;
-		assertThat(policyCoverageInfoAfterRevert.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().orElse(null)).
-				isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().
-						orElseThrow(() -> new IllegalArgumentException("VehicleCoverageInfo was not found for vheicle OID: " + vehicleToRemoveOid)));
+			//Validate that Vehicle level coverages of removed vehicle are the same after revert (not directly in scope of the US)
+			PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			String vehicleToRemoveOid = vehicleToRemove.oid;
+			softly.assertThat(policyCoverageInfoAfterRevert.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().orElse(null)).
+					isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().
+							orElseThrow(() -> new IllegalArgumentException("VehicleCoverageInfo was not found for vheicle OID: " + vehicleToRemoveOid)));
 
-		//check in UI
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.tableVehicleList.selectRow(2); //Vehicle will be 2nd after revert
-		testMiniServicesDriversHelper.validateValuesFromTab(expectedVehicleInfoInUI, AutoSSMetaData.VehicleTab.class, vehicleTab);
-		vehicleTab.saveAndExit();
+			//check in UI
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.tableVehicleList.selectRow(2); //Vehicle will be 2nd after revert
+			testMiniServicesDriversHelper.validateValuesFromTab(expectedVehicleInfoInUI, AutoSSMetaData.VehicleTab.class, vehicleTab, softly);
+			vehicleTab.saveAndExit();
 
-		//rate and bind
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-		//extra steps to validate that premium has changed if there was updates to Vehicle or has not changed if there was no updates to Vehicle
-		PolicySummaryPage.buttonTransactionHistory.click();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Endorsement");
-		if (testWithUpdates) {
-			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).doesNotHaveValue("$0.00");
-		} else {
-			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).hasValue("$0.00");
-		}
+			//rate and bind
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//extra steps to validate that premium has changed if there was updates to Vehicle or has not changed if there was no updates to Vehicle
+			PolicySummaryPage.buttonTransactionHistory.click();
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Endorsement");
+			if (testWithUpdates) {
+				softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).doesNotHaveValue("$0.00");
+			} else {
+				softly.assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).hasValue("$0.00");
+			}
+		});
 	}
 
 	private void validateRevertOptionForVehicle_pas18672(String policyNumber, String removedVehicleOid, boolean revertOptionExpected, ETCSCoreSoftAssertions softly) {

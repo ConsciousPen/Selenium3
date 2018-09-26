@@ -33,7 +33,6 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
-import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -695,8 +694,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			//try to revert pending remove driver and get error
 			//revert delete
 			ErrorResponseDto revertDriverResponse = HelperCommon.revertDriver(policyNumber, driverToRemove.oid, ErrorResponseDto.class, 422);
-			assertThat(revertDriverResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getCode());
-			assertThat(revertDriverResponse.message).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getMessage());
+			softly.assertThat(revertDriverResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getCode());
+			softly.assertThat(revertDriverResponse.message).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_DRIVER_ERROR.getMessage());
 		});
 	}
 
@@ -708,64 +707,66 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createPolicy(testData);
 
-		//get driver to remove
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		SearchPage.openPolicy(policyNumber);
-		DriversDto driverToRemove = getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "B19115001"); //License Number the same as in Test Data
+		assertSoftly(softly -> {
+			//get driver to remove
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			SearchPage.openPolicy(policyNumber);
+			DriversDto driverToRemove = getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "B19115001"); //License Number the same as in Test Data
 
-		if (testWithUpdates) {
-			//update driver level coverage
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", driverToRemove.oid);
-			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			//update driver info
-			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "101001010", 22, "AZ", "PA", "SSS");
-			driverToRemove = HelperCommon.updateDriver(policyNumber, driverToRemove.oid, updateDriverRequest).driver;
-		}
+			if (testWithUpdates) {
+				//update driver level coverage
+				UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TD", "true", driverToRemove.oid);
+				HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+				//update driver info
+				UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "101001010", 22, "AZ", "PA", "SSS");
+				driverToRemove = HelperCommon.updateDriver(policyNumber, driverToRemove.oid, updateDriverRequest).driver;
+			}
 
-		//Get expected Driver info after revert
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		//get policyCoverageInfo to validate driver level coverages (and also other coverages)
-		PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		DriverTab.tableDriverList.selectRow(2);
-		Map<String, String> expectedDriverInfoInUI = getAssetValuesFromTab(AutoSSMetaData.DriverTab.class, driverTab);
-		driverTab.saveAndExit();
+			//Get expected Driver info after revert
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			//get policyCoverageInfo to validate driver level coverages (and also other coverages)
+			PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			DriverTab.tableDriverList.selectRow(2);
+			Map<String, String> expectedDriverInfoInUI = getAssetValuesFromTab(AutoSSMetaData.DriverTab.class, driverTab);
+			driverTab.saveAndExit();
 
-		//remove driver
-		RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(removalReasonCode);
-		HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
+			//remove driver
+			RemoveDriverRequest removeDriverRequest = DXPRequestFactory.createRemoveDriverRequest(removalReasonCode);
+			HelperCommon.removeDriver(policyNumber, driverToRemove.oid, removeDriverRequest);
 
-		//revert delete
-		DriversDto revertDriverResponse = HelperCommon.revertDriver(policyNumber, driverToRemove.oid, DriversDto.class, Response.Status.OK.getStatusCode());
-		//validate revert driver response after revert
-		assertThat(revertDriverResponse).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+			//revert delete
+			DriversDto revertDriverResponse = HelperCommon.revertDriver(policyNumber, driverToRemove.oid, DriversDto.class, Response.Status.OK.getStatusCode());
+			//validate revert driver response after revert
+			softly.assertThat(revertDriverResponse).isEqualToComparingFieldByFieldRecursively(driverToRemove);
 
-		//validate viewEndorsementDrivers response
-		DriversDto revertedDriver = getDriverByOid(HelperCommon.viewEndorsementDrivers(policyNumber).driverList, driverToRemove.oid);
-		assertThat(revertedDriver).isEqualToComparingFieldByFieldRecursively(driverToRemove);
+			//validate viewEndorsementDrivers response
+			DriversDto revertedDriver = getDriverByOid(HelperCommon.viewEndorsementDrivers(policyNumber).driverList, driverToRemove.oid);
+			softly.assertThat(revertedDriver).isEqualToComparingFieldByFieldRecursively(driverToRemove);
 
-		//Validate that Driver level coverages (and also all other coverages) are the same
-		PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		assertThat(policyCoverageInfoAfterRevert).isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected);
+			//Validate that Driver level coverages (and also all other coverages) are the same
+			PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			softly.assertThat(policyCoverageInfoAfterRevert).isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected);
 
-		//check in UI
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		DriverTab.viewDriver(2);
-		validateValuesFromTab(expectedDriverInfoInUI, AutoSSMetaData.DriverTab.class, driverTab);
-		driverTab.saveAndExit();
+			//check in UI
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			DriverTab.viewDriver(2);
+			validateValuesFromTab(expectedDriverInfoInUI, AutoSSMetaData.DriverTab.class, driverTab, softly);
+			driverTab.saveAndExit();
 
-		//rate and bind
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+			//rate and bind
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 
-		//extra steps to validate that premium has not changed if there was no updates to driver
-		if (!testWithUpdates) {
-			PolicySummaryPage.buttonTransactionHistory.click();
-			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Endorsement");
-			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).hasValue("$0.00");
-		}
+			//extra steps to validate that premium has not changed if there was no updates to driver
+			if (!testWithUpdates) {
+				PolicySummaryPage.buttonTransactionHistory.click();
+				assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Endorsement");
+				assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).hasValue("$0.00");
+			}
+		});
 	}
 
 	private void addDriver_18672(String policyNumber) {
@@ -2588,10 +2589,10 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		);
 	}
 
-	public void validateValuesFromTab(Map<String, String> expectedValues, Class<? extends MetaData> metaDataClass, Tab tab) {
+	public void validateValuesFromTab(Map<String, String> expectedValues, Class<? extends MetaData> metaDataClass, Tab tab, ETCSCoreSoftAssertions softly) {
 		for (AssetDescriptor<?> assetDescriptor : getAssets(metaDataClass)) {
 			if (expectedValues.containsKey(assetDescriptor.getLabel())) {
-				assertThat(tab.getAssetList().getAsset(assetDescriptor).getValue().toString()).
+				softly.assertThat(tab.getAssetList().getAsset(assetDescriptor).getValue().toString()).
 						as(assetDescriptor.getLabel() + " is expected to be " + expectedValues.get(assetDescriptor.getLabel())).
 						isEqualTo(expectedValues.get(assetDescriptor.getLabel()));
 			}
