@@ -39,7 +39,6 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	}
 
 	protected void payAmountDue(){
-
 		// Open Billing account and Pay min due for the renewal
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
