@@ -124,7 +124,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Change system date
-		LocalDateTime renewalEff = getTimePoints().getRenewOfferGenerationDate(reinstatementDate.plusMonths(10));
+		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -179,7 +179,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Create Policy
 		String policyNumber = openAppAndCreatePolicy();
-		LocalDateTime renewalEff = getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate());
+		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		// Change Time to renew policy and have and issued renewal
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
@@ -322,7 +322,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Change system date
-		LocalDateTime renewalEff = getTimePoints().getRenewOfferGenerationDate(effDate.plusYears(1));
+		LocalDateTime renewalEff = effDate.plusYears(1);
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
