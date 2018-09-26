@@ -67,7 +67,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 
 	/**
 	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
-	 * @author Viktor Petrenko
+	 * @author Rokas Lazdauskas
 	 * PAS-9816
 	 * PAS-9607
 	 * PAS-9650
