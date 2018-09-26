@@ -446,6 +446,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Sabra Domeika
+	 * @name Default Marital Status - state deviations for multiple married statuses
+	 * @scenario1
+	 * 1. Create policy on Pas with the FNI set to non-married status
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add driver.
+	 * 4. Validate the driver's metadata allows all marital statuses.
+	 * 5. Set the driver to a married relationship.
+	 * 6. Validate the driver's metadata restricts marital statuses.
+	 * 7. Update the driver's marital status to a married status.
+	 * 8. Validate that the FNI marital status has been updated accordingly.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16548"})
+	public void pas16548_NamedInsuredMaritalStatus_MultipleMarital(@Optional("MD") String state) {
+		assertSoftly(softly ->
+				pas16548_NamedInsuredMaritalStatus_MultipleMaritalBody()
+		);
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service,Error insured score.
 	 * @scenario4
