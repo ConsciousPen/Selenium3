@@ -1,0 +1,31 @@
+# Test data for Additional premium endorsement
+
+TestData_AddPremium: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab_AddPremium',
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  ErrorTab: '@ErrorTab_AddPremium'
+}
+
+PremiumAndCoveragesQuoteTab_AddPremium: {
+  Personal Umbrella: 'contains=$2,000,000'
+}
+
+ErrorTab_AddPremium: {
+  ErrorsOverride: [
+  {
+    Message: 'contains=Underwriting approval required for Liability Coverage limits greater than',
+    Override: 'true',
+    Approval: 'true',
+    Duration: 'Life',
+    Reason for override: 'index=1'
+  }]
+}

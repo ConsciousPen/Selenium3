@@ -1,0 +1,20 @@
+TestData: {
+  CancelActionTab: {
+    Cancellation effective date: $<today>,
+    Cancellation reason: "Insured's Request - Rates too high"
+  }
+}
+
+TestData_Plus3Days: {
+  CancelActionTab: {
+    Cancellation effective date: $<today+3d>,
+    Cancellation reason: "Insured's Request - Rates too high"
+  }
+}
+
+TestData_Plus1Year: {
+  CancelActionTab: {
+    Cancellation effective date: $<today+1y>,
+    Cancellation reason: "Insured's Request - Rates too high"
+  }
+}

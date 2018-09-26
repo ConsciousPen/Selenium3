@@ -1,7 +1,6 @@
 # Test data for Additional premium endorsement
 
 TestData_AddPremium: {
-  EndorsementActionTab: '@EndorsementActionTab',
   GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
@@ -11,11 +10,6 @@ TestData_AddPremium: {
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
-}
-
-EndorsementActionTab: {
-  Endorsement Date: $<today>,
-  Endorsement Reason: Maintain Driver(s)
 }
 
 VehicleTab: {

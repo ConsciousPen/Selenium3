@@ -23,7 +23,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @author Josh Carpenter
 	 * @name Financial Scenario 1
 	 * @scenario
-	 * 1. Create new policy WITHOUT employee benefit, monthly payment plan
+	 * 1. Create new policy WITHOUT employee benefit
 	 * 2. Advance time one week
 	 * 3. Perform endorsement resulting in additional premium
 	 * 4. Advance time one week

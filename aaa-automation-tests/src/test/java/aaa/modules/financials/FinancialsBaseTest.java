@@ -23,14 +23,74 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return td;
 	}
 
-	protected void createFinancialPolicy() {
-		createFinancialPolicy(getPolicyTD());
+	protected String createFinancialPolicy() {
+		return createFinancialPolicy(getPolicyTD());
 	}
 
-	protected void createFinancialPolicy(TestData td) {
-		createPolicy(td);
-		POLICIES.add(PolicySummaryPage.getPolicyNumber());
+	protected String createFinancialPolicy(TestData td) {
+		String policyNum = createPolicy(td);
+		POLICIES.add(policyNum);
+		return policyNum;
 	}
+
+	protected TestData getEndorsementTD() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData");
+	}
+
+	protected TestData getCancellationTD() {
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
+		String type = getPolicyType().getShortName();
+		switch (type) {
+			case "AutoCA":
+			case "AutoCAC":
+				td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
+						AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "AutoSS":
+				td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(),
+						AutoSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "HomeSS_HO3":
+			case "HomeSS_HO4":
+			case "HomeSS_HO6":
+			case "HomeSS_DP3":
+				td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
+						HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "HomeCA_HO3":
+			case "HomeCA_HO4":
+			case "HomeCA_HO6":
+			case "HomeCA_DP3":
+				td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(),
+						HomeCaMetaData.CancelActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			case "PUP":
+				td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
+						PersonalUmbrellaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+				break;
+			default:
+				return td;
+		}
+		return td;
+	}
+
+	protected TestData getReinstatementTD() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+	}
+
+//	protected boolean isAutoPolicy() {
+//		return getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
+//	}
+//
+//	protected boolean isPropertyPolicy() {
+//		return getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) ||
+//				getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_SS_HO3) ||
+//				getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6);
+//	}
+//
+//	protected boolean isPupPolicy() {
+//		return getPolicyType().equals(PolicyType.PUP);
+//	}
 
 	/**
 	 * Adjusts the effective date of the policy for the given test data
