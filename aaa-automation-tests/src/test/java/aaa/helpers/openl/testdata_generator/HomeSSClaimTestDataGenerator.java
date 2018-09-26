@@ -36,13 +36,15 @@ public class HomeSSClaimTestDataGenerator {
 		this.isAAAClaim = isAAAClaim;
 		String lookupName = isAAAClaim ? AAA_CLAIM_POINT : NOT_AAA_CLAIM_POINT;
 		int claimPoints = isAAAClaim ? openLPolicy.getPolicyLossInformation().getExpClaimPoint() : openLPolicy.getPolicyLossInformation().getPriorClaimPoint();
-		String riskStateCd = DBService.get().getRow(String.format("select code from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd='%s'", lookupName, state)).isEmpty() ? " is null" : String.format("='%s'", state);
-		String sqlMaxCode = String.format("select max(code) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd%s", lookupName, riskStateCd);
 
+		String riskStateCd = !DBService.get().getValue(String.format("select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd='%s'", lookupName, state)).isPresent()
+				|| "0".equals(DBService.get().getValue(String.format("select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd='%s'", lookupName, state)).get()) ? " is null" : String.format("='%s'", state);
+
+		String sqlMaxCode = String.format("select max(code) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd%s", lookupName, riskStateCd);
 		sqlMaxValue = String.format("select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd%s", lookupName, riskStateCd) + " and code=%d";
 		sqlMaxValueNullState = String.format("select max(displayvalue) from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd is null", lookupName) + " and code=%d";
 		sqlClaimData = String.format("select causeOfLoss, minPremiumOvr from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd%s", lookupName, riskStateCd) + " and code=%d and displayvalue=%d";
-		sqlClaimDataNullState = String.format("select causeOfLoss, minPremiumOvr from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd is null", lookupName) + " and code=%d and displayvalue=1";
+		sqlClaimDataNullState = String.format("select causeOfLoss, minPremiumOvr from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd is null", lookupName) + " and code=%d and displayvalue=%d";
 		sqlClaimDataRiskState = String.format("select causeOfLoss, minPremiumOvr from lookupvalue where lookuplist_id in (select id from lookuplist where lookupname='%s') and productcd='AAA_HO_SS' and riskstatecd%s", lookupName, riskStateCd) + " and code=%d";
 
 		maxCode = Integer.parseInt(DBService.get().getValue(sqlMaxCode).get());
@@ -63,7 +65,7 @@ public class HomeSSClaimTestDataGenerator {
 			if (row.isEmpty()) {
 				row = DBService.get().getRow(String.format(sqlClaimData, code, 1));
 				if (row.isEmpty()) {
-					List<Map<String, String>> rowsNullState = DBService.get().getRows(String.format(sqlClaimDataNullState, code));
+					List<Map<String, String>> rowsNullState = DBService.get().getRows(String.format(sqlClaimDataNullState, code, 1));
 					row = rowsNullState.get(0);
 					List<Map<String, String>> rowsRiskState = DBService.get().getRows(String.format(sqlClaimDataRiskState, code));
 					if (!rowsRiskState.isEmpty()) {
@@ -84,6 +86,9 @@ public class HomeSSClaimTestDataGenerator {
 			}
 		} else {
 			row = DBService.get().getRow(String.format(sqlClaimData, code, value));
+			if (row.isEmpty()) {
+				row = DBService.get().getRow(String.format(sqlClaimDataNullState, code, value));
+			}
 			claimList.add(getClaim(row));
 			if (claimPoints > value) {
 				claimPoints -= value;
