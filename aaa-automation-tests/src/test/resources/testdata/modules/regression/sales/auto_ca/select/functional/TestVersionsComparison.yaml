@@ -561,30 +561,6 @@ TestData_DriverInformation_Version1: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToIssue:{
-      #Proof of Mature Driver Course Completion: 'Yes',
-    }
-  },
-}
-
-TestData_DriverInformation_Renewal_Version1: {
-  GeneralTab: {},
-  DriverTab: '@DriverInformation_Version1',
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {
-    Driver Forms: {
-      CIPCSR22: {
-        Action: Edit,
-        Case Number: 123456789,
-        State: CA
-      }
-    }
-  },
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    RequiredToIssue:{
       Proof of Mature Driver Course Completion: 'Yes',
     }
   },

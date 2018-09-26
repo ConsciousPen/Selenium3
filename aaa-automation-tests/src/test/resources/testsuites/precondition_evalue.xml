@@ -16,6 +16,7 @@
                     <include name="lastPaymentMethodStubPointUpdate"/>
                     <include name="refundConfigurationUpdate"/>
                     <include name="preconditionsForMiniServicesAuthenticationInAws"/>
+                    <include name="eValueConfigInsert"/>
                 </methods>
             </class>
         </classes>

@@ -153,7 +153,7 @@ public class RatingEngineLog {
 						this.jsonElement = new JsonParser().parse(reader);
 					} catch (JsonParseException parseEx) {
 						log.error(String.format("%s with enabled \"setLenient(true)\" in JsonReader", parseErrorMessage), parseEx);
-						this.jsonElement = new JsonNull();
+						this.jsonElement = JsonNull.INSTANCE;
 					} finally {
 						try {
 							reader.close();
@@ -163,11 +163,11 @@ public class RatingEngineLog {
 					}
 				} else {
 					log.error(parseErrorMessage, syntaxEx);
-					this.jsonElement = new JsonNull();
+					this.jsonElement = JsonNull.INSTANCE;
 				}
 			} catch (JsonParseException parseEx) {
 				log.error(parseErrorMessage, parseEx);
-				this.jsonElement = new JsonNull();
+				this.jsonElement = JsonNull.INSTANCE;
 			} finally {
 				try {
 					reader.close();
