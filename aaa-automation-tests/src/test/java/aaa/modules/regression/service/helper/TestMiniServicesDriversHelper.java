@@ -701,10 +701,11 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	protected void pas18643_CancelRemoveDriverBody(boolean testWithUpdates, String removalReasonCode) {
-		mainApp().open();
-		createCustomerIndividual();
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_DriverWithActivity").getTestDataList("DriverTab")).resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
 		String policyNumber = createPolicy(testData);
 
 		//get driver to remove
@@ -758,6 +759,13 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		//rate and bind
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		//extra steps to validate that premium has not changed if there was no updates to driver
+		if (!testWithUpdates) {
+			PolicySummaryPage.buttonTransactionHistory.click();
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Type")).hasValue("Endorsement");
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRow(1).getCell("Tran. Premium")).hasValue("$0.00");
+		}
 	}
 
 	private void addDriver_18672(String policyNumber) {
@@ -2580,7 +2588,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		);
 	}
 
-	private void validateValuesFromTab(Map<String, String> expectedValues, Class<? extends MetaData> metaDataClass, Tab tab) {
+	public void validateValuesFromTab(Map<String, String> expectedValues, Class<? extends MetaData> metaDataClass, Tab tab) {
 		for (AssetDescriptor<?> assetDescriptor : getAssets(metaDataClass)) {
 			if (expectedValues.containsKey(assetDescriptor.getLabel())) {
 				assertThat(tab.getAssetList().getAsset(assetDescriptor).getValue().toString()).
@@ -2590,7 +2598,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		}
 	}
 
-	private Map<String, String> getAssetValuesFromTab(Class<? extends MetaData> metaDataClass, Tab tab) {
+	public Map<String, String> getAssetValuesFromTab(Class<? extends MetaData> metaDataClass, Tab tab) {
 		Map<String, String> assetValues = new LinkedHashMap<>();
 		for (AssetDescriptor<?> assetDescriptor : getAssets(metaDataClass)) {
 			if (tab.getAssetList().getAsset(assetDescriptor).isPresent()) {

@@ -237,6 +237,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
 	 *5. Run viewDrivers service and validate response
 	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -256,6 +257,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
 	 *5. Run viewDrivers service and validate response
 	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -275,6 +277,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
 	 *5. Run viewDrivers service and validate response
 	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -294,6 +297,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
 	 *5. Run viewDrivers service and validate response
 	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
