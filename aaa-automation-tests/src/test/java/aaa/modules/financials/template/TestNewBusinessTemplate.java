@@ -2,9 +2,14 @@ package aaa.modules.financials.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 
@@ -24,6 +29,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getEndorsementTD());
 		policy.getDefaultView().fill(getTestSpecificTD("TestData_AddPremium"));
+
+		// Pay additional premium
+		payAmountDue();
 
 		// Advance time another week and open policy
 		TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(2));

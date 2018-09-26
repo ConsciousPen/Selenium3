@@ -2,10 +2,16 @@ package aaa.modules.financials;
 
 import java.util.*;
 import org.testng.annotations.AfterSuite;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.*;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
@@ -31,6 +37,17 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		String policyNum = createPolicy(td);
 		POLICIES.add(policyNum);
 		return policyNum;
+	}
+
+	protected void payAmountDue(){
+
+		// Open Billing account and Pay min due for the renewal
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		// Open Policy Summary Page
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 	}
 
 	protected TestData getEndorsementTD() {
