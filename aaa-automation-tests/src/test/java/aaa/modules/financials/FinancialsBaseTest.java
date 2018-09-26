@@ -6,7 +6,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.*;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
@@ -18,7 +17,7 @@ import toolkit.datax.TestData;
 
 public class FinancialsBaseTest extends PolicyBaseTest {
 
-	protected static final List<String> POLICIES = Collections.synchronizedList(new ArrayList<>());
+	private static final List<String> POLICIES = Collections.synchronizedList(new ArrayList<>());
 
 	@Override
 	protected TestData getPolicyTD() {
@@ -92,22 +91,13 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	}
 
 	protected TestData getReinstatementTD() {
-		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+		if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+			return td.adjust(TestData.makeKeyPath(AutoCaMetaData.ReinstatementActionTab.class.getSimpleName(),
+					AutoCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel()), "$<today:MM/dd/yyyy>");
+		}
+		return td;
 	}
-
-//	protected boolean isAutoPolicy() {
-//		return getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
-//	}
-//
-//	protected boolean isPropertyPolicy() {
-//		return getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) ||
-//				getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_SS_HO3) ||
-//				getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6);
-//	}
-//
-//	protected boolean isPupPolicy() {
-//		return getPolicyType().equals(PolicyType.PUP);
-//	}
 
 	/**
 	 * Adjusts the effective date of the policy for the given test data
