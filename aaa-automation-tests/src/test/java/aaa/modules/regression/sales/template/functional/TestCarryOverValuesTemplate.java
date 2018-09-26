@@ -65,7 +65,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus2Months"));
 
         // Navigate to Property Info tab and Make sure Replacement Cost Reason is set to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -108,7 +108,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus2Months"));
 
         // Navigate to Property Info tab and Make sure Replacement Cost Reason is set to Renewal
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
