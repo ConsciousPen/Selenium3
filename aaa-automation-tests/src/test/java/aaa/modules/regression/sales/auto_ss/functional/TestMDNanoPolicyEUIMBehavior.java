@@ -245,7 +245,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(PolicySummaryPage.getExpirationDate()));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
 
         // open app search for policy
         mainApp().open();
