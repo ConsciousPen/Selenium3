@@ -186,7 +186,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		//Create Policy with already added endorsements
 		String policyNumber = createPolicyWithEndorsement(parentEndorsementFormId, subEndorsementFormId);
 
-		//Initiate Renewal Transcation
+		//Initiate Renewal Transaction
 		initiateRenewalTx();
 		new PremiumsAndCoveragesQuoteTab().saveAndExit();
 

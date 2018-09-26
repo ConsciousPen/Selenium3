@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ca.ho6.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -30,13 +30,13 @@ import toolkit.utils.TestInfo;
 public class TestPPCReportReOrderRule extends TestPPCReportReOrderRuleTemplate {
 
 	@Override
-	protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO3; }
+	protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO6; }
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-19737")
-	public void pas19737_testPPCReportReOrderRule_HO3(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-19737")
+	public void pas19737_testPPCReportReOrderRule_HO6(@Optional("CA") String state) {
 		testPPCReportReOrderRuleCA(getPolicyType());
 	}
 }
