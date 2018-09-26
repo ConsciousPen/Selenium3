@@ -2,6 +2,7 @@ package aaa.modules.financials;
 
 import java.util.*;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -18,6 +19,11 @@ import toolkit.datax.TestData;
 public class FinancialsBaseTest extends PolicyBaseTest {
 
 	private static final List<String> POLICIES = Collections.synchronizedList(new ArrayList<>());
+
+	@BeforeSuite
+	public void beforeFinancialSuite() {
+		//implement this
+	}
 
 	@Override
 	protected TestData getPolicyTD() {
