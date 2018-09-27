@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="methods" thread-count="1024">
+<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -8,7 +8,7 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Propose Renewal Version after it was created with batch jobs">
+    <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="classes" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal">
@@ -19,7 +19,7 @@
         </classes>
     </test>
 
-    <test name="Test Calculate Tier for NY converted policies">
+    <test name="Test Calculate Tier for NY converted policies" parallel="classes" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation">
@@ -31,7 +31,7 @@
         </classes>
     </test>
 
-    <test name="Test Reinstatement point score lock during mid term transaction">
+    <test name="Test Reinstatement point score lock during mid term transaction" parallel="classes" thread-count="1024">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock">
@@ -42,40 +42,84 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms">
+    <test name="Test Enhanced UIM Coverage Forms" parallel="classes" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
                 <methods>
                     <include name="pas11302_testEUIMMDFormNB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas11302_testEUIMMDFormConversion"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas11302_testEUIMMDFormEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas11302_testEUIMMDFormRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC1_NB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC2_Endorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC3_Conversion"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC3_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
                     <include name="pas12466_do_not_generate_AAEUIMMD_if_coverage_removed"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior">
+    <test name="Test Enhanced UIM Coverage Behavior" parallel="classes" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
                 <methods>
                     <include name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
+                <methods>
                     <include name="pas11620_testEUIMCoverageBehaviorRenewal"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Test Nano Enhanced UIM Coverage Behavior">
+    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="classes" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
@@ -86,27 +130,47 @@
         </classes>
     </test>
 
-    <test name="Test Locked BI Limits And UW Points">
+    <test name="Test Locked BI Limits And UW Points" parallel="classes" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
                 <methods>
                     <include name="pas9063_verifyLockedUWPoints"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
                     <include name="pas9063_verifyLockedUWPointsEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
                     <include name="pas9063_verifyLockedUWPointsConversion"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
+    <test name="Test Defensive Driver Discount" parallel="classes" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
                 <methods>
                     <include name="pas2450_testDriversWithViolationsNB"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
+                <methods>
                     <include name="pas2450_testDriversWithViolationsEndorsement"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
+                <methods>
                     <include name="pas2450_testDriversWithViolationsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
+                <methods>
                     <include name="pas2450_testDriversWithViolationsConversion"/>
                 </methods>
             </class>
@@ -115,7 +179,7 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Tier And UW Points Lock NY">
+    <test name="Test Tier And UW Points Lock NY" parallel="classes" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
@@ -141,7 +205,7 @@
         </classes>
     </test>
 
-    <test name="Test Replacement Cost Value for Endorsed Renewal SS">
+    <test name="Test Replacement Cost Value for Endorsed Renewal SS" parallel="classes" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement">
@@ -162,7 +226,7 @@
         </classes>
     </test>
 
-    <test name="Test Replacement Cost Value for Endorsed Renewal CA">
+    <test name="Test Replacement Cost Value for Endorsed Renewal CA" parallel="classes" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement">
@@ -185,30 +249,46 @@
 
     <!--Tests for Defects-->
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For SS">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="classes" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO4"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO6"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6"/>
                 </methods>
             </class>
@@ -220,36 +300,56 @@
             <class name="aaa.modules.regression.sales.pup.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_PUP"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.pup.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_PUP"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For CA">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For CA" parallel="classes" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_DP3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO4"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_HO6"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_HO6"/>
                 </methods>
             </class>
@@ -266,13 +366,17 @@
             <class name="aaa.modules.regression.sales.pup.functional.TestOffCycleBillNoInstallmentDate">
                 <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentNB_PUP"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.pup.functional.TestOffCycleBillNoInstallmentDate">
+                <methods>
                     <include name="pas9001_testInvoiceWithNoDownPaymentEndorsement_PUP"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="Test Premium Bearing Endorsement RP for KY">
+    <test name="Test Premium Bearing Endorsement RP for KY" parallel="classes" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY">
@@ -283,7 +387,7 @@
         </classes>
     </test>
 
-    <test name="Test View Rating Details Link">
+    <test name="Test View Rating Details Link" parallel="classes" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestViewRatingDetailsLink">
@@ -309,13 +413,21 @@
         </classes>
     </test>
 
-    <test name="Test Lexis Nexis MVR Ordering on DAR page">
+    <test name="Test Lexis Nexis MVR Ordering on DAR page" parallel="classes" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
                 <methods>
                     <include name="pas10099_testLexisNexisMVROrderingWA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
                     <include name="pas10099_testLexisNexisMVROrderingCA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
+                <methods>
                     <include name="pas10099_testLexisNexisMVROrderingFL"/>
                 </methods>
             </class>
