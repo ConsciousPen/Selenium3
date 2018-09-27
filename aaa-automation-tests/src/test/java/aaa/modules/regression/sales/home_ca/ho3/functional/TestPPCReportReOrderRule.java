@@ -19,12 +19,12 @@ import toolkit.utils.TestInfo;
  * 3. Create Policy.
  * 4. Endorse Policy.
  * 5. Change Dwelling Address. DO NOT reorder Reports.
- * 6. Bind Endorsement.
+ * 6. If HO6,HO3,DP3 then Bind Endorsement.
+ * 6a. If PolicyType is HO4 check that error is present.
  * 7. Renew Policy (works only going with time points and batch jobs).
  * 8. Endorse Policy.
  * 9. Calculate Premium.
- * 10. If PolicyType is HO4 check that error is present.
- * 10a. Else Bind Endorsement.
+ * 10. Bind Endorsement.
  * @details
  */
 public class TestPPCReportReOrderRule extends TestPPCReportReOrderRuleTemplate {
