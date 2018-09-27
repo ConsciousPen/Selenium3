@@ -29,6 +29,21 @@
         </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Forms">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
+                    <exclude name="pas11302_testEUIMMDFormRenewal"/>
+                    <exclude name="pas12466_AC1_NB"/>
+                    <exclude name="pas12466_AC3_Renewal"/>
+                    <exclude name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                    <exclude name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test Enhanced UIM Coverage Behavior">
         <parameter name="state" value="MD"/>
         <classes>

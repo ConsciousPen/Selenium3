@@ -47,17 +47,11 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
                 <methods>
-                    <include name="pas11302_testEUIMMDFormNB"/>
-                    <include name="pas11302_testEUIMMDFormConversion"/>
-                    <include name="pas11302_testEUIMMDFormEndorsement"/>
                     <include name="pas11302_testEUIMMDFormRenewal"/>
                     <include name="pas12466_AC1_NB"/>
-                    <include name="pas12466_AC2_Endorsement"/>
-                    <include name="pas12466_AC3_Conversion"/>
                     <include name="pas12466_AC3_Renewal"/>
                     <include name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
                     <include name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
-                    <include name="pas12466_do_not_generate_AAEUIMMD_if_coverage_removed"/>
                 </methods>
             </class>
         </classes>
