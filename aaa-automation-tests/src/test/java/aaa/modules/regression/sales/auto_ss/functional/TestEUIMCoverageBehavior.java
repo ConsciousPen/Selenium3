@@ -238,7 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
 
         // open app search for policy
         mainApp().open();
