@@ -111,7 +111,7 @@ public class TestOffLineClaims extends AutoSSBaseTest
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(DEFAULT_PATH + "NoMatch_ExistingMatch_DLMatch.json")));
 
 		//Use runJsonRequestPostClaims to send the JSON request to the Claims Assignment Micro Service
-		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsUrl, claimsRequest);
+		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);
 
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
