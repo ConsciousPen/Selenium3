@@ -80,18 +80,4 @@ public class OpenLConstructionInfo {
 	public void setWoodStove(Boolean woodStove) {
 		this.woodStove = woodStove;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLConstructionInfo{" +
-				"number=" + number +
-				", constructionType='" + constructionType + '\'' +
-				", dogType=" + dogType +
-				", liveStkNo=" + liveStkNo +
-				", numberOfTub=" + numberOfTub +
-				", swimmingPoolType='" + swimmingPoolType + '\'' +
-				", trampoline='" + trampoline + '\'' +
-				", woodStove=" + woodStove +
-				'}';
-	}
 }

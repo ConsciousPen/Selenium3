@@ -157,7 +157,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		CustomSoftAssertions.assertSoftly(softly -> {
 			List<String> configForStates = Arrays.asList("VA", "MD", "DC", "OR");
 			for (String configForState : configForStates) {
-				assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
+				softly.assertThat(DBService.get().getValue(String.format(EVALUE_CONFIGURATION_PER_STATE_CHECK, configForState)))
 						.as("eValue is not configured for " + configForState + ". Insert configuration (run eValueConfigInsert) and restart the env").isPresent();
 			}
 		});
@@ -260,6 +260,18 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-436", "PAS-231", "PAS-10359"})
 	public void pas436_AAAeValueLookups(@Optional("VA") String state) {
+
+		String eValueCurrentConfigPaInsert = "INSERT ALL\n"
+				+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
+
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+
+				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, 'AZ Independent Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), null,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
+				+ "Select * from dual";
+		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
 
 		String lookupCheckNoState = "select dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id\n"
 				+ "from lookupvalue where 1=1\n"
@@ -649,6 +661,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * 2. Check policy consolidated view.
 	 * 3.should not  see eValue Status in the General Info section.
 	 * @details
+	 * @NOTE pas436_AAAeValueLookups (eValueCurrentConfigPaInsert) has to be run before this test so that eValue is configured properly for PA
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -801,25 +814,12 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * No current BI requirement
 	 * South Jersey is not included - Used Mid-Atlantic/AAA Agent
 	 * @details
+	 * @NOTE pas436_AAAeValueLookups (eValueCurrentConfigPaInsert) has to be run before this test so that eValue is configured properly for PA
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12972", "PAS-438", "PAS-288"})
 	public void pas12972_defaultConfigPA(@Optional("PA") String state) {
-		String eValueCurrentConfigPaInsert = "INSERT ALL\n"
-				+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-				+ " values ('BaseProductLookupValue', 'currentBIRequired', 'FALSE', 'AAA_SS', 'PA',(select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual) ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
-
-				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'FALSE', 'AAA_SS', 'PA','212', 'AZ Club Agent', null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
-
-				+ "INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwritercd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
-				+ "values ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', 'PA',null, null, null, (select to_char(to_date(SYSDATE-27, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE-23, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))\n"
-				+ "Select * from dual";
-		DBService.get().executeUpdate(eValueCurrentConfigPaInsert);
-		adminApp().open();
-		new CacheManager().goClearCacheManagerTable();
-
 		eValueQuoteCreation();
 
 		//Precondition for test
@@ -961,6 +961,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	 * 2. Check eValue Discount field is not shown in P&C
 	 * 3. Check eValue Discount field is not shown in Rating Details
 	 * @details
+	 * @NOTE pas436_AAAeValueLookups (eValueCurrentConfigPaInsert) has to be run before this test so that eValue is configured properly for PA
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -1132,7 +1133,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			documentsAndBindTab.saveAndExit();
 			SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, policyNum);
 			//BUG INC0655981: summary: "New PAS18.3 Master - AHEVAXX for is not placed in eFolder"
-			softly.assertThat(Efolder.isDocumentExist("Miscellaneous", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
+			softly.assertThat(Efolder.isDocumentExist("MISCELLANEOUS", "EVALUE ACKNOWLEDGEMENT FORM")).isTrue();
 			//PAS-264 end
 
 			//PAS-721 Start

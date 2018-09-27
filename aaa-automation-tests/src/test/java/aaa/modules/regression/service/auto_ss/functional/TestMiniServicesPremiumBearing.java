@@ -261,7 +261,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
 	public void pas8784_endorsementValidateStateSpecificConfigVersioning(@Optional("AZ") String state) {
-
+		//The test was moved out from dxp_suite, need to refactor after PAS-19725
 		pas8784_endorsementValidateStateSpecificConfigVersioning(getPolicyType());
 	}
 

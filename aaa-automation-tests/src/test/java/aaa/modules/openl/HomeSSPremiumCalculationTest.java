@@ -1,8 +1,5 @@
 package aaa.modules.openl;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
@@ -14,7 +11,10 @@ import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -29,11 +29,10 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 	@Override
 	protected String createQuote(HomeSSOpenLPolicy openLPolicy) {
-		//		ApplicationMocksManager.restartStubServer();
 		if (!getPolicyType().getShortName().contains(openLPolicy.getPolicyType())) {
 			throw new IstfException(String.format("Test can't use selected policy with policy type '%s'", openLPolicy.getPolicyType()));
 		}
-		HomeSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
+		HomeSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getRatingDataPattern());
 		// create real Auto Policy for PA state
 		if (Constants.States.PA.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getPolicyDiscountInformation().isAutoPolicyInd()) {
 			TestData autoPolicyData = tdGenerator.getAutoPolicyData(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_SS), "DataGather", "TestData"), openLPolicy);
@@ -112,27 +111,16 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
 	}
 
-	@Override
-	protected Map<String, String> getOpenLFieldsMapFromTest(HomeSSOpenLPolicy openLPolicy) {
-		Map<String, String> openLFieldsMap = super.getOpenLFieldsMapFromTest(openLPolicy);
-		openLFieldsMap.remove("policy.id");
-		List<String> policyKeys = openLFieldsMap.entrySet().stream().filter(e -> e.getKey().startsWith("policy.")).map(Map.Entry::getKey).collect(Collectors.toList());
-		policyKeys.forEach(k -> openLFieldsMap.put(k.replace("policy.", "p."), openLFieldsMap.remove(k)));
-		return openLFieldsMap;
-	}
-
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
-		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && !openLPolicy.getForms().stream().anyMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
+		Dollar specificFees = new Dollar(0);
+		if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
+			specificFees = new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes.getRowContains("Description", "Total").getCell("Term Premium ($)").getValue());
+		}
+		if (Constants.States.OH.equals(openLPolicy.getPolicyAddress().getState()) && openLPolicy.getForms().stream().noneMatch(c -> "DSMSI2".equals(c.getFormCode()))) {
 			if (PremiumsAndCoveragesQuoteTab.tableEndorsementForms.isPresent() && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").isPresent()) {
-				return new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue());
+				specificFees = specificFees.add(new Dollar(PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "DS MS I2 Ohio Mine Subsidence Insurance").getCell("Term Premium ($)").getValue()));
 			}
 		}
-		if (Constants.States.WV.equals(openLPolicy.getPolicyAddress().getState())) {
-			if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
-				return new Dollar(PremiumsAndCoveragesQuoteTab.tableTaxes.getRowContains("Description", "Total").getCell("Term Premium ($)").getValue());
-			}
-		}
-		//TODO add other specific taxes and fees
-		return new Dollar(0);
+		return specificFees;
 	}
 }

@@ -107,24 +107,4 @@ public class HomeCaHO6OpenLForm extends HomeCaOpenLForm {
 	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO6OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
-				", age=" + age +
-				", deductible=" + deductible +
-				", coApplicantClass" + coApplicantClass +
-				", formClass='" + formClass + '\'' +
-				", hasCoApplicant=" + hasCoApplicant +
-				", numOfFamilies=" + numOfFamilies +
-				", territoryCode='" + territoryCode + '\'' +
-				", type='" + type + '\'' +
-				", applyDiscounts=" + applyDiscounts +
-				", hasSupportingForm=" + hasSupportingForm +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
-	}
 }
