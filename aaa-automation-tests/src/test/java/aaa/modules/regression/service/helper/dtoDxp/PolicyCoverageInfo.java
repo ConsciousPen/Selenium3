@@ -1,6 +1,5 @@
 package aaa.modules.regression.service.helper.dtoDxp;
 
-
 import java.util.List;
 
 /**
@@ -12,4 +11,6 @@ public class PolicyCoverageInfo{
 
     public List<Coverage> policyCoverages;
     public List<VehicleCoverageInfo> vehicleLevelCoverages;
+    public List<Coverage> driverCoverages;
+    public List<ValidationError> validations;
 }

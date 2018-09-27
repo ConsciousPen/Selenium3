@@ -71,13 +71,18 @@ public class VehicleQueries {
 			+ "WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'vinRefresh'";
 	public static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')";
 
+	public static final String INSERT_EFF_DATE_INTO_CONTROL_TABLE = "update VEHICLEREFDATAVINCONTROL set EFFECTIVEDATE = '%s' where EFFECTIVEDATE = '0'";
+	public static final String INSERT_EXP_DATE_INTO_CONTROL_TABLE = "update VEHICLEREFDATAVINCONTROL set EXPIRATIONDATE = '%s' where EXPIRATIONDATE = '0'";
+
 	public static final String INSERT_VEHICLEREFDATAVINCONTROL_VERSION =
 			"Insert into VEHICLEREFDATAVINCONTROL (ID,PRODUCTCD,FORMTYPE,STATECD,VERSION,EFFECTIVEDATE,EXPIRATIONDATE,MSRP_VERSION) values"
 					+ "(%1$d,'%2$s',%3$s,'%4$s','%5$s','%6$d','%7$d','%8$s')";
 
 	//Cleanup queries for file upload PAS-12872
 	public static final String UPDATE_VEHICLEREFDATAVIN_VALID_BY_VIN_VERSION_MAKETEXT = "UPDATE VEHICLEREFDATAVIN SET VALID = '%1$s' WHERE VIN LIKE '%2$s' AND VERSION ='%3$s' AND MAKE_TEXT ='%4$s'";
+
 	public static final String DELETE_VEHICLEREFDATAVIN_BY_VIN_MAKETEXT = "DELETE FROM VEHICLEREFDATAVIN WHERE VIN LIKE '%1$s' AND MAKE_TEXT = '%2$s'";
+
 
 	//Update queries for PAS-14532/PAS-16150
 	public static final String UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION = "update VEHICLEREFDATAVINCONTROL set EXPIRATIONDATE = '%1$s' where STATECD = '%2$S' and VERSION = '%3$S'";

@@ -1,8 +1,8 @@
 package aaa.helpers.openl.testdata_generator;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -34,9 +34,8 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
 		if (Boolean.FALSE.equals(openLPolicy.isAaaMember())) {
 			ratingDataPattern
-					.mask(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel())
-					.mask(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
-					.mask(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBER_LAST_NAME.getLabel());
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()))
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		TestData td = DataProviderFactory.dataOf(
@@ -58,7 +57,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 			LocalDate newDriverCourseCompletionMinDate = driversDateOfBirth.plusYears(16);
 			LocalDate newDriverCourseCompletionMaxDate = driversDateOfBirth.plusYears(19).isBefore(policyEffectiveDate) ? driversDateOfBirth.plusYears(19) : policyEffectiveDate;
 			assertThat(newDriverCourseCompletionMinDate).as("Calculated minimum allowable New Driver Course Completion Date should be less than maximum one").isBefore(newDriverCourseCompletionMaxDate);
-			int duration = Math.abs(Math.toIntExact(Duration.between(newDriverCourseCompletionMinDate.atStartOfDay(), newDriverCourseCompletionMaxDate.atStartOfDay()).toDays()));
+			int duration = Math.abs(Math.toIntExact(ChronoUnit.DAYS.between(newDriverCourseCompletionMinDate, newDriverCourseCompletionMaxDate)));
 			LocalDate newDriverCourseCompletionDate = duration == 0 ? newDriverCourseCompletionMinDate : newDriverCourseCompletionMinDate.plusDays(new Random().nextInt(duration));
 
 			driverData
@@ -116,7 +115,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		//TODO-dchubkov: implement test data generation for optionalCoverages field (postponed since all tests have empty values)
 		assertThat(openLVehicle.getOptionalCoverages()).as("Test data generation for non-empty optionalCoverages field is not implemented").isNullOrEmpty();
 
-		String statCode = getStatCode(openLVehicle);
+		String statCode = openLVehicle.getBiLiabilitySymbol();
 		String usage;
 		String milesToWorkOrSchool = null;
 
@@ -248,7 +247,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	protected String getVehicleTabType(AutoCaSelectOpenLVehicle openLVehicle) {
-		String statCode = getStatCode(openLVehicle);
+		String statCode = openLVehicle.getBiLiabilitySymbol();
 		if (isRegularType(statCode)) {
 			return "Regular";
 		}
@@ -301,7 +300,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	@Override
 	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
 		if ("ETEC".equals(coverage.getCoverageCd())) {
-			String limitCode = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
+			String limitCode = ((AutoCaSelectOpenLCoverage) coverage).getLimitCode();
 			String[] limitRange = limitCode.split("/");
 			assertThat(limitRange.length).as("Unknown mapping for limitCode: %s", limitCode).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 			return limitRange;

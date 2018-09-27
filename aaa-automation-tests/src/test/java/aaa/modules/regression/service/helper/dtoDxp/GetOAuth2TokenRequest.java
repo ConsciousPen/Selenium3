@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import javax.annotation.Nonnull;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 /**
@@ -28,9 +28,7 @@ public class GetOAuth2TokenRequest {
     }
 
     public static GetOAuth2TokenRequest create() {
-        return new GetOAuth2TokenRequest(PropertyProvider.getProperty(CustomTestProperties.DXP_CLIENT_ID),
-                PropertyProvider.getProperty(CustomTestProperties.DXP_CLIENT_SECRET),
-                PropertyProvider.getProperty(CustomTestProperties.DXP_GRANT_TYPE));
+		return new GetOAuth2TokenRequest(PropertyProvider.getProperty(CsaaTestProperties.DXP_CLIENT_ID), PropertyProvider.getProperty(CsaaTestProperties.DXP_CLIENT_SECRET), PropertyProvider.getProperty(CsaaTestProperties.DXP_GRANT_TYPE));
     }
 
     public String asUrlEncoded() {

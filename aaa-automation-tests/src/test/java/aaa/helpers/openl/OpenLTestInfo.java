@@ -8,7 +8,6 @@ import aaa.helpers.openl.model.OpenLPolicy;
 import toolkit.exceptions.IstfException;
 
 public class OpenLTestInfo<P extends OpenLPolicy> {
-	private String state;
 	private String openLFilePath;
 	private String openLFileBranch;
 	private List<P> openLPolicies;
@@ -19,18 +18,9 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	OpenLTestInfo() {}
 
 	OpenLTestInfo(String state, String openLFilePath, String openLFileBranch, List<P> openLPolicies) {
-		this.state = state;
 		this.openLFilePath = openLFilePath;
 		this.openLFileBranch = openLFileBranch;
 		this.openLPolicies = new ArrayList<>(openLPolicies);
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	void setState(String state) {
-		this.state = state;
 	}
 	
 	public String getOpenLFilePath() {

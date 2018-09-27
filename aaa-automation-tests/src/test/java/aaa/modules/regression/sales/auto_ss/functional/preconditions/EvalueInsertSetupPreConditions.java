@@ -1,11 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public interface EvalueInsertSetupPreConditions {
 
-	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
@@ -64,6 +64,12 @@ public interface EvalueInsertSetupPreConditions {
 			+ " values ('BaseProductLookupValue', 'currentBILimits', '50000/100000', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
 			+ "Select * from dual";
 
+	String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
+			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
+			+ " values\n"
+			+ " ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
+			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
+
 	String EVALUE_TERRITORY_CHANNEL_FOR_VA_CONFIG_UPDATE = "update lookupvalue\n"
 			+ "set territorycd = '212'\n" //mid-Atlantic
 			+ ", channelCd = 'AZ Club Agent'\n" //AAA Agent
@@ -73,18 +79,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ " WHERE LOOKUPNAME LIKE '%Rollout%') \n"
 			+ "AND CODE='eValue' \n"
 			+ "and RiskStateCd = 'OR'";
-
-	String EVALUE_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ " values\n"
-			+ " ('AAARolloutEligibilityLookupValue', 'eValue', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
-			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
-
-	String PAPERLESS_PREFRENCES_CONFIGURATION_PER_STATE_INSERT = "INSERT INTO LOOKUPVALUE\n"
-			+ " (dtype, code, displayValue, productCd, riskStateCd, territoryCd, channelCd, underwriterCd, lookuplist_id)\n"
-			+ " values\n"
-			+ " ('AAARolloutEligibilityLookupValue', 'PaperlessPreferences', 'TRUE', 'AAA_SS', '%s', null, null, null,\n"
-			+ " (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String EVALUE_CURRENT_BI_LIMIT_CONFIGURATION_INSERT = "INSERT INTO LOOKUPVALUE\n"
 			+ "(DTYPE, CODE, DISPLAYVALUE, PRODUCTCD, RISKSTATECD, EFFECTIVE, EXPIRATION, LOOKUPLIST_ID)\n"
@@ -109,10 +103,6 @@ public interface EvalueInsertSetupPreConditions {
 
 	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE = "update propertyconfigurerentity\n"
 			+ "set value = '%s'\n"
-			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
-
-	String PAPERLESS_PREFERENCE_API_SERVICE_UPDATE_AWS = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/policy/preferences'\n"
 			+ "where propertyname = 'policyPreferenceApiService.policyPreferenceApiUri'";
 
 	String AHDRXX_CONFIG_CHECK = "SELECT dtype, code, displayValue, productCd, riskStateCd, effective, expiration \n"
@@ -200,10 +190,6 @@ public interface EvalueInsertSetupPreConditions {
 
 	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
 			+ "set DISPLAYVALUE='TRUE' where CODE='eRefunds'";
-
-	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE = "update propertyconfigurerentity\n"
-			+ "set value = 'http://%s%sws/billing/lastPayment'\n"
-			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
 			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"

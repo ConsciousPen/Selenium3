@@ -165,7 +165,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="preconditionsClearFolders"/>
-                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
                     <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
                 </methods>
             </class>
@@ -344,6 +343,40 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestDecTransactionDateTime">
                 <methods>
                     <include name="pas14498_TestDecTransactionDateTime"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService_CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService_AZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForLapsedRenewal"/>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PolicySummaryService VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForActiveRenewal"/>
+                    <include name="pas9716_policySummaryForConversion"/>
                 </methods>
             </class>
         </classes>

@@ -141,6 +141,10 @@ public abstract class TestDataGenerator<P extends OpenLPolicy> {
 	}
 
 	String getRandom(String... values) {
-		return values[new Random().nextInt(values.length)];
+		return getRandom(Arrays.asList(values));
+	}
+
+	String getRandom(List<String> values) {
+		return values.get(new Random().nextInt(values.size()));
 	}
 }

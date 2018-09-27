@@ -21,7 +21,10 @@ public class DriversDto implements RestBodyRequest {
 	private static final String DRIVER_TYPE_EXCLUDED = "excl";
 	private static final String DRIVER_FIRST_NAME_INSURED = "FNI";
 	private static final String DRIVER_NAME_INSURED = "NI";
-
+	private static final String DRIVER_STATUS_PENDING_REMOVAL = "pendingRemoval";
+	private static final String DRIVER_STATUS_PENDING_ADD = "pendingAdd";
+	private static final String DRIVER_STATUS_ACTIVE = "active";
+	private static final String DRIVER_STATUS_DRIVER_TYPE_CHANGED = "driverTypeChanged";
 
 	@JsonProperty("firstName")
 	public String firstName;
@@ -95,8 +98,29 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Available Actions for driver")
 	public List<String> availableActions;
 
+	@ApiModelProperty(value = "Available Coverages for driver", readOnly = true)
+	public List<String> availableCoverages;
+
+	@ApiModelProperty(value = "Death and Specific Disability Coverage?", example = "true")
+	public Boolean specificDisabilityInd;
+
+	@ApiModelProperty(value = "Total Disability Coverage?", example = "true")
+	public Boolean totalDisabilityInd;
+
+	@ApiModelProperty(value = "ADB Coverage?", example = "true")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public Boolean adbCoverageInd;
+
+	@ApiModelProperty(value = "List of driver related validation errors", readOnly = true)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public List<ValidationError> validations;
 
 	public static final Comparator<DriversDto> DRIVERS_COMPARATOR = (driver1, driver2) -> ComparisonChain.start()
+			.compareTrueFirst(DRIVER_STATUS_PENDING_REMOVAL.equals(driver1.driverStatus), DRIVER_STATUS_PENDING_REMOVAL.equals(driver2.driverStatus))
+			.compareTrueFirst(DRIVER_STATUS_PENDING_ADD.equals(driver1.driverStatus), DRIVER_STATUS_PENDING_ADD.equals(driver2.driverStatus))
+			.compareTrueFirst(DRIVER_STATUS_DRIVER_TYPE_CHANGED.equals(driver1.driverStatus), DRIVER_STATUS_DRIVER_TYPE_CHANGED.equals(driver2.driverStatus))
+			.compareTrueFirst(DRIVER_STATUS_ACTIVE.equals(driver1.driverStatus), DRIVER_STATUS_ACTIVE.equals(driver2.driverStatus))
 			.compareTrueFirst(DRIVER_FIRST_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_FIRST_NAME_INSURED.equals(driver2.namedInsuredType))
 			.compareTrueFirst(DRIVER_NAME_INSURED.equals(driver1.namedInsuredType), DRIVER_NAME_INSURED.equals(driver2.namedInsuredType))
 			.compareTrueFirst(DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver1.driverType), DRIVER_TYPE_AVAILABLE_FOR_RATING.equals(driver2.driverType))

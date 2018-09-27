@@ -6,5 +6,5 @@ package aaa.modules.regression.service.helper;
  * Created by gn3zhyt on 7/17/2018.
  */
 public enum RequestMethod {
-    GET, POST, DELETE, PATCH;
+    GET, POST, DELETE, PATCH, PUT;
 }

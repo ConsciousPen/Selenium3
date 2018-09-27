@@ -2,18 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingAccountPoliciesTable.POLICY_NUM;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.INSTALLMENT_FEE;
 import static aaa.main.enums.PolicyConstants.PolicyCoverageInstallmentFeeTable.PAYMENT_METHOD;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -42,17 +42,8 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
 public class TestTriggersAH35XX extends AutoSSBaseTest {
+	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" + "where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
 	private VehicleTab vehicleTab = new VehicleTab();
-
-	private static final String PAYMENT_CENTRAL_CONFIG_CHECK = "select value from PROPERTYCONFIGURERENTITY\n" +
-			"where propertyname in('aaaBillingAccountUpdateActionBean.ccStorateEndpointURL','aaaPurchaseScreenActionBean.ccStorateEndpointURL','aaaBillingActionBean.ccStorateEndpointURL')\n";
-
-	@Test(groups = {Groups.PRECONDITION}, description = "Preconditions")
-	public void paymentCentralConfigCheck() {
-		String appHost = PropertyProvider.getProperty(TestProperties.APP_HOST);
-		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).orElse(""))
-				.as("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate").contains(appHost);
-	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -65,11 +56,11 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@StateList(statesExcept =  States.CA)
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, dependsOnMethods = "paymentCentralConfigCheck")
+	@StateList(statesExcept = Constants.States.CA)
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-2241", "PAS-250"})
 	public void pas2241_TriggersUiAH35XX(@Optional("") String state) {
-
+		paymentCentralConfigCheck();
 		String paymentPlan = "contains=Eleven";
 		String premiumCoverageTabMetaKey = TestData.makeKeyPath(new PremiumAndCoveragesTab().getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel());
 		TestData policyTdAdjusted = getPolicyTD().adjust(premiumCoverageTabMetaKey, paymentPlan);
@@ -131,7 +122,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 			testEValueDiscount.simplifiedPendedEndorsementIssue();
 			String vehicle2 = PolicySummaryPage.getVehicleInfo(2);
 
-			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "ENDORSEMENT_ISSUE", ccFee,1, vehicle1, vehicle2);
+			pas2777_documentContainsVehicleInfoCheckInDb(softly, policyNumber, "ENDORSEMENT_ISSUE", ccFee, 1, vehicle1, vehicle2);
 
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 			autopaySelection("contains=Visa");
@@ -141,13 +132,17 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 		});
 	}
 
+	private void paymentCentralConfigCheck() {
+		String appHost = PropertyProvider.getProperty(TestProperties.APP_HOST);
+		assertThat(DBService.get().getValue(PAYMENT_CENTRAL_CONFIG_CHECK).orElse("")).as("Adding Payment methods will not be possible because PaymentCentralEndpoints are looking at real service. Please run paymentCentralConfigUpdate").contains(appHost);
+	}
+
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments, ETCSCoreSoftAssertions softly) {
 		String visaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
 		String query = GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'";
 		String queryFull = String.format(query, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		softly.assertThat(DbAwaitHelper.waitForQueryResult(queryFull, 5)).isTrue();
-		softly.assertThat(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, queryFull).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField())
-				.contains(visaNumberScreened);
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName("AcctNum", DocGenEnum.Documents.AH35XX, queryFull).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).contains(visaNumberScreened);
 
 		String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		softly.assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(numberOfDocuments);
@@ -156,17 +151,14 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	private void pas2777_documentContainsVehicleInfoCheckInDb(ETCSCoreSoftAssertions softly, String policyNum, String eventName, String feeAmount, int numberOfDocuments, String... vehicleInfos) {
 		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNum, "AH35XX", eventName);
 
-		softly.assertThat(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField()).isEqualTo(vehicleInfos[0]);
-		softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField()).isEqualTo(vehicleInfos[0]);
+		softly.assertThat(DocGenHelper.getDocumentDataSectionsByName("VehicleDetails", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[0]);
+		softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[0]);
 		//PAS-250 start
-		softly.assertThat("$"+DocGenHelper.getDocumentDataElemByName("InstlFee", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice()
-				.getTextField()).isEqualTo(feeAmount);
+		softly.assertThat("$" + DocGenHelper.getDocumentDataElemByName("InstlFee", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().get(0).getDataElementChoice().getTextField()).isEqualTo(feeAmount);
 		//PAS-250 end
 		for (int index = 0; index < vehicleInfos.length; index++) {
 			softly.assertThat(DocGenHelper.getDocumentDataElemByName("PlcyVehInfo", DocGenEnum.Documents.AH35XX, query).get(0).getDocumentDataElements().
-							get(index).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[index++]);
+					get(index).getDataElementChoice().getTextField()).isEqualTo(vehicleInfos[index++]);
 			++index;
 		}
 

@@ -1,0 +1,73 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="E2E Scenarios Daily" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="UT Home E2E" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario1"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario2"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario3"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario4"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario5"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario6"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario7"/>
+            <class name="aaa.modules.e2e.home_ss.ho3.TestScenario8"/>
+        </classes>
+    </test>
+    <test name="CA Home E2E" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario2"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario4"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario6"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario9"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario10"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario11"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario12"/>
+            <class name="aaa.modules.e2e.home_ca.ho3.TestScenario13"/>
+        </classes>
+    </test>
+    <test name="UT Auto E2E" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario2"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario4"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario6"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario9"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario10"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario11"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario12"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario14"/>
+            <class name="aaa.modules.e2e.auto_ss.TestScenario15"/>
+        </classes>
+    </test>
+    <test name="CA Auto E2E" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario1"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario2"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario3"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario4"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario5"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario6"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario7"/>
+            <class name="aaa.modules.e2e.auto_ca.TestScenario13"/>
+        </classes>
+    </test>
+	<test name="CA PUP E2E" parallel="methods">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+	<test name="UT PUP E2E" parallel="methods">
+        <parameter name="state" value="UT" />
+        <classes>
+            <class name="aaa.modules.e2e.pup.TestScenario2" />
+        </classes>
+    </test>
+</suite>

@@ -9,25 +9,25 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Listeners;
-import com.exigen.ipb.etcsa.base.app.AdminApplication;
+import org.testng.ITestContext;
+import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.MainApplication;
-import com.exigen.ipb.etcsa.base.app.OperationalReportApplication;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
+import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
+import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
-import aaa.helpers.config.CustomTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
+import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
@@ -42,7 +42,6 @@ import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssert;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -52,20 +51,21 @@ public class BaseTest {
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
+	private static TestData tdOperationalReports;
 	private static ThreadLocal<String> state = new ThreadLocal<>();
-	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
+	private static String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 	private static Map<String, Integer> policyCount = new HashMap<>();
 	public String customerNumber;
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
+	protected ITestContext context;
 	private TestData tdSpecific;
-	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CustomTestProperties.IS_CI_MODE, "true"));
+	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
 	static {
-		CustomAssert.initDriver(CustomAssert.AssertDriverType.TESTNG);
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
-
+		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
 	}
 
 	public BaseTest() {
@@ -240,25 +240,33 @@ public class BaseTest {
 		}
 	}
 
+	@BeforeSuite
+	public void beforeSuite(ITestContext context) {
+		this.context = context;
+	}
+
 	/**
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		return CSAAApplicationFactory.get().mainApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().mainApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().mainApp();
 	}
 
 	/**
 	 * Login to the application and open admin page
 	 */
 	public AdminApplication adminApp() {
-		return CSAAApplicationFactory.get().adminApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().adminApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().adminApp();
 	}
 
 	/**
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
-		return CSAAApplicationFactory.get().opReportApp(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().opReportApp().setLogin(new LoginPage(initiateLoginTD()));
+		return CSAAApplicationFactory.get().opReportApp();
 	}
 
 	/**
@@ -382,21 +390,42 @@ public class BaseTest {
 	}
 
 	/**
+	 * Create Conversion Policy
+	 *
+	 * @param tdManualConversionInitiation - 'Initiate Manual Renewal Entry' action testdata
+	 * @param tdPolicy - policy testdata
+	 * @return policy number
+	 */
+	protected String createConversionPolicy(TestData tdManualConversionInitiation, TestData tdPolicy) {
+		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
+		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
+		log.info("Policy Creation Started...");
+		getPolicyType().get().getDefaultView().fill(tdPolicy);
+		if (PolicySummaryPage.buttonBackFromRenewals.isEnabled()) {
+			PolicySummaryPage.buttonBackFromRenewals.click();
+		}
+		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
+		log.info("CONVERSION POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
+		return policyNumber;
+	}
+
+	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @param tdPolicy - policy testdata
+	 * @return policy number
+	 */
+	protected String createConversionPolicy(TestData tdPolicy) {
+		return createConversionPolicy(getManualConversionInitiationTd(), tdPolicy);
+	}
+
+	/**
 	 * Create Conversion Policy using default TestData
 	 *
 	 * @return policy number
 	 */
 	protected String createConversionPolicy() {
-		assertThat(getPolicyType()).as("PolicyType is not set").isNotNull();
-		TestData tdPolicy = getConversionPolicyDefaultTD();
-		TestData tdManualConversionInitiation = getManualConversionInitiationTd();
-		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
-		log.info("Policy Creation Started...");
-		getPolicyType().get().getDefaultView().fill(tdPolicy);
-		if(PolicySummaryPage.buttonBackFromRenewals.isEnabled()){
-			PolicySummaryPage.buttonBackFromRenewals.click();}
-		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
-		return policyNumber;
+		return createConversionPolicy(getManualConversionInitiationTd(), getConversionPolicyDefaultTD());
 	}
 
 	protected TestData getCustomerIndividualTD(String fileName, String tdName) {
@@ -405,6 +434,10 @@ public class BaseTest {
 
 	protected TestData getCustomerNonIndividualTD(String fileName, String tdName) {
 		return getStateTestData(tdCustomerNonIndividual, fileName, tdName);
+	}
+
+	protected TestData getOperationalReportsTD(String fileName, String tdName) {
+		return getStateTestData(tdOperationalReports, fileName, tdName);
 	}
 
 	protected TestData getTestSpecificTD(String tdName) {
@@ -457,15 +490,24 @@ public class BaseTest {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
 				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+				if (!PolicySummaryPage.labelPolicyStatus.getValue().equals(ProductConstants.PolicyStatus.POLICY_ACTIVE)) {
+					policyNumber = createNewDefaultPolicy(key);
+				}
 			} else {
 				count = 1;
-				createCustomerIndividual();
-				createPolicy();
-				policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-				EntitiesHolder.addNewEntity(key, policyNumber);
+				policyNumber = createNewDefaultPolicy(key);
 			}
 			policyCount.put(key, count);
 		}
+		return policyNumber;
+	}
+
+	private String createNewDefaultPolicy(String key) {
+		String policyNumber;
+		createCustomerIndividual();
+		createPolicy();
+		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		EntitiesHolder.addNewEntity(key, policyNumber);
 		return policyNumber;
 	}
 

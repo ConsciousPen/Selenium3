@@ -21,8 +21,7 @@ import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
-import aaa.common.enums.Constants;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -61,12 +60,16 @@ public final class OpenLTestsManager {
 		MocksCollection commonRequiredMocks = new MocksCollection();
 		for (OpenLTestInfo<? extends OpenLPolicy> testInfo : this.openLTests) {
 			if (!testInfo.isFailed()) {
-				for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
-					MocksCollection requiredMocks = policy.getRequiredMocks();
-					if (requiredMocks != null && !requiredMocks.isEmpty()) {
-						log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
-						commonRequiredMocks.addAll(requiredMocks);
+				try {
+					for (OpenLPolicy policy : testInfo.getOpenLPolicies()) {
+						MocksCollection requiredMocks = policy.getRequiredMocks();
+						if (requiredMocks != null && !requiredMocks.isEmpty()) {
+							log.info("Mocks has been generated for test with policy number {} from \"{}\" file:\n{}", policy.getNumber(), testInfo.getOpenLFilePath(), requiredMocks);
+							commonRequiredMocks.addAll(requiredMocks);
+						}
 					}
+				} catch (Throwable e) {
+					testInfo.setException(e);
 				}
 			}
 		}
@@ -106,11 +109,10 @@ public final class OpenLTestsManager {
 				//TODO-dchubkov: try to split OpenLPolicy objects creation to multi threads (just several ones due to huge memory consumption)
 				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
-					testInfo.setState(TestParams.STATE.getValue(test));
 					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
 					testInfo.setOpenLFilePath(getFilePath(test));
 					testInfo.setOpenLPolicies(getOpenLPolicies(test));
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					testInfo.setException(e);
 				}
 
@@ -120,7 +122,7 @@ public final class OpenLTestsManager {
 		return openLTests;
 	}
 
-	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Exception {
+	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Throwable {
 		String filePath = getFilePath(test);
 		File openLFile;
 
@@ -153,13 +155,16 @@ public final class OpenLTestsManager {
 					.orElseThrow(() -> new IstfException("There is no test for policy number " + policy.getNumber()));
 			Dollar expectedPremium = policy.getTerm() == 6 ? openLTest.getTotalPremium().divide(2) : openLTest.getTotalPremium();
 			policy.setExpectedPremium(expectedPremium);
+			if (policy.getState() == null) {
+				policy.setState(openLTest.getState());
+			}
 		}
 
 		return openLPolicies;
 	}
 
-	private File downloadOpenLFile(String filePath, String branchName) throws IOException {
-		String authString = PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CustomTestProperties.RATING_REPO_PASSWORD);
+	private File downloadOpenLFile(String filePath, String branchName) throws Throwable {
+		String authString = PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_PASSWORD);
 		String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 		String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=" + URLEncoder.encode("refs/heads/" + branchName, "UTF-8");
 
@@ -262,11 +267,9 @@ public final class OpenLTestsManager {
 
 	private enum TestParams {
 		TESTS_DIR("testsDir", null, true, ""),
-		LOCAL_TESTS("localTests", null, false, "false"),
-		TESTS_BRANCH("testsBranch", CustomTestProperties.RATING_REPO_BRANCH, false, "master"),
+		LOCAL_TESTS("localTests", null, false, "false"), TESTS_BRANCH("testsBranch", CsaaTestProperties.RATING_REPO_BRANCH, false, "master"),
 		TEST_FILENAME("fileName", null, true, ""),
 		POLICY_TYPE("policyType", null, true, ""),
-		STATE("state", CustomTestProperties.TEST_USSTATE, true, Constants.States.UT),
 		POLICY_NUMBERS("policyNumbers", null, false, "");
 
 		private final String nameInXml;

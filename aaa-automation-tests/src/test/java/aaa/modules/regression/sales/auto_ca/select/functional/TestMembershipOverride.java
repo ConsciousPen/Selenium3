@@ -182,6 +182,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		tdSpecific.adjust(TestData.makeKeyPath(AutoCaMetaData.GeneralTab.class.getSimpleName(),
 				AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
 				getTestSpecificTD("AAAProductOwned_MS_Active").resolveLinks());
+		tdSpecific.adjust(tdSpecific).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "C$<rx:\\d{7}>");
 
 		policy.getDefaultView().fillFromTo(tdSpecific, GeneralTab.class, MembershipTab.class, false);
 

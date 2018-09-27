@@ -67,8 +67,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()).isNotNull();
 		} else {
 			ratingDataPattern
-					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel())
-					.mask(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.LAST_NAME.getLabel());
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		List<TestData> driversTestDataList = getDriverTabData(openLPolicy);
@@ -109,17 +108,39 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency())
 						.format(DateTimeUtils.MM_DD_YYYY));
 
-		TestData aAAProductOwnedData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), getYesOrNo(openLPolicy.getAaaHomePolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), getYesOrNo(openLPolicy.getAaaRentersPolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), getYesOrNo(openLPolicy.getAaaCondoPolicy()),
-				AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), getYesOrNo(openLPolicy.isAaaLifePolicy())
-				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
-		);
+		Map<String, Object> aAAProductOwnedData = new HashMap<>();
+		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "No");
+		}
+
+		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+		} else {
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "No");
+		}
+		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			aAAProductOwnedData.adjust(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
@@ -143,26 +164,40 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 		);
 
+		if (Boolean.TRUE.equals(openLPolicy.isAdvanceShopping())) {
+			policyInformationData
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.OVERRIDE_ASD_LEVEL.getLabel(), "Yes")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNT_OVERRIDE.getLabel(), "Level 1")
+					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ASD_OVERRIDEN_BY.getLabel(), "Tester $<rx:\\d{5}>");
+		}
+
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), aAAProductOwnedData,
+				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), currentCarrierInformationData,
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
+		if (openLPolicy.getYearsAtFaultAccidentFree() != null) {
+			assertThat(openLPolicy.getYearsAtFaultAccidentFree()).as("Invalid \"yearsAtFaultAccidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years").isLessThanOrEqualTo(5);
+		}
+		if (openLPolicy.getYearsIncidentFree() != null) {
+			assertThat(openLPolicy.getYearsAtFaultAccidentFree()).as("Invalid \"yearsIncidentFree\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years").isLessThanOrEqualTo(5);
+		}
+
 		List<TestData> driversTestDataList = new ArrayList<>(openLPolicy.getDrivers().size());
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
 		boolean isAtFaultAccidentFreeSet = false;
 		boolean isAccidentFreeSet = false;
-		Integer aggregateCompClaims = openLPolicy.getAggregateCompClaims();
-		Integer nafAccidents = openLPolicy.getNafAccidents();
+		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
+		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
 
 		if (Constants.States.VA.equals(getState())) {
-			int nonTrailersAndMotorHomesVehicleNumber = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> !isTrailerOrMotorHomeType(v.getUsage())).count());
+			int nonTrailersAndMotorHomesVehicleNumber = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> !isTrailerOrMotorHomeOrGolfCartType(v.getUsage())).count());
 			List<String> nonTrailersAndMotorHomesVehicleIds = IntStream.range(1, nonTrailersAndMotorHomesVehicleNumber + 1).boxed().map(String::valueOf).collect(Collectors.toList());
 			Iterator<String> iterator = nonTrailersAndMotorHomesVehicleIds.iterator();
 			openLPolicy.getDrivers().forEach(d -> d.setVehicleAssignedId(iterator.hasNext() ? iterator.next() : nonTrailersAndMotorHomesVehicleIds.get(0)));
@@ -187,7 +222,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()),
 					AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None",
 					AutoSSMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=First Named Insured|",
-					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
+					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY,
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
 
@@ -208,9 +243,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
+				String[] firstLastName = driver.getName().split("\\s");
+				String firstName = firstLastName[0];
+				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
-						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
-						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
+						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName)
+						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
 			}
 
 			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
@@ -260,49 +298,71 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			List<TestData> activityInformationList = new ArrayList<>();
-			while (aggregateCompClaims != null && aggregateCompClaims > 0) {
-				TestData activityInformationData = DataProviderFactory.dataOf(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "Comprehensive Claim",
-						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Comprehensive Claim",
-						// Incident should be not older than 33 month from effective date to affect premium;
-						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28))
-								.format(DateTimeUtils.MM_DD_YYYY),
-						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
-
+			while (aggregateCompClaims > 0) {
+				TestData activityInformationData = ActivityInformation.of("Comprehensive Claim").getTestData(RandomUtils.nextInt(1001, 10000), getOccurrenceDate(openLPolicy.getEffectiveDate()));
 				activityInformationList.add(activityInformationData);
 				aggregateCompClaims--;
 			}
 
-			while (nafAccidents != null && nafAccidents > 0) {
-				TestData activityInformationData = DataProviderFactory.dataOf(
-						AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getRandom("At-Fault Accident", "Principally At-Fault Accident"),
-						AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|",
-						// Incident should be not older than 33 month from effective date to affect premium
-						AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), openLPolicy.getEffectiveDate().minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28))
-								.format(DateTimeUtils.MM_DD_YYYY),
-						AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(100, 900));
-
+			while (nafAccidents > 0) {
+				TestData activityInformationData = ActivityInformation.getNotAtFaultAccident(0).getTestData(getOccurrenceDate(openLPolicy.getEffectiveDate()));
 				activityInformationList.add(activityInformationData);
 				nafAccidents--;
 			}
 
 			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
-			if (dsr > 0) {
-				//TODO-dchubkov: to be implemented...
-				//int yearsIncidentFree = openLPolicy.getYearsIncidentFree() != null ? openLPolicy.getYearsIncidentFree() : 0;
-				//activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), yearsIncidentFree));
+
+			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
+				ActivityInformation ai = ActivityInformation.getAtFaultAccidents().stream().min(Comparator.comparing(ActivityInformation::getPoints)).get();
+				int claimPoints = ai.getPoints(openLPolicy.getYearsAtFaultAccidentFree());
+				if (claimPoints <= dsr) {
+					LocalDate occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsAtFaultAccidentFree());
+					TestData activityInformationData = ai.getTestData(occurrenceDate);
+					if (getState().equals(Constants.States.PA)) {
+						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
+					}
+					activityInformationList.add(activityInformationData);
+					isAtFaultAccidentFreeSet = true;
+					dsr = dsr - claimPoints;
+				}
 			}
 
-			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet && dsr > 0) {
-				//TODO-dchubkov: add activity information with dsr > 0
-				activityInformationList.add(getActivityInformationData(true, openLPolicy.getEffectiveDate(), openLPolicy.getYearsAtFaultAccidentFree()));
-				isAtFaultAccidentFreeSet = true;
+			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
+				ActivityInformation ai = ActivityInformation.ofMinimumPoints("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation");
+				int claimPoints = ai.getPoints(openLPolicy.getYearsIncidentFree());
+				if (claimPoints <= dsr) {
+					LocalDate occurrenceDate = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getYearsIncidentFree());
+					TestData activityInformationData = ai.getTestData(occurrenceDate);
+					if (getState().equals(Constants.States.NY)) {
+						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
+					}
+					activityInformationList.add(activityInformationData);
+					isAccidentFreeSet = true;
+					dsr = dsr - claimPoints;
+				}
 			}
 
-			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet && dsr > 0) {
-				//TODO-dchubkov: add activity information with dsr > 0
-				activityInformationList.add(getActivityInformationData(false, openLPolicy.getEffectiveDate(), openLPolicy.getYearsIncidentFree()));
-				isAccidentFreeSet = true;
-			}
+			//TODO-dchubkov: to be implemented
+			/*if (dsr > 0) {
+				List<Integer> availableClaimPoints = ActivityInformation.getAvailableClaimPoints();
+				if (availableClaimPoints.contains(dsr)) { // lucky guy :)
+					ActivityInformation ai = ActivityInformation.ofPoints(dsr);
+					Integer totalYearsAccidentsFree = ai.isAtFaultAccident() ? openLPolicy.getYearsAtFaultAccidentFree() : openLPolicy.getYearsIncidentFree();
+					LocalDate latestIncidentDate = openLPolicy.getEffectiveDate();
+					int maxIncidentFreeInMonth = maxIncidentFreeInMonthsToAffectRating;
+
+					if (totalYearsAccidentsFree != null) {
+						assertThat(totalYearsAccidentsFree * 12).as("yearsIncidentFree or yearsAtFaultAccidentFree argument in months should not be more than %s to affect rating", maxIncidentFreeInMonth)
+								.isLessThanOrEqualTo(maxIncidentFreeInMonth);
+						latestIncidentDate = latestIncidentDate.minusYears(totalYearsAccidentsFree);
+						maxIncidentFreeInMonth = maxIncidentFreeInMonth - totalYearsAccidentsFree * 12;
+					}
+					activityInformationList.add(ai.getTestData(latestIncidentDate.minusDays(new Random().nextInt(maxIncidentFreeInMonth * 28))));
+				} else {
+					//TODO-dchubkov: to be implemented subset sum algorithm
+					throw new NotImplementedException("Subset sum algorithm is not implemented for dsr openl field");
+				}
+			}*/
 
 			if (!activityInformationList.isEmpty()) {
 				driverData.adjust(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel(), activityInformationList);
@@ -317,35 +377,20 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			driversTestDataList.add(driverData);
 			isFirstDriver = false;
 		}
+
+		//TODO-dchubkov: check isAtFaultAccidentFreeSet and isAccidentFreeSet is set
 		return driversTestDataList;
+	}
+
+	private LocalDate getOccurrenceDate(LocalDate effectiveDate) {
+		// Incident should be not older than 33 month from effective date to affect premium
+		return effectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28));
 	}
 
 	private boolean isCleanDriverRenewalActive(AutoSSOpenLPolicy openLPolicy, Integer dsr) {
 		int baseDateYear = openLPolicy.getEffectiveDate().minusYears(openLPolicy.getAaaInsurancePersistency()).getYear();
 		int dsrPoints = dsr == null ? 0 : dsr;
 		return getState().equals(Constants.States.MD) && openLPolicy.getEffectiveDate().getYear() - baseDateYear > 2 && dsrPoints < 2;
-	}
-
-	private TestData getActivityInformationData(boolean atFaultAccident, LocalDate policyEffectiveDate, int yearsAccidentFree) {
-		assertThat(yearsAccidentFree)
-				.as("Invalid \"%s\" value in openl file, UI does not allow to set \"Occurrence Date\" more than 5 years", atFaultAccident ? "yearsAtFaultAccidentFree" : "yearsIncidentFree")
-				.isLessThanOrEqualTo(5);
-		LocalDate occurrenceDate = policyEffectiveDate.minusYears(yearsAccidentFree);
-
-		Map<String, Object> activityInformationData = new HashMap<>();
-		if (atFaultAccident) {
-			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getRandom("At-Fault Accident", "Principally At-Fault Accident"));
-			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), RandomUtils.nextInt(1001, 10000));
-		} else {
-			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(),
-					getRandom("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation"));
-		}
-		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
-		activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
-		if (!atFaultAccident && (getState().equals(Constants.States.PA) || getState().equals(Constants.States.NY))) {
-			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
-		}
-		return new SimpleDataProvider(activityInformationData);
 	}
 
 	private TestData getRatingDetailReportsTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -361,7 +406,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
 		if (openLPolicy.getNoOfVehiclesExcludingTrailer() != null) {
-			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(getStatCode(v))).count());
+			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(v.getBiLiabilitySymbol())).count());
 			int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 			assertThat(trailersCount).as("Number of vehicles recognized by their stat codes set [%s] is not equal to "
 					+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
@@ -376,7 +421,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			if (vehicle.getBiLiabilitySymbol() != null) {
+			//TODO-dchubkov: found such cases in "MDTests-WUIC-20181201_part1.xls", to be investigated how to fill different values for *LiabilitySymbol
+			/*if (vehicle.getBiLiabilitySymbol() != null) {
 				HashSet<String> liabilitySymbols = new HashSet<>();
 				liabilitySymbols.add(vehicle.getBiLiabilitySymbol());
 				liabilitySymbols.add(vehicle.getPdLiabilitySymbol());
@@ -385,7 +431,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				if (liabilitySymbols.size() > 1) {
 					throw new NotImplementedException(String.format("Not all *LiabilitySymbol field values are the same: %s, test data generation for this case is not implemented", liabilitySymbols));
 				}
-			}
+			}*/
 
 			TestData vehicleData = getVehicleTabInformationData(vehicle);
 			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
@@ -428,11 +474,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getPremiumAndCoveragesTabData(AutoSSOpenLPolicy openLPolicy) {
-		if (Boolean.TRUE.equals(openLPolicy.isEMember())) {
-			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
-			throw new NotImplementedException("Test data generation for enabled isEMember is not implemented.");
-		}
-
 		if (Boolean.TRUE.equals(openLPolicy.isSupplementalSpousalLiability())) {
 			//TODO-dchubkov: to be implemented but at the moment don't have openL files with this option enabled
 			throw new NotImplementedException("Test data generation for enabled supplementalSpousalLiability is not implemented.");
@@ -447,7 +488,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
 					isFirstDriver = false;
 				} else {
-					unverifiableDrivingRecordSurchargeData.put(driver.getName() + " " + driver.getName(), driver.isUnverifiableDrivingRecord());
+					String[] firstLastName = driver.getName().split("\\s");
+					String firstName = firstLastName[0];
+					String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
+					unverifiableDrivingRecordSurchargeData.put(firstName + " " + lastName, driver.isUnverifiableDrivingRecord());
 				}
 			}
 		}
@@ -460,10 +504,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "starts=Added");
 			}
 
-			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeType(vehicle.getUsage());
+			if (vehicle.getCoverages().stream().anyMatch(c -> "EUIMBI".equals(c.getCoverageCd()) || "EUIMPD".equals(c.getCoverageCd()))) {
+				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM.getLabel(), true);
+			}
+
+			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeOrGolfCartType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
 				if (getState().equals(Constants.States.NJ) && "PIP".equals(coverage.getCoverageCd())) {
 					// for NJ state PIP coverage should be set by covering aaaPIPMedExpLimit field ("Medical Expense" on UI)
+					continue;
+				}
+
+				if (isTrailerOrMotorHomeVehicle && "SP EQUIP".equals(coverage.getCoverageCd())) {
+					// tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI but it does not affect rating
 					continue;
 				}
 
@@ -478,19 +531,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
 				}
 
-				if (isTrailerOrMotorHomeVehicle) {
+				if (isTrailerOrMotorHomeVehicle || getState().equals(Constants.States.KY)) {
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
-							+ "for \"Trailer\" or \"Motor Home\" vehicle types").isIn("N/A", "0");
-
-					//TODO-dchubkov: tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI
-					detailedCoveragesData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					if (getState().equals(Constants.States.KY)) {
-						assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for KY state").isIn("N/A", "0");
-					} else {
-						detailedCoveragesData
-								.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
-					}
+					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
+							getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 				}
 
 				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {
@@ -535,27 +581,33 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		if (getState().equals(Constants.States.NV)) {
 			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
-				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
+				if (!isTrailerType(openLPolicy.getVehicles().get(i).getBiLiabilitySymbol())) {
 					detailedVehicleCoveragesList.get(i).adjust(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel(), "starts=No Coverage");
 				}
 			}
 		}
 
-		return DataProviderFactory.dataOf(
-				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().getTerm()),
-				AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk(),
-				AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
-				AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
-				AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData),
-				AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList)
+		Map<String, Object> premiumAndCoveragesTabData = new HashMap<>();
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getPaymentPlanType(), openLPolicy.getCappingDetails().getTerm()));
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNACCEPTABLE_RISK_SURCHARGE.getLabel(), openLPolicy.isUnacceptableRisk());
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes"); //TODO-dchubkov: enable only if need to fill expanded section
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar());
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNVERIFIABLE_DRIVING_RECORD_SURCHARGE.getLabel(), new SimpleDataProvider(unverifiableDrivingRecordSurchargeData));
+		premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.DETAILED_VEHICLE_COVERAGES.getLabel(), detailedVehicleCoveragesList);
+		if (Boolean.TRUE.equals(openLPolicy.isEMember())) {
+			premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel(), "Yes");
+		}
+
+		return new SimpleDataProvider(premiumAndCoveragesTabData)
 				.adjust(new SimpleDataProvider(policyCoveragesData))
 				.adjust(getPolicyPersonalInjuryProtectionCoveragesData(openLPolicy));
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
-		String vin = getVinFromDb(vehicle);
+		//String vin = getVinFromDb(vehicle);
+		String vin = null; //TODO-dchubkov: improve VIN search DB query to include all openl field values
 		Map<String, Object> vehicleInformation = new HashMap<>();
-		String statCode = getStatCode(vehicle);
+		String statCode = vehicle.getBiLiabilitySymbol();
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
 		if (StringUtils.isNotBlank(vin)) {
@@ -568,8 +620,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.DAYTIME_RUNNING_LAMPS.getLabel(), "Yes");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_LOCK_BRAKES.getLabel(), "Yes");
 			}
-			if (isTrailerOrMotorHomeType(vehicle.getUsage())) {
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|");
+			if (isTrailerOrMotorHomeOrGolfCartType(vehicle.getUsage())) {
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY);
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel(), "some other make $<rx:\\d{3}>");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel(), "some other model $<rx:\\d{3}>");
 
@@ -579,17 +631,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					if ("Travel Trailer".equals(trailerType)) {
 						vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
 					}
-				} else {
+				} else if (isMotorHomeType(statCode)) {
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.MOTOR_HOME_TYPE.getLabel(), getVehicleTabMotorHomeType(statCode));
 				}
 			} else {
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MAKE.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.MODEL.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_MARK + "=|OTHER");
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel(), "regex=.*\\S.*");
-				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
+				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState()) || Constants.States.DE.equals(getState())) {
+					vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
+				}
 			}
 		}
 
@@ -599,8 +653,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		String zipCode = vehicle.getAddress().getZip();
 		if (getState().equals(Constants.States.CT)) {
-			zipCode = getZipCodeFromDb(zipCode);
+			String getZipAndCountyQuery = "select POSTALCODE, TOWNSHIP from LOOKUPVALUE where CODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+			Map<String, String> zipAndCounty = DBService.get().getRow(getZipAndCountyQuery, zipCode, getState());
+			zipCode = zipAndCounty.get("POSTALCODE");
+			vehicleInformation.put(AutoSSMetaData.VehicleTab.COUNTY_TOWNSHIP.getLabel(), "contains=" + zipAndCounty.get("TOWNSHIP"));
 		}
+
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ZIP_CODE.getLabel(), zipCode);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.ADDRESS_LINE_1.getLabel(), streetNumber + " " + streetName);
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.STATE.getLabel(), vehicle.getAddress().getState());
@@ -661,17 +719,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		return td;
 	}
 
-	private String getZipCodeFromDb(String locationCode) {
-		String getZipCodeQuery = "select POSTALCODE from LOOKUPVALUE where CODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
-		return DBService.get().getValue(getZipCodeQuery, locationCode, getState()).get();
-	}
-
 	private String getVinFromDb(AutoSSOpenLVehicle vehicle) {
 		String vin = "";
 
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
 		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(getStatCode(vehicle))) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getBiLiabilitySymbol())) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
 							+ "from VEHICLEREFDATAVIN\n"
@@ -748,5 +801,120 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(), new SimpleDataProvider(td));
+	}
+
+	static class ActivityInformation {
+		private String type;
+		private String description;
+		private boolean isAtFaultAccident;
+		private int points;
+		private static List<ActivityInformation> activityInformationList;
+
+		private ActivityInformation(String type, String description, boolean isAtFaultAccident, int points) {
+			this.type = type;
+			this.description = description;
+			this.isAtFaultAccident = isAtFaultAccident;
+			this.points = points;
+		}
+
+		public static ActivityInformation of(String type) {
+			return getActivityInformationList().stream().filter(a -> a.getType().equals(type)).findFirst().orElseThrow(() -> new IstfException("Unknown activity information type: " + type));
+		}
+
+		public static ActivityInformation of(String type, String description) {
+			return getActivityInformationList().stream().filter(a -> a.getType().equals(type) && a.getDescription().equals(description)).findFirst()
+					.orElseThrow(() -> new IstfException(String.format("Unknown activity information with type \"%1$s\" and description \"%2$s\"", type, description)));
+		}
+
+		public static ActivityInformation ofPoints(int points) {
+			return getActivityInformationList().stream().filter(a -> a.getPoints() == points).findFirst()
+					.orElseThrow(() -> new IstfException(String.format("There is no activity information with %s claim points", points)));
+		}
+
+		public static ActivityInformation ofMinimumPoints(String... types) {
+			ActivityInformation ai = null;
+			for (String type : types) {
+				ActivityInformation aiCandidate = getActivityInformationList().stream().filter(a -> a.getType().equals(type)).min(Comparator.comparing(ActivityInformation::getPoints))
+						.orElseThrow(() -> new IstfException("Unknown activity information type: " + type));
+				if (ai == null || aiCandidate.getPoints() < ai.getPoints()) {
+					ai = aiCandidate;
+				}
+			}
+			return ai;
+		}
+
+		public static ActivityInformation getNotAtFaultAccident(int points) {
+			return getNotAtFaultAccidents().stream().filter(a -> a.getPoints() == points).findFirst()
+					.orElseThrow(() -> new IstfException(String.format("There is no Not At-Fault Accidents with %s claim points", points)));
+		}
+
+		public static List<ActivityInformation> getAtFaultAccidents() {
+			return getActivityInformationList().stream().filter(ActivityInformation::isAtFaultAccident).collect(Collectors.toList());
+		}
+
+		public static List<ActivityInformation> getNotAtFaultAccidents() {
+			return getActivityInformationList().stream().filter(a -> !a.isAtFaultAccident).collect(Collectors.toList());
+		}
+
+		public static List<Integer> getAvailableClaimPoints() {
+			return getActivityInformationList().stream().map(ActivityInformation::getPoints).distinct().collect(Collectors.toList());
+		}
+
+		public String getType() {
+			return type;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public boolean isAtFaultAccident() {
+			return isAtFaultAccident;
+		}
+
+		public int getPoints() {
+			return points;
+		}
+
+		public int getPoints(Integer totalYearsAccidentsFree) {
+			if (totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
+				return 0;
+			}
+			return getPoints();
+		}
+
+		public TestData getTestData(LocalDate occurrenceDate) {
+			Integer lossPaymentAmount = isAtFaultAccident() ? RandomUtils.nextInt(1001, 10000) : null;
+			return getTestData(lossPaymentAmount, occurrenceDate);
+		}
+
+		public TestData getTestData(Integer lossPaymentAmount, LocalDate occurrenceDate) {
+			Map<String, Object> activityInformationData = new HashMap<>();
+			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), getType());
+			if (lossPaymentAmount != null) {
+				activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), lossPaymentAmount);
+			}
+			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), getDescription());
+			activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
+			//activityInformationData.put(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER.getLabel(), "Yes");
+			return new SimpleDataProvider(activityInformationData);
+		}
+
+		private static synchronized List<ActivityInformation> getActivityInformationList() {
+			if (activityInformationList == null) {
+				activityInformationList = new ArrayList<>();
+				activityInformationList.add(new ActivityInformation("Speeding Violation", "Speeding", false, 0));
+				activityInformationList.add(new ActivityInformation("Comprehensive Claim", "Comprehensive Claim", false, 0));
+				activityInformationList.add(new ActivityInformation("Minor Violation", "Disregard Police", false, 0));
+				activityInformationList.add(new ActivityInformation("Non-Moving Violation", "Commercial Vehicle Violations", false, 0));
+				activityInformationList.add(new ActivityInformation("Major Violation", "Drag Racing or Speed Contest", false, 4));
+				activityInformationList.add(new ActivityInformation("Alcohol-Related Violation", "Driving Under the Influence of Alcohol", false, 4));
+				activityInformationList.add(new ActivityInformation("At-Fault Accident", "Accident (Property Damage Only)", true, 6));
+				activityInformationList.add(new ActivityInformation("Principally At-Fault Accident", "Principally At-Fault Accident (Property Damage Only)", true, 6));
+				activityInformationList.add(new ActivityInformation("At-Fault Accident", "Accident (Resulting in Bodily Injury)", true, 7));
+				activityInformationList.add(new ActivityInformation("Principally At-Fault Accident", "Principally At-Fault Accident (Resulting in Bodily Injury)", true, 7));
+			}
+			return activityInformationList;
+		}
 	}
 }

@@ -1,7 +1,6 @@
 package aaa.modules.regression.conversions.home_ca.dp3;
 
 import java.time.LocalDateTime;
-import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -24,7 +23,7 @@ public class SisImportSmokeTest extends HomeCaDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.SMOKE, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_DP3)
-	public void sisCADP3ImportTest(@Optional("CA") String state, ITestContext context) {
+	public void sisCADP3ImportTest(@Optional("CA") String state) {
 
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new SisConversionData("20170525_012421_CNV_B_CADP3_EXGPAS_8435_D_20170523_30000471_3669264.xml", effDate);

@@ -1,13 +1,9 @@
 package aaa.admin.metadata.reports;
 
-import org.openqa.selenium.By;
-
+import aaa.toolkit.webdriver.customcontrols.AdvancedSelectorOR;
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
-
-import toolkit.webdriver.controls.CheckBox;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
@@ -26,7 +22,7 @@ public final class OperationalReportsMetaData {
 		public static final AssetDescriptor<AdvancedSelector> CHANNEL = declare("Channel", AdvancedSelector.class);
 		public static final AssetDescriptor<AdvancedSelector> LOCATION_TYPE = declare("Location Type", AdvancedSelector.class);
 		public static final AssetDescriptor<AdvancedSelector> LOCATION = declare("Location", AdvancedSelector.class);
-		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy", TextBox.class);
+		public static final AssetDescriptor<TextBox> POLICY_NUMBER = declare("Policy Number", TextBox.class);
 		public static final AssetDescriptor<RadioGroup> DELIVERY_TYPE = declare("Delivery type", RadioGroup.class);
 		public static final AssetDescriptor<CheckBox> MULTIPLE_OUTPUT_FORMATS = declare("Multiple Output Formats", CheckBox.class);
 		public static final AssetDescriptor<RadioGroup> REPORT_FORMAT = declare("Report Format", RadioGroup.class);
@@ -37,6 +33,7 @@ public final class OperationalReportsMetaData {
 		public static final AssetDescriptor<ComboBox> SCHEDULE_TYPE = declare("Schedule Type", ComboBox.class);
 		public static final AssetDescriptor<TextBox> SCHEDULE_INTERVAL = declare("Schedule Interval", TextBox.class, By.id("jobsForm:interval"));
 		public static final AssetDescriptor<ComboBox> SCHEDULE_INTERVAL_TYPE = declare("Schedule Interval Type", ComboBox.class, By.id("jobsForm:repeatingType2"));
+		public static final AssetDescriptor<AdvancedSelectorOR> BUSINESS_UNIT = declare("Business Unit", AdvancedSelectorOR.class);
+		public static final AssetDescriptor<Button> REPORT = declare("Report", Button.class, By.id("jobsForm:generateReport"));
 	}
-
 }

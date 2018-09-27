@@ -1,47 +1,76 @@
 package com.exigen.ipb.etcsa.base.app;
 
+import org.apache.http.client.utils.URIBuilder;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
 
 public abstract class Application {
 
 	protected static Logger log = LoggerFactory.getLogger(Application.class);
+	private static URIBuilder builder = new URIBuilder();
+
+	protected String protocol;
+	protected String host;
+	protected String path;
+	protected String name;
+	protected int port;
+	protected ILogin login;
+	protected String url;
 
 	protected boolean isApplicationOpened;
 
-	protected String url = "";
-	protected String name = "";
-
-	protected ILogin login;
-
-	public enum AppType {
-		ADMIN,
-		OPERATIONAL_REPORT,
-		EU,
-		SWAGGER
-	}
-
-	protected Application(String name, String url) {
-		this.name = name;
-		this.url = url;
-	}
-
-	protected void setLogin(ILogin login) {
-		this.login = login;
+	protected Application() {
 	}
 
 	public ILogin getLogin() {
 		return login;
 	}
 
-	protected abstract void switchPanel();
+	protected void setLogin(ILogin login) {
+		this.login = login;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getProtocol() {
+		return protocol;
+	}
+
+	public String getUrl() {
+		builder.setScheme(getProtocol()).setHost(getHost()).setPort(getPort()).setPath(getPath());
+		return builder.toString().replace("/login.xhtml", "");
+	}
+
+	/**
+	 * Waiter
+	 *
+	 * @param seconds - secods amount to wait.
+	 */
+	public static void wait(int seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (InterruptedException e) {
+			log.warn("", e);
+		}
+	}
 
 	public void open() {
 		if (!isApplicationOpened) {
@@ -91,23 +120,21 @@ public abstract class Application {
 		}
 	}
 
-	/**
-	 * Waiter
-	 *
-	 * @param seconds - secods amount to wait.
-	 */
-	public static void wait(int seconds) {
-		try {
-			Thread.sleep(seconds * 1000);
-		} catch (InterruptedException e) {
-			log.warn("", e);
-		}
+	public void open(String url) {
+		BrowserController.get().open(url);
 	}
 
+	public String formatUrl() {
+		builder.setScheme(getProtocol()).setHost(getHost()).setPort(getPort()).setPath(getPath());
+		return builder.toString();
+	}
+
+	protected abstract void switchPanel();
+
 	private void openSession() {
-		CSAAApplicationFactory.get().adminApp(getLogin()).close();
-		CSAAApplicationFactory.get().mainApp(getLogin()).close();
-		CSAAApplicationFactory.get().opReportApp(getLogin()).close();
+		CSAAApplicationFactory.get().adminApp().close();
+		CSAAApplicationFactory.get().mainApp().close();
+		CSAAApplicationFactory.get().opReportApp().close();
 		if (TimeShiftTestUtil.isContextAvailable()) {
 			if (TimeShiftTestUtil.getContext().getPhaseUrls().length == 0) {
 				TimeShiftTestUtil.getContext().setPhaseStartUrls(url);
@@ -132,54 +159,4 @@ public abstract class Application {
 		isApplicationOpened = status;
 	}
 
-	public static String getURL(AppType type) {
-		String result = "http://" + getHost(type);
-		switch (type) {
-			case ADMIN:
-				result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).split("/login.xhtml")[0];
-				result += "/admin";
-				break;
-			case EU:
-				result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE).split("/login.xhtml")[0];
-				result += "/";
-			case OPERATIONAL_REPORT:
-				result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
-				break;
-			default:
-				break;
-		}
-
-		return result;
-	}
-
-	protected static String formatURL(AppType type) {
-		String result = "http://" + getHost(type);
-
-		switch (type) {
-			case ADMIN:
-				result += PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE);
-				break;
-			case EU:
-				result += PropertyProvider.getProperty(TestProperties.EU_URL_TEMPLATE);
-				break;
-			case OPERATIONAL_REPORT:
-				result += PropertyProvider.getProperty(CustomTestProperties.OR_URL_TEMPLATE);
-				break;
-			default:
-				break;
-		}
-		return result;
-	}
-
-	private static String getHost(AppType type) {
-		String host = PropertyProvider.getProperty(TestProperties.APP_HOST);
-		if ((AppType.EU.equals(type) || AppType.ADMIN.equals(type)) && !PropertyProvider.getProperty(TestProperties.APP_EU_HOST).isEmpty()) {
-			host = PropertyProvider.getProperty(TestProperties.APP_EU_HOST);
-		}
-		return host;
-	}
-
-	public static void open(String url) {
-		BrowserController.get().open(url);
-	}
 }

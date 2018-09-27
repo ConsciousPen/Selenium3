@@ -4,7 +4,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.modules.policy.HomeCaHO6BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
-public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6BaseTest {
+public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate {
 
-	TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate template = new TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate();
+	@Override
+	protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO6; }
 
 	///-----------Payment plan: Quarterly -> Semi-Annual, Not on Automatic Payment, Bill generated via scheduler job --------------
 	/**
@@ -33,12 +34,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6Ba
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
-		template.testRenewalMessageOnBindPageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.QUARTERLY,
-				false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, template.notAutomaticPaymentMessage,
+		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
@@ -59,12 +60,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6Ba
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
-		template.testRenewalMessageOnBindPageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.SEMI_ANNUAL,
-				false, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, template.notAutomaticPaymentMessage,
+		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.SEMI_ANNUAL,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 	}
 
@@ -88,12 +89,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6Ba
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToMortgageeBill(@Optional("") String state) {
 
-		template.testRenewalMessageOnBindPageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.QUARTERLY,
-				false, BillingConstants.PaymentPlan.MORTGAGEE_BILL_RENEWAL, template.billToInsuredToBillToMortgageeMessage,
+		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
+				false, BillingConstants.PaymentPlan.MORTGAGEE_BILL_RENEWAL, billToInsuredToBillToMortgageeMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
@@ -117,12 +118,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6Ba
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_MortgageeBillToMonthly(@Optional("") String state) {
 
-		template.testRenewalMessageOnBindPageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.MORTGAGEE_BILL,
-				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, template.billToMortgageeToBillToInsuredMessage,
+		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.MORTGAGEE_BILL,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, billToMortgageeToBillToInsuredMessage,
 				BillingConstants.PaymentPlan.MORTGAGEE_BILL_RENEWAL);
 	}
 
@@ -142,12 +143,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends HomeCaHO6Ba
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_AutoPay(@Optional("") String state) {
 
-		template.testRenewalMessageOnBindPageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.QUARTERLY,
-				true, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, template.automaticPaymentMessage,
+		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
+				true, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, automaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 }

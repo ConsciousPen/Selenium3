@@ -2,6 +2,8 @@ package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,7 +35,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-
+	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
+	private VehicleTab vehicleTab = new VehicleTab();
 	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -362,7 +365,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(viewEndorsementVehicleResponse2.vehicleList).containsAll(sortedVehicles);
 		Vehicle newVehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> newVehOid.equals(veh.oid)).findFirst().orElse(null);
 		assertThat(newVehicle1.vehIdentificationNo).isEqualTo(newVin);
-
 	}
 
 	protected void pas11633_ViewDriverAssignmentAutoAssignService(PolicyType policyType) {
@@ -1391,6 +1393,36 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
+	}
+
+	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType, String state) {
+
+	    TestData td = getPolicyTD("DataGather", "TestData_VA");
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
+		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTrailer").getTestDataList("VehicleTab")).resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		//Create pended endorsement
+		PolicySummary response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+		assertThat(response.policyNumber).isEqualTo(policyNumber);
+
+		ViewDriversResponse viewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
+		String driverOid2 = viewDriver.driverList.get(1).oid;
+
+		removeDriverRequest.removalReasonCode = "RD1001";
+		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(PRIMARY_OPERATOR).getValue().contains("Ben")).isTrue();
+		vehicleTab.saveAndExit();
 	}
 }
 

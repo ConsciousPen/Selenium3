@@ -210,6 +210,24 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 
 		pas14539_transactionInfoUpdateDriverAssignmentBody(getPolicyType());
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Remove sriver assigned to trailer
+	 * @scenario 1. Create a policy with 2V(1PPA and 1 Trailer) and 2D
+	 * 2.create endorsement
+	 * 3.Hit viewDrivers service to get driver OID .
+	 * 4.Hit delete driver service and delete driver assigned to trailer.
+	 * 5. Open endorsement in PAS
+	 * 6. Go to the vehicle page and verify driver is deleted and trailer is assigned  to FNI
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15540"})
+	public void pas15540_RemoveDriverAssignedToTrailer(@Optional("VA") String state) {
+
+		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType(), state);
+	}
 }
 
 

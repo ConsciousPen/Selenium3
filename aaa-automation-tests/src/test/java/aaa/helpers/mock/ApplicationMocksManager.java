@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
@@ -28,15 +28,15 @@ import toolkit.exceptions.IstfException;
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
 
-	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
-	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_PASSWORD);
-	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_SSH_AUTH_KEYPATH);
+	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CsaaTestProperties.APP_ADMIN_USER);
+	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CsaaTestProperties.APP_ADMIN_PASSWORD);
+	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CsaaTestProperties.APP_SSH_AUTH_KEYPATH);
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
-	private static final String APP_MOCKS_SCRIPT_WORKDIR = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_WORKDIR);
-	private static final String APP_MOCKS_SCRIPT_START = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_START), ENV_NAME);
-	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
+	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
+	private static final String APP_MOCKS_SCRIPT_WORKDIR = PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_WORKDIR);
+	private static final String APP_MOCKS_SCRIPT_START = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_START), ENV_NAME);
+	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
 	private static OS currentOS;
 
 	private static MocksCollection appMocks = new MocksCollection();
@@ -177,7 +177,6 @@ public class ApplicationMocksManager {
 		return RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 	}
 
-	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
 		switch (mockModelClass.getSimpleName()) {
 			case "RetrieveMembershipSummaryMock":
@@ -189,7 +188,7 @@ public class ApplicationMocksManager {
 			default:
 				M mock;
 				try {
-					mock = (M) ReflectionHelper.getInstance(mockModelClass);
+					mock = ReflectionHelper.getInstance(mockModelClass);
 				} catch (RuntimeException e) {
 					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
 				}

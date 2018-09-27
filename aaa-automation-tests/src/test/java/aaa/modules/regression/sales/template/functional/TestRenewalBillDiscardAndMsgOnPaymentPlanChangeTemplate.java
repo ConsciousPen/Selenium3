@@ -3,11 +3,9 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.xml.model.Document;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -28,7 +26,6 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_BILL;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER;
@@ -38,7 +35,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends PolicyBaseTest {
 
 	private LocalDateTime policyExpirationDate;
-	private String policyNumber;
 
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private BillingAccount billingAccount = new BillingAccount();
@@ -63,26 +59,26 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			+ "statement will not be available. If a payment is received from your mortgage company it will be applied to your policy. "
 			+ "Do you agree to these changes?";
 
-	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange(PolicyType policyType, String initialPaymentPlan, Boolean isOnAutopay, Boolean generateBillManually, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
-		createPolicy(policyType, initialPaymentPlan, isOnAutopay);
+	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange(String initialPaymentPlan, Boolean isOnAutopay, Boolean generateBillManually, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
+		String policyNumber = createPolicy(initialPaymentPlan, isOnAutopay);
 		createProposedRenewal();
 
 		if (generateBillManually) {
-			generatePaperBillManually();
+			generatePaperBillManually(policyNumber);
 		} else {
 			generatePaperBillViaJob();
-			checkThatPaperBillIsGeneratedInDB();
+			checkThatPaperBillIsGeneratedInDB(policyNumber);
 		}
 
-		navigateToRenewal(policyType);
+		navigateToRenewal(policyNumber);
 		changePaymentPlanOnRenewal(renewalPaymentPlan);
 		checkMessageInBindTab(message, initialPaymentPlanInRenewal, renewalPaymentPlan);
 		checkNewBillIsGeneratedOnRenewal();
-		checkThatPaperBillIsNotSentOnRenewal();
+		checkDocGenIsNotTriggered(policyNumber, RENEWAL_OFFER, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
-	private void createPolicy(PolicyType policyType, String paymentPlan, Boolean isOnAutoPay) {
-		TestData policyTd =  getStateTestData(testDataManager.policy.get(policyType).getTestData("DataGather"), "TestData");
+	private String createPolicy(String paymentPlan, Boolean isOnAutoPay) {
+		TestData policyTd =  getPolicyTD();
 		policyTd = policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), paymentPlan);
 
@@ -97,31 +93,31 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(policyTd);
-
-		policyNumber = PolicySummaryPage.getPolicyNumber();
+		return createPolicy(policyTd);
 	}
 
 	private void createProposedRenewal() {
 		//Move time to R-35
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
+		//For now 'Proposed Renewal' is not always generated after first run
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
 	private void generatePaperBillViaJob() {
 		//Move time to R-20
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(20));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-35 days
 
 		//Generate Renewal bill
+		//For now 'Renewal Bill' is not always generated after first run
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
-	private void generatePaperBillManually() {
+	private void generatePaperBillManually(String policyNumber) {
 		//Move time to R-20
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
@@ -138,20 +134,19 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 	/**
 	 * Check that paper bill document was generated in DB (RENEWAL BILL event is generated and it has AHRBXX document (paper bill))
 	 */
-	private void checkThatPaperBillIsGeneratedInDB() {
+	private void checkThatPaperBillIsGeneratedInDB(String policyNumber) {
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", RENEWAL_BILL);
 		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(1);
 
-		List<Document> renewalBillDocuments = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_BILL);
-		assertThat(renewalBillDocuments.stream().map(Document::getTemplateId).toArray()).contains(DocGenEnum.Documents.AHRBXX.getIdInXml());
+		checkDocGenTriggered(policyNumber, RENEWAL_BILL, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 
-	private void navigateToRenewal(PolicyType policyType) {
-		mainApp().open();
+	private void navigateToRenewal(String policyNumber) {
+		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
-		policyType.get().dataGather().start();
+		policy.dataGather().start();
 	}
 
 	private void changePaymentPlanOnRenewal(String paymentPlan) {
@@ -171,6 +166,9 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 			mortgageesTab.getValidateAddressDialogAssetList().getAsset(DialogsMetaData.AddressValidationMetaData.BTN_OK).click();
 			mortgageesTab.getMortgageeInfoAssetList().getAsset(HomeSSMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER).setValue("12345678");
 		} else {
+			if ((getPolicyType() != PolicyType.HOME_SS_HO4) && (getPolicyType() != PolicyType.HOME_SS_HO6)) {
+				premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.BILL_TO_AT_RENEWAL).setValue("Insured");
+			}
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlan);
 		}
 		premiumsAndCoveragesQuoteTab.calculatePremium();
@@ -197,14 +195,5 @@ public class TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate extends Pol
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.BILL);
 		assertThat(BillingSummaryPage.tableBillsStatements.getRow(2).getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE)
 				.getValue()).isEqualTo(BillingConstants.BillsAndStatementsType.DISCARDED_BILL);
-	}
-
-	/**
-	 * After Payment plan change new entry was generated in aaadocgenentity (RENEWAL_OFFER).
-	 * It should not contain AHRBXX (trigger to send paper bill)
-	 */
-	private void checkThatPaperBillIsNotSentOnRenewal() {
-		List<Document> renewalOfferDocuments = DocGenHelper.getDocumentsList(policyNumber, RENEWAL_OFFER);
-		assertThat(renewalOfferDocuments.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}
 }

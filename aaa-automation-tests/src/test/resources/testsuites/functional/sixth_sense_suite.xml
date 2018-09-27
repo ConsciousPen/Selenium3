@@ -29,57 +29,6 @@
         </classes>
     </test>
 
-    <test name="MVR Predictor Algo">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,OK,CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="MVR Predictor Algo NV">
-        <parameter name="state" value="NV"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                    <exclude name="pas14264_MVRPredictorConversion"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="MVR Predictor Algo Accidents">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Good Student Discount">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
-        </classes>
-    </test>
-
     <test name="Remove Distant Driver Discount">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -108,27 +57,89 @@
         </classes>
     </test>
 
+    <test name="Test UM And UIM Coverages opted in HardStop Rule">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDHardStopRule"/>
+        </classes>
+    </test>
+
+    <!--<test name="Test AA52ID Reset Signature in Required to Bind Section">-->
+        <!--<parameter name="state" value="ID"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <test name="Test Premium Recalculation Factors">
+        <parameter name="state" value="AZ, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
+        </classes>
+    </test>
+
+
     <!--Tests for Property-->
-    <!-- Uncomment when PAS-8786 is merged to master
-        <test name="Test Update Wildfire Score">
-            <parameter name="state" value="CA"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
-                <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
-            </classes>
-        </test>
-    -->
-    <test name="Test Update Wildfire Score">
+
+
+    <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestIncreasedInsuranceLimitAndSupplementalLossEndorsements"/>
+        </classes>
+    </test>
+
+    <test name="Test Endorsement With Pending Auto Select Companion">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementWithAutoSelectCompanion"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementWithAutoSelectCompanion"/>
+        </classes>
+    </test>
+
+    <test name="Test MD Hurricane Deductible">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestMDHurricaneDeductible"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMDHurricaneDeductible"/>
+        </classes>
+    </test>
+
+    <test name="Test Update Wildfire Score SS">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestOverrideWildfireScore"/>
+        </classes>
+    </test>
+
+    <test name="Test Update Wildfire Score CA">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
+        </classes>
+    </test>
+
+    <test name="Test Replacement Cost Value for Endorsed Renewal SS">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>
+        </classes>
+    </test>
+
+    <test name="Test Replacement Cost Value for Endorsed Renewal CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
         </classes>
     </test>
 
@@ -244,7 +255,19 @@
         </classes>
     </test>
 
+    <test name="Test Zero Claims Discount">
+        <parameter name="state" value="AZ, UT, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestZeroClaimsDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestZeroClaimsDiscount"/>
+        </classes>
+    </test>
+
+
             <!--Tests for PUP-->
+
 
     <test name="Test Pup Info Section View Rating Details">
         <parameter name="state" value="PA"/>
@@ -324,7 +347,9 @@
         </classes>
     </test>
 
+
     <!--Tests for Defects-->
+
 
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states">
         <parameter name="state" value="CO, OH, UT"/>
@@ -357,14 +382,12 @@
         </classes>
     </test>
 
-    <!--- Commented until PAS-11404 is fixed.
-        <test name="Remove Vehicle on Current Term Endorsement">
-            <parameter name="state" value="VA"/>
-            <classes>
-                <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
-            </classes>
-        </test>
-    -->
+    <test name="Remove Vehicle on Current Term Endorsement">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRemoveVehicleOnEndorsement"/>
+        </classes>
+    </test>
 
     <test name="Test CLUE reports on new copied policies for SS Auto">
         <parameter name="state" value="AZ, PA, OH"/>

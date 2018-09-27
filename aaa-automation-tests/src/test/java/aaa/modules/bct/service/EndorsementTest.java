@@ -1,5 +1,6 @@
 package aaa.modules.bct.service;
 
+import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -8,7 +9,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
@@ -24,6 +25,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
+import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -36,6 +38,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {NJ})
 	public void BCT_ONL_079_Endorsement(@Optional("") String state) {
 		mainApp().open();
 		IPolicy policy = PolicyType.HOME_SS_HO4.get();
@@ -67,6 +70,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementAutoSS(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_AAA_SS", date1, date2);
@@ -92,6 +96,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSDp3(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_SS", date1, date2);
@@ -119,6 +124,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSHo3(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_SS", date1, date2);
@@ -146,6 +152,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSHo4(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_SS", date1, date2);
@@ -173,6 +180,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSHo6(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_SS", date1, date2);
@@ -201,6 +209,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementPUP(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_PUP", date1, date2);
@@ -225,6 +234,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementAutoCAChoice(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Choice", date1, date2);
@@ -251,6 +261,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementAutoCASelect(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Auto_CA_Select", date1, date2);
@@ -277,6 +288,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementHomeCADp3(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Dp3_CA", date1, date2);
@@ -305,6 +317,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo3(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho3_CA", date1, date2);
@@ -333,6 +346,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo4(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho4_CA", date1, date2);
@@ -361,6 +375,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
+	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo6(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_CA", date1, date2);
@@ -389,9 +404,9 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	}
 
 	private String getPolicy(String testName, String date1, String date2) {
-		if (!PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1).isEmpty()) {
-			date1 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE1);
-			date2 = PropertyProvider.getProperty(CustomTestProperties.CUSTOM_DATE2);
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
+			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
 		}
 		return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}

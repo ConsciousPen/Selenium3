@@ -2,12 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import org.openqa.selenium.By;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
@@ -54,6 +57,8 @@ public abstract class Tab {
 			new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Status') or contains(text(), 'Status')]//span"));
 	public static StaticElement labelPolicyNumber =
 			new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Policy #') or contains(text(), 'Quote #')]//span"));
+	public static StaticElement labelEffDate =
+			new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[contains(text(), 'Eff. Date') or contains(text(), 'Eff. Date')]//span"));
 	public static StaticElement labelForConversionPolicy = new StaticElement(By.xpath("//span[@id = 'policyDataGatherForm:dataGatherHeaderSectionInfo']//td[3]//span"));
 
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
@@ -102,8 +107,27 @@ public abstract class Tab {
 		return new StaticElement(By.xpath("//div[@id='contentWrapper']//span[@class='error_message']"));
 	}
 
+	/**
+	 * Returns either a Quote or Policy Number from the tab header.
+	 * @return
+	 */
 	public String getPolicyNumber() {
 		return labelPolicyNumber.getValue();
+	}
+
+	/**
+	 * @return String Quote/Policy status from tab header
+	 */
+	public String getPolicyStatus() {
+		return labelStatus.getValue();
+	}
+
+	/**
+	 * Return the effective date from the tab header
+	 * @return LocalDateTime effective date
+	 */
+	public LocalDateTime getEffectiveDate() {
+		return TimeSetterUtil.getInstance().parse(labelEffDate.getValue(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 	}
 
 	public String getPolicyNumberForConversion() {

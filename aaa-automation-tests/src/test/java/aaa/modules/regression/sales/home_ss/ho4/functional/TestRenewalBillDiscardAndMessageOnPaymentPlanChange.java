@@ -4,7 +4,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
-import aaa.modules.policy.HomeSSHO4BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -13,9 +13,10 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends HomeSSHO4BaseTest {
+public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate {
 
-	TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate template = new TestRenewalBillDiscardAndMsgOnPaymentPlanChangeTemplate();
+	@Override
+	protected PolicyType getPolicyType() { return PolicyType.HOME_SS_HO4; }
 
 	///-----------Payment plan: Quarterly -> Semi-Annual, Not on Automatic Payment, Bill generated via scheduler job --------------
 	/**
@@ -40,13 +41,13 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends HomeSSH
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
-		template.testRenewalBillDiscardAndMessageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.QUARTERLY,
+		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
 				false, false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL,
-				template.notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
+				notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
 	///-----------Payment plan: Semi-Annual -> Quarterly, Not on Automatic Payment, Bill generated via scheduler job --------------
@@ -73,13 +74,13 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends HomeSSH
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
-		template.testRenewalBillDiscardAndMessageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.SEMI_ANNUAL,
+		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.SEMI_ANNUAL,
 				false, false, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL,
-				template.notAutomaticPaymentMessage, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
+				notAutomaticPaymentMessage, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 	}
 
 	///-----------Payment plan: Quarterly -> Semi-Annual,On Automatic Payment, Bill generated manually --------------
@@ -105,12 +106,12 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends HomeSSH
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_AutoPay_ManualBillGeneration(@Optional("") String state) {
 
-		template.testRenewalBillDiscardAndMessageOnPaymentPlanChange(getPolicyType(), BillingConstants.PaymentPlan.QUARTERLY,
+		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
 				true, true, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL,
-				template.notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
+				automaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 }

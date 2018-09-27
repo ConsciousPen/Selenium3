@@ -9,7 +9,6 @@ TestData: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 TestData1: {
@@ -23,8 +22,8 @@ TestData1: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab1',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
+
 TestData2: {
    PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab',
@@ -36,7 +35,6 @@ TestData2: {
     DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
     DocumentsAndBindTab: '@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 GeneralTab1: {
@@ -66,7 +64,6 @@ CurrentCarrierInformation: {
 AAAProductOwned: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
-  Last name: Smith,
   Life: 'Yes',
   'Life Policy #': L87654567,
   Home: 'Yes',
@@ -130,6 +127,20 @@ NamedInsuredInformation6: {
   Social Security Number: 785412369,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
+}
+
+TestData_SixDrivers: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DriverTab1: {
@@ -236,6 +247,26 @@ DriverTab6: {
          License Status: 'Licensed (US)',
 }
 
+DriverTab7: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
 VehicleTab1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -271,6 +302,7 @@ AssignedDriver4: {
     Driver: 'contains=Defensive',
     Select Vehicle: 'index=2'
 }
+
 
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
@@ -318,6 +350,90 @@ TestData_FiveDrivers: {
 
 TestData_2_Drivers_Not_NI_AfR: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_four'],
+}
+
+TestData_DeathAndSpecificDisabilityCoverage: {
+    DriverTab: ['@Driver_one', '@Driver_with_coverage_AFR', '@Driver_NAFR'],
+}
+
+TestData_DeathAndSpecificDisabilityCoverage2: {
+    DriverTab: ['@Driver_one_withDeathIndemnityAndSpecificDisabilityCov', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+}
+
+TestData_DeathAndSpecificDisabilityCoverage3: {
+    DriverTab: ['@Driver_one_withDeathIndemnityAndSpecificDisabilityCov', '@Driver_with_coverage_AFR2', '@Driver_NAFR'],
+}
+
+Driver_one_withDeathIndemnityAndSpecificDisabilityCov: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '$<today-21y:MM/dd/yyyy>',
+  License Type: 'Licensed (US)',
+  License Number: 400064773,
+  Death Indemnity and Specific Disability: "Yes",
+  Total Disability: "No"
+  }
+
+Driver_with_coverage_AFR2: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      "Policy #": '123456789',
+      Driver Type: Available for Rating,
+      Rel. to First Named Insured: Child,
+      First Name: 'JohnAfr',
+      Last Name: 'Smith',
+      Date of Birth: '12/12/1980',
+      Gender: 'Male',
+      Suffix: 'II',
+      Marital Status: Married,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: 'T60355299',
+      License Status: 'Licensed (US)',
+      Death Indemnity and Specific Disability: "Yes",
+      Total Disability: "Yes"
+  }
+
+Driver_with_coverage_AFR: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    "Policy #": '123456789',
+    Driver Type: Available for Rating,
+    Rel. to First Named Insured: Child,
+    First Name: 'JohnAfr',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355299',
+    License Status: 'Licensed (US)',
+    Death Indemnity and Specific Disability: "Yes",
+    Total Disability: "No"
+}
+
+Driver_NAFR: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    "Policy #": '123456789',
+    Driver Type: Not Available for Rating,
+    Reason: Other,
+    Rel. to First Named Insured: Child,
+    First Name: 'JohnNafr',
+    Last Name: 'Smith',
+    Date of Birth: '12/12/1980',
+    Gender: 'Male',
+    Suffix: 'II',
+    Marital Status: Married,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'T60355297',
+    License Status: 'Licensed (US)'
 }
 
 Driver_one: {

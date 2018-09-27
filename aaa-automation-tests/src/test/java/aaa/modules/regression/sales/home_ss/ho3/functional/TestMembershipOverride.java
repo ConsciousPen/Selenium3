@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -21,9 +24,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
 import java.time.LocalDateTime;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Tyrone Jemison
@@ -160,15 +161,14 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
-        try {
-            // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
-            createCustomerIndividual();
-            policy.createPolicy(defaultPolicyData);
-        }
-        catch(Exception ex){}
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
 
         // Here, I make sure the failure occurred at the anticipated location.
-        assertThat(new ApplicantTab().getAAAMembershipAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues().contains("Membership Override")).isFalse();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        assertThat(new ApplicantTab().getAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP).getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("Membership Override");
+
     }
 
     /**

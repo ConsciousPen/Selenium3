@@ -158,9 +158,14 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create policy with Standard UIM coverage
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy();
+		String policyNumber = createPolicy();
+		setDoNotRenewFlag(policyNumber);
 
 		// Create renewal and switch to EUIM coverage
+		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().perform();
 		switchToEUIMCoverage();
 		verifyFormsAndAmount();
@@ -301,35 +306,24 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		// Create policy with Standard UIM coverage
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy();
+		String policyNumber = createPolicy();
+		setDoNotRenewFlag(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		LocalDateTime renewalProposalDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-
-		//3. Generate renewal image
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		//reopen app and retrieve policy by number
-		mainApp().reopen();
+		//3. Create renewal image
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-
-		// Open Renewal Image in Data Gather mode
-		policy.dataGather().start();
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
+		policy.renew().perform();
 
 		//4. Switch UIM to EUIM coverage and Bind
 		switchToEUIMCoverageAndBind();
 
-		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}

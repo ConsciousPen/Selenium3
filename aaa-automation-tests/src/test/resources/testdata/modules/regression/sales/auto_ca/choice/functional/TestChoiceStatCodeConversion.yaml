@@ -1,0 +1,45 @@
+# Test Data Partial Match
+
+TestData_PartialMatch: {
+  VehicleTab: '@VehicleTab_PartialMatch'
+}
+
+VehicleTab_PartialMatch: {
+  VIN: '',
+  Year: '2015',
+  Make: 'AUDI',
+  Model: 'TT',
+  Series: 'TT',
+  Body Style: 'CONVERTIBLE',
+  'Value($)': '10000',
+  Primary Use: Pleasure (recreational driving only),
+  'Existing Damage': None,
+  'Salvaged?': 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}
+
+# Test Data MSRP Match (No VIN Match Case)
+
+TestData_MSRP: {
+  VehicleTab: '@VehicleTab_MSRP'
+}
+
+VehicleTab_MSRP: {
+  VIN: '',
+  Year: '2015',
+  Make: 'AUDI',
+  Model: 'TT',
+  Series: 'TT',
+  Body Style: 'OTHER',
+  Other Body Style: 'Body Style',
+  'Value($)': '10000',
+  Stat Code: 'High Exposure car Small',
+  'Air Bags': 'NONE',
+  'Anti-theft': 'OPT',
+  Primary Use: Pleasure (recreational driving only),
+  'Existing Damage': None,
+  'Salvaged?': 'No',
+  Miles One-way to Work or School: 10,
+  Odometer Reading: 3000
+}

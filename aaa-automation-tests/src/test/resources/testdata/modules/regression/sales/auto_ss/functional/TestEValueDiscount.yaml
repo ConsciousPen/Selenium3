@@ -1,11 +1,11 @@
 AAAProductOwned_Active: {
   Current AAA Member: 'Yes',
-  Membership Number: 4382124426284004,
-  Last name: Smith
+  Membership Number: 4382124426284004
 }
 
-AAAProductOwned_Pending: {
-  Current AAA Member: 'Membership Pending'
+AAAProductOwned_Override: {
+  Current AAA Member: 'Membership Override',
+  Member Since Date: $<today-30d>
 }
 
 AAAProductOwned_No: {

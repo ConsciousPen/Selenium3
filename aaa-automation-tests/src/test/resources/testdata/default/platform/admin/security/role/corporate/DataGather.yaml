@@ -1,0 +1,6 @@
+TestData: {
+  GeneralRoleTab:{
+    Role Name: 'all',
+    Privileges: [ALL]
+  }
+}

@@ -19,12 +19,7 @@ public class OperationalReport implements IOperationalReport {
 
     @Override
     public void navigate() {
-        if (!NavigationPage.isMainTabSelected(NavigationEnum.AdminAppMainTabs.REPORTS.get())) {
-            NavigationPage.toMainTab(NavigationEnum.AdminAppMainTabs.REPORTS.get());
-            loginToReports();
-        }
         NavigationPage.toViewTab(NavigationEnum.ReportsTab.OPERATIONAL_REPORTS.get());
-        loginToReports();
     }
 
     @Override
@@ -65,9 +60,7 @@ public class OperationalReport implements IOperationalReport {
 	            LoginPage.textBoxPassword.setValue(PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
                 LoginPage.buttonLogin.click();
             } else {
-                CSAAApplicationFactory.get().opReportApp(new LoginPage(
-		                PropertyProvider.getProperty(TestProperties.APP_USER),
-		                PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).getLogin().login();
+                CSAAApplicationFactory.get().opReportApp().getLogin().login();
             }
         }
     }

@@ -1,0 +1,23 @@
+TestData: {
+  OperationalReportsTab: {
+      Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation'
+  }
+}
+
+TestData_EUW_Detail: {
+  OperationalReportsTab: {
+      Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation',
+      Name: 'PAS Earned / Unearned / Written (EUW) - Detail'
+  }
+}
+
+TestData_EUW_Summary: {
+  OperationalReportsTab: {
+      Category : 'Policy',
+      Type: 'Policy Balancing and Reconciliation',
+      Name: 'PAS Earned / Unearned / Written (EUW) - Summary'
+  }
+}
+

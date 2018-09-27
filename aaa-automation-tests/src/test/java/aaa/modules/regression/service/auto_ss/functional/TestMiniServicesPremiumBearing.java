@@ -261,7 +261,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
 	public void pas8784_endorsementValidateStateSpecificConfigVersioning(@Optional("AZ") String state) {
-
+		//The test was moved out from dxp_suite, need to refactor after PAS-19725
 		pas8784_endorsementValidateStateSpecificConfigVersioning(getPolicyType());
 	}
 
@@ -318,20 +318,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		assertSoftly(softly ->
 				pas8273_CheckIfOnlyActiveVehiclesAreAllowed(softly, getPolicyType())
 		);
-	}
-
-	/**
-	 * @author Jovita Pukenaite
-	 * @name Check dxp server if Nano policy not returning any information about vehicle.
-	 * @scenario 1. Create Nano policy.
-	 * 2. Check dxp server, any info should not be displayed about vehicle.
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8273"})
-	public void pas8273_NanoPolicyShouldNotReturnVehicleInfo(@Optional("AZ") String state) {
-
-		pas8273_CheckIfNanoPolicyNotReturningVehicle(getPolicyType(), state);
 	}
 
 	/**
@@ -680,7 +666,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Create a policy
 	 * create a pended endorsment
 	 * add new vehicle
-	 * hit EndorsementChangeLog service validare response verify all coverages are there for added vehicle
+	 * hit Endorsement ChangeLog service validare response verify all coverages are there for added vehicle
 	 * verify is chage type is added
 	 * rate policy
 	 * hit view premium service

@@ -4,8 +4,11 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
@@ -71,11 +74,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<HomeSSOpenLForm> getForms() {
-		return new ArrayList<>(forms);
+		return forms != null ? new ArrayList<>(forms) : Collections.emptyList();
 	}
 
 	public void setForms(List<HomeSSOpenLForm> forms) {
-		this.forms = new ArrayList<>(forms);
+		this.forms = forms != null ? new ArrayList<>(forms) : Collections.emptyList();
 	}
 
 	public HomeSSOpenLAddress getPolicyAddress() {
@@ -251,11 +254,11 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	public List<OpenLVariationType> getPaymentPlanVariations() {
-		return paymentPlanVariations;
+		return new ArrayList<>(paymentPlanVariations);
 	}
 
 	public void setPaymentPlanVariations(List<OpenLVariationType> paymentPlanVariations) {
-		this.paymentPlanVariations = paymentPlanVariations;
+		this.paymentPlanVariations = new ArrayList<>(paymentPlanVariations);
 	}
 
 	public void setPolicyAddressHomeSSOpenLAddress(HomeSSOpenLAddress policyAddress) {
@@ -276,8 +279,8 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public HomeSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeSSTestDataGenerator(state, baseTestData);
+	public HomeSSTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeSSTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	@Override
@@ -301,15 +304,18 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 			requiredMocks.add(propertyRiskReportsMockData);
 		}
 
+		if (!mockGenerator.isAddressReferenceMockPresent(getPolicyAddress().getZip(), getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getPolicyAddress().getZip(), getState());
+			requiredMocks.add(addressReferenceMock);
+		}
+
 		return requiredMocks;
 	}
 
-	/*
 	@Override
-	public HomeSSHO4TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeSSHO4TestDataGenerator(state, baseTestData);
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(), "policy.id");
 	}
-	*/
 
 	@Override
 	public String getPolicyNumber() {
@@ -331,43 +337,6 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().getUnderwriterCode();
-	}
-
-	@Override
-	public String toString() {
-		return "HomeSSOpenLPolicy{" +
-				"policyNumber='" + policyNumber + '\'' +
-				", policyType='" + policyType + '\'' +
-				", level='" + level + '\'' +
-				", prevLevel='" + prevLevel + '\'' +
-				", coverages=" + coverages +
-				", policyAddress=" + policyAddress +
-				", policyNamedInsured=" + policyNamedInsured +
-				", policyDwellingRatingInfo=" + policyDwellingRatingInfo +
-				", policyConstructionInfo=" + policyConstructionInfo +
-				", policyCoverageDeductible=" + policyCoverageDeductible +
-				", policyLossInformation=" + policyLossInformation +
-				", policyDiscountInformation=" + policyDiscountInformation +
-				", profession='" + profession + '\'' +
-				", transactionType='" + transactionType + '\'' +
-				", effectiveDate=" + effectiveDate +
-				", forms=" + forms +
-				", riskMeterData=" + riskMeterData +
-				", chamberOfCommerce='" + chamberOfCommerce + '\'' +
-				", previousEffectiveDate=" + previousEffectiveDate +
-				", cappingDetails=" + cappingDetails +
-				", isVariationRequest=" + isVariationRequest +
-				", riskState='" + riskState + '\'' +
-				", policyId='" + policyId + '\'' +
-				", lob='" + lob + '\'' +
-				", productCd='" + productCd + '\'' +
-				", ignorable=" + ignorable +
-				", renewalCycle='" + renewalCycle + '\'' +
-				", policyVersion='" + policyVersion + '\'' +
-				", paymentPlanVariations=" + paymentPlanVariations +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
 	}
 
 	public Boolean isVariationRequest() {

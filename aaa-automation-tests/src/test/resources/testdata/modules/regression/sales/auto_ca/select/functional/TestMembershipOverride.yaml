@@ -19,43 +19,37 @@ GeneralTab: {
 AAAProductOwned: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to select it
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAProductOwned_Yes: {
   Current AAA Member: 'Yes',
 #  Override Type: 'Term',
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAProductOwned_Override_NoDate: {
   Current AAA Member: 'Membership Override',
   Override Type: 'Term',
-#  Membership Number: ,
-#  Last name: 'fddsf'
+#  Membership Number:
 }
 
 AAAProductOwned_MSNo: {
   Current AAA Member: 'No',
   Override Type: ,
-  Membership Number: ,
-  Last name:
+  Membership Number:
 }
 
 AAAProductOwned_MS_Active: {
   Current AAA Member: 'Yes',
 #  Override Type: ,
-  Membership Number: 9436258506738011,
-  Member Last Name: 'Test'
+  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_MS_Override_Term: {
   Current AAA Member: 'Membership Override',
 #  Override Type: 'Term', #this is default, so no point to selecting it
-#  Membership Number: 9436258506738011,
-#  Last name: 'fddsf' #remove
+#  Membership Number: 9436258506738011
 }
 
 AAAProductOwned_MS_Override_Life: {

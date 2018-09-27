@@ -245,7 +245,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         String policyNum = PolicySummaryPage.getPolicyNumber();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
 
         // open app search for policy
         mainApp().open();
@@ -312,9 +312,11 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        documentsAndBindTab.submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+			errorTab.override();
+			documentsAndBindTab.submitTab();
+		}
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         purchaseRenewal(policyNum);

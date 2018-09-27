@@ -90,8 +90,8 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			PolicyType type = openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
 			String policyType = openLPolicy.getRentalUnitsCount() > 0 ? "HO6" : "HO3";
 			type.get().createPolicy(td);
-			returnValue.put("Policy Number", PolicySummaryPage.labelPolicyNumber.getValue());
-			returnValue.put("Policy Type", policyType);
+			returnValue.put(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel(), PolicySummaryPage.labelPolicyNumber.getValue());
+			returnValue.put(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_TYPE.getLabel(), policyType);
 			//open Customer that was created in test
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
@@ -133,16 +133,17 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getApplicantTabPrimaryPolicyData(PUPOpenLPolicy openLPolicy) {
-		TestData dwellingAddressData = new SimpleDataProvider();
-		dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+		Map<String, Object> dwellingAddressData = new HashMap<>();
+		dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
+
 		if ("IN".equals(getState()) || "WV".equals(getState()) || "OH".equals(getState())) {
-			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
+			dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel(), "1");
 		}
 		if (Boolean.TRUE.equals(openLPolicy.getDwelling().getRetirementCommunityInd())) {
-			dwellingAddressData.adjust(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
+			dwellingAddressData.put(HomeSSMetaData.ApplicantTab.DwellingAddress.RETIREMENT_COMMUNITY.getLabel(), "MountainBrook Village");
 		}
 		return DataProviderFactory.dataOf(
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), dwellingAddressData
+				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), new SimpleDataProvider(dwellingAddressData)
 		);
 	}
 
@@ -451,6 +452,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (tdAutomobiles.size() < 1) {
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
+				//addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 				if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));

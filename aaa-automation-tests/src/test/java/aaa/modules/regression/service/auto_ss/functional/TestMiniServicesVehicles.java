@@ -38,11 +38,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Check dxp server To add vehicle.
+	 * @name Check dxp service To add vehicle.
 	 * Create a Policy
 	 * Create a pended endorsement
-	 * Hit "add-vehicle" dxp server.
-	 * Pass Pearches date and VIN to the service
+	 * Hit "add-vehicle" service.
+	 * send purchase date and VIN to the service as a request
 	 * Go to pas open pended endorsement and go to vehicle tab
 	 * Check the new vehicle is added with the vin number.
 	 * @scenario
@@ -82,15 +82,15 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name Check Vehicle vehicle service
+	 * @name Check View Vehicle service
 	 * @scenario 1.Create a policy with 4 vehicles (1.PPA 2.PPA 3. Conversion Van 4. Trailer )
 	 * 2.hit view vehicle service
-	 * 3.get a response in right sequence
-	 * 4.perform endorsement
+	 * 3.get a response in correct order.
+	 * 4. perform endorsement on the Policy
 	 * 5.add new vehicle (that will be pending)
 	 * 6.hit view vehicle service
-	 * 7.validate response shows pending vehicle first.
-	 * Added Pas 12244
+	 * 7.validate response and response should have pending vehicle first.
+	 * @megha Gubbala Added Pas 12244
 	 * Add 2 PPA vehicle
 	 * hit view vehicle service on pended endorsement
 	 * verify order of vehicle
@@ -257,6 +257,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name Check Duplicate VINs when adding or replacing Vehicle with status "pendingRemove"
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. Create an endorsement through service
+	 * 3. Run Remove Vehicle service for one of the Vehicles ---> Vehicle status is changed to "pendingRemove"
+	 * 4. Run Add Vehicle Service with the same VIN as vehicle with ""pendingRemove"" status --->
+	 *          Error ""Each vehicle must have a unique Vehicle Identification Number (200031)"" is provided
+	 *          AND The vehicle is not added/replaced to the pended endorsement
+	 * 5. Run View Endorsement Drivers service and validate that vehicle is not added
+	 * 6. Run Replace Vehicle Service with the same VIN as vehicle with "pendingRemove" status --->
+	 *          Error ""Each vehicle must have a unique Vehicle Identification Number (200031)"" is provided
+	 *          AND The vehicle is not added/replaced to the pended endorsement
+	 * 7. Run View Endorsement Drivers service and validate that vehicle is not replaced
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16577"})
+	public void pas16577_DuplicateVinAddVehicleServicePendingRemove(@Optional("VA") String state) {
+		pas16577_DuplicateVinAddVehicleServicePendingRemoveBody();
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * 1. create a policy with 2 ppa,1 conversion-van and 1 motor vehicle
 	 * 2. hit view vehicle servise to get order of all active vehicles
@@ -297,6 +320,23 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9546"})
 	public void pas9546_maxVehicles(@Optional("VA") String state) {
 		pas9546_maxVehiclesBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed vehicles
+	 * @scenario
+	 * 1. Retrieve policy with 8 vehicles (max count)
+	 * 2. Remove 1 vehicle and validate that there is 'revert' option in response
+	 * 3. Run viewEndorsementVehicles and validate that there is 'revert' option for removed vehicle
+	 * 4. Add vehicle
+	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
+		pas18672_vehiclesRevertOptionForDeleteBody();
 	}
 
 	/**
@@ -459,7 +499,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
+	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("AZ") String state) {
 
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(true);
 	}
@@ -480,40 +520,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver(@Optional("VA") String state) {
 
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(false);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Check replace with KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * ??????????? - result is not clear. Maybe this test can be removed.
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-		//BUG PAS-16113 Replace Vehicle and Driver Assignment - when a state doesn't have driver assignment
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(true);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Check replace with Don't KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * 4. check replacement is successful
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(false);
 	}
 
 	/**
@@ -601,6 +607,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
 
 		pas12942_GaragingAddressConsistencyDXPBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Vehicle Assignments after replacing the vehicle (only states without driver assignment)
+	 * @scenario 1.Create a policy with 2 drivers and two vehicles
+	 * 2.Create new endorsement outside of PAS
+	 * 3.Replace one vehicle: KeepAssignment = true
+	 * 4.Replace second vehicle: KeepAssignment = false
+	 * 5.Rate and bind
+	 * 6.Create new endorsement outside of PAS.
+	 * 7.Add new vehicle, update, rate and bind.
+	 * 8.Create new endorsement outside of PAS.
+	 * 9.Delete one old vehicle.
+	 * 10. Replace the newest vehicle: KeepAssignment = true
+	 * 11. Issue and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
+	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {
+
+		pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody();
 	}
 }
 

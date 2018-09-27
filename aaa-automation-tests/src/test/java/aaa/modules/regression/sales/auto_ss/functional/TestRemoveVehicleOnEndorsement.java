@@ -20,7 +20,6 @@ import toolkit.utils.TestInfo;
 
 public class TestRemoveVehicleOnEndorsement extends AutoSSBaseTest {
 
-	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private PurchaseTab purchaseTab = new PurchaseTab();

@@ -156,7 +156,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		new BillingAccount().refund().start();
 		refundActionTab.fillTab(refund.mask(keyPathRefundAmount));
 		RefundActionTab.buttonOk.click();
-		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Value is required");
 
 		// 5. Check for an error message if Refund Amount > Total Paid Amount
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, totalPaid.add(1).toString()));
@@ -166,7 +166,7 @@ public abstract class PolicyBillingOperations extends PolicyBaseTest {
 		// 6. Check for an error message if Refund Amount is "0"
 		refundActionTab.fillTab(refund.adjust(keyPathRefundAmount, "0"));
 		RefundActionTab.buttonOk.click();
-		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Amount is required");
+		assertThat(refundActionTab.getAssetList().getWarning(BillingAccountMetaData.RefundActionTab.AMOUNT.getLabel())).valueContains("Value is required");
 
 		// 7. Make a refund of 1000$
 		refundActionTab.fillTab(tdBilling.getTestData("Refund", "TestData_Check"));

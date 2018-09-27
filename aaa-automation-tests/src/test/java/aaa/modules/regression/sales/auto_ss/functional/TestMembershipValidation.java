@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 
 import aaa.common.enums.Constants;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -20,10 +21,6 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.CreateQuoteVersionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.datax.TestData;
@@ -466,7 +463,7 @@ public class TestMembershipValidation extends AutoSSBaseTest {
 
 	private void validate_NewBusiness(TestData tdSpecific, Boolean ruleShouldFire) {
 		TestData testData = getPolicyTD().adjust(tdSpecific);
-
+		testData.adjust(tdSpecific).adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A$<rx:\\d{8}>");
 		mainApp().open();
 		createCustomerIndividual();
 		log.info("Policy Creation Started...");
