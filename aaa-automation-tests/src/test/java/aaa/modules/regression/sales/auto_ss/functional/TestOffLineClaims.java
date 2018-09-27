@@ -25,6 +25,9 @@ import toolkit.utils.TestInfo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+
 
 public class TestOffLineClaims extends AutoSSBaseTest
 {
