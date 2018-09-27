@@ -515,12 +515,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					continue;
 				}
 
-				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
-				if (isTrailerOrMotorHomeVehicle && "SP EQUIPP".equals(coverageName)) {
+				if (isTrailerOrMotorHomeVehicle && "SP EQUIP".equals(coverage.getCoverageCd())) {
 					// tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI but it does not affect rating
 					continue;
 				}
 
+				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
 					if ("PIP".equals(coverage.getCoverageCd()) && getState().equals(Constants.States.OR)) {

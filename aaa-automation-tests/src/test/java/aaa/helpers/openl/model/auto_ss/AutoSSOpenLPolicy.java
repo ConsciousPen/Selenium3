@@ -2,8 +2,10 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -96,9 +98,10 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 			requiredMocks.add(membershipMock);
 		}
 
-		for (AutoSSOpenLVehicle vehicle : getVehicles()) {
-			if (!mockGenerator.isAddressReferenceMockPresent(vehicle.getAddress().getZip(), getState())) {
-				AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(vehicle.getAddress().getZip(), getState());
+		HashSet<String> postalCodes = getVehicles().stream().map(v -> v.getAddress().getZip()).collect(Collectors.toCollection(HashSet::new));
+		for (String postalCode : postalCodes) {
+			if (!mockGenerator.isAddressReferenceMockPresent(postalCode, getState())) {
+				AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(postalCode, getState());
 				requiredMocks.add(addressReferenceMock);
 			}
 		}
