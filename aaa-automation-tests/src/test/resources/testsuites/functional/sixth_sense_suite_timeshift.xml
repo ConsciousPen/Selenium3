@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="methods" thread-count="1024">
+<suite name="Sixth Sense Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
@@ -8,7 +8,7 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Propose Renewal Version after it was created with batch jobs">
+    <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal">
@@ -19,7 +19,7 @@
         </classes>
     </test>
 
-    <test name="Test Calculate Tier for NY converted policies">
+    <test name="Test Calculate Tier for NY converted policies" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.auto_ss.functional.TestTierCalculation">
@@ -31,7 +31,7 @@
         </classes>
     </test>
 
-    <test name="Test Reinstatement point score lock during mid term transaction">
+    <test name="Test Reinstatement point score lock during mid term transaction" parallel="methods" thread-count="1024">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMidTermReinstatementPointLock">
@@ -42,7 +42,7 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms">
+    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
@@ -63,7 +63,7 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Behavior">
+    <test name="Test Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
@@ -75,7 +75,7 @@
         </classes>
     </test>
 
-    <test name="Test Nano Enhanced UIM Coverage Behavior">
+    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
@@ -86,7 +86,7 @@
         </classes>
     </test>
 
-    <test name="Test Locked BI Limits And UW Points">
+    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
@@ -99,7 +99,7 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
+    <test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
@@ -115,7 +115,7 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Tier And UW Points Lock NY">
+    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
@@ -141,7 +141,7 @@
         </classes>
     </test>
 
-    <test name="Test Replacement Cost Value for Endorsed Renewal SS">
+    <test name="Test Replacement Cost Value for Endorsed Renewal SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement">
@@ -162,7 +162,7 @@
         </classes>
     </test>
 
-    <test name="Test Replacement Cost Value for Endorsed Renewal CA">
+    <test name="Test Replacement Cost Value for Endorsed Renewal CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement">
@@ -185,7 +185,7 @@
 
     <!--Tests for Defects-->
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For SS">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -226,7 +226,7 @@
         </classes>
     </test>
 
-    <test name="Test Off Cycle Bill Generation With No Installment Date For CA">
+    <test name="Test Off Cycle Bill Generation With No Installment Date For CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOffCycleBillNoInstallmentDate">
@@ -272,7 +272,7 @@
         </classes>
     </test>
 
-    <test name="Test Premium Bearing Endorsement RP for KY">
+    <test name="Test Premium Bearing Endorsement RP for KY" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY">
@@ -283,7 +283,7 @@
         </classes>
     </test>
 
-    <test name="Test View Rating Details Link">
+    <test name="Test View Rating Details Link" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestViewRatingDetailsLink">
@@ -309,7 +309,7 @@
         </classes>
     </test>
 
-    <test name="Test Lexis Nexis MVR Ordering on DAR page">
+    <test name="Test Lexis Nexis MVR Ordering on DAR page" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestLexisNexisMVROrdering">
