@@ -1,7 +1,7 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -65,5 +65,17 @@ public class DriverInformation {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    @Override
+    public String toString() {
+        return "DriverInformation{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", licenseNumber='" + licenseNumber + '\'' +
+                ", issuedState='" + issuedState + '\'' +
+                ", relationToNamedInsured='" + relationToNamedInsured + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

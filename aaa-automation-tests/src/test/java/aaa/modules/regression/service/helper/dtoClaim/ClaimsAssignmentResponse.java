@@ -1,10 +1,11 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
 
+import lombok.Data;
+
 import java.util.List;
 
 public class ClaimsAssignmentResponse {
-
 
     private List<Claim> unmatchedClaims;
 
