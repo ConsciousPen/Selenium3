@@ -1297,7 +1297,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 
 	private String policyCreation() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}

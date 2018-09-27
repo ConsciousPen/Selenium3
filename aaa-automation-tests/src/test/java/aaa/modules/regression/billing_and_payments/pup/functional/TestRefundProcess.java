@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -197,12 +197,12 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private String preconditionPolicyCreationPup() {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}
 
-	@AfterClass(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	private void deleteMultipleLastPaymentRequests() {
 		for (HelperWireMockStub wireMockStubObject : requestIdList) {
 			wireMockStubObject.cleanUp();
