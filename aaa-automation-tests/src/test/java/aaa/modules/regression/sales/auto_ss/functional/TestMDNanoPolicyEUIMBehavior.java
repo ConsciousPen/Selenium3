@@ -243,6 +243,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         createPolicy(tdPolicy);
 
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        setDoNotRenewFlag(policyNum);
 
         // Change Date to policies renewals proposal date
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
@@ -255,6 +256,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         verifyPolicySummaryPage("No");
 
         // Initiate Renewal
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 

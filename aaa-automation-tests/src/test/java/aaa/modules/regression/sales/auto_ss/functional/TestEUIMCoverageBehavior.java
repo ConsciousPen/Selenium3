@@ -145,6 +145,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
+        setDoNotRenewFlag(PolicySummaryPage.getPolicyNumber());
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -162,6 +163,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
@@ -236,6 +238,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         mainApp().open();
         getCopiedPolicy();
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        setDoNotRenewFlag(policyNum);
 
         // Change Date to policies renewals proposal date
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
@@ -248,6 +251,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyPolicySummaryPage("No");
 
         // Initiate Renewal
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
