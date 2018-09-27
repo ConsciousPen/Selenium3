@@ -69,16 +69,16 @@
         </classes>
     </test>
 
-    <!--<test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">-->
-        <!--<parameter name="state" value="MD"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">-->
-                <!--<methods>-->
-                    <!--<include name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Nano Enhanced UIM Coverage Behavior" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
+                <methods>
+                    <include name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <!--<test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">-->
         <!--<parameter name="state" value="PA"/>-->
