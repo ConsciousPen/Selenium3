@@ -15,13 +15,6 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
-        </classes>
-    </test>
-
     <test name="Test Enroll Usage Based Endorsement">
         <parameter name="state" value="PA"/>
         <classes>
@@ -39,21 +32,34 @@
     <test name="Test Enhanced UIM Coverage Behavior">
         <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
+                <methods>
+                    <exclude name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
+                    <exclude name="pas11620_testEUIMCoverageBehaviorRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
     <test name="Test Nano Enhanced UIM Coverage Behavior">
         <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
+                <methods>
+                    <exclude name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
+                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 

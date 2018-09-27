@@ -27,7 +27,9 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -42,8 +44,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
-	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
+	private List<String> pas9063FieldsRow1 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free")));
+	private List<String> pas9063FieldsRow2 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity")));
 
 	/**
 	*@author Dominykas Razgunas
