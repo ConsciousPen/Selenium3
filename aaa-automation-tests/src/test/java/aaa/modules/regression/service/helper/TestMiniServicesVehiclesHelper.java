@@ -884,9 +884,12 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas18670_CancelRemoveVehicleBody(boolean testWithUpdates) {
+		TestData tdError = DataProviderFactory.dataOf(aaa.main.modules.policy.pup.defaulttabs.ErrorTab.KEY_ERRORS, "All");
 		TestData td = getPolicyDefaultTD();
-		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
-		testData.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("PremiumAndCoveragesTab")).resolveLinks();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab"))
+				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestData("PremiumAndCoveragesTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError)
+				.resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
