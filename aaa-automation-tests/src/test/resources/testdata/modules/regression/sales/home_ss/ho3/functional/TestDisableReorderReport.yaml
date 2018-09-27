@@ -4,7 +4,6 @@ TestData: {
  }
 }
 
-
 NamedInsuredInformation: {
   Add: 'click',
   CustomerSearchDialog: {},
@@ -16,7 +15,6 @@ NamedInsuredInformation: {
   Social security number: '123456789',
   Occupation: 'index=1'}
 
-
 #####################  TestData for endorsement address change CA
 
 TestData_Endorsement1: {
@@ -25,10 +23,16 @@ TestData_Endorsement1: {
 }
 
 DwellingAddress_Change: {
-  Street address 1: One
+  Street address 1: One,
+  Validate Address: true,
+    Validate Address Dialog: {
+          Street number: '265',
+          Street Name: CHIPMAN AVE,
+    }
 }
 
 TestData_Endorsement2: {
+  ApplicantTab: {},
   ReportsTab: {},
   PropertyInfoTab: {},
   EndorsementTab: {},
