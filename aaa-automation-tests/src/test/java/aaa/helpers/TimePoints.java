@@ -284,7 +284,7 @@ public class TimePoints {
 	 */
 	public LocalDateTime getEffectiveDateForTimePoint(LocalDateTime date, TimepointsList timePoint) {
 		List<String> timepoint = td.getList(timePoint.get());
-		return date.with(DateTimeUtils.closestPastWorkingDay).minusDays(Integer.parseInt(timepoint.get(0)));
+		return date.with(DateTimeUtils.closestPastWorkingDay).plusDays(Integer.parseInt(timepoint.get(0)));
 	}
 
 	public enum TimepointsList {

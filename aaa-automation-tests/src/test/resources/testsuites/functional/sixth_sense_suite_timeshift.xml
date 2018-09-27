@@ -191,6 +191,32 @@
         </classes>
     </test>
 
+    <test name="Test PPC Report ReOrder Rule" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test View Rating Details Link" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
