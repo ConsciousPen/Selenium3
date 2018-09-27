@@ -28,7 +28,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	private static final String UNEARNED_INCOME_1015 = "1015";
 	private static final String CHANGE_IN_UNEARNED_INCOME_1021 = "1021";
 
-	@BeforeSuite
+	@BeforeSuite(alwaysRun = true)
 	public void beforeFinancialSuite() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
@@ -36,12 +36,12 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 				.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(CHANGE_IN_UNEARNED_INCOME_1021)).get()));
 	}
 
-	@BeforeMethod
+	@BeforeMethod(alwaysRun = true)
 	public void initializePolicyList() {
 		testPolicies = Collections.synchronizedList(new ArrayList<>());
 	}
 
-	@AfterMethod
+	@AfterMethod(alwaysRun = true)
 	public void afterFinancialMethod() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
