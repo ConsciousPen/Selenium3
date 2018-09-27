@@ -2,6 +2,7 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.TimePoints;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
@@ -76,20 +77,20 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 	}
 
 	private void createProposedRenewal(LocalDateTime renewalTime){
-		// CA Renewal Offer generation Time Point
-		TimeSetterUtil.getInstance().nextPhase(renewalTime.minusDays(83));
+		// Initiate Quote
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_IMAGE));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		// CA Reports Re order Time Point
-		TimeSetterUtil.getInstance().nextPhase(renewalTime.minusDays(73));
+		// Run Reports/Services
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_REPORTS));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		// CA Rate Quote Time Point
-		TimeSetterUtil.getInstance().nextPhase(renewalTime.minusDays(58));
+		// Rate Quote
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		// CA Renewal Issue time point
-		TimeSetterUtil.getInstance().nextPhase(renewalTime.minusDays(48));
+		// Offer/Issue Quote
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_OFFER));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
