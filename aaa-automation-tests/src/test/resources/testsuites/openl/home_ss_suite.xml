@@ -5,7 +5,6 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
-
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
@@ -71,13 +70,14 @@
             <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [KY] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="fileName" value="KYTests-20160901.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS HO3 [KY] Premium Calculation Test" preserve-order="true">
+        <parameter name="policyType" value="HomeSS_HO3"/>
+        <parameter name="fileName" value="KYTests-20181201.xls"/>
+        <parameter name="policyNumbers" value="4,10"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [MD] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="fileName" value="MDTests-20171001.xls"/>-->
     <!--<parameter name="policyNumbers" value="1"/>-->
