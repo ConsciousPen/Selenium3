@@ -100,6 +100,8 @@ public class HelperCommon {
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
 
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
@@ -620,9 +622,9 @@ public class HelperCommon {
     }
 
 	//Method to send JSON Request to Claims Matching Micro Service
-	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String url, String claimsRequest) {
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
 		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.url = url; //https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims
+		restRequestInfo.url = claimsUrl;
 		restRequestInfo.bodyRequest = claimsRequest;
 		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
 		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);

@@ -68,7 +68,7 @@ public final class OpenLTestsManager {
 							commonRequiredMocks.addAll(requiredMocks);
 						}
 					}
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					testInfo.setException(e);
 				}
 			}
@@ -112,7 +112,7 @@ public final class OpenLTestsManager {
 					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
 					testInfo.setOpenLFilePath(getFilePath(test));
 					testInfo.setOpenLPolicies(getOpenLPolicies(test));
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					testInfo.setException(e);
 				}
 
@@ -122,7 +122,7 @@ public final class OpenLTestsManager {
 		return openLTests;
 	}
 
-	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Exception {
+	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Throwable {
 		String filePath = getFilePath(test);
 		File openLFile;
 
@@ -163,7 +163,7 @@ public final class OpenLTestsManager {
 		return openLPolicies;
 	}
 
-	private File downloadOpenLFile(String filePath, String branchName) throws IOException {
+	private File downloadOpenLFile(String filePath, String branchName) throws Throwable {
 		String authString = PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_USER) + ":" + PropertyProvider.getProperty(CsaaTestProperties.RATING_REPO_PASSWORD);
 		String encodedAuthString = Base64.getEncoder().encodeToString(authString.getBytes());
 		String url = "https://csaa-insurance.aaa.com/bb/rest/api/1.0/projects/PAS/repos/pas-rating/raw/" + filePath + "?at=" + URLEncoder.encode("refs/heads/" + branchName, "UTF-8");

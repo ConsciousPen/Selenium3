@@ -18,20 +18,21 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
-	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA  with default payment plan
+	 * Specific Conversion Packet Generation for CW, DE, VA , MD, PA, IN  with default payment plan
 	 * @author Viktor Petrenko
 	 * PAS-9607
 	 * PAS-2674
 	 * PAS-8777
 	 * PAS-8766
 	 * PAS-9651
+	 * PAS-18908 Specific print order sequence - IN
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas2674_ConversionPacket(@Optional("MD") String state) throws NoSuchFieldException {
+	public void pas2674_ConversionPacket(@Optional("IN") String state) throws NoSuchFieldException {
 		verifyConversionFormsSequence(getSpecificFormsTestData());
 	}
 
@@ -43,6 +44,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	 * PAS-8777
 	 * PAS-8766
 	 * PAS-9651
+	 * PAS-18908 Specific print order sequence - IN
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
 	 */
@@ -54,19 +56,37 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	}
 
 	/**
-	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
+	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA, IN
 	 * @author Viktor Petrenko
 	 * PAS-9816
 	 * PAS-9607
 	 * PAS-9650
+	 * PAS-18908 Specific print order sequence - IN
 	 * @throws NoSuchFieldException
 	 * See detailed steps in template file
 	 */
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
-	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
-		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks());
+	public void pas9816_BillingPacketGeneration_autopay(@Optional("IN") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks(), true);
+	}
+
+	/**
+	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA, IN
+	 * @author Rokas Lazdauskas
+	 * PAS-9816
+	 * PAS-9607
+	 * PAS-9650
+	 * PAS-18908 Specific print order sequence - IN
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-2674"})
+	public void pas9816_BillingPacketGeneration_nonAutopay(@Optional("IN") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab","Payment plan"),"Monthly (Renewal)").resolveLinks(), false);
 	}
 
 }
