@@ -23,33 +23,25 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 public class FinancialsBaseTest extends PolicyBaseTest {
 
 	private static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
-	private List<String> testPolicies;
 
 	private static final String UNEARNED_INCOME_1015 = "1015";
 	private static final String CHANGE_IN_UNEARNED_INCOME_1021 = "1021";
 
 	@BeforeSuite(alwaysRun = true)
 	public void beforeFinancialSuite() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		assertSoftly(softly -> softly.assertThat(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(UNEARNED_INCOME_1015)).get())
-				.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(CHANGE_IN_UNEARNED_INCOME_1021)).get()));
+		validateAccounts();
 	}
 
-	@BeforeMethod(alwaysRun = true)
-	public void initializePolicyList() {
-		testPolicies = Collections.synchronizedList(new ArrayList<>());
-	}
-
-	@AfterMethod(alwaysRun = true)
-	public void afterFinancialMethod() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		for (String policy : testPolicies) {
-			assertSoftly(softly ->
-					softly.assertThat(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy(UNEARNED_INCOME_1015, policy)).get())
-							.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy(CHANGE_IN_UNEARNED_INCOME_1021, policy)).get()));
+	@AfterSuite(alwaysRun = true)
+	public void afterFinancialSuite() {
+		// ********* For debugging only ************
+		for (String policy : ALL_POLICIES) {
+			log.info(policy);
 		}
+		// *****************************************
+
+		validateAccounts();
+
 	}
 
 	@Override
@@ -67,7 +59,6 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 
 	protected String createFinancialPolicy(TestData td) {
 		String policyNum = createPolicy(td);
-		testPolicies.add(policyNum);
 		ALL_POLICIES.add(policyNum);
 		return policyNum;
 	}
@@ -220,22 +211,20 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 			type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 			hoPolicy = PolicySummaryPage.getPolicyNumber();
 			policies.put("Primary_HO3", hoPolicy);
-			testPolicies.add(hoPolicy);
 			ALL_POLICIES.add(hoPolicy);
 			typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 			autoPolicy = PolicySummaryPage.getPolicyNumber();
 			policies.put("Primary_Auto", autoPolicy);
-			testPolicies.add(autoPolicy);
 			ALL_POLICIES.add(autoPolicy);
 		}
 		return policies;
 	}
 
-	@AfterSuite(alwaysRun = true)
-	public void testPolicyLogging() {
-		for (String policy : ALL_POLICIES) {
-			log.info(policy);
-		}
+	private void validateAccounts() {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
+		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		assertSoftly(softly -> softly.assertThat(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(UNEARNED_INCOME_1015)).get())
+				.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(CHANGE_IN_UNEARNED_INCOME_1021)).get()));
 	}
 
 }
