@@ -28,9 +28,9 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
-import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
 import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.datax.TestData;
@@ -39,7 +39,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
-public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
+public class TestRefundProcess extends PolicyBaseTest implements TestRefundProcessPreConditions {
 
 	private static final String PENDING_REFUND_AMOUNT = "1000";
 	private static final String APPROVED_REFUND_AMOUNT = "999.99";
