@@ -1,7 +1,5 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
-import lombok.Data;
-
 import java.math.BigDecimal;
 
 public class Payment {
