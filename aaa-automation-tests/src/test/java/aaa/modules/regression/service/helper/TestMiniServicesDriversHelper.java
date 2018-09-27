@@ -8,10 +8,7 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -417,6 +414,71 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		driverTab.saveAndExit();
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	public void pas16548_NamedInsuredMaritalStatus_MultipleMaritalBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		// System updates the FNI and sets the marital status to Single
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
+		String fniOid = responseViewDrivers1.driverList.stream().filter(driver -> driver.relationToApplicantCd.equals("IN"))
+				.findFirst().orElse(new DriversDto()).oid;
+		UpdateDriverRequest updateFniRequest = DXPRequestFactory.createUpdateDriverRequest(null, null,
+				null, null, null, "SSS");
+		DriverWithRuleSets updateFNIResponse = HelperCommon.updateDriver(policyNumber, fniOid, updateFniRequest);
+		assertThat(updateFNIResponse.driver.maritalStatusCd).isEqualTo("SSS");
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		// System fetches the marital statuses for the given state.
+        String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HashMap<String, String> maritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
+				"AAA_SS", policyNumber.substring(0, 2), currentDate);
+		// List of marital statues that are considered equivalent to married.
+		List<String> marriedStatuses = ImmutableList.of("Married", "Registered Domestic Partner", "Civil Union",
+				"Common Law", "Registered Domestic Partner/Civil Union");
+
+		// Create endorsement for the policy
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		// Add a driver to the endorsement and save the oid for subsequent updates
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", null, "Driver", "1960-02-08", "III");
+		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+		String addedDriverOid = addDriver.oid;
+
+		// Fetch the applicable marital statuses for the driver from the MetaData service and validate that all marital
+		// statuses applicable to the state are available.
+		List<AttributeMetadata> metaDataResponse = Arrays.asList(HelperCommon.viewEndorsementDriversMetaData(policyNumber, addedDriverOid));
+		AttributeMetadata maritalStatusBefore = metaDataResponse.stream().filter(
+				attribute -> "maritalStatusCd".equals(attribute.attributeName)).findFirst().orElse(null);
+		maritalStatuses.forEach((key, value) -> assertThat(maritalStatusBefore.valueRange.containsKey(key)).isTrue());
+
+		// Update the driver to set them to a spouse on the policy and validate that the marital status is not defaulted
+		// at this point.
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(null, null,
+				null, null, "SP", null);
+		DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverRequest);
+		assertThat(updateDriverResponse1.driver.aaaMaritalStatusCd).isEqualTo(null);
+
+		// Fetch the applicable statuses for the driver now from the MetaData service and validate that only marital
+		// statuses that are equivalent to married are present on the list of available values for marital status.
+		// The test then updates the driver with each of the available statuses. For each update, the system validates
+		// that the FNI is updated with the appropriate marital status.
+		List<AttributeMetadata> metaDataAfterResponse = Arrays.asList(HelperCommon.viewEndorsementDriversMetaData(policyNumber, addedDriverOid));
+		AttributeMetadata maritalStatusAfter = metaDataAfterResponse.stream().filter(
+				attribute -> "maritalStatusCd".equals(attribute.attributeName)).findFirst().orElse(null);
+		maritalStatusAfter.valueRange.forEach((key, value) -> {
+			assertThat(marriedStatuses.contains(value)).isTrue();
+			UpdateDriverRequest updateDriverMaritalStatusRequest = DXPRequestFactory.createUpdateDriverRequest(null, null,
+					null, null, null, key);
+			DriverWithRuleSets maritalStatusResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverMaritalStatusRequest);
+			assertThat(maritalStatusResponse.driver.maritalStatusCd).isEqualTo(key);
+			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+            viewDriversResponse.driverList.stream().filter(
+                    driver -> "IN".equals(driver.relationToApplicantCd))
+					.findFirst().ifPresent(driver -> assertThat(driver.maritalStatusCd).isEqualTo(key));
+		});
 	}
 
 	public void pas14475_NameInsuredMaritalStatusBodyT(ETCSCoreSoftAssertions softly, boolean flag, String mStatus) {
