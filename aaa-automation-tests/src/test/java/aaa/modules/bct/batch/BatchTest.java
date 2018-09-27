@@ -211,4 +211,5 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 		Job job = GroupJobs.groupaaaRefundDisbursementAsyncJob;
 		executeBatchTest(job);
 	}
+
 }

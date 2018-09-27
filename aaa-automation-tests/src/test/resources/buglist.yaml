@@ -389,3 +389,9 @@ PAS-19445:
     messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
     messages: ["Risks with a property liability limit less than $300,000 are ineligible"]
+PT-2687:
+  summary: "Regression BCT: aaaRefundGenerationAsyncJob Info: Job execution failed with error: null"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.batch.BatchTest.BCT_BTCH_Process_Refunds_Process_Refunds_032]
+    messages: ["Job 'grouprefundGenerationJob' execution failed"]
