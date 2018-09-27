@@ -29,7 +29,6 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	private static final String CHANGE_IN_UNEARNED_INCOME_1021 = "1021";
 
 	@BeforeSuite
-	@AfterMethod
 	public void beforeFinancialSuite() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
