@@ -92,7 +92,8 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		// Some kind of random vin number
 		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey())
 				.adjust("VIN", "6FDEU15H7KL055795")
-				.adjust("Year", "2025").resolveLinks();
+				.adjust("Year", "2025").resolveLinks()
+				.adjust("Value", "11001");
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
 
