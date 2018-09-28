@@ -116,8 +116,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 	private void testResetSignatureRejectUM() {
-		// Validate signature status is anything but 'Not Signed'
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Reject UM Coverage and validate signature option
 		setCoverage(umCoverage, Coverage.NONE);
@@ -126,8 +124,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 	private void testResetSignatureRejectUIM() {
-		// Validate signature status is anything but 'Not Signed'
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Reject UIM Coverage and validate signature option
 		setCoverage(uimCoverage, Coverage.NONE);
@@ -136,8 +132,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 	private void testResetSignatureAddUM() {
-		// Validate signature status is anything but 'Not Signed'
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Add UM Coverage and validate signature option
 		setCoverage(umCoverage, Coverage.COV_100_300);
@@ -145,9 +139,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 	private void testResetSignatureAddUIM() {
-
-		// Validate signature status is anything but 'Not Signed'
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Add UIM Coverage and validate signature option
 		setCoverage(uimCoverage, Coverage.COV_100_300);
@@ -157,9 +148,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 
 
 	private void testResetSignatureRejectAddBothCoverages(int txType) {
-
-		// Validate signature status is anything but 'Not Signed'
-		assertThat(disclosureStmtRadioBtn.getValue()).isNotEqualTo(PolicyConstants.SignatureStatus.NOT_SIGNED);
 
 		// Reject both UM & UIM and validate signature option
 		setCoverage(umCoverage, Coverage.NONE);
