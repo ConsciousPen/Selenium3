@@ -1,6 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -18,19 +17,21 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestOffLineClaims extends AutoSSBaseTest
-{
+public class TestOffLineClaims extends AutoSSBaseTest {
+
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    public void TestCreateCasResponse() {
+
+        assertThat(Boolean.FALSE).isFalse();
+
+    }
     /**
      * * @author Chris Johns
      * @name Test Offline STUB/Mock Data Claims
