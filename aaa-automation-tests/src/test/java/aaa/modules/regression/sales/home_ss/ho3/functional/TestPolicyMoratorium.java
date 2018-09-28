@@ -31,17 +31,16 @@ import toolkit.utils.TestInfo;
 
 public class TestPolicyMoratorium extends PolicyMoratorium {
 
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
-	}
-
 	IProduct moratorium = ProductType.MORATORIUM.get();
-
 	PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	ProductOfferingTab productOfferingTab = new ProductOfferingTab();
 	BindTab bindTab = new BindTab();
 	PurchaseTab purchaseTab = new PurchaseTab();
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	/**
 	 * @author Maija Strazda
@@ -71,6 +70,7 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		String moratoriumName = getMoratoriumName(td);
 		String moratoriumDisplayMessage = getExpectedMoratoriumMessage(td);
 		String moratoriumCustomerNumber;
+		TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
 		try {
 			//Step 1 -- entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
 			log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
@@ -93,7 +93,6 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 			policy.initiate();
 			//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
 			//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
-			TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
 			policy.getDefaultView().fillUpTo(testData, ProductOfferingTab.class, false);
 
 			//Step 5
@@ -118,17 +117,14 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 			//Step 9
 			log.info("Step 9: Expire moratorium.");
-			expireMoratorium(moratoriumName);
-
-			//Step 10
-			log.info("Step 10: Create the same policy to make sure moratorium is not triggering anymore.");
-			checkMoratoriumIsNotTriggering(moratoriumCustomerNumber, testData);
-
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			expireMoratorium(moratoriumName);
 		}
+
+		//Step 10
+		log.info("Step 10: Create the same policy to make sure moratorium is not triggering anymore.");
+		checkMoratoriumIsNotTriggering(moratoriumCustomerNumber, testData);
+
 	}
 
 	/**
@@ -157,6 +153,7 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		String moratoriumName = getMoratoriumName(td);
 		String moratoriumDisplayMessage = getExpectedMoratoriumMessage(td);
 		String moratoriumCustomerNumber;
+		TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
 		try {
 			//Step 1
 			log.info("Step 1: Add ZIP Code entry in lookupvalue table if not exists.");
@@ -180,7 +177,6 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 			policy.initiate();
 			//when moratorium is set on particular address (state, city, zip code) it will be triggered only if dwelling address contains this geo data
 			//dwelling address needs to be adjusted in order to moratorium tests not to affect other tests (moratorium will be set to this zip code and will not affect policies with other zip codes)
-			TestData testData = adjustDwellingAddress(moratoriumZipCode, addressLine);
 			policy.getDefaultView().fillUpTo(testData, BindTab.class, true);
 
 			//Step 5
@@ -197,16 +193,13 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 			//Step 7
 			log.info("Step 7: Expire moratorium.");
-			expireMoratorium(moratoriumName);
-
-			//Step 8
-			log.info("Step 8: Create the same policy to make sure moratorium is not triggering anymore.");
-			checkMoratoriumIsNotTriggering(moratoriumCustomerNumber, testData);
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			expireMoratorium(moratoriumName);
 		}
+
+		//Step 8
+		log.info("Step 8: Create the same policy to make sure moratorium is not triggering anymore.");
+		checkMoratoriumIsNotTriggering(moratoriumCustomerNumber, testData);
 	}
 
 	private TestData adjustDwellingAddress(String moratoriumZipCode, String dwellingAddressLine) {

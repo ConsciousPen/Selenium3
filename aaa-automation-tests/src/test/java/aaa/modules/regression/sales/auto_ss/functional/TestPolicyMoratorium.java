@@ -117,16 +117,13 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 			//Step 9
 			log.info("Step 9: Expire moratorium.");
-			expireMoratorium(moratoriumName);
-
-			//Step 10
-			log.info("Step 10: Create the same policy to make sure moratorium is not triggering anymore.");
-			checkMoratoriumIsNotTriggering(moratoriumCustomerNumber);
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			expireMoratorium(moratoriumName);
 		}
+
+		//Step 10
+		log.info("Step 10: Create the same policy to make sure moratorium is not triggering anymore.");
+		checkMoratoriumIsNotTriggering(moratoriumCustomerNumber);
 	}
 
 	/**
@@ -194,16 +191,13 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 
 			//Step 7
 			log.info("Step 7: Expire moratorium.");
-			expireMoratorium(moratoriumName);
-
-			//Step 8
-			log.info("Step 8: Create the same policy to make sure moratorium is not triggering anymore.");
-			checkMoratoriumIsNotTriggering(moratoriumCustomerNumber);
-		} catch (Exception e) {
-			throw e;
 		} finally {
 			expireMoratorium(moratoriumName);
 		}
+
+		//Step 8
+		log.info("Step 8: Create the same policy to make sure moratorium is not triggering anymore.");
+		checkMoratoriumIsNotTriggering(moratoriumCustomerNumber);
 	}
 
 	private void checkPolicyIsActive() {
