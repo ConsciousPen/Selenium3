@@ -67,7 +67,6 @@ public class DifferencesActionTab extends ActionTab {
 			}
 		}
 	}
-
 	public void submit() {
 		PolicyActions.buttonRollOnChanges.click();
 	}
