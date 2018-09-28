@@ -70,11 +70,7 @@
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
-                <methods>
-                    <include name="pas9063_verifyLockedUWPointsRenewal"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints"/>
         </classes>
     </test>
 
@@ -96,6 +92,13 @@
         <parameter name="state" value="AZ, KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
+        </classes>
+    </test>
+
+    <test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
 
