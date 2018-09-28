@@ -59,7 +59,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		runPreRenewalNoticeJob(conversionExpDate.minusDays(81));
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
-		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL, false);
+		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL, false);
 		//Check that organic letter is supressed on conversion policy creation (HSRNKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSRNKY, policyNumber, PRE_RENEWAL, false);
 
@@ -67,7 +67,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		runPreRenewalNoticeJob(conversionExpDate.minusDays(80));
 
 		//Check that 'HSSNRKY' document is generated.
-		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL);
+		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL);
 		assertThat(getPolicyTransactionCodes(policyNumber, PRE_RENEWAL)).contains("MCON");
 
 		// 'PupCvrgYN' will have Y or N depending on policy was created with PUP endorsement or not
@@ -86,7 +86,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		runPreRenewalNoticeJob(secondPolicyExpirationDate.minusDays(80));
 
 		//Check that document is not generated (Conversion Specific Special Non-renewal letter is not sent on organic Renewal)
-		assertThat(DocGenHelper.waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL).size()).isEqualTo(1);
+		assertThat(DocGenHelper.waitForMultipleDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL).size()).isEqualTo(1);
 	}
 
 	protected void specialNonRenewalLetterAfterR80NotGenerated() {
@@ -117,7 +117,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		runPreRenewalNoticeJob(timeline);
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
-		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKY, policyNumber, PRE_RENEWAL, false);
+		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL, false);
 		//Check that organic letter is supressed on conversion policy creation (HSRNKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSRNKY, policyNumber, PRE_RENEWAL, false);
 	}
