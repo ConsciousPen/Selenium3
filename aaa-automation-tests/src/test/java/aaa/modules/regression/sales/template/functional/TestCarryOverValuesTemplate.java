@@ -16,6 +16,9 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
+
+import java.time.LocalDateTime;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestCarryOverValuesTemplate extends PolicyBaseTest {
@@ -44,8 +47,10 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         createPolicy(tdHome);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-        // Change system date Initiate Renewal
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        // Initiate Renewal
+        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(renewalTime);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
@@ -61,7 +66,8 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
-        purchaseRenewal(policyNumber);
+        mainApp().close();
+        purchaseRenewal(renewalTime, policyNumber);
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
@@ -88,7 +94,9 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Change system date Initiate Renewal
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(renewalTime);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
@@ -104,7 +112,8 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTabCa.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         bindTabCa.submitTab();
-        purchaseRenewal(policyNumber);
+        mainApp().close();
+        purchaseRenewal(renewalTime, policyNumber);
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
@@ -116,16 +125,4 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
                 getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), ComboBox.class))
                 .hasValue("Renewal");
     }
-
-
-    private void purchaseRenewal(String policyNumber){
-        // Open Billing account and Pay min due for the renewal
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-        // Open Policy
-        SearchPage.openPolicy(policyNumber);
-    }
-
 }
