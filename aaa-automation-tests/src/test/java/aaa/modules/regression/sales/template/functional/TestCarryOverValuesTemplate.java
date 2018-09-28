@@ -3,15 +3,16 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
@@ -61,8 +62,6 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
                 getAsset(HomeSSMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), ComboBox.class).setValueContains("Renewal");
 
         // Purchase Renewal
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
@@ -107,8 +106,6 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
                 getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), ComboBox.class).setValueContains("Renewal");
 
         // Purchase Renewal
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         premiumsAndCoveragesQuoteTabCa.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         bindTabCa.submitTab();
@@ -125,4 +122,55 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
                 getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.REASON_REPLACEMENT_COST_DIFFERS_FROM_THE_TOOL_VALUE.getLabel(), ComboBox.class))
                 .hasValue("Renewal");
     }
-}
+
+    protected void pas17736_TestRenewalStatusChangeCA() {
+
+        // Create the customer
+        mainApp().open();
+        createCustomerIndividual();
+
+        // Get TD Home.
+        TestData tdHome = getPolicyTD("DataGather", "TestData");
+
+        // Create Property Policy
+        createPolicy(tdHome);
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime renewalDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(renewalDate.minusDays(2));
+
+        // Create Proposed renewal
+        searchForPolicy(policyNumber);
+        policy.renew().perform();
+        premiumsAndCoveragesQuoteTabCa.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+        bindTabCa.submitTab();
+
+        // Customer Decline the Renewal and Check that Status is displayed in BA
+        PolicySummaryPage.buttonRenewals.click();
+        policy.declineByCustomerQuote().perform(getPolicyTD("DeclineByCustomer", "TestData"));
+        SearchPage.openBilling(policyNumber);
+        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
+                .hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED);
+        // Open Policy and endorse it
+        BillingSummaryPage.openPolicy(1);
+
+        // Create Endorsement
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+
+        // get Dollar Value of Cov A add 1000$ and setvalue
+        Dollar covAValue = new Dollar(propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue());
+        propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).setValue(covAValue.add(-4000).toString());
+
+        // Calculate Premium and Bind Endorsement
+        premiumsAndCoveragesQuoteTabCa.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+        bindTabCa.submitTab();
+
+        // Open BA and and check that the status of renewal was not updated
+        SearchPage.openBilling(policyNumber);
+        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS))
+                .hasValue(BillingConstants.BillingAccountPoliciesPolicyStatus.CUSTOMER_DECLINED);
+    }
+    }
