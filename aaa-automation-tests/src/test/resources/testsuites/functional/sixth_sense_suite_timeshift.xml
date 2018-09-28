@@ -80,32 +80,32 @@
         </classes>
     </test>
 
-    <!--<test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">-->
-        <!--<parameter name="state" value="PA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">-->
-                <!--<methods>-->
-                    <!--<include name="pas9063_verifyLockedUWPoints"/>-->
-                    <!--<include name="pas9063_verifyLockedUWPointsEndorsement"/>-->
-                    <!--<include name="pas9063_verifyLockedUWPointsConversion"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Locked BI Limits And UW Points" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestLockedUWPoints">
+                <methods>
+                    <include name="pas9063_verifyLockedUWPoints"/>
+                    <include name="pas9063_verifyLockedUWPointsEndorsement"/>
+                    <include name="pas9063_verifyLockedUWPointsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-    <!--<test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">-->
-        <!--<parameter name="state" value="PA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">-->
-                <!--<methods>-->
-                    <!--<include name="pas2450_testDriversWithViolationsNB"/>-->
-                    <!--<include name="pas2450_testDriversWithViolationsEndorsement"/>-->
-                    <!--<include name="pas2450_testDriversWithViolationsRenewal"/>-->
-                    <!--<include name="pas2450_testDriversWithViolationsConversion"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Defensive Driver Discount" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation">
+                <methods>
+                    <include name="pas2450_testDriversWithViolationsNB"/>
+                    <include name="pas2450_testDriversWithViolationsEndorsement"/>
+                    <include name="pas2450_testDriversWithViolationsRenewal"/>
+                    <include name="pas2450_testDriversWithViolationsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 
