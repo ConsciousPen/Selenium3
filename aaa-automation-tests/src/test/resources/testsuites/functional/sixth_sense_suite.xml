@@ -64,12 +64,12 @@
         </classes>
     </test>
 
-    <!--<test name="Test AA52ID Reset Signature in Required to Bind Section">-->
-        <!--<parameter name="state" value="ID"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test AA52ID Reset Signature in Required to Bind Section">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>
+        </classes>
+    </test>
 
     <test name="Test Premium Recalculation Factors">
         <parameter name="state" value="AZ, KY"/>
