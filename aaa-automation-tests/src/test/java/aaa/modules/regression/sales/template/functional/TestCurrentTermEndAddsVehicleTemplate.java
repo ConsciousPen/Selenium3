@@ -17,6 +17,7 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
@@ -105,26 +106,12 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-        //Conflict page
-        Table tableDifferences = PolicySummaryPage.tableDifferences;
-        int columnsCount = tableDifferences.getColumnsCount();
-
-        Link linkTriangle = provideLinkExpandComparisonTree(Collections.singletonList(0));
-        if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
-            linkTriangle.click();
-
-            Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
-            Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
-
-            if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
-                linkSetCurrent.click();
-                policy.rollOn().submit();
-            } else if (scenario.equals(MATCHED)) { //scenario 2
-                linkSetAvailable.click();
-                policy.rollOn().submit();
-            }
-        } else {
-            log.info("Conflict page not found. Please enable renewal merge");
+        //Conflicts/differences page
+        DifferencesActionTab differencesActionTab = new DifferencesActionTab();
+        if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
+            differencesActionTab.applyDifferences(true);
+        } else if (scenario.equals(MATCHED)) { //scenario 2
+            differencesActionTab.applyDifferences(false);
         }
     }
 
