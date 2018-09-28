@@ -39,6 +39,7 @@ public class PolicyMoratorium extends PolicyBaseTest {
 		MoratoriumPage.tableSearchResult.getRow(2).getCell("Actions").controls.links.getFirst().click();
 		new AddMoratoriumTab().getAssetList().getAsset(MoratoriumMetaData.AddMoratoriumTab.EXPIRATION_DATE).setValue(DateTimeUtils.getCurrentDateTime().format(DateTimeUtils.MM_DD_YYYY));
 		AddMoratoriumTab.buttonSave.click();
+		adminApp().close();
 	}
 
 }
