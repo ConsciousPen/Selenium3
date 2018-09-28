@@ -63,4 +63,16 @@ public class DriverInformation {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+    @Override
+    public String toString() {
+        return "DriverInformation{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", licenseNumber='" + licenseNumber + '\'' +
+                ", issuedState='" + issuedState + '\'' +
+                ", relationToNamedInsured='" + relationToNamedInsured + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
+    }
 }

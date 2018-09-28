@@ -15,13 +15,6 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
-        </classes>
-    </test>
-
     <test name="Test Enroll Usage Based Endorsement">
         <parameter name="state" value="PA"/>
         <classes>
@@ -36,17 +29,41 @@
         </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Forms">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+                <methods>
+                    <exclude name="pas11302_testEUIMMDFormRenewal"/>
+                    <exclude name="pas12466_AC1_NB"/>
+                    <exclude name="pas12466_AC3_Renewal"/>
+                    <exclude name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
+                    <exclude name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test Enhanced UIM Coverage Behavior">
         <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
+                <methods>
+                    <exclude name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
+                    <exclude name="pas11620_testEUIMCoverageBehaviorRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
     <test name="Test Nano Enhanced UIM Coverage Behavior">
         <parameter name="state" value="MD"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
+                <methods>
+                    <exclude name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -75,6 +92,13 @@
         <parameter name="state" value="AZ, KY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
+        </classes>
+    </test>
+
+    <test name="Test Defensive Driver Discount">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
         </classes>
     </test>
 

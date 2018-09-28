@@ -27,7 +27,9 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -42,8 +44,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
-	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
+	private List<String> pas9063FieldsRow1 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free")));
+	private List<String> pas9063FieldsRow2 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity")));
 
 	/**
 	*@author Dominykas Razgunas
@@ -100,6 +102,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -125,6 +128,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Change system date
 		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -182,6 +186,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		// Change Time to renew policy and have and issued renewal
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 
 		// Issue Renewal
@@ -323,6 +328,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Change system date
 		LocalDateTime renewalEff = effDate.plusYears(1);
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

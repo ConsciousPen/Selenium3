@@ -87,17 +87,17 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 4. add a driver through the service
 	 * 5. Update driver with required filed
 	 * 6. Hit View Driver service verify order.
-     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement.
 	 * 9. Delete the newest driver.
 	 * 10.Hit View Driver service verify order.
-     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 *@scenario PAS-18457: try to remove driver with code RD1003/RD1004 (driverStatus will be updated to driverTypeChanged), and validate that driverTypeChanged drivers are displayed after pending drivers
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470", "PAS-18457"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653", "PAS-14470", "PAS-18457"})
 	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
 		pas14653_ViewDriverServiceOrderOfPendingDeleteBody();
 	}
@@ -291,26 +291,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
 
-    /**
-     * @author Bob Van
-     * @name Update Drivers service, set marital status.
-     * @scenario
-     * 1. Create policy on Pas.
-     * 2. Create endorsement outside of PAS
-     * 2. Add 2nd driver outside of PAS
-     * 3. Update 2nd driver as spouse outside of PAS
-     * 4. Verify married status in update response
-     * 5. Verify married status in view driver response
-     * 6. Verify PAS pended endorsement general tab data
-     * 7. Verify PAS pended endorsement driver tab data
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+	/**
+	 * @author Bob Van
+	 * @name Update Drivers service, set marital status.
+	 * @scenario
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 2. Add 2nd driver outside of PAS
+	 * 3. Update 2nd driver as spouse outside of PAS
+	 * 4. Verify married status in update response
+	 * 5. Verify married status in view driver response
+	 * 6. Verify PAS pended endorsement general tab data
+	 * 7. Verify PAS pended endorsement driver tab data
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+	public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
 
-    	pas14474_UpdateSpouseDriverBody(getPolicyType());
-    }
+		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -335,6 +335,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
 		);
 	}
+
 	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, set marital status.
@@ -442,6 +443,28 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
+		);
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Default Marital Status - state deviations for multiple married statuses
+	 * @scenario1
+	 * 1. Create policy on Pas with the FNI set to non-married status
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add driver.
+	 * 4. Validate the driver's metadata allows all marital statuses.
+	 * 5. Set the driver to a married relationship.
+	 * 6. Validate the driver's metadata restricts marital statuses.
+	 * 7. Update the driver's marital status to a married status.
+	 * 8. Validate that the FNI marital status has been updated accordingly.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16548"})
+	public void pas16548_NamedInsuredMaritalStatus_MultipleMarital(@Optional("MD") String state) {
+		assertSoftly(softly ->
+				pas16548_NamedInsuredMaritalStatus_MultipleMaritalBody()
 		);
 	}
 
@@ -767,7 +790,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957" })
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957"})
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
 
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
@@ -795,6 +818,25 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
 
 		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver MetaData Service
+	 * @scenario 1. Create policy. with 1 Afr and 1 Nafr
+	 * 2. Create endorsement outside of PAS
+	 * 3. run driver meta data service
+	 * 4. Verify ADB is visible true for AFR and disable to NAFR driver
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17641"})
+	public void pas17641_MetaDataServiceDriverAddADB(@Optional("AZ") String state) {
+
+		TestData td = getTestSpecificTD("TestData");
+		assertSoftly(softly ->
+				pas17641_MetaDataServiceDriverAddADBBody(softly, getPolicyType(), td)
+		);
 	}
 
 }

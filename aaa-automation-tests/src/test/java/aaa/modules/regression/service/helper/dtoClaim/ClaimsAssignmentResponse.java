@@ -4,7 +4,6 @@ import java.util.List;
 
 public class ClaimsAssignmentResponse {
 
-
     private List<Claim> unmatchedClaims;
 
     private List<Claim> matchedClaims;

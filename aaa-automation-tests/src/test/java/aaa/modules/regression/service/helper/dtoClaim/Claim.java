@@ -1,11 +1,9 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
-import lombok.ToString;
-
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
-@ToString
 public class Claim {
 
     private String claimNumber;
@@ -38,6 +36,8 @@ public class Claim {
     private String lossSummary;
 
     private String driverOid;
+
+    private List<Payment> payments;
 
     public String getClaimNumber() {
         return claimNumber;
@@ -157,5 +157,35 @@ public class Claim {
 
     public void setDriverOid(String driverOid) {
         this.driverOid = driverOid;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
+    @Override
+    public String toString() {
+        return "Claim{" +
+                "claimNumber='" + claimNumber + '\'' +
+                ", policyReferenceNumber='" + policyReferenceNumber + '\'' +
+                ", type='" + type + '\'' +
+                ", dateOpened=" + dateOpened +
+                ", dateClosed=" + dateClosed +
+                ", dateOfLoss=" + dateOfLoss +
+                ", status='" + status + '\'' +
+                ", matchCode='" + matchCode + '\'' +
+                ", driverInformation=" + driverInformation +
+                ", totalAmountPaid=" + totalAmountPaid +
+                ", claimDeductible=" + claimDeductible +
+                ", liabilityCd='" + liabilityCd + '\'' +
+                ", subroFlag=" + subroFlag +
+                ", lossSummary='" + lossSummary + '\'' +
+                ", driverOid='" + driverOid + '\'' +
+                ", payments=" + payments +
+                '}';
     }
 }
