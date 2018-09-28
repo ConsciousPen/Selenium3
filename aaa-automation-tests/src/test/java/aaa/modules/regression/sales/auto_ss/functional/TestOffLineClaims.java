@@ -92,41 +92,6 @@ public class TestOffLineClaims extends AutoSSBaseTest
 	    //TODO: Add Claim Assertion!
     }
 
-	/**
-	 * * @author Chris Johns
-	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
-	 * @scenario
-	 * Test Steps:
-	 * 1. Send JSON Request with 3 claims to the Claims Matching Micro Service
-	 * 2. Verify the following claims match results:
-	 *      --Claim 1, 1TAZ1111OHS: No Match
-	 *      --Claim 2, 7TZ02222OHS: Existing Match
-	 *      --Claim 3, 3TAZ3333OHS: DL Match
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
-		String DEFAULT_PATH = "src/test/resources/claimsmatch/";
-		String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
-
-		//Define which JSON request to use
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(DEFAULT_PATH + "NoMatch_ExistingMatch_DLMatch.json")));
-
-		//Use runJsonRequestPostClaims to send the JSON request to the Claims Assignment Micro Service
-		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);
-
-		//Throw the microServiceResponse to log - assists with debugging
-		log.info(microServiceResponse.toString());
-
-		//Verify the First claim returned from CAS is in the unmatched section
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
-
-		//Verify that the Second claim returned from CAS is an existing match and the Third claim is a DL match
-		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
-		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("DL");
-	}
-
 }
 
 
