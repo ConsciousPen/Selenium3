@@ -21,16 +21,22 @@ DriverTab: {
 }
 
 PremiumAndCoveragesTab : {
+    Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+    Property Damage Liability: 'contains=$1,000,000',
+    Uninsured Motorists Bodily Injury: 'contains=$1,000,000/$1,000,000',
+    Medical Payments: 'contains=$25,000',
     Calculate Premium: 'click',
     Override Premium: {
-    Bodily Injury Liability By Flat Amount: '200',
-    Reason for Override: 'OTHER',
-    Other Reason: 'CFT tests'
+      Bodily Injury Liability By Flat Amount: '200',
+      Reason for Override: 'OTHER',
+      Other Reason: 'CFT tests'
     }
 }
 
 PremiumAndCoveragesTab_DataGather: {
-  Payment Plan: Standard Monthly
+  Payment Plan: Standard Monthly,
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Property Damage Liability: 'contains=$50,000'
 }
 
 PurchaseTab_DataGather: {
