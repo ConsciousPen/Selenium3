@@ -1,27 +1,21 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.helpers.TimePoints;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantEndorsementTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.ho3.functional.TestDisableReorderReport;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 
@@ -58,10 +52,12 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 			bindTabCA.submitTab();
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			LocalDateTime renewalTime = PolicySummaryPage.getExpirationDate();
+			mainApp().close();
 
 			// Create Renewal with Jobs and exact Time points
 			createProposedRenewal(renewalTime);
 
+			mainApp().open();
 			// Purchase Renewal and Navigate to Renewal Policy Summary
 			purchaseRenewal(renewalTime, policyNumber);
 			PolicySummaryPage.buttonRenewals.click();
@@ -78,19 +74,19 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 
 	private void createProposedRenewal(LocalDateTime renewalTime){
 		// Initiate Quote
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_IMAGE));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(renewalTime));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		// Run Reports/Services
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_REPORTS));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(renewalTime));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		// Rate Quote
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(renewalTime));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		// Offer/Issue Quote
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEffectiveDateForTimePoint(renewalTime, TimePoints.TimepointsList.RENEW_GENERATE_OFFER));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalTime));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
