@@ -57,7 +57,6 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 			// Create Renewal with Jobs and exact Time points
 			createProposedRenewal(renewalTime);
 
-			mainApp().open();
 			// Purchase Renewal and Navigate to Renewal Policy Summary
 			purchaseRenewal(renewalTime, policyNumber);
 			PolicySummaryPage.buttonRenewals.click();
