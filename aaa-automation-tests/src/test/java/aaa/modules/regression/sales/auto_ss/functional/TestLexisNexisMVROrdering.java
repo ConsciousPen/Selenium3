@@ -117,6 +117,7 @@ public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 		String policyNumber = createPolicy(td);
 
 		// Create renewal image at R-63 with renewal jobs
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(PolicySummaryPage.getExpirationDate()));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);

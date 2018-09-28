@@ -67,6 +67,7 @@ public class TestReducedPremiumEndorsementKY extends AutoSSBaseTest {
 
         //Change the VDM date to the next bill due date and generate billing invoice
         LocalDateTime dd1 = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+        mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 

@@ -28,6 +28,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 	private final Dollar zeroDollars = new Dollar(0.00);
 	private String policyNumber;
 	private LocalDateTime dueDate;
+	private LocalDateTime effDate;
 
 	protected abstract Purchase getPurchaseTab();
 
@@ -72,7 +73,8 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 		setPolicyInfo();
 
 		// Create a premium-bearing endorsement (increase) at effective date plus 5 days
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getEffectiveDate().plusDays(5));
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(5));
 		reopenPolicy(policyNumber);
 		getPolicyType().get().endorse().perform(getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData"));
 		navigateToPremiumAndCoveragesTab();
@@ -105,7 +107,8 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 
 	private void setPolicyInfo() {
 		policyNumber = PolicySummaryPage.getPolicyNumber();
-		dueDate = PolicySummaryPage.getEffectiveDate().plusMonths(1);
+		effDate = PolicySummaryPage.getEffectiveDate();
+		dueDate = effDate.plusMonths(1);
 	}
 
 	private void validateMinDueAndOffCycleBillingInvoice() {
@@ -114,6 +117,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 		assertThat(BillingSummaryPage.getMinimumDue()).isEqualTo(zeroDollars);
 
 		// Move to DD-20, run off cycle billing job, and refresh policy
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getOffcycleBillGenerationDate(dueDate));
 		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
 		reopenPolicy(policyNumber);

@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -28,9 +29,11 @@ public class TestViewRatingDetailsLinkTemplate extends PolicyBaseTest {
 
         getPolicyType().get().createPolicy(td);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
 
         //Change time to R-35 and run Renewal Jobs
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
+		mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(35));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
 

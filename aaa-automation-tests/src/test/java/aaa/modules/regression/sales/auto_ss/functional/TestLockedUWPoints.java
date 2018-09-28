@@ -102,6 +102,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -127,6 +128,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Change system date
 		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -184,6 +186,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
 		// Change Time to renew policy and have and issued renewal
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 
 		// Issue Renewal
@@ -325,6 +328,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Change system date
 		LocalDateTime renewalEff = effDate.plusYears(1);
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

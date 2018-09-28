@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -243,7 +244,9 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         createPolicy(tdPolicy);
 
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
         setDoNotRenewFlag(policyNum);
+		mainApp().close();
 
         // Change Date to policies renewals proposal date
         TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());

@@ -21,6 +21,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 
@@ -77,9 +78,11 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         // Initiate Home Policy and add Auto policy as a companion
         policyType.get().createPolicy(tdHome);
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
 
         // Change system date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        TimeSetterUtil.getInstance().nextPhase(expDate);
         mainApp().open();
         SearchPage.openPolicy(policyNum);
 

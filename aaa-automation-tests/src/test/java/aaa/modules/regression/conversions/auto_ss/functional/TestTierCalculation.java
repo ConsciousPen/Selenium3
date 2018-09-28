@@ -136,13 +136,16 @@ public class TestTierCalculation extends AutoSSBaseTest {
 				.adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), premiumValue.add(20).toString())).submitTab();
 
 		// Run policy status update job
+		mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
         // Change time point to renewal image generation date
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumberConv);
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(expDate));
 
         // Create renewal image for both policies and validate tier values
 		mainApp().open();

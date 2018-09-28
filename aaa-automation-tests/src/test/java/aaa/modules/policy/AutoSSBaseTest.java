@@ -32,6 +32,7 @@ public class AutoSSBaseTest extends PolicyBaseTest {
 	}
 
     protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
+		mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
