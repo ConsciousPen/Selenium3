@@ -61,6 +61,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
                     <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
+                    <include name="pas17641_MetaDataServiceDriverAddADB"/>
                 </methods>
             </class>
         </classes>

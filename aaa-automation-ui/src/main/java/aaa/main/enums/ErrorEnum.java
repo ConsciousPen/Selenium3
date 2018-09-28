@@ -42,6 +42,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA338657_23("AAA_HO_CA338657_23", "Applicants/insureds with any dogs or other animals, reptiles, or pets with an..."),
 		ERROR_AAA_HO_CA338657_28("AAA_HO_CA338657_28", "Water heaters (except electric heaters) must be strapped to the wall or if lo..."),
 		ERROR_AAA_HO_CA338657_36("AAA_HO_CA338657_36", "Risks located within 500 feet of bay or coastal water is ineligible."),
+		ERROR_AAA_HO_CA7150360 ("AAA_HO_CA7150360", "Order PPC report before quote."),
 		ERROR_AAA_HO_CA7220104("AAA_HO_CA7220104", "Dwellings built prior to 1900 are ineligible."),
 		ERROR_AAA_HO_CA7220432("AAA_HO_CA7220432", "Dwellings with more than 2 roof layers are ineligible."),
 		ERROR_AAA_HO_CA7220704("AAA_HO_CA7220704", "Maximum total number of livestock is 100."),

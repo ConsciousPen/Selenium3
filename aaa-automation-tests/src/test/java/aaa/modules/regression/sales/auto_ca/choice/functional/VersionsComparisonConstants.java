@@ -77,6 +77,8 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Model","CARAVAN","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Series","GRAND CARAVAN SE/SPORT","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style","SPORT VAN","ROADSTER")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Comp Symbol", "7","27")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Coll Symbol", "7","27")
 			//TODO should be return to TD when True/False vs Yes/No is fixed
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true","false")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "","false")
@@ -425,6 +427,8 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")
