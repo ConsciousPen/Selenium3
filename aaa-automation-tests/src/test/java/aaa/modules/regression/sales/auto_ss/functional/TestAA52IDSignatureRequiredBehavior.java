@@ -65,8 +65,11 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		testResetSignatureAddUIM(PolicyConstants.SignatureStatus.NOT_SIGNED);
 		initiateNavigateToBindTab(ENDORSEMENT);
 
-		testResetSignatureRejectAddBothCoverages(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
-		initiateNavigateToBindTab(ENDORSEMENT);
+        testResetSignatureRejectBothCoverages(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
+        initiateNavigateToBindTab(ENDORSEMENT);
+
+        testResetSignatureAddBothCoverages(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
+        initiateNavigateToBindTab(ENDORSEMENT);
 
 	}
 
@@ -110,8 +113,11 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		testResetSignatureAddUIM(PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
 		initiateNavigateToBindTab(RENEWAL);
 
-		testResetSignatureRejectAddBothCoverages(RENEWAL, PolicyConstants.SignatureStatus.NOT_SIGNED);
+		testResetSignatureRejectBothCoverages(RENEWAL, PolicyConstants.SignatureStatus.NOT_SIGNED);
 		initiateNavigateToBindTab(RENEWAL);
+
+        testResetSignatureAddBothCoverages(RENEWAL, PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
+        initiateNavigateToBindTab(RENEWAL);
 
 	}
 
@@ -147,21 +153,25 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	}
 
 
-	private void testResetSignatureRejectAddBothCoverages(int txType, String sigStatus) {
+	private void testResetSignatureAddBothCoverages(int txType, String sigStatus) {
 
-		// Reject both UM & UIM and validate signature option
-		setCoverage(umCoverage, Coverage.NONE);
-		setCoverage(uimCoverage, Coverage.NONE);
-		validateSignatureStatusOnBindTab(sigStatus);
+        // Add both UM & UIM and validate signature option
+        setCoverage(umCoverage, Coverage.COV_100_300);
+        setCoverage(uimCoverage, Coverage.COV_100_300);
+        validateSignatureStatusOnBindTab(sigStatus);
 
-		initiateNavigateToBindTab(txType);
+    }
 
-		// Add both UM & UIM and validate signature option
-		setCoverage(umCoverage, Coverage.COV_100_300);
-		setCoverage(uimCoverage, Coverage.COV_100_300);
-		validateSignatureStatusOnBindTab(sigStatus);
+    private void testResetSignatureRejectBothCoverages(int txType, String sigStatus) {
 
-	}
+        // Reject both UM & UIM and validate signature option
+        setCoverage(umCoverage, Coverage.NONE);
+        setCoverage(uimCoverage, Coverage.NONE);
+        validateSignatureStatusOnBindTab(sigStatus);
+
+        initiateNavigateToBindTab(txType);
+
+   }
 
 	private void setCoverage(ComboBox coverage, String value) {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
