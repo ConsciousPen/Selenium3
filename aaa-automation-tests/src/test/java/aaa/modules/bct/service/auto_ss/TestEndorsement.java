@@ -10,7 +10,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.modules.bct.service.EndorsementTemplate;
+import aaa.modules.bct.EndorsementTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 

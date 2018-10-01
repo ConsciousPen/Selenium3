@@ -1,4 +1,4 @@
-package aaa.modules.bct.service;
+package aaa.modules.bct;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
@@ -9,7 +9,6 @@ import org.testng.annotations.DataProvider;
 import aaa.common.Tab;
 import aaa.config.CsaaTestProperties;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import toolkit.config.PropertyProvider;
 
 public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
@@ -23,7 +22,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 	public static final String TESTDATA_NAME_ENDORSE_HOME_CA = "TestDataEndorseHomeCA";
 	public static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 
-	@DataProvider(name = "getPoliciesForEmptyEndorsementTests")
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = false)
 	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
 		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if (state == null) {

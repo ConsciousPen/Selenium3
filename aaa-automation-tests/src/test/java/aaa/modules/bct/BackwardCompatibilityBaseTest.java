@@ -41,39 +41,17 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 		String result = null;
 		try {
-			result = HttpJob.getJobProcessedStatistic(job.getJobName());
+			result = HttpJob.JobStatistic.getJobProcessedStatistic(job.getJobName());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		List<String> temp = Arrays.asList(result.toString().replace(",", "").replace(".", "").split(" "));
+		boolean failurePercentage = getFailurePercentage(result);
 
-		HashMap<String, String> splittedRow = new HashMap<>();
-		splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
-		splittedRow.put(JobResultEnum.JobStatisticsConstants.TIME, temp.get(1));
-		splittedRow.put(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT, temp.get(7));
-		splittedRow.put(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT, temp.get(9));
-		splittedRow.put(JobResultEnum.JobStatisticsConstants.ERROR_COUNT, temp.get(11));
-
-		long processedCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
-		long successCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
-		long errorCount = Long.parseLong(splittedRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
-		boolean erorrsCountLessOfFivePercents = false;
-
-		long percentage = 0;
-		if(processedCount > 0){
-			if(errorCount > 0){
-				percentage = errorCount * 100 / processedCount ;
-				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
-			}
-			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
-		}else {
-			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
-		}
-
-		assertThat(erorrsCountLessOfFivePercents).as(String.format("Errors %s from Processed Count %s is %d ",errorCount,processedCount,percentage)).isEqualTo(true);
+		assertThat(failurePercentage).as("Percentage of failed to process tasks is more 5%").isEqualTo(true);
 	}
 
+	@Deprecated
 	protected void executeBatchTestWithQueries(String name, Job job) {
 		List<String> preKey = Collections.unmodifiableList(Arrays.asList(name, "PreValidation"));
 		synchronized (name) {
@@ -183,5 +161,48 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	public String getMethodName() {
 		return Thread.currentThread().getStackTrace()[2].getMethodName();
 	}
+
+	private boolean getFailurePercentage(String result) {
+		HashMap<String, String> preparedStatisticsRow = prepareStatisticsRow(result);
+
+		long processedCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.PROCESSED_COUNT));
+		long successCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT));
+		long errorCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.ERROR_COUNT));
+
+		return isErorrsCountLessOfFivePercents(processedCount, errorCount);
+	}
+
+	private boolean isErorrsCountLessOfFivePercents(long processedCount, long errorCount) {
+		boolean erorrsCountLessOfFivePercents = false;
+		long percentage = 0;
+		if(processedCount > 0){
+			if(errorCount > 0){
+				percentage = errorCount * 100 / processedCount ;
+				erorrsCountLessOfFivePercents = percentage > 5; // false if > 5% of errors
+			}
+			erorrsCountLessOfFivePercents = true; // if processed count > 0 and errorCount 0
+		}else {
+			erorrsCountLessOfFivePercents = false; // if processed count = 0 or job failed.. or ..
+		}
+
+		log.info("HTTP: Percentage is {}% , \"Error Count\" {} from \"Processed Count\" {}  \n\n",errorCount,processedCount,percentage);
+		return erorrsCountLessOfFivePercents;
+	}
+
+	private HashMap<String, String> prepareStatisticsRow(String result) {
+		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+		HashMap<String, String> splittedRow = HttpJob.JobStatistic.splitStatisticsRow(result);
+
+		for(Map.Entry<String, String> entry : splittedRow.entrySet()){
+			assertThat(entry.getValue()).as(entry.getKey() + " was empty").isNotEmpty();
+		}
+
+		if(splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE).contains(currentDate)){
+			log.info("HTTP: ERROR LOG COULD BE OUTDATED, PLEASE CHECK DATES, TODAY {}, LOG DATE {}", currentDate, splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE));
+		}
+		return splittedRow;
+	}
+
 
 }

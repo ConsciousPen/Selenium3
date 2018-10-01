@@ -8,7 +8,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.modules.bct.service.EndorsementTemplate;
+import aaa.modules.bct.EndorsementTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 

@@ -13,7 +13,7 @@ import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.bct.service.EndorsementTemplate;
+import aaa.modules.bct.EndorsementTemplate;
 import aaa.utils.StateList;
 
 public class CancelPolicy extends EndorsementTemplate {
