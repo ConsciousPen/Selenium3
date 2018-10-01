@@ -189,8 +189,12 @@ public class BaseTest {
 		return getPolicyType() != null && getPolicyType().equals(PolicyType.PUP);
 	}
 
+	protected boolean isAutoPolicy() {
+		return getPolicyType() != null && getPolicyType().isAutoPolicy();
+	}
+
 	protected boolean isPropertyPolicy() {
-		return getPolicyType() != null && !getPolicyType().isAutoPolicy() && !isPupPolicy();
+		return getPolicyType() != null && !isAutoPolicy() && !isPupPolicy();
 	}
 
 	protected TestData getManualConversionInitiationTd() {
