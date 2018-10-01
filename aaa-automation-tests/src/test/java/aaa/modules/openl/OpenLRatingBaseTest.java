@@ -3,9 +3,7 @@ package aaa.modules.openl;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Map;
-import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -14,14 +12,13 @@ import org.testng.annotations.*;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.MapDifference;
-import com.google.common.collect.Maps;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.listeners.RatingEngineLogsGrabber;
-import aaa.helpers.listeners.RatingEngineLogsHolder;
+import aaa.helpers.logs.RatingEngineLogsGrabber;
+import aaa.helpers.logs.RatingEngineLogsHolder;
 import aaa.helpers.openl.OpenLTestInfo;
 import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
@@ -78,7 +75,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		//Sort policies list by effective date for further valid time shifts
 		return testInfo.getOpenLPolicies().stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate))
-				.map(p -> new Object[] {testInfo.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
+				.map(p -> new Object[] {p.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
 	}
 
 	/**
@@ -93,6 +90,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	public void totalPremiumVerificationTest(@Optional String state, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
 
 		TimeSetterUtil.getInstance().confirmDateIsAfter(openLPolicy.getEffectiveDate().atStartOfDay());
@@ -100,13 +98,14 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		createOrOpenExistingCustomer(testInfo);
 
 		log.info("Premium calculation verification initiated for test #{} and expected premium {} from \"{}\" OpenL file (pas-rating branch: {})",
-				policyNumber, openLPolicy.getExpectedPremium(), filePath, testInfo.getOpenLFileBranch());
+				policyNumber, expectedPremium, filePath, testInfo.getOpenLFileBranch());
 		String quoteNumber = createQuote(openLPolicy);
 		log.info("Quote/policy created: {}", quoteNumber);
 
 		synchronized (RATING_LOCK) {
 			actualPremium = calculatePremium(openLPolicy);
-			if (!openLPolicy.getExpectedPremium().equals(actualPremium)) {
+			log.info("Total premium is calculated\n    ACTUAL:   {}\n    EXPECTED: {}", actualPremium, expectedPremium);
+			if (!expectedPremium.equals(actualPremium)) {
 				RatingEngineLogsHolder ratingLogs = ratingEngineLogsGrabber.grabRatingLogs();
 				compareOpenLFieldsValues(ratingLogs, openLPolicy, quoteNumber);
 				saveLogs(ratingLogs, testInfo.getTestContext(), openLPolicy.getNumber(), false);
@@ -114,7 +113,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				grabAndSaveLogs(testInfo.getTestContext(), openLPolicy.getNumber(), true);
 			}
 		}
-		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(openLPolicy.getExpectedPremium());
+		assertThat(actualPremium).as("Total premium for quote/policy number %s is not equal to expected one", quoteNumber).isEqualTo(expectedPremium);
 	}
 
 	/**
@@ -157,53 +156,32 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 			return;
 		}
 
-		Map<String, String> requestOpenLFields = getOpenLFieldsMapFromRequest(ratingLogsHolder);
-		if (MapUtils.isEmpty(requestOpenLFields)) {
-			log.warn("OpenL fields values map from request log is empty, further analysis has been skipped");
-			return;
-		}
-		Map<String, String> testOpenLFields = getOpenLFieldsMapFromTest(openLPolicy);
+		@SuppressWarnings("unchecked")
+		P openLPolicyFromRequest = (P) ratingLogsHolder.getRequestLog().getOpenLPolicyObject(openLPolicy.getClass());
+		MapDifference<String, String> differences = openLPolicyFromRequest.diff(openLPolicy);
 
-		MapDifference<String, String> differences = Maps.difference(requestOpenLFields, testOpenLFields);
 		if (differences.entriesDiffering().isEmpty()) {
 			log.info("All common OpenL fields from rating json request and {} object from test excel file have same values", openLPolicy.getClass().getSimpleName());
 		} else {
 			StringBuilder diffMessage = new StringBuilder("There are differences between values of same OpenL fields from rating json request and test excel file. "
-					+ "OpenL.Field.Path=[\"value from request\", \"value from test\"]:\n");
+					+ "OpenL.Field.Path=[\"value from request\", \"value from excel file\"]:\n");
 			for (Map.Entry<String, MapDifference.ValueDifference<String>> diff : differences.entriesDiffering().entrySet()) {
 				diffMessage.append("    ").append(diff.getKey()).append("=[\"").append(diff.getValue().leftValue()).append("\", \"").append(diff.getValue().rightValue()).append("\"]\n");
 			}
 			log.warn(diffMessage.toString());
 
 			if (!differences.entriesOnlyOnLeft().isEmpty()) {
-				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in policy object from test excel file:\n");
-				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnLeft().entrySet()) {
-					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
-				}
-				log.warn(missedFieldsMessage.toString());
+				printMissedFields(differences.entriesOnlyOnLeft(), "There are missed OpenL fields in policy object from test excel file:");
 			}
 
 			if (!differences.entriesOnlyOnRight().isEmpty()) {
-				StringBuilder missedFieldsMessage = new StringBuilder("There are missed OpenL fields in rating json request:\n");
-				for (Map.Entry<String, String> missedFields : differences.entriesOnlyOnRight().entrySet()) {
-					missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
-				}
-				log.warn(missedFieldsMessage.toString());
+				printMissedFields(differences.entriesOnlyOnRight(), "There are missed OpenL fields in rating json request:");
 			}
+
+			log.info("----------------------------------------------------------------");
+			log.info("All OpenL field values from json request:\n{}", openLPolicyFromRequest);
+			log.info("All OpenL field values from excel file:\n{}", openLPolicy);
 		}
-	}
-
-	protected Map<String, String> getOpenLFieldsMapFromRequest(RatingEngineLogsHolder ratingLogsHolder) {
-		Map<String, String> openLFieldsMap = new HashMap<>(ratingLogsHolder.getRequestLog().getOpenLFieldsMap());
-		openLFieldsMap.entrySet().removeIf(e -> e.getKey().startsWith("runtimeContext.") || e.getKey().startsWith("variationPack."));
-		return openLFieldsMap;
-	}
-
-	protected Map<String, String> getOpenLFieldsMapFromTest(P openLPolicy) {
-		Map<String, String> openLFieldsMap = openLPolicy.getOpenLFieldsMap();
-		openLFieldsMap.entrySet().removeIf(e -> e.getValue() == null || "null".equalsIgnoreCase(e.getValue())); // usually we don't care about null values of OpenL fields in test file during comparision
-		openLFieldsMap.remove("policy.policyNumber"); // policy number in test always differs from value in rating request log
-		return openLFieldsMap;
 	}
 
 	protected void grabAndSaveLogs(ITestContext testContext, int openLPolicyNumber, boolean isActualEqualToExpectedPremium) {
@@ -230,5 +208,13 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 				testContext.setAttribute(RatingEngineLogsGrabber.RATING_RESPONSE_TEST_CONTEXT_ATTR_NAME, ratingResponseLog);
 			}
 		}
+	}
+
+	private void printMissedFields(Map<String, String> missedFieldsMap, String message) {
+		StringBuilder missedFieldsMessage = new StringBuilder(message + "\n");
+		for (Map.Entry<String, String> missedFields : missedFieldsMap.entrySet()) {
+			missedFieldsMessage.append("    ").append(missedFields.getKey()).append("=\"").append(missedFields.getValue()).append("\"\n");
+		}
+		log.warn(missedFieldsMessage.toString());
 	}
 }

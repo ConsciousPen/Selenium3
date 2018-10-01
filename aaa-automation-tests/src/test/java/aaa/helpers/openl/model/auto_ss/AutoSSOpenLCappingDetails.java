@@ -96,22 +96,4 @@ public class AutoSSOpenLCappingDetails extends OpenLCappingDetails {
 	public void setPreviousPolicyPremium(Double previousPolicyPremium) {
 		this.previousPolicyPremium = previousPolicyPremium;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoSSOpenLCappingDetails{" +
-				"state='" + state + '\'' +
-				", term=" + term +
-				", carrierCode='" + carrierCode + '\'' +
-				", lineOfBusiness='" + lineOfBusiness + '\'' +
-				", previousCappingFactor=" + previousCappingFactor +
-				", productCode='" + productCode + '\'' +
-				", programCode='" + programCode + '\'' +
-				", termCappingFactor=" + termCappingFactor +
-				", underwriterCode='" + underwriterCode + '\'' +
-				", previousPolicyPremium=" + previousPolicyPremium +
-				", number=" + number +
-				", plcyInceptionDate=" + plcyInceptionDate +
-				'}';
-	}
 }

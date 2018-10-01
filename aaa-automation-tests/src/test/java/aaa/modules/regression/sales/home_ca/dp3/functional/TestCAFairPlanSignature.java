@@ -72,7 +72,7 @@ public class TestCAFairPlanSignature extends HomeCaDP3BaseTest {
         new BindTab().submitTab();
 
         ErrorTab errorTab = new ErrorTab();
-        errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA20180518);
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA20180518.getCode())).isTrue();
     }
 
 }

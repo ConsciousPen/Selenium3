@@ -61,6 +61,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
                     <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
+                    <include name="pas17641_MetaDataServiceDriverAddADB"/>
                 </methods>
             </class>
         </classes>
@@ -436,6 +437,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                    <include name="pas11654_MDEnhancedUIMBICoverage"/>
                 </methods>
             </class>
         </classes>
@@ -646,6 +648,52 @@
                 <methods>
                     <include name="pas16035_ViewCoverageUpdateCoverage"/>
                     <include name="pas17628_ViewCoverageUpdateCoverageUmpdDeductible"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15376_3OrMoreMinorOrSpeedingViolations">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15376_3OrMoreMinorOrSpeedingViolations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas17676_moreThanTwoMinorViolationsError">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas17676_moreThanTwoMinorViolationsError"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas18643_CancelRemoveDriver (Revert Deleted Driver)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
+                    <!--<include name="pas18672_driversRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="DriversVA"> -->
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas18670_CancelRemoveVehicle (Revert Deleted Vehicle)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
+                    <include name="pas18670_CancelRemoveVehicleWithChanges"/>
+                    <!--<include name="pas18672_vehiclesRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="VehiclesAZ"> -->
                 </methods>
             </class>
         </classes>

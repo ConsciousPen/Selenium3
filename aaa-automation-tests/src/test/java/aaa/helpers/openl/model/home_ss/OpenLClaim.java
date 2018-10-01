@@ -72,17 +72,4 @@ public class OpenLClaim {
 	public void setClaimWithinThreeYrs(Boolean isClaimWithinThreeYrs) {
 		this.isClaimWithinThreeYrs = isClaimWithinThreeYrs;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLClaim{" +
-				"number=" + number +
-				", causeLoss='" + causeLoss + '\'' +
-				", claimAmount=" + claimAmount +
-				", isAAAClaim=" + isAAAClaim +
-				", lossDate=" + lossDate +
-				", isClaimRatable=" + isClaimRatable +
-				", isClaimWithinThreeYrs=" + isClaimWithinThreeYrs +
-				'}';
-	}
 }

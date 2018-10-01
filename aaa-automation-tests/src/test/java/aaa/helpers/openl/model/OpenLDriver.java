@@ -67,17 +67,4 @@ public class OpenLDriver {
 	public Boolean isGoodStudent() {
 		return goodStudent;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLDriver{" +
-				"number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
-	}
 }

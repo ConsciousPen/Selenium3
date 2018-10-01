@@ -41,7 +41,11 @@ public final class ErrorDxpEnum {
 		DRIVER_WITH_MAJOR_VIOLATION_DUI("200009","Driver with a Major violation, including a DUI is unacceptable"),
 		DRIVER_WITH_MAJOR_VIOLATION_DUI_C("200009_C","Driver with a Major violation, including a DUI is unacceptable"),
 		MORE_THAN_TWO_MINOR_VIOLATIONS("200095", "Driver with more than (2) Minor violations are unacceptable."),
+		MORE_THAN_TWO_MINOR_VIOLATIONS_MD("200116", "No more than one (2) minor violations in the past 33 months."),
 		MORE_THAN_TWO_MINOR_VIOLATIONS_C("200095_C", "Driver with more than (2) Minor violations are unacceptable."),
+
+		MORE_THAN_TWO_MINOR_VIOLATIONS_C_MD("200116_C", "No more than one (2) minor violations in the past 33 months."),
+
 		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS("200096", "Drivers with more than (3) Incidents are unacceptable."),
 		DRIVER_WITH_MORE_THAN_THREE_INCIDENTS_C("200096_C", "Drivers with more than (3) Incidents are unacceptable."),
 		DRIVER_WITH_ONE_OR_MORE_FAULT_ACCIDENTS("200104", "Driver with 2 or more At-fault accidents are unacceptable"),
@@ -81,6 +85,10 @@ public final class ErrorDxpEnum {
 		DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE("AAA_SS10230239", "Drivers must be assigned a unique vehicle"),
 		DRIVER_GENDER_MISMATCHS("The gender returned from DMV does not match the gender entered for Other Mismatches. Please verify that Driver gender provided on the application is correct"),
 		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
+		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C("200103_C", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert aption is not available on driver."),
+		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert aption is not available on vehicle."),
 	;
 
 		private final String code;

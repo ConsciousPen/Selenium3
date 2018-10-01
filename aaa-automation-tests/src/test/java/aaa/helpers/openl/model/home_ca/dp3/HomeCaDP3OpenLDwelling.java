@@ -132,26 +132,4 @@ public class HomeCaDP3OpenLDwelling extends HomeCaOpenLDwelling {
 	public void setYearsSinceRenovation(Integer yearsSinceRenovation) {
 		this.yearsSinceRenovation = yearsSinceRenovation;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaDP3OpenLDwelling{" +
-				"ageOfHome=" + ageOfHome +
-				", brushFireZone=" + brushFireZone +
-				", burglarAlarmType='" + burglarAlarmType + '\'' +
-				", constructionType='" + constructionType + '\'' +
-				", fireAlarmType='" + fireAlarmType + '\'' +
-				", firelineScore=" + firelineScore +
-				", hasSprinklers=" + hasSprinklers +
-				", hasWoodStove=" + hasWoodStove +
-				", isGatedCommunity=" + isGatedCommunity +
-				", numOfFamilies=" + numOfFamilies +
-				", numOfLivestock=" + numOfLivestock +
-				", roofType=" + roofType +
-				", swimmingPoolType='" + swimmingPoolType + '\'' +
-				", yearsSinceRenovation=" + yearsSinceRenovation +
-				", number=" + number +
-				", address=" + address +
-				'}';
-	}
 }

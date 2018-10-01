@@ -26,12 +26,4 @@ public class HomeCaOpenLAddress {
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaOpenLAddress{" +
-				"number=" + number +
-				", zipCode='" + zipCode + '\'' +
-				'}';
-	}
 }

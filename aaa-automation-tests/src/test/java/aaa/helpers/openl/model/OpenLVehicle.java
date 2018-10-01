@@ -13,8 +13,6 @@ public abstract class OpenLVehicle {
 	protected Integer compSymbol;
 	protected String id;
 	protected Integer modelYear;
-	protected String statCode;
-	protected String oldStatCode;
 	protected String biLiabilitySymbol;
 	protected String pdLiabilitySymbol;
 	protected String mpLiabilitySymbol;
@@ -70,22 +68,6 @@ public abstract class OpenLVehicle {
 		this.modelYear = modelYear;
 	}
 
-	public String getStatCode() {
-		return statCode;
-	}
-
-	public void setStatCode(String statCode) {
-		this.statCode = statCode;
-	}
-
-	public String getOldStatCode() {
-		return oldStatCode;
-	}
-
-	public void setOldStatCode(String oldStatCode) {
-		this.oldStatCode = oldStatCode;
-	}
-
 	public String getBiLiabilitySymbol() {
 		return biLiabilitySymbol;
 	}
@@ -124,23 +106,5 @@ public abstract class OpenLVehicle {
 
 	public void setAddress(OpenLAddress address) {
 		this.address = address;
-	}
-
-	@Override
-	public String toString() {
-		return "OpenLVehicle{" +
-				"number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
 	}
 }

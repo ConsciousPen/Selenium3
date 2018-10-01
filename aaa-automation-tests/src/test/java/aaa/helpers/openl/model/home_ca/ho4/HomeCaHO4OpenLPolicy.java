@@ -12,7 +12,7 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> {
+public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm, HomeCaOpenLDwelling> {
 
 	private HomeCaOpenLDwelling dwelling;
 	private List<HomeCaHO4OpenLForm> forms;
@@ -25,6 +25,7 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 	private Boolean hasSeniorDiscount;
 	private String occupancyType;
 
+	@Override
 	public HomeCaOpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -99,30 +100,7 @@ public class HomeCaHO4OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO4OpenLForm> 
 	}
 	
 	@Override
-	public HomeCaHO4TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaHO4TestDataGenerator(state, baseTestData);
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO4OpenLPolicy{" +
-				"dwelling=" + dwelling +
-				", forms=" + forms +
-				", constructionGroup='" + constructionGroup + '\'' +
-				", covELimit=" + covELimit +
-				", hasEmployeeDiscount=" + hasEmployeeDiscount +
-				", hasPolicySupportingForm=" + hasPolicySupportingForm +
-				", hasSeniorDiscount=" + hasSeniorDiscount +
-				", occupancyType='" + occupancyType + '\'' +
-				", coverages=" + coverages +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+	public HomeCaHO4TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaHO4TestDataGenerator(this.getState(), baseTestData);
 	}
 }

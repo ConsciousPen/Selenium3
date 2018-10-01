@@ -67,26 +67,11 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 	}
 	
 	@Override
-	public AutoCaChoiceTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new AutoCaChoiceTestDataGenerator(state, baseTestData);
+	public AutoCaChoiceTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new AutoCaChoiceTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoCaChoiceOpenLPolicy{" +
-				"drivers=" + drivers +
-				", vehicles=" + vehicles +
-				", effectiveDate=" + effectiveDate +
-				", multiCar=" + multiCar +
-				", nanoPolicyType='" + nanoPolicyType + '\'' +
-				", term=" + term +
-				", monsOfPriorIns=" + monsOfPriorIns +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
 	}
 }

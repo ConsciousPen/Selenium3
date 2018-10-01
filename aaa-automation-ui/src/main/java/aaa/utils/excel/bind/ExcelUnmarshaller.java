@@ -63,14 +63,13 @@ public class ExcelUnmarshaller implements Closeable {
 		this.excelManager.close();
 	}
 
-	@SuppressWarnings("unchecked")
 	public <T> T unmarshal(Class<T> excelFileModel) {
 		log.info("Getting excel file object of \"{}\" model from {} {} strict match binding",
 				excelFileModel.getSimpleName(),
 				this.excelManager.initializedFromFile() ? "file \"" + this.excelManager.getFile().getAbsolutePath() + "\"" : "InputStream",
 				isStrictMatchBinding() ? "with" : "without");
 
-		T excelFileObject = (T) ReflectionHelper.getInstance(excelFileModel);
+		T excelFileObject = ReflectionHelper.getInstance(excelFileModel);
 		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(excelFileModel)) {
 			List<?> tablesObjects = unmarshalRows(cache.of(tableField).getTableClass());
 			ReflectionHelper.setFieldValue(tableField, excelFileObject, tablesObjects);

@@ -15,15 +15,4 @@ public class HomeCaHO6OpenLCoverage extends HomeCaOpenLCoverage {
 	public void setDeductibleAmount(Double deductibleAmount) {
 		this.deductibleAmount = deductibleAmount;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO6OpenLCoverage{" +
-				"deductibleAmount=" + deductibleAmount +
-				", limitAmount=" + limitAmount +
-				", number=" + number +
-				", coverageCd='" + coverageCd + '\'' +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

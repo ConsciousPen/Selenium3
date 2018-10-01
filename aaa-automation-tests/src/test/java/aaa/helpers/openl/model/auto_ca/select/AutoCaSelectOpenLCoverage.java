@@ -6,25 +6,13 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLCoverage extends AutoOpenLCoverage {
-	private Integer limitCode;
+	private String limitCode;
 
-	public Integer getLimitCode() {
+	public String getLimitCode() {
 		return limitCode;
 	}
 
-	public void setLimitCode(Integer limitCode) {
+	public void setLimitCode(String limitCode) {
 		this.limitCode = limitCode;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLCoverage{" +
-				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCd='" + coverageCd + '\'' +
-				", deductible='" + deductible + '\'' +
-				", limitCode=" + limitCode +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
 	}
 }

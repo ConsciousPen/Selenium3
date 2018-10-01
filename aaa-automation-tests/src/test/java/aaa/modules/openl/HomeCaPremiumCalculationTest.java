@@ -8,7 +8,7 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import toolkit.datax.TestData;
 
-public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extends OpenLRatingBaseTest<P> {
+public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?, ?>> extends OpenLRatingBaseTest<P> {
 	@Override
 	protected TestData getRatingDataPattern() {
 		return getPolicyTD("DataGather", "TestData_CA").mask(new PurchaseTab().getMetaKey());
@@ -17,7 +17,7 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?>> extend
 	@Override
 	protected String createQuote(P openLPolicy) {
 		@SuppressWarnings("unchecked")
-		TestDataGenerator<P> tdGenerator = (TestDataGenerator<P>) openLPolicy.getTestDataGenerator(getState(), getRatingDataPattern());
+		TestDataGenerator<P> tdGenerator = (TestDataGenerator<P>) openLPolicy.getTestDataGenerator(getRatingDataPattern());
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);

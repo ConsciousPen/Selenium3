@@ -92,23 +92,4 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
-				", age=" + age +
-				", deductible=" + deductible +
-				", formClass='" + formClass + '\'' +
-				", hasCorporalPunishmentSurcharge=" + hasCorporalPunishmentSurcharge +
-				", numOfFamilies=" + numOfFamilies +
-				", territoryCode='" + territoryCode + '\'' +
-				", type='" + type + '\'' +
-				", applyDiscounts=" + applyDiscounts +
-				", hasSupportingForm=" + hasSupportingForm +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
-	}
 }

@@ -68,56 +68,56 @@
         </classes>
     </test>
 
-    <test name="Dp3 pas9816_BillingPacketGeneration">
+    <test name="Dp3 pas9816_BillingPacketGeneration_autopay">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="HO3 pas9816_BillingPacketGeneration">
+    <test name="HO3 pas9816_BillingPacketGeneration_autopay">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="HO4 pas9816_BillingPacketGeneration">
+    <test name="HO4 pas9816_BillingPacketGeneration_autopay">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="HO6 pas9816_BillingPacketGeneration">
+    <test name="HO6 pas9816_BillingPacketGeneration_autopay">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="PUP pas9816_BillingPacketGeneration">
+    <test name="PUP pas9816_BillingPacketGeneration_autopay">
         <parameter name="state" value="NJ,DE,VA,MD,PA" />
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
                 <methods>
-                    <include name="pas9816_BillingPacketGeneration"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
                 </methods>
             </class>
         </classes>

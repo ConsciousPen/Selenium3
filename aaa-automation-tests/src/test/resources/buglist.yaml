@@ -141,7 +141,7 @@ PAS-11445:
   reason: PROD
   failures:
     - tests: [
-    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration_autopay,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
       messages: ["Errors: Error 500. Internal server error occurred"]
@@ -150,7 +150,7 @@ PAS-11662:
   reason: PROD
   failures:
     - tests: [
-    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration,
+    aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration_autopay,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
     aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket]
       messages: ["Internal rating engine error"]
@@ -379,3 +379,11 @@ PAS-18945:
   failures:
     - tests: [aaa.modules.openl.AutoCaChoicePremiumCalculationTest.totalPremiumVerificationTest]
       messages: ["Cannot get value of StaticElement {<unnamed>: By.xpath: //span[@class='TOTAL_TERM_PREMIUM']", "Only qualified vehicles may carry Enhanced Transportation Expense"]
+PAS-19445:
+  summary: "Bind Rule Does Not Fire for a PUP Policy when the home policy has Cov E liability limit of $300,000 with NO SWIMMING Pool"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
+  - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
+    messages: ["Risks with a property liability limit less than $300,000 are ineligible"]

@@ -35,13 +35,4 @@ public class HomeCaOpenLScheduledPropertyItem {
 	public void setPropertyType(String propertyType) {
 		this.propertyType = propertyType;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaScheduledPropertyItem{" +
-				"number=" + number +
-				", limit=" + limit +
-				", propertyType='" + propertyType + '\'' +
-				'}';
-	}
 }

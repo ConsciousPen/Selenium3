@@ -9,7 +9,7 @@ public class OpenLDwellingRatingInfo {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
 	private Integer number;
 
-	@ExcelColumnElement(name = "IsSecondaryHome")
+	@ExcelColumnElement(ignoreCase = true)
 	private Boolean isSecondaryHome;
 
 	private Double dwellingLossFreq;
@@ -117,23 +117,5 @@ public class OpenLDwellingRatingInfo {
 
 	public void setLaundryLocation(String laundryLocation) {
 		this.laundryLocation = laundryLocation;
-	}
-
-	@Override
-	public String toString() {
-		return "OpenLDwellingRatingInfo{" +
-				"number=" + number +
-				", isSecondaryHome=" + isSecondaryHome +
-				", dwellingLossFreq=" + dwellingLossFreq +
-				", familyUnits=" + familyUnits +
-				", homeAge=" + homeAge +
-				", noOfFloors=" + noOfFloors +
-				", protectionClass='" + protectionClass + '\'' +
-				", roofAge=" + roofAge +
-				", roofType='" + roofType + '\'' +
-				", yearBuilt=" + yearBuilt +
-				", hailResistiveCode='" + hailResistiveCode + '\'' +
-				", laundryLocation='" + laundryLocation + '\'' +
-				'}';
 	}
 }

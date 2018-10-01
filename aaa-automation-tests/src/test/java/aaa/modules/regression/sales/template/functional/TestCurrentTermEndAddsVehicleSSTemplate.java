@@ -1,5 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -11,19 +18,11 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 
 public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMethods {
 
@@ -98,7 +97,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         Table tableDifferences = PolicySummaryPage.tableDifferences;
         int columnsCount = tableDifferences.getColumnsCount();
 
-        Link linkTriangle = provideLinkExpandComparisonTree(0);
+        Link linkTriangle = provideLinkExpandComparisonTree(Collections.singletonList(0));
         if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
             linkTriangle.click();
 

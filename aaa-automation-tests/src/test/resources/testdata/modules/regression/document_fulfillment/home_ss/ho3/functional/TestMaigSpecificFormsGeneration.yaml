@@ -58,11 +58,26 @@ ConversionForms_MD: {
   FormsList: ["stub","HS02","AHPNXX","AHMVCNV","HSMPDCNVXX","HSAOCMDA","HSSNMDA","HSCRRMD","HSWSBMD"]
 }
 
+ConversionForms_IN: {
+  FormsList: ["stub","AHAUXX","AHMVCNV","HS 23 83","HSACVXX","HSFLD","HS02","HS 04 20","HS 04 90","HS 04 93","AHPNXX"]
+}
+
 #HSWSBMD
 EndorsementTab_MD: {
-    HDS 04 95:{
+  HDS 04 95:{
     Action: "Add"
   }
+}
+
+#HS 04 93 - Actual Cash Value Loss Settlement Windstorm Or Hail Losses To Roof Surfacing HO3 (optional endorsement)
+#HS 23 83 - Mine Subsidence Coverage Endorsement HO3, HO6 (Optional - applies when insured structure(s) is located in specific counties)
+EndorsementTab_IN: {
+  HS 04 93:{
+    Action: "Add"
+  },
+  HS 23 83:{
+    Action: "Add"
+  },
 }
 
 #ConversionForms_PA: {

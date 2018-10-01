@@ -35,13 +35,4 @@ public class PUPOpenLAddress {
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-
-	@Override
-	public String toString() {
-		return "PUPOpenLAddress{" +
-				"number=" + number +
-				", county='" + county + '\'' +
-				", zipCode='" + zipCode + '\'' +
-				'}';
-	}
 }

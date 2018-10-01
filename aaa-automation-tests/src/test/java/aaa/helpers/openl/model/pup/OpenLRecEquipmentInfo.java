@@ -62,16 +62,4 @@ public class OpenLRecEquipmentInfo {
 	public void setTrampolineInd(Boolean trampolineInd) {
 		this.trampolineInd = trampolineInd;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLRecEquipmentInfo{" +
-				"number=" + number +
-				", divingBoardInd=" + divingBoardInd +
-				", poolInd=" + poolInd +
-				", slideInd=" + slideInd +
-				", spaInd=" + spaInd +
-				", trampolineInd=" + trampolineInd +
-				'}';
-	}
 }

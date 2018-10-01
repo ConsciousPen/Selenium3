@@ -91,4 +91,17 @@ public class PUPOpenLFile extends OpenLFile<PUPOpenLPolicy> {
 	public void setPolicies(List<PUPOpenLPolicy> policies) {
 		this.policies = new ArrayList<>(policies);
 	}
+
+	@Override
+	public String toString() {
+		return "PUPOpenLFile{" +
+				"policies=" + policies +
+				", dwelling=" + dwelling +
+				", recEquipmentInfo=" + recEquipmentInfo +
+				", riskItems=" + riskItems +
+				", coverages=" + coverages +
+				", address=" + address +
+				", tests=" + tests +
+				'}';
+	}
 }

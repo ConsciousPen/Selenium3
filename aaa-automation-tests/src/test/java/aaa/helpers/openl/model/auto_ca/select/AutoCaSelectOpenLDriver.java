@@ -42,23 +42,4 @@ public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 	public void setYaf(Integer yaf) {
 		this.yaf = yaf;
 	}
-
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLDriver{" +
-				"drivesync=" + drivesync +
-				", goodDriver=" + goodDriver +
-				", matureDriver=" + matureDriver +
-				", newDriver=" + newDriver +
-				", type='" + type + '\'' +
-				", yaf=" + yaf +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
-	}
 }

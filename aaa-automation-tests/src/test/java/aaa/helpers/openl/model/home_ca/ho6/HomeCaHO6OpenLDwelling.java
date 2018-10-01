@@ -69,19 +69,4 @@ public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 	public void setSecondaryHome(Boolean secondaryHome) {
 		isSecondaryHome = secondaryHome;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO6OpenLDwelling{" +
-				"ageOfHome=" + ageOfHome +
-				", burglarAlarmType='" + burglarAlarmType + '\'' +
-				", constructionType='" + constructionType + '\'' +
-				", fireAlarmType='" + fireAlarmType + '\'' +
-				", hasSprinklers=" + hasSprinklers +
-				", isGatedCommunity=" + isGatedCommunity +
-				", isSecondaryHome=" + isSecondaryHome +
-				", number=" + number +
-				", address=" + address +
-				'}';
-	}
 }

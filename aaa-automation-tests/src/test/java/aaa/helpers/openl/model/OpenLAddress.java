@@ -34,13 +34,4 @@ public class OpenLAddress {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLAddress{" +
-				"number=" + number +
-				", state='" + state + '\'' +
-				", zip='" + zip + '\'' +
-				'}';
-	}
 }

@@ -268,4 +268,10 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-19559 Send conversion specific print order sequence - IN" parallel="methods" thread-count="1024">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration"/>
+        </classes>
+    </test>
 </suite>
