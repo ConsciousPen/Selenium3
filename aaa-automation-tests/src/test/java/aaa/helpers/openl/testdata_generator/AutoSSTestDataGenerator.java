@@ -450,22 +450,23 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getAssignmentTabData(List<TestData> driversTestDataList) {
-		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(driversTestDataList.size());
-		for (TestData driverData : driversTestDataList) {
-			String assignedDriver;
-			if (driverData.getValue(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()) == null || driverData.getValue(AutoSSMetaData.DriverTab.LAST_NAME.getLabel()) == null) {
-				assignedDriver = "contains=Smith";
-			} else {
-				assignedDriver = driverData.getValue(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()) + " " + driverData.getValue(AutoSSMetaData.DriverTab.LAST_NAME.getLabel());
-			}
-			String vehicleIndex = driverData.getValue(VEHICLE_ASSIGNED_ID_TESTDATA_KEY).replaceAll(".*vehicle#", "");
-			TestData assignmentData = DataProviderFactory.dataOf(
-					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.DRIVER.getLabel(), assignedDriver,
-					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.SELECT_VEHICLE.getLabel(), "index=" + vehicleIndex);
-			driverVehicleRelationshipTable.add(assignmentData);
-			driverData.mask(VEHICLE_ASSIGNED_ID_TESTDATA_KEY);
-		}
-		return DataProviderFactory.dataOf(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
+		//		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(driversTestDataList.size());
+		//		for (TestData driverData : driversTestDataList) {
+		//			String assignedDriver;
+		//			if (driverData.getValue(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()) == null || driverData.getValue(AutoSSMetaData.DriverTab.LAST_NAME.getLabel()) == null) {
+		//				assignedDriver = "contains=Smith";
+		//			} else {
+		//				assignedDriver = driverData.getValue(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()) + " " + driverData.getValue(AutoSSMetaData.DriverTab.LAST_NAME.getLabel());
+		//			}
+		//			String vehicleIndex = driverData.getValue(VEHICLE_ASSIGNED_ID_TESTDATA_KEY).replaceAll(".*vehicle#", "");
+		//			TestData assignmentData = DataProviderFactory.dataOf(
+		//					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.DRIVER.getLabel(), assignedDriver,
+		//					AutoSSMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.SELECT_VEHICLE.getLabel(), "index=" + vehicleIndex);
+		//			driverVehicleRelationshipTable.add(assignmentData);
+		//			driverData.mask(VEHICLE_ASSIGNED_ID_TESTDATA_KEY);
+		//		}
+		//		return DataProviderFactory.dataOf(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverVehicleRelationshipTable);
+		return DataProviderFactory.emptyData();
 	}
 
 	private TestData getFormsTabTabData(AutoSSOpenLPolicy openLPolicy) {

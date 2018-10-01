@@ -71,7 +71,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "J":
 				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+				return getRandom("Married");//, "regex=.*Domestic Partner", "Common Law", "Civil Union");
 			case "S":
 				return getRandom("Single");
 			case "W":
@@ -187,7 +187,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
-		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		//		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		switch (antiTheft) {
+			case "N":
+				return "None";
+			case "P":
+				return "VIN Etching";
+			case "Y":
+				return "Homing Device (Recovery Device)";
+			default:
+				throw new IstfException("Unknown mapping for antiTheft: " + antiTheft);
+		}
 	}
 
 	String getVehicleTabAirBags(String airBagCode) {
