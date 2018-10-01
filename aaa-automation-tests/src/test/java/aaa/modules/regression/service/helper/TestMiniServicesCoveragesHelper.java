@@ -2898,7 +2898,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateCustomEquipCov(softly, false, vanWithCE.oid, compUpdatedCoverage2);
 
 			//rate, to check if there is no error
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 
