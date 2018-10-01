@@ -1,18 +1,48 @@
 package aaa.modules.financials;
 
 import java.util.*;
-import org.testng.annotations.AfterSuite;
+import org.testng.annotations.*;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.*;
+import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class FinancialsBaseTest extends PolicyBaseTest {
 
-	protected static final List<String> POLICIES = Collections.synchronizedList(new ArrayList<>());
+	private static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
+
+	private static final String UNEARNED_INCOME_1015 = "1015";
+	private static final String CHANGE_IN_UNEARNED_INCOME_1021 = "1021";
+
+	@BeforeSuite(alwaysRun = true)
+	public void beforeFinancialSuite() {
+		validateAccounts();
+	}
+
+	@AfterSuite(alwaysRun = true)
+	public void afterFinancialSuite() {
+		// ********* For debugging only ************
+		for (String policy : ALL_POLICIES) {
+			log.info(policy);
+		}
+		// *****************************************
+
+		validateAccounts();
+
+	}
 
 	@Override
 	protected TestData getPolicyTD() {
@@ -29,8 +59,18 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 
 	protected String createFinancialPolicy(TestData td) {
 		String policyNum = createPolicy(td);
-		POLICIES.add(policyNum);
+		ALL_POLICIES.add(policyNum);
 		return policyNum;
+	}
+
+	protected void payAmountDue(){
+		// Open Billing account and Pay min due for the renewal
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		// Open Policy Summary Page
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 	}
 
 	protected TestData getEndorsementTD() {
@@ -75,22 +115,13 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	}
 
 	protected TestData getReinstatementTD() {
-		return getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Reinstatement"), "TestData");
+		if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+			return td.adjust(TestData.makeKeyPath(AutoCaMetaData.ReinstatementActionTab.class.getSimpleName(),
+					AutoCaMetaData.ReinstatementActionTab.REINSTATE_DATE.getLabel()), "$<today:MM/dd/yyyy>");
+		}
+		return td;
 	}
-
-//	protected boolean isAutoPolicy() {
-//		return getPolicyType().equals(PolicyType.AUTO_SS) || getPolicyType().equals(PolicyType.AUTO_CA_SELECT) || getPolicyType().equals(PolicyType.AUTO_CA_CHOICE);
-//	}
-//
-//	protected boolean isPropertyPolicy() {
-//		return getPolicyType().equals(PolicyType.HOME_CA_DP3) || getPolicyType().equals(PolicyType.HOME_CA_HO3) || getPolicyType().equals(PolicyType.HOME_CA_HO4) ||
-//				getPolicyType().equals(PolicyType.HOME_CA_HO6) || getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_SS_HO3) ||
-//				getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6);
-//	}
-//
-//	protected boolean isPupPolicy() {
-//		return getPolicyType().equals(PolicyType.PUP);
-//	}
 
 	/**
 	 * Adjusts the effective date of the policy for the given test data
@@ -180,20 +211,20 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 			type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
 			hoPolicy = PolicySummaryPage.getPolicyNumber();
 			policies.put("Primary_HO3", hoPolicy);
-			POLICIES.add(hoPolicy);
+			ALL_POLICIES.add(hoPolicy);
 			typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
 			autoPolicy = PolicySummaryPage.getPolicyNumber();
 			policies.put("Primary_Auto", autoPolicy);
-			POLICIES.add(autoPolicy);
+			ALL_POLICIES.add(autoPolicy);
 		}
 		return policies;
 	}
 
-	@AfterSuite(alwaysRun = true)
-	public void testPolicyLogging() {
-		for (String policy : POLICIES) {
-			log.info(policy);
-		}
+	private void validateAccounts() {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
+		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		assertSoftly(softly -> softly.assertThat(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(UNEARNED_INCOME_1015)).get())
+				.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(CHANGE_IN_UNEARNED_INCOME_1021)).get()));
 	}
 
 }
