@@ -53,23 +53,13 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-        testResetSignatureRejectUM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(ENDORSEMENT);
-
-		testResetSignatureAddUM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-		initiateNavigateToBindTab(ENDORSEMENT);
-
-        testResetSignatureRejectUIM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(ENDORSEMENT);
-
-		testResetSignatureAddUIM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-		initiateNavigateToBindTab(ENDORSEMENT);
-
+        testResetSignatureRejectUM(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
+		testResetSignatureAddUM(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
+        testResetSignatureRejectUIM(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
+		testResetSignatureAddUIM(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
         testResetSignatureRejectBothCoverages(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(ENDORSEMENT);
-
         testResetSignatureAddBothCoverages(ENDORSEMENT, PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(ENDORSEMENT);
+        documentsAndBindTab.submitTab();
 
 	}
 
@@ -101,54 +91,48 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 		policy.renew().perform();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 
-        testResetSignatureRejectUM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(RENEWAL);
-
-		testResetSignatureAddUM(PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
-		initiateNavigateToBindTab(RENEWAL);
-
-        testResetSignatureRejectUIM(PolicyConstants.SignatureStatus.NOT_SIGNED);
-        initiateNavigateToBindTab(RENEWAL);
-
-		testResetSignatureAddUIM(PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
-		initiateNavigateToBindTab(RENEWAL);
-
+        testResetSignatureRejectUM(RENEWAL, PolicyConstants.SignatureStatus.NOT_SIGNED);
+		testResetSignatureAddUM(RENEWAL, PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
+        testResetSignatureRejectUIM(RENEWAL, PolicyConstants.SignatureStatus.NOT_SIGNED);
+		testResetSignatureAddUIM(RENEWAL, PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
 		testResetSignatureRejectBothCoverages(RENEWAL, PolicyConstants.SignatureStatus.NOT_SIGNED);
-		initiateNavigateToBindTab(RENEWAL);
-
         testResetSignatureAddBothCoverages(RENEWAL, PolicyConstants.SignatureStatus.PHYSICALLY_SIGNED);
-        initiateNavigateToBindTab(RENEWAL);
+        documentsAndBindTab.submitTab();
 
 	}
 
-	private void testResetSignatureRejectUM(String sigStatus) {
+	private void testResetSignatureRejectUM(int txType, String sigStatus) {
 
 		// Reject UM Coverage and validate signature option
 		setCoverage(umCoverage, Coverage.NONE);
 		validateSignatureStatusOnBindTab(sigStatus);
+        initiateNavigateToBindTab(txType);
 
 	}
 
-	private void testResetSignatureRejectUIM(String sigStatus) {
+	private void testResetSignatureRejectUIM(int txType, String sigStatus) {
 
 		// Reject UIM Coverage and validate signature option
 		setCoverage(uimCoverage, Coverage.NONE);
 		validateSignatureStatusOnBindTab(sigStatus);
+        initiateNavigateToBindTab(txType);
 
 	}
 
-	private void testResetSignatureAddUM(String sigStatus) {
+	private void testResetSignatureAddUM(int txType, String sigStatus) {
 
 		// Add UM Coverage and validate signature option
 		setCoverage(umCoverage, Coverage.COV_100_300);
 		validateSignatureStatusOnBindTab(sigStatus);
+        initiateNavigateToBindTab(txType);
 	}
 
-	private void testResetSignatureAddUIM(String sigStatus) {
+	private void testResetSignatureAddUIM(int txType, String sigStatus) {
 
 		// Add UIM Coverage and validate signature option
 		setCoverage(uimCoverage, Coverage.COV_100_300);
 		validateSignatureStatusOnBindTab(sigStatus);
+        initiateNavigateToBindTab(txType);
 
 	}
 
@@ -159,6 +143,7 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
         setCoverage(umCoverage, Coverage.COV_100_300);
         setCoverage(uimCoverage, Coverage.COV_100_300);
         validateSignatureStatusOnBindTab(sigStatus);
+        initiateNavigateToBindTab(txType);
 
     }
 
@@ -168,7 +153,6 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
         setCoverage(umCoverage, Coverage.NONE);
         setCoverage(uimCoverage, Coverage.NONE);
         validateSignatureStatusOnBindTab(sigStatus);
-
         initiateNavigateToBindTab(txType);
 
    }
