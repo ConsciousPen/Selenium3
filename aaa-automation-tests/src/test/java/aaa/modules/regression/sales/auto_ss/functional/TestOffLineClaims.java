@@ -1,6 +1,18 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import aaa.helpers.freemaker.FreeMakerHelper;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,6 +29,8 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.constructor.Constructor;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -28,8 +42,11 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     public void TestCreateCasResponse() {
-
-        assertThat(Boolean.FALSE).isFalse();
+        FreeMakerHelper freeMakerHelper = new FreeMakerHelper();
+		Map dataModel = new HashMap();
+		File claimResponse = freeMakerHelper.processClaimTemplate(dataModel, "claim_resp.xml");
+		assertThat(claimResponse.exists() && !claimResponse.isDirectory()).isTrue();
+		Yaml yaml = new Yaml(new Constructor());
 
     }
     /**
