@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import aaa.helpers.browser.DownloadsHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.OperationalReportsHelper;
@@ -35,12 +34,10 @@ public class TestOperationalReportsCheckEuwDetailsHeaders extends BaseTest {
 		LocalDate today = TimeSetterUtil.getInstance().getCurrentTime().toLocalDate();
 
 		String FILE_NAME = "PAS+Earned+_+Unearned+_+Written+(EUW)+-+Detail_" + today.format(DateTimeFormatter.ofPattern("yyyy_MMM_d"));
-		DownloadsHelper.checkFile(DownloadsHelper.DOWNLOAD_DIR, FILE_NAME);
 		opReportApp().open();
 		OperationalReportsHelper.downloadReport(getOperationalReportsTD("DataGather", "TestData_EUW_Detail"));
 
 		assertThat(OperationalReportsHelper.getOpReportTableHeaders(FILE_NAME)).isEqualTo(getTestSpecificTD("TestData_CheckHeaders").getList("Headers"));
-		DownloadsHelper.checkFile(DownloadsHelper.DOWNLOAD_DIR, FILE_NAME);
 	}
 }
 

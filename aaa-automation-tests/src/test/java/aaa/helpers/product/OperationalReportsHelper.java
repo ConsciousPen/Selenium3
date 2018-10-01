@@ -44,7 +44,6 @@ public class OperationalReportsHelper {
 	public static void downloadReport(TestData td) throws SftpException, JSchException, IOException {
 		File downloadDir = new File(DownloadsHelper.DOWNLOAD_DIR);
 		operationalReport.create(td);
-		DownloadsHelper.listFiles().forEach(p -> DownloadsHelper.checkFile(DownloadsHelper.DOWNLOAD_DIR, p));
 		DownloadsHelper.getAllFiles();
 	}
 
