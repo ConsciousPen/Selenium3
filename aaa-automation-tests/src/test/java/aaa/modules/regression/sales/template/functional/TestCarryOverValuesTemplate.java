@@ -6,6 +6,7 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
@@ -159,9 +160,16 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 
-        // get Dollar Value of Cov A add 1000$ and setvalue
-        Dollar covAValue = new Dollar(propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue());
-        propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).setValue(covAValue.add(-4000).toString());
+        if (getPolicyType().equals(PolicyType.HOME_CA_HO4)) {
+            // get Dollar Value of Personal property value add 4000$ and setvalue
+            Dollar covAValue = new Dollar(propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE).getValue());
+            propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.PERSONAL_PROPERTY_VALUE).setValue(covAValue.add(4000).toString());
+
+        } else{
+            // get Dollar Value of Cov A subtract 4000$ and setvalue
+            Dollar covAValue = new Dollar(propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).getValue());
+            propertyInfoTabCa.getPropertyValueAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).setValue(covAValue.add(-4000).toString());
+        }
 
         // Calculate Premium and Bind Endorsement
         premiumsAndCoveragesQuoteTabCa.calculatePremium();
