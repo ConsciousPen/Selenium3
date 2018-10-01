@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import aaa.common.enums.Constants;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.UpdatableMock;
@@ -166,7 +167,9 @@ public class MockGenerator {
 	}
 
 	public AddressReferenceMock getAddressReferenceMock(String postalCode, String state) {
-		String getZipQuery = "select * from LOOKUPVALUE where POSTALCODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+		String getZipQuery = String.format("select * from LOOKUPVALUE where %s = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?",
+				Constants.States.CT.equals(state) ? "CODE" : "POSTALCODE");
+
 		CustomAssertions.assertThat(DBService.get().getValue(getZipQuery, postalCode, state)).as("Zip code %s is not valid for %s state, mock generation is useless", postalCode, state).isPresent();
 
 		AddressReferenceMock addressReferenceMock = new AddressReferenceMock();
