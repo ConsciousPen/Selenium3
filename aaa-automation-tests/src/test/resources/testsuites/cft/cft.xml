@@ -35,6 +35,6 @@
         <suite-file path="./Scenario31.xml"/>
         <suite-file path="./Scenario33.xml"/>
         <suite-file path="./Scenario34.xml"/>
-        <!--<suite-file path="./Scenario35.xml"/>-->
+        <suite-file path="./Scenario35.xml"/>
     </suite-files>
 </suite>
