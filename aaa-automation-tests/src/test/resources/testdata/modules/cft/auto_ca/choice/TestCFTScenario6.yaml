@@ -12,7 +12,7 @@ TestData: {
 }
 
 EndorsementActionTab: {
-    Endorsement Date: $<today+2d>,
+    Endorsement Date: $<today>,
     Endorsement Reason: Maintain Vehicle(s)
 }
 
