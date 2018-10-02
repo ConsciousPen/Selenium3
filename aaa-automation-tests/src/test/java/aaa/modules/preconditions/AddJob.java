@@ -13,5 +13,8 @@ public class AddJob {
 		if (service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundDisbursementAsyncJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundDisbursementAsyncJob.getJobName()));
 		}
+		if (service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob.getJobName()));
+		}
 	}
 }
