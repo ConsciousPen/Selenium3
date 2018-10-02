@@ -1,18 +1,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import aaa.helpers.freemaker.FreeMakerHelper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
+import aaa.helpers.freemaker.datamodel.claim.CASClaimResponse;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,8 +21,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Constructor;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -43,13 +33,24 @@ public class TestOffLineClaims extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     public void TestCreateCasResponse() {
         FreeMakerHelper freeMakerHelper = new FreeMakerHelper();
-		Map dataModel = new HashMap();
-		File claimResponse = freeMakerHelper.processClaimTemplate(dataModel, "claim_resp.xml");
-		assertThat(claimResponse.exists() && !claimResponse.isDirectory()).isTrue();
-		Yaml yaml = new Yaml(new Constructor());
+        CASClaimResponse casClaimResponse = freeMakerHelper.getClaimResponseDataModel("two_claims_data_model.yaml");
 
+        assertThat(casClaimResponse).isNotNull();
+        assertThat(casClaimResponse.getClaimLineItemList()).hasSize(1);
+        assertThat(casClaimResponse.getClaimLineItemList().get(0).getClaimList()).hasSize(2);
+
+        freeMakerHelper.postProcessClaimDataModel(casClaimResponse, "AZSS999999999", (response, s) ->
+				response.getClaimLineItemList().forEach(claimLineItem -> {
+					claimLineItem.setAgreementNumber(s);
+					claimLineItem.getClaimList().forEach(claim -> claim.setClaimPolicyReferenceNumber(s));
+		}));
+		assertThat(casClaimResponse.getClaimLineItemList().get(0).getAgreementNumber()).isEqualToIgnoringCase("AZSS999999999");
+
+		File claimResponse = freeMakerHelper.processClaimTemplate(casClaimResponse, "claim_resp.xml");
+        assertThat(claimResponse.exists() && !claimResponse.isDirectory()).isTrue();
     }
-    /**
+
+	/**
      * * @author Chris Johns
      * @name Test Offline STUB/Mock Data Claims
      * @IMPORTANT: This test is written under the current stub structure and is subject to change
