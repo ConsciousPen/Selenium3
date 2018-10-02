@@ -36,7 +36,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		TestData td = getPolicyTD().adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), tdClaims);
 		createQuoteAndFillUpTo(td, getPremiumAndCoveragesQuoteTab().getClass());
 
-		// Validate claims on VRD, CA has different rules for when first claim is under $1000
+		// Validate claims on VRD page, CA has different rules for when first claim is under $1000
 		PropertyQuoteTab.RatingDetailsView.open();
 		TestData claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
 		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys()).isEmpty();
