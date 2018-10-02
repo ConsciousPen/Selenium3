@@ -513,20 +513,26 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 *    and customerDisplay = true
 	 *    and value is as per the UI
 	 *    and the coverage is displayed after Collision.
-	 *
 	 * @scenario for states other than VA (states without CUSTEQUIP)
 	 * 1. Create a policy in PAS with one regular vehicle and two VAN/PICKUP (CUSTEQUIP coverage is applicable only to VA)
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
 	 * 4. Validate that responses don't contain Customized Equipment coverage (CUSTEQUIP)
-	 * @details
+	 *
+	 * @author Jovita Pukenaite
+	 * @name Add/remove Comp, check CUSTEQUIP
+	 * @scenario for VA only!
+	 * 1. One vehicle should have CUSTEQUIP
+	 * 2. Remove Comp coverage (-1)
+	 * 3. Check coverages, rate.
+	 * 4. Return back Comp coverage
+	 * 5. Check coverages again, rate.
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624", "PAS-19834"})
 	public void pas18624_CustomisedEquipment(@Optional("VA") String state) {
 		pas18624_CustomisedEquipmentBody();
-
 	}
 
 	/**

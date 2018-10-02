@@ -216,12 +216,95 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 3. Remove 1 vehicle with reason code RD1003 or RD1004 and validate that there is 'revert' option in response
 	 * 4. Add 1 new driver so that max count of drivers is reached again and validate that driver removed with code RD1001/RD1002 (pendingRemoval) have 'revert' option
 	 *    and driver removed with code RD1003/RD1004 (driverTypeChanged) has revert option
+	 *    PAS-18643
+	 * 5. Try to Revert delete of pendingRemoval driver when there already is max count of drivers (i.e driver without Revert option) ----> I receive error
+	 * NOTE: step 5 is not applciable to driverTypeChanged driver as it always should have revert option
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9662_maxDrivers")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18672", "PAS-18643"})
 	public void pas18672_driversRevertOptionForDelete(@Optional("VA") String state) {
 		pas18672_driversRevertOptionForDeleteBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1001/RD1002)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 driver through service with reason code RD101 or RD102 so that driver has status 'pendingRemoval'
+	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithoutChangesPendingRemoval(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(true);
+		pas18643_CancelRemoveDriverBody(false, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1003/RD1004)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 driver through service with reason code RD103 or RD104 so that driver has status 'driverTypeChanged' and it is changed to NAFR
+	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(false);
+		pas18643_CancelRemoveDriverBody(false, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is updated before removal (removalReasonCode RD1001/RD1002)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 driver through service with reason code RD101 or RD102 so that driver has status 'pendingRemoval'
+	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithChangesPendingRemoval(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(true);
+		pas18643_CancelRemoveDriverBody(true, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1003/RD1004)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 driver through service with reason code RD103 or RD104 so that driver has status 'driverTypeChanged' and it is changed to NAFR
+	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithChangesDriverTypeChanged(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(false);
+		pas18643_CancelRemoveDriverBody(true, removalReasonCode);
 	}
 
 	/**
