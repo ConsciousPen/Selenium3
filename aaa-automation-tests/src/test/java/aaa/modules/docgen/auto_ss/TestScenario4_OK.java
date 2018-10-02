@@ -49,11 +49,6 @@ public class TestScenario4_OK extends AutoSSBaseTest {
 
 			String termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 
-			// verify the xml file AASR22
-			/*
-			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_Verification1")
-					.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
-					.adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt", "DateTimeField"), termEffDt), policyNumber, softly);*/
 			// verify the xml file AA41XX and AA10OK
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AA41XX, AA10OK).verify.mapping(getTestSpecificTD("TestData_Verification2")
 					.adjust(TestData.makeKeyPath("AA41XX", "form", "PlcyNum", "TextField"), policyNumber)
