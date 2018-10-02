@@ -25,17 +25,4 @@ public class HomeCaDP3OpenLForm extends HomeCaOpenLForm {
 	public void setLimit(Double limit) {
 		this.limit = limit;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeCaDP3OpenLForm{" +
-				"percentage='" + percentage + '\'' +
-				", limit=" + limit +
-				", applyDiscounts=" + applyDiscounts +
-				", hasSupportingForm=" + hasSupportingForm +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
-	}
 }

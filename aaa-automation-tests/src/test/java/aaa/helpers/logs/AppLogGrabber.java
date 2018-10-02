@@ -1,13 +1,4 @@
-package aaa.helpers.listeners;
-
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.ITestResult;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
-import toolkit.utils.logging.CustomLogger;
-import toolkit.utils.teststoragex.utils.TestNGUtils;
+package aaa.helpers.logs;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +8,14 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.ITestResult;
+import toolkit.config.PropertyProvider;
+import toolkit.config.TestProperties;
+import toolkit.utils.logging.CustomLogger;
+import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public class AppLogGrabber {
 

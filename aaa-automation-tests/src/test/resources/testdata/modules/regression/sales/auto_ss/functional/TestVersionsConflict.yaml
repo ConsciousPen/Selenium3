@@ -19,11 +19,29 @@ TestData_Plus25Days: {
   }
 }
 
+TestData_Plus27Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+27d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
 TestData_Minus1Month: {
   EndorsementActionTab: {
     Endorsement Date: $<today-1M>,
     Endorsement Reason: 'Maintain General Information'
   }
+}
+
+TestData_Blank: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
 }
 
 #test data for creation NB in Endorsement/Renewal scenarios
@@ -42,7 +60,7 @@ TestData_NB_Policy: {
       }
     }
   },
-  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -81,7 +99,7 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
@@ -267,7 +285,7 @@ TestData_AAAProductOwned_Version2: {
 }
 
 AAAProductOwned: {
-  Current AAA Member: 'Membership Pending',
+  Current AAA Member: 'No',
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 1111111111,
   Life: 'Yes',

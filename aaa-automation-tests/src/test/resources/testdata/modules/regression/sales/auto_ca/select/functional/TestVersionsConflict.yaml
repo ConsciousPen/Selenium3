@@ -19,11 +19,30 @@ TestData_Plus25Days: {
   }
 }
 
+TestData_Plus27Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+27d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
 TestData_Minus1Month: {
   EndorsementActionTab: {
     Endorsement Date: $<today-1M>,
     Endorsement Reason: 'Maintain General Information'
   }
+}
+
+TestData_Blank: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
 }
 
 #test data for creation NB in Endorsement/Renewal scenarios
@@ -39,7 +58,10 @@ TestData_NB_Policy: {
     }
   },
   FormsTab: {},
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -86,7 +108,10 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
@@ -377,9 +402,7 @@ TestData_CurrentCarrierInformation_Version1: {
 }
 
 TestData_CurrentCarrierInformation_Version2: {
-  GeneralTab: {
-    CurrentCarrierInformation: '@CurrentCarrierInformation_Version2'
-  },
+  GeneralTab: {},
   DriverTab: {},
   MembershipTab: {},
   VehicleTab: {},
@@ -586,8 +609,7 @@ TestData_DriverInformation_Version2: {
   DocumentsAndBindTab: {
     RequiredToIssue: {
       Proof of Good Student Discount: 'Yes',
-      Proof of New Driver Course Completion: 'Yes',
-      "Canadian MVR for (driver)": 'Yes'
+      Proof of New Driver Course Completion: 'Yes'
     }
   },
 }
@@ -601,7 +623,7 @@ DriverInformation: {
   Permit Before License: 'No',
   "Licensed in US/Canada for 18 or More Months?": 'Yes',
   License Type: 'Licensed (US)',
-  "First US/Canada License Date": $<today-1M>,
+  "First US/Canada License Date": $<today-2M>,
   License State: UT,
   "License #": 111111111,
   Employee Benefit Type: Active employee,
@@ -612,10 +634,19 @@ DriverInformation: {
   Filling Type: SR-1P,
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  #ActivityInformation: {
+  #  Activity Source: Company Input,
+  #  Type: '10-yr Major Violation',
+  #  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  #  Description: 'Driving under the influence of drugs',
+  #  Conviction Date: '$<today-3M:MM/dd/yyyy>',
+  #  "Include in Points and/or YAF?": 'No',
+  #  Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+  #}
 }
 
 DriverInformation_Version1: {
-  Date of Birth: $<today-57y>,
+  Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: 'Dentist',
@@ -634,6 +665,15 @@ DriverInformation_Version1: {
   Financial Responsibility Filling Needed: 'Yes',
   Filling Type: SR-22,
   Ridesharing Coverage: 'No',
+  #ActivityInformation: {
+  #  Activity Source: Customer Input,
+  #  Type: 'Major Violation',
+  #  Description: 'Hit and run',
+  #  Occurrence Date: '07/20/2018',
+  #  Conviction Date: '07/20/2018',
+  #  'Include in Points and/or YAF?': 'No',
+  #  'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
+  #}
 }
 
 DriverInformation_Version2: {
@@ -644,7 +684,9 @@ DriverInformation_Version2: {
   Age First Licensed: 16,
   Permit Before License: 'Yes',
   "Licensed in US/Canada for 18 or More Months?": 'No',
-  License Type: 'Licensed (Canadian)',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Licensed (US)',
+  License State: AZ,
   "License #": 333333333,
   Employee Benefit Type: Surviving spouse,
   ADB Coverage: 'No',
@@ -656,6 +698,14 @@ DriverInformation_Version2: {
   Financial Responsibility Filling Needed: 'No',
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  #ActivityInformation: {
+  #  Activity Sorce: Company Input,
+  #  Type: 'Minor Violation',
+  #  Occurrence Date: '06/20/2018',
+  #  Conviction Date: '06/20/2018',
+  #  Description: 'Child seat belt violation',
+  #  "Include in Points and/or YAF?": 'Yes',
+  #}
 }
 
 #Vehicle Tab - Vehicle Information section
@@ -665,6 +715,22 @@ TestData_VehicleInformation_Version1: {
   DriverTab: {},
   MembershipTab: {},
   VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+  },
+}
+
+TestData_VehicleInformationRenewal_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformationRenewal_Version1',
   AssignmentTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {},
@@ -729,6 +795,37 @@ VehicleInformation_Version1: {
   Business Use Description: business use description,
   Anti-theft Recovery Device: Vehicle Recovery Device,
   Existing Damage: Other,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 20,
+  Odometer Reading: 100,
+  Odometer Reading Date: $<today-1y>,
+  Customer Declared Annual Miles: 13000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'No',
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+VehicleInformationRenewal_Version1: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: WDBSK75F03F030897,
+  Year: 2003,
+  Make: MERCEDES-BENZ,
+  Model: SL500R,
+  Series: SL500R,
+  Body Style: ROADSTER,
+  Primary Use: Business (small business non-commercial),
+  "View Business use questionnaire?": 'Yes',
+  "Is the vehicle used in any commercial business operations?": 'No',
+  Business Use Description: business use description,
+  Air Bags: FRONT & SIDE AIRBAGS,
+  Anti-theft: STD,
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Anti-Lock Brakes: 4 wheel standard,
+  Existing Damage: None,
   "Salvaged?": 'No',
   Miles One-way to Work or School: 20,
   Odometer Reading: 100,

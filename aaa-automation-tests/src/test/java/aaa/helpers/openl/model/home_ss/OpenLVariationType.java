@@ -35,13 +35,4 @@ public class OpenLVariationType {
 	public void setVariationLimit(Double variationLimit) {
 		this.variationLimit = variationLimit;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLVariationType{" +
-				"number=" + number +
-				", variationId='" + variationId + '\'' +
-				", variationLimit=" + variationLimit +
-				'}';
-	}
 }

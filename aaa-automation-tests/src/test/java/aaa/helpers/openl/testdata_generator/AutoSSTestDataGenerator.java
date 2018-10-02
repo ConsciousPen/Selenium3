@@ -243,9 +243,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 
 			if (!isFirstDriver) {
+				String[] firstLastName = driver.getName().split("\\s");
+				String firstName = firstLastName[0];
+				String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
 				driverData.adjust(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData())
-						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), driver.getName())
-						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), driver.getName());
+						.adjust(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName)
+						.adjust(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
 			}
 
 			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
@@ -403,7 +406,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 	private List<TestData> getVehicleTabData(AutoSSOpenLPolicy openLPolicy) {
 		if (openLPolicy.getNoOfVehiclesExcludingTrailer() != null) {
-			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(getStatCode(v))).count());
+			int trailersCount = Math.toIntExact(openLPolicy.getVehicles().stream().filter(v -> isTrailerType(v.getBiLiabilitySymbol())).count());
 			int expectedTrailersCount = openLPolicy.getVehicles().size() - openLPolicy.getNoOfVehiclesExcludingTrailer();
 			assertThat(trailersCount).as("Number of vehicles recognized by their stat codes set [%s] is not equal to "
 					+ "total vehicles number minus \"noOfVehiclesExcludingTrailer\" value [%s]", trailersCount, expectedTrailersCount).isEqualTo(expectedTrailersCount);
@@ -418,7 +421,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			if (vehicle.getBiLiabilitySymbol() != null) {
+			//TODO-dchubkov: found such cases in "MDTests-WUIC-20181201_part1.xls", to be investigated how to fill different values for *LiabilitySymbol
+			/*if (vehicle.getBiLiabilitySymbol() != null) {
 				HashSet<String> liabilitySymbols = new HashSet<>();
 				liabilitySymbols.add(vehicle.getBiLiabilitySymbol());
 				liabilitySymbols.add(vehicle.getPdLiabilitySymbol());
@@ -427,7 +431,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				if (liabilitySymbols.size() > 1) {
 					throw new NotImplementedException(String.format("Not all *LiabilitySymbol field values are the same: %s, test data generation for this case is not implemented", liabilitySymbols));
 				}
-			}
+			}*/
 
 			TestData vehicleData = getVehicleTabInformationData(vehicle);
 			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
@@ -484,7 +488,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					unverifiableDrivingRecordSurchargeData.put(UnverifiableDrivingRecordSurcharge.DRIVER_SELECTION_BY_CONTAINS_KEY + "Smith", driver.isUnverifiableDrivingRecord());
 					isFirstDriver = false;
 				} else {
-					unverifiableDrivingRecordSurchargeData.put(driver.getName() + " " + driver.getName(), driver.isUnverifiableDrivingRecord());
+					String[] firstLastName = driver.getName().split("\\s");
+					String firstName = firstLastName[0];
+					String lastName = firstLastName.length > 1 ? firstLastName[1] : firstName;
+					unverifiableDrivingRecordSurchargeData.put(firstName + " " + lastName, driver.isUnverifiableDrivingRecord());
 				}
 			}
 		}
@@ -497,10 +504,19 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "starts=Added");
 			}
 
+			if (vehicle.getCoverages().stream().anyMatch(c -> "EUIMBI".equals(c.getCoverageCd()) || "EUIMPD".equals(c.getCoverageCd()))) {
+				policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM.getLabel(), true);
+			}
+
 			boolean isTrailerOrMotorHomeVehicle = isTrailerOrMotorHomeOrGolfCartType(vehicle.getUsage());
 			for (AutoSSOpenLCoverage coverage : vehicle.getCoverages()) {
 				if (getState().equals(Constants.States.NJ) && "PIP".equals(coverage.getCoverageCd())) {
 					// for NJ state PIP coverage should be set by covering aaaPIPMedExpLimit field ("Medical Expense" on UI)
+					continue;
+				}
+
+				if (isTrailerOrMotorHomeVehicle && "SP EQUIP".equals(coverage.getCoverageCd())) {
+					// tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI but it does not affect rating
 					continue;
 				}
 
@@ -515,19 +531,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
 				}
 
-				if (isTrailerOrMotorHomeVehicle) {
+				if (isTrailerOrMotorHomeVehicle || getState().equals(Constants.States.KY)) {
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
-							+ "for \"Trailer\" or \"Motor Home\" vehicle types").isIn("N/A", "0");
-					// tests for "Trailer" and "Motor Home" vehicle types sometimes have "SP EQUIP" coverage which is impossible to set via UI but it does not affect rating
-					// therefore we remove Special Equipment coverage from test data
-					detailedCoveragesData.remove(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.SPECIAL_EQUIPMENT_COVERAGE.getLabel());
+							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					if (getState().equals(Constants.States.KY)) {
-						assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field for KY state").isIn("N/A", "0");
-					} else {
-						detailedCoveragesData
-								.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
-					}
+					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
+							getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
 				}
 
 				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {
@@ -572,7 +581,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		if (getState().equals(Constants.States.NV)) {
 			for (int i = 0; i < openLPolicy.getVehicles().size(); i++) {
-				if (!isTrailerType(getStatCode(openLPolicy.getVehicles().get(i)))) {
+				if (!isTrailerType(openLPolicy.getVehicles().get(i).getBiLiabilitySymbol())) {
 					detailedVehicleCoveragesList.get(i).adjust(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.UMPD_CDW.getLabel(), "starts=No Coverage");
 				}
 			}
@@ -598,7 +607,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		//String vin = getVinFromDb(vehicle);
 		String vin = null; //TODO-dchubkov: improve VIN search DB query to include all openl field values
 		Map<String, Object> vehicleInformation = new HashMap<>();
-		String statCode = getStatCode(vehicle);
+		String statCode = vehicle.getBiLiabilitySymbol();
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
 		if (StringUtils.isNotBlank(vin)) {
@@ -715,7 +724,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
 		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(getStatCode(vehicle))) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getBiLiabilitySymbol())) {
 			//TODO-dchubkov: add argument for stat code
 			String getVinQuery = String.format("select VIN \n"
 							+ "from VEHICLEREFDATAVIN\n"

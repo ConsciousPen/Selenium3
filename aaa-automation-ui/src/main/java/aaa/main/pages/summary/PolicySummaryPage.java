@@ -63,6 +63,8 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonProceed = new Button(By.xpath("//button[.//span[@class='ui-button-text ui-c' and text()='Proceed'] or @value='Proceed']"));
 	public static Button buttonRenewalQuoteVersion = new Button(By.id("productContextInfoForm:stubRenewalQuoteVersions"));
 	public static Button buttonBackFromRenewals = new Button(By.id("renewalForm:backToSummary_footer"));
+	public static Button buttonOk = new Button(By.id("policyDataGatherForm:okButton_footer"));
+	public static Button buttonOkPopup = new Button(By.id("policyDataGatherForm:okBtn"));
 
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
 	public static StaticElement labellinkPolicy = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
@@ -245,29 +247,71 @@ public class PolicySummaryPage extends SummaryPage {
 			Tab.buttonTopCancel.click();
 		}
 
-		public static Link provideLinkExpandComparisonTree(int i) {
-			return new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i + "']"
+		/**
+		 * Provide link for subtree: section-> subelement -> subelement...
+		 * by constructing appropriate subtree id: comparisonTree_node_X_Y_..._Z
+		 * E.g. //*[@id="comparisonTreeForm:comparisonTree_node_0_0_1"]
+		 * <pre>
+		 *  _____________________________________________________________________
+		 * |Named Insureds (0)|                                 |
+		 * |                  | VIIFirstName VII VIILastName (0)|
+		 * |                  |                                 | Prefix (0)
+		 * |                  |                                 | First Name (1)
+		 * |Drivers (1)       |                                 |
+		 * |                  | VIIFirstName VII VIILastName (0)|
+		 * |                  |                                 | First Name (0)
+		 * |                  |                                 | Middle Name (1)
+		 * </pre>
+		 */
+		public static Link provideLinkExpandComparisonTree(List<Integer> subsectionsTree) {
+			String subsectionsTreeStr = StringUtils.join(subsectionsTree, '_');
+			return new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + subsectionsTreeStr + "']"
 				+ "/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
 		}
 
-		public static StaticElement provideLinkTextComparisonTree(int i) {
-			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i + "']"
-					+ "/td[1]/span[2]"));
+		/**
+		 * Provide static element for subtree: section-> subelement -> subelement...
+		 * by constructing appropriate subtree id: comparisonTree_node_X_Y_..._Z
+		 * E.g. //*[@id="comparisonTreeForm:comparisonTree_node_0_0_1"]
+		 * <pre>
+		 * ______________________________________________________________________
+		 * |Named Insureds (0)|                                 |
+		 * |                  | VIIFirstName VII VIILastName (0)|
+		 * |                  |                                 | Prefix (0)
+		 * |                  |                                 | First Name (1)
+		 * |Drivers (1)       |                                 |
+		 * |                  | VIIFirstName VII VIILastName (0)|
+		 * |                  |                                 | First Name (0)
+		 * |                  |                                 | Middle Name (1)
+		 * </pre>
+		 */
+		public static StaticElement provideAttributeExpandComparisonTree(List<Integer> subsectionsTree) {
+			String subsectionsTreeStr = StringUtils.join(subsectionsTree, '_');
+			int column = subsectionsTree.size() + 1;
+			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + subsectionsTreeStr + "']"
+					+ "/td[1]/span[" + column + "]"));
 		}
 
-		public static StaticElement provideAttributeExpandComparisonTree(int componentNumber, int attrNumber) {
-			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
-					+ "/td[1]/span[3]"));
-		}
-
-		public static StaticElement provideValueExpandComparisonTree(int componentNumber, int attrNumber, int column) {
-			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
+		public static StaticElement provideValueExpandComparisonTree(int column, List<Integer> subsectionsTree) {
+			String subsectionsTreeStr = StringUtils.join(subsectionsTree, '_');
+			return new StaticElement(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + subsectionsTreeStr + "']"
 					+ "/td[" + column + "]/span[1]"));
 		}
 
 		public static Link provideLinkConflictVersion(int componentNumber, int attrNumber, int conflictVersion) {
 			return new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + componentNumber + "_" + attrNumber + "']"
 					+ "/td[" + 7 + "]/span[1]"));
+		}
+
+		public static Link provideLinkConflictVersion(List<Integer> treePosition, String version) {
+			String subsectionsTreeStr = StringUtils.join(treePosition, '_');
+			String versionTag;
+			switch (version) {
+				case "Current": versionTag = "applyNewValue"; break;
+				case "Available": versionTag = "applyOldValue"; break;
+				default: throw new IllegalArgumentException("Unknown version " + version);
+			}
+			return new Link(By.xpath("//*[@id='comparisonTreeForm:comparisonTree:" + subsectionsTreeStr + ":" + versionTag + "']"));
 		}
 
 		public static LocalDateTime readEffectiveDate(int row) {

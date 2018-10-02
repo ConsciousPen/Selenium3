@@ -71,17 +71,4 @@ public class OpenLNamedInsured {
 	public void setTotalNoReinstatements(Integer totalNoReinstatements) {
 		this.totalNoReinstatements = totalNoReinstatements;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLNamedInsured{" +
-				"number=" + number +
-				", aAAPropPersistency=" + aAAPropPersistency +
-				", ageOfOldestInsured=" + ageOfOldestInsured +
-				", initialAgeOfOldestInsured=" + initialAgeOfOldestInsured +
-				", maritialStatus='" + maritialStatus + '\'' +
-				", numofOccupants=" + numofOccupants +
-				", totalNoReinstatements=" + totalNoReinstatements +
-				'}';
-	}
 }

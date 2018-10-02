@@ -15,14 +15,4 @@ public class PUPOpenLCoverage extends OpenLCoverage {
 	public void setLimitAmount(Integer limitAmount) {
 		this.limitAmount = limitAmount;
 	}
-
-	@Override
-	public String toString() {
-		return "PUPOpenLCoverage{" +
-				"coverageCD='" + coverageCd + '\'' +
-				", limitAmount=" + limitAmount +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
-	}
 }

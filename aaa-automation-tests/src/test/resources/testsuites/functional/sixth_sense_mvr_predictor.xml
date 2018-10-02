@@ -64,4 +64,11 @@
         </classes>
     </test>
 
+    <test name="Good Student Discount">
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
+        </classes>
+    </test>
+
 </suite>

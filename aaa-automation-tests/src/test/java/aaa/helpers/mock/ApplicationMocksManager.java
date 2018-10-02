@@ -177,7 +177,6 @@ public class ApplicationMocksManager {
 		return RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 	}
 
-	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
 		switch (mockModelClass.getSimpleName()) {
 			case "RetrieveMembershipSummaryMock":
@@ -189,7 +188,7 @@ public class ApplicationMocksManager {
 			default:
 				M mock;
 				try {
-					mock = (M) ReflectionHelper.getInstance(mockModelClass);
+					mock = ReflectionHelper.getInstance(mockModelClass);
 				} catch (RuntimeException e) {
 					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
 				}

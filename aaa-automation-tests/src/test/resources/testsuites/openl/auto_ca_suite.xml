@@ -10,7 +10,6 @@
     <!--<parameter name="localTests" value="true"/>-->
 
     <test name="Auto CA Choice Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="AutoCAC"/>
         <parameter name="fileName" value="TestsCAChoiceTest-20170806.xls"/>
         <parameter name="policyNumbers" value="1,3"/>
@@ -19,7 +18,6 @@
         </classes>
     </test>
     <test name="Auto CA Select Premium Calculation Test" preserve-order="true">
-        <parameter name="state" value="CA"/>
         <parameter name="policyType" value="AutoCA"/>
         <parameter name="fileName" value="TestsCASelectTest-20180101.xls"/>
         <parameter name="policyNumbers" value="7,8"/>

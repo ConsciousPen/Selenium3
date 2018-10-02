@@ -332,46 +332,4 @@ public class OpenLDiscountInformation {
 	public void setWindStorm(String windStorm) {
 		this.windStorm = windStorm;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLDiscountInformation{" +
-				"number=" + number +
-				", autoInsPersistency=" + autoInsPersistency +
-				", discountByAutoGroup='" + discountByAutoGroup + '\'' +
-				", fireAlarmType='" + fireAlarmType + '\'' +
-				", greenHomeDiscApplicability=" + greenHomeDiscApplicability +
-				", homeInsPersistency=" + homeInsPersistency +
-				", installmentType='" + installmentType + '\'' +
-				", isAAAEmployee=" + isAAAEmployee +
-				", isAMIGMotorPolicyInd=" + isAMIGMotorPolicyInd +
-				", isAMIGWatercraftPolicyInd=" + isAMIGWatercraftPolicyInd +
-				", isAutoPolicyInd=" + isAutoPolicyInd +
-				", isCEQPolicyInd=" + isCEQPolicyInd +
-				", isCurrAAAMember=" + isCurrAAAMember +
-				", isDP3PolicyInd=" + isDP3PolicyInd +
-				", isLifePolicyInd=" + isLifePolicyInd +
-				", isPUPPolicyInd=" + isPUPPolicyInd +
-				", isPrivateCommunity=" + isPrivateCommunity +
-				", isUnderlyingRenterPolicy=" + isUnderlyingRenterPolicy +
-				", isLightningProtected=" + isLightningProtected +
-				", memberPersistency=" + memberPersistency +
-				", noOfConsecutiveYrs=" + noOfConsecutiveYrs +
-				", noOfYrsSinceLoanInception=" + noOfYrsSinceLoanInception +
-				", paymentPlan='" + paymentPlan + '\'' +
-				", proofCentralFireAlarm=" + proofCentralFireAlarm +
-				", proofCentralTheftAlarm=" + proofCentralTheftAlarm +
-				", proofOfGreenHome=" + proofOfGreenHome +
-				", proofOfPEHCR=" + proofOfPEHCR +
-				", proofOfTenant=" + proofOfTenant +
-				", rentalPropertyMgr='" + rentalPropertyMgr + '\'' +
-				", sprinklerType='" + sprinklerType + '\'' +
-				", theftAlarmType='" + theftAlarmType + '\'' +
-				", timeSinceRenovElectrical=" + timeSinceRenovElectrical +
-				", timeSinceRenovHeatOrCooling=" + timeSinceRenovHeatOrCooling +
-				", timeSinceRenovPlumbing=" + timeSinceRenovPlumbing +
-				", timeSinceRenovRoof=" + timeSinceRenovRoof +
-				", windStorm='" + windStorm + '\'' +
-				'}';
-	}
 }

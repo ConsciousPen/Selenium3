@@ -131,40 +131,6 @@ public class AutoSSOpenLVehicle extends OpenLVehicle {
 		this.isDaytimeRunning = isDaytimeRunning;
 	}
 
-	@Override
-	public String toString() {
-		return "AutoSSOpenLVehicle{" +
-				"coverages=" + coverages +
-				", ratedDriver=" + ratedDriver +
-				", airbagCode='" + airbagCode + '\'' +
-				", antiTheftString='" + antiTheftString + '\'' +
-				", isHybrid=" + isHybrid +
-				", isTelematic=" + isTelematic +
-				", isTeenTelematic=" + isTeenTelematic +
-				", newCarAddedProtection=" + newCarAddedProtection +
-				", safetyScore=" + safetyScore +
-				", usage='" + usage + '\'' +
-				", vehicleAge=" + vehicleAge +
-				", isABS=" + isABS +
-				", isDaytimeRunning=" + isDaytimeRunning +
-				", firstOrAddlVehicle='" + firstOrAddlVehicle + '\'' +
-				", maxDriverAge=" + maxDriverAge +
-				", totalVehiclePoint=" + totalVehiclePoint +
-				", number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
-	}
-
 	public Boolean isABS() {
 		return isABS;
 	}

@@ -88,7 +88,15 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15384"})
 	public void pas15384_moreThanTwoMinorViolationsError(@Optional("VA") String state) {
 
-		pas15384_moreThanTwoMinorViolationsErrorBody();
+		pas15384_moreThanTwoMinorViolationsErrorBody("VA");
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17676"})
+	public void pas17676_moreThanTwoMinorViolationsError(@Optional("MD") String state) {
+
+		pas15384_moreThanTwoMinorViolationsErrorBody("MD");
 	}
 
 	/**
@@ -261,10 +269,10 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * @name Driver Details and the MVR
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
-	 * 3. Add driver with: Name mistmach.
+	 * 3. Add driver with: Name mismatch.
 	 * 4. Order reports for new driver.
-	 * 5. Check response. to verify Error for neme mistmach.
-	 * 6. Add one more driver with gender and DOB mistmach.
+	 * 5. Check response. to verify Error for name mismatch.
+	 * 6. Add one more driver with gender and DOB mismatch.
 	 * 7. Verify errors for gender and DOB.
 	 * 8. update the driver and correct DOB and Gender.
 	 */
@@ -316,5 +324,22 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: 3 or more minor violations for speeding
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error 200103_C
+	 * 6. rate and bind verify rule on bind
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15376"})
+	public void pas15376_3OrMoreMinorOrSpeedingViolations(@Optional("AZ") String state) {
+
+		pas15376_3OrMoreMinorOrSpeedingViolationsBody();
+	}
 }
 

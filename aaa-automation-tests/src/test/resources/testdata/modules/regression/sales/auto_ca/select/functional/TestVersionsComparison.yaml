@@ -25,7 +25,10 @@ TestData_NB_Policy: {
     }
   },
   FormsTab: {},
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: {
     RequiredToBind: {
@@ -72,7 +75,10 @@ TestData_NB_Quote: {
       }
     }
   },
-  PremiumAndCoveragesTab: '@<auto_ca_select>@DataGather@PremiumAndCoveragesTab',
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000/$500,000',
+    Property Damage Liability: 'contains=$100,000',
+  },
   DriverActivityReportsTab: '@<auto_ca_select>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@<auto_ca_select>@DataGather@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ca_select>@DataGather@PurchaseTab'
@@ -555,30 +561,6 @@ TestData_DriverInformation_Version1: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToIssue:{
-      #Proof of Mature Driver Course Completion: 'Yes',
-    }
-  },
-}
-
-TestData_DriverInformation_Renewal_Version1: {
-  GeneralTab: {},
-  DriverTab: '@DriverInformation_Version1',
-  MembershipTab: {},
-  VehicleTab: {},
-  AssignmentTab: {},
-  FormsTab: {
-    Driver Forms: {
-      CIPCSR22: {
-        Action: Edit,
-        Case Number: 123456789,
-        State: CA
-      }
-    }
-  },
-  PremiumAndCoveragesTab: {},
-  DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    RequiredToIssue:{
       Proof of Mature Driver Course Completion: 'Yes',
     }
   },
@@ -596,7 +578,7 @@ TestData_DriverInformation_Version2: {
   DocumentsAndBindTab: {
     RequiredToIssue: {
       Proof of Good Student Discount: 'Yes',
-      "Canadian MVR for (driver)": 'Yes'
+      Proof of New Driver Course Completion: 'Yes'
     }
   },
 }
@@ -712,6 +694,22 @@ TestData_VehicleInformation_Version1: {
   },
 }
 
+TestData_VehicleInformationRenewal_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformationRenewal_Version1',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+  },
+}
+
 TestData_VehicleInformation_Version2: {
   GeneralTab: {},
   DriverTab: {},
@@ -765,6 +763,37 @@ VehicleInformation_Version1: {
   Business Use Description: business use description,
   Anti-theft Recovery Device: Vehicle Recovery Device,
   Existing Damage: Other,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 20,
+  Odometer Reading: 100,
+  Odometer Reading Date: $<today-1y>,
+  Customer Declared Annual Miles: 13000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'No',
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+VehicleInformationRenewal_Version1: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: WDBSK75F03F030897,
+  Year: 2003,
+  Make: MERCEDES-BENZ,
+  Model: SL500R,
+  Series: SL500R,
+  Body Style: ROADSTER,
+  Primary Use: Business (small business non-commercial),
+  "View Business use questionnaire?": 'Yes',
+  "Is the vehicle used in any commercial business operations?": 'No',
+  Business Use Description: business use description,
+  Air Bags: FRONT & SIDE AIRBAGS,
+  Anti-theft: STD,
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Anti-Lock Brakes: 4 wheel standard,
+  Existing Damage: None,
   "Salvaged?": 'No',
   Miles One-way to Work or School: 20,
   Odometer Reading: 100,

@@ -82,18 +82,4 @@ public class OpenLLossInformation {
 	public void setMultipolicyStatus(String multipolicyStatus) {
 		this.multipolicyStatus = multipolicyStatus;
 	}
-
-	@Override
-	public String toString() {
-		return "OpenLLossInformation{" +
-				"number=" + number +
-				", autoTier='" + autoTier + '\'' +
-				", creditBands=" + creditBands +
-				", autoCreditBands=" + autoCreditBands +
-				", expClaimPoint=" + expClaimPoint +
-				", multipolicyStatus='" + multipolicyStatus + '\'' +
-				", priorClaimPoint=" + priorClaimPoint +
-				", recentYCF=" + recentYCF +
-				'}';
-	}
 }

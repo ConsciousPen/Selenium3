@@ -10,11 +10,14 @@ PremiumAndCoveragesTab_DataGather: {
 }
 
 AddSuspenseActionTab: {
-  Suspense Amount: 50
+  Suspense Amount: 50,
+  Payment Channel: Credit Card
 }  
 
 SearchSuspenseActionTab: {
   'Missing [status]': Outstanding
 }
 
-ReverseSuspenseActionTab: {}
+ReverseSuspenseActionTab: {
+  'Reason for Reverse': 'Fee + No Restriction'
+}

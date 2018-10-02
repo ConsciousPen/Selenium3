@@ -513,20 +513,26 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 *    and customerDisplay = true
 	 *    and value is as per the UI
 	 *    and the coverage is displayed after Collision.
-	 *
 	 * @scenario for states other than VA (states without CUSTEQUIP)
 	 * 1. Create a policy in PAS with one regular vehicle and two VAN/PICKUP (CUSTEQUIP coverage is applicable only to VA)
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsementCoverages, viewPolicyCoverages, viewEndorsementCoveragesByVehicle, viewPolicyCoveragesByVehicle services
 	 * 4. Validate that responses don't contain Customized Equipment coverage (CUSTEQUIP)
-	 * @details
+	 *
+	 * @author Jovita Pukenaite
+	 * @name Add/remove Comp, check CUSTEQUIP
+	 * @scenario for VA only!
+	 * 1. One vehicle should have CUSTEQUIP
+	 * 2. Remove Comp coverage (-1)
+	 * 3. Check coverages, rate.
+	 * 4. Return back Comp coverage
+	 * 5. Check coverages again, rate.
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18624", "PAS-19834"})
 	public void pas18624_CustomisedEquipment(@Optional("VA") String state) {
 		pas18624_CustomisedEquipmentBody();
-
 	}
 
 	/**
@@ -582,6 +588,33 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas17628_pas17628_ViewCoverageUpdateCoverageUmpdDeductibleBody(getPolicyType());
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages/Update Coverages - EUIM - MD
+	 * @scenario for MD
+	 * * @details
+	 * 1. Create a MD policy
+	 * 2. run view coverage service  see the Enhanced UIM coverage selection :canChangeCoverage = true and customerView = true
+	 * 3. Update EUIM select coverage and verify response.
+	 * 4. Update EUIM remove coverage and verify response.
+	 * PAS:18202:
+	 * 1.Verify order of coverages
+	 * Bodily Injury
+	 *  Property Damage
+	 *  Uninsured/Underinsured Motorist Bodily Injury
+	 *  Enhanced UM
+	 *  Uninsured Motorist Property Damage
+	 *  Medical Payments
+	 *  Personal Injury Protection
+	 * 	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
+	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
+		assertSoftly(softly ->
+				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
+		);
+	}
 }
 
 
