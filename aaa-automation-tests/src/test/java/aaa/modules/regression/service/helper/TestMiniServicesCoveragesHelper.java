@@ -3257,7 +3257,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void assertAvailableCoverageLimitForPD(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(2).availableLimits;
+			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(1).availableLimits;
 
 			softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("15000");
 			softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$15,000");
@@ -3270,6 +3270,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(availableLimitsPD.get(3).coverageLimit).isEqualTo("100000");
 			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$100,000");
+
+			softly.assertThat(availableLimitsPD.get(4).coverageLimit).isEqualTo("300000");
+			softly.assertThat(availableLimitsPD.get(4).coverageLimitDisplay).isEqualTo("$300,000");
 		});
 	}
 
