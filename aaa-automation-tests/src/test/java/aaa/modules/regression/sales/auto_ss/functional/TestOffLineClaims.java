@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 
 import aaa.helpers.freemaker.FreeMakerHelper;
-import aaa.helpers.freemaker.datamodel.claim.CASClaimResponse;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -32,22 +31,16 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     public void TestCreateCasResponse() {
-        FreeMakerHelper freeMakerHelper = new FreeMakerHelper();
-        CASClaimResponse casClaimResponse = freeMakerHelper.getClaimResponseDataModel("two_claims_data_model.yaml");
+        FreeMakerHelper freeMakerHelper = new FreeMakerHelper("two_claims_data_model.yaml",
+				"claim_resp.xml");
 
-        assertThat(casClaimResponse).isNotNull();
-        assertThat(casClaimResponse.getClaimLineItemList()).hasSize(1);
-        assertThat(casClaimResponse.getClaimLineItemList().get(0).getClaimList()).hasSize(2);
-
-        freeMakerHelper.postProcessClaimDataModel(casClaimResponse, "AZSS999999999", (response, s) ->
+		String policyNumber = "AZSS999999999";
+        File claimResponse = freeMakerHelper.processClaimTemplate((response) ->
 				response.getClaimLineItemList().forEach(claimLineItem -> {
-					claimLineItem.setAgreementNumber(s);
-					claimLineItem.getClaimList().forEach(claim -> claim.setClaimPolicyReferenceNumber(s));
-		}));
-		assertThat(casClaimResponse.getClaimLineItemList().get(0).getAgreementNumber()).isEqualToIgnoringCase("AZSS999999999");
-
-		File claimResponse = freeMakerHelper.processClaimTemplate(casClaimResponse, "claim_resp.xml");
-        assertThat(claimResponse.exists() && !claimResponse.isDirectory()).isTrue();
+					claimLineItem.setAgreementNumber(policyNumber);
+					claimLineItem.getClaimList().forEach(claim -> claim.setClaimPolicyReferenceNumber(policyNumber));
+				}));
+		assertThat(claimResponse.exists() && !claimResponse.isDirectory()).isTrue();
     }
 
 	/**

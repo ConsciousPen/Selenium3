@@ -25,7 +25,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class FreeMakerHelper {
 
@@ -41,6 +44,10 @@ public class FreeMakerHelper {
     private final static List<Supplier<Configuration>> configurations = new ArrayList<>();
     private static final String CLAIM_RESPONSE_KEY = "claimResponse";
 
+    private String dataModelFileName;
+
+    private String outputFileName;
+
     static {
         configurations.add(() -> {
             Configuration cfg = new Configuration();
@@ -51,7 +58,12 @@ public class FreeMakerHelper {
         });
     }
 
-    public CASClaimResponse getClaimResponseDataModel(@Nonnull String dataModelFileName) {
+    public FreeMakerHelper(@Nonnull String dataModelFileName, @Nonnull String outputFileName) {
+        this.dataModelFileName = dataModelFileName;
+        this.outputFileName = outputFileName;
+    }
+
+    private CASClaimResponse getClaimResponseDataModel() {
         Yaml yaml = new Yaml(new Constructor(CASClaimResponse.class));
         InputStream inputStream = FreeMakerHelper.class
                 .getClassLoader()
@@ -59,13 +71,24 @@ public class FreeMakerHelper {
         return (CASClaimResponse) yaml.load(inputStream);
     }
 
-    public void postProcessClaimDataModel(CASClaimResponse response, String value, BiConsumer<CASClaimResponse, String> c) {
-        c.accept(response, value);
+    private void postProcessClaimDataModel(CASClaimResponse response, Consumer<CASClaimResponse> consumer) {
+        consumer.accept(response);
     }
 
-    public File processClaimTemplate(@Nonnull CASClaimResponse claimResponse, @Nonnull String outputFileName) {
+    public File processClaimTemplate(Consumer<CASClaimResponse> postProcessor) {
+        CASClaimResponse claimResponse = getClaimResponseDataModel();
+        assertThat(claimResponse).isNotNull();
+        assertThat(claimResponse.getClaimLineItemList()).isNotEmpty();
+
+        postProcessClaimDataModel(claimResponse, postProcessor);
+
         Map<String, Object> root = ImmutableMap.of(CLAIM_RESPONSE_KEY, claimResponse);
-        return processTemplate(CAS_CLAIM_TEMPLATE, root, outputFileName);
+        File file = processTemplate(CAS_CLAIM_TEMPLATE, root, outputFileName);
+
+        assertThat(file).isNotNull();
+        assertThat(file).exists();
+        assertThat(file).isFile();
+        return file;
     }
 
     private Optional<Template> getTemplateByName(String name) {
