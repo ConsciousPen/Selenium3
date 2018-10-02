@@ -156,7 +156,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         BillingSummaryPage.openPolicy(1);
 
         // Create Endorsement
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Minus1Week"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 
         if (getPolicyType().equals(PolicyType.HOME_CA_HO4)) {

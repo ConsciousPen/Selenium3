@@ -37,7 +37,7 @@ public class TestRenewalStatusChange extends TestCarryOverValuesTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Renewal Status change")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-17736")
-	public void pas17736_TestRenewalStatusChangeCA(@Optional("") String state) {
+	public void pas17736_TestRenewalStatusChangeCA_DP3(@Optional("") String state) {
 
 		pas17736_TestRenewalStatusChangeCA();
 	}
