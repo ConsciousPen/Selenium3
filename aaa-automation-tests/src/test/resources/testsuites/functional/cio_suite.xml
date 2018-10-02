@@ -270,6 +270,9 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_DP3"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -278,6 +281,9 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO6"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -286,6 +292,9 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO3"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -294,6 +303,9 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO4"/>
+                </methods>
             </class>
         </classes>
     </test>
