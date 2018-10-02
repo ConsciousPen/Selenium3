@@ -192,7 +192,7 @@
 
     <!-- Auto SS -->
     <test name="Update VIN Refresh and Renewal Merge Auto SS" >
-    <parameter name="state" value="AZ"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCurrentTermEndAddsVehicle">
                 <methods>
