@@ -315,4 +315,30 @@
         </classes>
     </test>
 
+    <test name="Test Renewal Status change" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
