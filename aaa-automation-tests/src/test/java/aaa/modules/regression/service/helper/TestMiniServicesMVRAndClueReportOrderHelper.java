@@ -401,24 +401,24 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly ->
 				softly.assertThat(drivingRecordList).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
 		);
-//		//CLUE
-//		String oidDriver2 = addAndUpdateDriver(policyNumber, " ", " ", " ", " ", " ", " ", " ");
-//
-//		//Order reports through service
-//		OrderReportsResponse response2 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
-//		List<DrivingRecord> drivingRecordList2 = response2.drivingRecords;
-//		assertSoftly(softly ->
-//				softly.assertThat(drivingRecordList2).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
-//		);
-//		//CLUE and MVR
-//		String oidDriver3 = addAndUpdateDriver(policyNumber, " ", " ", " ", " ", " ", " ", " ");
-//
-//		//Order reports through service
-//		OrderReportsResponse response3 = HelperCommon.orderReports(policyNumber, oidDriver3, OrderReportsResponse.class, 200);
-//		List<DrivingRecord> drivingRecordList3 = response3.drivingRecords;
-//		assertSoftly(softly ->
-//				softly.assertThat(drivingRecordList3).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
-//		);
+		//CLUE
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Three", "Claims", "1970-01-01", "B19673001", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response2 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList2 = response2.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList2).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
+		//CLUE and MVR
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "Claims", "AndMVR", "1970-01-01", "B19673002", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response3 = HelperCommon.orderReports(policyNumber, oidDriver3, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList3 = response3.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList3).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {

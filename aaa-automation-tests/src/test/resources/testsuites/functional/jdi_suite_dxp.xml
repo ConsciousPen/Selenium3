@@ -527,6 +527,7 @@
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                     <include name="pas15374_driverWithMajorViolationsError"/>
+                    <include name="pas19673_theOrderOfViolations"/>
                 </methods>
             </class>
         </classes>
