@@ -200,12 +200,20 @@ public class TimePoints {
 		return getEarnedPremiumBillThird(date, this.policyType, this.state);
 	}
 
+	public LocalDateTime getEarnedPremiumBillThirdManualCancelltion(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
+	}
+
 	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date, PolicyType policyType, String state) {
 		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date) {
 		return getEarnedPremiumWriteOff(date, this.policyType, this.state);
+	}
+
+	public LocalDateTime getEarnedPremiumWriteOffManualCancellation(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
 	}
 
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
