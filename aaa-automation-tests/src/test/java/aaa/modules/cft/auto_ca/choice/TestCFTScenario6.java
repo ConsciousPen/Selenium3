@@ -28,14 +28,16 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario6 extends ControlledFinancialBaseTest {
 
+	private String[] endorsementEffDateDataKeys = new String[] {new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()};
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
 	@StateList(states = {Constants.States.CA})
 	public void cftTestScenario6(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
-		endorsePolicyOnStartDatePlus2();
-		endorseOOSPolicyOnStartDatePlus16(new String[]{new EndorsementActionTab().getMetaKey(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()});
+		futureEndorsePolicyOnStartDatePlus2(endorsementEffDateDataKeys);
+		endorseOOSPolicyOnStartDatePlus16(endorsementEffDateDataKeys);
 	}
 
 	@Override
