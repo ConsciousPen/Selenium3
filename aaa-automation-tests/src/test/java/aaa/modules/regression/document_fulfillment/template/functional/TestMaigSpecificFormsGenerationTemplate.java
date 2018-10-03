@@ -152,7 +152,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+//		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		/**
 		 * https://csaaig.atlassian.net/browse/PAS-9157
@@ -175,14 +175,51 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 			assertThat(actualDocumentsAfterSecondRenewal.stream().map(Document::getTemplateId).toArray()).doesNotContain(DocGenEnum.Documents.HSRNHODPXX.getIdInXml());
 		}
 	}
+	//TODO ADD SWITCH HERE
+	protected List<String> getSecondRenewalForms() {
+		switch (getPolicyType().getShortName()) {
+			case "HomeSS_HO3":
+				return Arrays.asList(
+						DocGenEnum.Documents.HSRNXX.getIdInXml(),
+						DocGenEnum.Documents.HS02.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
+						DocGenEnum.Documents.AHPNXX.getIdInXml());
 
-	private List<String> getSecondRenewalForms() {
-		return Arrays.asList(
-				DocGenEnum.Documents.HSRNXX.getIdInXml(),
-				DocGenEnum.Documents.HS02.getIdInXml(),
-				DocGenEnum.Documents.AHAUXX.getIdInXml(),
-				DocGenEnum.Documents.AHPNXX.getIdInXml());
+			case "HomeSS_HO4":
+				return Arrays.asList(
+						DocGenEnum.Documents.HSRNXX.getIdInXml(),
+						DocGenEnum.Documents.HS02_4.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
+						DocGenEnum.Documents.AHPNXX.getIdInXml());
+			case "HomeSS_HO6":
+				return Arrays.asList(
+						DocGenEnum.Documents.HSRNXX.getIdInXml(),
+						DocGenEnum.Documents.HS02_6.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
+						DocGenEnum.Documents.AHPNXX.getIdInXml());
+			case "HomeSS_DP3":
+				return Arrays.asList(
+						DocGenEnum.Documents.HSRNXX.getIdInXml(),
+						DocGenEnum.Documents.DS02.getIdInXml(),
+						DocGenEnum.Documents.AHAUXX.getIdInXml(),
+						DocGenEnum.Documents.AHPNXX.getIdInXml());
+			case "PUP":
+				return Arrays.asList(
+						DocGenEnum.Documents.HSRNXX.getIdInXml(),
+						DocGenEnum.Documents.PS02.getIdInXml(),
+						DocGenEnum.Documents.AHPNXX.getIdInXml());
+				default:
+					return Arrays.asList("wooooo!");
+		}
+
 	}
+
+//		return Arrays.asList(
+//				DocGenEnum.Documents.HSRNXX.getIdInXml(),
+//				DocGenEnum.Documents.HS02.getIdInXml(),
+//				DocGenEnum.Documents.AHAUXX.getIdInXml(),
+//				DocGenEnum.Documents.AHPNXX.getIdInXml());
+//	}
 
 	/**
 	 * @author Viktor Petrenko
@@ -479,7 +516,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 				}
 			}
 			// Check sequence
-			softly.assertThat(intersectionsWithActualList).as("Form Sequence is correct").isEqualTo(expectedFormsOrder);
+			softly.assertThat(intersectionsWithActualList).as("Form Sequence is not correct").isEqualTo(expectedFormsOrder);
 		});
 	}
 
