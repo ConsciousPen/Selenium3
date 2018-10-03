@@ -36,6 +36,7 @@ import toolkit.verification.CustomSoftAssertions;
 public class TestScenario1 extends AutoSSBaseTest {
 	private String policyNumber;
 	private LocalDateTime installmentDD1;
+	private LocalDateTime installmentDD2;
 	private String policyEffectiveDate;
 	private String policyExpirationDate;
 	private String plcyDueDt;
@@ -56,7 +57,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL})
 	public void TC01_CreatePolicy(@Optional("") String state) {
 		currentDate = TimeSetterUtil.getInstance().getCurrentTime();
-		TimeSetterUtil.getInstance().nextPhase(currentDate.plusYears(1));
+		//TimeSetterUtil.getInstance().nextPhase(currentDate.plusYears(1));
 		mainApp().open();
 
 		createCustomerIndividual();
@@ -74,6 +75,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 
 		BillingSummaryPage.open();
 		installmentDD1 = BillingSummaryPage.getInstallmentDueDate(2);
+		installmentDD2 = BillingSummaryPage.getInstallmentDueDate(3);
 	}
 
 	/**
@@ -90,8 +92,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 		CustomSoftAssertions.assertSoftly(softly -> {
 			LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
 			TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
-			log.info("Installment Generatetion Date" + billingGenerationDate);
-			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+			log.info("Installment Generation Date: " + billingGenerationDate);
+			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);	
 			JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
 			mainApp().open();
@@ -134,8 +136,14 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_GenerateCancelNotice(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
-			LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
-			log.info("Cancel Notice Generatetion Date" + cancelNoticeDate);
+			
+			LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD2);
+			TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
+			log.info("Installment Generation Date: " + billingGenerationDate);
+			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+			
+			LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD2);
+			log.info("Cancel Notice Generation Date: " + cancelNoticeDate);
 			TimeSetterUtil.getInstance().nextPhase(cancelNoticeDate);
 			JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
 			JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
@@ -178,7 +186,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
-			LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
+			LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD2);
 			log.info("Cancellation Generatetion Date" + cancellationDate);
 			TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 			JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
