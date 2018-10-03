@@ -388,7 +388,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 	}
 
-	protected void pas15374_theOrderOfViolationsBody() {
+	protected void pas19673_theOrderOfViolationsBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		//MVR

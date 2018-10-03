@@ -224,7 +224,7 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19673"})
 	public void pas19673_theOrderOfViolations(@Optional("VA") String state) {
 
-		pas15374_theOrderOfViolationsBody();
+		pas19673_theOrderOfViolationsBody();
 	}
 
 	/**
