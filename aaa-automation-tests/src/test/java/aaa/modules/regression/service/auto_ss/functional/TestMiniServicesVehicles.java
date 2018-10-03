@@ -455,10 +455,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement outside of PAS.
 	 * 9. Hit "Transaction History Service". Check if response is empty.
-	 * 10. Add new vehicle.
-	 * 11. Replace that new Vehicle.
-	 * 12. Hit "Transaction History Service". Check if only one vehicle exist in response.
-	 * 13. Rate and Bind.
+	 * 10. Replace Vehicle which was already replaced.
+	 * 11. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 12. Rate and Bind.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
