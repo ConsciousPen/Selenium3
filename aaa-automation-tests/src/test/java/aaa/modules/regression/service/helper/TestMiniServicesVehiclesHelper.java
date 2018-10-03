@@ -1488,9 +1488,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(deleteVehicleResponse2.oid).isEqualTo(newVehicleOid);
 			softly.assertThat(deleteVehicleResponse2.vehicleStatus).isEqualTo("pendingRemoval");
 
-			VehicleUpdateResponseDto deleteVehicleResponse3 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid2);
-			softly.assertThat(deleteVehicleResponse3.oid).isEqualTo(newVehicleOid2);
-			softly.assertThat(deleteVehicleResponse3.vehicleStatus).isEqualTo("pendingRemoval");
+			ErrorResponseDto deleteVehicleResponse3 = HelperCommon.deleteVehicle(policyNumber, newVehicleOid2, ErrorResponseDto.class, 422);
+			softly.assertThat(deleteVehicleResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getCode());
+			softly.assertThat(deleteVehicleResponse3.message).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getMessage());
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 
@@ -1604,17 +1606,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		ComparablePolicy response3 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		softly.assertThat(response3.vehicles).isEqualTo(null);
 
-		//Add Vehicle V4
-		String purchaseDate = "2013-02-22";
-		String vin4 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin4);
-		softly.assertThat(addVehicle.oid).isNotEmpty();
-		String oid4 = addVehicle.oid;
-
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid4);
-
 		String replacedVehicleVin3 = "3FAFP31341R200709"; //Ford
-		String replaceVehOid3 = replaceVehicleWithUpdates(policyNumber, oid4, replacedVehicleVin3, true, true);
+		String replaceVehOid3 = replaceVehicleWithUpdates(policyNumber, replaceVehOid1, replacedVehicleVin3, true, true);
 
 		ComparablePolicy response4 = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle replaceVeh3 = response4.vehicles.get(replaceVehOid3);

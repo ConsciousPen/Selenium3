@@ -699,4 +699,14 @@
             </class>
         </classes>
     </test>
+    <test name="Named Insured marital status and the Relationship to the FNI (MD)">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16548_NamedInsuredMaritalStatus_MultipleMarital"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
