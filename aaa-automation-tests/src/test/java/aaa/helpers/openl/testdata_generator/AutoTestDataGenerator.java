@@ -353,23 +353,24 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
 		StringBuilder paymentPlan = new StringBuilder("regex=^");
+		String planName = term == 12 ? "Eleven Pay" : "Five Pay";
 		switch (paymentPlanType) {
 			case "A":
 				paymentPlan.append("Quarterly");
 				break;
 			case "B":
-				paymentPlan.append("Eleven Pay - Standard");
+				paymentPlan.append(planName + " - Standard");
 				break;
 			case "C":
 				paymentPlan.append("Semi-[aA]nnual");
 				break;
 			case "L":
-				paymentPlan.append(getRandom("Eleven Pay - Low Down", "Monthly - Low Down"));
+				paymentPlan.append(getRandom(planName + " - Low Down", "Monthly - Low Down"));
 				break;
 			case "P":
 				return getPremiumAndCoveragesPaymentPlan(term);
 			case "Z":
-				paymentPlan.append(getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down"));
+				paymentPlan.append(getRandom(planName + " - Zero Down", "Monthly - Zero Down"));
 				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);

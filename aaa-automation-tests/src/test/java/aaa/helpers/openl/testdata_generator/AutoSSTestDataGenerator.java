@@ -225,6 +225,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY,
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
+			if ("D".equals(driver.getDefensiveDrivingCourse()) && driver.getDriverAge() > 55) {
+				driverData = driverData.adjust(DataProviderFactory.dataOf(
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), "Yes",
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)
+				));
+			}
 
 			if (driver.getVehicleAssignedId() != null) {
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
@@ -538,8 +544,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
 							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
-							getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					if ("0".equals(vehicle.getCoverages().stream().filter(c -> "COMP".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible()) ||
+							"0".equals(vehicle.getCoverages().stream().filter(c -> "COLL".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible())) {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), "Yes");
+					} else {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
+								getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					}
 				}
 
 				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {
