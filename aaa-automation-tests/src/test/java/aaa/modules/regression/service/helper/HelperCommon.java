@@ -49,7 +49,6 @@ public class HelperCommon {
 	private static final String DXP_LOOKUPS = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 
 	private static final String DXP_POLICIES_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
-	private static final String DXP_POLICIES_CONTACT_INFO = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_POLICIES_START_ENDORSEMENT_INFO = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_POLICIES_VIN_INFO = "/api/v1/policies/%s/vin-info/%s";
 
@@ -192,10 +191,19 @@ public class HelperCommon {
 		return runJsonRequestPutDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
 
+	@Deprecated
 	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
 		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
+	}
+
+	public static <T> T deleteVehicle(String policyNumber, String oid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
 	}
 
 	public static <T> T revertVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
