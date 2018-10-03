@@ -29,6 +29,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.contentOf;
 
 public class FreeMakerHelper {
 
@@ -37,6 +38,7 @@ public class FreeMakerHelper {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String CLAIM_TEMPLATES_PATH = "/claimsmatch/cas_claim_templates";
 
+    @SuppressWarnings("SpellCheckingInspection")
     private static final String CLAIM_DATA_MODELS_PATH = "claimsmatch/claim_data_models";
 
     private static final String CAS_CLAIM_TEMPLATE = "cas_claim_response.ftl";
@@ -85,9 +87,11 @@ public class FreeMakerHelper {
         Map<String, Object> root = ImmutableMap.of(CLAIM_RESPONSE_KEY, claimResponse);
         File file = processTemplate(CAS_CLAIM_TEMPLATE, root, outputFileName);
 
-        assertThat(file).isNotNull();
-        assertThat(file).exists();
-        assertThat(file).isFile();
+        assertThat(file).exists().isFile();
+        assertThat(contentOf(file))
+                .contains("<bcr:ClaimBatchResponse")
+                .contains(claimResponse.getClaimLineItemList().get(0).getAgreementNumber())
+                .endsWith("</bcr:ClaimBatchResponse>");
         return file;
     }
 
