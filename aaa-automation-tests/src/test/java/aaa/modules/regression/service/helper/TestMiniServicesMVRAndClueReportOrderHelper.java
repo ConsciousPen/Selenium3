@@ -39,9 +39,9 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	private static final String CLUE_RECORD_TYPE = "CLUE";
 	private static final String MVR_RECORD_TYPE = "MVR";
 	private static final Comparator<DrivingRecord> DRIVING_RECORDS_COMPARATOR = (record1, record2) -> ComparisonChain.start()
-			.compare(record2.accidentDate, record1.accidentDate)
 			.compareTrueFirst(MVR_RECORD_TYPE.equals(record1.activitySource), MVR_RECORD_TYPE.equals(record2.activitySource))
 			.compareTrueFirst(CLUE_RECORD_TYPE.equals(record1.activitySource), CLUE_RECORD_TYPE.equals(record2.activitySource))
+			.compare(record2.accidentDate, record1.accidentDate) // newest first
 			.result();
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
