@@ -23,6 +23,7 @@
                     <bcr:claims>
                         <bcr:claimPolicyReferenceNumber>${claim.claimPolicyReferenceNumber}</bcr:claimPolicyReferenceNumber>
                         <bcr:claimNumber>${claim.claimNumber}</bcr:claimNumber>
+                        <bcr:claimPrefix>${claim.claimPrefix}</bcr:claimPrefix>
                         <bcr:claimType>${claim.claimType}</bcr:claimType>
                         <bcr:claimCause>${claim.claimCause}</bcr:claimCause>
                         <bcr:claimOpenDate>${claim.claimOpenDate}</bcr:claimOpenDate>
@@ -53,6 +54,7 @@
                             <bcr:vehicleBodyType>${claim.vehicleBodyType}</bcr:vehicleBodyType>
                             <bcr:vehicleMake>${claim.vehicleMake}</bcr:vehicleMake>
                             <bcr:vehicleManufacturedYear>${claim.vehicleManufacturedYear}</bcr:vehicleManufacturedYear>
+                            <bcr:vehicleDescription>${claim.vehicleDescription}</bcr:vehicleDescription>
                         </bcr:vehicleInformation>
                         <#if claim.claimCoverageList?has_content>
                                 <#list claim.claimCoverageList as coverage>

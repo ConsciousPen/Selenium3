@@ -1,11 +1,11 @@
 package aaa.helpers.claim.datamodel.claim;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Claim {
     private String claimPolicyReferenceNumber;
     private String claimNumber;
+    private String claimPrefix;
     private String claimType;
     private String claimCause;
     private String claimOpenDate;
@@ -31,6 +31,7 @@ public class Claim {
     private String vehicleBodyType;
     private String vehicleMake;
     private String vehicleManufacturedYear;
+    private String vehicleDescription;
 
     private List<ClaimCoverage> claimCoverageList;
 
@@ -44,6 +45,14 @@ public class Claim {
 
     public String getClaimNumber() {
         return claimNumber;
+    }
+
+    public String getClaimPrefix() {
+        return claimPrefix;
+    }
+
+    public void setClaimPrefix(String claimPrefix) {
+        this.claimPrefix = claimPrefix;
     }
 
     public void setClaimNumber(String claimNumber) {
@@ -232,6 +241,14 @@ public class Claim {
 
     public void setVehicleManufacturedYear(String vehicleManufacturedYear) {
         this.vehicleManufacturedYear = vehicleManufacturedYear;
+    }
+
+    public String getVehicleDescription() {
+        return vehicleDescription;
+    }
+
+    public void setVehicleDescription(String vehicleDescription) {
+        this.vehicleDescription = vehicleDescription;
     }
 
     public List<ClaimCoverage> getClaimCoverageList() {
