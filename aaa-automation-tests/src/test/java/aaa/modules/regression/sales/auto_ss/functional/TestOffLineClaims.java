@@ -52,6 +52,7 @@ import javax.annotation.Nonnull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 
+@StateList(states = {Constants.States.AZ})
 public class TestOffLineClaims extends AutoSSBaseTest {
 
 	@SuppressWarnings("SpellCheckingInspection")
@@ -93,10 +94,10 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 	 *  @author Andrii Syniagin
 	 *  @name Test generation cas claim reponse.
 	 */
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@SuppressWarnings("SpellCheckingInspection")
-	@StateList(states = {Constants.States.AZ})
-    public void testCreateCasResponse(@Optional("AZ") String state) {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Parameters({"state"})
+    public void testCreateCasResponse(@Optional("AZ") @SuppressWarnings("unused") String state) {
 		BatchClaimHelper batchClaimHelper = new BatchClaimHelper(TWO_CLAIMS_DATA_MODEL, getCasResponseFileName());
 		String policyNumber = "AZSS999999999";
         File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
