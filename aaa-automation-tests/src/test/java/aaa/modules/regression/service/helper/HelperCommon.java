@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import org.apache.http.client.utils.URIBuilder;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
-import aaa.common.enums.RequestMethod;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestBodyRequest;
@@ -157,7 +157,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = request;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.PUT);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PUT);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.DELETE);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
 	public static <T> T revertVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
@@ -190,7 +190,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_CANCEL_REMOVAL, policyNumber, vehicleOid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinInfo(String policyNumber, String vin, String endorsementDate) {
@@ -220,7 +220,7 @@ public class HelperCommon {
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
 		restRequestInfo.sessionId = sessionId;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
@@ -229,7 +229,7 @@ public class HelperCommon {
 		restRequestInfo.responseType = PolicyLockUnlockDto.class;
 		restRequestInfo.status = status;
 		restRequestInfo.sessionId = sessionId;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.DELETE);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
 	public static ViewVehicleResponse viewPolicyVehicles(String policyNumber) {
@@ -248,7 +248,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = request;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	/**
@@ -297,7 +297,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = request;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	/**
@@ -346,7 +346,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
@@ -384,7 +384,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_COVERAGES, policyNumber));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.GET);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	/**
@@ -401,7 +401,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.GET);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_COVERAGES, policyNumber));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.GET);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	/**
@@ -436,7 +436,7 @@ public class HelperCommon {
 		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid));
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.GET);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	/**
@@ -455,7 +455,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = request;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.PATCH);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
 	}
 
 	/**
@@ -477,7 +477,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = request;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.PATCH);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
 	}
 
 	/**
@@ -623,7 +623,7 @@ public class HelperCommon {
 		restRequestInfo.bodyRequest = bodyRequest;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
@@ -632,7 +632,7 @@ public class HelperCommon {
 		restRequestInfo.url = claimsUrl;
 		restRequestInfo.bodyRequest = claimsRequest;
 		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.POST);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
@@ -648,7 +648,7 @@ public class HelperCommon {
 		restRequestInfo.url = url;
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.DELETE);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
 	public static <T> T runJsonRequestDeleteDxp(String url, Class<T> responseType, RestBodyRequest request, int status) {
@@ -657,7 +657,7 @@ public class HelperCommon {
 		restRequestInfo.responseType = responseType;
 		restRequestInfo.status = status;
 		restRequestInfo.bodyRequest = request;
-		return JsonClient.sendJsonRequest(restRequestInfo, RequestMethod.DELETE);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
 	public static <T> T runJsonRequestGetDxp(String url, Class<T> responseType) {
@@ -673,7 +673,7 @@ public class HelperCommon {
 	}
 
 	public static <T> T runJsonRequestGetDxp(RestRequestInfo<T> request) {
-		return JsonClient.sendJsonRequest(request, RequestMethod.GET);
+		return JsonClient.sendJsonRequest(request, RestRequestMethodTypes.GET);
 	}
 
 
