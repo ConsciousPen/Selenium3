@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.rest.dtoDxp.ApplicationContext;
 import aaa.helpers.rest.dtoDxp.GetOAuth2TokenRequest;
@@ -42,19 +43,19 @@ public class JsonClient {
 	 * @param <T> - response body class type.
 	 * @return response instance of specific class.
 	 */
-	public static <T> T sendJsonRequest(RestRequestInfo<T> request, RequestMethod requestType) {
+	public static <T> T sendJsonRequest(RestRequestInfo<T> request, RestRequestMethodTypes requestType) {
 		Client client = null;
 		Response response = null;
 		try {
 			log.info("Request: " + asJson(request));
-			if (RequestMethod.DELETE == requestType) {
+			if (RestRequestMethodTypes.DELETE == requestType) {
 				ClientConfig config = new ClientConfig();
 				config.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
 				client = ClientBuilder.newClient(config).register(JacksonJsonProvider.class);
 			} else {
 				client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			}
-			if(requestType == RequestMethod.PATCH) {
+			if(requestType == RestRequestMethodTypes.PATCH) {
 				client = client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
 			}
 
@@ -124,7 +125,7 @@ public class JsonClient {
 	}
 
 	/**
-	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RequestMethod)}
+	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
 	 */
 	@Deprecated
 	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
@@ -188,7 +189,7 @@ public class JsonClient {
 	}
 
 	/**
-	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RequestMethod)}
+	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
 	 */
 	@Deprecated
 	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
