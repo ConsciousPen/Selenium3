@@ -973,9 +973,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			Vehicle revertedVehicle = getVehicleByOid(viewVehicleResponse, vehicleToRemove.oid);
 			softly.assertThat(revertedVehicle).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
 			if (cancelReplace) {
-				assertThat(viewVehicleResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.vehIdentificationNo.equals(newVehicleVin)))
+				softly.assertThat(viewVehicleResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.vehIdentificationNo.equals(newVehicleVin)))
 						.as("Added vehicle should be removed after revert Replace.").isFalse();
-				assertThat(viewVehicleResponse.vehicleList.size()).isEqualTo(2);
+				softly.assertThat(viewVehicleResponse.vehicleList.size()).isEqualTo(2);
 			}
 
 			//Validate that Vehicle level coverages of removed vehicle are the same after revert
@@ -988,11 +988,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//Get assignments and validate that reverted vehicle doesn't have Assignment if there are multiple drivers and have assignment if there is only one driver
 			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
 			if (multipleDrivers) {
-				assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
-				assertThat(viewDriverAssignmentResponse.unassignedVehicles).containsExactly(revertedVehicle.oid);
+				softly.assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
+				softly.assertThat(viewDriverAssignmentResponse.unassignedVehicles).containsExactly(revertedVehicle.oid);
 			} else {
-				assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
-				assertThat(viewDriverAssignmentResponse.unassignedVehicles).isEmpty();
+				softly.assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
+				softly.assertThat(viewDriverAssignmentResponse.unassignedVehicles).isEmpty();
 			}
 
 			//check Reverted Vehicle and assignment in UI
@@ -1003,20 +1003,19 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesDriversHelper.validateValuesFromTab(expectedVehicleInfoInUI, AutoSSMetaData.VehicleTab.class, vehicleTab, softly);
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			String excessVehicle = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue().get(0).getValue("Excess Vehicle(s)");
-			assertThat(excessVehicle).isEqualTo(vehicleToRemove.modelYear + ", " + vehicleToRemove.manufacturer + ", " + vehicleToRemove.model);
+			softly.assertThat(excessVehicle).isEqualTo(vehicleToRemove.modelYear + ", " + vehicleToRemove.manufacturer + ", " + vehicleToRemove.model);
 			if (multipleDrivers) {
 				//check that reverted vehicle is not assigned
-				assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
 						.getCell("Select Driver").controls.comboBoxes.getFirst().getValue()).isEmpty();
-				assignmentTab.saveAndExit();
 			} else {
 				//check that reverted vehicle is assigned in UI
-				assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1)
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1)
 						.getCell("Select Vehicle").controls.comboBoxes.getFirst().getValue()).isNotEmpty();
-				assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
 						.getCell("Select Driver").controls.comboBoxes.getFirst().getValue()).isNotEmpty();
-				assignmentTab.saveAndExit();
 			}
+			assignmentTab.saveAndExit();
 
 			//fill all mandatory details, rate and bind
 			if (multipleDrivers) {
@@ -1035,7 +1034,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			if (testWithUpdates) {
 				Collections.swap(vehicleCoverageDetailsUIExpected, 1, 2);
 			}
-			assertThat(vehicleCoverageDetailsUIActual).isEqualTo(vehicleCoverageDetailsUIExpected);
+			softly.assertThat(vehicleCoverageDetailsUIActual).isEqualTo(vehicleCoverageDetailsUIExpected);
 			premiumAndCoveragesTab.cancel();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
