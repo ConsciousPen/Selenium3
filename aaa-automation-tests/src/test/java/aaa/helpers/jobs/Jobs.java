@@ -3,14 +3,11 @@ package aaa.helpers.jobs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
-
-	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
 
@@ -145,26 +142,5 @@ public class Jobs {
 	public static Job aaaPaymentCentralRejectFeedAsyncJob = new Job("aaaPaymentCentralRejectFeedAsyncJob");
 
 	public static Job aaaRecurringPaymentsResponseProcessAsyncJob = new Job("aaaRecurringPaymentsResponseProcessAsyncJob");
-
-	public enum JobState {
-		TRUE, FALSE, FAILED
-	}
-
-	public static void setJobState(String jobName, JobState state) {
-		jobsState.put(jobName, state);
-	}
-
-	public static JobState getJobState(String jobName) {
-		JobState s = jobsState.get(jobName);
-		if (s == null) {
-			s = JobState.FALSE;
-			jobsState.put(jobName, JobState.FALSE);
-		}
-		return s;
-	}
-
-	public static void clearJobsState() {
-		jobsState = new ConcurrentHashMap<>();
-	}
 
 }

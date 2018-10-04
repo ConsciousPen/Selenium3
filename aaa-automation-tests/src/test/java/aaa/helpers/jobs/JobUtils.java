@@ -29,43 +29,9 @@ public class JobUtils {
 	public static void executeJob(Job job, Boolean forceExecution) {
 		CSAAApplicationFactory.get().closeAllApps();
 		if (isPef()) {
-			LocalDateTime phaseTime = TimeSetterUtil.getInstance().getPhaseStartTime();
-			if (!phaseTime.equals(currentPhase)) {
-				Jobs.clearJobsState();
-				currentPhase = phaseTime;
-			}
+			executeJobByPEF(job, forceExecution);
 		} else {
-			Jobs.clearJobsState();
-		}
-
-		synchronized (job) {
-			if (forceExecution) {
-				Jobs.setJobState(job.getJobName(), Jobs.JobState.FALSE);
-			}
-			switch (Jobs.getJobState(job.getJobName())) {
-				case FALSE:
-					try {
-						if (isPef()) {
-							executeJobByPEF(job, forceExecution);
-						} else {
-							executeJobLocally(job);
-						}
-						log.info(String.format("Job '%s' was executed successfully", job.getJobName()));
-					} catch (Exception e) {
-						Jobs.setJobState(job.getJobName(), Jobs.JobState.FAILED);
-						throw e;
-						//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED ", e);
-					}
-					break;
-				case TRUE:
-					log.info(String.format("Job '%s' has been already executed", job.getJobName()));
-					break;
-				case FAILED:
-					log.error(String.format("Job " + job.getJobName() + " execution is FAILED"));
-					//throw new CustomTestException("Job " + job.getJobName() + " execution is FAILED");
-				default:
-					break;
-			}
+			executeJobLocally(job);
 		}
 	}
 
@@ -118,7 +84,6 @@ public class JobUtils {
 
 	private static void executeJobLocally(Job job) {
 		try {
-			Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
 			if (!job.getJobFolders().isEmpty()) {
 				RemoteHelper.get().clearFolder(job.getJobFolders());
 			}
@@ -129,7 +94,6 @@ public class JobUtils {
 	}
 
 	private static void executeJobByPEF(Job job, boolean forceExecution) {
-		Jobs.setJobState(job.getJobName(), Jobs.JobState.TRUE);
 		String testName = TimeSetterUtil.getInstance().getContext().getName();
 		long testThreadId = Thread.currentThread().getId();
 		AtomicReference<Exception> jobException = new AtomicReference<Exception>();
