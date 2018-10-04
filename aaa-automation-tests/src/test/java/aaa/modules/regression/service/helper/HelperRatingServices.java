@@ -1,8 +1,8 @@
 package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
-import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
+import aaa.helpers.rest.dtoRating.DiscountPercentageRuntimeContext;
+import aaa.helpers.rest.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.db.DBService;
 
 public class HelperRatingServices {
@@ -12,7 +12,7 @@ public class HelperRatingServices {
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 
 	static void executeDiscountPercentageRetrieveRequest(String lob, String usState, String coverageCd, String expectedValue) {
-		aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
+		aaa.helpers.rest.dtoRating.DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
 		request.runtimeContext = new DiscountPercentageRuntimeContext();
 		request.runtimeContext.currentDate = 1517382000000L;
 		request.runtimeContext.lob = lob;

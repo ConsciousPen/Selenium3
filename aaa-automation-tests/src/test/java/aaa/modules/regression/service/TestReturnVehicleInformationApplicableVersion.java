@@ -8,13 +8,13 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.rest.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
+import aaa.helpers.rest.dtoAdmin.responses.AAAMakeByYear;
+import aaa.helpers.rest.dtoAdmin.responses.AAAModelByYearMake;
+import aaa.helpers.rest.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import toolkit.utils.TestInfo;
 
 public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTest {
