@@ -13,12 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.FileUtils;
@@ -43,7 +45,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
 
 import javax.annotation.Nonnull;
 
@@ -72,7 +74,8 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
 			ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
-	public static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
+
+	private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
 
 	@BeforeTest
 	public void prepare() {
@@ -92,9 +95,9 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 	 */
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@SuppressWarnings("SpellCheckingInspection")
+	@StateList(states = {Constants.States.AZ})
     public void testCreateCasResponse() {
-		BatchClaimHelper batchClaimHelper = new BatchClaimHelper("two_claims_data_model.yaml",
-				"claim_resp.xml");
+		BatchClaimHelper batchClaimHelper = new BatchClaimHelper(TWO_CLAIMS_DATA_MODEL, getCasResponseFileName());
 		String policyNumber = "AZSS999999999";
         File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
 				setPolicyNumber(policyNumber, response));
@@ -113,7 +116,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
      * 3. Run Renewal Part1 + "renewalClaimOrderAsyncJob"
      * 4. Run Claims Offline Batch Job
      * 5. Move Time to R-46
-     * 6. Run Renewal Part2 + "claimsRenewBatchRecieveJob"
+     * 6. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
      * 7. Retrieve policy and enter renewal image
      * 8. Verify Claim Data is applied to the correct driver.
      * @details Clean Path. Expected Result is that claims data is applied to the correct driver
@@ -121,7 +124,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS14679_TestCase1(@Optional("AZ") String state) throws IOException {
+    public void PAS14679_TestCase1(@Optional("AZ") String state) {
 	    PurchaseTab purchaseTab = new PurchaseTab();
 	    TestData testData = getPolicyTD();
 	    TestData driverTabTestData = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
@@ -158,7 +161,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		File claimRequestFile = new File(CAS_REQUEST_PATH + File.separator + claimRequest);
 		assertThat(claimRequestFile).exists().isFile().canRead().isAbsolute();
 
-		// Check request it it contains DL and PolicyNumber
+		// Check if request contains DL and PolicyNumber
 		List<String> driverLicenseList = getDriverLicences(testData, driverTabTestData);
 		String content = contentOf(claimRequestFile, Charset.defaultCharset());
 		assertThat(content)
@@ -168,9 +171,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		driverLicenseList.forEach(l -> assertThat(content).contains(l));
 
 		// Create the claim response
-		String currentTime = TimeSetterUtil.getInstance().getCurrentTime()
-				.truncatedTo(ChronoUnit.SECONDS).format(DATE_TIME_FORMATTER);
-		String casResponseFileName = getCasResponseFileName(currentTime);
+		String casResponseFileName = getCasResponseFileName();
 		BatchClaimHelper batchClaimHelper = new BatchClaimHelper(TWO_CLAIMS_DATA_MODEL,
 				casResponseFileName);
 		File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
@@ -195,26 +196,27 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 	    PolicySummaryPage.buttonRenewals.click();
 	    policy.dataGather().start();
 	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		CustomSoftAssertions.assertSoftly(softly -> {
+			DriverTab driverTab = new DriverTab();
+			ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+			softly.assertThat(DriverTab.tableDriverList).hasRows(3);
 
-		DriverTab driverTab = new DriverTab();
-		ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-		CustomAssertions.assertThat(DriverTab.tableDriverList).hasRows(3);
+			// Check 1st driver. No Claims
+			softly.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
 
-		// Check 1st driver. No Claims
-		CustomAssertions.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
+			// Check 2nd driver. 2 Claim.
+			DriverTab.tableDriverList.selectRow(2);
+			softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
+			DriverTab.tableActivityInformationList.selectRow(2);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
 
-		// Check 2nd driver. 2 Claim.
-		DriverTab.tableDriverList.selectRow(2);
-		CustomAssertions.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
-		CustomAssertions.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-		CustomAssertions.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
-		DriverTab.tableActivityInformationList.selectRow(2);
-		CustomAssertions.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-		CustomAssertions.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
-
-		// Check 3rd driver. No Claims
-		DriverTab.tableDriverList.selectRow(3);
-		CustomAssertions.assertThat(DriverTab.tableActivityInformationList).isPresent(false);
+			// Check 3rd driver. No Claims
+			DriverTab.tableDriverList.selectRow(3);
+			softly.assertThat(DriverTab.tableActivityInformationList).isPresent(false);
+		});
     }
 
 	private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
@@ -236,7 +238,9 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		});
 	}
 
-	private static String getCasResponseFileName(String prefix) {
+	private String getCasResponseFileName() {
+		String prefix = TimeSetterUtil.getInstance().getCurrentTime()
+				.truncatedTo(ChronoUnit.SECONDS).format(DATE_TIME_FORMATTER);
 		return String.format(CAS_RESPONSE_FILE_NAME_TEMPLATE, CAS_RESPONSE_PATH + File.separator + prefix);
 	}
 
