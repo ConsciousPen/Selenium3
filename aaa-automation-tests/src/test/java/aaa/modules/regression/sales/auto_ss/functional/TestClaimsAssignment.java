@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,6 +42,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	@StateList(states = {Constants.States.AZ})
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
