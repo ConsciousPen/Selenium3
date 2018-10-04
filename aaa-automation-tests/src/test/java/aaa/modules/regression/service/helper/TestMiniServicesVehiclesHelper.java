@@ -1005,7 +1005,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String excessVehicle = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue().get(0).getValue("Excess Vehicle(s)");
 			softly.assertThat(excessVehicle).isEqualTo(vehicleToRemove.modelYear + ", " + vehicleToRemove.manufacturer + ", " + vehicleToRemove.model);
 			if (multipleDrivers) {
-				//check that reverted vehicle is not assigned
+				//check that reverted vehicle is not assigned in UI
 				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
 						.getCell("Select Driver").controls.comboBoxes.getFirst().getValue()).isEmpty();
 			} else {

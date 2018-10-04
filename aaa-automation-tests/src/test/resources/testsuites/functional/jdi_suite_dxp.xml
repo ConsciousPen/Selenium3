@@ -687,13 +687,16 @@
             </class>
         </classes>
     </test>
-    <test name="pas18670_CancelRemoveVehicle (Revert Deleted Vehicle)">
+    <test name="Revert Deleted/Replaced Vehicle">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
                     <include name="pas18670_CancelRemoveVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
                     <!--<include name="pas18672_vehiclesRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="VehiclesAZ"> -->
                 </methods>
             </class>
