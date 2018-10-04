@@ -12,10 +12,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <browser.pool.browsertype>googlechrome</browser.pool.browsertype>
-        <browser.pool.name>csaa/BrowserPoolBCT.xml</browser.pool.name>
+        <browser.pool.name>OptBrowserPool.xml</browser.pool.name>
         <browser.pool.path>src/test/resources/config/browserpools</browser.pool.path>
         <browser.pool.threads>4</browser.pool.threads>
-        <browser.pool.keyword>BCT</browser.pool.keyword>
+        <browser.pool.keyword>CSAA</browser.pool.keyword>
         <browser.pool.hub>http://aws2aaaqas24.corevelocity.csaa.cloud:9999</browser.pool.hub>
         <timeshift.report.dir>target/test-output/timeshift-report</timeshift.report.dir>
         <dependency.locations.enabled>true</dependency.locations.enabled>
