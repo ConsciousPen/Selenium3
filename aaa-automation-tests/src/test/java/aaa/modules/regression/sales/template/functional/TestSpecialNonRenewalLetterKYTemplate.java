@@ -32,9 +32,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHomeAbstract {
 
-	//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
-	private String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
-
 	protected void specialNonRenewalLetterBeforeR80Generated(Boolean isOtherActivePolicyPup) throws NoSuchFieldException {
 		mainApp().open();
 		createCustomerIndividual();
@@ -47,6 +44,9 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 					HomeSSMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
 					testDataManager.getDefault(TestSpecialNonRenewalLetterKY.class).getTestDataList("OtherActiveAAAPolicies"));
 		}
+
+		//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
+		String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
 
 		//Create Conversion Policy at R-81
 		String policyNumber = createConversionPolicy(getManualConversionInitiationTd()
@@ -104,6 +104,9 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 	private String createConversionPolicyAtR81() {
 		mainApp().open();
 		createCustomerIndividual();
+
+		//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
+		String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
 
 		//Create Conversion Policy at R-81
 		return createConversionPolicy(getManualConversionInitiationTd()
