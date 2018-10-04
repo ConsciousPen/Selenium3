@@ -62,8 +62,6 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 			PolicySummaryPage.buttonRenewals.click();
 			// Endorse Renewal. Calculate Premium. Bind the endorsement
 			policy.endorse().perform(initiateEndorsement);
-			NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-			NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 			premiumsAndCoveragesQuoteTabCA.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 			bindTabCA.submitTab();

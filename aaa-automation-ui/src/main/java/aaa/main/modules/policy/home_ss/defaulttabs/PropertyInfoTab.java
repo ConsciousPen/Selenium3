@@ -4,10 +4,12 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import toolkit.webdriver.controls.composite.assets.AssetList;
+import toolkit.webdriver.controls.composite.table.Table;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -16,6 +18,9 @@ import toolkit.webdriver.controls.composite.assets.AssetList;
  * @category Generated
  */
 public class PropertyInfoTab extends Tab {
+
+	public Table tblClaimsList = new Table(By.xpath("//div[@id='policyDataGatherForm:dataGatherView_ListAAAHOLossInfo']//table"));
+
 	public PropertyInfoTab() {
 		super(HomeSSMetaData.PropertyInfoTab.class);
 	}
