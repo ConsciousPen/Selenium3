@@ -1,4 +1,4 @@
-package aaa.helpers.freemaker.datamodel.claim;;
+package aaa.helpers.claim.datamodel.claim;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -240,13 +240,5 @@ public class Claim {
 
     public void setClaimCoverageList(List<ClaimCoverage> claimCoverageList) {
         this.claimCoverageList = claimCoverageList;
-    }
-
-    public static Claim newInstance(String claimPolicyReferenceNumber, String claimNumber) {
-        Claim claim = new Claim();
-        claim.claimPolicyReferenceNumber = claimPolicyReferenceNumber;
-        claim.claimNumber = claimNumber;
-        claim.claimCoverageList = new ArrayList<>();
-        return claim;
     }
 }

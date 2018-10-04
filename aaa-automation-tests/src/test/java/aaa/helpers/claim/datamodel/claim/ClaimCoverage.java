@@ -1,4 +1,4 @@
-package aaa.helpers.freemaker.datamodel.claim;
+package aaa.helpers.claim.datamodel.claim;
 
 public class ClaimCoverage {
 
@@ -37,14 +37,5 @@ public class ClaimCoverage {
 
     public void setClaimCoverageCurrencyCode(String claimCoverageCurrencyCode) {
         this.claimCoverageCurrencyCode = claimCoverageCurrencyCode;
-    }
-
-    public static ClaimCoverage newInstance(String coverageId, String coverageName, String amaount) {
-        ClaimCoverage claimCoverage = new ClaimCoverage();
-        claimCoverage.coverageId = coverageId;
-        claimCoverage.coverageName = coverageName;
-        claimCoverage.claimCoverageAmount = amaount;
-        claimCoverage.claimCoverageCurrencyCode = "USD";
-        return claimCoverage;
     }
 }

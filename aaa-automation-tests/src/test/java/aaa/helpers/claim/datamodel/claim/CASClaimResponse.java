@@ -1,6 +1,5 @@
-package aaa.helpers.freemaker.datamodel.claim;
+package aaa.helpers.claim.datamodel.claim;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CASClaimResponse {
@@ -13,11 +12,5 @@ public class CASClaimResponse {
 
     public void setClaimLineItemList(List<ClaimLineItem> claimLineItemList) {
         this.claimLineItemList = claimLineItemList;
-    }
-
-    public static CASClaimResponse newInstance() {
-        CASClaimResponse claimResponse = new CASClaimResponse();
-        claimResponse.claimLineItemList = new ArrayList<>();
-        return claimResponse;
     }
 }

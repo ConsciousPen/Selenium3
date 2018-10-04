@@ -1,4 +1,4 @@
-package aaa.helpers.freemaker.datamodel.claim;
+package aaa.helpers.claim.datamodel.claim;
 
 import java.util.ArrayList;
 import java.util.List;

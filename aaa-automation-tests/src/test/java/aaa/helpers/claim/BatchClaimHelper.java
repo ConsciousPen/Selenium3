@@ -1,6 +1,6 @@
-package aaa.helpers.freemaker;
+package aaa.helpers.claim;
 
-import aaa.helpers.freemaker.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import com.google.common.collect.ImmutableMap;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -24,16 +24,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.contentOf;
 
-public class FreeMakerHelper {
+public class BatchClaimHelper {
 
-    private static final Logger log = LoggerFactory.getLogger(FreeMakerHelper.class);
+    private static final Logger log = LoggerFactory.getLogger(BatchClaimHelper.class);
 
     @SuppressWarnings("SpellCheckingInspection")
     private static final String CLAIM_TEMPLATES_PATH = "/claimsmatch/cas_claim_templates";
@@ -53,21 +52,21 @@ public class FreeMakerHelper {
     static {
         configurations.add(() -> {
             Configuration cfg = new Configuration();
-            cfg.setClassForTemplateLoading(FreeMakerHelper.class, CLAIM_TEMPLATES_PATH);
+            cfg.setClassForTemplateLoading(BatchClaimHelper.class, CLAIM_TEMPLATES_PATH);
             cfg.setDefaultEncoding("UTF-8");
             cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
             return cfg;
         });
     }
 
-    public FreeMakerHelper(@Nonnull String dataModelFileName, @Nonnull String outputFileName) {
+    public BatchClaimHelper(@Nonnull String dataModelFileName, @Nonnull String outputFileName) {
         this.dataModelFileName = dataModelFileName;
         this.outputFileName = outputFileName;
     }
 
     private CASClaimResponse getClaimResponseDataModel() {
         Yaml yaml = new Yaml(new Constructor(CASClaimResponse.class));
-        InputStream inputStream = FreeMakerHelper.class
+        InputStream inputStream = BatchClaimHelper.class
                 .getClassLoader()
                 .getResourceAsStream(CLAIM_DATA_MODELS_PATH + File.separator + dataModelFileName);
         return (CASClaimResponse) yaml.load(inputStream);
@@ -123,7 +122,7 @@ public class FreeMakerHelper {
         try (Writer fileWriter = new OutputStreamWriter(new FileOutputStream(outputFileName))) {
             template.process(dataModel, fileWriter);
         } catch (IOException | TemplateException e) {
-            log.error(e.getLocalizedMessage(), e);
+            log.error(e.getMessage(), e);
             throw new IstfException(e.getMessage(), e);
         }
         return new File(outputFileName);
