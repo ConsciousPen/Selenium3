@@ -96,7 +96,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@SuppressWarnings("SpellCheckingInspection")
 	@StateList(states = {Constants.States.AZ})
-    public void testCreateCasResponse() {
+    public void testCreateCasResponse(@Optional("AZ") String state) {
 		BatchClaimHelper batchClaimHelper = new BatchClaimHelper(TWO_CLAIMS_DATA_MODEL, getCasResponseFileName());
 		String policyNumber = "AZSS999999999";
         File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
@@ -106,7 +106,8 @@ public class TestOffLineClaims extends AutoSSBaseTest {
     }
 
 	/**
-     * * @author Chris Johns
+     * @author Chris Johns
+	 * @author Andrii Syniagin
      * @name Test Offline STUB/Mock Data Claims
      * @IMPORTANT: This test is written under the current stub structure and is subject to change
      * @scenario

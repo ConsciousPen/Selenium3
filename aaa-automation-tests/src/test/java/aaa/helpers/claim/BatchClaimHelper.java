@@ -30,6 +30,10 @@ import java.util.function.Supplier;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.contentOf;
 
+/**
+ * @author Andrii Syniagin
+ * TODO Comments
+ */
 public class BatchClaimHelper {
 
     private static final Logger log = LoggerFactory.getLogger(BatchClaimHelper.class);
@@ -59,23 +63,21 @@ public class BatchClaimHelper {
         });
     }
 
+    /**
+     *
+     * @param dataModelFileName
+     * @param outputFileName
+     */
     public BatchClaimHelper(@Nonnull String dataModelFileName, @Nonnull String outputFileName) {
         this.dataModelFileName = dataModelFileName;
         this.outputFileName = outputFileName;
     }
 
-    private CASClaimResponse getClaimResponseDataModel() {
-        Yaml yaml = new Yaml(new Constructor(CASClaimResponse.class));
-        InputStream inputStream = BatchClaimHelper.class
-                .getClassLoader()
-                .getResourceAsStream(CLAIM_DATA_MODELS_PATH + File.separator + dataModelFileName);
-        return (CASClaimResponse) yaml.load(inputStream);
-    }
-
-    private void postProcessClaimDataModel(CASClaimResponse response, Consumer<CASClaimResponse> consumer) {
-        consumer.accept(response);
-    }
-
+    /**
+     *
+     * @param postProcessor
+     * @return
+     */
     public File processClaimTemplate(Consumer<CASClaimResponse> postProcessor) {
         CASClaimResponse claimResponse = getClaimResponseDataModel();
         assertThat(claimResponse).isNotNull();
@@ -84,7 +86,7 @@ public class BatchClaimHelper {
         postProcessClaimDataModel(claimResponse, postProcessor);
 
         Map<String, Object> root = ImmutableMap.of(CLAIM_RESPONSE_KEY, claimResponse);
-        File file = processTemplate(CAS_CLAIM_TEMPLATE, root, outputFileName);
+        File file = processTemplate(root, outputFileName);
 
         assertThat(file).exists().isFile();
         assertThat(contentOf(file))
@@ -112,10 +114,10 @@ public class BatchClaimHelper {
         return template;
     }
 
-    private File processTemplate(@Nonnull String templateName, @Nonnull Map dataModel, @Nonnull String outputFileName) {
-        return getTemplateByName(templateName)
+    private File processTemplate(@Nonnull Map dataModel, @Nonnull String outputFileName) {
+        return getTemplateByName(CAS_CLAIM_TEMPLATE)
                 .map(template -> processTemplateFile(dataModel, outputFileName, template))
-                .orElseThrow(() -> new IstfException("Can't find template by name " + templateName));
+                .orElseThrow(() -> new IstfException("Can't find template by name " + CAS_CLAIM_TEMPLATE));
     }
 
     private File processTemplateFile(@Nonnull Map dataModel, @Nonnull String outputFileName, Template template) {
@@ -126,5 +128,17 @@ public class BatchClaimHelper {
             throw new IstfException(e.getMessage(), e);
         }
         return new File(outputFileName);
+    }
+
+    private CASClaimResponse getClaimResponseDataModel() {
+        Yaml yaml = new Yaml(new Constructor(CASClaimResponse.class));
+        InputStream inputStream = BatchClaimHelper.class
+                .getClassLoader()
+                .getResourceAsStream(CLAIM_DATA_MODELS_PATH + File.separator + dataModelFileName);
+        return (CASClaimResponse) yaml.load(inputStream);
+    }
+
+    private void postProcessClaimDataModel(CASClaimResponse response, Consumer<CASClaimResponse> consumer) {
+        consumer.accept(response);
     }
 }
