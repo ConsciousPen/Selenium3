@@ -41,10 +41,10 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	private static final String HOME_CA_DP3 = "HomeCA_DP3";
 	private static final String PUP = "PUP";
 
-//	@BeforeSuite(alwaysRun = true)
-//	public void beforeFinancialSuite() {
-//		validateAccounts();
-//	}
+	@BeforeSuite(alwaysRun = true)
+	public void beforeFinancialSuite() {
+		validateAccounts();
+	}
 
 	@AfterSuite(alwaysRun = true)
 	public void afterFinancialSuite() {
@@ -54,7 +54,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		}
 		// *****************************************
 
-		//validateAccounts();
+		validateAccounts();
 
 	}
 
