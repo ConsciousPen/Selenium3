@@ -167,7 +167,7 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PAS-19656:
+PT-2620:
   summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
   reason: PROD
   failures:
