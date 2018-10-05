@@ -437,7 +437,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		// System fetches the marital statuses for the given state.
-        String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		HashMap<String, String> maritalStatuses = HelperCommon.executeLookupValidate("AAASSMaritalStatusCd",
 				"AAA_SS", policyNumber.substring(0, 2), currentDate);
 		// List of marital statues that are considered equivalent to married.
@@ -475,13 +475,18 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				attribute -> "maritalStatusCd".equals(attribute.attributeName)).findFirst().orElse(null);
 		maritalStatusAfter.valueRange.forEach((key, value) -> {
 			assertThat(marriedStatuses.contains(value)).isTrue();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			AddDriverRequest addSpouseRequest = DXPRequestFactory.createAddDriverRequest("Spouse", null, "Driver", "1960-02-08", "III");
+			DriversDto addedSpouse = HelperCommon.addDriver(policyNumber, addSpouseRequest, DriversDto.class, 201);
+			String addedSpouseOid = addedSpouse.oid;
 			UpdateDriverRequest updateDriverMaritalStatusRequest = DXPRequestFactory.createUpdateDriverRequest(null, null,
-					null, null, null, key);
-			DriverWithRuleSets maritalStatusResponse = HelperCommon.updateDriver(policyNumber, addedDriverOid, updateDriverMaritalStatusRequest);
+					null, null, "SP", key);
+			DriverWithRuleSets maritalStatusResponse = HelperCommon.updateDriver(policyNumber, addedSpouseOid, updateDriverMaritalStatusRequest);
 			assertThat(maritalStatusResponse.driver.maritalStatusCd).isEqualTo(key);
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-            viewDriversResponse.driverList.stream().filter(
-                    driver -> "IN".equals(driver.relationToApplicantCd))
+			viewDriversResponse.driverList.stream().filter(
+					driver -> "IN".equals(driver.relationToApplicantCd))
 					.findFirst().ifPresent(driver -> assertThat(driver.maritalStatusCd).isEqualTo(key));
 		});
 	}
