@@ -7,11 +7,13 @@ import java.nio.file.Paths;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.service.helper.HelperCommon;
 import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
@@ -42,7 +44,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(defaultJSONPath + "NoMatch_ExistingMatch_DLMatch.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
-		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);
+		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
 
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
@@ -54,7 +56,15 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
 		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("DL");
 	}
+	//Method to send JSON Request to Claims Matching Micro Service
 
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
+		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = claimsUrl;
+		restRequestInfo.bodyRequest = claimsRequest;
+		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	}
 }
 
 

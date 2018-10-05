@@ -2822,7 +2822,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
 		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
-		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid, replaceVehicleRequest);
+		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid, replaceVehicleRequest,VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
 		String replaceVehicleOid = replaceVehicleResponse.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, replaceVehicleOid);
 		return replaceVehicleOid;

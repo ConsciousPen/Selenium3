@@ -84,45 +84,6 @@ public class JsonClient {
 			}
 		}
 	}
-	/**
-	 * todo
-	 */
-	//WORKING
-	public static <T> T runJsonRequestPatch(String url, RestBodyRequest request, Class<T> responseType, int status) {
-		Client client = null;
-		Response response = null;
-		log.info("Request: " + asJson(request));
-		try {
-			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
-
-			String token = getBearerToken();
-
-			response = client.target(url)
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.method("PATCH", Entity.json(request));
-			response.bufferEntity();
-			T responseObj = response.readEntity(responseType);
-			log.info(response.toString());
-			if (response.getStatus() != status) {
-				//handle error
-				throw new IstfException("PATCH json response failed");
-			}
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}
-
-	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
-		return runJsonRequestPutDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
-	}
 
 	/**
 	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
