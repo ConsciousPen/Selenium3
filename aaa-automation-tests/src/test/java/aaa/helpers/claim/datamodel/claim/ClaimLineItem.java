@@ -1,8 +1,8 @@
 package aaa.helpers.claim.datamodel.claim;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class ClaimLineItem {
 
     private String product;
@@ -33,11 +33,12 @@ public class ClaimLineItem {
         this.claimList = claimList;
     }
 
-    public static ClaimLineItem newInstance(String product, String agreementNumber) {
-        ClaimLineItem claimLineItem = new ClaimLineItem();
-        claimLineItem.product = product;
-        claimLineItem.agreementNumber = agreementNumber;
-        claimLineItem.claimList = new ArrayList<>();
-        return claimLineItem;
+    @Override
+    public String toString() {
+        return "ClaimLineItem{" +
+                "product='" + product + '\'' +
+                ", agreementNumber='" + agreementNumber + '\'' +
+                ", claimList=" + claimList +
+                '}';
     }
 }

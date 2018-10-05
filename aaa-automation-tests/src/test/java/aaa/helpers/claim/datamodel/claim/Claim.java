@@ -2,6 +2,7 @@ package aaa.helpers.claim.datamodel.claim;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class Claim {
     private String claimPolicyReferenceNumber;
     private String claimNumber;
@@ -21,7 +22,6 @@ public class Claim {
     private String totalAmountPaid;
     private String totalAmountPaidCurrencyCode;
     private String driverName;
-
     private String drivingLicenseNumber;
     private String drivingLicenseState;
     private String driverAgeAsOfDateOfLoss;
@@ -257,5 +257,39 @@ public class Claim {
 
     public void setClaimCoverageList(List<ClaimCoverage> claimCoverageList) {
         this.claimCoverageList = claimCoverageList;
+    }
+
+    @Override
+    public String toString() {
+        return "Claim{" +
+                "claimPolicyReferenceNumber='" + claimPolicyReferenceNumber + '\'' +
+                ", claimNumber='" + claimNumber + '\'' +
+                ", claimPrefix='" + claimPrefix + '\'' +
+                ", claimType='" + claimType + '\'' +
+                ", claimCause='" + claimCause + '\'' +
+                ", claimOpenDate='" + claimOpenDate + '\'' +
+                ", claimCloseDate='" + claimCloseDate + '\'' +
+                ", claimDateOfLoss='" + claimDateOfLoss + '\'' +
+                ", claimStatusCode='" + claimStatusCode + '\'' +
+                ", accidentFault='" + accidentFault + '\'' +
+                ", lossSummary='" + lossSummary + '\'' +
+                ", claimDeductibleAmount='" + claimDeductibleAmount + '\'' +
+                ", claimDeductibleCurrencyCode='" + claimDeductibleCurrencyCode + '\'' +
+                ", subroFlag='" + subroFlag + '\'' +
+                ", totalAmountPaid='" + totalAmountPaid + '\'' +
+                ", totalAmountPaidCurrencyCode='" + totalAmountPaidCurrencyCode + '\'' +
+                ", driverName='" + driverName + '\'' +
+                ", drivingLicenseNumber='" + drivingLicenseNumber + '\'' +
+                ", drivingLicenseState='" + drivingLicenseState + '\'' +
+                ", driverAgeAsOfDateOfLoss='" + driverAgeAsOfDateOfLoss + '\'' +
+                ", driverDateOfBirth='" + driverDateOfBirth + '\'' +
+                ", driverRelationToInsured='" + driverRelationToInsured + '\'' +
+                ", vehicleSerialNumber='" + vehicleSerialNumber + '\'' +
+                ", vehicleBodyType='" + vehicleBodyType + '\'' +
+                ", vehicleMake='" + vehicleMake + '\'' +
+                ", vehicleManufacturedYear='" + vehicleManufacturedYear + '\'' +
+                ", vehicleDescription='" + vehicleDescription + '\'' +
+                ", claimCoverageList=" + claimCoverageList +
+                '}';
     }
 }

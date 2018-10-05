@@ -38,4 +38,14 @@ public class ClaimCoverage {
     public void setClaimCoverageCurrencyCode(String claimCoverageCurrencyCode) {
         this.claimCoverageCurrencyCode = claimCoverageCurrencyCode;
     }
+
+    @Override
+    public String toString() {
+        return "ClaimCoverage{" +
+                "coverageId='" + coverageId + '\'' +
+                ", coverageName='" + coverageName + '\'' +
+                ", claimCoverageAmount='" + claimCoverageAmount + '\'' +
+                ", claimCoverageCurrencyCode='" + claimCoverageCurrencyCode + '\'' +
+                '}';
+    }
 }

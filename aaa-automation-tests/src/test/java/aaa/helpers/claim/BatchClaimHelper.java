@@ -31,8 +31,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.contentOf;
 
 /**
- * @author Andrii Syniagin
- * TODO Comments
+ * BatchClaimHelper is used to mock CAS Claim response file.
+ * @author Andrii Syniagin.
  */
 public class BatchClaimHelper {
 
@@ -64,9 +64,9 @@ public class BatchClaimHelper {
     }
 
     /**
-     *
-     * @param dataModelFileName
-     * @param outputFileName
+     * Creates instance of BatchClaimHelper.
+     * @param dataModelFileName Claim data model file. Should presented in yaml format.
+     * @param outputFileName generated CAS response file.
      */
     public BatchClaimHelper(@Nonnull String dataModelFileName, @Nonnull String outputFileName) {
         this.dataModelFileName = dataModelFileName;
@@ -74,9 +74,11 @@ public class BatchClaimHelper {
     }
 
     /**
+     * Creates CAS response file.
      *
-     * @param postProcessor
-     * @return
+     * Accepts lambda for post processing claim. You can update policy number, driver licenses, etc.
+     * @param postProcessor lambda.
+     * @return CAS response file.
      */
     public File processClaimTemplate(Consumer<CASClaimResponse> postProcessor) {
         CASClaimResponse claimResponse = getClaimResponseDataModel();
@@ -84,6 +86,7 @@ public class BatchClaimHelper {
         assertThat(claimResponse.getClaimLineItemList()).isNotEmpty();
 
         postProcessClaimDataModel(claimResponse, postProcessor);
+        log.info("Created CAS Claim Data Model: {}", claimResponse);
 
         Map<String, Object> root = ImmutableMap.of(CLAIM_RESPONSE_KEY, claimResponse);
         File file = processTemplate(root, outputFileName);
@@ -111,6 +114,7 @@ public class BatchClaimHelper {
             log.warn("Can't find template {} in cfg {}", name, cfg.getTemplateLoader());
             log.warn(e.getMessage(), e);
         }
+        log.info("Found cas template with name {}", name);
         return template;
     }
 

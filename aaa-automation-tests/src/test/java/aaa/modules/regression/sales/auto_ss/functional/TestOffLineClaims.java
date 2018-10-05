@@ -1,31 +1,20 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.FileUtils;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,35 +28,17 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
-import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import toolkit.verification.CustomSoftAssertions;
 
-import javax.annotation.Nonnull;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 
 @StateList(states = {Constants.States.AZ})
-public class TestOffLineClaims extends AutoSSBaseTest {
-
-	@SuppressWarnings("SpellCheckingInspection")
-	private static final String CAS_REQUEST_PATH = System.getProperty("user.dir")
-			+ PropertyProvider.getProperty("test.downloadfiles.location") + "cas_claim_requests";
-
-	@SuppressWarnings("SpellCheckingInspection")
-	private static final String CAS_RESPONSE_PATH = System.getProperty("user.dir")
-			+ PropertyProvider.getProperty("test.downloadfiles.location") + "cas_claim_responses";
-
-	@SuppressWarnings("SpellCheckingInspection")
-	private static final String CAS_RESPONSE_FILE_NAME_TEMPLATE = "%s_PAS_B_PASHUB_EXGPAS_4071_D.xml";
-
-	@SuppressWarnings("SpellCheckingInspection")
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
+public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 	private static final String CLAIM_NUMBER_1 = "1002-10-8702";
 
@@ -77,18 +48,6 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 			ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
 
 	private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
-
-	@BeforeTest
-	public void prepare() {
-		try {
-			FileUtils.forceDeleteOnExit(Paths.get(CAS_REQUEST_PATH).toFile());
-			FileUtils.forceDeleteOnExit(Paths.get(CAS_RESPONSE_PATH).toFile());
-			Files.createDirectories(Paths.get(CAS_REQUEST_PATH));
-			Files.createDirectories(Paths.get(CAS_RESPONSE_PATH));
-		} catch (IOException e) {
-			throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " " + CAS_REQUEST_PATH, e);
-		}
-	}
 
 	/**
 	 *  @author Andrii Syniagin
@@ -126,7 +85,7 @@ public class TestOffLineClaims extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS14679_TestCase1(@Optional("AZ") String state) {
+    public void PAS14679_TestCase1(@Optional("AZ") @SuppressWarnings("unused") String state) {
 	    PurchaseTab purchaseTab = new PurchaseTab();
 	    TestData testData = getPolicyTD();
 	    TestData driverTabTestData = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
@@ -153,15 +112,9 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
-		String claimRequestFolder = Jobs.getClaimOrderJobFolder();
 
 		// Download the claim request
-		List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
-		assertThat(requests).hasSize(1);
-		String claimRequest = requests.get(0);
-		RemoteHelper.get().downloadFile(claimRequest, CAS_REQUEST_PATH);
-		File claimRequestFile = new File(CAS_REQUEST_PATH + File.separator + claimRequest);
-		assertThat(claimRequestFile).exists().isFile().canRead().isAbsolute();
+		File claimRequestFile = downloadClaimRequest();
 
 		// Check if request contains DL and PolicyNumber
 		List<String> driverLicenseList = getDriverLicences(testData, driverTabTestData);
@@ -173,19 +126,9 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		driverLicenseList.forEach(l -> assertThat(content).contains(l));
 
 		// Create the claim response
-		String casResponseFileName = getCasResponseFileName();
-		BatchClaimHelper batchClaimHelper = new BatchClaimHelper(TWO_CLAIMS_DATA_MODEL,
-				casResponseFileName);
-		File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
-			setPolicyNumber(policyNumber, response);
-			updateDriverLicence(CLAIM_TO_DRIVER_LICENSE, response);
-		});
+		createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
 
-        // Upload claim response
-		RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-				Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
-
-        // Move to R-46 and run batch job part 2 and offline claims receive batch job
+		// Move to R-46 and run batch job part 2 and offline claims receive batch job
 	    TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
 	    JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
@@ -221,37 +164,6 @@ public class TestOffLineClaims extends AutoSSBaseTest {
 		});
     }
 
-	private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
-		List<Claim> claims = response.getClaimLineItemList().stream()
-				.flatMap(claimLineItem -> claimLineItem.getClaimList().stream())
-				.collect(Collectors.toList());
-		claims.forEach(c -> {
-			String driverLicense = claimToDriverLicenseMap.get(c.getClaimNumber());
-			if (driverLicense != null) {
-				c.setDrivingLicenseNumber(driverLicense);
-			}
-		});
-	}
-
-	private void setPolicyNumber(String policyNumber, CASClaimResponse response) {
-		response.getClaimLineItemList().forEach(claimLineItem -> {
-			claimLineItem.setAgreementNumber(policyNumber);
-			claimLineItem.getClaimList().forEach(claim -> claim.setClaimPolicyReferenceNumber(policyNumber));
-		});
-	}
-
-	private String getCasResponseFileName() {
-		String prefix = TimeSetterUtil.getInstance().getCurrentTime()
-				.truncatedTo(ChronoUnit.SECONDS).format(DATE_TIME_FORMATTER);
-		return String.format(CAS_RESPONSE_FILE_NAME_TEMPLATE, CAS_RESPONSE_PATH + File.separator + prefix);
-	}
-
-	private List<String> getDriverLicences(@Nonnull TestData testData, @Nonnull TestData driverTab) {
-		List<String> dls = new ArrayList<>();
-		dls.add(testData.getTestData("DriverTab").getValue("License Number"));
-    	driverTab.getTestDataList("DriverTab").forEach(t -> dls.add(t.getValue("License Number")));
-    	return dls;
-	}
 }
 
 
