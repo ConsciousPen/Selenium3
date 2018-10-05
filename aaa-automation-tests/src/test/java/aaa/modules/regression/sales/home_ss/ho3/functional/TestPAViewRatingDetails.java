@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 
+import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,9 +14,12 @@ import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
-public class TestPAViewRatingDetails extends HomeSSHO3BaseTest {
+public class TestPAViewRatingDetails extends RevisedHomeTierPATemplate {
 
-	private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -41,6 +45,6 @@ public class TestPAViewRatingDetails extends HomeSSHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6676, PAS-7025, PAS-7024")
 	public void pas6676_testPAViewRatingDetails(@Optional("PA") String state) {
 
-		template.pas6676_TestPAViewRatingDetails(getPolicyType());
+		pas6676_TestPAViewRatingDetails();
 	}
 }
