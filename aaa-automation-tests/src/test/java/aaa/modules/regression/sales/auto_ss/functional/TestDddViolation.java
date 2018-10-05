@@ -233,7 +233,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 		DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
 		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
 		DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
-        DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor2");
+        DRIVERS_WITHOUT_DISCOUNT.add(0, "DriverInformationMinor2");
 		return drivers;
 	}
 
