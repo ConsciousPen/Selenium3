@@ -90,7 +90,9 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String purchaseDate = "2012-02-21";
 		String newVin = "4S2CK58W8X4307498";
 
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, newVin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(newVin, purchaseDate), Vehicle.class, 201);
+
 		assertSoftly(softly ->
 				softly.assertThat(addVehicle.oid).isNotEmpty()
 		);
@@ -254,7 +256,9 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String purchaseDate = "2012-02-21";
 		String newVin = "4S2CK58W8X4307498";
 
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, newVin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(newVin, purchaseDate), Vehicle.class, 201);
+
 		assertSoftly(softly ->
 				softly.assertThat(addVehicle.oid).isNotEmpty()
 		);
@@ -381,7 +385,9 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String purchaseDate = "2012-02-21";
 		String vin2 = "4S2CK58W8X4307498";
 
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
+
 		assertSoftly(softly ->
 				softly.assertThat(addVehicle.oid).isNotEmpty()
 		);
@@ -451,7 +457,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V2
 			String purchaseDate = "2012-02-21";
 			String vin2 = "1HGEM21504L055795";
-			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
+
+			Vehicle addVehicle =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
+
 			assertThat(addVehicle.oid).isNotEmpty();
 			String newVehicleOid = addVehicle.oid;
 			printToLog("newVehicleOid: " + newVehicleOid);
@@ -574,14 +583,20 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V3
 			String purchaseDate = "2012-02-21";
 			String vin3 = "1NXBR32E53Z168489";
-			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin3);
+
+			Vehicle addVehicle =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate), Vehicle.class, 201);
+
 			assertThat(addVehicle.oid).isNotEmpty();
 			String newVehicleOid = addVehicle.oid;
 			printToLog("newVehicleOid: " + newVehicleOid);
 
 			//add V4
 			String vin4 = "1G2NE52T9XM924276";
-			Vehicle addVehicle2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin4);
+
+			Vehicle addVehicle2
+					= HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin4, purchaseDate), Vehicle.class, 201);
+
 			assertThat(addVehicle2.oid).isNotEmpty();
 			String newVehicleOid2 = addVehicle2.oid;
 
@@ -767,7 +782,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V4
 			String purchaseDate = "2012-02-21";
 			String vin4 = "1NXBR32E53Z168489";
-			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin4);
+
+			Vehicle addVehicle =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin4, purchaseDate), Vehicle.class, 201);
+
 			assertThat(addVehicle.oid).isNotEmpty();
 			String newVehicleOid = addVehicle.oid;
 			printToLog("newVehicleOid: " + newVehicleOid);
@@ -925,7 +943,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V4
 			String purchaseDate1 = "2012-02-21";
 			String vin4 = "1NXBR32E53Z168489";
-			Vehicle addVehicle1 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate1, vin4);
+
+			Vehicle addVehicle1 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin4, purchaseDate1), Vehicle.class, 201);
+
 			assertThat(addVehicle1.oid).isNotEmpty();
 			String newVehicleOid = addVehicle1.oid;
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
@@ -933,7 +954,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V5
 			String purchaseDate2 = "2015-01-11";
 			String vin5 = "JTDKN3DU0E0356920";
-			Vehicle addVehicle2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin5);
+
+			Vehicle addVehicle2 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin5, purchaseDate2), Vehicle.class, 201);
+
 			assertThat(addVehicle2.oid).isNotEmpty();
 			String newVehicleOid2 = addVehicle2.oid;
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
@@ -1117,9 +1141,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			//add V3
 			String purchaseDate = "2012-02-21";
 			String vin3 = "1NXBR32E53Z168489";
-			Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin3);
-			assertThat(addVehicle.oid).isNotEmpty();
-			String newVehicleOid = addVehicle.oid;
+
+			Vehicle addVehicle3 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate), Vehicle.class, 201);
+
+			assertThat(addVehicle3.oid).isNotEmpty();
+			String newVehicleOid = addVehicle3.oid;
 			printToLog("newVehicleOid: " + newVehicleOid);
 
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
@@ -1369,7 +1396,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin = "4S2CK58W8X4307498";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+
 		String newVehicleOid = addVehicle.oid;
 		assertThat(addVehicle.oid).isNotEmpty();
 

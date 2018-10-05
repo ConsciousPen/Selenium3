@@ -470,7 +470,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 
@@ -759,7 +760,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 
@@ -1032,7 +1034,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
@@ -1088,7 +1091,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
@@ -1976,7 +1980,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//add  vehicle1
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 
@@ -2180,7 +2185,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
@@ -2223,7 +2229,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
@@ -2287,7 +2294,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);
@@ -2563,7 +2571,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, oid1);

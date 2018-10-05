@@ -1587,7 +1587,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vin = "4S2CK58W8X4307498";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1675,7 +1676,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String purchaseDate = "2012-02-21";
 		String vin = "SHHFK7H41JU201444";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 		String newVehicleOid = addVehicle.oid;
 

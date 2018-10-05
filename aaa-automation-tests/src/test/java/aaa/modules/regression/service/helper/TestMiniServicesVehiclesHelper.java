@@ -46,7 +46,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 	private String policyNumber8Vehicles;
-	TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
@@ -71,8 +71,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		String vin1 = "aaaa"; //VIN too short
 		AAAVehicleVinInfoRestResponseWrapper response = HelperCommon.executeVinInfo(policyNumber, vin1, endorsementDate);
-		softly.assertThat(response.vehicles).isEmpty();
-		softly.assertThat(response.validationMessage).isEqualTo("Invalid VIN length");
+		verifyVinInvalidLength(softly, response);
 
 		String vin2 = "12345678901234567890"; //VIN too long
 		AAAVehicleVinInfoRestResponseWrapper response2 = HelperCommon.executeVinInfo(policyNumber, vin2, null);
@@ -105,6 +104,11 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(response0.validationMessage).isEmpty();
 	}
 
+	private void verifyVinInvalidLength(ETCSCoreSoftAssertions softly, AAAVehicleVinInfoRestResponseWrapper response) {
+		softly.assertThat(response.vehicles).isEmpty();
+		softly.assertThat(response.validationMessage).isEqualTo("Invalid VIN length");
+	}
+
 	protected void pas7082_AddVehicle(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -135,7 +139,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		String purchaseDate = "2012-02-21";
 		String vin2 = "1HGEM21504L055795";
 
-		Vehicle response1 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
+		Vehicle response1 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
+
 		assertSoftly(softly -> {
 					softly.assertThat(response1.modelYear).isEqualTo("2004");
 					softly.assertThat(response1.manufacturer).isEqualTo("HONDA");
@@ -189,7 +195,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String oid = responseAddVehicle.oid;
 		printToLog("oid: " + oid);
@@ -230,7 +239,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
 		String vin = "1HGFA16526L081415";
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String oid = responseAddVehicle.oid;
 		printToLog("oid: " + oid);
@@ -315,17 +325,23 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String purchaseDate1 = "2012-02-21";
 			String vin1 = getStateTestData(vehicleData, "DataGather", "TestData").getTestDataList("VehicleTab").get(0).getValue("VIN");
 
-			ErrorResponseDto errorResponse = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate1, vin1);
+			ErrorResponseDto errorResponse =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate1), ErrorResponseDto.class, 422);
+
 			validateUniqueVinError(errorResponse, softly);
 			String purchaseDate2 = "2015-02-11";
 			String vin2 = "9BWFL61J244023215";
 
 			//add vehicle
-			Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
+			Vehicle responseAddVehicle =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), Vehicle.class, 201);
+
 			assertThat(responseAddVehicle.oid).isNotEmpty();
 
 			//try add the same vehicle one more time
-			ErrorResponseDto errorResponse2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate2, vin2);
+			ErrorResponseDto errorResponse2 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), ErrorResponseDto.class, 422);
+
 			validateUniqueVinError(errorResponse2, softly);
 
 			//Start PAS-11005
@@ -333,7 +349,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String vin3 = "ZFFCW56A830133118";
 
 			//try add to expensive vehicle
-			ErrorResponseDto errorResponse3 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate3, vin3);
+			ErrorResponseDto errorResponse3 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate3), ErrorResponseDto.class, 422);
+
 			softly.assertThat(errorResponse3.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(errorResponse3.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(errorResponse3.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.EXPENSIVE_VEHICLE.getCode());
@@ -431,7 +449,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//Add new vehicle
 		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
@@ -536,11 +556,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add new vehicle to have pending vehicle
 		String purchaseDate = "2013-02-22";
 		String vin5 = "1HGFA16526L081415";
-		Vehicle addVehicleResponse = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin5);
+		Vehicle addVehicleResponse =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin5, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicleResponse.oid).isNotEmpty();
 
 		String vin6 = "2GTEC19K8S1525936";
-		Vehicle addVehicleResponse2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin6);
+		Vehicle addVehicleResponse2 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin6, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicleResponse2.oid).isNotEmpty();
 
 		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -808,7 +830,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			String purchaseDate10 = "2009-06-26";
 			String vin10 = "5Y2SL62893Z446850"; //2003 Point Vibe
 
-			ErrorResponseDto responseAddVehicleError = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
+			ErrorResponseDto responseAddVehicleError =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin9, purchaseDate9), ErrorResponseDto.class, 422);
+
 			softly.assertThat(responseAddVehicleError.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(responseAddVehicleError.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(responseAddVehicleError.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
@@ -828,7 +852,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			request.purchaseDate = purchaseDate9;
 			request.vehIdentificationNo = vin9;
 
-			ErrorResponseDto responseAddVehicleError2 = HelperCommon.viewAddVehicleServiceErrors(policyNumber, purchaseDate9, vin9);
+			ErrorResponseDto responseAddVehicleError2 =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin9, purchaseDate9), ErrorResponseDto.class, 422);
+
 			softly.assertThat(responseAddVehicleError2.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(responseAddVehicleError2.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(responseAddVehicleError2.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_VEHICLES.getCode());
@@ -1182,7 +1208,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//add vehicle
 		String purchaseDate = "2012-02-21";
 		String vinNew = "3FAFP31341R200709";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vinNew);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vinNew, purchaseDate), Vehicle.class, 201);
 		assertThat(addVehicle.oid).isNotEmpty();
 
 		//run delete vehicle service
@@ -1245,7 +1272,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//Add new vehicle
 		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
@@ -1391,7 +1419,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add new vehicle
 		String purchaseDate = "2013-02-22";
 		String vin2 = "1HGFA16526L081415";
-		Vehicle response2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin2);
+		Vehicle response2 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
 		assertThat(response2.oid).isNotEmpty();
 		String newVehicleOid = response2.oid;
 
@@ -1645,7 +1674,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(vinValidateResponse.vehicles.get(0).vin).isEqualTo(vin);
 
 			//Add new vehicle
-			Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+			Vehicle responseAddVehicle =
+					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 			assertThat(responseAddVehicle.oid).isNotEmpty();
 			String newVehicleOid = responseAddVehicle.oid;
 			printToLog("newVehicleOid: " + newVehicleOid);
@@ -1684,7 +1714,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add first vehicle
 		String purchaseDate = "2013-02-22";
 		String vin1 = "1HGFA16526L081415";
-		Vehicle addVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin1);
+		Vehicle addVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate), Vehicle.class, 201);
 		softly.assertThat(addVehicle.oid).isNotEmpty();
 		String oid1 = addVehicle.oid;
 
@@ -1730,7 +1761,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//Add second vehicle
 		String purchaseDate2 = "2005-02-22";
 		String vin2 = "3FAFP31341R200709";
-		Vehicle addVehicle2 = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate2, vin2);
+		Vehicle addVehicle2 =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), Vehicle.class, 201);
 		softly.assertThat(addVehicle2.oid).isNotEmpty();
 		String oid2 = addVehicle2.oid;
 
@@ -2813,7 +2845,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
 		//Add new vehicle
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
