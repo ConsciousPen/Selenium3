@@ -2460,8 +2460,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	protected void pas19768_ageFirstLicensedCannotBeGreaterThanDobBody(){
 		assertSoftly(softly -> {
 			mainApp().open();
-			createCustomerIndividual();
-			String policyNumber = createPolicy();
+			String policyNumber = getCopiedPolicy();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Ponia", "Jovita", "Puk", "1991-05-03", "");
