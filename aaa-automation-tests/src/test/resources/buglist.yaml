@@ -167,6 +167,12 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
+PAS-19656:
+  summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestDddViolation.*]
+      messages: ["Defensive Driving Course Discount"]
 PAS-11810:
   summary: "View Premium Service - Pended endorsement and renewal not rated"
   reason: PROD
