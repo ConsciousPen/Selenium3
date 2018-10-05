@@ -11,7 +11,6 @@ public class Groups {
 	public static final String DOCGEN         = "DocGen";
 	public static final String TIMEPOINT      = "Timepoint";
 	public static final String OPENL          = "OpenL";
-	public static final String FINANCE		  = "Finance";
 
 	public static final String BLOCKER        = "Blocker";
 	public static final String CRITICAL       = "Critical";

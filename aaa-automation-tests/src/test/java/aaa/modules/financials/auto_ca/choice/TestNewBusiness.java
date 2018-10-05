@@ -32,12 +32,11 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19, FEE-01, FEE-15, FEE-06
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FINANCE})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testNewBusinessScenario_1(@Optional("CA") String state) {
 		testNewBusinessScenario_1();
 	}
-
 
 	/**
 	 * @author Josh Carpenter
@@ -54,7 +53,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @details NBZ-03, PMT-04, END-02, CNL-06, PMT-05, RST-02, RST-09
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FINANCE})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE)
 	public void testNewBusinessScenario_2(@Optional("CA") String state) {
 		testNewBusinessScenario_2();

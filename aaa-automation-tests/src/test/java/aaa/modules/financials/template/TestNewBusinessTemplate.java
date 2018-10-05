@@ -3,6 +3,7 @@ package aaa.modules.financials.template;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -77,11 +78,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Advance time and reinstate policy with lapse
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(effDate).plusDays(3));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getReinstatementTD());
+		if (Page.dialogConfirmation.buttonYes.isPresent()) {
+			Page.dialogConfirmation.buttonYes.click();
+		}
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	}
