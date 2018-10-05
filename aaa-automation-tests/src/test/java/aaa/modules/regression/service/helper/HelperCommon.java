@@ -225,28 +225,16 @@ public class HelperCommon {
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PUT);
 	}
 
-	/**
-	 * @deprecated use {@link #replaceVehicle(String, String, ReplaceVehicleRequest, Class, int)}
-	 *//*
-	@Deprecated
-	public static VehicleUpdateResponseDto replaceVehicle(String policyNumber, String oid, ReplaceVehicleRequest request) {
-		log.info("Replace vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
-		return sendPutRequest(requestUrl, request, VehicleUpdateResponseDto.class);
-	}*/
 
-	@Deprecated
-	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
-		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
-		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
-		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
-	}
+//	@Deprecated
+//	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
+//		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
+//		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
+//		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
+ //	}
 
 	public static <T> T deleteVehicle(String policyNumber, String oid, Class<T> responseType, int status) {
-		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
-		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
-		restRequestInfo.responseType = responseType;
-		restRequestInfo.status = status;
+		RestRequestInfo<T> restRequestInfo = buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid)), null, responseType, status);
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
