@@ -712,4 +712,14 @@
             </class>
         </classes>
     </test>
+    <test name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)">
+        <parameter name="state" value="MD, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
