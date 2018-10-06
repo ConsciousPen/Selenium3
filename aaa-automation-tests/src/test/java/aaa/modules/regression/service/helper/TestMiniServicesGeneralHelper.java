@@ -341,7 +341,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String originalDriver = responseViewDrivers.driverList.get(0).oid;
 
 		//get all coverages
-		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
@@ -497,7 +497,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd = "COMPDED";
 		String compDedAvailableLimits = "100";
-		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class);
 		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredCoverageResponse.coverageLimit).isEqualTo("100");
 
@@ -519,12 +519,12 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
-		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class);
 		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
 		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
 
@@ -543,7 +543,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		assertThat(responseUnlock.status).isEqualTo("Unlocked");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
 		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
 

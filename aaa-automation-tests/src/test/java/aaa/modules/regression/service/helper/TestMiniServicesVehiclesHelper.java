@@ -958,7 +958,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//Get expected Vehicle info after revert
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			//get policyCoverageInfo to validate vehicle level coverages (and also other coverages)
-			PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageInfoExpected = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 			VehicleTab.tableVehicleList.selectRow(1);
@@ -979,7 +979,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(revertedVehicle).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
 
 			//Validate that Vehicle level coverages of removed vehicle are the same after revert (not directly in scope of the US)
-			PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 			String vehicleToRemoveOid = vehicleToRemove.oid;
 			softly.assertThat(policyCoverageInfoAfterRevert.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().orElse(null)).
 					isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().
@@ -1945,13 +1945,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 
 		//PAS-13920 start
-		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
 		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
 		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
 
-		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2013,13 +2013,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		//check different behaviour coverages of the vehicles
 		//PAS-13920 start
-		PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
 		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
 
-		PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
 		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2092,13 +2092,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 
 		//PAS-13920 start
-		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
 		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
 		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
 
-		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2144,13 +2144,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			//check different behaviour coverages of the vehicles
 			//PAS-13920 start
-			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
 			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
 
-			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2224,13 +2224,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 
 		//PAS-13920 start
-		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
 		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
 		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
 		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
 
-		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
 		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2290,13 +2290,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//check different behaviour coverages of the vehicles
 		//PAS-13920 start
 		assertSoftly(softly -> {
-			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
 
-			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
 			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
 			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
@@ -2475,8 +2475,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 
 		assertSoftly(softly -> {
-			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
+			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
@@ -2549,8 +2549,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 
 		assertSoftly(softly -> {
-			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
+			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
 			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);

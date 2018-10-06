@@ -36,7 +36,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, vehicleAddRequest);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);

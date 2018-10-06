@@ -53,8 +53,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", "III");
-		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
+		DriversDto addDriverRequestService = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "CH", "MSS");
 		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
 

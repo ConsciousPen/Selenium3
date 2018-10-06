@@ -203,7 +203,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		addDriverRequest.lastName = "Jill";
 		addDriverRequest.birthDate = "1960-02-08";
 		addDriverRequest.suffix = "III";
-		DriversDto addDriverResponse = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
+
 		String newDriverOid = addDriverResponse.oid;
 
 		SearchPage.openPolicy(policyNumber);

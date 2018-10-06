@@ -1774,27 +1774,27 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 		String coverageCd = "COMPDED";
 		String availableLimits = "250";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class);
 
 		String coverageCd1 = "COLLDED";
 		String availableLimits1 = "750";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, availableLimits1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, availableLimits1), PolicyCoverageInfo.class);
 
 		String coverageCd2 = "RREIM";
 		String availableLimits2 = "900";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, availableLimits2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, availableLimits2), PolicyCoverageInfo.class);
 
 		String coverageCd3 = "TOWINGLABOR";
 		String availableLimits3 = "50/300";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd3, availableLimits3), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd3, availableLimits3), PolicyCoverageInfo.class);
 
 		String coverageCd4 = "GLASS";
 		String availableLimits4 = "Yes";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd4, availableLimits4), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd4, availableLimits4), PolicyCoverageInfo.class);
 
 		String coverageCd5 = "SPECEQUIP";
 		String availableLimits5 = "2000";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd5, availableLimits5), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd5, availableLimits5), PolicyCoverageInfo.class);
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(vOid);

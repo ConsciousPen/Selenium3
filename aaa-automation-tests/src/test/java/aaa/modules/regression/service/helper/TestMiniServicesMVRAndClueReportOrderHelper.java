@@ -49,8 +49,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Add driver
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
+		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		//Update driver
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
@@ -84,7 +83,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Add driver
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//Update driver
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", "MSS");
@@ -122,7 +121,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> softly.assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate));
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//And update missing info for the driver
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "SP", null);
@@ -156,7 +155,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
 
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		addedDriver =  HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//And update missing info for the driver
 
@@ -710,7 +709,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	private String addAndUpdateDriver(String policyNumber, String firstName, String lastName, String birthDate, String licenceNumber, String relationship, String stateLicensed, String gender) {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(firstName, null, lastName, birthDate, null);
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver =  HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(gender, licenceNumber, 16, stateLicensed, relationship, "SSS");
 		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		return addedDriver.oid;
@@ -722,7 +721,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-		assertThat((DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).contains(status)).isTrue();
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue().contains(status)).isTrue();
 		driverActivityReportsTab.saveAndExit();
 	}
 
