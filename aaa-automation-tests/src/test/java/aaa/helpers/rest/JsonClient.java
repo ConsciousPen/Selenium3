@@ -85,40 +85,40 @@ public class JsonClient {
 		}
 	}
 
-	/**
-	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
-	 */
-	@Deprecated
-	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
-		Client client = null;
-		Response response = null;
-		log.info("Request: " + asJson(request));
-		try {
-			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
-
-			String token = getBearerToken();
-
-			response = client.target(url)
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.method("PUT", Entity.json(request));
-			T responseObj = readBufferedEntity(response, responseType);
-			log.info(response.toString());
-			if (response.getStatus() != status) {
-				//handle error
-				throw new IstfException("PATCH json response failed");
-			}
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}
+//	/**
+//	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
+//	 */
+//	@Deprecated
+//	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
+//		Client client = null;
+//		Response response = null;
+//		log.info("Request: " + asJson(request));
+//		try {
+//			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
+//
+//			String token = getBearerToken();
+//
+//			response = client.target(url)
+//					.request()
+//					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+//					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+//					.method("PUT", Entity.json(request));
+//			T responseObj = readBufferedEntity(response, responseType);
+//			log.info(response.toString());
+//			if (response.getStatus() != status) {
+//				//handle error
+//				throw new IstfException("PATCH json response failed");
+//			}
+//			return responseObj;
+//		} finally {
+//			if (response != null) {
+//				response.close();
+//			}
+//			if (client != null) {
+//				client.close();
+//			}
+//		}
+//	}
 
 	public static <T> T runJsonRequestGetAdmin(String url, Class<T> returnClazz) {
 		Client client = null;
@@ -148,39 +148,39 @@ public class JsonClient {
 			}
 		}
 	}
-
-	/**
-	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
-	 */
-	@Deprecated
-	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
-		Client client = null;
-		Response response = null;
-		try {
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.method("POST", Entity.json(request));
-			T responseObj = readBufferedEntity(response, responseType);
-			log.info(response.toString());
-			if (response.getStatus() != status) {
-				//handle error
-				throw new IstfException("POST?PATCH? json response failed");
-			}
-			return responseObj;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}
+//
+//	/**
+//	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
+//	 */
+//	@Deprecated
+//	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
+//		Client client = null;
+//		Response response = null;
+//		try {
+//			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+//			WebTarget target = client.target(url);
+//
+//			response = target
+//					.request()
+//					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
+//					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+//					.method("POST", Entity.json(request));
+//			T responseObj = readBufferedEntity(response, responseType);
+//			log.info(response.toString());
+//			if (response.getStatus() != status) {
+//				//handle error
+//				throw new IstfException("POST?PATCH? json response failed");
+//			}
+//			return responseObj;
+//		} finally {
+//			if (response != null) {
+//				response.close();
+//			}
+//			if (client != null) {
+//				client.close();
+//			}
+//		}
+//	}
 
 	/**
 	 * Buffers method body and try to read response of expected type. If {@link ProcessingException} is thrown method
