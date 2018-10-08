@@ -526,6 +526,7 @@
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                     <include name="pas15374_driverWithMajorViolationsError"/>
+                    <include name="pas19673_theOrderOfViolations"/>
                 </methods>
             </class>
         </classes>
@@ -685,14 +686,37 @@
             </class>
         </classes>
     </test>
-    <test name="pas18670_CancelRemoveVehicle (Revert Deleted Vehicle)">
+    <test name="Revert Deleted/Replaced Vehicle">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
                     <include name="pas18670_CancelRemoveVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
                     <!--<include name="pas18672_vehiclesRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="VehiclesAZ"> -->
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Named Insured marital status and the Relationship to the FNI (MD)">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16548_NamedInsuredMaritalStatus_MultipleMarital"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)">
+        <parameter name="state" value="MD, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
                 </methods>
             </class>
         </classes>

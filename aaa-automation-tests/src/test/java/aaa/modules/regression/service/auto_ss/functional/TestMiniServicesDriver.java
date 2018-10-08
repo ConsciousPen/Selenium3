@@ -552,6 +552,36 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name Named Insured and the Relationship to the FNI - FNI is Equivalent to Married
+	 * @scenario1
+	 * 1. Create policy on Pas with the FNI set to Married status
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add driver, update like SP.
+	 * 4. Check if MS for new driver the same like FNI - Married.
+	 * @scenario2
+	 * 1. FNI (Married), create new endorsement outside of PAS
+	 * 2. Add driver, update like RDP.
+	 * 3. Check if MS for new driver the same like FNI - Married.
+	 * @scenario3
+	 * 4. Update FNI Marital Status to RDP
+	 * 5. Bind endorsement.
+	 * 6. Create new endorsement outside of PAS
+	 * 7. Add driver, update like SP.
+	 * 8. Check if MS for new driver the same like FNI = RDP.
+	 * @scenario4
+	 * 1. FNI(RDP) ,create new endorsement outside of PAS
+	 * 2. Add driver, update like RDP.
+	 * 3. Check if MS for new driver the same like FNI - RDP.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16610"})
+	public void pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried(@Optional("MD") String state) {
+		pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarriedBody();
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service,Error insured score.
 	 * @scenario4

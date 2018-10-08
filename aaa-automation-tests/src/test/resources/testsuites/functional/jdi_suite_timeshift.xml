@@ -362,7 +362,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
-                    <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                 </methods>
             </class>
