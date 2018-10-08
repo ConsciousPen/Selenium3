@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.helpers.browser.DownloadsHelper;
 import aaa.helpers.constants.Groups;
 import aaa.modules.cft.report.ReportFutureDatedPolicy;
 import toolkit.db.DBService;
@@ -21,7 +20,7 @@ public class TestCFTFutureDatedPolicy extends ControlledFinancialBaseTest{
 	@Test(groups = {Groups.CFT})
 	@TestInfo(component = Groups.CFT)
 	public void futureDatedPolicyValidation() {
-		DownloadsHelper.checkFile(CFT_VALIDATION_DIRECTORY, CFT_FUTURE_DATED_REPORT);
+		checkReportNotExist(CFT_VALIDATION_DIRECTORY, CFT_FUTURE_DATED_REPORT);
 		List<List<Map<String, String>>> accNumberTable = new ArrayList<>();
 		List<Map<String, String>> dbResult = DBService.get().getRows(query1);
 		for (Map<String, String> dbEntry : dbResult) {

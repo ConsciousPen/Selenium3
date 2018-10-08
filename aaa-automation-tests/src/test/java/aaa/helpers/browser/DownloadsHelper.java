@@ -13,12 +13,14 @@ import toolkit.webdriver.Downloads;
 
 /**
  * CSAA Wrapper for {@link Downloads} class
- * Manages selenoid browser downloads.
+ * Manages files downloaded by browser.
  * */
-public class DownloadsHelper {
+public final class DownloadsHelper {
 
 	public static final String DOWNLOAD_DIR = PropertyProvider.getProperty(CsaaTestProperties.USER_DIR_PROP) + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
 	protected static Logger LOG = LoggerFactory.getLogger(DownloadsHelper.class);
+
+	private DownloadsHelper() { }
 
 	/**
 	 * Downloads all files from selenoid browser download folder.
@@ -41,6 +43,17 @@ public class DownloadsHelper {
 	}
 
 	/**
+	 * Downloads file by File name from selenoid browser download folder.
+	 * Wildcard can be used in file path.
+	 * @param fileName
+	 * @param targetDir
+	 * */
+	public static Optional<File> getFile(String fileName, String targetDir) {
+		checkFile(DOWNLOAD_DIR, fileName);
+		return Downloads.getFile(fileName, targetDir);
+	}
+
+	/**
 	 * Returns List of files from selenoid browser download folder.
 	 * */
 	public static List<String> listFiles() {
@@ -50,7 +63,7 @@ public class DownloadsHelper {
 	/**
 	 * Checks whether destination folder exists and file with the same name doesn't exist on test executor
 	 * */
-	public static void checkFile(String dirPath, String fileName) {
+	private static void checkFile(String dirPath, String fileName) {
 		File dir = new File(dirPath);
 		if (dir.mkdirs()) {
 			LOG.info("\"{}\" folder was created", dir.getAbsolutePath());

@@ -59,6 +59,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	protected BillingAccount billingAccount = new BillingAccount();
 	protected OperationalReport operationalReport = new OperationalReport();
 
+	protected TestData getPolicyTestData() {
+		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
+	}
+
 	/**
 	 * Accept cash payment on startDate + 25 days
 	 */
@@ -971,14 +975,21 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("PLIGA fee validated successfully");
 	}
 
-	protected TestData getPolicyTestData() {
-		throw new IstfException("Please override method in appropriate child class with relevant test data preparation");
-	}
-
 	protected void runCFTJobs() {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
 		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob_NonMonthly);
+	}
+
+	protected void checkReportNotExist(String dirPath, String fileName) {
+		File dir = new File(dirPath);
+		if (dir.mkdirs()) {
+			log.info("\"{}\" folder was created", dir.getAbsolutePath());
+		}
+		File file = new File(dir.getPath() + fileName);
+		if (file.exists()) {
+			file.renameTo(new File(file.getName().concat(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.TIME_STAMP)).concat(".old")));
+		}
 	}
 
 	private void acceptManualPaymentOnDate(LocalDateTime paymentDate) {
@@ -1274,4 +1285,5 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				.verifyPresent();
 		log.info("EP Write off generated successfully");
 	}
+
 }

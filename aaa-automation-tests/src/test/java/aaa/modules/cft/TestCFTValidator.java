@@ -37,7 +37,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		// refreshReports
 		DBService.get().executeUpdate(PropertyProvider.getProperty("cft.refresh.or"));
 
-		DownloadsHelper.checkFile(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
+		checkReportNotExist(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
 		runCFTJobs();

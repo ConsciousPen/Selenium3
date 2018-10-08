@@ -217,7 +217,7 @@ public class BaseTest {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Method method, ITestContext context) {
+	public void stateConfiguration(Method method, ITestContext context) {
 		if (method.isAnnotationPresent(Test.class)) {
 			String state = new String();
 			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
