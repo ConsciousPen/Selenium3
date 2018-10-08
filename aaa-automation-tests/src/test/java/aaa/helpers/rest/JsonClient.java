@@ -47,7 +47,7 @@ public class JsonClient {
 		Client client = null;
 		Response response = null;
 		try {
-			log.info("Request: " + asJson(request));
+			log.info("Request: {}", asJson(request));
 			if (RestRequestMethodTypes.DELETE == requestType) {
 				ClientConfig config = new ClientConfig();
 				config.property(ClientProperties.SUPPRESS_HTTP_COMPLIANCE_VALIDATION, true);
@@ -73,7 +73,7 @@ public class JsonClient {
 				//handle error
 				throw new IstfException(methodName + " json request failed");
 			}
-			log.info("Response: " + asJson(result));
+			log.info("Response: {}", asJson(result));
 			return result;
 		} finally {
 			if (response != null) {
@@ -125,8 +125,7 @@ public class JsonClient {
 	 * @param url
 	 * @param bodyRequest
 	 * @param responseType
-	 * @param status
-	 * @param <T>
+	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
 	 * @return
 	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
@@ -147,8 +146,7 @@ public class JsonClient {
 	 *
 	 * @param url
 	 * @param responseType
-	 * @param status
-	 * @param <T>
+	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
 	 * @return
 	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, int status) {
@@ -168,8 +166,7 @@ public class JsonClient {
 	 *
 	 * @param url
 	 * @param responseType
-	 * @param status
-	 * @param <T>
+	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
 	 * @return
 	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, String sessionId, int status) {

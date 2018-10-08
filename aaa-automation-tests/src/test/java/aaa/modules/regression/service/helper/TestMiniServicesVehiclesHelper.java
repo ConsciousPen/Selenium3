@@ -28,8 +28,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
-import aaa.modules.regression.service.helper.dtoDxp.*;
-import net.sf.saxon.functions.IndexOf;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -892,7 +890,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			//get any vehicle OID to remove
 			String removedVehicleOid = HelperCommon.viewEndorsementVehicles(policyNumber).vehicleList.get(3).oid;
-			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, removedVehicleOid);
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, removedVehicleOid, VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
 			softly.assertThat(deleteVehicleResponse.availableActions).containsExactly("revert");
 			validateRevertOptionForVehicle_pas18672(policyNumber, removedVehicleOid, true, softly);
 
@@ -909,7 +907,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(revertVehicleResponse.message).isEqualTo(ErrorDxpEnum.Errors.REVERT_DELETE_VEHICLE_ERROR.getMessage());
 			//End PAS-18670 Cancel the Removed Vehicle
 
-			VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+			VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid, VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
 			softly.assertThat(vehicleUpdateResponseDto.availableActions).as("Newly added and then removed vehicles should not have revert option").isEmpty();
 
 			//Start PAS-18670 - Cancel the Replaced Vehicle - check that revert option is available for Replaced vehicle when there is max count of vehicles
@@ -991,7 +989,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			if (cancelReplace) {
 				replaceVehicleWithUpdates(policyNumber, vehicleToRemove.oid, newVehicleVin, new Random().nextBoolean(), new Random().nextBoolean()); //setting keepAssignments and keepCoverages randomly
 			} else {
-				HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid);
+				HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid, VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
 			}
 
 			//revert deleted/replaced vehicle
