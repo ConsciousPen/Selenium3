@@ -261,7 +261,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		}
 
 		//Check that 2nd Renewal Offer is generated
-		assertThat(DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size()).isEqualTo(2);
+		assertThat(DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size()).as("2nd Renewal Offer is not generated").isEqualTo(2);
 		//Check that 2nd Renewal Offer does not have the form (e.g. HSFLD, HSPISKY)
 		assertThat(DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER, false).size()).isEqualTo(1);
 	}

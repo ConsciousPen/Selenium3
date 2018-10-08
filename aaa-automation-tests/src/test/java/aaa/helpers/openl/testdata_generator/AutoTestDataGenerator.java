@@ -71,9 +71,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "J":
 				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+				return "Married"; // also possible "regex=.*Domestic Partner", "Common Law", "Civil Union"
 			case "S":
-				return getRandom("Single");
+				return "Single";
 			case "W":
 				return "Widowed";
 			default:
@@ -187,7 +187,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
-		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		//		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		switch (antiTheft) {
+			case "N":
+				return "None";
+			case "P":
+				return "VIN Etching";
+			case "Y":
+				return "Homing Device (Recovery Device)";
+			default:
+				throw new IstfException("Unknown mapping for antiTheft: " + antiTheft);
+		}
 	}
 
 	String getVehicleTabAirBags(String airBagCode) {
@@ -343,23 +353,24 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
 		StringBuilder paymentPlan = new StringBuilder("regex=^");
+		String planName = term == 12 ? "Eleven Pay" : "Five Pay";
 		switch (paymentPlanType) {
 			case "A":
 				paymentPlan.append("Quarterly");
 				break;
 			case "B":
-				paymentPlan.append("Eleven Pay - Standard");
+				paymentPlan.append(planName).append(" - Standard");
 				break;
 			case "C":
 				paymentPlan.append("Semi-[aA]nnual");
 				break;
 			case "L":
-				paymentPlan.append(getRandom("Eleven Pay - Low Down", "Monthly - Low Down"));
+				paymentPlan.append(getRandom(planName + " - Low Down", "Monthly - Low Down"));
 				break;
 			case "P":
 				return getPremiumAndCoveragesPaymentPlan(term);
 			case "Z":
-				paymentPlan.append(getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down"));
+				paymentPlan.append(getRandom(planName + " - Zero Down", "Monthly - Zero Down"));
 				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
