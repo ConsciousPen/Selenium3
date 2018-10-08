@@ -359,7 +359,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				paymentPlan.append("Quarterly");
 				break;
 			case "B":
-				paymentPlan.append(planName + " - Standard");
+				paymentPlan.append(planName).append(" - Standard");
 				break;
 			case "C":
 				paymentPlan.append("Semi-[aA]nnual");
