@@ -952,6 +952,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		);
 	}
 
+	/**
+	 * @author Jovita Pukenaite
+	 * @name The "Age first licensed" cannot be greater than the age of the driver
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add new Driver. Update and set "Age First Licensed" to an age greater than their DOB.
+	 * 4. Check the error message.
+	 * 5. Set "Age First Licensed" = DOB.
+	 * 6. Check if error message is not displaying.
+	 * 7. Update "Age First Licensed" < DOB.
+	 * 8. Order report and bind the endorsement.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19768"})
+	public void pas19768_ageFirstLicensedCannotBeGreaterThanDob(@Optional("VA") String state) {
+
+		pas19768_ageFirstLicensedCannotBeGreaterThanDobBody();
+	}
+
 }
 
 
