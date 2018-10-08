@@ -267,7 +267,7 @@ public class TestVersionsComparison extends TestComparisonConflictAbstract {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-14147", "PAS-14146"})
 	public void pas14147_renewalComparisonDriverInformation(@Optional("CA") String state) {
-		renewalComparison(getTDDriverInformationRenewalVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.RENEWAL_DRIVER_INFORMATION, "DriverTab", "DriverInformation");
+		renewalComparison(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsComparisonConstants.RENEWAL_DRIVER_INFORMATION, "DriverTab", "DriverInformation");
 	}
 
 	//Vehicle Information section
