@@ -1,6 +1,6 @@
 ############### 3 Drivers on policy
 TestData_DriverTab_OfflineClaim: {
-  DriverTab: ['@Driver2','@Driver3']
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab','@Driver2','@Driver3']
 }
 
   ######Test Data for 2 and 3 Drivers
