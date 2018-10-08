@@ -48,8 +48,9 @@ public class TestScenario7 extends Scenario7 {
 			endorsementAPAfterRenewal();
 			checkRenewalStatusAndPaymentNotGenerated();
 			expirePolicy();
-			generateFirstRenewalBill();
+			//generateFirstRenewalBill();
 			customerDeclineRenewal();
+			generateFirstRenewalBill();
 			createRemittanceFile();
 			payRenewalBillByRemittance();
 		});
