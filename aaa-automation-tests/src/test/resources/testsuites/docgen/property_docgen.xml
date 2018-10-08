@@ -106,7 +106,12 @@
         </classes>
     </test>
      -->
-     
+    <test name="Document_Fulfillment_Home_SS_HO3_TestEarnedPremiumWriteOff">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.TestEarnedPremiumWriteOff"/>
+        </classes>
+    </test>
 	<test name="Document_Fulfillment_Home_SS_HO6_TestScenario1">
         <parameter name="state" value="UT, AZ, NJ, PA" />
         <classes>

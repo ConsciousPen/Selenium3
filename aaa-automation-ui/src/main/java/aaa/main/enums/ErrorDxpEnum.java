@@ -66,6 +66,7 @@ public final class ErrorDxpEnum {
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
 		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date"),
+		AGE_FIRST_LICENSED_GREATER_THAN_DOB("AAA_CSA10260784", "Age First Licensed is greater than Current Age"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating"), //the same as in PAS
@@ -87,8 +88,9 @@ public final class ErrorDxpEnum {
 		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
 		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C("200103_C", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
-		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert aption is not available on driver."),
-		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert aption is not available on vehicle."),
+		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on driver."),
+		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on vehicle."),
+		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
 	;
 
 		private final String code;
