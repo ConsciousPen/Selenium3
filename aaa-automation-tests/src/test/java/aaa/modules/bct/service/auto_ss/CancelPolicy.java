@@ -25,14 +25,6 @@ public class CancelPolicy extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void test(@Optional("AZ") String state) {
-		adminApp().open();
-		SearchPage.openPolicy("Dsadas");
-	}
-
-	@Parameters({"state"})
-	@Test
-	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_005_CancelPolicy(@Optional("AZ") String state) {
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
