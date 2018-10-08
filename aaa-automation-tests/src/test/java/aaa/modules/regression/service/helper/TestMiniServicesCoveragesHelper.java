@@ -2903,7 +2903,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas15788_PDAvailableLimitsWhenBIisTheLowestAvailableBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		SearchPage.openPolicy(policyNumber);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
