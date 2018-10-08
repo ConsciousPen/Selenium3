@@ -225,7 +225,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY,
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
-
 			if (driver.getVehicleAssignedId() != null) {
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
 			}
@@ -259,6 +258,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 			if ("Y".equalsIgnoreCase(driver.getDefensiveDrivingCourse())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.getDefensiveDrivingCourse()));
+			} else if ("D".equals(driver.getDefensiveDrivingCourse()) && driver.getDriverAge() > 55) {
+				driverData.adjust(DataProviderFactory.dataOf(
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), "Yes",
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)
+				));
 			}
 
 			if (Boolean.TRUE.equals(openLPolicy.isEmployee()) && !isEmployeeSet) {
@@ -450,6 +454,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getAssignmentTabData(List<TestData> driversTestDataList) {
+		if (driversTestDataList.size() == 1) {
+			return DataProviderFactory.emptyData();
+		}
 		List<TestData> driverVehicleRelationshipTable = new ArrayList<>(driversTestDataList.size());
 		for (TestData driverData : driversTestDataList) {
 			String assignedDriver;
@@ -535,8 +542,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					assertThat(coverage.getGlassDeductible()).as("Invalid \"glassDeductible\" openl field value since it's not possible to fill \"Full Safety Glass\" UI field "
 							+ "for \"Trailer\" or \"Motor Home\" vehicle types or for KY state").isIn("N/A", "0");
 				} else {
-					detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
-							getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					if ("0".equals(vehicle.getCoverages().stream().filter(c -> "COMP".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible()) ||
+							"0".equals(vehicle.getCoverages().stream().filter(c -> "COLL".equals(c.getCoverageCd())).findFirst().get().getGlassDeductible())) {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(), "Yes");
+					} else {
+						detailedCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.FULL_SAFETY_GLASS.getLabel(),
+								getPremiumAndCoveragesFullSafetyGlass(coverage.getGlassDeductible()));
+					}
 				}
 
 				if (Boolean.TRUE.equals(vehicle.isNewCarAddedProtection())) {
@@ -641,7 +653,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState()) || Constants.States.DE.equals(getState())) {
+				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState()) || Constants.States.DE.equals(getState()) || Constants.States.WY.equals(getState())) {
 					vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
 				}
 			}
