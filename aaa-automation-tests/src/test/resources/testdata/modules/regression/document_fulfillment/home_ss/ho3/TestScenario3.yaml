@@ -1,0 +1,9 @@
+TestData: {
+  PurchaseTab: {
+    Change Minimum Down Payment: true,
+    Minimum Required Down Payment: 0,
+    PaymentAllocation: {
+      Cash: 0
+    }
+  }
+}

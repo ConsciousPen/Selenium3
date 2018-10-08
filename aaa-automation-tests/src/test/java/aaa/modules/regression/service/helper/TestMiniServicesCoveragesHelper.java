@@ -2870,11 +2870,35 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			PolicyCoverageInfo endorsementCoveragesVanWithoutCE = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vanWithoutCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			validateCustomEquipCov(softly, false, vanWithoutCE.oid, endorsementCoveragesVanWithoutCE);
 
+			//START PAS-19834
 			PolicyCoverageInfo endorsementCoveragesVanWithCE = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			validateCustomEquipCov(softly, true, vanWithCE.oid, endorsementCoveragesVanWithCE);
 
-			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//remove COMP coverage
+			String coverageCdChange = "COMPDED";
+			String availableLimitsChange = "-1";
+			String availableLimitsChange2 = "500";
 
+			PolicyCoverageInfo compUpdatedCoverage = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage filteredCoverageResponseComp = compUpdatedCoverage.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredCoverageResponseComp.coverageLimit).isEqualTo(availableLimitsChange);
+			softly.assertThat(filteredCoverageResponseComp.coverageLimitDisplay).isEqualTo("No Coverage");
+
+			//check if CUSTEQUIP was removed
+			validateCustomEquipCov(softly, false, vanWithCE.oid, compUpdatedCoverage);
+
+			//rate, to check if there is no error
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			//return COMPDED back
+			PolicyCoverageInfo compUpdatedCoverage2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			Coverage filteredCoverageResponseComp2 = compUpdatedCoverage2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
+			softly.assertThat(filteredCoverageResponseComp2.coverageLimit).isEqualTo(availableLimitsChange2);
+
+			validateCustomEquipCov(softly, false, vanWithCE.oid, compUpdatedCoverage2);
+
+			//rate, to check if there is no error
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
 
@@ -3233,7 +3257,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void assertAvailableCoverageLimitForPD(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(2).availableLimits;
+			List<CoverageLimit> availableLimitsPD = coverageResponse.policyCoverages.get(1).availableLimits;
 
 			softly.assertThat(availableLimitsPD.get(0).coverageLimit).isEqualTo("15000");
 			softly.assertThat(availableLimitsPD.get(0).coverageLimitDisplay).isEqualTo("$15,000");
@@ -3246,6 +3270,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			softly.assertThat(availableLimitsPD.get(3).coverageLimit).isEqualTo("100000");
 			softly.assertThat(availableLimitsPD.get(3).coverageLimitDisplay).isEqualTo("$100,000");
+
+			softly.assertThat(availableLimitsPD.get(4).coverageLimit).isEqualTo("300000");
+			softly.assertThat(availableLimitsPD.get(4).coverageLimitDisplay).isEqualTo("$300,000");
 		});
 	}
 

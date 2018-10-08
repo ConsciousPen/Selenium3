@@ -252,10 +252,21 @@ public final class PolicyConstants {
         public static final String MANUAL_CAPPING_FACTOR = "Manual Capping Factor (%)";
     }
 
+    public static final class PropertyInfoClaimHistoryTable {
+        public static final String DATE_OF_LOSS = "Date of loss";
+        public static final String CAUSE_OF_LOSS = "Cause of loss";
+        public static final String AMOUNT_OF_LOSS = "Amount of loss";
+        public static final String CLAIM_STATUS = "Claim Status";
+        public static final String CHARGEABLE = "Chargeable";
+        public static final String SOURCE = "Source";
+        public static final String MODIFY = "Modify";
+    }
+
     public static final class SignatureStatus {
-    	public static final String PHYSICALLY_SIGNED = "Physically Signed";
-    	public static final String ELECTRONICALLY_SIGNED = "Electronically Signed";
-		public static final String VOICE_SIGNED = "Voice Signed";
-		public static final String NOT_SIGNED = "Not Signed";
-	}
+        public static final String PHYSICALLY_SIGNED = "Physically Signed";
+        public static final String ELECTRONICALLY_SIGNED = "Electronically Signed";
+        public static final String VOICE_SIGNED = "Voice Signed";
+        public static final String NOT_SIGNED = "Not Signed";
+    }
+
 }

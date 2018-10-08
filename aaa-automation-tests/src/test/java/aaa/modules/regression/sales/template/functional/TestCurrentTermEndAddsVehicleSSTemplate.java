@@ -14,6 +14,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
+import aaa.main.modules.policy.auto_ss.actiontabs.RollOnChangesActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -93,27 +95,13 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-        //Conflicts page
-        Table tableDifferences = PolicySummaryPage.tableDifferences;
-        int columnsCount = tableDifferences.getColumnsCount();
-
-        Link linkTriangle = provideLinkExpandComparisonTree(Collections.singletonList(0));
-        if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
-            linkTriangle.click();
-
-            Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
-            Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
-
+        //Conflicts/differences page
+	    DifferencesActionTab differencesActionTab = new DifferencesActionTab();
             if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
-                linkSetCurrent.click();
-                policy.rollOn().submit();
+               differencesActionTab.applyDifferences(true);
             } else if (scenario.equals(MATCHED)) { //scenario 2
-                linkSetAvailable.click();
-                policy.rollOn().submit();
+	           differencesActionTab.applyDifferences(false);
             }
-        } else {
-            log.info("Conflict page not found. Please enable renewal merge");
-        }
     }
 
     private void updateControlTable(LocalDateTime expirationDate, LocalDateTime effectiveDate) {

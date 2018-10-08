@@ -81,12 +81,12 @@
         </classes>
     </test>
 
-    <!--<test name="Test AA52ID Reset Signature in Required to Bind Section">-->
-        <!--<parameter name="state" value="ID"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test AA52ID Reset Signature in Required to Bind Section">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAA52IDSignatureRequiredBehavior"/>
+        </classes>
+    </test>
 
     <test name="Test Premium Recalculation Factors">
         <parameter name="state" value="AZ, KY"/>
@@ -146,24 +146,6 @@
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestOverrideWildfireScore"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestOverrideWildfireScore"/>
-        </classes>
-    </test>
-
-    <test name="Test Replacement Cost Value for Endorsed Renewal SS">
-        <parameter name="state" value="UT"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement"/>
-        </classes>
-    </test>
-
-    <test name="Test Replacement Cost Value for Endorsed Renewal CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
         </classes>
     </test>
 
@@ -289,6 +271,25 @@
         </classes>
     </test>
 
+    <test name="Test Claims display on VRD page SS">
+        <parameter name="state" value="AZ, OK"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClaimPointsVRDPage"/>
+        </classes>
+    </test>
+
+    <test name="Test Claims display on VRD page CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage"/>
+        </classes>
+    </test>
 
             <!--Tests for PUP-->
 
