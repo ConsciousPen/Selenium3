@@ -1,21 +1,24 @@
 package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 
+import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
-public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO4BaseTest {
+public class TestPrivilegeToEditCompanionAutoTier extends RevisedHomeTierPATemplate {
 
-	private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO4;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -42,7 +45,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO4BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
 
-		template.pas6829_TestPrivelegeToEditCompanionAutoTier(getPolicyType());
+		pas6829_TestPrivelegeToEditCompanionAutoTier();
 	}
 	/**
 	 * @author Dominykas Razgunas
@@ -69,6 +72,6 @@ public class TestPrivilegeToEditCompanionAutoTier extends HomeSSHO4BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsManualAutoTier(@Optional("PA") String state) {
 
-		template.pas6829_TestPrivelegeToEditManualCompanionAutoTier(getPolicyType());
+		pas6829_TestPrivelegeToEditManualCompanionAutoTier();
 	}
 }
