@@ -37,6 +37,7 @@ import toolkit.verification.CustomSoftAssertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 
+
 @StateList(states = {Constants.States.AZ})
 public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
