@@ -71,9 +71,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "J":
 				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married");//, "regex=.*Domestic Partner", "Common Law", "Civil Union");
+				return "Married"; // also possible "regex=.*Domestic Partner", "Common Law", "Civil Union"
 			case "S":
-				return getRandom("Single");
+				return "Single";
 			case "W":
 				return "Widowed";
 			default:
