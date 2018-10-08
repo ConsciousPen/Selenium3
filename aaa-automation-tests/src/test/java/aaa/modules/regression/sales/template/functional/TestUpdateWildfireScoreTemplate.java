@@ -6,7 +6,6 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
@@ -32,7 +31,6 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
 
     private String updatedValue = "99";
 
-
     protected void pas12922_UpdateWildfireScoreNoPrivilegeNB() {
 
         // Create Test data for appropriate policy type. Mask is there because field is disabled for unprivileged user
@@ -40,7 +38,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        loginA30();
+        openAppNonPrivilegedUser("A30");
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
@@ -56,14 +54,12 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         mainApp().close();
 
         // Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
-        loginA30();
+        openAppNonPrivilegedUser("A30");
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -77,10 +73,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and initiate policy. Fill policy to Reports Tab and save wildfire score
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, ReportsTab.class, true);
+        createQuoteAndFillUpTo(testData, ReportsTab.class);
         String wildfireScoreValue = reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue();
         reportsTab.submitTab();
 
@@ -104,9 +97,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and create policy.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
 
         // Endorse Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -133,9 +124,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
 
         // Renew Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policy.renew().perform();
@@ -195,7 +184,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
                 .mask(TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        loginA30();
+        openAppNonPrivilegedUser("A30");
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class, true);
@@ -211,14 +200,12 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         mainApp().close();
 
         // Log in with unprivileged user. Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
-        loginA30();
+        openAppNonPrivilegedUser("A30");
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
@@ -232,10 +219,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and initiate policy. Fill policy to Reports Tab and save wildfire score
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(testData, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
+        createQuoteAndFillUpTo(testData, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class);
         String wildfireScoreValue = reportsTabCA.tblFirelineReport.getRow(1).getCell(HomeCaMetaData.ReportsTab.FirelineReportTblHeaders.WILDFIRE_SCORE.get()).getValue();
         reportsTabCA.submitTab();
         propertyInfoTabCA.fillTab(testData);
@@ -261,9 +245,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and create policy.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
 
         // Endorse Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
@@ -292,9 +274,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         TestData testData = getPolicyTD("DataGather", "TestData");
 
         // Open App with user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(testData);
+        openAppAndCreatePolicy(testData);
 
         // Renew Policy. Open reports tab Save Wildfire Score. Submit Tab.
         policy.renew().perform();
@@ -317,22 +297,12 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         mainApp().close();
     }
 
-
     private void checkFirelineScoreCA(){
 
         // Check that View Rating Details shows the updated Value
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
         PropertyQuoteTab.RatingDetailsView.open();
         assertThat(PropertyQuoteTab.RatingDetailsView.propertyInformation.getValueByKey("Fireline score")).contains(updatedValue);
         PropertyQuoteTab.RatingDetailsView.close();
     }
-
-    private void loginA30(){
-        TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
-        loginTD.adjust("User", "qa_roles");
-        mainApp().open(loginTD);
-    }
-
 }

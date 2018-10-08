@@ -5,9 +5,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -30,6 +28,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import net.sf.saxon.functions.IndexOf;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -41,12 +40,13 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private VehicleTab vehicleTab = new VehicleTab();
+	private AssignmentTab assignmentTab = new AssignmentTab();
 	private GeneralTab generalTab = new GeneralTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestMiniServicesGeneralHelper testMiniServicesGeneralHelper = new TestMiniServicesGeneralHelper();
 	private TestMiniServicesCoveragesHelper testMiniServicesCoveragesHelper = new TestMiniServicesCoveragesHelper();
 	private String policyNumber8Vehicles;
-	TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
@@ -880,16 +880,29 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			VehicleUpdateResponseDto vehicleUpdateResponseDto = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
 			softly.assertThat(vehicleUpdateResponseDto.availableActions).as("Newly added and then removed vehicles should not have revert option").isEmpty();
+
+			//Start PAS-18670 - Cancel the Replaced Vehicle - check that revert option is available for Replaced vehicle when there is max count of vehicles
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			replaceVehicleWithUpdates(policyNumber, removedVehicleOid, "2GTEC19V531282646", true, true);
+			softly.assertThat(getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), removedVehicleOid).availableActions)
+					.as("Replaced vehicle should have 'revert' option even when there is max count of vehicles, because it doesn't change count of vehicles.")
+					.contains("revert");
+			HelperCommon.revertVehicle(policyNumber, removedVehicleOid, Vehicle.class, Response.Status.OK.getStatusCode()); //Check that Revert is successful and error is not displayed
 		});
 	}
 
-	protected void pas18670_CancelRemoveVehicleBody(boolean testWithUpdates) {
+	protected void pas18670_CancelRemoveVehicleBody(boolean testWithUpdates, boolean multipleDrivers, boolean cancelReplace) {
 		TestData tdError = DataProviderFactory.dataOf(aaa.main.modules.policy.pup.defaulttabs.ErrorTab.KEY_ERRORS, "All");
 		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab"))
 				.adjust(new PremiumAndCoveragesTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestData("PremiumAndCoveragesTab"))
 				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError)
 				.resolveLinks();
+
+		if (multipleDrivers) {
+			testData.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Drivers").getTestDataList("DriverTab")).resolveLinks();
+			testData.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTab")).resolveLinks();
+		}
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -900,9 +913,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//get vehicle OID to remove
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			SearchPage.openPolicy(policyNumber);
-
-			Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data
-
+			Vehicle vehicleToRemove = getVehicleByVin(HelperCommon.viewEndorsementVehicles(policyNumber), "JTDKDTB38J1600184"); //the same VIN as in Test Data JTDKDTB38J1600184
 			if (testWithUpdates) {
 				//update vehicle info
 				String address1 = "2011 CORAL AVE";
@@ -910,7 +921,6 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				String zip = "23324";
 				VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
 				updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
-				updateVehicleRequest.vehicleOwnership.ownership = "OWN";
 				updateVehicleRequest.usage = "Pleasure";
 				updateVehicleRequest.salvaged = false;
 				updateVehicleRequest.garagingDifferent = true;
@@ -924,6 +934,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 				HelperCommon.updateVehicle(policyNumber, vehicleToRemove.oid, updateVehicleRequest);
 				vehicleToRemove = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
+
+				//update some coverage
+				UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("COMPDED", "500");
+				HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleToRemove.oid, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			}
 
 			//Get expected Vehicle info after revert
@@ -935,36 +949,94 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			VehicleTab.tableVehicleList.selectRow(1);
 			Map<String, String> expectedVehicleInfoInUI = testMiniServicesDriversHelper.getAssetValuesFromTab(AutoSSMetaData.VehicleTab.class, vehicleTab);
 			expectedVehicleInfoInUI.remove("List of Vehicle"); //not validating this, because order can change after revert
-			vehicleTab.saveAndExit();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			premiumAndCoveragesTab.saveAndExit();
 
-			//remove vehicle
-			HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid);
+			//remove/replace vehicle
+			String newVehicleVin = "2GTEC19V531282646"; //Sierra1500 2003, VIN for replace
+			if (cancelReplace) {
+				replaceVehicleWithUpdates(policyNumber, vehicleToRemove.oid, newVehicleVin, new Random().nextBoolean(), new Random().nextBoolean()); //setting keepAssignments and keepCoverages randomly
+			} else {
+				HelperCommon.deleteVehicle(policyNumber, vehicleToRemove.oid);
+			}
 
-			//revert delete
+			//revert deleted/replaced vehicle
 			Vehicle revertVehicleResponse = HelperCommon.revertVehicle(policyNumber, vehicleToRemove.oid, Vehicle.class, Response.Status.OK.getStatusCode());
 			//validate revert driver response after revert
 			softly.assertThat(revertVehicleResponse).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
 
 			//validate viewEndorsementVehicles response
-			Vehicle revertedVehicle = getVehicleByOid(HelperCommon.viewEndorsementVehicles(policyNumber), vehicleToRemove.oid);
+			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+			Vehicle revertedVehicle = getVehicleByOid(viewVehicleResponse, vehicleToRemove.oid);
 			softly.assertThat(revertedVehicle).isEqualToComparingFieldByFieldRecursively(vehicleToRemove);
+			if (cancelReplace) {
+				softly.assertThat(viewVehicleResponse.vehicleList.stream().anyMatch(vehicle -> vehicle.vehIdentificationNo.equals(newVehicleVin)))
+						.as("Added vehicle should be removed after revert Replace.").isFalse();
+				softly.assertThat(viewVehicleResponse.vehicleList.size()).isEqualTo(2);
+			}
 
-			//Validate that Vehicle level coverages of removed vehicle are the same after revert (not directly in scope of the US)
+			//Validate that Vehicle level coverages of removed vehicle are the same after revert
 			PolicyCoverageInfo policyCoverageInfoAfterRevert = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			String vehicleToRemoveOid = vehicleToRemove.oid;
 			softly.assertThat(policyCoverageInfoAfterRevert.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().orElse(null)).
 					isEqualToComparingFieldByFieldRecursively(policyCoverageInfoExpected.vehicleLevelCoverages.stream().filter(p -> vehicleToRemoveOid.equals(p.oid)).findFirst().
 							orElseThrow(() -> new IllegalArgumentException("VehicleCoverageInfo was not found for vheicle OID: " + vehicleToRemoveOid)));
 
-			//check in UI
+			//Get assignments and validate that reverted vehicle doesn't have Assignment if there are multiple drivers and have assignment if there is only one driver
+			ViewDriverAssignmentResponse viewDriverAssignmentResponse = HelperCommon.viewEndorsementAssignments(policyNumber);
+			if (multipleDrivers) {
+				softly.assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
+				softly.assertThat(viewDriverAssignmentResponse.unassignedVehicles).containsExactly(revertedVehicle.oid);
+			} else {
+				softly.assertThat(viewDriverAssignmentResponse.assignableVehicles).contains(revertedVehicle.oid);
+				softly.assertThat(viewDriverAssignmentResponse.unassignedVehicles).isEmpty();
+			}
+
+			//check Reverted Vehicle and assignment in UI
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 			VehicleTab.tableVehicleList.selectRow(2); //Vehicle will be 2nd after revert
 			testMiniServicesDriversHelper.validateValuesFromTab(expectedVehicleInfoInUI, AutoSSMetaData.VehicleTab.class, vehicleTab, softly);
-			vehicleTab.saveAndExit();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+			String excessVehicle = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getValue().get(0).getValue("Excess Vehicle(s)");
+			softly.assertThat(excessVehicle).isEqualTo(vehicleToRemove.modelYear + ", " + vehicleToRemove.manufacturer + ", " + vehicleToRemove.model);
+			if (multipleDrivers) {
+				//check that reverted vehicle is not assigned in UI
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
+						.getCell("Select Driver").controls.comboBoxes.getFirst().getValue()).isEmpty();
+			} else {
+				//check that reverted vehicle is assigned in UI
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable().getRow(1)
+						.getCell("Select Vehicle").controls.comboBoxes.getFirst().getValue()).isNotEmpty();
+				softly.assertThat(assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.EXCESS_VEHICLES_TABLE).getTable().getRow(1)
+						.getCell("Select Driver").controls.comboBoxes.getFirst().getValue()).isNotEmpty();
+			}
+			assignmentTab.saveAndExit();
 
-			//rate and bind
+			//fill all mandatory details, rate and bind
+			if (multipleDrivers) {
+				HelperCommon.updateDriverAssignment(policyNumber, revertedVehicle.oid, Arrays.asList(testMiniServicesDriversHelper.getDriverByLicenseNumber(HelperCommon.viewEndorsementDrivers(policyNumber), "400064773").oid));
+			}
+
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.quoteInquiry().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+			//check coverages in UI
+			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
+			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			//order of Vehicles is changed after revert, hence reordering list
+			Collections.reverse(vehicleCoverageDetailsUIExpected);
+			if (testWithUpdates) {
+				Collections.swap(vehicleCoverageDetailsUIExpected, 1, 2);
+			}
+			softly.assertThat(vehicleCoverageDetailsUIActual).isEqualTo(vehicleCoverageDetailsUIExpected);
+			premiumAndCoveragesTab.cancel();
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			//extra steps to validate that premium has changed if there was updates to Vehicle or has not changed if there was no updates to Vehicle
 			PolicySummaryPage.buttonTransactionHistory.click();
@@ -2821,6 +2893,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	private String replaceVehicleWithUpdates(String policyNumber, String vehicleToReplaceOid, String replacedVehicleVin, boolean keepAssignments, boolean keepCoverages) {
 		printToLog("policyNumber: " + policyNumber + ", vehicleToReplaceOid: " + vehicleToReplaceOid + ", replacedVehicleVin: " + replacedVehicleVin);
+		printToLog("keepAssignments: "+ keepAssignments + ", keepCoverages: "+ keepCoverages);
 		ReplaceVehicleRequest replaceVehicleRequest = DXPRequestFactory.createReplaceVehicleRequest(replacedVehicleVin, "2013-03-31", keepAssignments, keepCoverages);
 		VehicleUpdateResponseDto replaceVehicleResponse = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid, replaceVehicleRequest);
 		String replaceVehicleOid = replaceVehicleResponse.oid;
