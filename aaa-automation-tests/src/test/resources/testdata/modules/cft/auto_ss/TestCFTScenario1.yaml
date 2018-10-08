@@ -21,6 +21,8 @@ DriverTab: {
 
 PremiumAndCoveragesTab : {
   Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+  Property Damage Liability: 'contains=$1,000,000',
+  Medical Payments: 'contains=$25,000'
   #  Calculate Premium: 'click',
   #  Override Premium: {
   #    Bodily Injury Liability By Percentage: '100',
@@ -37,4 +39,21 @@ PurchaseTab_DataGather: {
   PaymentAllocation: {
     Cash: /rest
   }
+}
+
+TestData_KY: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  DriverTab: '@DriverTab',
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab_KY',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+PremiumAndCoveragesTab_KY : {
+  Bodily Injury Liability: 'contains=$1,000,000/$1,000,000',
+  Additional Personal Injury Protection Coverage: 'contains=$10,000'
 }

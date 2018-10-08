@@ -270,7 +270,7 @@ public final class DocGenEnum {
 		HSRMXX(""),
 		HSRNXX("HSRNXX", "Renewal Offer: Important Renewal Information"),
 		HSRNKY("HSRNKY", "Important Information Regarding Your Upcoming Renewal"),
-		HSSNRKY("HSSNRKY", "Conversion Specific Special Non-renewal letter"),
+		HSSNRKYXX("HSSNRKYXX", "Conversion Specific Special Non-renewal letter"),
 		HSTP("Third Party Designation by Senior Citizen"),
 		HSU01CA("HSU01CA", "HSU01", "Advisory Letter"),
 		HSU01XX("HSU01XX", "HSU01", "Advisory Letter"),

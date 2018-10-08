@@ -159,10 +159,12 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
+		LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
 		setDoNotRenewFlag(policyNumber);
 
 		// Create renewal and switch to EUIM coverage
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
@@ -313,6 +315,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
 		//3. Create renewal image
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -322,6 +325,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//4. Switch UIM to EUIM coverage and Bind
 		switchToEUIMCoverageAndBind();
 
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 

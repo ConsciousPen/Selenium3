@@ -32,7 +32,7 @@ public class TimeSetterUtil {
 
 	private TimeSetterUtil() {
 
-		if (TimeShiftTestUtil.isContextAvailable()) {
+		if (TimeShiftTestUtil.isPEFAvailable()) {
 			isPEF = true;
 		}
 	}

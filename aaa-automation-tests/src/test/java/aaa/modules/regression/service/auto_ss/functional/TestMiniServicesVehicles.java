@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.util.Random;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -331,12 +332,116 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. Run viewEndorsementVehicles and validate that there is 'revert' option for removed vehicle
 	 * 4. Add vehicle
 	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
+	 *    PAS-18670
+	 * 6. Try to revert removed vehicle when there already is max count of vehicles ----> I receive error
+	 *    PAS-18670
+	 * 7. Try to revert Replaced vehicle when there already is max count of vehicles ----> Revert option is available and I do not receive error
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18670", "PAS-18670"})
 	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
 		pas18672_vehiclesRevertOptionForDeleteBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is not updated before removal
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 vehicle through service
+	 *4. Run Cancel Remove Vehicle Transaction Service for 'pendingRemoval' vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18670"})
+	public void pas18670_CancelRemoveVehicleWithoutChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(false, false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before removal
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 vehicle through service
+	 *4. Run Cancel Remove Vehicle Transaction Service for 'pendingRemoval' vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was after update and before removal
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18670"})
+	public void pas18670_CancelRemoveVehicleWithChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(true, true, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is not updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Do not update Vehicle and Vehicle Coverages, Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignment is not defaulted (if multiple drivers)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicleWithoutChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(false, true, true);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles and drivers
+	 *2. Create endorsement through service
+	 *3. Update Vehicle and Vehicle Coverages, Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was after update and before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignement is not defaulted (if multiple drivers)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicleWithChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(true, true, true);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles and 1 driver
+	 *2. Create endorsement through service
+	 *3. Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignement is defaulted (if 1 driver)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicle_oneDriver(@Optional("VA") String state) {
+		boolean testWithUpdates = new Random().nextBoolean();
+		printToLog("testWithUpdates: " + testWithUpdates);
+		pas18670_CancelRemoveVehicleBody(testWithUpdates, false, true);
 	}
 
 	/**
@@ -414,10 +519,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement outside of PAS.
 	 * 9. Hit "Transaction History Service". Check if response is empty.
-	 * 10. Add new vehicle.
-	 * 11. Replace that new Vehicle.
-	 * 12. Hit "Transaction History Service". Check if only one vehicle exist in response.
-	 * 13. Rate and Bind.
+	 * 10. Replace Vehicle which was already replaced.
+	 * 11. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 12. Rate and Bind.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

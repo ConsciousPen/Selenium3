@@ -1,14 +1,17 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestMembershipTemplate;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Override
     protected PolicyType getPolicyType() {return PolicyType.HOME_CA_HO4;}

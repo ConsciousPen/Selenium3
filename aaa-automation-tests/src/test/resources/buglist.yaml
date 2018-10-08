@@ -167,7 +167,7 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PAS-19656:
+PT-2620:
   summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
   reason: PROD
   failures:
@@ -329,12 +329,6 @@ PAS-17689:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["ComboBox {Fire department type:"]
-PAS-5260:
-  summary: "Premium-reducing endorsement getting error message on bind for KY"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
-      messages: ['Cannot transfer payment', 'is not present as expected']
 PAS-18111:
   summary: "Cannot save endorsement Form"
   reason: PROD
