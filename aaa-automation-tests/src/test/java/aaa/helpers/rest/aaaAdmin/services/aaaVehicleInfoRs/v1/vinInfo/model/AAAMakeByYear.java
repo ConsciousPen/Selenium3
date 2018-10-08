@@ -1,4 +1,4 @@
-package aaa.helpers.rest.dtoAdmin.responses;
+package aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.model;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -12,7 +12,7 @@ public class AAAMakeByYear {
 
 	private List<String> makes;
 
-	public List<String> getListMake() {
+	public List<String> getMakes() {
 		return makes;
 	}
 

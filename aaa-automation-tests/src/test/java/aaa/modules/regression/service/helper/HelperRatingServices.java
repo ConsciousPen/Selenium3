@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import javax.ws.rs.core.Response;
+import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.dtoRating.DiscountPercentageRuntimeContext;
 import aaa.helpers.rest.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.db.DBService;
@@ -22,7 +23,7 @@ public class HelperRatingServices {
 		request.coverageCd = coverageCd;
 		request.policyType = lob;
 		String requestUrl = DBService.get().getValue(RATING_URL_TEMPLATE).get() + RATING_SERVICE_TYPE;
-		String discountPercentageValue = HelperCommon.sendPostRequest(requestUrl, request, String.class, Response.Status.OK.getStatusCode());
+		String discountPercentageValue = JsonClient.sendPostRequest(requestUrl, request, String.class, Response.Status.OK.getStatusCode());
 		assertThat(discountPercentageValue).isEqualTo(expectedValue);
 	}
 }

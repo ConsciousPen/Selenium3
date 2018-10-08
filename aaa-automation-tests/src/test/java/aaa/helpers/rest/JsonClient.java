@@ -85,102 +85,101 @@ public class JsonClient {
 		}
 	}
 
-//	/**
-//	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
-//	 */
-//	@Deprecated
-//	public static <T> T runJsonRequestPutDxp(String url, RestBodyRequest request, Class<T> responseType, int status) {
-//		Client client = null;
-//		Response response = null;
-//		log.info("Request: " + asJson(request));
-//		try {
-//			client = ClientBuilder.newClient().property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true).register(JacksonJsonProvider.class);
-//
-//			String token = getBearerToken();
-//
-//			response = client.target(url)
-//					.request()
-//					.header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-//					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-//					.method("PUT", Entity.json(request));
-//			T responseObj = readBufferedEntity(response, responseType);
-//			log.info(response.toString());
-//			if (response.getStatus() != status) {
-//				//handle error
-//				throw new IstfException("PATCH json response failed");
-//			}
-//			return responseObj;
-//		} finally {
-//			if (response != null) {
-//				response.close();
-//			}
-//			if (client != null) {
-//				client.close();
-//			}
-//		}
-//	}
-
-	public static <T> T runJsonRequestGetAdmin(String url, Class<T> returnClazz) {
-		Client client = null;
-		Response response = null;
-		try {
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(url);
-
-			response = target
-					.request()
-					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
-					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-					.get();
-			T result = response.readEntity(returnClazz);
-			log.info(response.toString());
-			if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-				//handle error
-				throw new IstfException("GET json request failed");
-			}
-			return result;
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
+	public static <T> T sendPostRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		RestRequestInfo<T> request = buildRequest(url, bodyRequest, responseType, status);
+		return sendJsonRequest(request, RestRequestMethodTypes.POST);
 	}
-//
-//	/**
-//	 *  Migrate to {@link #sendJsonRequest(RestRequestInfo, RestRequestMethodTypes)}
-//	 */
-//	@Deprecated
-//	public static <T> T runJsonRequestPostAdmin(String url, RestBodyRequest request, Class<T> responseType, int status) {
-//		Client client = null;
-//		Response response = null;
-//		try {
-//			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-//			WebTarget target = client.target(url);
-//
-//			response = target
-//					.request()
-//					.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()))
-//					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
-//					.method("POST", Entity.json(request));
-//			T responseObj = readBufferedEntity(response, responseType);
-//			log.info(response.toString());
-//			if (response.getStatus() != status) {
-//				//handle error
-//				throw new IstfException("POST?PATCH? json response failed");
-//			}
-//			return responseObj;
-//		} finally {
-//			if (response != null) {
-//				response.close();
-//			}
-//			if (client != null) {
-//				client.close();
-//			}
-//		}
-//	}
+
+	public static <T> T sendPatchRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
+	}
+
+	public static <T> T sendGetRequest(String url, Class<T> responseType) {
+		return sendGetRequest(url, responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T sendGetRequest(String url, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, responseType, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
+	}
+
+	public static <T> T sendDeleteRequest(String url, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, responseType, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
+	}
+
+	public static <T> T sendDeleteRequest(String url, Class<T> responseType, RestBodyRequest request, int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, request, responseType, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
+	}
+
+
+	/**
+	 *  public String url;
+	 * 	public String sessionId;
+	 * 	public Object bodyRequest;
+	 * 	public Class<T> responseType;
+	 * 	public int status = Response.Status.OK.getStatusCode();
+	 *
+	 * @param url
+	 * @param bodyRequest
+	 * @param responseType
+	 * @param status
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> RestRequestInfo<T> buildRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.bodyRequest = bodyRequest;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return restRequestInfo;
+	}
+
+	/**
+	 *
+	 *  public String url;
+	 * 	public Object bodyRequest;
+	 * 	public Class<T> responseType;
+	 * 	public int status = Response.Status.OK.getStatusCode();
+	 *
+	 * @param url
+	 * @param responseType
+	 * @param status
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return restRequestInfo;
+	}
+
+	/**
+	 *
+	 *  public String url;
+	 * 	public Object bodyRequest;
+	 * 	public Class<T> responseType;
+	 * 	public int status = Response.Status.OK.getStatusCode();
+	 *
+	 * @param url
+	 * @param responseType
+	 * @param status
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, String sessionId, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = url;
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		restRequestInfo.sessionId = sessionId;
+		return restRequestInfo;
+	}
 
 	/**
 	 * Buffers method body and try to read response of expected type. If {@link ProcessingException} is thrown method
@@ -218,6 +217,8 @@ public class JsonClient {
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}
+		} else{
+			builder = builder.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()));
 		}
 		return builder.header(APPLICATION_CONTEXT_HEADER, createApplicationContext(sessionId));
 	}
@@ -258,4 +259,5 @@ public class JsonClient {
 			}
 		}
 	}
+
 }
