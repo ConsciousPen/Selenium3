@@ -16,7 +16,7 @@ import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	private static final String defaultJSONPath = "src/test/resources/claimsmatch/";
-	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://claims-assignment-pas-14058.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
 	* * @author Chris Johns

@@ -37,6 +37,10 @@ public class Claim {
 
     private String driverOid;
 
+    private Boolean isCompClaim;
+
+    private String cause;
+
     private List<Payment> payments;
 
     public String getClaimNumber() {
@@ -167,6 +171,23 @@ public class Claim {
         this.payments = payments;
     }
 
+
+    public Boolean getIsCompClaim() {
+        return isCompClaim;
+    }
+
+    public void setIsCompClaim(Boolean isCompClaim) {
+        this.isCompClaim = isCompClaim;
+    }
+
+     public String getCause() {
+        return cause;
+    }
+
+    public void setCause(String cause) {
+        this.cause = cause;
+    }
+
     @Override
     public String toString() {
         return "Claim{" +
@@ -186,6 +207,8 @@ public class Claim {
                 ", lossSummary='" + lossSummary + '\'' +
                 ", driverOid='" + driverOid + '\'' +
                 ", payments=" + payments +
+                ", isCompClaim=" + isCompClaim +
+                ", cause=" + cause +
                 '}';
     }
 }
