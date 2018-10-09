@@ -14,7 +14,7 @@ public class DriverInformation {
 
     private String relationToNamedInsured;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
 	private  String  claimDriverName;
 
     public String getFirstName() {
@@ -57,11 +57,11 @@ public class DriverInformation {
         this.relationToNamedInsured = relationToNamedInsured;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

@@ -12,11 +12,11 @@ public class Claim {
 
     private String type;
 
-    private Date dateOpened;
+    private String dateOpened;
 
-    private Date dateClosed;
+    private String dateClosed;
 
-    private Date dateOfLoss;
+    private String dateOfLoss;
 
     private String status;
 
@@ -67,27 +67,27 @@ public class Claim {
         this.type = type;
     }
 
-    public Date getDateOpened() {
+    public String getDateOpened() {
         return dateOpened;
     }
 
-    public void setDateOpened(Date dateOpened) {
+    public void setDateOpened(String dateOpened) {
         this.dateOpened = dateOpened;
     }
 
-    public Date getDateClosed() {
+    public String getDateClosed() {
         return dateClosed;
     }
 
-    public void setDateClosed(Date dateClosed) {
+    public void setDateClosed(String dateClosed) {
         this.dateClosed = dateClosed;
     }
 
-    public Date getDateOfLoss() {
+    public String getDateOfLoss() {
         return dateOfLoss;
     }
 
-    public void setDateOfLoss(Date dateOfLoss) {
+    public void setDateOfLoss(String dateOfLoss) {
         this.dateOfLoss = dateOfLoss;
     }
 

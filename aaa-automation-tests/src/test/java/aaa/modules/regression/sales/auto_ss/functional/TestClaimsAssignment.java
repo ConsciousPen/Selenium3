@@ -57,6 +57,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 
 		//Verify the First claim is in the unmatched section
 		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
+		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getMatchCode()).isEqualTo("UNMATCHED");
 
 		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
 		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
