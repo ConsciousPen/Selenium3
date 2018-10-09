@@ -1422,19 +1422,15 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-
 		DriversDto driverNotFNI = testMiniServicesDriversHelper.getAnyNotNIActiveDriver(policyNumber);
 		DriversDto driverFNI = testMiniServicesDriversHelper.getFNIDriver(policyNumber);
-
 		//Validate that Trailer, Motor Home, Golf Cart are not assigned to FNI before removal of driver (precondition)
 		validateVehicleTab_pas15505(driverFNI, false);
 
 		removeDriverRequest.removalReasonCode = "RD1001";
 		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, removeDriverRequest);
-
 		SearchPage.openPolicy(policyNumber);
 		validateVehicleTab_pas15505(driverFNI, true);
-
 		vehicleTab.cancel();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}

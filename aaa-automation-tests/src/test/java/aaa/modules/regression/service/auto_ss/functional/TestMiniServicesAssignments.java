@@ -225,5 +225,6 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15505"})
 	public void pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCart(@Optional("NJ") String state) {
 		pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCartBody(getPolicyType());
+		//NOTE: This test works for all Auto SS states
 	}
 }
