@@ -431,6 +431,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas15255_UpdateCompCollCoveragesCheckUmpd">
+        <parameter name="state" value="CO, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15255_UpdateCompCollCoveragesCheckUmpd"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas14730_UpdateCoverageUMPDAndPD">
         <parameter name="state" value="MD"/>
         <classes>
