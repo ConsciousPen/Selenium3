@@ -1,9 +1,14 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,6 +21,9 @@ import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	private static final String defaultJSONPath = "src/test/resources/claimsmatch/";
+
+	@SuppressWarnings("SpellCheckingInspection")
+	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/claimsmatch/claim_micro_service_requests";
 
 	/**
 	* * @author Chris Johns
@@ -37,6 +45,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	@StateList(states = {Constants.States.AZ})
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
