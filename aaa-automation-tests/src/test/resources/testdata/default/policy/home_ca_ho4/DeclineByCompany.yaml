@@ -1,0 +1,13 @@
+TestData: {
+  DeclineActionTab: {
+    Decline Date: $<today>,
+    Decline Reason: 'Price too high'
+  }
+}
+
+TestData_Plus1Year: {
+  DeclineActionTab: {
+    Decline Date: $<today+1y>,
+    Decline Reason: index=1
+  }
+}

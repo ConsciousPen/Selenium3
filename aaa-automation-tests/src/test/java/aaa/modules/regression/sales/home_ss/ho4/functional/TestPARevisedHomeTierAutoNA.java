@@ -3,18 +3,21 @@ package aaa.modules.regression.sales.home_ss.ho4.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import aaa.modules.policy.HomeSSHO4BaseTest;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
-public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
+public class TestPARevisedHomeTierAutoNA extends RevisedHomeTierPATemplate {
 
-    private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.HOME_SS_HO4;
+    }
 
     /**
      * @author Josh Carpenter
@@ -35,7 +38,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("PA") String state) {
 
-        template.pas6849_TestDisplayAutoTierOnApplicantTab(getPolicyType());
+        pas6849_TestDisplayAutoTierOnApplicantTab();
 
     }
 
@@ -58,7 +61,7 @@ public class TestPARevisedHomeTierAutoNA extends HomeSSHO4BaseTest {
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 
-        template.pas6849_TestAutoNAValueWithNonPACompanionAuto(getPolicyType());
+        pas6849_TestAutoNAValueWithNonPACompanionAuto();
 
     }
 }
