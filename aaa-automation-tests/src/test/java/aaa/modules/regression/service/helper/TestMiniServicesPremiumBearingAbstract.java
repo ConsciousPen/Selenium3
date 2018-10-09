@@ -1056,7 +1056,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas9716_policySummaryForActiveRenewalBody(String state) {
 		assertSoftly(softly -> {
 			mainApp().open();
-			String policyNumber = getCopiedPolicy();
+			createCustomerIndividual();
+			String policyNumber = createPolicy();
 			if ("VA".equals(state)) {
 				endorsePolicyAddEvalue();
 			}

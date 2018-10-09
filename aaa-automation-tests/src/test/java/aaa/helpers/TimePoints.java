@@ -200,6 +200,10 @@ public class TimePoints {
 		return getEarnedPremiumBillThird(date, this.policyType, this.state);
 	}
 
+	public LocalDateTime getEarnedPremiumBillThirdManualCancellation(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
+	}
+
 	public LocalDateTime getEarnedPremiumBillThird(LocalDateTime date, PolicyType policyType, String state) {
 		return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_BILL_THIRD, true);
 	}
@@ -208,10 +212,14 @@ public class TimePoints {
 		return getEarnedPremiumWriteOff(date, this.policyType, this.state);
 	}
 
+	public LocalDateTime getEarnedPremiumWriteOffManualCancellation(LocalDateTime date) {
+		return getTimepoint(date, TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
+	}
+
 	public LocalDateTime getEarnedPremiumWriteOff(LocalDateTime date, PolicyType policyType, String state) {
 		// updated according to https://csaaig.atlassian.net/browse/PAS-10214
 		//return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true); 
-		if (PolicyType.AUTO_SS.equals(policyType) || PolicyType.AUTO_CA_SELECT.equals(policyType) || (PolicyType.PUP.equals(policyType) && Constants.States.CA.equals(state))) {
+		if (PolicyType.AUTO_SS.equals(policyType) || PolicyType.AUTO_CA_SELECT.equals(policyType) || PolicyType.PUP.equals(policyType) && Constants.States.CA.equals(state)) {
 			return getTimepoint(getCancellationTransactionDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);
 		} else {
 			return getTimepoint(getCancellationDate(date, policyType, state), TimepointsList.EARNED_PREMIUM_WRITE_OFF, true);

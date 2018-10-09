@@ -336,7 +336,7 @@ public class DocGenHelper {
 				document = null;
 			}
 			if (document != null) {
-				return document;
+				break;
 			}
 			try {
 				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
@@ -348,7 +348,9 @@ public class DocGenHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 
 		if (assertExists) {
-			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotNull();
+			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" not found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotNull();
+		} else {
+			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" found. Document should not exist", docId.getId())).isNull();
 		}
 		log.info(MessageFormat.format((document == null ? "Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return document;

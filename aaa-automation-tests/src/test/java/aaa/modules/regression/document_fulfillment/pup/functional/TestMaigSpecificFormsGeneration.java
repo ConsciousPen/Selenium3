@@ -44,10 +44,27 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-9816"})
-	public void pas9816_BillingPacketGeneration(@Optional("DE") String state) throws NoSuchFieldException {
+	public void pas9816_BillingPacketGeneration_autopay(@Optional("DE") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		TestData policyCreationTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData").resolveLinks();
-		verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","Payment Plan"),"Monthly (Renewal)"));
+		verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","Payment Plan"),"Monthly (Renewal)"), true);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * PAS-9816
+	 * PAS-9650
+	 * PAS-9607
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-9816"})
+	public void pas9816_BillingPacketGeneration_nonAutopay(@Optional("DE") String state) throws NoSuchFieldException {
+		// CW, DE, VA
+		TestData policyCreationTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData").resolveLinks();
+		verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","Payment Plan"),"Monthly (Renewal)"), false);
 	}
 
 }

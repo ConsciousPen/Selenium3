@@ -23,7 +23,7 @@ public class DriversDto implements RestBodyRequest {
 	private static final String DRIVER_NAME_INSURED = "NI";
 	private static final String DRIVER_STATUS_PENDING_REMOVAL = "pendingRemoval";
 	private static final String DRIVER_STATUS_PENDING_ADD = "pendingAdd";
-	private static final String	DRIVER_STATUS_ACTIVE = "active";
+	private static final String DRIVER_STATUS_ACTIVE = "active";
 	private static final String DRIVER_STATUS_DRIVER_TYPE_CHANGED = "driverTypeChanged";
 
 	@JsonProperty("firstName")
@@ -107,6 +107,14 @@ public class DriversDto implements RestBodyRequest {
 	@ApiModelProperty(value = "Total Disability Coverage?", example = "true")
 	public Boolean totalDisabilityInd;
 
+	@ApiModelProperty(value = "ADB Coverage?", example = "true")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public Boolean adbCoverageInd;
+
+	@ApiModelProperty(value = "List of driver related validation errors", readOnly = true)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+	public List<ValidationError> validations;
 
 	public static final Comparator<DriversDto> DRIVERS_COMPARATOR = (driver1, driver2) -> ComparisonChain.start()
 			.compareTrueFirst(DRIVER_STATUS_PENDING_REMOVAL.equals(driver1.driverStatus), DRIVER_STATUS_PENDING_REMOVAL.equals(driver2.driverStatus))

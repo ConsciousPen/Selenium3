@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -115,9 +116,11 @@ public class TestLexisNexisMVROrdering extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(td);
+		LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
 
 		// Create renewal image at R-63 with renewal jobs
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(PolicySummaryPage.getExpirationDate()));
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(expDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 

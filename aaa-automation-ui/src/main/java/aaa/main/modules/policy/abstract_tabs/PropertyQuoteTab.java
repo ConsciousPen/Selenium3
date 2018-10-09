@@ -5,6 +5,8 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import java.text.DecimalFormat;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -12,11 +14,13 @@ import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -145,6 +149,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	}
 
 	public static class RatingDetailsView {
+		public static Table claims = new Table(By.xpath("//*[@id='horatingDetailsPopupForm_3']/table"));
 		public static RatingDetailsTable propertyInformation = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_1:ratingDetailsTable']");
 		public static RatingDetailsTable discounts = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_6:ratingDetailsTable']");
 		public static RatingDetailsTable values = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_5:ratingDetailsTable']");
@@ -159,6 +164,34 @@ public abstract class PropertyQuoteTab extends Tab {
 			btn_Ok.click();
 		}
 
+		/**
+		 * @return TestData object containing all claims information in VRD page
+		 */
+		public static TestData getClaims() {
+			Map<String, Object> claimsInfo = new LinkedHashMap<>();
+			Map<String, Object> priorClaimsInfo = getClaimInfoByType(claims.getRowContains(1, "Prior claims"), claims.getRowContains(1, "Prior claims points"));
+			Map<String, Object> aaaClaimsInfo = getClaimInfoByType(claims.getRowContains(1, "AAA claims"), claims.getRowContains(1, "AAA claims points"));
+			claimsInfo.put("Prior claims", priorClaimsInfo);
+			claimsInfo.put("AAA claims", aaaClaimsInfo);
+			return new SimpleDataProvider(claimsInfo);
+		}
+
+		private static Map<String, Object> getClaimInfoByType(Row claimDateRow, Row claimPtsRow) {
+			Map<String, Object> claimsInfo = new LinkedHashMap<>();
+			int c = 1;
+			for (int i = 2; i <= claimDateRow.getCellsCount(); i++) {
+				Map<String, String> thisClaim = new LinkedHashMap<>();
+				String thisDate = claimDateRow.getCell(i).getValue();
+				String thisPts = claimPtsRow.getCell(i).getValue();
+				if (!thisDate.isEmpty()) {
+					thisClaim.put("Date", thisDate);
+					thisClaim.put("Points", thisPts);
+					claimsInfo.put("Claim " + c, thisClaim);
+					c++;
+				}
+			}
+			return claimsInfo;
+		}
 	}
 
 	public static class RatingDetailsViewPUP {

@@ -1,14 +1,17 @@
 package aaa.modules.regression.sales.home_ca.ho4.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestMembershipTemplate;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Override
     protected PolicyType getPolicyType() {return PolicyType.HOME_CA_HO4;}
@@ -27,7 +30,41 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-17784")
     public void pas17784_AC1_CA_HO4_Pending_Option(@Optional("") String state) {
-        setKeyPathsandGenerateQuote();
-        pendingMembershipValidations_all_ACs();
+        setKeyPathsAndGenerateQuote();
+        pendingMembershipValidations_AC1_3();
+    }
+
+    /**
+     * @author Robert Boles
+     * @name Test Align Current AAA Member for CA products (Auto and Property) with SS - PAS-17784
+     * @scenario
+     * 1. Create Customer.
+     * 2. Create CA HO4 Policy and add endorsement
+     * 3. Navigate to tab and validate Membership Pending is not an available option for Current AAA Member
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-17784")
+    public void pas17784_AC4_AC5_CA_Pending_Removed_Endorsement_HO4(@Optional("") String state) {
+        addEndorsementAndCheckForMSPending();
+    }
+
+    /**
+     * @author Robert Boles
+     * @name Test Align Current AAA Member for CA products (Auto and Property) with SS - PAS-17784
+     * @scenario
+     * 1. Create Customer.
+     * 2. Create CA HO4 Policy and bind
+     * 3. Move to renewal TP1 - Run policyAutomatedRenewalAsyncTaskGenerationJob
+     * 4. Select renewal image and validate Membership Pending is not an available option for Current AAA Member
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-17784")
+    public void pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO4(@Optional("") String state) {
+        openAppAndCreatePolicy();
+        generateRenewalImageAndCheckForMSPending();
     }
 }

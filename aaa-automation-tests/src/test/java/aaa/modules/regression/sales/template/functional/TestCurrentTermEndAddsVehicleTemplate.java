@@ -1,5 +1,14 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.common.Tab.buttonCancel;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -8,24 +17,15 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ca.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.common.Tab.buttonCancel;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 
 public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods {
 
@@ -106,26 +106,12 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-        //Conflict page
-        Table tableDifferences = PolicySummaryPage.tableDifferences;
-        int columnsCount = tableDifferences.getColumnsCount();
-
-        Link linkTriangle = provideLinkExpandComparisonTree(0);
-        if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
-            linkTriangle.click();
-
-            Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
-            Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
-
-            if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
-                linkSetCurrent.click();
-                policy.rollOn().submit();
-            } else if (scenario.equals(MATCHED)) { //scenario 2
-                linkSetAvailable.click();
-                policy.rollOn().submit();
-            }
-        } else {
-            log.info("Conflict page not found. Please enable renewal merge");
+        //Conflicts/differences page
+        DifferencesActionTab differencesActionTab = new DifferencesActionTab();
+        if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
+            differencesActionTab.applyDifferences(true);
+        } else if (scenario.equals(MATCHED)) { //scenario 2
+            differencesActionTab.applyDifferences(false);
         }
     }
 
@@ -284,4 +270,5 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000));
         DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));
     }
+
 }
