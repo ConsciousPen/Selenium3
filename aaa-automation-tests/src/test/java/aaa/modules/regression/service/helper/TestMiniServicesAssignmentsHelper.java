@@ -1398,7 +1398,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCartBody(PolicyType policyType) {
+	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType) {
 		TestData td = getPolicyDefaultTD();
 		//adjust Driver Tab to have 1 driver from policy default TD and one driver from custom TD
 		List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 2 drivers
@@ -1423,35 +1423,34 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		DriversDto driverNotFNI = testMiniServicesDriversHelper.getAnyNotNIActiveDriver(policyNumber);
 		DriversDto driverFNI = testMiniServicesDriversHelper.getFNIDriver(policyNumber);
 		//Validate that Trailer, Motor Home, Golf Cart are not assigned to FNI before removal of driver (precondition)
-		validateVehicleTab_pas15505(driverFNI, false);
+		validateVehicleTab_pas15540(driverFNI, false);
 
 		removeDriverRequest.removalReasonCode = "RD1001";
 		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, removeDriverRequest);
 		SearchPage.openPolicy(policyNumber);
-		validateVehicleTab_pas15505(driverFNI, true);
+		validateVehicleTab_pas15540(driverFNI, true);
 		vehicleTab.cancel();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	private void validateVehicleTab_pas15505(DriversDto driverFNI, boolean primaryOperatorFNIExpected) {
+	private void validateVehicleTab_pas15540(DriversDto driverFNI, boolean primaryOperatorFNIExpected) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		validatePrimaryOperator_pas15505(driverFNI.firstName, 2, primaryOperatorFNIExpected);
-		validatePrimaryOperator_pas15505(driverFNI.firstName, 3, primaryOperatorFNIExpected);
+		validatePrimaryOperator_pas15540(driverFNI.firstName, 2, primaryOperatorFNIExpected);
+		validatePrimaryOperator_pas15540(driverFNI.firstName, 3, primaryOperatorFNIExpected);
 		if ("AZ".equals(getState())) {
-			validatePrimaryOperator_pas15505(driverFNI.firstName, 4, primaryOperatorFNIExpected);
+			validatePrimaryOperator_pas15540(driverFNI.firstName, 4, primaryOperatorFNIExpected);
 		}
 	}
 
-	private void validatePrimaryOperator_pas15505(String driverFirstName, int vehicleNumber, boolean primaryOperatorFNIExpected) {
+	private void validatePrimaryOperator_pas15540(String driverFirstName, int vehicleNumber, boolean primaryOperatorFNIExpected) {
 		VehicleTab.tableVehicleList.selectRow(vehicleNumber);
 		if (primaryOperatorFNIExpected) {
 			assertThat(vehicleTab.getInquiryAssetList().getStaticElement(PRIMARY_OPERATOR).getValue()).as("Vehicle Primary operator should be FNI.").contains(driverFirstName);
 		} else {
 			assertThat(vehicleTab.getInquiryAssetList().getStaticElement(PRIMARY_OPERATOR).getValue()).doesNotContain(driverFirstName);
 		}
-
 	}
 }
 

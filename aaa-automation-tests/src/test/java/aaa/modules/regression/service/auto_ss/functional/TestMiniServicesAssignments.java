@@ -213,7 +213,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 
 	/**
 	 * @author Megha Gubbala, Maris Strazds
-	 * @name Remove driver assigned to trailer
+	 * @name Remove driver assigned to trailer, Motor Home, Golf Cart
 	 * @scenario
 	 * 1. Create a policy in PAS with Trailer, Motor Home and Golf Cart (Golf Cart applicable only for AZ) assigned to not FNI
 	 * 2. Create an endorsement through service
@@ -222,9 +222,9 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15505"})
-	public void pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCart(@Optional("NJ") String state) {
-		pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCartBody(getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15540", "PAS-15505"})
+	public void pas15540_RemoveDriverAssignedToTrailer(@Optional("VA") String state) {
+		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType());
 		//NOTE: This test works for all Auto SS states
 	}
 }
