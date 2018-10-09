@@ -101,7 +101,7 @@ public class HelperCommon {
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
 
-	private static final String claimsUrl = "https://claims-assignment-pas-14058.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
