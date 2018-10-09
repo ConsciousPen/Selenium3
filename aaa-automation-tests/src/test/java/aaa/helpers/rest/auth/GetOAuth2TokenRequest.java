@@ -1,4 +1,4 @@
-package aaa.helpers.rest.dtoDxp;
+package aaa.helpers.rest.auth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

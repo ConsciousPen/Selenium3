@@ -22,8 +22,8 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.sun.jna.platform.win32.Guid;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
+import aaa.helpers.rest.auth.GetOAuth2TokenRequest;
 import aaa.helpers.rest.dtoDxp.ApplicationContext;
-import aaa.helpers.rest.dtoDxp.GetOAuth2TokenRequest;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -85,13 +85,31 @@ public class JsonClient {
 		}
 	}
 
+	/**
+	 *
+	 * @param url
+	 * @param bodyRequest
+	 * @param responseType
+	 * @param status
+	 * @param <T> - response body class type.
+	 * @return
+	 */
 	public static <T> T sendPostRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
-		RestRequestInfo<T> request = buildRequest(url, bodyRequest, responseType, status);
-		return sendJsonRequest(request, RestRequestMethodTypes.POST);
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, bodyRequest, responseType, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	}
+
+	public static <T> T sendPostRequest(String url, Class<T> responseType, String sessionId, int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, responseType, sessionId, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static <T> T sendPatchRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
-		RestRequestInfo<T> restRequestInfo = buildRequest(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
+		return sendPatchRequest(url, bodyRequest, responseType,Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T sendPatchRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType,int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, bodyRequest, responseType, status);
 		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
 	}
 
@@ -109,25 +127,22 @@ public class JsonClient {
 		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
-	public static <T> T sendDeleteRequest(String url, Class<T> responseType, RestBodyRequest request, int status) {
+	public static <T> T sendDeleteRequest(String url, Class<T> responseType, RestBodyRequest restBodyRequest, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.setUrl(url).setResponseType(responseType).setBodyRequest(restBodyRequest).setStatus(status)
+				.build();
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
+	}
+	/*public static <T> T sendDeleteRequest(String url, Class<T> responseType, RestBodyRequest request, int status) {
 		RestRequestInfo<T> restRequestInfo = buildRequest(url, request, responseType, status);
+		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
+	}*/
+
+	public static <T> T sendDeleteRequest(String url, Class<T> responseType, String sessionId, int status) {
+		RestRequestInfo<T> restRequestInfo = buildRequest(url, responseType, sessionId, status);
 		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
-
-	/**
-	 *  public String url;
-	 * 	public String sessionId;
-	 * 	public Object bodyRequest;
-	 * 	public Class<T> responseType;
-	 * 	public int status = Response.Status.OK.getStatusCode();
-	 *
-	 * @param url
-	 * @param bodyRequest
-	 * @param responseType
-	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
-	 * @return
-	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, RestBodyRequest bodyRequest, Class<T> responseType, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
@@ -137,18 +152,6 @@ public class JsonClient {
 		return restRequestInfo;
 	}
 
-	/**
-	 *
-	 *  public String url;
-	 * 	public Object bodyRequest;
-	 * 	public Class<T> responseType;
-	 * 	public int status = Response.Status.OK.getStatusCode();
-	 *
-	 * @param url
-	 * @param responseType
-	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
-	 * @return
-	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
@@ -157,18 +160,6 @@ public class JsonClient {
 		return restRequestInfo;
 	}
 
-	/**
-	 *
-	 *  public String url;
-	 * 	public Object bodyRequest;
-	 * 	public Class<T> responseType;
-	 * 	public int status = Response.Status.OK.getStatusCode();
-	 *
-	 * @param url
-	 * @param responseType
-	 * @param status - number or status from : Response.Status.. , example Response.Status.OK.getStatusCode()
-	 * @return
-	 */
 	public static <T> RestRequestInfo<T> buildRequest(String url, Class<T> responseType, String sessionId, int status) {
 		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
 		restRequestInfo.url = url;
@@ -192,7 +183,7 @@ public class JsonClient {
 			try {
 				return response.readEntity(responseType);
 			} catch (ProcessingException e) {
-				log.error("Actual response: " + System.lineSeparator() + asJson(response.readEntity(String.class)));
+				log.error("Actual response: {} {}", System.lineSeparator(), asJson(response.readEntity(String.class)));
 			}
 		}
 		return response.readEntity(responseType);
