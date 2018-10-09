@@ -1,5 +1,6 @@
 TestData_CA: {
   Renew generate image: [-83, NONE],
+  Renew reports: [-73, NONE],
   Renew check uw rules: [-67, NONE],
   Renew generate preview: [-58, NONE],
   Pre-renewal letter: [-53, PREVIOUS],

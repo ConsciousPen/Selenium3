@@ -225,13 +225,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					AutoSSMetaData.DriverTab.OCCUPATION.getLabel(), AdvancedComboBox.RANDOM_EXCEPT_EMPTY,
 					AutoSSMetaData.DriverTab.FINANCIAL_RESPONSIBILITY_FILING_NEEDED.getLabel(), getYesOrNo(driver.hasSR22())
 			);
-			if ("D".equals(driver.getDefensiveDrivingCourse()) && driver.getDriverAge() > 55) {
-				driverData = driverData.adjust(DataProviderFactory.dataOf(
-						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), "Yes",
-						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)
-				));
-			}
-
 			if (driver.getVehicleAssignedId() != null) {
 				driverData.adjust(VEHICLE_ASSIGNED_ID_TESTDATA_KEY, driver.getVehicleAssignedId()); // for searching valid vehicle for driver assignment, should be masked in result test data
 			}
@@ -265,6 +258,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 			if ("Y".equalsIgnoreCase(driver.getDefensiveDrivingCourse())) {
 				driverData.adjust(AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), getYesOrNo(driver.getDefensiveDrivingCourse()));
+			} else if ("D".equals(driver.getDefensiveDrivingCourse()) && driver.getDriverAge() > 55) {
+				driverData.adjust(DataProviderFactory.dataOf(
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETED.getLabel(), "Yes",
+						AutoSSMetaData.DriverTab.DEFENSIVE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY)
+				));
 			}
 
 			if (Boolean.TRUE.equals(openLPolicy.isEmployee()) && !isEmployeeSet) {

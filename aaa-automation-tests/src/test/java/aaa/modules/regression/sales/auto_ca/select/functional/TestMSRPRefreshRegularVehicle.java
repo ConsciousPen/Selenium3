@@ -90,11 +90,12 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-730")
 	public void pas730_RenewalVehicleTypeRegular(@Optional("") String state) {
 		// Some kind of random vin number
-		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey())
-				.adjust("VIN", "6FDEU15H7KL055795")
-				.adjust("Year", "2025").resolveLinks();
+		TestData testDataVehicleTab = testDataManager.getDefault(TestVINUpload.class).getTestData("TestData").getTestData(vehicleTab.getMetaKey());
 		TestData testData = getPolicyTD().adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks();
 		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.VIN.getLabel()), "6FDEU15H7KL055795");
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.YEAR.getLabel()), "2025");
+		testData.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(),AutoCaMetaData.VehicleTab.VALUE.getLabel()), "11001");
 
 		renewalVehicleTypeRegular(testData, isRegularType);
 	}

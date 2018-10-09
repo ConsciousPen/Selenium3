@@ -1235,6 +1235,9 @@ public final class AutoSSMetaData {
 	public static final class RollOnChangesActionTab extends MetaData {
 	}
 
+	public static final class DifferencesActionTab extends MetaData {
+	}
+
 	public static final class RollOnChangesErrorTab extends MetaData {
 		public static final AssetDescriptor<Button> PROCEED = declare("Proceed", Button.class, Waiters.AJAX, false, By.id("errorsForm:proceed"));
 	}
