@@ -212,7 +212,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	}
 
 	/**
-	 * @author Maris Strazds
+	 * @author Megha Gubbala, Maris Strazds
 	 * @name Remove driver assigned to trailer
 	 * @scenario
 	 * 1. Create a policy in PAS with Trailer, Motor Home and Golf Cart (Golf Cart applicable only for AZ) assigned to not FNI
