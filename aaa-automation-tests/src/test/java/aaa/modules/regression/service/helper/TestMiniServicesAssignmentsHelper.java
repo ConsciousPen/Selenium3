@@ -1417,8 +1417,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		createCustomerIndividual();
 		policyType.get().createPolicy(td);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		//String policyNumber = "NYSS952918643";
-		//SearchPage.openPolicy(policyNumber);
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
