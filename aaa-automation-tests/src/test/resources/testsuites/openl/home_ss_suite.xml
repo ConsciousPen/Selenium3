@@ -64,8 +64,8 @@
     </test>
     <test name="HomeSS DP3 [KS] Premium Calculation Test" preserve-order="true">
         <parameter name="policyType" value="HomeSS_DP3"/>
-        <parameter name="fileName" value="KSTests - 20171001.xls"/>
-        <parameter name="policyNumbers" value="115,135"/>
+        <parameter name="fileName" value="KSTests - 20181001.xls"/>
+        <parameter name="policyNumbers" value="6, 310"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
         </classes>
@@ -193,8 +193,8 @@
     </test>-->
     <test name="HomeSS HO3 [WV] Premium Calculation Test" preserve-order="true">
         <parameter name="policyType" value="HomeSS_HO3"/>
-        <parameter name="fileName" value="WVTests-20171201.xls"/>
-        <parameter name="policyNumbers" value="3,8"/>
+        <parameter name="fileName" value="WVTests-20181201.xls"/>
+        <parameter name="policyNumbers" value="3,9"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
         </classes>
