@@ -20,10 +20,8 @@ import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
-	private static final String defaultJSONPath = "src/test/resources/claimsmatch/";
-
 	@SuppressWarnings("SpellCheckingInspection")
-	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/claimsmatch/claim_micro_service_requests";
+	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/claimsmatch/claim_micro_service_requests/";
 
 	/**
 	* * @author Chris Johns
@@ -49,7 +47,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(defaultJSONPath + "claimsMatching_test1.json")));
+		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "claimsMatching_test1.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
 		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);

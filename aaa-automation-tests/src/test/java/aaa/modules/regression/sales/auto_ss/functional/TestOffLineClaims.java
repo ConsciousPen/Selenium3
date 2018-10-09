@@ -5,6 +5,8 @@ import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
@@ -83,12 +85,15 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void PAS14679_TestCase1(@Optional("AZ") @SuppressWarnings("unused") String state) {
 		TestData testData = getPolicyTD();
-		TestData driverTabTestData = getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks();
+		List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 3 drivers
+		testDataDriverData.add(testData.getTestData("DriverTab"));
+		testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks().getTestDataList("DriverTab"));
+		TestData adjusted = testData.adjust("DriverTab",testDataDriverData);
 
 		// Create Customer and Policy with 3 drivers
 		mainApp().open();
 		createCustomerIndividual();
-		policy.createPolicy(testData.adjust(new DriverTab().getMetaKey(), driverTabTestData.getTestDataList("DriverTab")));
+		policy.createPolicy(adjusted);
 
 		// Gather Policy details: Policy Number and expiration date
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -106,13 +111,13 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		File claimRequestFile = downloadClaimRequest();
 
 		// Check if request contains DL and PolicyNumber
-		List<String> driverLicenseList = getDriverLicences(testData, driverTabTestData);
+		List<String> driverLicenseList = getDriverLicences(adjusted);
 		String content = contentOf(claimRequestFile, Charset.defaultCharset());
 		assertThat(content)
 				.contains("ClaimBatchRequest")
 				.contains(policyNumber)
 				.endsWith("ClaimBatchRequest>");
-		driverLicenseList.forEach(l -> assertThat(content).contains(l));
+		driverLicenseList.forEach(l -> assertThat(content).doesNotContain(l));
 
 		// Create the claim response
 		createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
