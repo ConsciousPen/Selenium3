@@ -32,7 +32,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	 * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FINANCE})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6)
 	public void testNewBusinessScenario_1(@Optional("") String state) {
 		testNewBusinessScenario_1();

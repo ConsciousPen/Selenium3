@@ -13,7 +13,26 @@ TestData_AddPremium: {
   BindTab: {}
 }
 
+# Test data for Reduced premium endorsement
+TestData_ReducePremium: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_ReducePremium',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
 PremiumsAndCoveragesQuoteTab_AddPremium: {
   Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
   Deductible: 'contains=$250'
+}
+
+PremiumsAndCoveragesQuoteTab_ReducePremium: {
+  Coverage E - Personal Liability Each Occurrence: 'contains=$100,000',
+  Deductible: 'contains=$5,000'
 }

@@ -14,31 +14,37 @@
             <class name="aaa.modules.financials.pup.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
         </classes>
@@ -50,36 +56,43 @@
             <class name="aaa.modules.financials.pup.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
+                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
         </classes>
