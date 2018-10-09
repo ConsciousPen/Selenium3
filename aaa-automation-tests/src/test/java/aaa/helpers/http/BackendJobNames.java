@@ -15,6 +15,7 @@ public class BackendJobNames {
 	 */
 	public static String getBackEndJobNames(String jobName) {
 		HashMap<String, String> storage = new HashMap<>();
+		storage.put(GroupJobs.groupaaaBatchMarkerJob.getJobName(), "aaaBatchMarkerJob");
 		storage.put(GroupJobs.grouprenewalClaimOrderAsyncJob.getJobName(), "renewalClaimOrderAsyncJob");
 		storage.put(GroupJobs.groupaaaMvrRenewBatchOrderAsyncJob.getJobName(), "aaaMvrRenewBatchOrderAsyncJob");
 		storage.put(GroupJobs.groupmembershipRenewalBatchOrderJob.getJobName(), "aaaMembershipRenewalBatchOrderAsyncJob");
