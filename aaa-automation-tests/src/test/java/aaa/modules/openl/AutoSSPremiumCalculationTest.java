@@ -33,11 +33,11 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 			}
 			customer.initiateRenewalEntry().perform(renewalEntryData);
 		} else {
-			policy.initiate();
+			policy.get().initiate();
 		}
 
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().getAssetList().fill(quoteRatingData);
 		return Tab.labelPolicyNumber.getValue();
 	}

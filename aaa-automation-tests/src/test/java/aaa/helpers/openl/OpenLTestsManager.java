@@ -387,9 +387,6 @@ public final class OpenLTestsManager {
 					type = AUTO_CA_CHOICE;
 				}
 
-			} else if (testsDir.startsWith("aaa-rating-rules-home") || testsDir.contains("home_ss")) {
-				type = HOME_SS;
-
 			} else if (testsDir.startsWith("aaa-rating-rules-home-ca") || testsDir.contains("home_ca")) {
 				if (fileName.startsWith("HO3")) {
 					type = HOME_CA_HO3;
@@ -400,6 +397,9 @@ public final class OpenLTestsManager {
 				} else if (fileName.startsWith("DP3")) {
 					type = HOME_CA_DP3;
 				}
+			} else if (testsDir.startsWith("aaa-rating-rules-home") || testsDir.contains("home_ss")) {
+				type = HOME_SS;
+
 			} else if (testsDir.startsWith("aaa-rating-rules-pup") || testsDir.contains("pup")) {
 				type = PUP;
 			}

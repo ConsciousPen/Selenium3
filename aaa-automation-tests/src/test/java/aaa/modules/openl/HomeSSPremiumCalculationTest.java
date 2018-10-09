@@ -46,22 +46,22 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			}
 			customer.initiateRenewalEntry().perform(renewalEntryData);
 		} else {
-			policy.initiate();
+			policy.get().initiate();
 		}
 
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
 
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
+		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0492".equals(c.getFormCode()))) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
-			policy.getDefaultView().fillUpTo(tdGenerator.getFormHS0492Data(openLPolicy), PremiumsAndCoveragesQuoteTab.class, false);
+			policy.get().getDefaultView().fillUpTo(tdGenerator.getFormHS0492Data(openLPolicy), PremiumsAndCoveragesQuoteTab.class, false);
 		}
 
 		TestData documentsToBindData = tdGenerator.getDocumentsToBindData(openLPolicy);
 		if (!documentsToBindData.equals(DataProviderFactory.emptyData())) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsToBindData));
+			policy.get().getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsToBindData));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
@@ -72,7 +72,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		if (openLPolicy.getForms().stream().noneMatch(c -> "HS0490".equals(c.getFormCode())) && PremiumsAndCoveragesQuoteTab.tableEndorsementForms.getRowContains("Description", "HS 04 90").isPresent()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.ENDORSEMENT.get());
-			policy.getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
+			policy.get().getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
@@ -82,19 +82,19 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			premiumsAndCoveragesQuoteTab.submitTab();
 
 			TestData policyIssueData = tdGenerator.getPolicyIssueData(openLPolicy);
-			policy.getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
+			policy.get().getDefaultView().fillUpTo(policyIssueData, PurchaseTab.class, false);
 			ErrorTab errorTab = new ErrorTab();
 			if (errorTab.isVisible()) {
 				errorTab.overrideAllErrors();
 				errorTab.submitTab();
 			}
-			policy.getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab_WithAutopay")));
+			policy.get().getDefaultView().fill(DataProviderFactory.dataOf(PurchaseTab.class.getSimpleName(), getPolicyTD("DataGather", "PurchaseTab_WithAutopay")));
 
 			TestData endorsementData = tdGenerator.getEndorsementData(openLPolicy);
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.POLICY.get())) {
 				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 			}
-			policy.endorse().performAndFill(endorsementData);
+			policy.get().endorse().performAndFill(endorsementData);
 		}
 
 		return Tab.labelPolicyNumber.getValue();

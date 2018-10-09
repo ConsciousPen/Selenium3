@@ -19,8 +19,8 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 	@Override
 	protected String createQuote(PUPOpenLPolicy openLPolicy) {
 		TestData quoteRatingData = openLPolicy.getTestDataGenerator(getRatingDataPattern()).getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesQuoteTab.class, false);
+		policy.get().initiate();
+		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesQuoteTab.class, false);
 		new PremiumAndCoveragesQuoteTab().getAssetList().fill(quoteRatingData);
 		return Tab.labelPolicyNumber.getValue();
 	}
