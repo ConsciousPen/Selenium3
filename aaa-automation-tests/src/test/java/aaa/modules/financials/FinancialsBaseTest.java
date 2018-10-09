@@ -41,21 +41,26 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	private static final String HOME_CA_DP3 = "HomeCA_DP3";
 	private static final String PUP = "PUP";
 
-	@BeforeSuite(alwaysRun = true)
-	public void beforeFinancialSuite() {
+//	@BeforeSuite(alwaysRun = true)
+//	public void beforeFinancialSuite() {
+//		validateAccounts();
+//	}
+//
+//	@AfterSuite(alwaysRun = true)
+//	public void afterFinancialSuite() {
+//		// ********* For debugging only ************
+//		for (String policy : ALL_POLICIES) {
+//			log.info(policy);
+//		}
+//		// *****************************************
+//
+//		validateAccounts();
+//
+//	}
+
+	@Test
+	public void initialValidation() {
 		validateAccounts();
-	}
-
-	@AfterSuite(alwaysRun = true)
-	public void afterFinancialSuite() {
-		// ********* For debugging only ************
-		for (String policy : ALL_POLICIES) {
-			log.info(policy);
-		}
-		// *****************************************
-
-		validateAccounts();
-
 	}
 
 	@Override
