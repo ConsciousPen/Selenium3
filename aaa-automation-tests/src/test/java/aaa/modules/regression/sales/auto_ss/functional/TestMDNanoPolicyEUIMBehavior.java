@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,18 +17,15 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -82,10 +80,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
 
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(tdPolicy, PremiumAndCoveragesTab.class);
 
         // Save Standard UIM Total Premium value NB
         Dollar standardUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
@@ -152,10 +147,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(tdPolicy, PremiumAndCoveragesTab.class);
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -198,9 +190,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(tdPolicy);
+        openAppAndCreatePolicy(tdPolicy);
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -239,11 +229,8 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Create customer & policy
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(tdPolicy);
+        String policyNum = openAppAndCreatePolicy(tdPolicy);
 
-        String policyNum = PolicySummaryPage.getPolicyNumber();
         LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
         setDoNotRenewFlag(policyNum);
 		mainApp().close();
@@ -269,7 +256,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
-        purchaseRenewal(policyNum);
+        purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -324,7 +311,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 		}
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
-        purchaseRenewal(policyNum);
+        purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");
@@ -433,17 +420,5 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
-    }
-
-    private void purchaseRenewal(String policyNumber){
-        // Open Billing account and Pay min due for the renewal
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
-                .getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
-                .getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-        // Open Policy
-        SearchPage.openPolicy(policyNumber);
     }
 }
