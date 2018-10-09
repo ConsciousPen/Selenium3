@@ -2815,9 +2815,15 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		return viewDriversResponse.driverList.stream().filter(driver -> licenseNumber.equals(driver.drivingLicense.licenseNumber)).findFirst().orElse(null);
 	}
 
-	private DriversDto getAnyNotNIActiveDriver(String policyNumber) {
+	protected DriversDto getAnyNotNIActiveDriver(String policyNumber) {
 		return HelperCommon.viewEndorsementDrivers(policyNumber).driverList.stream().
 				filter(driver -> "Not a Named Insured".equals(driver.namedInsuredType) && "active".equals(driver.driverStatus)).
+				findFirst().orElse(null);
+	}
+
+	protected DriversDto getFNIDriver(String policyNumber) {
+		return HelperCommon.viewEndorsementDrivers(policyNumber).driverList.stream().
+				filter(driver -> "FNI".equals(driver.namedInsuredType) && "active".equals(driver.driverStatus)).
 				findFirst().orElse(null);
 	}
 

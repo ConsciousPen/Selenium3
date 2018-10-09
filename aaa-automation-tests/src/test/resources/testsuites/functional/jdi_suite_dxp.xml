@@ -723,4 +723,14 @@
             </class>
         </classes>
     </test>
+    <test name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart">
+        <parameter name="state" value="VA"/> <!--This test works for all Auto SS states-->
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas15505_RemoveDriverAssignedToTrailerMotorHomeGolfCart"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
