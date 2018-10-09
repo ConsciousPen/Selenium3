@@ -1,0 +1,37 @@
+############### 3 Drivers on policy
+TestData_DriverTab_OfflineClaim: {
+  DriverTab: ['@<auto_ss>@DataGather@DriverTab','@Driver2','@Driver3']
+}
+
+  ######Test Data for 2 and 3 Drivers
+Driver2: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Bruce,
+  Last Name: Banner,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: $<today-21y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  License Number: A12345222,
+  Age First Licensed: 18
+}
+
+Driver3: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Tony,
+  Last Name: Stark,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: $<today-21y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  License Number: A12345333,
+  Age First Licensed: 18
+}
