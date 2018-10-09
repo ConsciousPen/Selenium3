@@ -7,17 +7,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import toolkit.datax.TestData;
 
 public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpenLPolicy> {
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
 
 	@Override
 	protected TestData getRatingDataPattern() {

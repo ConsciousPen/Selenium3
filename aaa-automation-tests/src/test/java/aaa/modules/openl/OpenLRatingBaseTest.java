@@ -24,6 +24,7 @@ import aaa.helpers.openl.OpenLTestsManager;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -38,6 +39,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	private static final boolean ARCHIVE_RATING_LOGS = Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.OPENL_ARCHIVE_RATING_LOGS));
 	private static OpenLTestsManager openLTestsManager;
 	private static RatingEngineLogsGrabber ratingEngineLogsGrabber = new RatingEngineLogsGrabber();
+	private static ThreadLocal<PolicyType> policyType = new ThreadLocal<>();
 
 	/**
 	 * Get base policy creation TestData which will be used as second argument in appropriate {@link TestDataGenerator#TestDataGenerator(String, TestData)} constructor.
@@ -65,6 +67,11 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 		}
 	}
 
+	@Override
+	protected PolicyType getPolicyType() {
+		return policyType.get();
+	}
+
 	@DataProvider(name = DATA_PROVIDER_NAME)
 	protected Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
@@ -75,7 +82,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 
 		//Sort policies list by effective date for further valid time shifts
 		return testInfo.getOpenLPolicies().stream().sorted(Comparator.comparing(OpenLPolicy::getEffectiveDate))
-				.map(p -> new Object[] {p.getState(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
+				.map(p -> new Object[] {p.getState(), p.getTestPolicyType(), testInfo.getOpenLFilePath(), p.getNumber()}).toArray(Object[][]::new);
 	}
 
 	/**
@@ -87,9 +94,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends PolicyB
 	 */
 	@Parameters({"state", "filePath", "policyNumber"})
 	@Test(groups = {Groups.OPENL, Groups.HIGH}, dataProvider = DATA_PROVIDER_NAME)
-	public void totalPremiumVerificationTest(@Optional String state, String filePath, int policyNumber) {
+	public void totalPremiumVerificationTest(@Optional String state, PolicyType testPolicyType, String filePath, int policyNumber) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(filePath);
 		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		policyType.set(testPolicyType);
 		Dollar expectedPremium = openLPolicy.getExpectedPremium();
 		Dollar actualPremium;
 

@@ -4,18 +4,12 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import toolkit.datax.TestData;
 
 public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolicy> {
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.PUP;
-	}
 
 	@Override
 	protected TestData getRatingDataPattern() {

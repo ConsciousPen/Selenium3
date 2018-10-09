@@ -129,6 +129,7 @@ public final class OpenLTestsManager {
 		boolean deleteFileAfterUnmarshalling = false;
 		if (Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test))) {
 			openLFile = new File(filePath);
+			assertThat(openLFile).as("Local openl file does not exist", filePath).exists();
 		} else {
 			openLFile = downloadOpenLFile(filePath, TestParams.TESTS_BRANCH.getValue(test));
 			deleteFileAfterUnmarshalling = true;
@@ -140,7 +141,7 @@ public final class OpenLTestsManager {
 		List<Integer> policyNumbers = parsePolicyNumbers(TestParams.POLICY_NUMBERS.getValue(test));
 		Class<P> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
 
-		log.info("Getting OpenLPolicy objects from \"{}\" file", openLFile);
+		log.info("Getting {} objects from \"{}\" file", openLPolicyModel.getSimpleName(), openLFile);
 		try (ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(openLFile, false, cellTypes)) {
 			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModel, policyNumbers);
 			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
@@ -269,7 +270,7 @@ public final class OpenLTestsManager {
 		TESTS_DIR("testsDir", null, true, ""),
 		LOCAL_TESTS("localTests", null, false, "false"), TESTS_BRANCH("testsBranch", CsaaTestProperties.RATING_REPO_BRANCH, false, "master"),
 		TEST_FILENAME("fileName", null, true, ""),
-		POLICY_TYPE("policyType", null, true, ""),
+		POLICY_TYPE("policyType", null, false, ""),
 		POLICY_NUMBERS("policyNumbers", null, false, "");
 
 		private final String nameInXml;
@@ -349,17 +350,61 @@ public final class OpenLTestsManager {
 		}
 
 		public static OpenLPolicyType of(XmlTest test) {
+			OpenLPolicyType type;
 			String typeName = TestParams.POLICY_TYPE.getValue(test);
-			OpenLPolicyType type = of(typeName);
+			if (StringUtils.isNotBlank(typeName)) {
+				type = of(typeName);
 
-			assertThat(type).as("\"%1$s\" parameter has unknown value \"%2$s\" in test \"%3$s\" within suite \"%4$s\". Only these policy type values are allowed: %5$s",
-					TestParams.POLICY_TYPE.getNameInXml(), typeName, test.getName(), test.getSuite().getFileName(), Arrays.stream(OpenLPolicyType.values()).map(OpenLPolicyType::getName).collect(Collectors.toList()))
-					.isNotNull();
+				assertThat(type).as("\"%1$s\" parameter has unknown value \"%2$s\" in test \"%3$s\" within suite \"%4$s\". Only these policy type values are allowed: %5$s",
+						TestParams.POLICY_TYPE.getNameInXml(), typeName, test.getName(), test.getSuite().getFileName(), Arrays.stream(OpenLPolicyType.values()).map(OpenLPolicyType::getName).collect(Collectors.toList()))
+						.isNotNull();
+			} else {
+				String testsDir = TestParams.TESTS_DIR.getValue(test);
+				String fileName = TestParams.TEST_FILENAME.getValue(test);
+				type = of(testsDir, fileName);
+
+				assertThat(type).as("Unable to retrieve policy type by %1$s=\"%2$s\" and %3$s=\"%4$s\" parameters in test \"%5$s\" within suite \"%6$s\"",
+						TestParams.TESTS_DIR.getNameInXml(), testsDir, TestParams.TEST_FILENAME.getNameInXml(), fileName, test.getName(), test.getSuite().getFileName())
+						.isNotNull();
+			}
+
 			return type;
 		}
 
 		private static OpenLPolicyType of(String name) {
 			return Arrays.stream(OpenLPolicyType.values()).filter(type -> type.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+		}
+
+		private static OpenLPolicyType of(String testsDir, String fileName) {
+			OpenLPolicyType type = null;
+			if (testsDir.startsWith("aaa-rating-rules-ss") || testsDir.contains("auto_ss")) {
+				type = AUTO_SS;
+
+			} else if (testsDir.startsWith("aaa-rating-rules-ca") || testsDir.contains("auto_ca")) {
+				if (fileName.contains("CASelect")) {
+					type = AUTO_CA_SELECT;
+				} else if (fileName.contains("CAChoice")) {
+					type = AUTO_CA_CHOICE;
+				}
+
+			} else if (testsDir.startsWith("aaa-rating-rules-home") || testsDir.contains("home_ss")) {
+				type = HOME_SS;
+
+			} else if (testsDir.startsWith("aaa-rating-rules-home-ca") || testsDir.contains("home_ca")) {
+				if (fileName.startsWith("HO3")) {
+					type = HOME_CA_HO3;
+				} else if (fileName.startsWith("HO4")) {
+					type = HOME_CA_HO4;
+				} else if (fileName.startsWith("HO6")) {
+					type = HOME_CA_HO6;
+				} else if (fileName.startsWith("DP3")) {
+					type = HOME_CA_DP3;
+				}
+			} else if (testsDir.startsWith("aaa-rating-rules-pup") || testsDir.contains("pup")) {
+				type = PUP;
+			}
+
+			return type;
 		}
 	}
 }

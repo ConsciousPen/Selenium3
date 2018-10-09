@@ -7,6 +7,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaChoiceTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
@@ -47,6 +48,11 @@ public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenL
 
 	public void setVehicles(List<AutoCaChoiceOpenLVehicle> vehicles) {
 		this.vehicles = new ArrayList<>(vehicles);
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 
 	@Override

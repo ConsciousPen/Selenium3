@@ -23,11 +23,6 @@ import toolkit.exceptions.IstfException;
 public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
 
 	@Override
-	protected PolicyType getPolicyType() {
-		throw new IstfException("Please override method in appropriate child class with relevant policy type");
-	}
-
-	@Override
 	protected String createQuote(HomeSSOpenLPolicy openLPolicy) {
 		if (!getPolicyType().getShortName().contains(openLPolicy.getPolicyType())) {
 			throw new IstfException(String.format("Test can't use selected policy with policy type '%s'", openLPolicy.getPolicyType()));
