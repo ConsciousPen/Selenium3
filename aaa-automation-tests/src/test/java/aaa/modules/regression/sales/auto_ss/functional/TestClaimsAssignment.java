@@ -1,17 +1,13 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,9 +15,11 @@ import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/claimsmatch/claim_micro_service_requests";
@@ -48,8 +46,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + File.separator
-				+ "NoMatch_ExistingMatch_DLMatch.json")));
+		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "NoMatch_ExistingMatch_DLMatch.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
 		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
