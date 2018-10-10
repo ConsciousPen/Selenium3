@@ -28,7 +28,7 @@ public class HttpJob {
 	private static final String JOB_LAST_RUN_LINK_ID = "(?i)last\\srun.*submitForm\\('jobs','([a-zA-Z0-9:_]+)'";
 	private static final String JOB_GROUP_ID = "'groupId','([a-zA-Z0-9-]+)'";
 	private static final String JOB_LOGS_ROW_SPLITTER_REGEX = "<tr id=\"job-logs:body_logsTable:\\d+\"";
-	private static final String JOB_LOGS_STATISTICS_REGEX = "(\\d+-\\d+-\\d+\\s\\d+:\\d+:\\d+.\\d+\\s:\\s\\[renewalClaimOrderAsyncJob\\].*\\s+Job\\s+processed.*Error:\\s+\\d+)";
+	private static final String JOB_LOGS_STATISTICS_REGEX = "(\\d+-\\d+-\\d+\\s\\d+:\\d+:\\d+.\\d+\\s:\\s\\[%s\\].*\\s+Job\\s+processed.*Error:\\s+\\d+)";
 
 	private static final String PREVIOUSLY_WERE_STARTED_FILTER_ID = "previously and were started\\s<select\\sid=\"([a-zA-Z0-9:_]+)";
 	private static final String PREVIOUSLY_WERE_STARTED_FILTER_VALUE = "id=\"/PREVIOSLY_WERE_STARTED_FILTER_ID/\".*selected=\"selected\">([a-zA-Z]+).*Order";
