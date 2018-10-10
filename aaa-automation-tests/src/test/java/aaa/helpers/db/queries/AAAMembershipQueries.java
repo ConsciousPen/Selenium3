@@ -96,7 +96,7 @@ public class AAAMembershipQueries {
      * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return an optional String. If no DB rows come back, will be null.
+     * @return an optional String. If no DB rows come back- will be null.
      */
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
