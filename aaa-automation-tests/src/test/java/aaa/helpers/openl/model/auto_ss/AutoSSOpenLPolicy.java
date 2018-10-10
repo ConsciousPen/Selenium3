@@ -13,6 +13,7 @@ import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -69,6 +70,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yafAfterInception; // NY specific
 	private Integer ycfAfterInception; // NY specific
 	private String tort; // PA specific
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	@Override
 	public Integer getTerm() {
