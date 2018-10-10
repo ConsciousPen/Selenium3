@@ -251,7 +251,8 @@ public class HttpJob {
 			for (String row : rows) {
 				if (row.contains("Job processed")) {
 					try {
-						allStatistics.add(HttpHelper.find(row, String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackEndJobNames(jobName))));
+						String backendJobName = String.format(JOB_LOGS_STATISTICS_REGEX, BackendJobNames.getBackEndJobNames(jobName));
+						allStatistics.add(HttpHelper.find(row, backendJobName));
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
