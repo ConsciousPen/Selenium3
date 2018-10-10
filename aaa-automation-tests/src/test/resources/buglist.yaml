@@ -190,16 +190,6 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
-PAS-13203:
-  summary: "Regression: Auto: Birthday value is not returned from stub"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports.*]
-      messages: ["Cannot set value of AssetList {RatingDetailReportsTab", "Errors: 'Date of Birth' is required"]
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
-      messages: ["Cannot get value of CheckBox"]
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
-      messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
 PAS-15989:
   summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
   reason: PROD
@@ -213,20 +203,6 @@ PAS-13651:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas12866_e2eBct,
     ]
       messages: ["no such element: Unable to locate element: {", "Error 500"]
-PAS-14137:
-  summary: "Regression: PUP, Auto CA, Auto SS specific states: Exception occurs switching to Premium tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*.pup.*]
-      messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "Errors: Time out. No session available."]
-    - tests: [aaa.modules.regression.*.auto_ca.*]
-      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Time out. No session available."]
-PAS-14387:
-  summary: "Regression: PUP CA: Underlying Risks Auto: Driver: Occupation field is blank - impossible to issue policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*.pup.*]
-      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Occupation' is not in within range"]
 PAS-5529:
   summary: "Roof shape does not pull into PAS from ISO 360"
   reason: PROD
@@ -383,6 +359,16 @@ PAS-19445:
     messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
     messages: ["Risks with a property liability limit less than $300,000 are ineligible"]
+PAS-20608:
+  summary: "Regression: CA choice: Payment plan dropdown resets after premium calculation"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.service.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.document_fulfillment.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
 PT-2687:
   summary: "Regression BCT: aaaRefundGenerationAsyncJob Info: Job execution failed with error: null"
   reason: PROD

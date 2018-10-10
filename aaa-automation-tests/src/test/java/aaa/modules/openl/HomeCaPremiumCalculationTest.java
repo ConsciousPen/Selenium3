@@ -19,8 +19,8 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?, ?>> ext
 		@SuppressWarnings("unchecked")
 		TestDataGenerator<P> tdGenerator = (TestDataGenerator<P>) openLPolicy.getTestDataGenerator(getRatingDataPattern());
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
+		policy.get().initiate();
+		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 		new PremiumsAndCoveragesQuoteTab().getAssetList().fill(quoteRatingData);
 		return Tab.labelPolicyNumber.getValue();
 	}

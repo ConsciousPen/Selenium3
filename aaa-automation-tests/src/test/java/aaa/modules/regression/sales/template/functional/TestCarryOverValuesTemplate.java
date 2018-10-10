@@ -66,7 +66,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
         mainApp().close();
-        purchaseRenewal(renewalTime, policyNumber);
+        payTotalAmtDue(renewalTime, policyNumber);
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();
@@ -110,7 +110,7 @@ public class TestCarryOverValuesTemplate extends PolicyBaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         bindTabCa.submitTab();
         mainApp().close();
-        purchaseRenewal(renewalTime, policyNumber);
+        payTotalAmtDue(renewalTime, policyNumber);
 
         // Navigate to Renewal And Endorse it
         PolicySummaryPage.buttonRenewals.click();

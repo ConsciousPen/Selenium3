@@ -24,7 +24,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-8789"})
     public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -41,7 +41,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO4(@Optional("VA") String state) throws NoSuchFieldException {
@@ -58,7 +58,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO6(@Optional("VA") String state) throws NoSuchFieldException {
@@ -75,7 +75,7 @@ public class TestMaigConversionPup extends TestMaigConversionHomeAbstract {
      * @details
      */
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-2571"})
     public void pas2571_renewalCoverLetterHSRNPUPXXHO3(@Optional("VA") String state) throws NoSuchFieldException {
