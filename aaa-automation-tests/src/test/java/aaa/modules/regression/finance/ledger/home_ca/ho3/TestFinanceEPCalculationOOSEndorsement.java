@@ -2,8 +2,6 @@ package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
@@ -18,7 +16,7 @@ import java.time.LocalDateTime;
 public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     /**
      * @author
-     * Objectives : check reverse rules of a systematically created escheatment transaction(s).
+     * Objectives : 
      * Preconditions:
      * 1. Create Annual Policy
 
@@ -59,13 +57,5 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 //        rollOn();
 
         runEPJobUntil(jobDate, jobEndDate);
-    }
-
-    private LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until) {
-        while (until.isAfter(jobDate)) {
-            JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-            jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
-        }
-        return jobDate;
     }
 }

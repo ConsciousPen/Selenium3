@@ -50,4 +50,16 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
 		return policyNumber;
 	}
+
+	/**
+	 * @author Reda Kazlauskiene
+	 * @name Run earnedPremiumPostingAsyncTaskGenerationJob and shift to next month until provided date
+	 */
+	protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until) {
+		while (until.isAfter(jobDate)) {
+			JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+			jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
+		}
+		return jobDate;
+	}
 }
