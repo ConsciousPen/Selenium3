@@ -10,8 +10,7 @@
     <!--<parameter name="localTests" value="true"/>-->
 
 	<test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="DP3Tests_eff_05012018.xls"/>
-        <!-- parameter name="policyNumbers" value="2669, 2676, 2890, 3055, 3079, 3085, 3088, 3090, 3091, 3093"/ -->
+        <parameter name="fileName" value="DP3Tests_eff_11132018.xls"/>
         <parameter name="policyNumbers" value="3090, 3093"/>
         <classes>
             <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
