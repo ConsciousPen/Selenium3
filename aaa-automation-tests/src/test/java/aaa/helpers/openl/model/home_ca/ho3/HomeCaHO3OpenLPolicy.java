@@ -7,6 +7,7 @@ import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO3TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -97,7 +98,12 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm, 
 	public void setHasSeniorDiscount(Boolean hasSeniorDiscount) {
 		this.hasSeniorDiscount = hasSeniorDiscount;
 	}
-	
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_HO3;
+	}
+
 	@Override
 	public HomeCaHO3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
 		return new HomeCaHO3TestDataGenerator(this.getState(), baseTestData);

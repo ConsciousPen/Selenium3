@@ -5,6 +5,7 @@ import java.util.List;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -140,7 +141,12 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, 
 	public void setForms(List<HomeCaDP3OpenLForm> forms) {
 		this.forms = new ArrayList<>(forms);
 	}
-	
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_DP3;
+	}
+
 	@Override
 	public HomeCaDP3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
 		return new HomeCaDP3TestDataGenerator(this.getState(), baseTestData);

@@ -4,6 +4,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
+import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
@@ -12,7 +13,7 @@ import toolkit.datax.TestData;
 public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> extends OpenLRatingBaseTest<P> {
 	@Override
 	protected TestData getRatingDataPattern() {
-		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey());
+		return super.getRatingDataPattern().mask(new DriverTab().getMetaKey(), new VehicleTab().getMetaKey(), new PremiumAndCoveragesTab().getMetaKey(), new AssignmentTab().getMetaKey());
 	}
 
 	@Override
@@ -20,8 +21,8 @@ public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> ext
 		@SuppressWarnings("unchecked")
 		TestDataGenerator<P> tdGenerator = (TestDataGenerator<P>) openLPolicy.getTestDataGenerator(getRatingDataPattern());
 		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
+		policy.get().initiate();
+		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumAndCoveragesTab.class, false);
 		new PremiumAndCoveragesTab().getAssetList().fill(quoteRatingData);
 		return Tab.labelPolicyNumber.getValue();
 	}
