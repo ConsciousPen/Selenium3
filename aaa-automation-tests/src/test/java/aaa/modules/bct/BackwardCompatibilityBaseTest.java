@@ -48,7 +48,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 
 		boolean failurePercentage = getFailurePercentage(result);
 
-		assertThat(failurePercentage).as("Percentage of failed to process tasks is more 5%").isEqualTo(true);
+		assertThat(failurePercentage).as("Percentage of failed to process tasks is more 5").isEqualTo(true);
 	}
 
 	@Deprecated
@@ -169,7 +169,12 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		long successCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.SUCCESS_COUNT));
 		long errorCount = Long.parseLong(preparedStatisticsRow.get(JobResultEnum.JobStatisticsConstants.ERROR_COUNT));
 
-		return isErorrsCountLessOfFivePercents(processedCount, errorCount);
+		if(processedCount == 0){
+			return true;
+		}
+		else{
+			return isErorrsCountLessOfFivePercents(processedCount, errorCount);
+		}
 	}
 
 	private boolean isErorrsCountLessOfFivePercents(long processedCount, long errorCount) {
@@ -198,7 +203,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 			assertThat(entry.getValue()).as(entry.getKey() + " was empty").isNotEmpty();
 		}
 
-		if(splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE).contains(currentDate)){
+		if(!splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE).contains(currentDate)){
 			log.info("HTTP: ERROR LOG COULD BE OUTDATED, PLEASE CHECK DATES, TODAY {}, LOG DATE {}", currentDate, splittedRow.get(JobResultEnum.JobStatisticsConstants.DATE));
 		}
 		return splittedRow;

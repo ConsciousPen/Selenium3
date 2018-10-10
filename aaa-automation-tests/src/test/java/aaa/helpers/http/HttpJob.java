@@ -221,7 +221,11 @@ public class HttpJob {
 		}
 
 		public static HashMap<String, String> splitStatisticsRow(String result) {
-			List<String> temp = Arrays.asList(result.toString().replace(",", "").replace(".", "").split(" "));
+			List<String> temp = Arrays.asList(result.toString()
+					.replace(",", "")
+					.replace(".", "")
+					.replace("Info: ","" )// when 0 processed, no Info:
+					.split(" "));
 
 			HashMap<String, String> splittedRow = new HashMap<>();
 			splittedRow.put(JobResultEnum.JobStatisticsConstants.DATE, temp.get(0));
