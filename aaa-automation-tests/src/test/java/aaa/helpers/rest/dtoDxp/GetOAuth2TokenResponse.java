@@ -1,4 +1,4 @@
-package aaa.helpers.rest.auth;
+package aaa.helpers.rest.dtoDxp;
 
 import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;

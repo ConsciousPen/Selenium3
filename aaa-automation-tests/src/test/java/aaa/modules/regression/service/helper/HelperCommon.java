@@ -137,11 +137,14 @@ public class HelperCommon {
 	}
 
 	public static <T> T revertVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
-		return JsonClient.sendPostRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_CANCEL_REMOVAL, policyNumber, vehicleOid)), null, responseType, status);
+		RestRequestInfo<T> restRequestInfo = JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_CANCEL_REMOVAL, policyNumber, vehicleOid)), null, responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static <T> T addVehicle(String policyNumber, Vehicle request, Class<T> responseType, int status) {
-		return JsonClient.sendPostRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber)), request, responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES, policyNumber)), request, responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static <T> T addDriver(String policyNumber, AddDriverRequest request, Class<T> responseType) {
@@ -186,11 +189,15 @@ public class HelperCommon {
 	}
 
 	public static PolicyLockUnlockDto executePolicyLockService(String policyNumber, int status, String sessionId) {
-		return JsonClient.sendPostRequest(urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber)), PolicyLockUnlockDto.class, sessionId, status);
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber)), PolicyLockUnlockDto.class, sessionId, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 
 	public static PolicyLockUnlockDto executePolicyUnlockService(String policyNumber, int status, String sessionId) {
-		return JsonClient.sendDeleteRequest(urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber)), PolicyLockUnlockDto.class, sessionId, status);
+		RestRequestInfo<PolicyLockUnlockDto> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_LOCK_UNLOCK_SERVICES, policyNumber)), PolicyLockUnlockDto.class, sessionId, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
 
 	public static ViewVehicleResponse viewPolicyVehicles(String policyNumber) {
@@ -238,7 +245,7 @@ public class HelperCommon {
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
-		log.info("Update Driver Assignment: policyNumber: {}, vehicleOid: {}, driverOids: {}", policyNumber, vehicleOid, driverOids);
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
 		request.assignmentRequests = new ArrayList<>();
@@ -272,7 +279,9 @@ public class HelperCommon {
 	}
 
 	public static <T> T viewPolicyCoveragesByVehicle(String policyNumber, String oid, Class<T> responseType, int status) {
-		return JsonClient.sendGetRequest(urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid)), responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_POLICY_VEHICLE_OID_COVERAGES, policyNumber, oid)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static <T> T viewEndorsementCoverages(String policyNumber, Class<T> responseType) {
@@ -280,7 +289,9 @@ public class HelperCommon {
 	}
 
 	public static <T> T viewEndorsementCoverages(String policyNumber, Class<T> responseType, int status) {
-		return JsonClient.sendGetRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_COVERAGES, policyNumber)), responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_COVERAGES, policyNumber)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, Class<T> responseType) {
@@ -288,7 +299,9 @@ public class HelperCommon {
 	}
 
 	public static <T> T viewEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
-		return JsonClient.sendGetRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid)), responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static <T> T updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, UpdateCoverageRequest request, Class<T> responseType) {
@@ -296,7 +309,9 @@ public class HelperCommon {
 	}
 
 	public static <T> T updateEndorsementCoveragesByVehicle(String policyNumber, String vehicleOid, UpdateCoverageRequest request, Class<T> responseType, int status) {
-		return JsonClient.sendPatchRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid)), request, responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLE_OID_COVERAGES, policyNumber, vehicleOid)), request, responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
 	}
 
 	public static <T> T updateEndorsementCoverage(String policyNumber, UpdateCoverageRequest request, Class<T> responseType) {
@@ -304,7 +319,9 @@ public class HelperCommon {
 	}
 
 	public static <T> T updateEndorsementCoverage(String policyNumber, UpdateCoverageRequest request, Class<T> responseType, int status) {
-		return JsonClient.sendPatchRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber)), request, responseType, status);
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_UPDATE_COVERAGES, policyNumber)), request, responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.PATCH);
 	}
 
 	public static PolicyPremiumInfo[] viewPolicyPremiums(String policyNumber) {
