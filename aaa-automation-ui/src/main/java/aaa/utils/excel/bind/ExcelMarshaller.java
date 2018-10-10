@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.MarshallingCache;
@@ -39,6 +40,8 @@ public class ExcelMarshaller {
 	}
 	
 	private void marshal(Object objectToMarshall, File outputExcelFile, boolean isExcelFileObject) {
+		Assertions.assertThat(objectToMarshall).as("Unable to marshall null object").isNotNull();
+		Assertions.assertThat(outputExcelFile).as("Unable to marshall to null output file").isNotNull();
 		log.info("Starting excel object marshalling to file \"{}\"", outputExcelFile.getAbsolutePath());
 		if (outputExcelFile.exists()) {
 			log.warn("File \"{}\" already exists and will be overwritten after marshalling", outputExcelFile.getAbsolutePath());
