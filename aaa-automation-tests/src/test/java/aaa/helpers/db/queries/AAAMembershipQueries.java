@@ -104,26 +104,6 @@ public class AAAMembershipQueries {
     }
 
     /**
-     * Returns the AAA Membership Status from DB
-     * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return an optional MembershipStatus. If no DB rows come back, will be null.
-     */
-    public static Optional<AAAMembershipStatus> getAAAMembershipStatusFromSQL(String quoteOrPolicyNumber) {
-        String query = getStandardMembershipQuery("MS.MEMBERSHIPSTATUS", quoteOrPolicyNumber);
-
-        Optional<String> dbResponse = DBService.get().getValue(query);
-
-        Optional<AAAMembershipStatus> membershipStatus = Optional.empty();
-
-        if(dbResponse.isPresent()){
-            AAAMembershipStatus membershipValue = AAAMembershipStatus.valueOf(dbResponse.get());
-            membershipStatus = Optional.of(membershipValue);
-        }
-
-        return membershipStatus;
-    }
-
-    /**
      * Returns the Policy Effective Date from DB. <br>
      * @param policyNumber is the policy number to query against.
      * @return an optional String. If no DB rows come back, will be null.
