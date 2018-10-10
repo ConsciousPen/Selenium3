@@ -300,7 +300,8 @@ public class Ssh {
 
 			errorOutput = errorOutputBuilder.toString();
 			if (execChannel.getExitStatus() != 0 || !errorOutput.isEmpty()) {
-				String message = String.format("Command returned exit code %1$s and %2$s", execChannel.getExitStatus(), errorOutput.isEmpty() ? "empty error message" : "error message:\n" + errorOutput);
+				String message = String.format("Command returned exit code %1$s and %2$s\nConsole output is:%3$s",
+						execChannel.getExitStatus(), errorOutput.isEmpty() ? "empty error message" : "error message: " + errorOutput, outputBuilder.toString());
 				if (execParams.isFailOnError()) {
 					throw new IstfException(message);
 				}
