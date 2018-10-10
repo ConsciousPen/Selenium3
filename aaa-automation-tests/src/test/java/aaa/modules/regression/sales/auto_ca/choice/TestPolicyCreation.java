@@ -25,7 +25,7 @@ import toolkit.utils.TestInfo;
  * 1. Create Customer 
  * 2. Create CA Choice Auto Policy
  * 3. Verify Policy status is '	 Policy Active'
- * 4. Inqury Policy and verify Policy Product is 'CA Select'
+ * 4. Inquiry Policy and verify Policy Product is 'CA Choice'
  * @details
  */
 public class TestPolicyCreation extends AutoCaChoiceBaseTest {
