@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.home_ss.dp3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestNYPropertyTierAndUWPointsLock;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -12,9 +12,12 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.NY)
-public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
+public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock {
 
-	private TestNYPropertyTierAndUWPointsLock template = new TestNYPropertyTierAndUWPointsLock();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_DP3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -43,9 +46,9 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
-	public void pas14030_testNYViewRatingDetailsRenewal(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsRenewal_DP3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsRenewal(getPolicyType());
+		pas14030_TestNYViewRatingDetailsRenewal();
 	}
 
 	/**
@@ -71,9 +74,9 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
-	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement();
 	}
 
 	/**
@@ -102,9 +105,9 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Mid Term Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
-	public void pas14030_testNYViewRatingDetailsMidTermEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsMidTermEndorsement_DP3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsMidTermEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsMidTermEndorsement();
 	}
 
 	/**
@@ -133,8 +136,8 @@ public class TestNYTierAndUWPointsLock extends HomeSSDP3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
-	public void pas14030_testNYViewRatingDetailsEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsEndorsement_DP3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsEndorsement();
 	}
 }

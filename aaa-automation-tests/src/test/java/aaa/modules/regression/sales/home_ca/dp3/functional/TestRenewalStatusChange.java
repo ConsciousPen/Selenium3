@@ -26,7 +26,7 @@ public class TestRenewalStatusChange extends TestCarryOverValuesTemplate {
 	 * 1. Create Individual Customer
 	 * 2. Create Property Policy
 	 * 3. Initiate Renewal
-	 * 4. Save and Exit
+	 * 4. Propose
 	 * 5. Customer Decline Renewal Offer
 	 * 6. Endorse current term
 	 * 7. Navigate to Billing

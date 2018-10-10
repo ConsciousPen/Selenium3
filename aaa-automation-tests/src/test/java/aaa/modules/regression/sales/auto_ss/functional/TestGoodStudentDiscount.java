@@ -147,10 +147,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	}
 
 	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(policyTestData, DriverTab.class, true);
+		createQuoteAndFillUpTo(policyTestData, DriverTab.class);
 		policy.getDefaultView().fill(driverTabTD);
 	}
 
