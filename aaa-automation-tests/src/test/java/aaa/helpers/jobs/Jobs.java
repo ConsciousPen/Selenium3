@@ -146,6 +146,10 @@ public class Jobs {
 
 	public static Job aaaRecurringPaymentsResponseProcessAsyncJob = new Job("aaaRecurringPaymentsResponseProcessAsyncJob");
 
+	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob");
+
+	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
