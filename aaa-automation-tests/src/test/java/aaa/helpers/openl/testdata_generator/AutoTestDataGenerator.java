@@ -28,7 +28,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
 		if (!getState().equals(Constants.States.OR)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
@@ -71,9 +71,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "J":
 				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+				return "Married"; // also possible "regex=.*Domestic Partner", "Common Law", "Civil Union"
 			case "S":
-				return getRandom("Single");
+				return "Single";
 			case "W":
 				return "Widowed";
 			default:
@@ -98,7 +98,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPrivatePassengerAutoType(String statCode) {
-		List<String> codes = Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		List<String> codes = new ArrayList<>(Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ"));
 		return codes.contains(statCode);
 	}
 
@@ -187,7 +187,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
-		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		//		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		switch (antiTheft) {
+			case "N":
+				return "None";
+			case "P":
+				return "VIN Etching";
+			case "Y":
+				return "Homing Device (Recovery Device)";
+			default:
+				throw new IstfException("Unknown mapping for antiTheft: " + antiTheft);
+		}
 	}
 
 	String getVehicleTabAirBags(String airBagCode) {
@@ -274,11 +284,14 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
 		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.WV)) {
 			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+			coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
 		} else {
 			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+			coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		}
 		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 
 		switch (getState()) {
 			case Constants.States.NJ:
@@ -340,23 +353,24 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
 		StringBuilder paymentPlan = new StringBuilder("regex=^");
+		String planName = term == 12 ? "Eleven Pay" : "Five Pay";
 		switch (paymentPlanType) {
 			case "A":
 				paymentPlan.append("Quarterly");
 				break;
 			case "B":
-				paymentPlan.append("Eleven Pay - Standard");
+				paymentPlan.append(planName).append(" - Standard");
 				break;
 			case "C":
 				paymentPlan.append("Semi-[aA]nnual");
 				break;
 			case "L":
-				paymentPlan.append(getRandom("Eleven Pay - Low Down", "Monthly - Low Down"));
+				paymentPlan.append(getRandom(planName + " - Low Down", "Monthly - Low Down"));
 				break;
 			case "P":
 				return getPremiumAndCoveragesPaymentPlan(term);
 			case "Z":
-				paymentPlan.append(getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down"));
+				paymentPlan.append(getRandom(planName + " - Zero Down", "Monthly - Zero Down"));
 				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import aaa.common.enums.Constants;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.UpdatableMock;
@@ -69,7 +70,9 @@ public class MockGenerator {
 		List<String> validRiskReportsRequestIDs = getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsRequests().stream()
 				.filter(r -> StringUtils.isBlank(r.getState())
 						&& StringUtils.isBlank(r.getCityName())
-						&& StringUtils.isBlank(r.getZipCode()))
+						&& StringUtils.isBlank(r.getZipCode())
+						&& StringUtils.isBlank(r.getStreetAddressLine())
+						&& StringUtils.isBlank(r.getStreetAddressLine2()))
 				.map(RiskReportsRequest::getId).collect(Collectors.toList());
 
 		return getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsResponses().stream()
@@ -103,7 +106,6 @@ public class MockGenerator {
 		RetrievePropertyRiskReportsMock propertyRiskReportsMock = new RetrievePropertyRiskReportsMock();
 		RiskReportsRequest riskReportsRequest = new RiskReportsRequest();
 		riskReportsRequest.setId(id);
-		riskReportsRequest.setStreetAddressLine(STREET_ADDRESS_LINE);
 
 		RiskReportsResponse riskReportsResponse = new RiskReportsResponse();
 		riskReportsResponse.setId(id);
@@ -166,7 +168,9 @@ public class MockGenerator {
 	}
 
 	public AddressReferenceMock getAddressReferenceMock(String postalCode, String state) {
-		String getZipQuery = "select * from LOOKUPVALUE where POSTALCODE = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?";
+		String getZipQuery = String.format("select * from LOOKUPVALUE where %s = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?",
+				Constants.States.CT.equals(state) ? "CODE" : "POSTALCODE");
+
 		CustomAssertions.assertThat(DBService.get().getValue(getZipQuery, postalCode, state)).as("Zip code %s is not valid for %s state, mock generation is useless", postalCode, state).isPresent();
 
 		AddressReferenceMock addressReferenceMock = new AddressReferenceMock();
@@ -186,7 +190,7 @@ public class MockGenerator {
 
 	protected static synchronized String generateMockId(List<String> existingMockIDs) {
 		int idLastIndex = existingMockIDs.stream().filter(id -> id != null && id.startsWith(GENERATED_ID_PREFIX))
-				.map(id -> Integer.valueOf(id.replaceAll(GENERATED_ID_PREFIX, ""))).max(Integer::compare).orElse(0);
+				.map(id -> Integer.valueOf(id.replaceAll("\\D", "").matches("^[0-9]+$") ? id.replaceAll("\\D", "") : "0")).max(Integer::compare).orElse(0);
 		return GENERATED_ID_PREFIX + (idLastIndex + 1);
 	}
 

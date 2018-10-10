@@ -5,16 +5,14 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules"/>
-
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/home_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
     <test name="HomeSS HO3 [AZ] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="AZTests-20170920_part1.xls"/>
         <parameter name="policyNumbers" value="2,33"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!--<test name="HomeSS [CO] Premium Calculation Test" preserve-order="true">-->
@@ -25,19 +23,17 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="HomeSS HO3 [CT] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="CTTests-20181101.xls"/>
         <parameter name="policyNumbers" value="1,4"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [DC] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="DCTests-20170126.xls"/>
         <parameter name="policyNumbers" value="1,7"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!--<test name="HomeSS [DE] Premium Calculation Test" preserve-order="true">-->
@@ -48,36 +44,33 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="HomeSS DP3 [ID] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="IDTests-20170807.xls"/>
         <parameter name="policyNumbers" value="6000,6015"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [IN] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="INTests-20180508_part1.xls"/>
         <parameter name="policyNumbers" value="1,5"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS DP3 [KS] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
-        <parameter name="fileName" value="KSTests - 20171001.xls"/>
-        <parameter name="policyNumbers" value="115,135"/>
+        <parameter name="fileName" value="KSTests - 20181001.xls"/>
+        <parameter name="policyNumbers" value="6, 310"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [KY] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="fileName" value="KYTests-20160901.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS HO3 [KY] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="KYTests-20181201.xls"/>
+        <parameter name="policyNumbers" value="4,10"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <!--<test name="HomeSS [MD] Premium Calculation Test" preserve-order="true">-->
     <!--<parameter name="fileName" value="MDTests-20171001.xls"/>-->
     <!--<parameter name="policyNumbers" value="1"/>-->
@@ -86,51 +79,45 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="HomeSS DP3 [MT] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="MTTests-20170501.xls"/>
         <parameter name="policyNumbers" value="1510,1520"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [NJ] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
         <parameter name="policyNumbers" value="2"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS DP3 [NJ] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="NJTests-20180401_part2.xls"/>
         <parameter name="policyNumbers" value="2012"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS DP3 [NV] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="NVTests-20170501.xls"/>
         <parameter name="policyNumbers" value="6015,6026"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [NY] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="NYTests-20170915.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS DP3 [OH] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="OHTests-20170803.xls"/>
         <parameter name="policyNumbers" value="6231,6236"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!--<test name="HomeSS [OK] Premium Calculation Test" preserve-order="true">-->
@@ -141,16 +128,14 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="HomeSS HO3 [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="ORTests-20171023.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!-- not ready, waiting for answer from Amanda regarding tests with programCode=LegacyConv are totally broken -->
     <!--<test name="HomeSS HO3 [PA] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="PATests-20180912_part1.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
@@ -158,11 +143,10 @@
         </classes>
         </test>-->
     <test name="HomeSS HO6 [SD] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO6"/>
         <parameter name="fileName" value="SDTests-20181101.xls"/>
         <parameter name="policyNumbers" value="4,9"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO6PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!--<test name="HomeSS [UT] Premium Calculation Test" preserve-order="true">-->
@@ -173,17 +157,15 @@
     <!--</classes>-->
     <!--</test>-->
     <test name="HomeSS DP3 [VA] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_DP3"/>
         <parameter name="fileName" value="VATests-20171101.xls"/>
         <parameter name="policyNumbers" value="6012"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <!-- not ready, waiting for answer from Amanda regarding tests with programCode=LegacyConv are totally broken -->
     <!--<test name="HomeSS HO3 [VA] Premium Calculation Test" preserve-order="true">
         <parameter name="state" value="VA"/>
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules/"/>
         <parameter name="fileName" value="VATests-20181101_part1.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
@@ -192,19 +174,17 @@
         </classes>
     </test>-->
     <test name="HomeSS HO3 [WV] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
-        <parameter name="fileName" value="WVTests-20171201.xls"/>
-        <parameter name="policyNumbers" value="3,8"/>
+        <parameter name="fileName" value="WVTests-20181201.xls"/>
+        <parameter name="policyNumbers" value="3,9"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
     <test name="HomeSS HO3 [WY] Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeSS_HO3"/>
         <parameter name="fileName" value="WYTests-20180501.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
-            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
 </suite>

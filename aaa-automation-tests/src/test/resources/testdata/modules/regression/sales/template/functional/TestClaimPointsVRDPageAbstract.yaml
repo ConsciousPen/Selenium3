@@ -1,0 +1,45 @@
+# Claims for Property Info Tab
+
+PropertyInfo_Claims: [
+
+  #Claim 1 - Not included in rating (first claim and amount less than $1000)
+  {
+  Add a claim: 'Yes',
+  Date of loss: '$<today-12M:MM/dd/yyyy>',
+  Cause of loss: 'Fire',
+  Amount of loss: '500',
+  Claim status: 'Closed',
+  AAA Claim: 'Yes',
+  Catastrophe loss: 'No'
+  },
+
+  #Claim 2 - Not included in rating (catastrophe = 'Yes')
+  {
+  Date of loss: '$<today-10M:MM/dd/yyyy>',
+  Cause of loss: 'Water',
+  Amount of loss: '5000',
+  Claim status: 'Closed',
+  AAA Claim: 'Yes',
+  Catastrophe loss: 'Yes'
+  },
+
+  #Claim 3 - Included in rating
+  {
+  Date of loss: '$<today-8M:MM/dd/yyyy>',
+  Cause of loss: 'Theft',
+  Amount of loss: '2500',
+  Claim status: 'Closed',
+  AAA Claim: 'Yes',
+  Catastrophe loss: 'No'
+  },
+
+  #Claim 4 - Included in rating
+  {
+  Date of loss: '$<today-6M:MM/dd/yyyy>',
+  Cause of loss: 'Liability',
+  Amount of loss: '7000',
+  Claim status: 'Closed',
+  AAA Claim: 'Yes',
+  Catastrophe loss: 'No'
+  }
+]

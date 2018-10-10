@@ -1,10 +1,8 @@
 package aaa.modules.regression.service.helper.dtoClaim;
 
-
 import java.util.List;
 
 public class ClaimsAssignmentResponse {
-
 
     private List<Claim> unmatchedClaims;
 

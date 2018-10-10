@@ -22,6 +22,7 @@ EndorsementActionTab: {
 
 PremiumsAndCoveragesQuoteTab: {
   Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
+  Coverage F - Medical Payments to Others: 'contains=$25,000',
   Calculate Premium: 'click',
   Override Premium: {
     Remarks: 'CFT tests',
@@ -40,4 +41,64 @@ PurchaseTab_DataGather: {
  PaymentAllocation: {
     Cash: /rest
  }
+}
+
+TestData_OK: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_OK',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'No Inspection Required'
+  },
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+PremiumsAndCoveragesQuoteTab_OK: {
+  Coverage E - Personal Liability Each Occurrence: 'contains=$2,000,000',
+  Coverage F - Medical Payments to Others: 'contains=$25,000',
+  Calculate Premium: 'click',
+  Override Premium: {
+    Remarks: 'CFT tests',
+    Percentage: '100',
+    Additional Popup Submit: {
+      Submit Popup: 'click'
+    }
+  }
+}
+
+TestData_DE: {
+  EndorsementActionTab: '@EndorsementActionTab',
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab_DE',
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'No Inspection Required'
+  },
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+PremiumsAndCoveragesQuoteTab_DE: {
+  Coverage E - Personal Liability Each Occurrence: 'contains=$2,000,000',
+  Coverage F - Medical Payments to Others: 'contains=$25,000',
+  Calculate Premium: 'click',
+  Override Premium: {
+    Remarks: 'CFT tests',
+    Percentage: '100',
+    Additional Popup Submit: {
+      Submit Popup: 'click'
+    }
+  }
 }
