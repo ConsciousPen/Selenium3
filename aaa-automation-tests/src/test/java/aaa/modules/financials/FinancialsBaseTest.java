@@ -41,12 +41,14 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 	private static final String HOME_CA_DP3 = "HomeCA_DP3";
 	private static final String PUP = "PUP";
 
+/*
 	@BeforeSuite(alwaysRun = true)
 	public void beforeFinancialSuite() {
 		validateAccounts();
 	}
+*/
 
-	@AfterSuite(alwaysRun = true)
+/*	@AfterSuite(alwaysRun = true)
 	public void afterFinancialSuite() {
 		// ********* For debugging only ************
 		for (String policy : ALL_POLICIES) {
@@ -56,7 +58,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 
 		validateAccounts();
 
-	}
+	}*/
 
 	@Override
 	protected TestData getPolicyTD() {
@@ -277,7 +279,7 @@ public class FinancialsBaseTest extends PolicyBaseTest {
 		return policies;
 	}
 
-	private void validateAccounts() {
+	public static void validateAccounts() {
 		if (TimeSetterUtil.getInstance().getCurrentTime().getDayOfMonth() != 1) {
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
 		}
