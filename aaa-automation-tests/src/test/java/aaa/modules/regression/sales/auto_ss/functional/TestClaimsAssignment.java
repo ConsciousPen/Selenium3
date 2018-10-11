@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
-	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/claimsmatch/claim_micro_service_requests/";
+	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
 
 	/**
 	* * @author Chris Johns

@@ -1,5 +1,5 @@
 ############### 3 Drivers on policy
-TestData_DriverTab_OfflineClaim: {
+TestData_DriverTab_OfflineClaim_AZ: {
   DriverTab: ['@Driver2','@Driver3']
 }
 
@@ -7,8 +7,8 @@ TestData_DriverTab_OfflineClaim: {
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Bruce,
-  Last Name: Banner,
+  First Name: JOSHUA,
+  Last Name: FUSSELL,
   'Rel. to First Named Insured': Sibling,
   Date of Birth: $<today-21y>,
   Gender: Male,
