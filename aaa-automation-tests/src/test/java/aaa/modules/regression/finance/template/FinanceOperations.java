@@ -57,6 +57,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	 */
 	protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until) {
 		while (until.isAfter(jobDate)) {
+			TimeSetterUtil.getInstance().nextPhase(jobDate);
 			JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 			jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
 		}
