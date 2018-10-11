@@ -9,6 +9,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 
@@ -62,5 +63,19 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 			jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
 		}
 		return jobDate;
+	}
+
+	/**
+	 * @author Reda Kazlauskiene
+	 * @name Create Endorsement with specific TesDate and Effective date
+	 */
+	protected void createEndorsement(int daysToEffective, String testDataName) {
+		TestData adjustedEndorsementActionData = getPolicyTD("Endorsement", "TestData")
+				.getTestData("EndorsementActionTab")
+				.adjust("Endorsement Date", TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysToEffective)
+						.format(DateTimeUtils.MM_DD_YYYY));
+		policy.endorse().performAndFill(getTestSpecificTD(testDataName)
+				.adjust(getPolicyTD("Endorsement", "TestData"))
+				.adjust("EndorsementActionTab", adjustedEndorsementActionData));
 	}
 }
