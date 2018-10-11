@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -1439,7 +1440,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		validatePrimaryOperator_pas15540(driverFNI.firstName, 2, primaryOperatorFNIExpected);
 		validatePrimaryOperator_pas15540(driverFNI.firstName, 3, primaryOperatorFNIExpected);
-		if ("AZ".equals(getState())) {
+		if (Constants.States.AZ.equals(getState())) {
 			validatePrimaryOperator_pas15540(driverFNI.firstName, 4, primaryOperatorFNIExpected);
 		}
 	}
