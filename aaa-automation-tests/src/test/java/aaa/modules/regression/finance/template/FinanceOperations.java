@@ -2,9 +2,12 @@ package aaa.modules.regression.finance.template;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -72,7 +75,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         policy.endorse().performAndFill(getTestSpecificTD(testDataName)
                 .adjust(getPolicyTD("Endorsement", "TestData")).resolveLinks()
                 .adjust("EndorsementActionTab|Endorsement Date",
-                        TimeSetterUtil.getInstance().getCurrentTime().minusDays(daysToEffective)
+                        TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective)
                                 .format(DateTimeUtils.MM_DD_YYYY)));
     }
 }
