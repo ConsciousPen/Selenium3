@@ -44,7 +44,9 @@ MotorHome: {
     Primary Use: Pleasure (recreational driving only),
     Existing Damage: None,
     "Salvaged?": 'No',
-    Miles One-way to Work or School: 10
+    Miles One-way to Work or School: 10,
+    Odometer Reading: '12000',
+    Odometer Reading Date: '$<today:MM/dd/yyyy>'
   }
 }
 
@@ -92,6 +94,7 @@ Antique: {
     "View Antique vehicle questionnaire?": 'No',
     Existing Damage: None,
     "Salvaged?": 'No',
-    Miles One-way to Work or School: 10
+    Miles One-way to Work or School: 10,
+    Odometer Reading: '12000'
   }
 }
