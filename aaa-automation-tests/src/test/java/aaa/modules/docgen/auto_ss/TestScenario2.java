@@ -390,9 +390,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
+	@StateList(states = {States.AZ, States.IN, States.OK})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
-	public void TC02_EndorsePolicy(@Optional("") String state) {
+	public void TC02_01_EndorsePolicy(@Optional("") String state) {
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -410,22 +410,57 @@ public class TestScenario2 extends AutoSSBaseTest {
 
 		switch (getState()) {
 			case "AZ":
-		/*verify the xml file for AZ
-			AASR26
-			AH35XX
-			AA02AZ
-			AA10XX
-			AA43AZ
-			AA52AZ
-			AA59XX
-			AAPDXX*/
-
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
 								.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
 								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
 						policyNumber);
 
+				break;
+			case "IN":
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+								.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
+								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
+						policyNumber);
+				
+				break;
+			case "OK":
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
+								.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
+								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
+								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
+						policyNumber);
+
+				break;
+
+		}
+
+		clearList();
+
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
+	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")
+	public void TC02_02_EndorsePolicy(@Optional("") String state) {
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		TestData endorsementTd = getTestSpecificTD("TestData_Endorsement2");
+		policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
+		assertThat(PolicySummaryPage.buttonPendedEndorsement).isEnabled(false);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+		storeCoveragesData();
+		storeBillingData();
+
+		endrEffDt = DocGenHelper.convertToZonedDateTime(TimeSetterUtil.getInstance()
+				.parse(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Endorsement - Maintain Vehicle(s)")
+						.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.EFF_DATE).getValue(), DateTimeUtils.MM_DD_YYYY));
+
+		switch (getState()) {
+			case "AZ":
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43AZ, AH35XX, AA59XX, AA52AZ, AA10XX, AAPDXX, AA02AZ).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43AZ", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43AZ", "form", "TermEffDt", "DateTimeField"), termEffDt)
@@ -471,24 +506,8 @@ public class TestScenario2 extends AutoSSBaseTest {
 								.adjust(TestData.makeKeyPath("AA02AZ", "form", "EndrEffDt", "DateTimeField"), endrEffDt),
 						policyNumber);
 				break;
+				
 			case "IN":
-        /* verify the xml file
-			AASR26
-			AH35XX
-			AA02IN
-			AA10XX
-			AA43IN
-			AA52IN
-			AA53IN
-			AA59XX
-			AAPDXX*/
-
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
-								.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
-								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
-						policyNumber);
-
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43IN, AH35XX, AA59XX, AA52IN, AA53IN, AA10XX, AAPDXX, AA02IN).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43IN", "form", "TermEffDt", "DateTimeField"), termEffDt)
@@ -536,22 +555,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 						policyNumber);
 				break;
 			case "OK":
-			/* verify the xml file
-			AASR26
-			AH35XX
-			AA02OK
-			AA10OK
-			AA43OK
-			AA52OK
-			AA59XX
-			AAPDXX*/
-
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, AASR26).verify.mapping(getTestSpecificTD("TestData_AASR26")
-								.adjust(TestData.makeKeyPath("AASR26", "form", "PlcyNum", "TextField"), policyNumber)
-								.adjust(TestData.makeKeyPath("AASR26", "form", "TermEffDt", "DateTimeField"), termEffDt)
-								.adjust(TestData.makeKeyPath("AASR26", "form", "TermExprDt", "DateTimeField"), termExprDt),
-						policyNumber);
-
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43OK, AH35XX, AA59XX, AA52OK, AA10OK, AAPDXX, AA02OK).verify.mapping(getTestSpecificTD("TestData_VerificationED")
 								.adjust(TestData.makeKeyPath("AA43OK", "form", "PlcyNum", "TextField"), policyNumber)
 								.adjust(TestData.makeKeyPath("AA43OK", "form", "TermEffDt", "DateTimeField"), termEffDt)
@@ -585,7 +588,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehClsnDed"), vehClsnDed)
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehCompDed"), vehCompDed)
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "PlcySpclEqpmtTotAmt"), plcySpclEqpmtTotAmt)
-								//					.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "NetWrtPrem", "TextField"), netWrtPrem) //TODO defect_44924 the value of netWrtPrem is incorrect
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehTotPrem"), vehTotPrem)
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "VehCovPrem", "TextField"), vehCovPrem)
 								.adjust(TestData.makeKeyPath("AA02OK", "CoverageDetails", "AllVehTotPrem", "TextField"), allVehTotPrem)
@@ -596,17 +598,6 @@ public class TestScenario2 extends AutoSSBaseTest {
 						policyNumber);
 				break;
 			case "PA":
-		 /*verify the xml file
-			AH35XX
-			AA02PA
-			AA10PA
-			AA43PA
-			AA52IPAB
-			AA52UPAB
-			AA59XX
-			AAPDXX
-			AAFPPA
-					*/
 				DocGenHelper.verifyDocumentsGenerated(policyNumber, AA43PA, AH35XX, AA59XX, AA52IPAB, AA52UPAB, AA10PA, AAPDXX, AA02PA, AAFPPA).verify
 						.mapping(getTestSpecificTD("TestData_VerificationED")
 										.adjust(TestData.makeKeyPath("AA43PA", "form", "PlcyNum", "TextField"), policyNumber)
@@ -666,7 +657,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 		clearList();
 
 	}
-
+	
 	@Parameters({"state"})
 	@StateList(states = {States.AZ, States.IN, States.OK, States.PA})
 	@Test(groups = {Groups.DOCGEN, Groups.TIMEPOINT, Groups.CRITICAL}, dependsOnMethods = "TC01_CreatePolicy")

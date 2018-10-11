@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
+import org.assertj.core.api.Assertions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.utils.excel.bind.cache.TableClassesCache;
@@ -36,6 +37,7 @@ public class ExcelUnmarshaller implements Closeable {
 	}
 
 	public ExcelUnmarshaller(File excelFile, boolean strictMatchBinding, List<CellType<?>> allowableCellTypes) {
+		Assertions.assertThat(excelFile).as("Unable to unmarshal null or not existent file").isNotNull().exists();
 		this.allowableCellTypes = Collections.unmodifiableList(allowableCellTypes);
 		this.strictMatchBinding = strictMatchBinding;
 		this.excelManager = new ExcelManager(excelFile, allowableCellTypes);

@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
-	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:calculatePremiumPup"), Waiters.AJAX);
+	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:actionButton_AAAPUPRateAction"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
 	public static Table tablePUPCoveragePremium = new Table(By.id("policyDataGatherForm:pupCoverageDetail"));

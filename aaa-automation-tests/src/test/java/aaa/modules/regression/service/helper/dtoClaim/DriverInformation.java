@@ -14,7 +14,8 @@ public class DriverInformation {
 
     private String relationToNamedInsured;
 
-    private Date dateOfBirth;
+    private String dateOfBirth;
+	private  String  claimDriverName;
 
     public String getFirstName() {
         return firstName;
@@ -56,13 +57,21 @@ public class DriverInformation {
         this.relationToNamedInsured = relationToNamedInsured;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
+
+	public String getClaimDriverName() {
+		return claimDriverName;
+	}
+
+	public void setClaimDriverName(String claimDriverName) {
+		this.claimDriverName = claimDriverName;
+	}
 
     @Override
     public String toString() {
@@ -72,7 +81,8 @@ public class DriverInformation {
                 ", licenseNumber='" + licenseNumber + '\'' +
                 ", issuedState='" + issuedState + '\'' +
                 ", relationToNamedInsured='" + relationToNamedInsured + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth=" + dateOfBirth + '\'' +
+                ", claimDriverName=" + claimDriverName +
                 '}';
     }
 }

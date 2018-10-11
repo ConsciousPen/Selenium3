@@ -32,9 +32,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHomeAbstract {
 
-	//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
-	private String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
-
 	protected void specialNonRenewalLetterBeforeR80Generated(Boolean isOtherActivePolicyPup) throws NoSuchFieldException {
 		mainApp().open();
 		createCustomerIndividual();
@@ -48,6 +45,9 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 					testDataManager.getDefault(TestSpecialNonRenewalLetterKY.class).getTestDataList("OtherActiveAAAPolicies"));
 		}
 
+		//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
+		String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
+
 		//Create Conversion Policy at R-81
 		String policyNumber = createConversionPolicy(getManualConversionInitiationTd()
 						.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
@@ -56,7 +56,8 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
 
 		//Try to generate Conversion Specific Special Non-renewal letter (FORM# HSSNRKY 01 18) (document should not be generated)
-		runPreRenewalNoticeJob(conversionExpDate.minusDays(81));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL, false);
@@ -105,6 +106,9 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		mainApp().open();
 		createCustomerIndividual();
 
+		//Conversion Policy should be created earlier than Conversion Specific Special Non-renewal letter date R-80
+		String conversionRenewalEffectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(81).format(DateTimeUtils.MM_DD_YYYY);
+
 		//Create Conversion Policy at R-81
 		return createConversionPolicy(getManualConversionInitiationTd()
 						.adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
@@ -148,7 +152,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().submitTab();
 
-		purchaseRenewal(conversionExpDate, policyNumber);
+		payTotalAmtDue(conversionExpDate, policyNumber);
 	}
 }
 

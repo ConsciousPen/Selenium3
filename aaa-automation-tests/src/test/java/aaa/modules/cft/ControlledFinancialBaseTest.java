@@ -601,6 +601,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void manualRenewalEntryOnStartDate() {
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW);
+		if ("CT".equals(getState())){
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(56);
+		}
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTd = getConversionPolicyDefaultTD();

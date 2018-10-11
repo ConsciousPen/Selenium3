@@ -4,15 +4,14 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -2902,6 +2901,71 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas15788_PDAvailableLimitsWhenBIisTheLowestAvailableBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		Coverage coverageBI = getCoverage(policyCoverageInfo.policyCoverages, "BI");
+		String lowestBILimitForState = coverageBI.availableLimits.get(0).coverageLimit; //availableLimit at index 0 should be the lowest one
+		//Update BI to lowest available limit
+		Coverage coveragePDAfterUpdate = updateBIAndGetPD_pas15788(policyNumber, lowestBILimitForState);
+
+		int availablePDLimitsSizeExpected = 3;//expected availableLimits size for PD when BI is the lowest available limit
+		if (Constants.States.WY.equals(getState())) {
+			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/50000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "20000", "$20,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "25000", "$25,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 2, "50000", "$50,000");
+		} else if (Constants.States.UT.equals(getState())) {
+			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/65000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "15000", "$15,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "25000", "$25,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 2, "50000", "$50,000");
+		} else if (Constants.States.NV.contains(getState()) || Constants.States.SD.contains(getState())) {
+			//BUG:PAS-20384 DXP: view Coverages service displays wrong available BI limits for NV
+			//BUG:PAS-20398 DXP: view Coverages service displays wrong available PD limits for NV
+			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/50000");
+			availablePDLimitsSizeExpected = 2;
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "25000", "$25,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "50000", "$50,000");
+		} else if (Constants.States.AZ.contains(getState())) {
+			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "15000/30000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "10000", "$10,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "15000", "$15,000");
+			validateAvailableCoverageLimit(coveragePDAfterUpdate, 2, "25000", "$25,000");
+		}
+
+		assertThat(coveragePDAfterUpdate.availableLimits.size())
+				.as("Only values available for Property Damage should be those that are less than or equal to the Per Accident amount for Bodily Injury")
+				.isEqualTo(availablePDLimitsSizeExpected);
+
+		//assert that delimiter for Bodily Injury Liability shows as Per Person/Per Accident and the delimiter for Property Damage Liability shows as Per Accident (as said in US)
+		assertThat(coveragePDAfterUpdate.coverageType).isEqualTo("Per Accident");
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		assertThat(getCoverage(viewEndorsementCoverages.policyCoverages, "BI").coverageType).isEqualTo("Per Person/Per Accident");
+
+		//Update BI to second lowest available limit and check that available PD limits size is greater than with lowest available BI limit
+		coveragePDAfterUpdate = updateBIAndGetPD_pas15788(policyNumber, coverageBI.availableLimits.get(1).coverageLimit);
+		assertThat(coveragePDAfterUpdate.availableLimits.size()).isGreaterThan(availablePDLimitsSizeExpected);
+
+		//rate and bind to finish transaction
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private Coverage updateBIAndGetPD_pas15788(String policyNumber, String coverageBILimit) {
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageBILimit);
+		HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageInfoAfterUpdate = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		return getCoverage(policyCoverageInfoAfterUpdate.policyCoverages, "PD");
+	}
+
+	//check that lowest BI limit is as expected
+	private void checkLowestAvailableBILimit_pas15788(String lowestBILimitForState, String lowestBILimitForStateExpected) {
+		assertThat(lowestBILimitForState).as("Lowest available limit for " + getState() + " is expected to be " + lowestBILimitForStateExpected).isEqualTo(lowestBILimitForStateExpected);
+	}
+
 	private void validateCustomEquipCov(ETCSCoreSoftAssertions softly, boolean coverageExpected, String oid, PolicyCoverageInfo policyCoverageInfo) {
 		VehicleCoverageInfo vehicleCoverageInfo = getVehicleCoverages(policyCoverageInfo, oid);
 		Coverage custEquip = getCoverage(vehicleCoverageInfo.coverages, "CUSTEQUIP");
@@ -3274,6 +3338,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(availableLimitsPD.get(4).coverageLimit).isEqualTo("300000");
 			softly.assertThat(availableLimitsPD.get(4).coverageLimitDisplay).isEqualTo("$300,000");
 		});
+	}
+
+	private void validateAvailableCoverageLimit(Coverage coverage, int availableLimitIndex, String coverageLimitExpected, String coverageLimitDisplayExpected) {
+		assertThat(coverage.availableLimits.get(availableLimitIndex).coverageLimit)
+				.as(coverage.coverageCd + " expected coverageLimit at index " + availableLimitIndex + ": " + coverageLimitExpected).isEqualTo(coverageLimitExpected);
+		assertThat(coverage.availableLimits.get(availableLimitIndex).coverageLimitDisplay)
+				.as(coverage.coverageCd + " expected coverageLimitDisplay: " + coverageLimitDisplayExpected).isEqualTo(coverageLimitDisplayExpected);
 	}
 
 	private void goToPasAndChangeUMPD(String policyNumber) {
