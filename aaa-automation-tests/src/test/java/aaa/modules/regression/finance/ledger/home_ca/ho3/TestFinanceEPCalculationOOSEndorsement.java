@@ -1,7 +1,9 @@
 package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
@@ -9,16 +11,19 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 
 public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     /**
      * @author
-     * Objectives : 
+     * Objectives :
      * Preconditions:
-     * 1. Create Annual Policy
+     * 1. Create Annual CA Home Policy
+     * 2
 
      */
 
@@ -34,7 +39,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 
         mainApp().open();
         createCustomerIndividual();
-        createPolicy();
+        String policyNumber = createPolicy();
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime e1date = today.plusDays(62);
         LocalDateTime e2date = e1date.plusDays(61);
@@ -44,8 +49,12 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
         jobDate = runEPJobUntil(jobDate, e1date);
+        TimeSetterUtil.getInstance().nextPhase(e1date);
 
-        //endorse();
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        createEndorsement(1, "TestData_EndorsementRP");
 
         jobDate = runEPJobUntil(jobDate, e2date);
 
