@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -2912,24 +2913,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage coveragePDAfterUpdate = updateBIAndGetPD_pas15788(policyNumber, lowestBILimitForState);
 
 		int availablePDLimitsSizeExpected = 3;//expected availableLimits size for PD when BI is the lowest available limit
-		if ("WY".equals(getState())) {
+		if (Constants.States.WY.equals(getState())) {
 			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/50000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "20000", "$20,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "25000", "$25,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 2, "50000", "$50,000");
-		} else if ("UT".equals(getState())) {
+		} else if (Constants.States.UT.equals(getState())) {
 			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/65000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "15000", "$15,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "25000", "$25,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 2, "50000", "$50,000");
-		} else if ("NV, SD".contains(getState())) {
+		} else if (Constants.States.NV.contains(getState()) || Constants.States.SD.contains(getState())) {
 			//BUG:PAS-20384 DXP: view Coverages service displays wrong available BI limits for NV
 			//BUG:PAS-20398 DXP: view Coverages service displays wrong available PD limits for NV
 			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "25000/50000");
 			availablePDLimitsSizeExpected = 2;
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "25000", "$25,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "50000", "$50,000");
-		} else if ("AZ".contains(getState())) {
+		} else if (Constants.States.AZ.contains(getState())) {
 			checkLowestAvailableBILimit_pas15788(lowestBILimitForState, "15000/30000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 0, "10000", "$10,000");
 			validateAvailableCoverageLimit(coveragePDAfterUpdate, 1, "15000", "$15,000");
