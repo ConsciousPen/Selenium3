@@ -28,14 +28,9 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
 public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPolicyLockPreConditions {
 
-	private static final LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
-	private static final String currentDate = getDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-	private static final String activityDate = getDate.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
 	private static final String lookUpId = "(SELECT ll.id FROM lookupList ll WHERE ll.lookupName LIKE '%AAAFactorsLockLookup')";
 	private static final String toDate = "to_date('%s', 'YYYY-MM-DD')";
 	private static Set<String> elementNames = new HashSet<>();
-	private static final String tomorrowDate = getDate.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
-
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private DriverTab driverTab = new DriverTab();
 
@@ -58,6 +53,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2247")
 	public void pas2247_pas2248_AipAndNafLock(@Optional("CT") String state) {
+		LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String activityDate = getDate.format(DateTimeFormatter.ofPattern("MM/dd/YYYY"));
+		String currentDate = getDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 
 		TestData testData = getAdjustedTD().adjust(getTestSpecificTD("OverrideErrors").resolveLinks());
 
@@ -123,6 +121,8 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6587")
 	public void pas4311_pas6587_ASDLock(@Optional("CO") String state) {
+		String currentDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+
 		TestData testData = getPolicyTD();
 
 		//Add locked values to the global variable to clean them up then
@@ -186,6 +186,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4311")
 	public void pas4311_pas6587_ASDLock_newly_locked(@Optional("CO") String state) {
+		String tomorrowDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 		TestData testData = getPolicyTD();
 
 		//Add locked values to the global variable to clean them up then
@@ -239,6 +240,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	}
 
 	private TestData getAdjustedTD() {
+		LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
 		String driverTabSimpleName = new DriverTab().getMetaKey();
 		String generalTabSimpleName = new GeneralTab().getMetaKey();
 		String namedInsuredInformationSection = AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel();
@@ -250,6 +252,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 		//Adjust data for Base Date field on General Tab
 		List<TestData> baseDateAdjustment = new ArrayList<>();
+
 		baseDateAdjustment.add(getPolicyTD().getTestData(generalTabSimpleName).getTestDataList(namedInsuredInformationSection).get(0)
 				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel(), getDate.minusYears(1).format(DateTimeFormatter.ofPattern("MM/dd/YYYY")))
 				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel(), "Derek")
@@ -277,6 +280,9 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 	}
 
 	private void deleteLockForTheElement() {
+		LocalDateTime getDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String tomorrowDate = getDate.plusDays(1).format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
+		String currentDate = getDate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
 		elementNames.forEach(e ->
 				DBService.get().executeUpdate(String.format(DELETE_QUERY, lookUpId, e, String.format(toDate, currentDate), String.format(toDate, tomorrowDate), getState())));
 	}

@@ -10,10 +10,34 @@
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario35"/>
         </classes>
     </test>
-    <test name="HomeSS Scenario 35 CFT" parallel="none">
-        <parameter name="state" value="DE, MD, NJ, PA, VA"/>
+    <test name="HomeSS HO3 Scenario 35 CFT" parallel="none">
+        <parameter name="state" value="DE, MD, NJ, PA, VA, AZ, KY, OK, CT"/>
         <classes>
             <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario35"/>
+        </classes>
+    </test>
+    <test name="HomeSS HO4 Scenario 35 CFT" parallel="none">
+        <parameter name="state" value="AZ, KY, OK, CT"/>
+        <classes>
+            <class name="aaa.modules.cft.home_ss.ho4.TestCFTScenario35"/>
+        </classes>
+    </test>
+    <test name="HomeSS HO6 Scenario 35 CFT" parallel="none">
+        <parameter name="state" value="AZ, KY, OK, CT"/>
+        <classes>
+            <class name="aaa.modules.cft.home_ss.ho6.TestCFTScenario35"/>
+        </classes>
+    </test>
+    <test name="HomeSS DP3 Scenario 35 CFT" parallel="none">
+        <parameter name="state" value="AZ, KY, OK, CT"/>
+        <classes>
+            <class name="aaa.modules.cft.home_ss.dp3.TestCFTScenario35"/>
+        </classes>
+    </test>
+    <test name="PUP Scenario 35 CFT" parallel="none">
+        <parameter name="state" value="AZ, KY, OK, CT"/>
+        <classes>
+            <class name="aaa.modules.cft.pup.TestCFTScenario35"/>
         </classes>
     </test>
 </suite>

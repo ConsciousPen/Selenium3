@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -139,6 +140,11 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, 
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_HO6;
 	}
 
 	@Override

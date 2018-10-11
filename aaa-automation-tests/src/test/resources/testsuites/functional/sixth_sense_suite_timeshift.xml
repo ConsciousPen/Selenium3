@@ -85,22 +85,22 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
                 </methods>
             </class>
         </classes>
@@ -313,30 +313,30 @@
         </classes>
     </test>
 
-    <!--<test name="Test Renewal Status change" parallel="methods" thread-count="1024">-->
-        <!--<parameter name="state" value="CA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRenewalStatusChange">-->
-                <!--<methods>-->
-                    <!--<include name="pas17736_TestRenewalStatusChangeCA_DP3"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestRenewalStatusChange">-->
-                <!--<methods>-->
-                    <!--<include name="pas17736_TestRenewalStatusChangeCA_HO3"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestRenewalStatusChange">-->
-                <!--<methods>-->
-                    <!--<include name="pas17736_TestRenewalStatusChangeCA_HO4"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalStatusChange">-->
-                <!--<methods>-->
-                    <!--<include name="pas17736_TestRenewalStatusChangeCA_HO6"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Renewal Status change" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>

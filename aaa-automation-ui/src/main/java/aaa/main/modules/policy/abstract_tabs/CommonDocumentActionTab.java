@@ -68,7 +68,6 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
-
 		generateDocuments(DocGenEnum.DeliveryMethod.CENTRAL_PRINT, expandedDocumentsData, documents);
 	}
 
@@ -77,6 +76,10 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 	}
 
 	public void generateDocuments(DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
+		generateDocuments(true, deliveryMethod, null, null, expandedDocumentsData, documents);
+	}
+	
+	public void generateDocuments(Boolean waitForPolicy, DocGenEnum.DeliveryMethod deliveryMethod, String emailAddress, String fax, TestData expandedDocumentsData, DocGenEnum.Documents... documents) {
 		synchronized (lock) {
 			if (documents.length > 0) {
 				selectDocuments(documents);
@@ -98,7 +101,10 @@ public abstract class CommonDocumentActionTab extends ActionTab {
 			}
 
 			submitTab();
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			
+			if (waitForPolicy == true) 
+			 PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+			
 		}
 	}
 
