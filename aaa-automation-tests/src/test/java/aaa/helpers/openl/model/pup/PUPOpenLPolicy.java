@@ -12,6 +12,7 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.PUPTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
@@ -230,6 +231,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 
 	public void setSignature(String signature) {
 		this.signature = signature;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.PUP;
 	}
 
 	@Override

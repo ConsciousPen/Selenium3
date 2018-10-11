@@ -5,7 +5,6 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-pup/src/test/openl/rules"/>
-    <parameter name="policyType" value="PUP"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/pup"/>-->
     <!--<parameter name="localTests" value="true"/>-->

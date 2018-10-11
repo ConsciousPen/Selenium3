@@ -14,6 +14,7 @@ import com.google.common.collect.Maps;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.annotation.MatchingField;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.ReflectionHelper;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
@@ -66,6 +67,8 @@ public abstract class OpenLPolicy {
 	public void setState(String state) {
 		this.state = state;
 	}
+
+	public abstract PolicyType getTestPolicyType();
 
 	public abstract Integer getTerm();
 
