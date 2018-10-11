@@ -723,4 +723,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable">
+        <parameter name="state" value="WY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
