@@ -615,6 +615,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
 		);
 	}
+	/**
+	 * @author Maris Strazds
+	 * @scenario validate Property Damage Liability available limits if BI is selected as the lowest available coverage
+	 * 1. Create a policy in PAS with BI that are NOT the lowest BI limits available
+	 * 2. Create endorsement through service
+	 * 3. Update my BI coverages to be BI limits that are the lowest BI limits available through service
+	 * 4. Validate that the delimiter for Bodily Injury Liability shows as Per Person/Per Accident
+	 * AND the delimiter for Property Damage Liability shows as Per Accident
+	 * AND the only values available for Property Damage are those that are less than or equal to the Per Accident amount for Bodily Injury
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.AZ, Constants.States.NV, Constants.States.SD, Constants.States.UT, Constants.States.WY})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15788"})
+	public void pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable(@Optional("WY") String state) {
+		pas15788_PDAvailableLimitsWhenBIisTheLowestAvailableBody();
+	}
 }
 
 
