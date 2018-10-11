@@ -1,0 +1,41 @@
+TestData_Moratorium_Config_1: {
+  AddMoratoriumTab: {
+    Moratorium Type: Non-catastrophe,
+    Moratorium Name: '$<rx:Test Moratorium Automated 1 \d{5}>',
+    Moratorium Reason: Testing,
+    Effective Date: '$<today>',
+    Expiration Date: '$<today+1d>',
+    Countries: United States,
+    States: United States - AZ,
+    Cities: Arizona City,
+    Zip Codes: 85123,
+    Products: Auto Signature Series,
+    AddRuleSection: {
+      New Business Premium Calculation: Soft Stop,
+      New Business Bind: Hard Stop,
+      Display Message: '$<rx:Test Moratorium Message 1 \d{5}>'
+    }
+  }
+}
+
+TestData_Moratorium_Config_2: {
+  AddMoratoriumTab: {
+    Moratorium Type: Non-catastrophe,
+    Moratorium Name: '$<rx:Test Moratorium Automated 2 \d{5}>',
+    Moratorium Reason: Testing,
+    Effective Date: '$<today>',
+    Expiration Date: '$<today+1d>',
+    Countries: United States,
+    States: United States - AZ,
+    Cities: Florence,
+    Zip Codes: 85132,
+    Products: Auto Signature Series,
+    AddRuleSection: {
+      New Business Bind: Hard Stop (Overridable),
+      New Business Bind Level: Level 4,
+      Display Message: '$<rx:Test Moratorium Message 2 \d{5}>'
+    }
+  }
+}
+
+
