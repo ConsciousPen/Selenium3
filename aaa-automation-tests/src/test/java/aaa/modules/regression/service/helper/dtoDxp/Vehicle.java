@@ -22,14 +22,26 @@ public class Vehicle implements RestBodyRequest {
 	@ApiModelProperty(value = "Manufacturer", example = "Ferrari")
 	public String manufacturer;
 
+	@ApiModelProperty(value = "Other Manufacturer", example = "HONDA", readOnly = true)
+	public String otherManufacturer;
+
 	@ApiModelProperty(value = "Series", example = "Enzo")
 	public String series;
+
+	@ApiModelProperty(value = "Other Series", example = "CIVIC LX", readOnly = true)
+	public String otherSeries;
 
 	@ApiModelProperty(value = "Model", example = "Enzo")
 	public String model;
 
+	@ApiModelProperty(value = "Other Model", example = "CIVIC", readOnly = true)
+	public String otherModel;
+
 	@ApiModelProperty(value = "Body style", example = "Coupe")
 	public String bodyStyle;
+
+	@ApiModelProperty(value = "Other Body Style", example = "COUPE", readOnly = true)
+	public String otherBodyStyle;
 
 	@ApiModelProperty(value = "OID", example = "moNsX3IYP-LrcTxUBUpGjQ")
 	public String oid;
@@ -75,8 +87,6 @@ public class Vehicle implements RestBodyRequest {
 
 	@ApiModelProperty(value = "List of vehicle related validation errors")
 	public List<ValidationError> validations;
-
-
 
 	public static final Comparator<Vehicle> ACTIVE_POLICY_COMPARATOR = (vehicle1, vehicle2) -> ComparisonChain.start()
 			.compareTrueFirst(VEHICLE_TYPE_PRIVATE_PASSENGER_AUTO.equals(vehicle1.vehTypeCd),

@@ -640,7 +640,35 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15255"})
 	public void pas15255_UpdateCompCollCoveragesCheckUmpd(@Optional("OH") String state) {
 
-				pas15255_UpdateCompCollCoveragesCheckUmpdBody(state);
+		pas15255_UpdateCompCollCoveragesCheckUmpdBody(state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverages - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy: UM/UIM other than no coverage, Comp/Coll- both = no coverage
+	 * 2. Run view coverages service. Check UMBI
+	 * 3. Create endorsement outside of PAS.
+	 * 4. Update Coverage: Coll =  No coverages, bind endorsement.
+	 * 5. Run view coverages service. Check UMBI
+	 * @scenario2
+	 * 1. Create policy: UM/UIM other than no coverage, Comp/Coll = both have other than no coverage.
+	 * 2. Run view coverages service. Check UMBI
+	 * @scenario3
+	 * 1. Create policy: UM/UIM - No Coverage, Comp, Comp/Coll- both = no coverage
+	 * 2. Run view coverages service. Check UMBI
+	 * 3. Create endorsement outside of PAS.
+	 * 4. Update Coverage: Coll =  No coverages, bind endorsement.
+	 * Note: Repeat with MotorHome
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15496"})
+	public void pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl(@Optional("OH") String state) {
+
+		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(), false);
+		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(),true);
 	}
 }
 

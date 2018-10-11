@@ -431,12 +431,13 @@
             </class>
         </classes>
     </test>
-    <test name="pas15255_UpdateCompCollCoveragesCheckUmpd">
+    <test name="ViewUpdateCoverageUMPD">
         <parameter name="state" value="CO, OH"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15255_UpdateCompCollCoveragesCheckUmpd"/>
+                    <include name="pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl"/>
                 </methods>
             </class>
         </classes>
