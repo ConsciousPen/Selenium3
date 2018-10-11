@@ -1410,7 +1410,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTrailer").getTestDataList("VehicleTab")).resolveLinks();
 		//adjust test data to override errors for NJ and NY
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-		if ("NJ, NY".contains(getState())) {
+		if (Constants.States.NJ.contains(getState()) || Constants.States.NY.contains(getState())) {
 			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 		}
 
