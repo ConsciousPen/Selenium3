@@ -45,8 +45,6 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
         LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-        createEndorsement(1, "TestData_EndorsementRP");
-
         jobDate = runEPJobUntil(jobDate, eDate);
 
         mainApp().open();

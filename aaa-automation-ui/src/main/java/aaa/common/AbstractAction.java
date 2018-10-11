@@ -10,6 +10,7 @@ import toolkit.datax.TestData;
 
 /**
  * Abstract entity action class.
+ *
  * @category Static
  */
 public abstract class AbstractAction {
@@ -17,12 +18,14 @@ public abstract class AbstractAction {
 
     /**
      * Get action label (for "Select Action" combobox)
+     *
      * @return action label
      */
     public abstract String getName();
 
     /**
      * Get workspace associated with this action
+     *
      * @return workspace (aka view)
      */
     public abstract Workspace getView();
@@ -40,6 +43,7 @@ public abstract class AbstractAction {
     /**
      * Fill tabs of associated workspace with provided data and submit if necessary.
      * Override if action is performed in non-standard manner.
+     *
      * @param td TestData with data tables for each tab
      */
     public AbstractAction perform(TestData td) {
@@ -54,7 +58,11 @@ public abstract class AbstractAction {
      */
     public AbstractAction submit() {
         Tab.buttonOk.click();
-        Page.dialogConfirmation.confirm();
+        do {
+            Page.dialogConfirmation.confirm();
+        }
+        while (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible());
+
         log.info(getName() + " action has been finished.");
         return this;
     }
