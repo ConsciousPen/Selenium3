@@ -30,6 +30,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
@@ -210,7 +211,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 						DocGenEnum.Documents.PS02.getIdInXml(),
 						DocGenEnum.Documents.AHPNXX.getIdInXml());
 				default:
-					return Arrays.asList("Product is not valid");
+					throw new IstfException("Product used is unexpected. Expecting HomeSS_HO4, HomeSS_HO6, HomeSS_DP3, or PUP");
 		}
 
 	}
