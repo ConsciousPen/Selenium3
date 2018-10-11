@@ -10,41 +10,37 @@
     <!--<parameter name="localTests" value="true"/>-->
 
 	<test name="Home CA DP3 Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeCA_DP3"/>
         <parameter name="fileName" value="DP3Tests_eff_11132018.xls"/>
         <parameter name="policyNumbers" value="3090, 3093"/>
         <classes>
-            <class name="aaa.modules.openl.HomeCaDP3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
         </classes>
     </test> 
    
     <test name="Home CA HO3 Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeCA_HO3"/>
         <parameter name="fileName" value="HO3Tests_eff_05012018.xls"/>
         <!-- parameter name="policyNumbers" value="3322, 3324"/ -->
         <parameter name="policyNumbers" value="3323, 3326"/>
         <classes>
-            <class name="aaa.modules.openl.HomeCaHO3PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
         </classes>
     </test> 
 
     <test name="Home CA HO4 Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeCA_HO4"/>
         <parameter name="fileName" value="HO4Tests_eff_01012018.xls"/>
         <!-- parameter name="policyNumbers" value="3863, 3864, 3865, 3866, 3867, 3868, 3869, 3870"/ -->
         <parameter name="policyNumbers" value="3871, 3872"/>
         <classes>
-            <class name="aaa.modules.openl.HomeCaHO4PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
         </classes>
     </test> 
     
     <test name="Home CA HO6 Premium Calculation Test" preserve-order="true">
-        <parameter name="policyType" value="HomeCA_HO6"/>
         <parameter name="fileName" value="HO6Tests.xls"/>
         <!-- parameter name="policyNumbers" value="1, 1097, 3288, 3319, 3329, 3449, 3515, 3491, 3492, 3546, 3626, 3750"/ -->
         <parameter name="policyNumbers" value="1, 3492"/>
         <classes>
-            <class name="aaa.modules.openl.HomeCaHO6PremiumCalculationTest"/>
+            <class name="aaa.modules.openl.HomeCaPremiumCalculationTest"/>
         </classes>
     </test>
 </suite>

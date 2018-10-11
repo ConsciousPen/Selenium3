@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -16,37 +17,46 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
 
 public class TestScenarioCT extends AutoSSBaseTest {
+	
+	private String quoteNumber;	
 	private GenerateOnDemandDocumentActionTab docgenActionTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 
 	@Parameters({ "state" })
 	@StateList(states = States.CT)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_CreatePolicy(@Optional("") String state) {
+	public void TC01(@Optional("") String state) {
 		mainApp().open();
-		String currentHandle = WebDriverHelper.getWindowHandle();
+		//String currentHandle = WebDriverHelper.getWindowHandle();
 
 		createCustomerIndividual();
-		String quoteNumber = createQuote();
+		quoteNumber = createQuote();
 
 		policy.quoteDocGen().start();
 		docgenActionTab.generateDocuments(Documents.AHCAAG);
-		WebDriverHelper.switchToWindow(currentHandle);
+		//WebDriverHelper.switchToWindow(currentHandle);
 		DocGenHelper.verifyDocumentsGenerated(quoteNumber, Documents.AHCAAG);
-		PolicySummaryPage.labelPolicyNumber.waitForAccessible(10000);
+	}
+	
+	@Parameters({ "state" })
+	@StateList(states = States.CT)
+	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
+	public void TC02(@Optional("") String state) {
+		
+		mainApp().open();
+		
+		SearchPage.openQuote(quoteNumber);
 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		policy.dataGather().getView().fillFromTo(getPolicyTD().adjust(getTestSpecificTD("TestData_Purchase").resolveLinks()), DocumentsAndBindTab.class, PurchaseTab.class, true);
 		policy.dataGather().getView().getTab(PurchaseTab.class).submitTab();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		//DocGenHelper.verifyDocumentsGenerated(policyNumber, Documents.AARFIXX);		
+		String policyNumber = PolicySummaryPage.getPolicyNumber();	
 		
 		JobUtils.executeJob(Jobs.aaaCCardExpiryNoticeJob, true);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006);
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._60_5006); //CCEXPIRATION_NOTICE
 	}
 }

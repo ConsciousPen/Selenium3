@@ -228,10 +228,14 @@ public abstract class PolicyBaseTest extends BaseTest {
 		);
 	}
 
-	protected void purchaseRenewal(LocalDateTime renewalEffectiveDate, String policyNumber){
+	protected void payTotalAmtDue(LocalDateTime renewalEffectiveDate, String policyNumber){
 		//Move time to Policy Expiration Date
 		TimeSetterUtil.getInstance().nextPhase(renewalEffectiveDate);
+		payTotalAmtDue(policyNumber);
 
+	}
+
+	protected void payTotalAmtDue(String policyNumber) {
 		// Open Billing account and Pay min due for the renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -240,5 +244,6 @@ public abstract class PolicyBaseTest extends BaseTest {
 
 		// Open Policy (Renewal)
 		SearchPage.openPolicy(policyNumber);
+
 	}
 }
