@@ -210,7 +210,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 						DocGenEnum.Documents.PS02.getIdInXml(),
 						DocGenEnum.Documents.AHPNXX.getIdInXml());
 				default:
-					return Arrays.asList("wooooo!");
+					return Arrays.asList("Product is not valid");
 		}
 
 	}
