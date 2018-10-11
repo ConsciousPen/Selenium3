@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.dp3.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -27,7 +27,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_DP3;
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsNB(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsNB();
@@ -186,7 +186,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement();
@@ -232,7 +232,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal();

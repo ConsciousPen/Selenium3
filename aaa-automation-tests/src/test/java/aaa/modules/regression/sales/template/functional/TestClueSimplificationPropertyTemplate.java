@@ -184,6 +184,8 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         navigateToBindTab();
         getBindTab().submitTab();
         overrideAllErrorsAndBind();
+        payTotalAmtDue(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
 
         checkAfterTXWasBound(policyNumber);
     }
