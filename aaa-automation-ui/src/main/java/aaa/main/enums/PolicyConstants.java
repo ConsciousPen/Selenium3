@@ -269,4 +269,11 @@ public final class PolicyConstants {
         public static final String NOT_SIGNED = "Not Signed";
     }
 
+    public static final class AssignmentTabTable {
+        public static final String PRIMARY_DRIVER = "Primary Driver";
+        public static final String SYSTEM_RATED_DRIVER = "System Rated Driver";
+        public static final String MANUALLY_RATED_DRIVER = "Manually Rated Driver";
+        public static final String UNDESIGNATED = "Undesignated";
+    }
+
 }
