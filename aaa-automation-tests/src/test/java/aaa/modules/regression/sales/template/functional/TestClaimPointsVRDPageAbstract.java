@@ -167,7 +167,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 	}
 
-	private List<TestData> getClaimsTD() {
+	List<TestData> getClaimsTD() {
 		List<TestData> tdList = testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
 			for (TestData td : tdList) {
@@ -180,7 +180,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		return tdList;
 	}
 
-	private void viewEditClaim(String claimType) {
+	void viewEditClaim(String claimType) {
 		getClaimHistoryTable().getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.CAUSE_OF_LOSS, claimType)
 				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
 	}
@@ -258,7 +258,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		static final int LIABILITY = 3;
 	}
 	
-	private final class Labels {
+	final class Labels {
 		static final String PRIOR_CLAIMS = "Prior claims";
 		static final String AAA_CLAIMS = "AAA claims";
 		static final String DATE = "Date";
