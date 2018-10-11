@@ -735,6 +735,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
 		pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Add Vehicle Service - Blocking for Purchase Date
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS (date = today)
+	 * 3. Add vehicle, purchase date: -5days
+	 * 4. Check error and if vehicle wasn't added to the endorsement.
+	 * 5. Try add another vehicle, purchase date = endorsement date.
+	 * 6. Check if vehicle was added.
+	 * 7. Add vehicle, purchase date: - 31days
+	 * 8. Check if vehicle was added.
+	 *
+	 * Note: Check with state which dont have that rule.
+	 * States where rule exist: CT, DE, MD, NV
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
+	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("MD") String state) {
+
+		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
+	}
 }
 
 

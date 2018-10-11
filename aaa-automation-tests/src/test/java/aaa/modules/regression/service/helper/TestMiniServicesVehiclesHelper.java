@@ -7,6 +7,8 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
+import javax.xml.datatype.DatatypeFactory;
+
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -2864,6 +2866,34 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertThat(viewReplacedVehicles2.vehicleList.stream().filter(vehicle -> replacedVehicleVin4.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).vehicleReplacedBy).isEqualTo(replacedVehicleOid2);
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas9750_addVehicleServiceBlockingForPurchaseDateBody(){
+//		mainApp().open();
+//		createCustomerIndividual();
+//		String policyNumber = createPolicy();
+
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String purchaseDate = TimeSetterUtil.getInstance().getCurrentTime().minusDays(5).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		String vin = "JF1GJAH65EH007244"; //Subaru Impreza 2014
+
+		Vehicle addVehicleRequest = DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate);
+		Vehicle response = HelperCommon.addVehicle(policyNumber, addVehicleRequest, Vehicle.class, 201);
+
+		ErrorResponseDto errorResponseAdd = HelperCommon.addVehicle(policyNumber, addVehicleRequest, ErrorResponseDto.class, 422);
+
+
+
+
+
+
+
+
+
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
