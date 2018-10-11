@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 
 import aaa.common.enums.Constants;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -2890,16 +2888,20 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Hit viewPolicyCoverages, check UMBI
 		viewUmpdCoverage(policyNumber, vehicleOid, true, true, limitDisplayNoCov, state);
 
-		//Prepare policy: Coll = No coverage
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-		//Hit viewPolicyCoverages, check UMBI
-		viewUmpdCoverage(policyNumber, vehicleOid, true, true, limitDisplayNoCov, state);
+		//Motor home on CO cannot be rated without Coll
+		if (!runOnMotorHome || !state.equals(Constants.States.OH)) {
+			//Prepare policy: Coll = No coverage
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//Hit viewPolicyCoverages, check UMBI
+			viewUmpdCoverage(policyNumber, vehicleOid, true, true, limitDisplayNoCov, state);
+		}
 
 		//TC2
 		//Comp/Coll = both have other than no coverage.
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		//Hit viewPolicyCoverages, check UMBI
@@ -2917,11 +2919,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Hit viewPolicyCoverages, check UMBI
 		viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
 
-		//Return back Comp coverage
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		helperMiniServices.endorsementRateAndBind(policyNumber);
-		viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
+		//Motor home on CO cannot be rated without Coll
+		if (!runOnMotorHome || !state.equals(Constants.States.OH)) {
+			//Return back Comp coverage
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
+		}
 	}
 
 	private void viewUmpdCoverage(String policyNumber, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state ){
