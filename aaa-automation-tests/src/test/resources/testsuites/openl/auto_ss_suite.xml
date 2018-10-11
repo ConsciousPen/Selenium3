@@ -5,14 +5,13 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
     <parameter name="testsDir" value="aaa-rating-rules-ss/src/test/openl/rules"/>
-    <parameter name="policyType" value="AutoSS"/>
     <!-- Local tests execution parameters -->
     <!--<parameter name="testsDir" value="src/test/resources/openl/auto_ss"/>-->
     <!--<parameter name="localTests" value="true"/>-->
 
     <test name="AutoSS [AZ] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="AZTests-20180427.xls"/>
-        <parameter name="policyNumbers" value="1,3"/>
+        <parameter name="fileName" value="AZTests-20181101.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -32,7 +31,7 @@
         </classes>
     </test>
     <test name="AutoSS [DC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="DCTests-20180114_part1.xls"/>
+        <parameter name="fileName" value="DCTests-20181125_part1.xls"/>
         <parameter name="policyNumbers" value="2, 3"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
@@ -103,8 +102,8 @@
         </classes>
     </test>
     <test name="AutoSS [NY] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="NYTests-20171101_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 7"/>
+        <parameter name="fileName" value="NYTests-20181119.xls"/>
+        <parameter name="policyNumbers" value="1, 81"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -153,8 +152,8 @@
         </classes>
     </test>
     <test name="AutoSS [VA] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="VATests-20171101_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 5"/>
+        <parameter name="fileName" value="VATests-20181101.xls"/>
+        <parameter name="policyNumbers" value="106,107"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -167,8 +166,8 @@
         </classes>
     </test>
     <test name="AutoSS [WY] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="WYTests-20171201.xls"/>
-        <parameter name="policyNumbers" value="1,7"/>
+        <parameter name="fileName" value="WYTests-20181201.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

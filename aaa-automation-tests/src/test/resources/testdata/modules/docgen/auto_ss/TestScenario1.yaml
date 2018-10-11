@@ -34,7 +34,7 @@ TestData_AHIBXX_Verification_AZ: {
 AHIBXX_AZ: {
  form: {
    NBFrstBillYN: {TextField: 'Y'},
-   MidTrmEndrPremDiff: {TextField: '0'},
+   #MidTrmEndrPremDiff: {TextField: '0'},
    MidTrmTotAmt: {TextField: '0.00'}, 
    MrtGgeYN: {TextField: 'N'},
    NSFFee: {TextField: '0.00'},
@@ -216,7 +216,7 @@ TestData_AHIBXX_Verification_IN: {
 AHIBXX_IN: {
  form: {
    NBFrstBillYN: {TextField: 'Y'},
-   MidTrmEndrPremDiff: {TextField: '0'},
+   #MidTrmEndrPremDiff: {TextField: '0'},
    MidTrmTotAmt: {TextField: '0.00'}, 
    MrtGgeYN: {TextField: 'N'},
    NSFFee: {TextField: '0.00'},
@@ -445,7 +445,7 @@ TestData_AHIBXX_Verification_OK: {
 AHIBXX_OK: {
  form: {
    NBFrstBillYN: {TextField: 'Y'},
-   MidTrmEndrPremDiff: {TextField: '0'},
+   #MidTrmEndrPremDiff: {TextField: '0'},
    MidTrmTotAmt: {TextField: '0.00'}, 
    MrtGgeYN: {TextField: 'N'},
    NSFFee: {TextField: '0.00'},
@@ -650,7 +650,7 @@ TestData_AHIBXX_Verification_PA: {
 AHIBXX_PA: {
  form: {
    NBFrstBillYN: {TextField: 'Y'},
-   MidTrmEndrPremDiff: {TextField: '0'},
+   #MidTrmEndrPremDiff: {TextField: '0'},
    MidTrmTotAmt: {TextField: '0.00'}, 
    MrtGgeYN: {TextField: 'N'},
    NSFFee: {TextField: '0.00'},

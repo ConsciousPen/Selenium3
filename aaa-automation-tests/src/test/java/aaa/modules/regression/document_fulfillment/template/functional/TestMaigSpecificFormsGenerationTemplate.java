@@ -126,7 +126,6 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -227,7 +226,6 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 			billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
 		}
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 

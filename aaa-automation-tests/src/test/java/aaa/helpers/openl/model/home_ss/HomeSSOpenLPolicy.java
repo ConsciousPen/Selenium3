@@ -16,9 +16,11 @@ import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 //import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 
@@ -151,6 +153,22 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	public String getPolicyType() {
 		return policyType;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		switch (getPolicyType()) {
+			case "HO3":
+				return PolicyType.HOME_SS_HO3;
+			case "HO4":
+				return PolicyType.HOME_SS_HO4;
+			case "HO6":
+				return PolicyType.HOME_SS_HO6;
+			case "DP3":
+				return PolicyType.HOME_SS_DP3;
+			default:
+				throw new IstfException("Unknown policy type: " + getPolicyType());
+		}
 	}
 
 	public void setPolicyType(String policyType) {

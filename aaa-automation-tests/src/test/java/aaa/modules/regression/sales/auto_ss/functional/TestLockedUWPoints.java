@@ -1,5 +1,3 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
-* CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.common.enums.Constants;
@@ -11,14 +9,11 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -149,7 +144,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -183,7 +178,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 		// Create Policy
 		String policyNumber = openAppAndCreatePolicy();
-		LocalDateTime renewalEff = PolicySummaryPage.getEffectiveDate().plusYears(1);
+		LocalDateTime renewalEff = PolicySummaryPage.getExpirationDate();
 
 		// Change Time to renew policy and have and issued renewal
 		mainApp().close();
@@ -193,12 +188,11 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -309,7 +303,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
-		purchaseRenewal(policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Initiate Endorsement
 		endorsementChanges();
@@ -345,7 +339,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -374,7 +368,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	private void openVRD(){
 		// Navigate to P&C. Calculate Premium. Open VRD.
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	}
@@ -410,16 +403,5 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-	}
-
-	private void purchaseRenewal(String policyNumber){
-
-		// Open Billing account and Pay min due for the renewal
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-		// Open Policy (Renewal)
-		SearchPage.openPolicy(policyNumber);
 	}
 }

@@ -70,7 +70,9 @@ public class MockGenerator {
 		List<String> validRiskReportsRequestIDs = getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsRequests().stream()
 				.filter(r -> StringUtils.isBlank(r.getState())
 						&& StringUtils.isBlank(r.getCityName())
-						&& StringUtils.isBlank(r.getZipCode()))
+						&& StringUtils.isBlank(r.getZipCode())
+						&& StringUtils.isBlank(r.getStreetAddressLine())
+						&& StringUtils.isBlank(r.getStreetAddressLine2()))
 				.map(RiskReportsRequest::getId).collect(Collectors.toList());
 
 		return getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsResponses().stream()
@@ -104,7 +106,6 @@ public class MockGenerator {
 		RetrievePropertyRiskReportsMock propertyRiskReportsMock = new RetrievePropertyRiskReportsMock();
 		RiskReportsRequest riskReportsRequest = new RiskReportsRequest();
 		riskReportsRequest.setId(id);
-		riskReportsRequest.setStreetAddressLine(STREET_ADDRESS_LINE);
 
 		RiskReportsResponse riskReportsResponse = new RiskReportsResponse();
 		riskReportsResponse.setId(id);
@@ -189,7 +190,7 @@ public class MockGenerator {
 
 	protected static synchronized String generateMockId(List<String> existingMockIDs) {
 		int idLastIndex = existingMockIDs.stream().filter(id -> id != null && id.startsWith(GENERATED_ID_PREFIX))
-				.map(id -> Integer.valueOf(id.replaceAll(GENERATED_ID_PREFIX, ""))).max(Integer::compare).orElse(0);
+				.map(id -> Integer.valueOf(id.replaceAll("\\D", "").matches("^[0-9]+$") ? id.replaceAll("\\D", "") : "0")).max(Integer::compare).orElse(0);
 		return GENERATED_ID_PREFIX + (idLastIndex + 1);
 	}
 

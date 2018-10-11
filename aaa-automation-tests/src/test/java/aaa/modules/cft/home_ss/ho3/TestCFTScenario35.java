@@ -16,7 +16,7 @@ public class TestCFTScenario35 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
-	@StateList(states = {States.NJ, States.DE, States.VA, States.MD, States.PA})
+	@StateList(states = {States.NJ, States.DE, States.VA, States.MD, States.PA, States.AZ, States.KY, States.OK, States.CT})
 	public void cftTestScenario35(@Optional(StringUtils.EMPTY) String state) {
 		manualRenewalEntryOnStartDate();
 		generateRenewalOffer();
