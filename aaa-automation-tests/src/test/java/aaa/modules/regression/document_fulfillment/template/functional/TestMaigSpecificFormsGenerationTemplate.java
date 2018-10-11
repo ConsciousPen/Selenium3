@@ -152,7 +152,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		//TODO UNCOMMENT ME!!!!
+		//TODO UNCOMMENT VALIDATION AFTER PT-2761
 //		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		/**
