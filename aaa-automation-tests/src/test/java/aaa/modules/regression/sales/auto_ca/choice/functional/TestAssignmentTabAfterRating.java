@@ -18,7 +18,7 @@ import toolkit.webdriver.controls.composite.table.Table;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.List;
 
-public class TestVehicleTabRatingErrors extends AutoCaChoiceBaseTest {
+public class TestAssignmentTabAfterRating extends AutoCaChoiceBaseTest {
 
 	/**
 	 * @author Josh Carpenter
