@@ -7,6 +7,7 @@ import java.util.Map;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
@@ -98,6 +99,11 @@ public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenL
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Override

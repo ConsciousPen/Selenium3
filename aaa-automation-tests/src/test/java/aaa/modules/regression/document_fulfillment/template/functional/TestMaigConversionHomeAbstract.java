@@ -247,7 +247,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
 
-		purchaseRenewal(conversionExpDate, policyNumber);
+		payTotalAmtDue(conversionExpDate, policyNumber);
 
 		LocalDateTime secondPolicyExpirationDate = PolicySummaryPage.getExpirationDate();
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(secondPolicyExpirationDate));

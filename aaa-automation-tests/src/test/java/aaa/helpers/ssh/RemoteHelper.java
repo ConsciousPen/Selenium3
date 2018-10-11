@@ -1,5 +1,6 @@
 package aaa.helpers.ssh;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.nio.file.Paths;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.ChannelSftp;
@@ -179,7 +181,8 @@ public final class RemoteHelper {
 	}
 
 	public List<String> getFolderContent(String folderPath, boolean filesOnly, Ssh.SortBy sortBy) {
-		log.info("SSH: Getting {}content from \"{}\" folder sorted by {}", filesOnly ? "files only " : "", folderPath, sortBy.name());
+		log.info("SSH: Getting {}content from \"{}\" folder sorted by {}", filesOnly ? "files only " : EMPTY,
+				folderPath, sortBy != null ? sortBy.name() : EMPTY);
 		return ssh.getFolderContent(folderPath, filesOnly, sortBy);
 	}
 

@@ -4,14 +4,14 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test" />
-    <test name="TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
+    <parameter name="timeshift-scenario-mode" value="method" />
+    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
         </classes>
     </test>
-    <test name="TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
+    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>

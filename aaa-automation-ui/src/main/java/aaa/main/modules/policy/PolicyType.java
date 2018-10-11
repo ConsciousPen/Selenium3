@@ -85,4 +85,9 @@ public class PolicyType {
 		result = 31 * result + fullName.hashCode();
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return getShortName();
+	}
 }

@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.home_ca.ho3;
 
+import static org.junit.Assert.assertTrue;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import org.testng.annotations.Optional;
@@ -139,8 +140,8 @@ public class TestPolicyCancelReinstateUWReason extends HomeCaHO3BaseTest {
         // 11. Navigate to Policy Summary page and check that policy consolidated screen contains an alert with cancellation reason
         BillingSummaryPage.openPolicy(1);
         if (NotesAndAlertsSummaryPage.alert2.isPresent()) {
-            //assertThat(NotesAndAlertsSummaryPage.alert).valueContains(cancellationReason);
-            assertThat(NotesAndAlertsSummaryPage.alert2).valueContains(cancellationReason);
+        	assertTrue(NotesAndAlertsSummaryPage.alert.getValue().contains(cancellationReason) || NotesAndAlertsSummaryPage.alert2.getValue().contains(cancellationReason));
+            //assertThat(NotesAndAlertsSummaryPage.alert2).valueContains(cancellationReason);
         } else {
             assertThat(NotesAndAlertsSummaryPage.alert).valueContains(cancellationReason);
         }
