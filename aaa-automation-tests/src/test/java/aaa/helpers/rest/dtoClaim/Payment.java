@@ -10,6 +10,9 @@ public class Payment {
 
     private BigDecimal amountPaid;
 
+    private String coverageName;
+
+    private String coverageId;
 
     public String getDisposition() {
         return disposition;
@@ -35,12 +38,30 @@ public class Payment {
         this.amountPaid = amountPaid;
     }
 
+    public String getCoverageName() {
+        return coverageName;
+    }
+
+    public void setCoverageName(String coverageName) {
+        this.coverageName = coverageName;
+    }
+
+    public String getCoverageId() {
+        return coverageId;
+    }
+
+    public void setCoverageId(String coverageId) {
+        this.coverageId = coverageId;
+    }
+
     @Override
     public String toString() {
         return "Payment{" +
                 "disposition='" + disposition + '\'' +
                 ", paymentType='" + paymentType + '\'' +
                 ", amountPaid=" + amountPaid +
+                ", coverageName=" + coverageName +
+                ", coverageId=" + coverageId +
                 '}';
     }
 }

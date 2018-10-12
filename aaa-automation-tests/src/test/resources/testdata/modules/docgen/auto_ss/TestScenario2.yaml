@@ -514,10 +514,22 @@ ErrorTab_OK: {
 }
 
 
-##-----------Endorsement for AZ --------------
+##-----------Endorsement 1 for AZ --------------
 TestData_Endorsement_AZ: {
+  GeneralTab: {},
+  DriverTab: ['@DriverInformationED1'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+##-----------Endorsement 2 for AZ --------------
+TestData_Endorsement2_AZ: {
   GeneralTab: '@GeneralTab_Add',
-  DriverTab: ['@DriverInformationED1','@DriverInformationED2'],
+  DriverTab: ['@DriverInformationED2'],
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
@@ -528,10 +540,23 @@ TestData_Endorsement_AZ: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {},
 }
+
 ##-----------Endorsement for OK --------------
 TestData_Endorsement_OK: {
+  GeneralTab: {},
+  DriverTab: ['@DriverInformationED1'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+##-----------Endorsement 2 for OK --------------
+TestData_Endorsement2_OK: {
   GeneralTab: '@GeneralTab_Add',
-  DriverTab: ['@DriverInformationED1','@DriverInformationED2'],
+  DriverTab: ['@DriverInformationED2'],
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
@@ -544,8 +569,20 @@ TestData_Endorsement_OK: {
 
 ##-----------Endorsement for IN --------------
 TestData_Endorsement_IN: {
+  GeneralTab: {},
+  DriverTab: ['@DriverInformationED1'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+##-----------Endorsement 2 for IN --------------
+TestData_Endorsement2_IN: {
   GeneralTab: '@GeneralTab_Add',
-  DriverTab: ['@DriverInformationED1','@DriverInformationED2','@DriverInformationED3_IN'],
+  DriverTab: ['@DriverInformationED2','@DriverInformationED3_IN'],
   RatingDetailReportsTab: {},
   VehicleTab: '@VehicleTab_Add',
   FormsTab: {},
@@ -603,7 +640,7 @@ VehicleTab_Add: {
 
 ##-----------Endorsement for PA --------------
 
-TestData_Endorsement_PA: {
+TestData_Endorsement2_PA: {
   GeneralTab: '@GeneralTab_Add',
   DriverTab: ['@DriverInformationED2','@DriverInformationED3_PA'],
   RatingDetailReportsTab: {},
