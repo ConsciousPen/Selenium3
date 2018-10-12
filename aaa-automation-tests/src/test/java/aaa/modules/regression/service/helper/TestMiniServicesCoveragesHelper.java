@@ -1454,9 +1454,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
 
 		//Run updateCoverage service and validate order of coverages in response
-		Coverage coverageBI = getCoverage(policyCoverageInfo.policyCoverages, "BI");
-		String newBILimit = coverageBI.availableLimits.get(0).coverageLimit;
-		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", newBILimit);
+		Coverage coverageToUpdate = policyCoverageInfo.policyCoverages.get(0);
+		String newLimit = coverageToUpdate.availableLimits.get(0).coverageLimit;
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageToUpdate.coverageCd, newLimit);
 		policyCoverageInfo = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
 
