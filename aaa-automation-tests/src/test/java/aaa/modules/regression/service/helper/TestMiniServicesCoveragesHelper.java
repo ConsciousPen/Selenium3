@@ -4,15 +4,14 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -1409,32 +1408,75 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas17646_OrderOfCoverageBody(String state, ETCSCoreSoftAssertions softly) {
+	protected void pas17646_OrderOfCoverageBody(ETCSCoreSoftAssertions softly) {
+		String mapKey = "common";
+		List<String> deltaStateList = Arrays.asList("KY");
+		if (deltaStateList.contains(getState())) {
+			mapKey = getState();
+		}
+
+		//Expected order of coverages (common)
+		List<String> orderOfPolicyCoveragesExpectedCommon = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM", "IL");
+		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR", "WL");
+
+		//Expected order of KY coverages
+		List<String> orderOfPolicyCoveragesExpectedKY = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP");
+		List<String> orderOfVehicleCoveragesExpectedKY = Arrays.asList("COMPDED", "COLLDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");
+		List<String> orderOfDriverCoveragesExpectedKY = Arrays.asList("ADB", "TORT");
+
+		//Expected order of SD coverages
+		List<String> orderOfPolicyCoveragesExpectedSD = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM");
+		List<String> orderOfVehicleCoveragesExpectedSD = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");
+		List<String> orderOfDriverCoveragesExpectedSD = Arrays.asList("ADB", "TDB");
+
+		//map coverages
+		Map<String, List<String>> mapPolicyCoverages = new LinkedHashMap<>();
+		mapPolicyCoverages.put("common", orderOfPolicyCoveragesExpectedCommon);
+		mapPolicyCoverages.put("KY", orderOfPolicyCoveragesExpectedKY);
+		mapPolicyCoverages.put("SD", orderOfPolicyCoveragesExpectedSD);
+
+		Map<String, List<String>> mapVehicleCoverages = new LinkedHashMap<>();
+		mapVehicleCoverages.put("common", orderOfVehicleCoveragesExpectedCommon);
+		mapVehicleCoverages.put("KY", orderOfVehicleCoveragesExpectedKY);
+		mapVehicleCoverages.put("SD", orderOfVehicleCoveragesExpectedSD);
+
+		Map<String, List<String>> mapDriverCoverages = new LinkedHashMap<>(); //do not have requirements regarding to driver coverages for all states
+		mapDriverCoverages.put("KY", orderOfDriverCoveragesExpectedKY);
+		mapDriverCoverages.put("SD", orderOfDriverCoveragesExpectedSD);
+
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
-		SearchPage.openPolicy(policyNumber);
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		//Run viewEndorsementCoverages and validate order of coverages in response
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
 
-		//Verify Order of coverage
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(0).coverageCd).isEqualTo("BI");
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(1).coverageCd).isEqualTo("PD");
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(2).coverageCd).isEqualTo("UMBI");
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(3).coverageCd).isEqualTo("UMPD");
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(4).coverageCd).isEqualTo("MEDPM");
-		softly.assertThat(coverageEndorsementResponse.policyCoverages.get(5).coverageCd).isEqualTo("IL");
+		//Run updateCoverage service and validate order of coverages in response
+		Coverage coverageBI = getCoverage(policyCoverageInfo.policyCoverages, "BI");
+		String newBILimit = coverageBI.availableLimits.get(0).coverageLimit;
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", newBILimit);
+		policyCoverageInfo = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
 
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(0).coverageCd).isEqualTo("COMPDED");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(1).coverageCd).isEqualTo("COLLDED");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(2).coverageCd).isEqualTo("GLASS");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(3).coverageCd).isEqualTo("LOAN");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(4).coverageCd).isEqualTo("RREIM");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-		softly.assertThat(coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
+		//NOTE: Validation of Change History is too complicated for automation - have to update every coverage. Should be tested manually if needed.
+	}
+
+	private void validateOrderOfAllLevelCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfPolicyCoveragesExpected, List<String> orderOfVehicleCoveragesExpected, List<String> orderOfDriverCoveragesExpected, PolicyCoverageInfo coverageEndorsementResponse) {
+		validateOrderOfCoverages(softly, orderOfPolicyCoveragesExpected, coverageEndorsementResponse.policyCoverages);
+		validateOrderOfCoverages(softly, orderOfVehicleCoveragesExpected, coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages);
+		if (Constants.States.KY.equals(getState()) || Constants.States.SD.equals(getState())) { //do not have requirements regarding to driver coverages for all states
+			validateOrderOfCoverages(softly, orderOfDriverCoveragesExpected, coverageEndorsementResponse.driverCoverages);
+		}
+	}
+
+	private void validateOrderOfCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfCoveragesExpected, List<Coverage> coveragesActual) {
+		softly.assertThat(coveragesActual.size()).isEqualTo(orderOfCoveragesExpected.size());
+		for (String coverageCD : orderOfCoveragesExpected) {
+			int index = orderOfCoveragesExpected.indexOf(coverageCD);
+			softly.assertThat(coveragesActual.get(index).coverageCd).as(coverageCD + " is expected to be at index " + index).isEqualTo(coverageCD);
+		}
 	}
 
 	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
