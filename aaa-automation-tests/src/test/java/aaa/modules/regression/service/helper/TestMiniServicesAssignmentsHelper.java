@@ -3,8 +3,8 @@ package aaa.modules.regression.service.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -24,10 +25,12 @@ import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
@@ -37,6 +40,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private VehicleTab vehicleTab = new VehicleTab();
+	private TestMiniServicesDriversHelper testMiniServicesDriversHelper= new TestMiniServicesDriversHelper();
 	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
@@ -1395,11 +1399,20 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType, String state) {
-
-	    TestData td = getPolicyTD("DataGather", "TestData_VA");
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTrailer").getTestDataList("VehicleTab")).resolveLinks();
+	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType) {
+		TestData td = getPolicyDefaultTD();
+		//adjust Driver Tab to have 1 driver from policy default TD and one driver from custom TD
+		List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 2 drivers
+		testDataDriverData.add(td.getTestData("DriverTab"));
+		testDataDriverData.addAll(getTestSpecificTD("TestData_oneAdditionalDriver").resolveLinks().getTestDataList("DriverTab"));
+		td = td.adjust("DriverTab", testDataDriverData);
+		//Adjust Vehicle Tab
+		td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTrailer").getTestDataList("VehicleTab")).resolveLinks();
+		//adjust test data to override errors for NJ and NY
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		if (Constants.States.NJ.contains(getState()) || Constants.States.NY.contains(getState())) {
+			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		}
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -1407,22 +1420,38 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 		//Create pended endorsement
-		PolicySummary response = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(response.policyNumber).isEqualTo(policyNumber);
-
-		ViewDriversResponse viewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
-		String driverOid2 = viewDriver.driverList.get(1).oid;
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		DriversDto driverNotFNI = testMiniServicesDriversHelper.getAnyNotNIActiveDriver(policyNumber);
+		DriversDto driverFNI = testMiniServicesDriversHelper.getFNIDriver(policyNumber);
+		//Validate that Trailer, Motor Home, Golf Cart are not assigned to FNI before removal of driver (precondition)
+		validateVehicleTab_pas15540(driverFNI, false);
 
 		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, driverOid2, removeDriverRequest);
-
+		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, removeDriverRequest);
 		SearchPage.openPolicy(policyNumber);
+		validateVehicleTab_pas15540(driverFNI, true);
+		vehicleTab.cancel();
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void validateVehicleTab_pas15540(DriversDto driverFNI, boolean primaryOperatorFNIExpected) {
 		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
+		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		VehicleTab.tableVehicleList.selectRow(2);
-		assertThat(vehicleTab.getAssetList().getAsset(PRIMARY_OPERATOR).getValue().contains("Ben")).isTrue();
-		vehicleTab.saveAndExit();
+		validatePrimaryOperator_pas15540(driverFNI.firstName, 2, primaryOperatorFNIExpected);
+		validatePrimaryOperator_pas15540(driverFNI.firstName, 3, primaryOperatorFNIExpected);
+		if (Constants.States.AZ.equals(getState())) {
+			validatePrimaryOperator_pas15540(driverFNI.firstName, 4, primaryOperatorFNIExpected);
+		}
+	}
+
+	private void validatePrimaryOperator_pas15540(String driverFirstName, int vehicleNumber, boolean primaryOperatorFNIExpected) {
+		VehicleTab.tableVehicleList.selectRow(vehicleNumber);
+		if (primaryOperatorFNIExpected) {
+			assertThat(vehicleTab.getInquiryAssetList().getStaticElement(PRIMARY_OPERATOR).getValue()).as("Vehicle Primary operator should be FNI.").contains(driverFirstName);
+		} else {
+			assertThat(vehicleTab.getInquiryAssetList().getStaticElement(PRIMARY_OPERATOR).getValue()).doesNotContain(driverFirstName);
+		}
 	}
 }
 
