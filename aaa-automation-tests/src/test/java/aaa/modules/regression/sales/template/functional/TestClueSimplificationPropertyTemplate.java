@@ -162,7 +162,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getPropertyInfoTab().saveAndExit();
 
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
-        policy.renew().start();
+        policy.renew().start().submit();
         navigateToPropertyInfoTab();
         viewEditClaim(Labels.WATER);
         removeClaim();
@@ -175,7 +175,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Bind Policy
         mainApp().open();
         searchForPolicy(policyNumber);
-        policy.renew().start();
+        policy.renew().start().submit();
         navigateToPropertyInfoTab();
         checkRemoveButtonAvailable(true);
         calculatePremiumAndOpenVRD();
@@ -241,7 +241,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Unprivileged User Check that Claim Cannot be removed
         openAppNonPrivilegedUser("A30");
-        searchForPolicy(policyNumber);
+        SearchPage.openPolicy(policyNumber);
         policy.endorse().start();
         navigateToPropertyInfoTab();
         checkRemoveButtonAvailable(false);
