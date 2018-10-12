@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -19,6 +21,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 
 public class TestAddVehicleAfterRenewalTemplate extends PolicyBaseTest {
@@ -28,12 +31,15 @@ public class TestAddVehicleAfterRenewalTemplate extends PolicyBaseTest {
 
     protected void testAddVehicleAfterRenewal(List<TestData> tdVehicleTab) {
 
-        // Prepare test data
+        // Prepare Assignment tab test data
+        TestData driverRelationshipTableEntry = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
+        List<TestData> tdTable = IntStream.range(0, 3).mapToObj(i -> driverRelationshipTableEntry).collect(Collectors.toList());
+        TestData tdAssignmentTab = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), tdTable);
+
+        // Prepare Vehicle tab test data
         tdVehicleTab.add(getPolicyTD().getTestDataList(VehicleTab.class.getSimpleName()).get(0));
         tdVehicleTab.get(2).adjust(AutoCaMetaData.VehicleTab.VIN.getLabel(), "JH4DA9350PS016433");
-        TestData td = getPolicyTD()
-                .adjust(VehicleTab.class.getSimpleName(), tdVehicleTab)
-                .adjust(AssignmentTab.class.getSimpleName(), testDataManager.getDefault(TestAddVehicleAfterRenewalTemplate.class).getTestData("TestData_AssignmentTab"));
+        TestData td = getPolicyTD().adjust(VehicleTab.class.getSimpleName(), tdVehicleTab).adjust(AssignmentTab.class.getSimpleName(), tdAssignmentTab);
 
         // Create policy with 3 vehicles
         String policyNumber = openAppAndCreatePolicy(td);
@@ -44,20 +50,20 @@ public class TestAddVehicleAfterRenewalTemplate extends PolicyBaseTest {
         TimeSetterUtil.getInstance().nextPhase(renewalEffDate.minusDays(20));
         mainApp().open();
 
-        // Create renewal image and pay total amount due
+        // Create renewal image
         SearchPage.openPolicy(policyNumber);
         policy.renew().perform();
         calculatePremiumAndBind();
-        payTotalAmtDue(policyNumber);
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 
         // Initiate endorsement with trans. eff. date equal to renewal eff. date and remove 2nd vehicle
         TestData tdEndorsement = getPolicyTD("Endorsement", "TestData")
-                .adjust(AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel(), renewalEffDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.EndorsementActionTab.class.getSimpleName(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()),
+                        renewalEffDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
         policy.endorse().perform(tdEndorsement);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-        vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.LIST_OF_VEHICLE).getTable().getRow(2).getCell(5).controls.links.getFirst().click();
+        VehicleTab.tableVehicleList.removeRow(2);
         calculatePremiumAndBind();
+        payTotalAmtDue(policyNumber);
 
         // Advance time to R and run policyStatusUpdateJob
         mainApp().close();
@@ -69,11 +75,11 @@ public class TestAddVehicleAfterRenewalTemplate extends PolicyBaseTest {
         SearchPage.openPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-        // Initiate endorsement dated 5 days into the renewal and add a vehicle back
-        tdEndorsement.adjust(AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel(), renewalEffDate.plusDays(5).format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        // Initiate endorsement on the renewal and add a vehicle back
         policy.endorse().perform(tdEndorsement);
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-        vehicleTab.fillTab(tdVehicleTab.get(1)).submitTab();
+        vehicleTab.fillTab(DataProviderFactory.dataOf(AutoCaMetaData.VehicleTab.class.getSimpleName(), tdVehicleTab.get(1))
+                .adjust(TestData.makeKeyPath(AutoCaMetaData.VehicleTab.class.getSimpleName(), AutoCaMetaData.VehicleTab.ADD_VEHICLE.getLabel()), "click")).submitTab();
 
         // Assign vehicle to a driver, calculate premium, and validate no error is displayed
         new AssignmentTab().getAssetList().getAsset(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getTable()
