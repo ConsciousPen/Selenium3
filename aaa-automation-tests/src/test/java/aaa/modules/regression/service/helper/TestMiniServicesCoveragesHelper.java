@@ -1410,7 +1410,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas17646_OrderOfCoverageBody(ETCSCoreSoftAssertions softly) {
 		String mapKey = "common";
-		List<String> deltaStateList = Arrays.asList("KY");
+		List<String> deltaStateList = Arrays.asList("KY", "SD");
 		if (deltaStateList.contains(getState())) {
 			mapKey = getState();
 		}
