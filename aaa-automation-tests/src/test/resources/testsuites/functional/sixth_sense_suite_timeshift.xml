@@ -80,22 +80,6 @@
         </classes>
     </test>
 
-    <test name="Test Add Vehicle After Renewal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestAddVehicleAfterRenewal">
-                <methods>
-                    <include name="pas20217_testAddVehicleAfterRenewal"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestAddVehicleAfterRenewal">
-                <methods>
-                    <include name="pas20217_testAddVehicleAfterRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <!--Tests for Property-->
 
     <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
@@ -356,5 +340,21 @@
             </class>
         </classes>
     </test>
+
+    <!--<test name="Test Add Vehicle After Renewal" parallel="methods" thread-count="1024">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestAddVehicleAfterRenewal">-->
+                <!--<methods>-->
+                    <!--<include name="pas20217_testAddVehicleAfterRenewal"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.select.functional.TestAddVehicleAfterRenewal">-->
+                <!--<methods>-->
+                    <!--<include name="pas20217_testAddVehicleAfterRenewal"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 
 </suite>
