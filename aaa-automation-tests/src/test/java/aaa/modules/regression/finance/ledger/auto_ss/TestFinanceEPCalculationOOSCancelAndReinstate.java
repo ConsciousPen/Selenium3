@@ -1,4 +1,4 @@
-package aaa.modules.regression.finance.ledger.home_ca.ho3;
+package aaa.modules.regression.finance.ledger.auto_ss;
 
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,7 +12,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 
 import java.time.LocalDateTime;
 
@@ -25,13 +24,13 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_CA_HO3;
+        return PolicyType.AUTO_SS;
     }
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
-    public void pas20277_testFinanceEPCalculationOOSCancelAndReinstate(@Optional("CA") String state) {
+    public void pas20277_testFinanceEPCalculationOOSCancelAndReinstate(@Optional("AZ") String state) {
 
         mainApp().open();
         createCustomerIndividual();
@@ -40,31 +39,32 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
         LocalDateTime txEffectiveDate = today.plusMonths(1);
         LocalDateTime eDate = today.plusDays(123);
         LocalDateTime cDate = eDate.plusDays(35);
-        LocalDateTime rDate = cDate.plusDays(28);
+        LocalDateTime rDate = cDate.plusMonths(1);
 
         LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
         jobDate = runEPJobUntil(jobDate, eDate);
+        TimeSetterUtil.getInstance().nextPhase(eDate);
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-        createEndorsement(1, "TestData_EndorsementRP");
+        createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
         jobDate = runEPJobUntil(jobDate, cDate);
+        TimeSetterUtil.getInstance().nextPhase(cDate);
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust("CancelActionTab|Cancellation effective date", txEffectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+        cancelPolicy(txEffectiveDate);
 
         jobDate = runEPJobUntil(jobDate, rDate);
+        TimeSetterUtil.getInstance().nextPhase(rDate);
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
-                .adjust("ReinstatementActionTab|Reinstate date", txEffectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+        reinstatePolicy(txEffectiveDate);
 
         runEPJobUntil(jobDate, jobEndDate);
     }

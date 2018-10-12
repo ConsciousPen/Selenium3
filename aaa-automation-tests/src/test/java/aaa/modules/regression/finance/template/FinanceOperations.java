@@ -2,12 +2,9 @@ package aaa.modules.regression.finance.template;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.common.pages.Page;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -71,11 +68,43 @@ public abstract class FinanceOperations extends PolicyBaseTest {
      * @author Reda Kazlauskiene
      * @name Create Endorsement with specific TesDate and Effective date
      */
-    protected void createEndorsement(int daysToEffective, String testDataName) {
+    protected void createEndorsement(LocalDateTime effectiveDate, String testDataName) {
         policy.endorse().performAndFill(getTestSpecificTD(testDataName)
                 .adjust(getPolicyTD("Endorsement", "TestData")).resolveLinks()
                 .adjust("EndorsementActionTab|Endorsement Date",
-                        TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective)
-                                .format(DateTimeUtils.MM_DD_YYYY)));
+                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+    }
+
+    protected void createEndorsement(int daysToEffective, String testDataName) {
+        createEndorsement(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective), testDataName);
+    }
+
+    /**
+     * @author Maksim Piatrouski
+     * @name Cancel Policy with specific Effective date
+     */
+    protected void cancelPolicy(LocalDateTime effectiveDate) {
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
+                .adjust("CancellationActionTab|Cancel Date",
+                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+    }
+
+    protected void cancelPolicy(int daysToEffective) {
+        cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
+    }
+
+    /**
+     * @author Maksim Piatrouski
+     * @name Reinstate Policy with specific Effective date
+     */
+
+    protected void reinstatePolicy(LocalDateTime effectiveDate) {
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
+                .adjust("ReinstatementActionTab|Reinstate Date",
+                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+    }
+
+    protected void reinstatePolicy(int daysToEffective) {
+        reinstatePolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
     }
 }
