@@ -369,11 +369,11 @@ PAS-20303:
   summary: "KY - Non-Renewal letter generated for policies at @R-81 and @R-79"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
+  - tests: [aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
