@@ -1,0 +1,64 @@
+TestDataSameDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+  }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+  }
+}
+
+TestDataFutureDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today+3d>,
+    Rewrite reason: index=1
+  }
+}
+
+# ---- TestData required for bind rewritten policy ---
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: { Calculate Premium: true},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@PurchaseTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Order Report'}]
+}
+
+UnderwritingAndApprovalTab: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?": "No",
+  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Is any gas water heater located in a garage?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is there a business on premises?": "No",
+  "Is the dwelling located within 500 feet of bay or coastal waters?": "No"
+}
+
+DocumentsTab: {
+  DocumentsToIssue: {
+    California Residential Property Insurance Disclosure: Physically Signed,
+    Signed policy application: Physically Signed,
+  }
+}
+
+PurchaseTab: {
+  PaymentAllocation: {
+    Cash: /rest
+  }
+}

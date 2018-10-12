@@ -133,6 +133,61 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkAfterTXWasBound(policyNumber);
     }
 
+    protected void pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite(){
+        // Get TestData for Adding Claims
+        // Create Empty Testdata and Adjust it with list of claims
+        TestData td = DataProviderFactory.dataOf(getPropertyInfoTab().getClass().getSimpleName(), DataProviderFactory.emptyData())
+                .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), getClaimsTD());
+
+        // Create Policy
+        openAppAndCreatePolicy(getPolicyTD());
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        // Cancel Policy and Rewrite it
+        cancelAndRewritePolicy(policyNumber);
+        getPropertyInfoTab().fillTab(td);
+
+        // 4 Claims were added manually
+        checkTblClaimRowCount(4);
+        viewEditClaim(Labels.THEFT);
+        removeClaim();
+
+        // Check that 1 Claim was removed. 3 Claims left
+        checkTblClaimRowCount(3);
+        getPropertyInfoTab().saveAndExit();
+
+        policy.dataGather().start();
+        navigateToPropertyInfoTab();
+        viewEditClaim(Labels.WATER);
+        removeClaim();
+
+        // Check that table contains 2 claims
+        checkTblClaimRowCount(2);
+        getPropertyInfoTab().saveAndExit();
+        String quoteNumber = PolicySummaryPage.getPolicyNumber();
+        mainApp().close();
+
+        // Bind Policy
+        mainApp().open();
+        SearchPage.openQuote(quoteNumber);
+        policy.dataGather().start();
+        policy.getDefaultView().fillUpTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPropertyInfoTab().getClass());
+        navigateToPropertyInfoTab();
+        checkRemoveButtonAvailable(true);
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
+        policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
+        getBindTab().submitTab();
+        overrideAllErrorsAndBind();
+        String policyNumber2 = PolicySummaryPage.getPolicyNumber();
+
+        // Cancel Policy, Rewrite and check button availability for bound claims and newly added ones
+        cancelAndRewritePolicy(policyNumber2);
+
+        checkRemoveButtonAvailable(false);
+        getPropertyInfoTab().fillTab(td);
+        checkRemoveButtonAvailable(true);
+    }
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(){
 
         // Get TestData for Adding Claims
@@ -247,4 +302,15 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkRemoveButtonAvailable(false);
         getPropertyInfoTab().saveAndExit();
     }
+
+    private void cancelAndRewritePolicy(String policyNumber){
+        mainApp().close();
+        openAppNonPrivilegedUser("A30");
+        searchForPolicy(policyNumber);
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        policy.dataGather().start();
+        navigateToPropertyInfoTab();
+    }
+
     }

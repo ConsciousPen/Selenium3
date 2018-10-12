@@ -1,0 +1,206 @@
+TestDataSameNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    'Use Original Policy Number?': 'Yes'
+  }
+}
+
+TestDataFutureSameNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today+3d>,
+    'Use Original Policy Number?': 'Yes'
+  }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+    #'Use Original Policy Number?': 'No'
+  }
+}
+
+TestDataSameDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=2
+  }
+}
+
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    PublicProtectionClass: [{Report: 'Order Report'}],
+  }
+  
+
+UnderwritingAndApprovalTab: {
+    "Underwriter-selected inspection type": "No Inspection Required",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+# ---------- TestData for custom states ----------
+# ----------------- TestData: CT -----------------
+TestDataForBindRewrittenPolicy_CT: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_CT',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+UnderwritingAndApprovalTab_CT: {
+    "Underwriter-selected inspection type": "No Inspection Required",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+    "Do employees of any resident or applicant reside in the dwelling?": 'No',
+    "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": 'No'
+}
+
+# ----------------- TestData: KS -----------------
+TestDataForBindRewrittenPolicy_KS: {
+  GeneralTab: {
+    Immediate prior carrier: 'index=2'
+  },
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+# ----------------- TestData: KY -----------------
+TestDataForBindRewrittenPolicy_KY: {
+  GeneralTab: {
+    Immediate prior carrier: 'index=2'
+  },
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_KY',
+  DocumentsTab: '@DataGather@DocumentsTab_KY',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+UnderwritingAndApprovalTab_KY: {
+  "Underwriter-selected inspection type": "No Inspection Required",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No", 
+  "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
+}
+
+# ----------------- TestData: MD -----------------
+TestDataForBindRewrittenPolicy_MD: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_MD',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+UnderwritingAndApprovalTab_MD: {
+  "Underwriter-selected inspection type": "No Inspection Required",
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": "No",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No", 
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No", 
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business or farming activity conducted on the premises?": "No"
+}
+
+# ----------------- TestData: NV -----------------
+TestDataForBindRewrittenPolicy_NV: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_NV',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+UnderwritingAndApprovalTab_NV: {
+  "Underwriter-selected inspection type": "No Inspection Required",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No", 
+  "Are all water heaters (except tankless and electric heaters) strapped to the wall with at least one strap and if located in the garage, raised at least 18 inches from the floor?": "No"
+}
+
+# ----------------- TestData: OR -----------------
+TestDataForBindRewrittenPolicy_OR: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_OR',
+  DocumentsTab: '@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}
+
+UnderwritingAndApprovalTab_OR: {
+  "Underwriter-selected inspection type": "No Inspection Required",
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "No"
+}  
+
+
+

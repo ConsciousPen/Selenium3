@@ -192,6 +192,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 		pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement();
 	}
 
+
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test Ability To Remove Manually Added Claims
@@ -200,7 +201,38 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	 * 2. Close App.
 	 * 3. Log in with unprivileged user.
 	 * 4. Search for policy.
-	 * 5. Endorse the policy.
+	 * 5. Cancel and Rewrite Policy.
+	 * 6. Add Claims.
+	 * 7. Remove claims check if they were removed.
+	 * 8. Save and Exit.
+	 * 9. Enter Datagather.
+	 * 10. Remove Claims. Make sure they are removed.
+	 * 11. Bind Rewrite.
+	 * 12. Cancel Policy.
+	 * 13. Rewrite Policy.
+	 * 14. Check That Agent is not able to remove preciously added claims.
+	 * 15. Add new Claims.
+	 * 16. Check that Agent is able to remove Claims.
+	 * @details
+	 **/
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims ReWrite")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6759")
+	public void pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite(@Optional("CA") String state) {
+
+		pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite();
+	}
+
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test Ability To Remove Manually Added Claims
+	 * @scenario
+	 * 1. Create Property Policy.
+	 * 2. Close App.
+	 * 3. Log in with unprivileged user.
+	 * 4. Search for policy.
+	 * 5. Renew the policy.
 	 * 6. Navigate to property info tab.
 	 * 7. Manually add claims.
 	 * 8. Check that there are 4 claims in claim table.
@@ -232,7 +264,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("CA") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal();
