@@ -136,7 +136,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(){
 
         // Get TestData for Adding Claims
-        List<TestData> tdClaims = getClaimsTD();
         // Create Empty Testdata and Adjust it with list of claims
         TestData td = DataProviderFactory.dataOf(getPropertyInfoTab().getClass().getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), getClaimsTD());
@@ -232,9 +231,9 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     private void checkAfterTXWasBound(String policyNumber){
         // Privileged User Removal Button
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Day"));
-        navigateToPropertyInfoTab();
 
-        // Not working until PAS-20443
+        // Not working until PAS-20443. Check That super user has ability to remove claim even if tx was bound.
+        navigateToPropertyInfoTab();
 //        checkRemoveButtonAvailable(true);
 
         getPropertyInfoTab().saveAndExit();
