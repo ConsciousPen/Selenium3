@@ -48,13 +48,13 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
 	private AssetList namedInsuredInfo = generalTab.getCurrentCarrierInfoAssetList();
-	private static final String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 	@Parameters({"state"})
 	@StateList(states = {States.NJ, States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4244")
-	public void pas4244_ErrorMessagePresence(@Optional("") String state) {
+	public void pas4244_ErrorMessagePresence(@Optional("NJ") String state) {
+        String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		TestData testDataCurrentCarrierInfo = getAdjustedTestData(getPolicyTD()).
 				getTestData(generalTab.getMetaKey()).ksam(generalTab.getCurrentCarrierInfoAssetList().getName()).resolveLinks();
 
@@ -109,6 +109,8 @@ public class TestNoPriorInsuranceError extends AutoSSBaseTest {
 	* AND Days Lapsed (from General page, Current Carrier section) is set to  >  0 and < 3
 	*/
 	private TestData getAdjustedTestData(TestData defaultTestData) {
+		String TRIGGER_ON_EFFECTIVE_DATE = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
+
 		// "no prior insurance" logic
 		TestData policyInformationSection = defaultTestData.getTestData(generalTab.getMetaKey()).getTestData(generalTab.getPolicyInfoAssetList().getName())
 				.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), TRIGGER_ON_EFFECTIVE_DATE);
