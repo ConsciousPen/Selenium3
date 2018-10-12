@@ -2837,14 +2837,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 			if (state.equals(Constants.States.CO)) {
-				Coverage filteredCoverageResponseUmbi = updateCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPDDED".equals(cov.coverageCd)).findFirst().orElse(null);
+				Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPDED");
 				assertSoftly(softly -> {
 					softly.assertThat(filteredCoverageResponseUmbi.customerDisplayed).isEqualTo(customerDisplayed);
 					softly.assertThat(filteredCoverageResponseUmbi.canChangeCoverage).isEqualTo(canChangeCoverage);
 					softly.assertThat(filteredCoverageResponseUmbi.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
 				});
 			} else {
-				Coverage filteredCoverageResponseUmbi = updateCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+				Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPD");
 				assertSoftly(softly -> {
 					softly.assertThat(filteredCoverageResponseUmbi.customerDisplayed).isEqualTo(customerDisplayed);
 					softly.assertThat(filteredCoverageResponseUmbi.canChangeCoverage).isEqualTo(canChangeCoverage);
@@ -2932,10 +2932,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoveragesRegularVehicle = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		if (state.equals(Constants.States.CO)) {
-			Coverage filteredCoverageResponseUmbi = policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPDDED".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPDED");
 			assertAvailableCoverageLimitsForUMBI(filteredCoverageResponseUmbi, customerDisplayed, canChangeCoverage, coverageLimitDisplay);
 		} else {
-			Coverage filteredCoverageResponseUmbi = policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPD");
 			assertAvailableCoverageLimitsForUMBI(filteredCoverageResponseUmbi, customerDisplayed, canChangeCoverage, coverageLimitDisplay);
 		}
 	}
@@ -2948,25 +2948,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageResponse.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
 
 			List<CoverageLimit> availableLimitsUMBI = coverageResponse.availableLimits;
-
 			//TODO jpukenaite: update this method with available limits check
-//			softly.assertThat(availableLimitsUMBI.get(0).coverageLimit).isEqualTo("0");
-//			softly.assertThat(availableLimitsUMBI.get(0).coverageLimitDisplay).isEqualTo("No Coverage");
-//
-//			softly.assertThat(availableLimitsUMBI.get(1).coverageLimit).isEqualTo("100");
-//			softly.assertThat(availableLimitsUMBI.get(1).coverageLimitDisplay).isEqualTo("$100");
-//
-//			softly.assertThat(availableLimitsUMBI.get(2).coverageLimit).isEqualTo("250");
-//			softly.assertThat(availableLimitsUMBI.get(2).coverageLimitDisplay).isEqualTo("$250");
-//
-//			softly.assertThat(availableLimitsUMBI.get(3).coverageLimit).isEqualTo("500");
-//			softly.assertThat(availableLimitsUMBI.get(3).coverageLimitDisplay).isEqualTo("$500");
-//
-//			softly.assertThat(availableLimitsUMBI.get(4).coverageLimit).isEqualTo("750");
-//			softly.assertThat(availableLimitsUMBI.get(4).coverageLimitDisplay).isEqualTo("$750");
-//
-//			softly.assertThat(availableLimitsUMBI.get(5).coverageLimit).isEqualTo("1000");
-//			softly.assertThat(availableLimitsUMBI.get(5).coverageLimitDisplay).isEqualTo("$1,000");
 		});
 	}
 
@@ -3080,7 +3062,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//rate, to check if there is no error
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			//return COMPDED back
+			//return COMPED back
 			PolicyCoverageInfo compUpdatedCoverage2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			Coverage filteredCoverageResponseComp2 = compUpdatedCoverage2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(filteredCoverageResponseComp2.coverageLimit).isEqualTo(availableLimitsChange2);
