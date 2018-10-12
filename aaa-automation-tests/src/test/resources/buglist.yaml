@@ -356,6 +356,6 @@ PT-2761:
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket,
-			aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
-			aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration]
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration]
     messages: ["Second renewal cannot be proposed due to defect PT-2761"]
