@@ -2642,6 +2642,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
 	}
 
+	protected void pas20675_TortCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData td = getTestSpecificTD("TestData_FirstRenewal").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+
+		String policyNumber = createPolicy(td);
+
+		//Perform Endorsementgbvgfc
+		//helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		//PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		}
+
+
+
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData;

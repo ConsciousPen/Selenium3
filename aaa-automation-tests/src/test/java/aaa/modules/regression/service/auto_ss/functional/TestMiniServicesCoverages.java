@@ -615,6 +615,16 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
 		);
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
+	public void pas20675_TortCoverage(@Optional("KY") String state) {
+		assertSoftly(softly ->
+
+				pas20675_TortCoverageBody(softly, getPolicyType())
+		);
+	}
 }
 
 
