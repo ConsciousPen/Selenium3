@@ -11,7 +11,7 @@ public class LedgerHelper {
 			"FROM LEDGERENTRY " +
 			"WHERE PRODUCTNUMBER = '%s' " +
 			"AND PERIODTYPE = 'MONTHLY' " +
-			"AND LEDGERACCOUNTNO = '1015';";
+			"AND LEDGERACCOUNTNO = '1015'";
 
 	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber) {
 		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber);

@@ -1,0 +1,53 @@
+TestData_EndorsementRemoveCoverage: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {},
+   FormsTab: {},
+   PremiumAndCoveragesTab: {
+   Uninsured/Underinsured Motorist Bodily Injury: 'contains=No Coverage'
+   },
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {
+    RequiredToBind: {
+      Uninsured Motorist Coverage and Underinsured Motorist Coverage - Election of Lower Limits / Rejection of Coverage: Physically Signed,
+   },
+  }
+ }
+
+TestData_EndorsementAddCoverage: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {},
+   FormsTab: {},
+   PremiumAndCoveragesTab: {
+   Rental Reimbursement: 'contains=$40',
+   },
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {}
+ }
+
+TestData_EndorsementAddSecondCoverage: {
+    GeneralTab: {},
+    DriverTab: {},
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {
+    Towing and Labor Coverage: 'contains=$50',
+    },
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement: {
+    GeneralTab: {},
+    DriverTab: {},
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {},
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+}
