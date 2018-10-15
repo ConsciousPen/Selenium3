@@ -109,7 +109,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		// Download the claim request
 		File claimRequestFile = downloadClaimRequest();
 
-		//PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain D
+		//PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain DL
 		List<String> driverLicenseList = getDriverLicences(adjusted);
 		String content = contentOf(claimRequestFile, Charset.defaultCharset());
 		assertThat(content)
