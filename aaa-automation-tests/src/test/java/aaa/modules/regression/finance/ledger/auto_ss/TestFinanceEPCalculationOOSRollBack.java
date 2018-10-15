@@ -1,29 +1,25 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
 
-public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOperations {
+public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 
 	private ErrorTab errorTab = new ErrorTab();
 
@@ -34,74 +30,62 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 	/**
 	 * @author Maksim Piatrouski
-	 * Objectives : OOS Cancel and Reinstate
+	 * Objectives : OOS RollBack
 	 * Preconditions:
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
-	 * 1. Create Annual Auto SS Policy with Effective date today
-	 * 2. Create first Endorsement (change one coverage) with date: Today +62 days (with txEffectiveDate -1)
-	 * 3. Cancel Policy with date: endorsement +1 month (with txEffectiveDate -1)
-	 * 4. Reinstate Policy with date: cancel +1 month (with txEffectiveDate -1)
-	 * 5. Create second Endorsement (Remove one coverage, Increase other coverage) with date: reinstate +5 days (with txEffectiveDate -1)
-	 * 6. Roll on Endorsement, Cancellation, Reinstatement
-	 * 7. Verify Calculations
+	 * 1. Create Annual Auto SS Policy with Effective date today (txEffectiveDate = today + 1 month)
+	 * 2. Create First Endorsement (Change some coverages) with date: Today +62 days (with txEffectiveDate -1)
+	 * 3. Create Second Endorsement(Add one coverage, remove one coverage and add one coverage) with date: first endorsement +1 month (with txEffectiveDate -1)
+	 * 4. Create Third Endorsement(Add one coverage, remove one coverage and add one coverage) with date: second endorsement +7 month (with txEffectiveDate -1)
+	 * 4. Roll Back Endorsement with date: third endorsement +3 days (with txEffectiveDate from step 1)
+	 * 5. Roll on Endorsement with available values (not current)
+	 * 6. Verify Calculations
 	 */
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
-	public void pas20277_testFinanceEPCalculationOOSEndorseCancelReinstate(@Optional("AZ") String state) {
+	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("AZ") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
-		LocalDateTime e1Date = today.plusDays(62);
-		LocalDateTime cDate = e1Date.plusMonths(1);
-		LocalDateTime rDate = cDate.plusMonths(1);
-		LocalDateTime e2Date = rDate.plusDays(5);
+		LocalDateTime e1date = today.plusDays(62);
+		LocalDateTime e2date = e1date.plusMonths(1);
+		LocalDateTime e3date = e2date.plusMonths(7);
+		LocalDateTime rbDate = e3date.plusDays(3);
 
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-		jobDate = runEPJobUntil(jobDate, e1Date);
-		TimeSetterUtil.getInstance().nextPhase(e1Date);
-
+		jobDate = runEPJobUntil(jobDate, e1date);
+		TimeSetterUtil.getInstance().nextPhase(e1date);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		createEndorsement(-1, "TestData_Endorsement1");
 
-		jobDate = runEPJobUntil(jobDate, cDate);
-		TimeSetterUtil.getInstance().nextPhase(cDate);
+		jobDate = runEPJobUntil(jobDate, e2date);
+		TimeSetterUtil.getInstance().nextPhase(e2date);
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		createEndorsement(-1, "TestData_Endorsement2");
+
+		jobDate = runEPJobUntil(jobDate, e3date);
+		TimeSetterUtil.getInstance().nextPhase(e3date);
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		createEndorsement(-1, "TestData_Endorsement3");
+
+		jobDate = runEPJobUntil(jobDate, rbDate);
+		TimeSetterUtil.getInstance().nextPhase(rbDate);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		cancelPolicy(-1);
-
-		jobDate = runEPJobUntil(jobDate, rDate);
-		TimeSetterUtil.getInstance().nextPhase(rDate);
-
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		reinstatePolicy(-1);
-
-		jobDate = runEPJobUntil(jobDate, e2Date);
-		TimeSetterUtil.getInstance().nextPhase(e2Date);
-
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(txEffectiveDate, "TestData_Endorsement2");
-
-		errorTab.overrideAllErrors();
-		errorTab.buttonOverride.click();
-		DocumentsAndBindTab.btnPurchase.click();
-		Page.dialogConfirmation.confirm();
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
-
-		policy.rollOn().perform(false, false);
+		rollBackEndorsement(txEffectiveDate);
 
 		runEPJobUntil(jobDate, jobEndDate);
-
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

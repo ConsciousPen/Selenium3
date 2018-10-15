@@ -1,17 +1,16 @@
 package aaa.modules.regression.finance.template;
 
+import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-
-import java.time.LocalDateTime;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
@@ -79,6 +78,21 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         createEndorsement(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective), testDataName);
     }
 
+    /**
+     * @author Reda Kazlauskiene
+     * @name Create Endorsement with specific TesDate and Effective date
+     */
+    protected void rollBackEndorsement(LocalDateTime effectiveDate) {
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
+                .adjust("RollBackEndorsementActionTab|Endorsement Roll Back Date",
+                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+    }
+
+    protected void rollBackEndorsement1() {
+        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
+                .adjust("RollBackEndorsementActionTab|Endorsement Roll Back Date",
+                        "01/04/2025"));
+    }
     /**
      * @author Maksim Piatrouski
      * @name Cancel Policy with specific Effective date

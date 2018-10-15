@@ -6,13 +6,11 @@ TestData_EndorsementAPRemoveCoverage: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorists Bodily Injury: 'contains=No Coverage'
+    Underinsured Motorists Bodily Injury: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
-    RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
-    },
+    RequiredToBind: {}
   }
 }
 

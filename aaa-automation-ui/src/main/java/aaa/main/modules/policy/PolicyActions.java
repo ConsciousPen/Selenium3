@@ -6,6 +6,7 @@ import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import toolkit.datax.TestData;
@@ -434,6 +435,16 @@ public final class PolicyActions {
 		@Override
 		public String getName() {
 			return "Roll Back Endorsement";
+		}
+
+		@Override
+		public AbstractAction start() {
+			log.info(getName() + " action initiated.");
+			NavigationPage.setActionAndGo(getName());
+			if (Page.dialogConfirmation.isPresent()) {
+				Page.dialogConfirmation.confirm();
+			}
+			return this;
 		}
 	}
 
