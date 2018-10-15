@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
@@ -106,10 +107,9 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
 
 		// Download the claim request
-		//Commenting out for now - need to check with with implementer on why this is here.
 		File claimRequestFile = downloadClaimRequest();
 
-		// Check if request contains DL and PolicyNumber
+		//PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain D
 		List<String> driverLicenseList = getDriverLicences(adjusted);
 		String content = contentOf(claimRequestFile, Charset.defaultCharset());
 		assertThat(content)
