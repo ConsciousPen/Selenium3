@@ -530,8 +530,9 @@ public final class PolicyActions {
 			int columnsCount = tableOosEndorsements.getColumnsCount();
 
 			for (int i = 1; i <= rowsCount; i++) {
-				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
-						isAutomatic ? 1 : 2).click();
+				if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Automatic")) {
+					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).click();
+				}
 				if (Page.dialogConfirmation.isPresent()) {
 					Page.dialogConfirmation.confirm();
 				}
