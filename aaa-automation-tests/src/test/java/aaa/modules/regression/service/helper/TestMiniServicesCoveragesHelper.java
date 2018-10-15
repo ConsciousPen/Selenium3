@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -2644,27 +2645,39 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas20675_TortCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		mainApp().open();
-	//	createCustomerIndividual();
-		//TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-		//TestData td = getTestSpecificTD("TestData_FirstRenewal").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+		createCustomerIndividual();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData td = getTestSpecificTD("TestData_FirstRenewal").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
 
-	//	String policyNumber = createPolicy(td);
-		String policyNumber ="KYSS952918587";
-		//Perform Endorsementgbvgfc
+		String policyNumber = createPolicy(td);
+
+		//Perform Endorsement
+
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		ViewDriversResponse responseViewDriver = HelperCommon.viewPolicyDrivers(policyNumber);
 
-		String oid1=responseViewDriver.driverList.get(0).oid;
-		String oid2=responseViewDriver.driverList.get(1).oid;
-		String oid3=responseViewDriver.driverList.get(2).oid;
+		String oid1 = responseViewDriver.driverList.get(0).oid;
+		String oid2 = responseViewDriver.driverList.get(1).oid;
+		String oid3 = responseViewDriver.driverList.get(2).oid;
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).coverageCd).isEqualTo("TORT");
-		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).availableDrivers);
-		}
+		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).coverageCd).contains("TORT");
+		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).availableDrivers).contains(oid1);
+		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).availableDrivers).contains(oid2);
+		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).availableDrivers).contains(oid3);
+		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).isEmpty();
 
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(oid1, oid2, oid3));
+		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid1);
+		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid2);
+		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid3);
 
+		UpdateCoverageRequest updateCoverageRequest1 = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(oid1));
+		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest1, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		softly.assertThat(updateCoverageResponse1.driverCoverages.get(1).currentlyAddedDrivers).contains(oid1);
+	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
