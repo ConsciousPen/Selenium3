@@ -88,11 +88,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
                         effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
     }
 
-    protected void rollBackEndorsement1() {
-        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
-                .adjust("RollBackEndorsementActionTab|Endorsement Roll Back Date",
-                        "01/04/2025"));
-    }
     /**
      * @author Maksim Piatrouski
      * @name Cancel Policy with specific Effective date
