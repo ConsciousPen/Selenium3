@@ -68,8 +68,8 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
         // Validate VRD page for AF accident
         new PremiumAndCoveragesTab().calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-//        assertThat(PremiumAndCoveragesTab.tableRatingDetailsActivities.getRow("", "Include in Points and/or Tier").getCell(2).getValue())
-//                .isEqualTo("Waived - Accident Surcharge Waiver");
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsActivities.getRow("", "Include in Points and/or Tier").getCell(2).getValue())
+                .isEqualTo("Waived - Accident Surcharge Waiver");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
         // Bind policy
