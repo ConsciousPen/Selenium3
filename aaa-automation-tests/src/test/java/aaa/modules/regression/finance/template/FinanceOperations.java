@@ -65,7 +65,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
     /**
      * @author Reda Kazlauskiene
-     * @name Create Endorsement with specific TesDate and Effective date
+	 * @name Create Endorsement with specific TestDate and Effective date
      */
     protected void createEndorsement(LocalDateTime effectiveDate, String testDataName) {
         policy.endorse().performAndFill(getTestSpecificTD(testDataName)
@@ -79,8 +79,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
     }
 
     /**
-     * @author Reda Kazlauskiene
-     * @name Create Endorsement with specific TesDate and Effective date
+	 * @author Maksim Piatrouski
+	 * @name Roll Back Endorsement with specific Effective date
      */
     protected void rollBackEndorsement(LocalDateTime effectiveDate) {
         policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
@@ -106,7 +106,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
      * @author Maksim Piatrouski
      * @name Reinstate Policy with specific Effective date
      */
-
     protected void reinstatePolicy(LocalDateTime effectiveDate) {
         policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
                 .adjust("ReinstatementActionTab|Reinstate Date",
