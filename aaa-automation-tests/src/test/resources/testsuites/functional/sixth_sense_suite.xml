@@ -436,11 +436,18 @@
         </classes>
     </test>
 
-    <!--<test name="Test CA Choice Vehicle Assignments After Rating">-->
-    <!--<parameter name="state" value="CA"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestAssignmentTabAfterRating"/>-->
-    <!--</classes>-->
+    <test name="Test CA Choice Vehicle Assignments After Rating">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestAssignmentTabAfterRating"/>
+        </classes>
+    </test>
+
+    <!--<test name="Test Accident Surcharge Waiver">-->
+        <!--<parameter name="state" value="AZ, NJ, NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>-->
+        <!--</classes>-->
     <!--</test>-->
 
 </suite>

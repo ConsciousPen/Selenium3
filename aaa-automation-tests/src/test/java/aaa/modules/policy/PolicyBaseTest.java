@@ -201,7 +201,7 @@ public abstract class PolicyBaseTest extends BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(testData, tab, false);
+		policy.getDefaultView().fillUpTo(testData, tab, true);
 	}
 
 	protected void createConversionQuoteAndFillUpTo(Class<? extends Tab> tab) {
