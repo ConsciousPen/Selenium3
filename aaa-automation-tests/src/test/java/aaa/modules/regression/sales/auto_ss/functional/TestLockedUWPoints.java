@@ -144,7 +144,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(renewalEff, policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -192,7 +192,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(renewalEff, policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -268,6 +268,10 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
+		// get time for min due payments
+		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String today = effDate.format(DateTimeUtils.MM_DD_YYYY);
+
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -277,8 +281,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 				AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PENNSYLVANIA_NOTICE_TO_NAMED_INSURED_REGARDING_TORT_OPTIONS.getLabel()), "Physically Signed");
 
 		TestData tdManualConversionInitiation = getManualConversionInitiationTd().adjust(TestData.makeKeyPath(InitiateRenewalEntryActionTab.class.getSimpleName(),
-				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()),
-				TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+				CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_EFFECTIVE_DATE.getLabel()), today);
 
 		// Initiate conversion and fill policy up to P&C tab
 		customer.initiateRenewalEntry().perform(tdManualConversionInitiation);
@@ -300,7 +303,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
-		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Initiate Endorsement
 		endorsementChanges();
@@ -318,8 +321,9 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		documentsAndBindTab.submitTab();
 
 		// Change system date
+		LocalDateTime renewalEff = effDate.plusYears(1);
 		mainApp().close();
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
@@ -335,7 +339,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();

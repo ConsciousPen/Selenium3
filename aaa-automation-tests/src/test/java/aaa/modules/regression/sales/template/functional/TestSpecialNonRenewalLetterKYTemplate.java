@@ -151,7 +151,7 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.BIND.get());
 		new BindTab().submitTab();
 
-		purchaseRenewal(conversionExpDate, policyNumber);
+		payTotalAmtDue(conversionExpDate, policyNumber);
 	}
 }
 
