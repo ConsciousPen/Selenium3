@@ -1420,8 +1420,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//Expected order of coverages (common)
 		List<String> orderOfPolicyCoveragesExpectedCommon = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM", "IL");
-		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR", "WL");//do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
-		orderOfVehicleCoveragesExpectedCommon.remove("WL"); //do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
+		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");//do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
 
 		//Expected order of KY coverages
 		List<String> orderOfPolicyCoveragesExpectedKY = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP");
