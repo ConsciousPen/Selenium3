@@ -2112,7 +2112,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
-		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
+//		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 
 		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "BI");
 		testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "PD");
@@ -2127,7 +2127,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "RREIM");
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "TOWINGLABOR");
 		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "SPECEQUIP");
-		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");
+//		testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		ViewVehicleResponse viewVehicles2 = HelperCommon.viewPolicyVehicles(policyNumber);
@@ -2243,7 +2243,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
-			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
+//			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "BI");
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "PD");
@@ -2258,7 +2258,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "RREIM");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "TOWINGLABOR");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "SPECEQUIP");
-			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");
+//			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2397,7 +2397,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();
+//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull(); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
 
@@ -2422,7 +2422,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();
+//			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
 			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
 		});
@@ -2567,7 +2567,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "RREIM");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "TOWINGLABOR");
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
-			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");
+//			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL");//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2649,7 +2649,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();
+//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
 			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
 		});

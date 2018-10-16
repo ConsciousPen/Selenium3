@@ -86,9 +86,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesV1, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesV1, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
+//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
+//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -198,9 +198,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesLoanVehicle, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesLoanVehicle, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-			softly.assertThat(coveragesLoanVehicle.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coveragesLoanVehicle.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coveragesLoanVehicle.get(8).customerDisplayed).isEqualTo(false);
+//			softly.assertThat(coveragesLoanVehicle.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			softly.assertThat(coveragesLoanVehicle.get(8).coverageDescription).isEqualTo("Waive Liability");
+//			softly.assertThat(coveragesLoanVehicle.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -251,9 +251,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesV1, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment1.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesV1, "NEWCAR", "New Car Added Protection", "true", "Yes", null, true, false);
 
-			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
+//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
+//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -353,10 +353,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage coverageNewcar = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7);
 			coverageXproperties(softly, coverageNewcar, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-			Coverage coverageWL = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8);
-			softly.assertThat(coverageWL.coverageCd).isEqualTo("WL");
-			softly.assertThat(coverageWL.coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coverageWL.customerDisplayed).isEqualTo(false);
+//			Coverage coverageWL = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			softly.assertThat(coverageWL.coverageCd).isEqualTo("WL");
+//			softly.assertThat(coverageWL.coverageDescription).isEqualTo("Waive Liability");
+//			softly.assertThat(coverageWL.customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -1420,7 +1420,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//Expected order of coverages (common)
 		List<String> orderOfPolicyCoveragesExpectedCommon = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM", "IL");
-		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR", "WL");
+		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR", "WL");//do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
+		orderOfVehicleCoveragesExpectedCommon.remove("WL"); //do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
 
 		//Expected order of KY coverages
 		List<String> orderOfPolicyCoveragesExpectedKY = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP");
@@ -2108,9 +2109,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesVehicle2, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipmentPendingV.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesVehicle2, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-			softly.assertThat(coveragesVehicle2.get(8).coverageCd).isEqualTo("WL");
-			softly.assertThat(coveragesVehicle2.get(8).coverageDescription).isEqualTo("Waive Liability");
-			softly.assertThat(coveragesVehicle2.get(8).customerDisplayed).isEqualTo(false);
+//			softly.assertThat(coveragesVehicle2.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			softly.assertThat(coveragesVehicle2.get(8).coverageDescription).isEqualTo("Waive Liability");
+//			softly.assertThat(coveragesVehicle2.get(8).customerDisplayed).isEqualTo(false);
 		});
 
 		//Change coverages v1
@@ -2678,7 +2679,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).coverageCd).isEqualTo("TOWINGLABOR");
 		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).coverageCd).isEqualTo("SPECEQUIP");
 		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).coverageCd).isEqualTo("NEWCAR");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL");
+		//softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
 
 		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
 		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
@@ -3389,9 +3390,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.canChangeCoverage).isFalse();
 			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.customerDisplayed).isFalse();
 
-			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
-			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
+			//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+//			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.coverageCd)).findFirst().orElse(null);
+//			softly.assertThat(filteredPolicyCoverageResponseWL.canChangeCoverage).isFalse();
+//			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
 			//UMPD is Vehicle level coverage for NV, OR, UT, OH //TODO-mstrazds:PAS-15496 View Coverages - UMPD Colorado, NV, Ohio, Utah // PAS-16112 View Coverages - UMPD - Oregon
 			if ("NV, OR, UT, OH".contains(getState())) {
