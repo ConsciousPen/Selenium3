@@ -27,6 +27,6 @@ public class TestFutureTerms extends HomeSSHO3BaseTest {
 
         RenewalHelper_HomeSS renewalHelper = new RenewalHelper_HomeSS(PolicySummaryPage.getExpirationDate(), 63l, 48l, true);
         mainApp().close();
-        renewalHelper.moveToGivenTerm(1);
+        renewalHelper.moveToGivenTerm(2);
     }
 }
