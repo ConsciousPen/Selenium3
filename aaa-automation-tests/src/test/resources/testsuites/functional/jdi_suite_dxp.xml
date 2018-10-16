@@ -713,6 +713,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas20675_TortCoverage">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20675_TortCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)">
         <parameter name="state" value="MD, OR"/>
         <classes>

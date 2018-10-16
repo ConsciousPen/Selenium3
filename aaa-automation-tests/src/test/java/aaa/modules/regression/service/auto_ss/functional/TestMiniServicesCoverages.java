@@ -616,6 +616,17 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		);
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name Tort Coverage - Kentucky
+	 * @scenario for KY
+	 * * @details
+	 * 1. Create a KU policy with afr, nafr and excluded driver.
+	 * 2. run view coverage service and see can view Driver Rejects Limitation on Right To Sue for
+	 * 3. Update Tort Coverage yes for all AFRD and verify
+	 * 4. Update Tort Coverage no for all AFRD and verify
+	 * 	 **/
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})

@@ -2647,7 +2647,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-		TestData td = getTestSpecificTD("TestData_FirstRenewal").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
+		TestData td = getTestSpecificTD("TestData_All_Type_Driver").adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError);
 
 		String policyNumber = createPolicy(td);
 

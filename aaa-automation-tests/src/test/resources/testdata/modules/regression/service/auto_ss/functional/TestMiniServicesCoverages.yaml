@@ -2,7 +2,7 @@ TestData_NewVehicle: {
     VehicleTab: ['@VehicleTab_2018'],
 }
 
-TestData_FirstRenewal: '@TestMiniServicesDriver@TestData2'
+TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
 
 VehicleTab_2018: {
     Add Vehicle: Click,
