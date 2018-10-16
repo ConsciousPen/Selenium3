@@ -141,10 +141,9 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Create Policy
         openAppAndCreatePolicy(getPolicyTD());
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Cancel Policy and Rewrite it
-        cancelAndRewritePolicy(policyNumber);
+        cancelAndRewritePolicy();
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -179,10 +178,9 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
         getBindTab().submitTab();
         overrideAllErrorsAndBind();
-        String policyNumber2 = PolicySummaryPage.getPolicyNumber();
 
         // Cancel Policy, Rewrite and check button availability for bound claims and newly added ones
-        cancelAndRewritePolicy(policyNumber2);
+        cancelAndRewritePolicy();
 
         checkRemoveButtonAvailable(false);
         getPropertyInfoTab().fillTab(td);
@@ -303,12 +301,13 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getPropertyInfoTab().saveAndExit();
     }
 
-    private void cancelAndRewritePolicy(String policyNumber){
-        mainApp().close();
-        openAppNonPrivilegedUser("A30");
-        searchForPolicy(policyNumber);
+    private void cancelAndRewritePolicy(){
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        String quoteNumber = PolicySummaryPage.getPolicyNumber();
+        mainApp().close();
+        openAppNonPrivilegedUser("A30");
+        SearchPage.openQuote(quoteNumber);
         policy.dataGather().start();
         navigateToPropertyInfoTab();
     }
