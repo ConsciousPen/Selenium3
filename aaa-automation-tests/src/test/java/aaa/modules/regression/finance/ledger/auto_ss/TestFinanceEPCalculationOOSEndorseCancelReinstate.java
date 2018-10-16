@@ -93,11 +93,14 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 		createEndorsement(txEffectiveDate, "TestData_Endorsement2");
 
 		errorTab.overrideAllErrors();
-		errorTab.buttonOverride.click();
-		DocumentsAndBindTab.btnPurchase.click();
-		Page.dialogConfirmation.confirm();
+		errorTab.submitTab();
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 
+		//Roll on Endorsement
+		policy.rollOn().perform(false, false);
+		//Roll on Cancellation
+		policy.rollOn().perform(false, false);
+		//Roll on Reinstatement
 		policy.rollOn().perform(false, false);
 
 		runEPJobUntil(jobDate, jobEndDate);

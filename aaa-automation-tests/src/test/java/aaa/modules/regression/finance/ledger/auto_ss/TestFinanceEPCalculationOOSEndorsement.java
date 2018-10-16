@@ -79,9 +79,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
         errorTab.overrideAllErrors();
-        errorTab.buttonOverride.click();
-        DocumentsAndBindTab.btnPurchase.click();
-        Page.dialogConfirmation.confirm();
+        errorTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 
         policy.rollOn().perform(false, false);

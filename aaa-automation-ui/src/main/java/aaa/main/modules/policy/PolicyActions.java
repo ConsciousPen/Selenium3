@@ -541,8 +541,12 @@ public final class PolicyActions {
 			int columnsCount = tableOosEndorsements.getColumnsCount();
 
 			for (int i = 1; i <= rowsCount; i++) {
-				if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Automatic")) {
+				if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Automatic") &&
+						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).isPresent()) {
 					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).click();
+				} else if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Roll On") &&
+						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().isPresent()){
+					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().click();
 				}
 				if (Page.dialogConfirmation.isPresent()) {
 					Page.dialogConfirmation.confirm();
