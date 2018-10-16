@@ -1478,6 +1478,13 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
 					false, By.id("cappingDetailsPopupPanel:cappingSave"));
 		}
+
+		public static final AssetDescriptor<Button> VIEW_RATING_DETAILS = declare("View Rating Details", Button.class,
+				By.id("policyDataGatherForm:ratingHODetailsPopup"));
+
+		public static final class ViewRatingDetailsWindow extends MetaData {
+			public static final AssetDescriptor<TextBox> MEMBERSHIP_INDICATOR = declare("Membership current AAA Member indicator", TextBox.class, By.id("horatingDetailsPopupForm_6:ratingDetailsTable:5:j_id_1_27_5b_j_2_10_7"));
+		}
 	}
 
 	public static final class MortgageesTab extends MetaData {

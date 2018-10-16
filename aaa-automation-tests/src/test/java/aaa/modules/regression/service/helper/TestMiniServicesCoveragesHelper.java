@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+
+import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -2533,7 +2535,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policyType.get().createPolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 
-		//Perform Endorsementgbvgfc
+		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
@@ -2613,7 +2615,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
-		//Perform Endorsementgbvgfc
+		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
@@ -2793,6 +2795,177 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas15255_UpdateCompCollCoveragesCheckUmpdBody(String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oid = viewVehicleResponse.vehicleList.get(0).oid;
+
+		String coverageCdComp = "COMPDED";
+		String coverageCdColl = "COLLDED";
+		String limitDisplayNoCov = "No Coverage";
+		String availableLimitsChange = "-1";
+		String availableLimitsChange2 = "250";
+
+		//TC1
+		//Remove COMP/COLL and check UMBI
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdComp, availableLimitsChange, oid, true, true, limitDisplayNoCov, state);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdColl, availableLimitsChange, oid, true, true, limitDisplayNoCov, state);
+
+		//TC3
+		//Prepare policy, COLL = No coverage
+		helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without Coll
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//Add Coll back
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdColl, availableLimitsChange2, oid, false, false, limitDisplayNoCov, state);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		//Prepare policy, COMP = No coverage
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);//Policy without Comp/Coll
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdComp, availableLimitsChange2, oid, true, true, limitDisplayNoCov, state);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		//TC2
+		//Prepare policy UM/UIM = no coverage
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("UMBI", "0/0");
+		HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM
+
+		//Remove COMP/COLL and check UMBI
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdComp, availableLimitsChange, oid, false, false, limitDisplayNoCov, state);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdColl, availableLimitsChange, oid, false, false, limitDisplayNoCov, state);
+	}
+
+		private void updateCoverageAndCheckUmbi_pas15255(String policyNumber, String coverageCdChange, String availableLimitsChange, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state ) {
+
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			if (state.equals(Constants.States.CO)) {
+				Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPDED");
+				assertSoftly(softly -> {
+					softly.assertThat(filteredCoverageResponseUmbi.customerDisplayed).isEqualTo(customerDisplayed);
+					softly.assertThat(filteredCoverageResponseUmbi.canChangeCoverage).isEqualTo(canChangeCoverage);
+					softly.assertThat(filteredCoverageResponseUmbi.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
+				});
+			} else {
+				Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPD");
+				assertSoftly(softly -> {
+					softly.assertThat(filteredCoverageResponseUmbi.customerDisplayed).isEqualTo(customerDisplayed);
+					softly.assertThat(filteredCoverageResponseUmbi.canChangeCoverage).isEqualTo(canChangeCoverage);
+					softly.assertThat(filteredCoverageResponseUmbi.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
+				});
+			}
+		}
+
+	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPA_and_MotorHome").getTestDataList("VehicleTab")).resolveLinks();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String vehicleOid;
+
+		if (runOnMotorHome == true) {
+			ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN"); //MotorHome
+			vehicleOid = viewVehicles.vehicleList.stream().filter(vehicle -> vin2.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		} else {
+			ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN"); //PPA
+			vehicleOid = viewVehicles.vehicleList.stream().filter(vehicle -> vin1.equals(vehicle.vehIdentificationNo)).findFirst().orElse(null).oid;
+		}
+
+		String coverageCdComp = "COMPDED";
+		String coverageCdColl = "COLLDED";
+		String limitDisplayNoCov = "No Coverage";
+		String availableLimitsChange = "-1";
+		String availableLimitsChange2 = "250";
+
+		//TC1
+		//Remove COMP/COLL and check UMBI
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Hit viewPolicyCoverages, check UMBI
+		viewUmpdCoverage(policyNumber, vehicleOid, true, true, limitDisplayNoCov, state);
+
+		//Motor home on CO cannot be rated without Coll
+		if (!runOnMotorHome || !state.equals(Constants.States.OH)) {
+			//Prepare policy: Coll = No coverage
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			//Hit viewPolicyCoverages, check UMBI
+			viewUmpdCoverage(policyNumber, vehicleOid, true, true, limitDisplayNoCov, state);
+		}
+
+		//TC2
+		//Comp/Coll = both have other than no coverage.
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Hit viewPolicyCoverages, check UMBI
+		viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
+
+		//TC3
+		//UM/UIM - No Coverage, Comp/Coll = no coverage
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("UMBI", "0/0");
+		HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//Hit viewPolicyCoverages, check UMBI
+		viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
+
+		//Motor home on CO cannot be rated without Coll
+		if (!runOnMotorHome || !state.equals(Constants.States.OH)) {
+			//Return back Comp coverage
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			viewUmpdCoverage(policyNumber, vehicleOid, false, false, limitDisplayNoCov, state);
+		}
+	}
+
+	private void viewUmpdCoverage(String policyNumber, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state ){
+
+		PolicyCoverageInfo policyCoveragesRegularVehicle = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		if (state.equals(Constants.States.CO)) {
+			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPDED");
+			assertAvailableCoverageLimitsForUMBI(filteredCoverageResponseUmbi, customerDisplayed, canChangeCoverage, coverageLimitDisplay);
+		} else {
+			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPD");
+			assertAvailableCoverageLimitsForUMBI(filteredCoverageResponseUmbi, customerDisplayed, canChangeCoverage, coverageLimitDisplay);
+		}
+	}
+
+	private void assertAvailableCoverageLimitsForUMBI(Coverage coverageResponse, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay) {
+
+		assertSoftly(softly -> {
+			softly.assertThat(coverageResponse.customerDisplayed).isEqualTo(customerDisplayed);
+			softly.assertThat(coverageResponse.canChangeCoverage).isEqualTo(canChangeCoverage);
+			softly.assertThat(coverageResponse.coverageLimitDisplay).isEqualTo(coverageLimitDisplay);
+
+			List<CoverageLimit> availableLimitsUMBI = coverageResponse.availableLimits;
+			//TODO jpukenaite: update this method with available limits check
+		});
+	}
+
 	private void validatePUPError_pas15379(ETCSCoreSoftAssertions softly, String policyNumber, List<CoverageLimit> coverageLimits, String coverageCd) {
 		UpdateCoverageRequest updateCoverageRequest;
 		PolicyCoverageInfo updateCoverageResponse;
@@ -2903,8 +3076,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//rate, to check if there is no error
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			//return COMPDED back
-			PolicyCoverageInfo compUpdatedCoverage2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange2), PolicyCoverageInfo.class);
+			//return COMPED back
+			PolicyCoverageInfo compUpdatedCoverage2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vanWithCE.oid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			Coverage filteredCoverageResponseComp2 = compUpdatedCoverage2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(filteredCoverageResponseComp2.coverageLimit).isEqualTo(availableLimitsChange2);
 
