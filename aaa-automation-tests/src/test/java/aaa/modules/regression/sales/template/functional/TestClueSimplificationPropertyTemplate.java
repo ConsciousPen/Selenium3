@@ -178,13 +178,19 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
         getBindTab().submitTab();
         overrideAllErrorsAndBind();
+        getPurchaseTab().fillTab(getPolicyTD("DataGather", "TestData"));
+        getPurchaseTab().submitTab();
 
         // Cancel Policy, Rewrite and check button availability for bound claims and newly added ones
         cancelAndRewritePolicy();
 
         checkRemoveButtonAvailable(false);
         getPropertyInfoTab().fillTab(td);
+        // Last added Claim can be removed
         checkRemoveButtonAvailable(true);
+        removeClaim();
+        viewEditClaim(Labels.LIABILITY);
+        checkRemoveButtonAvailable(false);
     }
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(){
 
@@ -311,5 +317,4 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.dataGather().start();
         navigateToPropertyInfoTab();
     }
-
     }

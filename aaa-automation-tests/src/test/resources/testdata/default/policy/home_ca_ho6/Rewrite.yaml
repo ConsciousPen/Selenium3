@@ -24,7 +24,7 @@ TestDataFutureDate: {
 TestDataForBindRewrittenPolicy: {
   GeneralTab: {},
   ApplicantTab: {},
-  ReportsTab: '@home_ca_ho3@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: { Calculate Premium: true},
@@ -33,4 +33,9 @@ TestDataForBindRewrittenPolicy: {
   DocumentsTab: '@home_ca_ho3@DataGather@DocumentsTab',
   BindTab: {},
   PurchaseTab: '@home_ca_ho3@DataGather@PurchaseTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Order Report'}]
 }

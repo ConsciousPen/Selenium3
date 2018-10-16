@@ -27,11 +27,10 @@ TestDataSameDate: {
   }
 }
 
-
 TestDataForBindRewrittenPolicy: {
   GeneralTab: {},
   ApplicantTab: {},
-  ReportsTab: '@home_ss_ho3@DataGather@ReportsTab',
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: {},
   ProductOfferingTab: {},
   EndorsementTab: {},
@@ -41,4 +40,9 @@ TestDataForBindRewrittenPolicy: {
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: {},
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Order Report'}]
 }
