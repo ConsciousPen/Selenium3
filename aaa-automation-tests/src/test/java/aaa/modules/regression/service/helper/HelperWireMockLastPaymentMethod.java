@@ -1,17 +1,17 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.CREDIT;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.DEBIT;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.REFUNDABLE;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.CRDC;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodSubTypeEnum.MC;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodSubTypeEnum.VISA;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.CREDIT;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.CardSubTypeEnum.DEBIT;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.REFUNDABLE;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.CRDC;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodSubTypeEnum.MC;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodSubTypeEnum.VISA;
 import org.testng.annotations.Test;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData;
 import toolkit.config.PropertyProvider;
 
 public class HelperWireMockLastPaymentMethod {

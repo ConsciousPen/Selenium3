@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
@@ -36,7 +36,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, vehicleAddRequest);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
