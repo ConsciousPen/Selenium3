@@ -29,12 +29,12 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         _policyStage2Date = PolicySummaryPage.getEffectiveDate().plusDays(30l);
 
         if (outputDataToLogs){
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 1 (Stage3) = '%s' </QA-LOG-DEBUG>", _policyStage3Date.toString()));
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 2 (Stage4) = '%s' </QA-LOG-DEBUG>", _policyStage4Date.toString()));
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generation Date = '%s' </QA-LOG-DEBUG>", _renewalImageGenDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 1 (Stage3) = '%s' </QA-LOG-DEBUG>", _policyStage3Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 2 (Stage4) = '%s' </QA-LOG-DEBUG>", _policyStage4Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generation Date = '%s' </QA-LOG-DEBUG>", _renewalImageGenDate.toString()));
         }
     }
 
@@ -46,9 +46,9 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveThroughStage3();
             moveThroughStage4();
 
-            log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Renewal Term '%1' completed. Moving to Renewal Term '%2' </QA-LOG-DEBUG>", currentTerm, currentTerm+1));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Term '%s' completed. </QA-LOG-DEBUG>", currentTerm));
             currentTerm++;
-            if(currentTerm > 10) // <-- SANITY CHECK
+            if(currentTerm > 10) // <-- SANITY CHECK. LIMITS RENEWALS TO 10.
                 break;
         }
     }
@@ -58,7 +58,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToNB15();
         }
         else {
-            log.error(String.format("<QA-LOG-DEBUG> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
         }
     }
 
@@ -67,7 +67,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToNB30();
         }
         else {
-            log.error(String.format("<QA-LOG-DEBUG> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
         }
     }
 
@@ -77,17 +77,16 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToMembershipTimepoint1();
         }
         else {
-            log.error(String.format("<QA-LOG-DEBUG> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
         }
     }
 
     public void moveThroughStage4() {
         if(_policyExpiraitonDate != null) {
-            generateRenewalImage();
             moveToMembershipTimepoint2();
         }
         else {
-            log.error(String.format("<QA-LOG-DEBUG> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
         }
     }
 
@@ -96,7 +95,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void moveToNB30() {
@@ -104,14 +103,14 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void generateRenewalImage() {
         TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-        log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void moveToMembershipTimepoint1() {
@@ -119,7 +118,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void moveToMembershipTimepoint2() {
@@ -127,6 +126,6 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format("<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 }
