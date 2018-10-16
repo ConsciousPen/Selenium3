@@ -31,7 +31,7 @@
         </classes>
     </test>
     <test name="AutoSS [DC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="DCTests-20180114_part1.xls"/>
+        <parameter name="fileName" value="DCTests-20181125_part1.xls"/>
         <parameter name="policyNumbers" value="2, 3"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>

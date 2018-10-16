@@ -4,18 +4,19 @@ import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionT
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import javax.ws.rs.core.Response;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssertions;
@@ -276,7 +277,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid,VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
@@ -334,6 +335,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
 
 			ErrorResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid, ErrorResponseDto.class, 422);
+
 			softly.assertThat(deleteVehicleResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getCode());
 			softly.assertThat(deleteVehicleResponse.message).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getMessage());
 

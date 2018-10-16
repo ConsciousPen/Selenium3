@@ -615,6 +615,78 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
 		);
 	}
+	/**
+	 * @author Maris Strazds
+	 * @scenario validate Property Damage Liability available limits if BI is selected as the lowest available coverage
+	 * 1. Create a policy in PAS with BI that are NOT the lowest BI limits available
+	 * 2. Create endorsement through service
+	 * 3. Update my BI coverages to be BI limits that are the lowest BI limits available through service
+	 * 4. Validate that the delimiter for Bodily Injury Liability shows as Per Person/Per Accident
+	 * AND the delimiter for Property Damage Liability shows as Per Accident
+	 * AND the only values available for Property Damage are those that are less than or equal to the Per Accident amount for Bodily Injury
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@StateList(states = {Constants.States.AZ, Constants.States.NV, Constants.States.SD, Constants.States.UT, Constants.States.WY})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15788"})
+	public void pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable(@Optional("WY") String state) {
+		pas15788_PDAvailableLimitsWhenBIisTheLowestAvailableBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name UM/UIM required to have UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy. (I have UM/UIM other than no coverage)
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Run update coverage service: remove Collision Coverage from PPA vehicle.
+	 * 4. Check UMPD coverage.
+	 * 5. Delete endorsement, create new one.
+	 * 6. Run update coverage service: remove Comp Coverage from PPA vehicle.
+	 * 7. Check UMPD coverage.
+	 * @scenario2
+	 * 1. The same like TC1, but Policy should not have UM/UIM coverage.
+	 * @scenario3
+	 * 1. Prepare policy: UM/UIM other than no coverage,  COMP/COLL = No coverage)
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Run update coverage service:  Add COMP/COLL coverage.
+	 * 4. Check UMPD coverage.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15255"})
+	public void pas15255_UpdateCompCollCoveragesCheckUmpd(@Optional("OH") String state) {
+
+		pas15255_UpdateCompCollCoveragesCheckUmpdBody(state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverages - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy: UM/UIM other than no coverage, Comp/Coll- both = no coverage
+	 * 2. Run view coverages service. Check UMBI
+	 * 3. Create endorsement outside of PAS.
+	 * 4. Update Coverage: Coll =  No coverages, bind endorsement.
+	 * 5. Run view coverages service. Check UMBI
+	 * @scenario2
+	 * 1. Create policy: UM/UIM other than no coverage, Comp/Coll = both have other than no coverage.
+	 * 2. Run view coverages service. Check UMBI
+	 * @scenario3
+	 * 1. Create policy: UM/UIM - No Coverage, Comp, Comp/Coll- both = no coverage
+	 * 2. Run view coverages service. Check UMBI
+	 * 3. Create endorsement outside of PAS.
+	 * 4. Update Coverage: Coll =  No coverages, bind endorsement.
+	 * Note: Repeat with MotorHome
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15496"})
+	public void pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl(@Optional("OH") String state) {
+
+		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(), false);
+		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(),true);
+	}
 }
 
 
