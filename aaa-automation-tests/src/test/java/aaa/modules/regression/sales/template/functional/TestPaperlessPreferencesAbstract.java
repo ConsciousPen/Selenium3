@@ -2,21 +2,21 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.*;
 import static aaa.main.enums.PolicyConstants.PolicyErrorsTable.MESSAGE;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.LinkedList;
 import java.util.List;
 import org.testng.annotations.AfterSuite;
 import aaa.common.Tab;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
