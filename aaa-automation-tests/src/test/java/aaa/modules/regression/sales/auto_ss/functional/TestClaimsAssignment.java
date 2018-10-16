@@ -1,26 +1,27 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
 	* * @author Chris Johns
@@ -44,12 +45,13 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
 	@StateList(states = {Constants.States.AZ})
 	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
+
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "claimsMatching_test1.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
-		ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);
+		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
 
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
@@ -63,7 +65,15 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("COMP");
 		assertThat(microServiceResponse.getMatchedClaims().get(2).getMatchCode()).isEqualTo("DL");
 	}
+	//Method to send JSON Request to Claims Matching Micro Service
 
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
+		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = claimsUrl;
+		restRequestInfo.bodyRequest = claimsRequest;
+		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	}
 }
 
 

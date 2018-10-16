@@ -2,26 +2,22 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.enums.BillingConstants.BillingInstallmentScheduleTable.*;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
-import java.time.*;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
@@ -57,8 +53,7 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", "Driver", "Smith", "1979-02-13", "III");
-		DriversDto addDriverRequestService = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
+		DriversDto addDriverRequestService = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D32329585", 16, "AZ", "CH", "MSS");
 		HelperCommon.updateDriver(policyNumber, addDriverRequestService.oid, updateDriverRequest);
 

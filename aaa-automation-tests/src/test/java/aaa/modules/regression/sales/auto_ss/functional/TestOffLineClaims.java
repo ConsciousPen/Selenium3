@@ -1,7 +1,9 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,17 +107,16 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
 
 		// Download the claim request
-		//Commenting out for now - need to check with with implementer on why this is here.
-//		File claimRequestFile = downloadClaimRequest();
+		File claimRequestFile = downloadClaimRequest();
 
-		// Check if request contains DL and PolicyNumber
-//		List<String> driverLicenseList = getDriverLicences(adjusted);
-//		String content = contentOf(claimRequestFile, Charset.defaultCharset());
-//		assertThat(content)
-//				.contains("ClaimBatchRequest")
-//				.contains(policyNumber)
-//				.endsWith("ClaimBatchRequest>");
-//		driverLicenseList.forEach(l -> assertThat(content).doesNotContain(l));
+		//PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain DL
+		List<String> driverLicenseList = getDriverLicences(adjusted);
+		String content = contentOf(claimRequestFile, Charset.defaultCharset());
+		assertThat(content)
+				.contains("ClaimBatchRequest")
+				.contains(policyNumber)
+				.endsWith("ClaimBatchRequest>");
+		driverLicenseList.forEach(l -> assertThat(content).doesNotContain(l));
 
 		// Create the claim response
 		createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);

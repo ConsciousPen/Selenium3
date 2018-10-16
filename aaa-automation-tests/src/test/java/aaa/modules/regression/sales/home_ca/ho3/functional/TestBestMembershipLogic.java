@@ -2,6 +2,9 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.regression.sales.template.functional.TestBestMembershipLogicTemplate;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -12,6 +15,7 @@ import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
@@ -22,6 +26,22 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_CA_HO3;
+    }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "19437: STG1 BML set to no.")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-19437")
+    public void pas15944_BML_Test_No_STG1(@Optional("") String state) {
+
+        String policyNumber = createNoAAAMembershipPolicy();
+
+        LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
+
+        movePolicyToSTG2NB30(policyNumber, policyEffectiveDate);
+
+        LocalDateTime policyRenewalDate = movePolicyToSTG3Renewal(policyNumber);
+
+        movePolicyToSTG4Renewal(policyNumber, policyRenewalDate);
     }
 
     /**
@@ -47,7 +67,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -83,7 +103,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate after policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -119,7 +139,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for TRANSFER-IN policy/role status and termExpirationDate before policy effective date.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         movePolicyToSTG1NB15(policyNumber);
@@ -155,7 +175,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -201,7 +221,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -245,7 +265,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -296,7 +316,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -345,7 +365,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -401,7 +421,7 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         // Set Mock for INACTIVE status.
 
         /*--Step 2--*/
-        String policyNumber = createDefaultFallbackPolicy();
+        String policyNumber = createDefaultYesAAAMembershipPolicy();
 
         /*--Step 3--*/ /*--Step 4--*/
         LocalDateTime policyEffectiveDate = movePolicyToSTG1NB15(policyNumber);
@@ -421,5 +441,224 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         /*--Step 12--*/
         assertThat(AAAMembershipQueries.getAAAOrderMembershipNumberFromSQL(policyNumber))
                 .isNotNull().hasValue(DefaultFallbackMemberNumber);
+    }
+
+    /**
+     * Membership = Yes; BML = Found; RMS = Active; Discount = Yes;
+     * 12min Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario1(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+
+    }
+
+    /**
+     * @Scenairo Membership = Yes; BML = Not Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * 12min Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario2(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * Membership = Yes; BML = Found; RMS = Inactive; Discount3 = Yes; Discount4 = No;
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario3(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * Membership = Yes; BML = Not Found; RMS = Active; Discount = Yes;
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario4(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+
+    }
+
+    /**
+     * Membership = No; BML = Found; RMS = Active; Discount = Yes;
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario5(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+    }
+
+    /**
+     * Membership = No; BML = Not Found; Discount = No;
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario6(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * Membership = No; BML = Found; RMS = Inactive; Discount = No;
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario7(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.NO, RMSStatus.Inactive, MembershipStatus.NO, RMSStatus.Inactive);
+    }
+
+    /**
+     * Membership = Override Term; BML = Found; RMS = Active; Discount = Yes
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario11(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.YES, RMSStatus.Active, MembershipStatus.YES, RMSStatus.Active);
+    }
+
+    /**
+     * Membership = Override Term; BML = Not Found; Discount = No
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario12(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.NA, MembershipStatus.NO, RMSStatus.NA);
+    }
+
+    /**
+     * Membership = Override Term; BML = Found; RMS = Inactive; Discount = No
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario13(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_TERM, RMSStatus.Inactive, MembershipStatus.YES, RMSStatus.Inactive);
+    }
+
+    /**
+     * Membership = Override Life; Discount = Yes
+     * 15 Test Run.
+     * @param state
+     * @author Tyrone Jemison
+     */
+    @Parameters({"state"})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14048")
+    public void PAS14048_HomeCAHO3_TestScenario14(@Optional("") String state) {
+
+        TestData defaultTestData = getPolicyTD().resolveLinks();
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Life");
+        defaultTestData = maskTD(defaultTestData, ApplicantTab.class, HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, ReportsTab.class, HomeCaMetaData.ReportsTab.AAA_MEMBERSHIP_REPORT.getLabel());
+        defaultTestData = defaultTestData.resolveLinks();
+
+        testCaseDriver(defaultTestData, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA, MembershipStatus.OVERRIDE_LIFE, RMSStatus.NA);
     }
 }
