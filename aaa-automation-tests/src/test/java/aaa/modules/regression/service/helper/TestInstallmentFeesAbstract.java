@@ -4,8 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.rest.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.dtoAdmin.InstallmentFeesResponse;
 
 public abstract class TestInstallmentFeesAbstract extends PolicyBaseTest {
 

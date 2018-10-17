@@ -351,3 +351,41 @@ PAS-20608:
     messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
   - tests: [aaa.modules.regression.document_fulfillment.auto_ca.choice.*]
     messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.billing_and_payments.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+PT-2761:
+  summary: "Homeowners DP3 Conversion Policies second Renewal is not being Proposed"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket,
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration]
+    messages: ["Second renewal cannot be proposed due to defect PT-2761"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3.*]
+    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[1]>"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3.*]
+    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[3]>"]
+PAS-20303:
+  summary: "KY - Non-Renewal letter generated for policies at @R-81 and @R-79"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho4.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+PAS-20827:
+  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]

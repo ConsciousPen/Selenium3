@@ -1,0 +1,175 @@
+{
+  "claims":[
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"INSURED",
+        "firstName":"Bilbo",
+        "lastName":"Baggins",
+        "issuedState":"AZ",
+        "dateOfBirth":"1997-05-09",
+        "licenseNumber":"A98769878",
+        "claimDriverName":"Bilbo Baggins"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"crashed into waving inflatable arm guy",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"1TAZ1111OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"BROTHER",
+        "firstName":"Bruce",
+        "lastName":"Banner",
+        "issuedState":"AZ",
+        "dateOfBirth":"1997-08-30",
+        "licenseNumber":"A12345222",
+        "claimDriverName":"Bruce Banner"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"collided with 1 passenger bus",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"7TZ02222OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"SISTER",
+        "firstName":"Tony",
+        "lastName":"Stark",
+        "issuedState":"AZ",
+        "dateOfBirth":"1997-08-30",
+        "licenseNumber":"A12345333",
+        "claimDriverName":"Tony Stark"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"collided with 10 parked vehicles",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"3TAZ3333OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Nicolas",
+        "lastName": "Smith",
+        "issuedState": "CA",
+        "dateOfBirth": "1977-12-12",
+        "licenseNumber": "D8901121",
+        "claimDriverName":"Nicolas Smith"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm",
+      "amountpaid": 1056,
+      "isCompClaim": true,
+      "liabilityCd": "AF",
+      "claimNumber": "4TZ44444OHS",
+      "status": "CLOSED"
+    }
+  ],
+  "policy":{
+    "termEndDate":"2022-07-07",
+    "policyNumber":"AZSS952918543",
+    "termEffectiveDate":"2021-07-07",
+    "drivers":[
+      {
+        "firstName":"Fernando-GEHJJ",
+        "lastName":"Smith",
+        "issuedState": "AZ",
+        "isDriverFNI": true,
+        "relationshipToFNI":"IN",
+        "licenseNumber":"A12345678",
+        "middleName":"A12345678",
+        "driverType":"afr",
+        "existingActivities":[]
+      },
+      {
+        "firstName":"Bruce",
+        "lastName":"Banner",
+        "issuedState": "AZ",
+        "isDriverFNI": false,
+        "relationshipToFNI":"SI",
+        "licenseNumber":"A12345222",
+        "middleName":"A12345222",
+        "driverType":"afr",
+        "existingActivities":[
+          {
+            "description":"AAF",
+            "source":"CSAAClaims",
+            "oid":"hvwnBuC3FFSTZzIeR7VE9w",
+            "type":"afa",
+            "claimNumber":"7TZ02222OHS",
+            "LossPaymentAmout":2200
+          }
+        ]
+      },
+      {
+        "firstName":"Tony",
+        "lastName":"Stark",
+        "issuedState": "AZ",
+        "isDriverFNI": false,
+        "relationshipToFNI":"SI",
+        "licenseNumber":"A12345333",
+        "middleName":"A12345333",
+        "driverType":"afr",
+        "existingActivities":[]
+      }
+    ],
+    "annualTerm":true
+  }
+}
