@@ -94,7 +94,7 @@ public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.submitTab();
-        purchaseRenewal(expDate, policyNum);
+        payTotalAmtDue(expDate, policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();

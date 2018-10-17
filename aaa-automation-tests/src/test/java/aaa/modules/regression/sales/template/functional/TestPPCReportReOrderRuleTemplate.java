@@ -58,7 +58,7 @@ public class TestPPCReportReOrderRuleTemplate extends PolicyBaseTest {
 			createProposedRenewal(renewalTime);
 
 			// Purchase Renewal and Navigate to Renewal Policy Summary
-			purchaseRenewal(renewalTime, policyNumber);
+			payTotalAmtDue(renewalTime, policyNumber);
 			PolicySummaryPage.buttonRenewals.click();
 			// Endorse Renewal. Calculate Premium. Bind the endorsement
 			policy.endorse().perform(initiateEndorsement);

@@ -22,18 +22,13 @@ TestData_EndorsementOne: {
        Authorized by: QA
      }
     },
-    DriverTab: '@DriverInformation',
+    DriverTab: {},
     RatingDetailReportsTab: {},
     VehicleTab: '@VehicleTab',
-    FormsTab: '@FormsTab',
+    FormsTab: {},
     PremiumAndCoveragesTab: {},
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {}
-}
-
-DriverInformation: {
-  Financial Responsibility Filing Needed: 'Yes',
-  Filling State: Arizona
 }
 
 VehicleTab: { 
@@ -48,16 +43,6 @@ VehicleTab: {
   Stated Amount: 1500
 }
 
-FormsTab: { 
-  Driver Forms: {
-#    Forms Subject: "Fernando",
-    SR22: {
-      Action: Edit,
-      Case Number: 123,
-      State: AZ
-    }
-  }
-}
 
 TestData_EndorsementTwo: {
     GeneralTab: {

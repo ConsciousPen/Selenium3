@@ -1,10 +1,9 @@
 package aaa.modules.regression.service.helper;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.main.enums.DocGenEnum;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class HelperRfi {
