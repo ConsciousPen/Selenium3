@@ -84,10 +84,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         return String.format(CAS_RESPONSE_FILE_NAME_TEMPLATE, CAS_RESPONSE_PATH + File.separator + prefix);
     }
 
-    protected List<String> getDriverLicences(@Nonnull TestData testData, @Nonnull TestData driverTab) {
+    protected List<String> getDriverLicences(@Nonnull TestData testData) {
         List<String> dls = new ArrayList<>();
-        dls.add(testData.getTestData("DriverTab").getValue("License Number"));
-        driverTab.getTestDataList("DriverTab").forEach(t -> dls.add(t.getValue("License Number")));
+        testData.getTestDataList("DriverTab").forEach(t -> dls.add(t.getValue("License Number")));
         return dls;
     }
 

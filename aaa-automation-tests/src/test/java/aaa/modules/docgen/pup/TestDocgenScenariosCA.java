@@ -6,8 +6,10 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.Constants.States;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.pup.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
@@ -21,6 +23,10 @@ import toolkit.verification.CustomSoftAssertions;
  *
  */
 public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
+	
+	String quoteNum;
+	String policyNum;
+	
 	/**
 	 * Create pup policy with underlying ca policy
 	 * Go to On-Demand Documents tab and verify:
@@ -65,13 +71,13 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.DOCGEN, Groups.CRITICAL})
-	public void testPUPDocgenScenarios(@Optional("") String state) {
+	public void TC01(@Optional("") String state) {
 		CustomSoftAssertions.assertSoftly(softly -> {
 			mainApp().open();
 
 			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 			createCustomerIndividual();
-			String quoteNum = createQuote();
+			quoteNum = createQuote();
 
 			// Verify the documents on quote GODD page
 			policy.quoteDocGen().start();
@@ -88,15 +94,23 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 					HSU07CA,
 					HSU09XX,
 					AHAPXX
-					//				WURFICA // TODO Not disabled as expected
 			);
-			goddTab.generateDocuments(_58_4000);
-			WebDriverHelper.switchToDefault();
+			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null,_58_4000);
 			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum, _58_4000, AHPNCA);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		});
+	}
+	
+	public void TC02(@Optional("") String state) {
+		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			
+			mainApp().open();
+			SearchPage.openQuote(quoteNum);
+			
+			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
 			policy.quoteDocGen().start();
-			goddTab.generateDocuments(getTestSpecificTD("QuoteGenerateHSU"),
+			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("QuoteGenerateHSU"),
 					HSU03XX,
 					HSU04XX,
 					HSU05XX,
@@ -105,10 +119,9 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 					HSU06CA,
 					_60_5019,
 					_61_3026,
-					//				_61_6528, // TODO Transform Document error for 61 6528
 					_58_1027
 			);
-			WebDriverHelper.switchToDefault();
+
 			DocGenHelper.verifyDocumentsGenerated(softly, quoteNum,
 					HSU03XX,
 					HSU04XX,
@@ -118,13 +131,25 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 					HSU06CA,
 					_60_5019,
 					_61_3026,
-					//				_61_6528,
 					_58_1027
 			);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+		});
+	}
+	
+	public void TC03(@Optional("") String state) {
+		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			
+			mainApp().open();
+			SearchPage.openQuote(quoteNum);
+			
+			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+			
 			policy.purchase(getPolicyTD());
-			String policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
+			
+			
+			policyNum = PolicySummaryPage.labelPolicyNumber.getValue();
 
 			// Verify the documents for policy
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _61_5120, _58_1500);
@@ -143,13 +168,24 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 			goddTab.verify.documentsEnabled(softly, false,
 					AHAPXX,
 					WURFICA_PUP);
-			goddTab.generateDocuments(_58_4000);
-			WebDriverHelper.switchToDefault();
+			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, null, _58_4000);
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNum, _58_4000, AHPNCA);
 
-			PolicySummaryPage.labelPolicyNumber.waitForAccessible(5000);
+			
+		});
+	}
+	
+	public void TC04(@Optional("") String state) {
+		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			
+			mainApp().open();
+			SearchPage.openPolicy(policyNum);
+			
+			GenerateOnDemandDocumentActionTab goddTab = policy.quoteDocGen().getView().getTab(GenerateOnDemandDocumentActionTab.class);
+			
 			policy.policyDocGen().start();
-			goddTab.generateDocuments(getTestSpecificTD("PolicyGenerateHSU"),
+			goddTab.generateDocuments(false, DocGenEnum.DeliveryMethod.CENTRAL_PRINT, null, null, getTestSpecificTD("PolicyGenerateHSU"),
 					HSU04XX,
 					HSU05XX,
 					HSU08XX,
@@ -163,7 +199,7 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 					HSU07CA,
 					HSU01CA
 			);
-			WebDriverHelper.switchToDefault();
+
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNum,
 					HSU04XX,
 					HSU05XX,
@@ -180,5 +216,4 @@ public class TestDocgenScenariosCA extends PersonalUmbrellaBaseTest {
 			);
 		});
 	}
-
 }
