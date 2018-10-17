@@ -277,6 +277,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("No");
+        assertThat(getClaimChargeableAsset()).isEnabled();
         // Check that Non Chargeable reason is not present because CAT is YES
         assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
@@ -290,6 +291,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        assertThat(getClaimChargeableAsset()).isEnabled();
         // Check that Non Chargeable reason is not present because CAT is YES
         assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
