@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
-
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -17,6 +18,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
+import toolkit.datax.TestData;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -2903,6 +2905,73 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				});
 			}
 		}
+
+
+	protected void pas17642_UpdateCoverageADBBody(PolicyType policyType) {
+		assertSoftly(softly -> {
+
+			TestData td = getPolicyTD("DataGather", "TestData_AZ");
+			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("FourDrivers").getTestDataList("DriverTab")).resolveLinks();
+			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab1")).resolveLinks();
+
+			mainApp().open();
+			createCustomerIndividual();
+			policyType.get().createPolicy(td);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			//String policyNumber = "AZSS952919003";
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+			String driverFNI = viewDriversResponse.driverList.get(0).oid;
+			String driverAFR = viewDriversResponse.driverList.get(1).oid;
+
+			softly.assertThat(viewDriversResponse.driverList.get(0).availableCoverages.toString()).contains("ADB");
+			softly.assertThat(viewDriversResponse.driverList.get(1).availableCoverages.toString()).contains("ADB");
+
+			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).coverageCd).isEqualTo("ADB");
+
+			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).availableDrivers).contains(driverFNI);
+			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).availableDrivers).contains(driverAFR);
+
+			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+			String grossPremium = endorsementRateResponse[0].termPremium;
+
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADB", "true", ImmutableList.of(driverFNI));
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			softly.assertThat(updateCoverageResponse.driverCoverages.get(0).currentlyAddedDrivers).contains(driverFNI);
+
+			PolicyPremiumInfo[] endorsementRateResponse1 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+			String grossPremium1 = endorsementRateResponse1[0].termPremium;
+			assertThat(new Dollar(grossPremium1).moreThan(new Dollar(grossPremium))).isTrue();
+
+			UpdateCoverageRequest updateCoverageRequest1 = DXPRequestFactory.createUpdateCoverageRequest("ADB", "true", ImmutableList.of(driverFNI, driverAFR));
+			PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest1, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			softly.assertThat(updateCoverageResponse1.driverCoverages.get(0).currentlyAddedDrivers).contains(driverFNI);
+			softly.assertThat(updateCoverageResponse1.driverCoverages.get(0).currentlyAddedDrivers).contains(driverAFR);
+
+			PolicyPremiumInfo[] endorsementRateResponse2 = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+			String grossPremium2 = endorsementRateResponse2[0].termPremium;
+			assertThat(new Dollar(grossPremium2).moreThan(new Dollar(grossPremium1))).isTrue();
+
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
+
+			ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+			ComparableDriver driver1 = policyResponse.drivers.get(driverFNI);
+			softly.assertThat(driver1.modifiedAttributes.containsKey("adbCoverageInd"));
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		});
+
+
+	}
+
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
 		mainApp().open();

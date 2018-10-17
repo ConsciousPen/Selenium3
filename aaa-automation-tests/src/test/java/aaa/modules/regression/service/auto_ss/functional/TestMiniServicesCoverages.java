@@ -708,6 +708,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(), false);
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(),true);
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
+	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
+
+		pas17642_UpdateCoverageADBBody(getPolicyType());
+
+	}
 }
 
 

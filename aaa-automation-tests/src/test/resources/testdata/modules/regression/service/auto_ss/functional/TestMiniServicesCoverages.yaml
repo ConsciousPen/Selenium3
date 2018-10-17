@@ -1,8 +1,81 @@
 TestData_NewVehicle: {
-    VehicleTab: ['@VehicleTab_2018'],
+VehicleTab: ['@VehicleTab_2018'],
 }
 
-TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
+FourDrivers: {
+DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
+          }
+
+DriverTab2: {
+      DriverSearchDialog: {},
+      Occupation: Self-Employed,
+      Age First Licensed: 18,
+      Date of Birth: '$<today-21y:MM/dd/yyyy>',
+      License Type: 'Licensed (US)',
+      License Number: 407378541
+    }
+
+
+DriverTab3: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Insured with another carrier',
+    Carrier: 'index=4',
+    Policy Number: '12345',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
+DriverTab4: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      Rel. to First Named Insured: Sibling,
+      First Name: 'Teena',
+      Middle Name: 'not',
+      Last Name: 'Insured',
+      Suffix: 'III',
+      Date of Birth: '12/12/1992',
+      Gender: 'Female',
+      Marital Status: Single,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: '603557752',
+      License Status: 'Licensed (US)',
+      Most Recent GPA: None
+}
+
+DriverTab6: {
+   Add drivers: 'Yes',
+  DriverSearchDialog: {},
+   Driver Type: Excluded,
+    Reason: Company Request,
+    Rel. to First Named Insured: Employee,
+    First Name: 'John',
+    Middle Name: 'Jonny',
+         Last Name: 'Jeff',
+         Suffix: 'III',
+         Date of Birth: '12/12/1993',
+         Gender: 'Male',
+         Marital Status: Single,
+         Occupation: 'index=1',
+         License Type: 'Licensed (US)',
+         Age First Licensed: '18',
+         License Number: '603557789',
+         License Status: 'Licensed (US)',
+}
 
 VehicleTab_2018: {
     Add Vehicle: Click,
@@ -12,21 +85,6 @@ VehicleTab_2018: {
      Ownership Type: Leased,
      First Name: BANK OF AMERICA
     }
-}
-
-TestData_PPA_and_MotorHome: {
-    VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_Motor_Home'],
-}
-
-VehicleTab_Motor_Home: {
-    Add Vehicle: Click,
-    Type: Motor Home,
-    Motor Home Type: Mini Motor Home (Class C),
-    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
-    VIN: 5B4MP67G123353230,
-    Other Make: 'Motor',
-    Other Model: 'Motor',
-    Stated Amount: '50000',
 }
 
 TestData_PPAandTrailer: {
@@ -93,46 +151,58 @@ VehicleTab_VAN_PICKUP_without_coverage_VA: {
     }
 
 VehicleTab_VAN_PICKUP_with_coverage_VA: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 2GTEC19K8S1525936,
-    Customizing Equipment: 'Yes',
+Add Vehicle: Click,
+Usage: Pleasure,
+VIN: 2GTEC19K8S1525936,
+Customizing Equipment: 'Yes',
     Stated Amount: 2500.25,
     }
 
 TestData_VAN_PICKUP_other_than_VA: {
-   VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_1_other_than_VA', '@VehicleTab_VAN_PICKUP_2_other_than_VA'],
-    }
+VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_VAN_PICKUP_1_other_than_VA', '@VehicleTab_VAN_PICKUP_2_other_than_VA'],
+}
 
 VehicleTab_VAN_PICKUP_1_other_than_VA: {
-     Add Vehicle: Click,
-     Usage: Pleasure,
-     VIN: 2GTEC19V531282646,
-    }
+Add Vehicle: Click,
+Usage: Pleasure,
+VIN: 2GTEC19V531282646,
+}
 
 VehicleTab_VAN_PICKUP_2_other_than_VA: {
-    Add Vehicle: Click,
-    Usage: Pleasure,
-    VIN: 2GTEC19K8S1525936,
-    }
+Add Vehicle: Click,
+Usage: Pleasure,
+VIN: 2GTEC19K8S1525936,
+}
 
 PremiumAndCoveragesTab_DC: {
-  Uninsured Motorist Property Damage: index=1,
-  Underinsured Motorist Property Damage: index=1
+Uninsured Motorist Property Damage: index=1,
+Underinsured Motorist Property Damage: index=1
 }
 
 PremiumAndCoveragesTab_IN: {
-  Uninsured Motorist Property Damage Limit: index=1,
+Uninsured Motorist Property Damage Limit: index=1,
 }
 
 PremiumAndCoveragesTab_NJ: {
-  Uninsured Motorist Property Damage: index=1,
+Uninsured Motorist Property Damage: index=1,
 }
 
 PremiumAndCoveragesTab_NY: {
-  Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
+Supplementary Uninsured/Underinsured Motorists Bodily Injury (SUM): index=1,
 }
 
 PremiumAndCoveragesTab_WV: {
-  Underinsured Motorist Property Damage: index=1,
+Underinsured Motorist Property Damage: index=1,
+}
+
+DocumentsAndBindTab1: {
+ RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion: Physically Signed
+  },
+  RequiredToIssue: {
+     Proof of Current Insurance for: 'Yes',
+     Proof of Prior Insurance: 'Yes'
+   },
+    Agreement: I agree
 }
