@@ -269,8 +269,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Select Hail Claim and set CAT = YES chargeable = NO
         viewEditClaim(Labels.HAIL);
         selectRentalClaimForCA();
-        // Set CAT no first so that chargeable is enabled
-        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
@@ -280,8 +278,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Select Wind Claim and set CAT = YES chargeable = YES
         viewEditClaim(Labels.WIND);
         selectRentalClaimForCA();
-        // Set CAT no first so that chargeable is enabled
-        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("Yes");
         getClaimCatastropheAsset().setValue("Yes");
         // Check the chargeable Value is the same
