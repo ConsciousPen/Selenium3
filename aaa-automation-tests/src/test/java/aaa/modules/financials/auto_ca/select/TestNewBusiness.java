@@ -36,10 +36,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testNewBusinessScenario_1(@Optional("CA") String state) {
-
-		FinancialsBaseTest.validateAccounts();
 		testNewBusinessScenario_1();
-		FinancialsBaseTest.validateAccounts();
 	}
 
 	/**
@@ -60,10 +57,7 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testNewBusinessScenario_2(@Optional("CA") String state) {
-
-		FinancialsBaseTest.validateAccounts();
 		testNewBusinessScenario_2();
-		FinancialsBaseTest.validateAccounts();
 
 	}
 
