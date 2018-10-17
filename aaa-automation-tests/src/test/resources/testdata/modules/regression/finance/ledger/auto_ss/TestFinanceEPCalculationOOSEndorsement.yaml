@@ -41,7 +41,6 @@ TestData_EndorsementAddCoverage: {
    DriverActivityReportsTab: {},
    DocumentsAndBindTab: {}
 }
-
 # ====================== TestData KY =======================
 TestData_EndorsementAPRemoveCoverage_KY: {
    GeneralTab: {},
@@ -86,5 +85,47 @@ TestData_EndorsementAddSecondCoverage_KY: {
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {}
 }
-
 # ====================== TestData WV =======================
+TestData_EndorsementAPRemoveCoverage_WV: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {},
+   FormsTab: {},
+   PremiumAndCoveragesTab: {
+   Bodily Injury Liability: 'contains=$500,000',
+   Underinsured Motorist Bodily Injury: 'contains=No Coverage'
+   },
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {
+    RequiredToBind: {
+      Coverage Acceptance Statement: Physically Signed,
+   },
+  }
+}
+
+TestData_EndorsementAddCoverage_WV: {
+     GeneralTab: {},
+     DriverTab: {},
+     RatingDetailReportsTab: {},
+     VehicleTab: {},
+     FormsTab: {},
+     PremiumAndCoveragesTab: {
+     Towing and Labor Coverage: 'contains=50',
+     },
+     DriverActivityReportsTab: {},
+     DocumentsAndBindTab: {}
+}
+
+TestData_EndorsementAddSecondCoverage_WV: {
+    GeneralTab: {},
+    DriverTab: {},
+    RatingDetailReportsTab: {},
+    VehicleTab: {},
+    FormsTab: {},
+    PremiumAndCoveragesTab: {
+    Rental Reimbursement: 'contains=1200',
+    },
+    DriverActivityReportsTab: {},
+    DocumentsAndBindTab: {}
+}
