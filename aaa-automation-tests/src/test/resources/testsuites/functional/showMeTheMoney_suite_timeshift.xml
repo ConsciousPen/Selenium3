@@ -17,4 +17,20 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
+    <!-- Earned Premium Calculation Changes: PAS-14510-->
+    <test name="PAS-14510 Earned Premium Calculation Changes - I,II,III,V scenarios" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, KY, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorseCancelReinstate"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSCancelAndReinstate"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBack"/>
+        </classes>
+    </test>
+    <test name="PAS-14510 Earned Premium Calculation Changes - IV scenario" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NV, KY, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
+        </classes>
+    </test>
 </suite>

@@ -1,5 +1,6 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -12,6 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
@@ -48,6 +50,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSEndorseCancelReinstate(@Optional("AZ") String state) {
