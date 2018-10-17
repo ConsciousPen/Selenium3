@@ -262,9 +262,11 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		static final String PRIOR_CLAIMS = "Prior claims";
 		static final String AAA_CLAIMS = "AAA claims";
 		static final String DATE = "Date";
+		static final String HAIL = "Hail";
 		static final String POINTS = "Points";
 		static final String FIRE = "Fire";
 		static final String WATER = "Water";
+		static final String WIND = "Wind";
 		static final String THEFT = "Theft";
 		static final String LIABILITY = "Liability";
 		static final String CLAIM_1 = "Claim 1";

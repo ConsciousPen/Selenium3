@@ -4,6 +4,7 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
@@ -13,6 +14,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +27,8 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected abstract Tab getBindTab();
     protected abstract Tab getPurchaseTab();
     protected abstract void navigateToBindTab();
+    protected abstract RadioGroup getClaimChargeableAsset();
+    protected abstract TextBox getClaimNonChargeableReasonAsset();
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -154,7 +159,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Check that 1 Claim was removed. 3 Claims left
         checkTblClaimRowCount(3);
         getPropertyInfoTab().saveAndExit();
-
+//QAZH6952918678
         policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaim(Labels.WATER);
@@ -246,6 +251,46 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         PolicySummaryPage.buttonRenewals.click();
 
         checkAfterTXWasBound(policyNumber);
+    }
+
+    protected void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
+
+        TestData td = getCustomerIndividualTD("DataGather", "TestData")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "Virat")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "Kohli");
+
+        mainApp().open();
+        createCustomerIndividual(td);
+
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPremiumAndCoveragesQuoteTab().getClass(), true);
+        navigateToPropertyInfoTab();
+
+        // Select Hail Claim and set CAT = YES chargeable = NO
+        viewEditClaim(Labels.HAIL);
+        getClaimCatastropheAsset().setValue("Yes");
+        getClaimChargeableAsset().setValue("No");
+        getClaimNonChargeableReasonAsset().setValue("Something");
+
+        // Select Wind Claim and set CAT = YES chargeable = YES
+        viewEditClaim(Labels.WIND);
+        getClaimCatastropheAsset().setValue("Yes");
+        getClaimChargeableAsset().setValue("Yes");
+
+        // Select Fire Claim and set CAT = NO chargeable = YES
+        viewEditClaim(Labels.FIRE);
+        getClaimCatastropheAsset().setValue("No");
+        getClaimChargeableAsset().setValue("Yes");
+
+        // Select Water Claim and set CAT = NO chargeable = NO
+        viewEditClaim(Labels.WATER);
+        getClaimCatastropheAsset().setValue("No");
+        getClaimChargeableAsset().setValue("No");
+        getClaimNonChargeableReasonAsset().setValue("Something Else");
+
+        // Calculate Premium check that there is no errors. If VRD is able to open there were no errors
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
     }
 
     private void removeClaim(){

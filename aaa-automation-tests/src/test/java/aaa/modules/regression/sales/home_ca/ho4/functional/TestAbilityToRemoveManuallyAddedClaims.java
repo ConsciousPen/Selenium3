@@ -87,6 +87,16 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	}
 
 	@Override
+	protected RadioGroup getClaimChargeableAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
+	}
+
+	@Override
+	protected TextBox getClaimNonChargeableReasonAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.REASON_CLAIM_IS_NOT_CHARGEABLE);
+	}
+
+	@Override
 	protected RadioGroup getAAAClaimAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
 	}
