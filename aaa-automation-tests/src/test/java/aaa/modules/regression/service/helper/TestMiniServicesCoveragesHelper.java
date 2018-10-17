@@ -1428,9 +1428,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		List<String> orderOfDriverCoveragesExpectedKY = Arrays.asList("ADB", "TORT");
 
 		//Expected order of SD coverages
-		List<String> orderOfPolicyCoveragesExpectedSD = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM");
+		List<String> orderOfPolicyCoveragesExpectedSD = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MEDPM");
 		List<String> orderOfVehicleCoveragesExpectedSD = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");
-		List<String> orderOfDriverCoveragesExpectedSD = Arrays.asList("ADB", "TDB");
+		List<String> orderOfDriverCoveragesExpectedSD = Arrays.asList("ADB", "TD");
 
 		//map coverages
 		Map<String, List<String>> mapPolicyCoverages = new LinkedHashMap<>();
