@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aaan:ClaimBatchRequest xmlns:aaan="http://www.aaancnuit.com.BatchClaimFeedRequest_version1">
+  <aaan:ClaimLineItem>
+    <aaan:product>AAA_SS</aaan:product>
+    <aaan:agreementNumber>AZSS952918549</aaan:agreementNumber>
+    <aaan:agreementIssuedState>AZ</aaan:agreementIssuedState>
+    <aaan:agreementEffectiveDate>2020-10-17-07:00</aaan:agreementEffectiveDate>
+    <aaan:agreementStatus>A</aaan:agreementStatus>
+    <aaan:claimFromDate>2013-10-17-07:00</aaan:claimFromDate>
+    <aaan:claimToDate>2019-08-15-07:00</aaan:claimToDate>
+  </aaan:ClaimLineItem>
+  <aaan1:batchFileSummary xmlns:aaan1="http://www.aaancnuit.com.AAANCNU_BatchCommon_version1">
+    <aaan1:batchJobInfo>
+      <aaan1:batchJobEnvironmentType>DEV</aaan1:batchJobEnvironmentType>
+      <aaan1:batchJobApplicationName>EXGPAS</aaan1:batchJobApplicationName>
+      <aaan1:batchJobName>renewalClaimOrderAsyncJob</aaan1:batchJobName>
+      <aaan1:batchJobServerName>NVDXPAS2AGL003.tent.trt.csaa.pri</aaan1:batchJobServerName>
+      <aaan1:batchJobIPAddress>192.168.15.202</aaan1:batchJobIPAddress>
+      <aaan1:batchJobCorrelationId>B0A82A21-7BD7-79AD-5309-FBD10DA74166</aaan1:batchJobCorrelationId>
+    </aaan1:batchJobInfo>
+    <aaan1:batchFileInfo>
+      <aaan1:batchFileName>20190815_120000_PAS_B_EXGPAS_PASHUB_4001_D.xml</aaan1:batchFileName>
+      <aaan1:batchFileCreationDateTime>2019-08-15T08:28:07.648-07:00</aaan1:batchFileCreationDateTime>
+      <aaan1:batchFileCorrelationId>6399b949-df41-4199-bf0d-38f47e06ce3c</aaan1:batchFileCorrelationId>
+      <aaan1:batchFileSequenceNumber>1</aaan1:batchFileSequenceNumber>
+      <aaan1:batchFileLineItemCount>1</aaan1:batchFileLineItemCount>
+      <aaan1:batchFileCreditLineItemCount>0</aaan1:batchFileCreditLineItemCount>
+      <aaan1:batchFileDebitLineItemCount>0</aaan1:batchFileDebitLineItemCount>
+      <aaan1:batchFileRejectedLineItemCount>0</aaan1:batchFileRejectedLineItemCount>
+      <aaan1:batchFileTotalAmount>0</aaan1:batchFileTotalAmount>
+      <aaan1:batchFileTotalCreditAmount>0</aaan1:batchFileTotalCreditAmount>
+      <aaan1:batchFileTotalDebitAmount>0</aaan1:batchFileTotalDebitAmount>
+    </aaan1:batchFileInfo>
+  </aaan1:batchFileSummary>
+  <aaan:version>
+    <aaan:majorVersion>1</aaan:majorVersion>
+    <aaan:minorVersion>0</aaan:minorVersion>
+  </aaan:version>
+</aaan:ClaimBatchRequest>

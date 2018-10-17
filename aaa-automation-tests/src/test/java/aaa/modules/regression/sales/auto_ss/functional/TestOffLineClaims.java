@@ -126,6 +126,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
 
+
 		// Retrieve policy
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -156,7 +157,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 			softly.assertThat(DriverTab.tableActivityInformationList).isPresent(false);
 		});
 	}
-
 }
 
 
