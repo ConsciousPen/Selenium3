@@ -80,4 +80,8 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		query.put("Discounts Applied", discount);
 		return !tableDiscounts.getRowsThatContain(query).isEmpty();
 	}
+
+	public void openViewRatingDetails() {
+		getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_RATING_DETAILS.getLabel()).getWebElement().click();
+	}
 }

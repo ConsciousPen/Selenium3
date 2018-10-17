@@ -39,10 +39,10 @@ public class BatchClaimHelper {
     private static final Logger log = LoggerFactory.getLogger(BatchClaimHelper.class);
 
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String CLAIM_TEMPLATES_PATH = "/claimsmatch/cas_claim_templates";
+    private static final String CLAIM_TEMPLATES_PATH = "/feature/claimsmatch/cas_claim_templates";
 
     @SuppressWarnings("SpellCheckingInspection")
-    private static final String CLAIM_DATA_MODELS_PATH = "claimsmatch/claim_data_models";
+    private static final String CLAIM_DATA_MODELS_PATH = "feature/claimsmatch/claim_data_models";
 
     private static final String CAS_CLAIM_TEMPLATE = "cas_claim_response.ftl";
 
