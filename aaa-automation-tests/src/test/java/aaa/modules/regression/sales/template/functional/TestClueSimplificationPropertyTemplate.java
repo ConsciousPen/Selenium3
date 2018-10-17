@@ -269,19 +269,29 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Select Hail Claim and set CAT = YES chargeable = NO
         viewEditClaim(Labels.HAIL);
         selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
+        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
+
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("No");
+        // Check that Non Chargeable reason is not present because CAT is YES
+        assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
         // Select Wind Claim and set CAT = YES chargeable = YES
         viewEditClaim(Labels.WIND);
         selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
+        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("Yes");
         getClaimCatastropheAsset().setValue("Yes");
+
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        // Check that Non Chargeable reason is not present because CAT is YES
+        assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
         // Select Fire Claim and set CAT = NO chargeable = YES
         viewEditClaim(Labels.FIRE);
