@@ -159,7 +159,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Check that 1 Claim was removed. 3 Claims left
         checkTblClaimRowCount(3);
         getPropertyInfoTab().saveAndExit();
-//QAZH6952918678
+
         policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaim(Labels.WATER);
