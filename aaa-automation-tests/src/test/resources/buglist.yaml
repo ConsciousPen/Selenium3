@@ -382,10 +382,10 @@ PT-2808:
   reason: PROD
   failures:
     - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["Coverage C - Personal property limit is required", "t"]
+        messages: ["t","Coverage C - Personal property limit is required"]
     - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["Coverage C - Personal property limit is required", "t"]
+        messages: ["t","Coverage C - Personal property limit is required"]
     - tests: [aaa.modules.regression.sales.home_ss.ho4.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["Coverage C - Personal property limit is required", "t"]
+        messages: ["t","Coverage C - Personal property limit is required"]
     - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["Coverage C - Personal property limit is required", "t"]
+        messages: ["t","Coverage C - Personal property limit is required"]
