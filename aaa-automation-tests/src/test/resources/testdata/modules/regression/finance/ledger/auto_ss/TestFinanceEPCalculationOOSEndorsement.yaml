@@ -14,7 +14,20 @@ TestData_EndorsementAPRemoveCoverage: {
       Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
    },
   }
- }
+}
+
+TestData_EndorsementAddSecondCoverage: {
+     GeneralTab: {},
+     DriverTab: {},
+     RatingDetailReportsTab: {},
+     VehicleTab: {},
+     FormsTab: {},
+     PremiumAndCoveragesTab: {
+     Rental Reimbursement: 'contains=$1,500',
+     },
+     DriverActivityReportsTab: {},
+     DocumentsAndBindTab: {}
+}
 
 TestData_EndorsementAddCoverage: {
    GeneralTab: {},
@@ -27,17 +40,51 @@ TestData_EndorsementAddCoverage: {
    },
    DriverActivityReportsTab: {},
    DocumentsAndBindTab: {}
- }
+}
 
-TestData_EndorsementAddSecondCoverage: {
+# ====================== TestData KY =======================
+TestData_EndorsementAPRemoveCoverage_KY: {
+   GeneralTab: {},
+   DriverTab: {},
+   RatingDetailReportsTab: {},
+   VehicleTab: {},
+   FormsTab: {},
+   PremiumAndCoveragesTab: {
+   Bodily Injury Liability: 'contains=$500,000',
+   Underinsured Motorists Bodily Injury: 'contains=No Coverage'
+   },
+   DriverActivityReportsTab: {},
+   DocumentsAndBindTab: {
+    RequiredToBind: {
+      Coverage Acceptance Statement: Physically Signed,
+   },
+  }
+}
+
+TestData_EndorsementAddCoverage_KY: {
+     GeneralTab: {},
+     DriverTab: {},
+     RatingDetailReportsTab: {},
+     VehicleTab: {},
+     FormsTab: {},
+     PremiumAndCoveragesTab: {
+     Towing and Labor Coverage: 'contains=$50',
+     },
+     DriverActivityReportsTab: {},
+     DocumentsAndBindTab: {}
+}
+
+TestData_EndorsementAddSecondCoverage_KY: {
     GeneralTab: {},
     DriverTab: {},
     RatingDetailReportsTab: {},
     VehicleTab: {},
     FormsTab: {},
     PremiumAndCoveragesTab: {
-    Rental Reimbursement: 'contains=$1,500',
+    Rental Reimbursement: 'contains=$900',
     },
     DriverActivityReportsTab: {},
     DocumentsAndBindTab: {}
 }
+
+# ====================== TestData WV =======================
