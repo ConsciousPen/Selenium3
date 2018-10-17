@@ -263,27 +263,41 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         createCustomerIndividual(td);
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPremiumAndCoveragesQuoteTab().getClass(), true);
-        navigateToPropertyInfoTab();
+        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
+        selectRentalClaimForCA();
 
         // Select Hail Claim and set CAT = YES chargeable = NO
         viewEditClaim(Labels.HAIL);
-        getClaimCatastropheAsset().setValue("Yes");
+        selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
+        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something");
+        getClaimCatastropheAsset().setValue("Yes");
+        // Check the chargeable Value is the same
+        assertThat(getClaimChargeableAsset()).hasValue("No");
 
         // Select Wind Claim and set CAT = YES chargeable = YES
         viewEditClaim(Labels.WIND);
-        getClaimCatastropheAsset().setValue("Yes");
+        selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
+        getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("Yes");
+        getClaimCatastropheAsset().setValue("Yes");
+        // Check the chargeable Value is the same
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
 
         // Select Fire Claim and set CAT = NO chargeable = YES
         viewEditClaim(Labels.FIRE);
+        selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("Yes");
 
         // Select Water Claim and set CAT = NO chargeable = NO
         viewEditClaim(Labels.WATER);
+        selectRentalClaimForCA();
+        // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something Else");
@@ -361,5 +375,11 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         SearchPage.openQuote(quoteNumber);
         policy.dataGather().start();
         navigateToPropertyInfoTab();
+    }
+
+    private void selectRentalClaimForCA(){
+        if(isStateCA()){
+            new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
+        }
     }
     }
