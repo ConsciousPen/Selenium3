@@ -1,15 +1,14 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
@@ -62,19 +61,19 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         LocalDateTime jobEndDate  = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-        jobDate = runEPJobUntil(jobDate, e1date);
+        jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
-        jobDate = runEPJobUntil(jobDate, e2date);
+        jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
-        jobDate = runEPJobUntil(jobDate, oose3date);
+        jobDate = runEPJobUntil(jobDate, oose3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(oose3date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -86,7 +85,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         policy.rollOn().perform(false, false);
 
-        jobDate = runEPJobUntil(jobDate, oose4date);
+        jobDate = runEPJobUntil(jobDate, oose4date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(oose4date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -104,7 +103,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         policy.rollOn().perform(false, false);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-        runEPJobUntil(jobDate, jobEndDate);
+        runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();

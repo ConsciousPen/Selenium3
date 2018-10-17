@@ -1,16 +1,14 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
@@ -22,6 +20,8 @@ import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     private ErrorTab errorTab = new ErrorTab();
@@ -59,19 +59,19 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         LocalDateTime jobEndDate  = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-        jobDate = runEPJobUntil(jobDate, e1date);
+        jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
-        jobDate = runEPJobUntil(jobDate, e2date);
+        jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
-        jobDate = runEPJobUntil(jobDate, e3date);
+        jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e3date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -83,7 +83,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 
         policy.rollOn().perform(false, false);
-        runEPJobUntil(jobDate, jobEndDate);
+        runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();

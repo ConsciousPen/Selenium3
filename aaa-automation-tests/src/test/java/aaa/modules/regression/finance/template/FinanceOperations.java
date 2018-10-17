@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.template;
 
 import java.time.LocalDateTime;
+
+import aaa.helpers.jobs.Job;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -54,10 +56,10 @@ public abstract class FinanceOperations extends PolicyBaseTest {
      * @author Reda Kazlauskiene
      * @name Run earnedPremiumPostingAsyncTaskGenerationJob and shift to next month until provided date
      */
-    protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until) {
+    protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until, Job jobName) {
         while (until.isAfter(jobDate)) {
             TimeSetterUtil.getInstance().nextPhase(jobDate);
-            JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+            JobUtils.executeJob(jobName);
             jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
         }
         return jobDate;
