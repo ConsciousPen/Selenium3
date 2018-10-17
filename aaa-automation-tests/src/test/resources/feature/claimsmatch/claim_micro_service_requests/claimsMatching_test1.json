@@ -120,6 +120,282 @@
       "liabilityCd": "AF",
       "claimNumber": "4TZ44444OHS",
       "status": "CLOSED"
+    },
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"INSURED",
+        "firstName":"Tony",
+        "lastName":"Stark",
+        "issuedState":"AZ",
+        "dateOfBirth":"1990-05-09",
+        "licenseNumber":"A99999999",
+        "claimDriverName":"Tony Stark"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"crashed into waving inflatable arm guy",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"17894-1111OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"BROTHER",
+        "firstName":"Leeroy",
+        "lastName":"Stark",
+        "issuedState":"AZ",
+        "dateOfBirth":"1990-05-09",
+        "licenseNumber":"A99999999",
+        "claimDriverName":"Leeroy Stark"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"collided with 1 passenger bus",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"17894-2222OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss":"2019-01-11",
+      "policyReferenceNumber":"AZSS952918543",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause":"cha",
+      "totalAmountPaid":2200,
+      "dateClosed":"2019-07-31",
+      "type":"Accident",
+      "claimDeductible":500,
+      "driverInformation":{
+        "relationToNamedInsured":"SISTER",
+        "firstName":"Tony",
+        "lastName":"Steerk",
+        "issuedState":"AZ",
+        "dateOfBirth":"1990-05-09",
+        "licenseNumber":"A99999999",
+        "claimDriverName":"Tony Steerk"
+      },
+      "dateOpened":"2019-01-02",
+      "lossSummary":"collided with 10 parked vehicles",
+      "amountpaid":2200,
+      "isCompClaim": false,
+      "claimNumber":"17894-3333OHS",
+      "status":"CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Trory",
+        "lastName": "Stark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-10-16",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Trory Stark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-44444OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Trory",
+        "lastName": "Stark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1980-10-16",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Trory Stark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-55555OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Rory",
+        "lastName": "Stark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-10-16",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Rrory Stark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-66666OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Trory",
+        "lastName": "Lark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-10-16",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Trory Lark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-77777OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Leeroy",
+        "lastName": "Stark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-01-01",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Trory Stark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-88888OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Trory",
+        "lastName": "Stark",
+        "issuedState": "AZ",
+        "dateOfBirth": "1980-10-16",
+        "licenseNumber": "A99999999",
+        "claimDriverName":"Trory Stark"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm accident",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "17894-99999OHS",
+      "status": "CLOSED"
     }
   ],
   "policy":{
@@ -133,7 +409,9 @@
         "issuedState": "AZ",
         "isDriverFNI": true,
         "relationshipToFNI":"IN",
+        "dob": "1997-10-16",
         "licenseNumber":"A12345678",
+        "oid": "glmKq6shmDSDgpq061ZI8w",
         "middleName":"A12345678",
         "driverType":"afr",
         "existingActivities":[]
@@ -144,7 +422,9 @@
         "issuedState": "AZ",
         "isDriverFNI": false,
         "relationshipToFNI":"SI",
+        "dob": "1997-10-16",
         "licenseNumber":"A12345222",
+        "oid": "qVAPkDfv5ImzqeDzVuBNRA",
         "middleName":"A12345222",
         "driverType":"afr",
         "existingActivities":[
@@ -164,7 +444,9 @@
         "issuedState": "AZ",
         "isDriverFNI": false,
         "relationshipToFNI":"SI",
+        "dob": "1997-10-16",
         "licenseNumber":"A12345333",
+        "oid": "kV1kmMrNOAa0CEQQL61N0Q",
         "middleName":"A12345333",
         "driverType":"afr",
         "existingActivities":[]

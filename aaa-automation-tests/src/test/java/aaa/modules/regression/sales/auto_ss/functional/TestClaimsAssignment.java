@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://claims-assignment-pas-17894.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
 	* * @author Chris Johns
@@ -64,54 +64,14 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
 		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("COMP");
 		assertThat(microServiceResponse.getMatchedClaims().get(2).getMatchCode()).isEqualTo("DL");
+
+		//PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
+		assertThat(microServiceResponse.getMatchedClaims().get(3).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
+		assertThat(microServiceResponse.getMatchedClaims().get(4).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
+		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_YOB"); //DOB is exact match
+		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_YOB"); //Only YOB matches
+
 	}
-
-	/**
-	 * * @author Chris Johns
-	 *
-	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
-	 *
-	 * @name Test Claims Matching Micro Service - Test 2 -9 Claims: UNMATCHED, LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
-	 * @scenario
-	 * Test Steps:
-	 * 1. Send JSON Request with 9 claims to the Claims Matching Micro Service
-	 * 2. Verify the following claims match results:
-	 *      --Claim 2, 3, 5, 7, & 9: UNMATCHED
-	 *      --Claim 1: LASTNAME_FIRSTNAME
-	 *      --Claim 4: LASTNAME_FIRSTINITAL_DOB
-	 *      --Claim 6 & 8: LASTNAME_YOB
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	@StateList(states = {Constants.States.AZ})
-	public void claimsMatching_test2(@Optional("AZ") String state) throws IOException {
-
-		//Define which JSON request to use
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "claimsMatching_test2.json")));
-
-		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
-		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
-
-		//Throw the microServiceResponse to log - assists with debugging
-		log.info(microServiceResponse.toString());
-
-		//Verify the First claim is in the unmatched section
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getMatchCode()).isEqualTo("UNMATCHED");
-
-		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
-		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
-		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("COMP");
-		assertThat(microServiceResponse.getMatchedClaims().get(2).getMatchCode()).isEqualTo("DL");
-	}
-
-
-
-
-
-
-
 
 
 	//Method to send JSON Request to Claims Matching Micro Service
