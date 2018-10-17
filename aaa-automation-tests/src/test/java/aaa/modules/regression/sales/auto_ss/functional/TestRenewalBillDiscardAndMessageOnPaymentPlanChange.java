@@ -190,7 +190,6 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		//Create Proposed Renewal
 		//For now 'Proposed Renewal' is not always generated after first run
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
 	private void generatePaperBillViaJob() {
@@ -198,8 +197,6 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
 		//Generate Renewal bill
-		//For now 'Renewal bill' is not always generated after first run
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 

@@ -377,3 +377,15 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+PAS-20827:
+  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
