@@ -13,7 +13,6 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -23,8 +22,12 @@ import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
+
 	private ReinstatementActionTab reinstatementTab = new ReinstatementActionTab();
-	private IPolicy policy = PolicyType.HOME_SS_HO3.get();
 	private TestData tdPolicy = testDataManager.policy.get(PolicyType.HOME_SS_HO3);
 
 	/**

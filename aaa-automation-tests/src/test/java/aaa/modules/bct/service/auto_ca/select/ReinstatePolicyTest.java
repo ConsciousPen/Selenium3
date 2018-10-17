@@ -7,7 +7,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
@@ -15,7 +14,11 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
-	private IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
+	}
+
 	private TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_CA_SELECT);
 
 	@Parameters({"state"})

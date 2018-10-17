@@ -7,7 +7,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
@@ -18,8 +17,6 @@ public class CancelPolicy extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_CA_SELECT;
 	}
-
-	private IPolicy policy = PolicyType.AUTO_CA_SELECT.get();
 
 	/**
 	 * @author Deloite

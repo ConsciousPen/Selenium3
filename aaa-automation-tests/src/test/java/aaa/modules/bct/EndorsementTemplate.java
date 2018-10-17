@@ -22,7 +22,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 	public static final String TESTDATA_NAME_ENDORSE_HOME_CA = "TestDataEndorseHomeCA";
 	public static final String TESTDATA_INQUIRY_HOME_CA = "TestDataInquiryHomeCA";
 
-	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = false)
+	@DataProvider(name = "getPoliciesForEmptyEndorsementTests", parallel = true)
 	public Iterator<Object[]> getPolicyNumbersFromDB(Method m, ITestContext iTestContext) {
 		String state = iTestContext.getCurrentXmlTest().getAllParameters().get("state");
 		if (state == null) {
@@ -33,7 +33,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2, state);
 		log.info(" DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
-		List<Object[]> data = policyNumbers.stream().map(policy -> new String[] {finalState, policy}).collect(Collectors.toList());
+		List<Object[]> data = policyNumbers.stream().map(policyNumber -> new String[] {finalState, policyNumber}).collect(Collectors.toList());
 		return data.iterator();
 		/*List<Object[]> data = new ArrayList<>();
 		data.add(new String[]{"CA", "ja"});

@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
@@ -19,8 +18,6 @@ public class CopyQuote extends BackwardCompatibilityBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
 	}
-
-	private IPolicy policy = PolicyType.AUTO_SS.get();
 
 	@Parameters({"state"})
 	@Test

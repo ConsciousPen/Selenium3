@@ -11,7 +11,6 @@ import aaa.common.pages.SearchPage;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -21,7 +20,10 @@ import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
-	private IPolicy policy = PolicyType.AUTO_SS.get();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	private TestData tdPolicy = testDataManager.policy.get(PolicyType.AUTO_SS);
 	private ReinstatementActionTab reinstatementTab = new ReinstatementActionTab();
