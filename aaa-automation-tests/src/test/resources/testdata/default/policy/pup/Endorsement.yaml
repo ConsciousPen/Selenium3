@@ -32,3 +32,17 @@ TestData_Plus10Day: {
     Endorsement Reason: Underlying Insurance
   }
 }
+
+TestData_Empty_Endorsement: {
+  PrefillTab: {},
+  GeneralTab: {},
+  UnderlyingRisksPropertyTab: {},
+  UnderlyingRisksAutoTab: {},
+  UnderlyingRisksOtherVehiclesTab: {},
+  ClaimsTab: {},
+  EndorsementsTab: {},
+  PremiumAndCoveragesQuoteTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
