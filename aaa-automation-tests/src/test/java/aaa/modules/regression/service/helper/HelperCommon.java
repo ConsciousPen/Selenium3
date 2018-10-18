@@ -92,7 +92,7 @@ public class HelperCommon {
 	}
 
 	public static InstallmentFeesResponse[] executeInstallmentFeesRequest(String productCode, String state, String date) {
-		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&EFFECTIVE_DATE=" + date;
+		String requestUrl = urlBuilderAdmin(ADMIN_INSTALLMENT_FEES_ENDPOINT) + "?productCode=" + productCode + "&riskState=" + state + "&effectiveDate=" + date;
 		return JsonClient.sendGetRequest(requestUrl, InstallmentFeesResponse[].class);
 	}
 
@@ -387,7 +387,7 @@ public class HelperCommon {
 	public static HashMap<String, String> executeLookupValidate(String lookupName, String productCd, String riskStateCd, String effectiveDate) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_LOOKUPS, lookupName, productCd, riskStateCd));
 		if (effectiveDate != null) {
-			requestUrl = requestUrl + "&EFFECTIVE_DATE=" + effectiveDate;
+			requestUrl = requestUrl + "&effectiveDate=" + effectiveDate;
 		}
 		return JsonClient.sendGetRequest(requestUrl, HashMap.class);
 	}
