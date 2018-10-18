@@ -71,7 +71,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(-1, "TestData_Endorsement1_WV");
+		createEndorsement(-1, "TestData_Endorsement1");
 
 		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
@@ -92,7 +92,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(txEffectiveDate, "TestData_Endorsement2_WV");
+		createEndorsement(txEffectiveDate, "TestData_Endorsement2");
 
 		errorTab.overrideAllErrors();
 		errorTab.submitTab();

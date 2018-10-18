@@ -68,19 +68,19 @@ public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(-1, "TestData_Endorsement1_WV");
+		createEndorsement(-1, "TestData_Endorsement1");
 
 		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(-1, "TestData_Endorsement2_WV");
+		createEndorsement(-1, "TestData_Endorsement2");
 
 		jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e3date);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		createEndorsement(-1, "TestData_Endorsement3_WV");
+		createEndorsement(-1, "TestData_Endorsement3");
 
 		jobDate = runEPJobUntil(jobDate, rbDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(rbDate);

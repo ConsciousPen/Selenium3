@@ -64,7 +64,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage_WV");
+		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
 		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
