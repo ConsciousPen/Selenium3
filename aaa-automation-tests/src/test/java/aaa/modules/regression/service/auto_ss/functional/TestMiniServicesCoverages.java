@@ -758,6 +758,14 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas19627_UMAndUimCoverageBody(getPolicyType());
 
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19626"})
+	public void pas19626_biAndUMAndUIMCoverageSD(@Optional("SD") String state) {
+
+		pas19626_biAndUMAndUIMCoverageSDBody(getPolicyType());
+	}
 }
 
 
