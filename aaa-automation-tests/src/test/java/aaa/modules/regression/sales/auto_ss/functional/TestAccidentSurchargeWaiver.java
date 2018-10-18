@@ -12,10 +12,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -50,7 +47,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
 
         TestData td = adjustTdBaseDate(getConversionPolicyDefaultTD());
         createConversionQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW();
+        validateAFW(td);
         assertThat(PolicySummaryPage.tableRenewals).isPresent();
 
     }
@@ -72,12 +69,12 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-14738")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverNB(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         createQuoteAndFillUpTo(td, DocumentsAndBindTab.class);
-        validateAFW();
+        validateAFW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -99,13 +96,13 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-14738")
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverEndorsement(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        validateAFW();
+        validateAFW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
     }
@@ -127,15 +124,14 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-14738")
+    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-14738")
     public void pas14738_testAccidentSurchargeWaiverRenewal(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
         openAppAndCreatePolicy(td);
         policy.renew().perform();
-        validateAFW();
+        validateAFW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
 
     }
 
@@ -146,11 +142,11 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-5y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today+44d>")
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>")
                 .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo);
     }
 
-    private void validateAFW() {
+    private void validateAFW(TestData policyTd) {
         tdActivityInfo = DataProviderFactory.dataOf(
                 AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click",
                 AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "At-Fault Accident",
@@ -182,10 +178,13 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         new GeneralTab().getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER).setValue("Progressive");
         validateIncludedInPoints("Yes");
-
-        // Bind policy
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
+
+        if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
+            new PurchaseTab().fillTab(policyTd).submitTab();
+        }
+
     }
 
     private void validateIncludedInPoints(String... expectedValues) {
