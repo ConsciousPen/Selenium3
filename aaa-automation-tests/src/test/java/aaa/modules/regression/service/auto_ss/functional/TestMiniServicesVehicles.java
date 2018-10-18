@@ -747,14 +747,11 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 6. Check if vehicle was added.
 	 * 7. Add vehicle, purchase date: - 31days
 	 * 8. Check if vehicle was added.
-	 *
-	 * Note: Check with state which dont have that rule.
-	 * States where rule exist: CT, DE, MD, NV
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
-	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("MD") String state) {
+	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
 
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
 	}
