@@ -23,7 +23,7 @@ public class AgencyTransferMetaData {
         public static final AssetDescriptor<Button> SELECT_BORT = declare("Agency Name", Button.class, Waiters.AJAX, false, By.id("brokerSearchFromsource:body_brokerSearchResultssource:0:name"));
         public static final AssetDescriptor<ComboBox> INSURANCE_AGENT = declare("Insurance Agent", ComboBox.class);
         public static final AssetDescriptor<Link> PREVIEW_REPORT = declare("Preview Report", Link.class, Waiters.AJAX, false, By.id("borTransferManagementForm:previewReport"));
-    
+
     }
 
     public static final class TransferTargerSection extends MetaData {
