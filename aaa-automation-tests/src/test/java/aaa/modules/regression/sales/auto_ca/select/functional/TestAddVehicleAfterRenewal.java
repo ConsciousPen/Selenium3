@@ -47,7 +47,7 @@ public class TestAddVehicleAfterRenewal extends TestAddVehicleAfterRenewalTempla
      */
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-20217")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-20217")
     public void pas20217_testAddVehicleAfterRenewal(@Optional("CA") String state) {
         List<TestData> tdVehicles = testDataManager.getDefault(TestPolicyCreationBig.class).getTestData("TestData").getTestDataList(AutoCaMetaData.VehicleTab.class.getSimpleName());
         testAddVehicleAfterRenewal(tdVehicles);
