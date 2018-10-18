@@ -8,8 +8,6 @@ claimLineItemList:
     claimCoverageList:
     - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
        coverageName: COLL_GROUP}
-    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
-       coverageName: MEDICAL_PAYMENTS}
     claimDateOfLoss: '2019-01-11'
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
@@ -34,7 +32,7 @@ claimLineItemList:
     vehicleManufacturedYear: '2006'
     vehicleDescription: Big truck
     vehicleSerialNumber: 1FTNF20506ED96616
-  - accidentFault: ADVERSE_PARTY_AT_FAULT
+  - accidentFault: AT_FAULT
     claimCause: tur
     claimCloseDate: '2019-01-12'
     claimCoverageList:

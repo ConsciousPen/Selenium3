@@ -44,7 +44,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
 			ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
 
-	private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
+	private static final String TWO_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
 
 	/**
 	 *  @author Andrii Syniagin
@@ -143,18 +143,18 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 			// Check 1st driver. No Claims
 			softly.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
 
-			// Check 2nd driver. 2 Claim.
-			DriverTab.tableDriverList.selectRow(2);
-			softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+			// Check 3rd driver. 3 Claims.
+			DriverTab.tableDriverList.selectRow(3);
+			softly.assertThat(DriverTab.tableActivityInformationList).hasRows(3);
 			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("1FAZ1111OHS");
 			DriverTab.tableActivityInformationList.selectRow(2);
 			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("4FAZ44444OHS");
+			DriverTab.tableActivityInformationList.selectRow(3);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("8FAZ88888OHS");
 
-			// Check 3rd driver. No Claims
-			DriverTab.tableDriverList.selectRow(3);
-			softly.assertThat(DriverTab.tableActivityInformationList).isPresent(false);
 		});
 	}
 

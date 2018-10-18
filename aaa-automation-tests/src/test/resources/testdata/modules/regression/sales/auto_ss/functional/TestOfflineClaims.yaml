@@ -26,7 +26,7 @@ Driver3: {
   First Name: Tony,
   Last Name: Stark,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-21y>,
+  Date of Birth: 10/16/1997,
   Gender: Male,
   Marital Status: Married,
   Occupation: Clergy,

@@ -46,7 +46,7 @@
                             <bcr:drivingLicenseNumber>${claim.drivingLicenseNumber}</bcr:drivingLicenseNumber>
                             <bcr:drivingLicenseState>${claim.drivingLicenseState}</bcr:drivingLicenseState>
                             <bcr:driverAgeAsOfDateOfLoss>${claim.driverAgeAsOfDateOfLoss}</bcr:driverAgeAsOfDateOfLoss>
-                            <bcr:driverDateOfBirth>${claim.driverDateOfBirth}</bcr:driverDateOfBirth>
+                            <bcr:driverDateofBirth>${claim.driverDateOfBirth}</bcr:driverDateofBirth>
                             <bcr:driverRelationToInsured>${claim.driverRelationToInsured}</bcr:driverRelationToInsured>
                         </bcr:driverInformation>
                         <bcr:vehicleInformation>
