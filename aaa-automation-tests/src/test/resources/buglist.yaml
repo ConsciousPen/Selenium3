@@ -381,11 +381,11 @@ PT-2808:
   summary: "Cannot Save And Exit Quote on Property Info Tab"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["t","Coverage C - Personal property limit is required"]
-    - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["t","Coverage C - Personal property limit is required"]
-    - tests: [aaa.modules.regression.sales.home_ss.ho4.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["t","Coverage C - Personal property limit is required"]
-    - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-        messages: ["t","Coverage C - Personal property limit is required"]
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
+    messages: ["error","Coverage C - Personal property limit is required"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
+    messages: ["error","Coverage C - Personal property limit is required"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho4.functional.TestAbilityToRemoveManuallyAddedClaims.*]
+    messages: ["error","Coverage C - Personal property limit is required"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestAbilityToRemoveManuallyAddedClaims.*]
+    messages: ["error","Coverage C - Personal property limit is required"]
