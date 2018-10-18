@@ -255,13 +255,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
     protected void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
 
-        TestData td = getCustomerIndividualTD("DataGather", "TestData")
-                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "Virat")
-                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "Kohli");
-
-        mainApp().open();
-        createCustomerIndividual(td);
-
+        createCustomerWithClaimHistory();
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
         selectRentalClaimForCA();
@@ -313,6 +307,25 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Calculate Premium check that there is no errors. If VRD is able to open there were no errors
         calculatePremiumAndOpenVRD();
         PropertyQuoteTab.RatingDetailsView.close();
+    }
+
+    protected void pas6695_testClueClaimsReconciliationNB() {
+        createCustomerWithClaimHistory();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationEndorsement() {
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationRenewal() {
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationRewrite() {
+
     }
 
     private void removeClaim(){
@@ -390,4 +403,14 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
             new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
         }
     }
+
+    private void createCustomerWithClaimHistory() {
+        TestData td = getCustomerIndividualTD("DataGather", "TestData")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "Virat")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "Kohli");
+
+        mainApp().open();
+        createCustomerIndividual(td);
     }
+
+}
