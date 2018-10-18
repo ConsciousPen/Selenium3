@@ -52,7 +52,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 		checkDirectory(downloadDir);
 		checkFile(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusDays(359));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
 		runCFTJobs();
 
 		opReportApp().open();
