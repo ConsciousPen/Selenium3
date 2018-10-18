@@ -443,11 +443,11 @@
         <!--</classes>-->
     <!--</test>-->
 
-    <!--<test name="Test Accident Surcharge Waiver">-->
-        <!--<parameter name="state" value="AZ, PA, NY"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ, PA, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
+        </classes>
+    </test>
 
 </suite>
