@@ -39,6 +39,10 @@ public class AgencyTransferTab extends DefaultTab {
 	public static Button commissionImpactedNo= new Button(By.id("borTransferManagementForm:borTransferInfo_impactsComission:1"));
 	public static Button locationName= new Button(By.name("borTransferManagementForm:changeSourceProducerCd"));
 	public static ListBox reason = new ListBox(By.id("borTransferManagementForm:borTransferInfo_reasonCode"));
+	public static ListBox targetInsuranceAgent = new ListBox(By.id("borTransferManagementForm:borTransferTarget_targetSubproducerCd"));
+	public static Button submit = new Button(By.id("borTransferManagementForm:submit_footer"));
+
+
 
 	/**
 	 * Go to the admin -> Agency Transfer -> Add transfer

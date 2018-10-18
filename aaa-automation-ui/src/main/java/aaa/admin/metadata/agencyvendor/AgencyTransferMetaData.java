@@ -8,11 +8,8 @@ import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-public final class AgencyTransferMetaData {
-
-    public static final class AgencyTransferTab extends MetaData {
-
-
+public class AgencyTransferMetaData {
+        public static final class AgencyTransferTab extends MetaData {
         public static final AssetDescriptor<StaticElement> TRANSFER_ID = declare("Transfer Id", StaticElement.class);
         public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
         public static final AssetDescriptor<RadioGroup> TRANSFER_TYPE = declare("Transfer Type", RadioGroup.class);
@@ -26,6 +23,14 @@ public final class AgencyTransferMetaData {
         public static final AssetDescriptor<Button> SELECT_BORT = declare("Agency Name", Button.class, Waiters.AJAX, false, By.id("brokerSearchFromsource:body_brokerSearchResultssource:0:name"));
         public static final AssetDescriptor<ComboBox> INSURANCE_AGENT = declare("Insurance Agent", ComboBox.class);
         public static final AssetDescriptor<Link> PREVIEW_REPORT = declare("Preview Report", Link.class, Waiters.AJAX, false, By.id("borTransferManagementForm:previewReport"));
+    
+    }
+
+    public static final class TransferTargerSection extends MetaData {
+
+        public static final AssetDescriptor<ComboBox> INSURANCE_AGENT = declare("Insurance Agent", ComboBox.class, Waiters.AJAX,false,By.id("borTransferManagementForm:borTransferTarget_targetSubproducerCd"));
+
+
     }
 }
 

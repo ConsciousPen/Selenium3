@@ -3,7 +3,7 @@ TestData: {
   }
 
 AgencyTransferTab: {
-  Transfer Type: 'Inter-agency',
+  Transfer Type: 'Intra-agency',
   Reason: Agent retired,
   Transfer Effective Upon: ' Other',
   Transfer Effective Date: '$<today>',
@@ -13,5 +13,7 @@ AgencyTransferTab: {
   Search: click,
   Agency Name: click,
   Insurance Agent:  Foster Bottenberg,
-  Preview Report: click,
-}
+  }
+
+
+
