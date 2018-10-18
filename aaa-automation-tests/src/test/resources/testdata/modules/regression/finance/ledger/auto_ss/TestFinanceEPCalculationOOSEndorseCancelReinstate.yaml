@@ -5,7 +5,7 @@ TestData_Endorsement1: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {
-    Bodily Injury Liability: 'contains=$500,000'
+    Bodily Injury Liability: 'contains=$500,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
@@ -19,7 +19,63 @@ TestData_Endorsement2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000',
-    Underinsured Motorists Bodily Injury: 'contains=$100,000',
+    Underinsured Motorist Bodily Injury: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ====================== TestData KY =======================
+TestData_Endorsement1_KY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement2_KY: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$100,000',
+    Underinsured Motorist Bodily Injury: 'contains=$100,000',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+# ====================== TestData WV =======================
+TestData_Endorsement1_WV: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$500,000'
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
+
+TestData_Endorsement2_WV: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Bodily Injury Liability: 'contains=$100,000',
+    Underinsured Motorist Bodily Injury: 'contains=$100,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}

@@ -1,5 +1,12 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -14,16 +21,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     private ErrorTab errorTab = new ErrorTab();
@@ -66,19 +64,19 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         TimeSetterUtil.getInstance().nextPhase(e1date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
+        createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage_WV");
 
         jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-1, "TestData_EndorsementAddCoverage");
+        createEndorsement(-1, "TestData_EndorsementAddCoverage_WV");
 
         jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e3date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-95, "TestData_EndorsementAddSecondCoverage");
+        createEndorsement(-95, "TestData_EndorsementAddSecondCoverage_WV");
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
         errorTab.overrideAllErrors();
