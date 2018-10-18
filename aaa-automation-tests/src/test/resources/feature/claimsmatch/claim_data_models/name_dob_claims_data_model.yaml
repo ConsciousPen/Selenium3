@@ -1,0 +1,101 @@
+!!com.eis.automation.dto.CASClaimResponse
+claimLineItemList:
+- agreementNumber: AZSS203552391
+  claimList:
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: tur
+    claimCloseDate: '2019-07-31'
+    claimCoverageList:
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2019-01-11'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1FAZ1111OHS
+    claimPrefix: ''
+    claimOpenDate: '2019-01-02'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1990-05-09'
+    driverName: Tony Stark
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A99999999
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: tur
+    claimCloseDate: '2019-01-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2019-01-01'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 4FAZ44444OHS
+    claimPrefix: ''
+    claimOpenDate: '2019-01-02'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1997-10-16'
+    driverName: Trory Stark
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A99999999
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: tur
+    claimCloseDate: '2019-01-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2019-01-01'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 8FAZ88888OHS
+    claimPrefix: ''
+    claimOpenDate: '2019-01-01'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1997-01-01'
+    driverName: Leeroy Stark
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A99999999
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '4358.250000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  product: AAA_SS

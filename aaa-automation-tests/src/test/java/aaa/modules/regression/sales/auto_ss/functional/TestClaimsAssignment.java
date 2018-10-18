@@ -24,22 +24,27 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	private static final String claimsUrl = "https://claims-assignment-pas-17894.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
-	* * @author Chris Johns
+	 * * @author Chris Johns
 	 *
 	 * PAS-14679: MATCH MORE: Create Claim to Driver Match Logic (use DL # when not comp/not already assigned to driver)
 	 * PAS-18391: Add Existing Logic to Micro service (previously matched claims)
 	 * PAS-14058: MATCH MORE: Create Claim to Driver Match Logic (comp claims and not already assigned to driver)
+	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
 	 *
-	* @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
-	* @scenario
-	* Test Steps:
-	* 1. Send JSON Request with 3 claims to the Claims Matching Micro Service
-	* 2. Verify the following claims match results:
-	*      --Claim 1, 1TAZ1111OHS: No Match
-	*      --Claim 2, 7TZ02222OHS: Existing Match
-	*      --Claim 3, 3TAZ3333OHS: DL Match
-	 *     --Claim 4, 4TAZ4444OHS: COMP Match - goes to fist named insured
-	*/
+	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
+	 * @scenario
+	 * Test Steps:
+	 * 1. Send JSON Request with 3 claims to the Claims Matching Micro Service
+	 * 2. Verify the following claims match results:
+	 *      --Claim 1, 1TAZ1111OHS: No Match
+	 *      --Claim 2, 7TZ02222OHS: Existing Match
+	 *      --Claim 3, 3TAZ3333OHS: DL Match
+	 *      --Claim 4, 4TAZ4444OHS: COMP Match - goes to fist named insured
+	 *      --Claim 17894- 2, 3, 5, 7, & 9: UNMATCHED
+	 *      --Claim 17894- 1: LASTNAME_FIRSTNAME
+	 *      --Claim 17894- 4: LASTNAME_FIRSTINITAL_DOB
+	 *      --Claim 17894- 6 & 8: LASTNAME_YOB
+	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
@@ -72,7 +77,6 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_YOB"); //Only YOB matches
 
 	}
-
 
 	//Method to send JSON Request to Claims Matching Micro Service
 	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {

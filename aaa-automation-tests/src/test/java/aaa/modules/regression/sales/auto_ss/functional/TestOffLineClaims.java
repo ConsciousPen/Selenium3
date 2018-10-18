@@ -133,6 +133,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		// Enter renewal image and verify claim presence
 		PolicySummaryPage.buttonRenewals.click();
 		policy.dataGather().start();
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		CustomSoftAssertions.assertSoftly(softly -> {
 			DriverTab driverTab = new DriverTab();
