@@ -201,7 +201,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM).verifyPresent();
 	}
 
 	protected void fillPolicy() {
