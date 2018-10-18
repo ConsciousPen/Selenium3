@@ -344,8 +344,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas15540_RemoveDriverAssignedToTrailer">
-        <parameter name="state" value="VA"/>
+    <test name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart">
+        <parameter name="state" value="AZ, VA"/> <!--This test works for all Auto SS states-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
                 <methods>
@@ -427,6 +427,17 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15824_UmpdDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="ViewUpdateCoverageUMPD">
+        <parameter name="state" value="CO, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15255_UpdateCompCollCoveragesCheckUmpd"/>
+                    <include name="pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl"/>
                 </methods>
             </class>
         </classes>
@@ -709,6 +720,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
                     <include name="pas16548_NamedInsuredMaritalStatus_MultipleMarital"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas20675_TortCoverage">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20675_TortCoverage"/>
                 </methods>
             </class>
         </classes>

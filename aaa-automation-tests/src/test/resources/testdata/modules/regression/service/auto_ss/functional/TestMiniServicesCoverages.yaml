@@ -2,6 +2,8 @@ TestData_NewVehicle: {
     VehicleTab: ['@VehicleTab_2018'],
 }
 
+TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
+
 VehicleTab_2018: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -10,6 +12,21 @@ VehicleTab_2018: {
      Ownership Type: Leased,
      First Name: BANK OF AMERICA
     }
+}
+
+TestData_PPA_and_MotorHome: {
+    VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_Motor_Home'],
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    Motor Home Type: Mini Motor Home (Class C),
+    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+    VIN: 5B4MP67G123353230,
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+    Stated Amount: '50000',
 }
 
 TestData_PPAandTrailer: {

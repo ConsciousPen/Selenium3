@@ -15,6 +15,9 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -67,5 +70,16 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 			}
 		}
 		return td;
+	}
+
+	/**
+	 * Determines if discount is present on P&C Quote Tab.
+	 * @param discount Discount Text, as it appears in the UI.
+	 * @return
+	 */
+	public boolean isDiscountApplied(String discount) {
+		Map<String, String> query = new HashMap<>();
+		query.put("Discounts applied", discount);
+		return !tableDiscounts.getRowsThatContain(query).isEmpty();
 	}
 }
