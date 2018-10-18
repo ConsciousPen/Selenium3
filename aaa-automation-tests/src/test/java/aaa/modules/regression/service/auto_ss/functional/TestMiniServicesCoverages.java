@@ -759,6 +759,28 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name South Dakota - BI and UM and UIM Coverage Rules
+	 * @scenario1
+	 * 1. Create policy for SD
+	 * 2. Run view coverages service. check  UM and UIM coverages are separate
+	 * and UM Coverage has cusstomerDisplayed = true
+	 * and UIM Coverage has canChangeCoverage = false
+	 * 3.update  bi BI is <= 100/300 verify  UM and UIM have canChangeCoverage = false
+	 * 4.update  bi BI is > 100/300 verify  UM and UIM have canChangeCoverage = true
+	 * 5.verify Available limits according to table.
+
+	||BI Limit	||UM Limit	           ||UIM Limit	        ||canChange
+	||25/50	    ||25/50	               ||25/50	            ||No
+	||50/100	||50/100	           ||50/100             ||No
+	||100/300	||100/300	           ||100/300	        ||No
+	||250/500	||100/300, 250/500     ||100/300, 250/500   ||	Yes
+	||300/500	||Above plus 300/500   ||Above plus 300/500	||Yes
+	||500/500	||Above plus 500/500   ||Above plus 500/500	||Yes
+	||500/1000	||Above plus 500/1000  ||Above plus 500/1000||Yes
+	||1000/1000	||Above plus 1000/1000||Above plus 1000/1000||Yes
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19626"})

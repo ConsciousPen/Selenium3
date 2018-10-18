@@ -3038,7 +3038,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage filteredCoverageResponseUIMBI2 = coverageResponse2.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
 			softly.assertThat(filteredCoverageResponseUIMBI2.coverageLimit.equals(newBILimits2)).isEqualTo(true);
 			softly.assertThat(filteredCoverageResponseUIMBI2.canChangeCoverage.equals(true));
-			AvailableLimitsForUMUIMSDAvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUMBI2);
+			AvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUMBI2);
 		});
 	}
 

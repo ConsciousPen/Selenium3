@@ -756,4 +756,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas19626_biAndUMAndUIMCoverageSD">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
