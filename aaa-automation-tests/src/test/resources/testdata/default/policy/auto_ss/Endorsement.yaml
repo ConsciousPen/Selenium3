@@ -45,4 +45,17 @@ TestData_Plus5Months: {
       Endorsement Date: $<today+5M>,
       Endorsement Reason: Maintain Vehicle(s)
       }
-  }
+}
+
+TestData_Empty_Endorsement: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}
