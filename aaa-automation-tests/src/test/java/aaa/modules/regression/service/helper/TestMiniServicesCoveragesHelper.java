@@ -3042,6 +3042,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
+	private void AvailableLimitsForUMUIMSD(ETCSCoreSoftAssertions softly, Coverage filteredCoverageResponseUMBI2) {
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(0).coverageLimit).isEqualTo("100000/300000");
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(1).coverageLimit).isEqualTo("250000/500000");
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(2).coverageLimit).isEqualTo("300000/500000");
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(3).coverageLimit).isEqualTo("500000/500000");
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(4).coverageLimit).isEqualTo("500000/1000000");
+		softly.assertThat(filteredCoverageResponseUMBI2.availableLimits.get(5).coverageLimit).isEqualTo("1000000/1000000");
+	}
+
 	private void verifyAvailableLimitsForUMUIM(ETCSCoreSoftAssertions softly, Coverage filteredCoverageResponseUMBI1) {
 		softly.assertThat(filteredCoverageResponseUMBI1.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
 		softly.assertThat(filteredCoverageResponseUMBI1.availableLimits.get(1).coverageLimit).isEqualTo("50000/100000");
