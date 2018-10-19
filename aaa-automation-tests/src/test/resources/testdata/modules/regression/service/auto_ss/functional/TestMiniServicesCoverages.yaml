@@ -87,6 +87,21 @@ VehicleTab_2018: {
     }
 }
 
+TestData_PPA_and_MotorHome: {
+    VehicleTab: ['@VehicleTab_regular_vehicle', '@VehicleTab_Motor_Home'],
+}
+
+VehicleTab_Motor_Home: {
+    Add Vehicle: Click,
+    Type: Motor Home,
+    Motor Home Type: Mini Motor Home (Class C),
+    Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+    VIN: 5B4MP67G123353230,
+    Other Make: 'Motor',
+    Other Model: 'Motor',
+    Stated Amount: '50000',
+}
+
 TestData_PPAandTrailer: {
     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer'],
 }
@@ -205,4 +220,21 @@ DocumentsAndBindTab1: {
      Proof of Prior Insurance: 'Yes'
    },
     Agreement: I agree
+}
+TestData_OrderOfCoverages: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+}
+
+TestData_OrderOfCoverages_KY: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB", "TORT"]
+}
+
+TestData_OrderOfCoverages_SD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB", "TD"]
 }
