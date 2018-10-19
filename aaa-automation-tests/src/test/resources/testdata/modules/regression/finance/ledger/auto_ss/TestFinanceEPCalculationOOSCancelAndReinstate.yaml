@@ -6,7 +6,7 @@ TestData_EndorsementAPRemoveCoverage: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000',
+    Underinsured Motorists Bodily Injury: 'contains=$500,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
@@ -23,7 +23,7 @@ TestData_EndorsementAPRemoveCoverage_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000',
+    Underinsured Motorists Bodily Injury: 'contains=$500,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
@@ -40,7 +40,7 @@ TestData_EndorsementAPRemoveCoverage_WV: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000',
+    Underinsured Motorists Bodily Injury: 'contains=$500,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {

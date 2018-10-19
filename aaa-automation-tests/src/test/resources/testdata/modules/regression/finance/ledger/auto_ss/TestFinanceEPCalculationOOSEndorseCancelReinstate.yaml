@@ -19,7 +19,7 @@ TestData_Endorsement2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000',
-    Underinsured Motorist Bodily Injury: 'contains=$100,000',
+    Underinsured Motorists Bodily Injury: 'contains=$100,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
@@ -47,7 +47,7 @@ TestData_Endorsement2_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000',
-    Underinsured Motorist Bodily Injury: 'contains=$100,000',
+    Underinsured Motorists Bodily Injury: 'contains=$100,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}
@@ -75,7 +75,7 @@ TestData_Endorsement2_WV: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000',
-    Underinsured Motorist Bodily Injury: 'contains=$100,000',
+    Underinsured Motorists Bodily Injury: 'contains=$100,000',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {}

@@ -506,17 +506,20 @@ public final class PolicyActions {
 			int columnsCount;
 
 			if (tableDifferences.isPresent()) {
-				rowsCount = tableDifferences.getRowsCount();
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
-				for (int i = 0; i < rowsCount; i++) {
-					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+				boolean expandRows;
+				do {
+					Link linkTriangle = new Link(By.xpath("//tr[contains(@aria-expanded, 'false')]//span[contains(@class,'ui-treetable-toggler') and not(contains(@style, 'hidden'))]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
+						expandRows = true;
+						continue;
 					}
+					expandRows = false;
 				}
+				while (expandRows);
 
 				//apply values
 				Link linkSetValue;
@@ -533,6 +536,7 @@ public final class PolicyActions {
 			}
 			return this; //submit();
 		}
+
 		public void openConflictPage(boolean isAutomatic) {
 			start();
 
@@ -545,7 +549,7 @@ public final class PolicyActions {
 						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).isPresent()) {
 					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).click();
 				} else if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Roll On") &&
-						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().isPresent()){
+						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().isPresent()) {
 					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().click();
 				}
 				if (Page.dialogConfirmation.isPresent()) {
@@ -553,7 +557,7 @@ public final class PolicyActions {
 				}
 			}
 		}
-		
+
 		/**
 		 * Perform RollOn action without fill Conflict page. 
 		 * Fill opened Differences tab 
@@ -694,8 +698,6 @@ public final class PolicyActions {
 	public abstract static class PolicyChangeRenewalLapse extends AbstractAction {
 	}
 
-
-
 	public abstract static class InitiateHOQuote extends AbstractAction {
 
 		@Override
@@ -710,7 +712,6 @@ public final class PolicyActions {
 		public AbstractAction perform() {
 			return super.perform(new SimpleDataProvider());
 		}
-}
-
+	}
 
 }

@@ -28,7 +28,7 @@ TestData_Endorsement2: {
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
+      Coverage Acceptance Statement: Physically Signed,
     },
   }
 }
@@ -54,7 +54,7 @@ TestData_Endorsement1_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000'
+    Underinsured Motorists Bodily Injury: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
@@ -70,7 +70,7 @@ TestData_Endorsement2_KY: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000/$300,000',
-    Underinsured Motorist Bodily Injury: 'contains=No Coverage',
+    Underinsured Motorists Bodily Injury: 'contains=No Coverage',
     Comprehensive Deductible: 'contains=$500',
   },
   DriverActivityReportsTab: {},
@@ -102,7 +102,7 @@ TestData_Endorsement1_WV: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000'
+    Underinsured Motorists Bodily Injury: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {

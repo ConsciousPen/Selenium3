@@ -51,7 +51,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 	@StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
-	public void pas20277_testFinanceEPCalculationOOSEndorseCancelReinstate(@Optional("AZ") String state) {
+	public void pas20277_testFinanceEPCalculationOOSEndorseCancelReinstate(@Optional("KY") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -99,11 +99,11 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 
 		//Roll on Endorsement
-		policy.rollOn().perform(true, false);
+		policy.rollOn().perform(false, false);
 		//Roll on Cancellation
-		policy.rollOn().perform(true, false);
+		policy.rollOn().perform(false, false);
 		//Roll on Reinstatement
-		policy.rollOn().perform(true, false);
+		policy.rollOn().perform(false, false);
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
