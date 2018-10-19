@@ -289,7 +289,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
 
         //Validation for PAS-6695
-        navigateToPropertyInfoTab();
         checkTblClaimRowCount(9);
         selectRentalClaimForCA();
 
@@ -343,6 +342,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         if (isStateCA()) {
             TestData ni = DataProviderFactory.dataOf(
                     HomeCaMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
                     HomeCaMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
                     HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
                     HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
@@ -352,6 +352,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         } else {
             TestData ni = DataProviderFactory.dataOf(
                     HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
                     HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
                     HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
                     HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
@@ -363,6 +364,10 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab);
+        getApplicantTab().submitTab();
+
+        //TODO need to add reorder CLUE report on Reports tab here
+
         navigateToPropertyInfoTab();
 
     }
