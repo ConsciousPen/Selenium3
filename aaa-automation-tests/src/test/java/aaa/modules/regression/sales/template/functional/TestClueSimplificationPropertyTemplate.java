@@ -287,6 +287,10 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     }
 
     private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
+
+        //Validation for PAS-6695
+        navigateToPropertyInfoTab();
+        checkTblClaimRowCount(9);
         selectRentalClaimForCA();
 
         // Select Hail Claim and set CAT = YES chargeable = NO
