@@ -341,5 +341,13 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 
 		pas15376_3OrMoreMinorOrSpeedingViolationsBody();
 	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15376"})
+	public void pas19014_reviewRuleKY(@Optional("KY") String state) {
+
+		pas19014_reviewRuleKYBody();
+	}
 }
 

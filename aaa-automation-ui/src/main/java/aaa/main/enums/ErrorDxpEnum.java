@@ -93,6 +93,7 @@ public final class ErrorDxpEnum {
 		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on driver."),
 		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on vehicle."),
 		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
+		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable."),
 	;
 
 		private final String code;
