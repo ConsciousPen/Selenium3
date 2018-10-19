@@ -1412,40 +1412,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas17646_OrderOfCoverageBody(ETCSCoreSoftAssertions softly) {
-		String mapKey = "common";
-		List<String> deltaStateList = Arrays.asList("KY", "SD");
-		if (deltaStateList.contains(getState())) {
-			mapKey = getState();
-		}
-
-		//Expected order of coverages (common)
-		List<String> orderOfPolicyCoveragesExpectedCommon = Arrays.asList("BI", "PD", "UMBI", "UMPD", "MEDPM", "IL");
-		List<String> orderOfVehicleCoveragesExpectedCommon = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");//do not have WL coverage in response anymore. Karen Yifru doesn't care about it.
-
-		//Expected order of KY coverages
-		List<String> orderOfPolicyCoveragesExpectedKY = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP");
-		List<String> orderOfVehicleCoveragesExpectedKY = Arrays.asList("COMPDED", "COLLDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");
-		List<String> orderOfDriverCoveragesExpectedKY = Arrays.asList("ADB", "TORT");
-
-		//Expected order of SD coverages
-		List<String> orderOfPolicyCoveragesExpectedSD = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MEDPM");
-		List<String> orderOfVehicleCoveragesExpectedSD = Arrays.asList("COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR");
-		List<String> orderOfDriverCoveragesExpectedSD = Arrays.asList("ADB", "TD");
-
-		//map coverages
-		Map<String, List<String>> mapPolicyCoverages = new LinkedHashMap<>();
-		mapPolicyCoverages.put("common", orderOfPolicyCoveragesExpectedCommon);
-		mapPolicyCoverages.put("KY", orderOfPolicyCoveragesExpectedKY);
-		mapPolicyCoverages.put("SD", orderOfPolicyCoveragesExpectedSD);
-
-		Map<String, List<String>> mapVehicleCoverages = new LinkedHashMap<>();
-		mapVehicleCoverages.put("common", orderOfVehicleCoveragesExpectedCommon);
-		mapVehicleCoverages.put("KY", orderOfVehicleCoveragesExpectedKY);
-		mapVehicleCoverages.put("SD", orderOfVehicleCoveragesExpectedSD);
-
-		Map<String, List<String>> mapDriverCoverages = new LinkedHashMap<>(); //do not have requirements regarding to driver coverages for all states
-		mapDriverCoverages.put("KY", orderOfDriverCoveragesExpectedKY);
-		mapDriverCoverages.put("SD", orderOfDriverCoveragesExpectedSD);
+		List <String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
+		List <String> orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("VehicleLevelCoverages");
+		List <String> orderOfDriverLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("DriverLevelCoverages");
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -1454,14 +1423,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//Run viewEndorsementCoverages and validate order of coverages in response
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
+		validateOrderOfAllLevelCoverages(softly, orderOfPolicyLevelCoveragesExpected, orderOfVehicleLevelCoveragesExpected, orderOfDriverLevelCoveragesExpected, policyCoverageInfo);
 
 		//Run updateCoverage service and validate order of coverages in response
 		Coverage coverageToUpdate = policyCoverageInfo.policyCoverages.get(0);
 		String newLimit = coverageToUpdate.availableLimits.get(0).coverageLimit;
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageToUpdate.coverageCd, newLimit);
 		policyCoverageInfo = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		validateOrderOfAllLevelCoverages(softly, mapPolicyCoverages.get(mapKey), mapVehicleCoverages.get(mapKey), mapDriverCoverages.get(mapKey), policyCoverageInfo);
+		validateOrderOfAllLevelCoverages(softly, orderOfPolicyLevelCoveragesExpected, orderOfVehicleLevelCoveragesExpected, orderOfDriverLevelCoveragesExpected, policyCoverageInfo);
 
 		//NOTE: Validation of Change History is too complicated for automation - have to update every coverage. Should be tested manually if needed.
 	}
@@ -1469,7 +1438,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateOrderOfAllLevelCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfPolicyCoveragesExpected, List<String> orderOfVehicleCoveragesExpected, List<String> orderOfDriverCoveragesExpected, PolicyCoverageInfo coverageEndorsementResponse) {
 		validateOrderOfCoverages(softly, orderOfPolicyCoveragesExpected, coverageEndorsementResponse.policyCoverages);
 		validateOrderOfCoverages(softly, orderOfVehicleCoveragesExpected, coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages);
-		if (Constants.States.KY.equals(getState()) || Constants.States.SD.equals(getState())) { //do not have requirements regarding to driver coverages for all states
+		if (!orderOfDriverCoveragesExpected.isEmpty()) { //do not have requirements regarding to driver coverages for all states
 			validateOrderOfCoverages(softly, orderOfDriverCoveragesExpected, coverageEndorsementResponse.driverCoverages);
 		}
 	}

@@ -134,3 +134,21 @@ PremiumAndCoveragesTab_NY: {
 PremiumAndCoveragesTab_WV: {
   Underinsured Motorist Property Damage: index=1,
 }
+
+TestData_OrderOfCoverages: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+}
+
+TestData_OrderOfCoverages_KY: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "BPIP", "ADDPIP", "PIPDED", "GPIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB", "TORT"]
+}
+
+TestData_OrderOfCoverages_SD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB", "TD"]
+}
