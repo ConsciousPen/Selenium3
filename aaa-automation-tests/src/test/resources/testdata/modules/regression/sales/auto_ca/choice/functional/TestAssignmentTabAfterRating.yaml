@@ -1,0 +1,100 @@
+#Test data for Trailer
+
+TestData: {
+  Vehicles: ['@Trailer', '@MotorHome', '@Camper', '@Antique']
+}
+
+Trailer: {
+  VehicleTab: {
+    Add Vehicle: 'click',
+    Type: 'Trailer',
+    VIN: AAAKN3DD0E0344466,
+    Make: OTHER,
+    Other Make: 'QA',
+    Model: OTHER,
+    Other Model: 'QA',
+    Series: OTHER,
+    Other Series: 'QA',
+    Body Style: OTHER,
+    Other Body Style: 'QA',
+    "Value($)": '5000',
+    Primary Use: Pleasure (recreational driving only),
+    Existing Damage: None,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 10
+  }
+}
+
+#Test data for Motor Home
+
+MotorHome: {
+  VehicleTab: {
+    Add Vehicle: 'click',
+    Type: 'Motor Home',
+    VIN: BBBKN3DDXE0344466,
+    Make: 'OTHER',
+    Other Make: 'QA',
+    Model: OTHER,
+    Other Model: 'QA',
+    Series: OTHER,
+    Other Series: 'QA',
+    Body Style: OTHER,
+    Other Body Style: 'QA',
+    "Value($)": '5000',
+    Primary Use: Pleasure (recreational driving only),
+    Existing Damage: None,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 10,
+    Odometer Reading: '12000',
+    Odometer Reading Date: '$<today:MM/dd/yyyy>'
+  }
+}
+
+#Test data for Camper
+
+Camper: {
+  VehicleTab: {
+    Add Vehicle: 'click',
+    Type: 'Camper',
+    VIN: CCCKN3DD9E0344466,
+    Make: OTHER,
+    Other Make: 'QA',
+    Model: OTHER,
+    Other Model: 'QA',
+    Series: OTHER,
+    Other Series: 'QA',
+    Body Style: OTHER,
+    Other Body Style: 'QA',
+    "Value($)": '5000',
+    Primary Use: Pleasure (recreational driving only),
+    Existing Damage: None,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 10
+  }
+}
+
+#Test data for Antique
+
+Antique: {
+  VehicleTab: {
+    Add Vehicle: 'click',
+    Type: 'contains=Antique',
+    VIN: DDDKN3DD8E0344466,
+    Year: '1965',
+    Make: OTHER,
+    Other Make: 'QA',
+    Model: OTHER,
+    Other Model: 'QA',
+    Series: OTHER,
+    Other Series: 'QA',
+    Body Style: OTHER,
+    Other Body Style: 'QA',
+    "Value($)": '5000',
+    Primary Use: Pleasure (recreational driving only),
+    "View Antique vehicle questionnaire?": 'No',
+    Existing Damage: None,
+    "Salvaged?": 'No',
+    Miles One-way to Work or School: 10,
+    Odometer Reading: '12000'
+  }
+}

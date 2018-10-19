@@ -469,17 +469,17 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
-	 * @author MeghaGubbala
-	 * @name Verify Policy and Vehicle level coverages Order
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Verify Policy and Vehicle level coverages Order + Driver level coverages order for states where we have requirements
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas17646_OrderOfCoverageBody(state, softly)
+				pas17646_OrderOfCoverageBody(softly)
 		);
 	}
 
