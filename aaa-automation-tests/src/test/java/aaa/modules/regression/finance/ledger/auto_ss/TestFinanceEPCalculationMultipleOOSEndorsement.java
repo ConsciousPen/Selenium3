@@ -87,6 +87,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         errorTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
         policy.rollOn().perform(false, false);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         jobDate = runEPJobUntil(jobDate, oose4date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(oose4date);
