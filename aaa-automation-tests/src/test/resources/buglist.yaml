@@ -381,19 +381,19 @@ PT-2808:
   summary: "Cannot Save And Exit Quote on Property Info Tab"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["unknown error"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["unknown error"]
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
+    messages: ["Coverage C - Personal property limit is required", "Cannot set value of ComboBox"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement]
+    messages: ["Coverage C - Personal property limit is required", "Unable to locate element"]
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsNB,
+            aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement,
+            aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal]
+    messages: ["Coverage C - Personal property limit is required", "unknown error"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsNB,
+            aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite,
+            aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal]
+    messages: ["Coverage C - Personal property limit is required", "unknown error"]
   - tests: [aaa.modules.regression.sales.home_ss.ho4.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["unknown error"]
+    messages: ["Coverage C - Personal property limit is required", "unknown error"]
   - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["unknown error"]
-PT-2808:
-  summary: "Cannot Save And Exit Quote on Property Info Tab1"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["Cannot set value"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims.*]
-    messages: ["no such element"]
+    messages: ["Coverage C - Personal property limit is required", "unknown error"]
