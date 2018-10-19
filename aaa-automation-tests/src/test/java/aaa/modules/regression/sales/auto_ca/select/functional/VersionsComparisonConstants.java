@@ -408,6 +408,7 @@ public class VersionsComparisonConstants {
 			.put("Drivers.NBFirstName NB NBLastName", "Total Years Driving Experience")
 			.put("Drivers.NBFirstName NB NBLastName", "Date First Licensed")
 			.put("Drivers.NBFirstName NB NBLastName", "Licensed in US/Canada for 18 or More Months?")
+			.put("Drivers.NBFirstName NB NBLastName", "License State")
 			.put("Drivers.NBFirstName NB NBLastName", "License #")
 			.put("Drivers.NBFirstName NB NBLastName", "Employee Benefit Type")
 			.put("Drivers.NBFirstName NB NBLastName", "ADB Coverage")
