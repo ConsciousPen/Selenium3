@@ -3,8 +3,7 @@ TestData: {
     Quote Effective Date: '$<today>'
   },
   ReportsTab: {
-    Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Re-order report'}],
+    Sales Agent Agreement: 'I Agree'
   },
   UnderwritingAndApprovalTab: '@DataGather@UnderwritingAndApprovalTab',
   PurchaseTab: '@DataGather@PurchaseTab'
