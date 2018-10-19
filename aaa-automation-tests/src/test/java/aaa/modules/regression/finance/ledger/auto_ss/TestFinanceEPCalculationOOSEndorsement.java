@@ -64,19 +64,19 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         TimeSetterUtil.getInstance().nextPhase(e1date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage_WV");
+        createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
         jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-1, "TestData_EndorsementAddCoverage_WV");
+        createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
         jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e3date);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        createEndorsement(-95, "TestData_EndorsementAddSecondCoverage_WV");
+        createEndorsement(-95, "TestData_EndorsementAddSecondCoverage");
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
         errorTab.overrideAllErrors();
@@ -84,6 +84,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 
         policy.rollOn().perform(false, false);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
