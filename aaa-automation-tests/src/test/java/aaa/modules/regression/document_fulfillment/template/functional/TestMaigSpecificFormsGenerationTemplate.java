@@ -203,7 +203,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	 * 8. Create and issue second renewal
 	 * 9. Check verify Policy Transaction Code and billing specific forms absense
 	 */
-	protected void verifyBillingFormsSequence(TestData testData) throws NoSuchFieldException {
+	protected void verifyBillingFormsSequence(TestData testData, Boolean isOnAutopay) throws NoSuchFieldException {
 		/* Start PAS-9816 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
@@ -216,12 +216,16 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+
 		//needed for home banking form generation
 		setUpTriggerHomeBankingConversionRenewal(policyNumber);
-		// Add Credit Card payment method and Enable AutoPayment
-		Tab.buttonBack.click();
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
+
+		if (isOnAutopay){
+			// Add Credit Card payment method and Enable AutoPayment
+			Tab.buttonBack.click();
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+			billingAccount.update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay"));
+		}
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
@@ -234,7 +238,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 		assertThat(policyTransactionCode.equals("STMT") || policyTransactionCode.equals("0210")).isTrue();
 		//PAS-9816 Verify that Billing Renewal package forms are generated and are in correct order
-		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType());
+		verifyRenewalBillingPackageFormsPresence(policyNumber, getPolicyType(), isOnAutopay);
 
 		// Start PAS-9816 Scenario 1 Issue first renewal
 		mainApp().open();
@@ -376,7 +380,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	private void billGeneration(LocalDateTime renewalOfferEffectiveDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalOfferEffectiveDate));
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-//		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
 	public String getPackageTag(String policyNumber, String tag, AaaDocGenEntityQueries.EventNames name) throws NoSuchFieldException {
@@ -423,11 +427,14 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		assertThat(policyTransactionCode).isEqualTo(expectedCode);
 	}
 
-	private void verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType) {
+	private void verifyRenewalBillingPackageFormsPresence(String policyNumber, PolicyType policyType, Boolean isOnAutopay) {
 		List<String> expectedFormsAndOrder = new ArrayList<>(Arrays.asList(
-				DocGenEnum.Documents.AHRBXX.getIdInXml(),
-				DocGenEnum.Documents.AH35XX.getIdInXml()
+				DocGenEnum.Documents.AHRBXX.getIdInXml()
 		));
+
+		if (isOnAutopay) {
+			expectedFormsAndOrder.add(DocGenEnum.Documents.AH35XX.getIdInXml());
+		}
 
 		//Adding of 'Delta' form for PUP and Home products in the Forms List
 		if (!policyType.equals(PolicyType.PUP)) {

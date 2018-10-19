@@ -208,6 +208,26 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	}
 
 	/**
+	 * @author Jovita Pukenaite
+	 * @name The order of violations
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver which have more than 3 violations.
+	 * 4. Order reports for new driver.
+	 * 5. Check order of response.
+	 * Repeat with drivers, which have:
+	 * 1. More than three claims.
+	 * 2. Driver which have records from MVR and CLUE.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19673"})
+	public void pas19673_theOrderOfViolations(@Optional("VA") String state) {
+
+		pas19673_theOrderOfViolationsBody();
+	}
+
+	/**
 	 * @author Megha Gubbala
 	 * @name driver With One Or More Fault Accidents
 	 * @scenario 1. Create policy.

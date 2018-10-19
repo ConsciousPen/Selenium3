@@ -1,11 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.FIRST_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LAST_NAME;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +34,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.RadioGroup;
 
 @StateList(states = Constants.States.PA)
 public class TestDddViolation extends AutoSSBaseTest {
@@ -61,9 +62,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsNB(@Optional("PA") String state) {
 
-		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
@@ -100,10 +99,6 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
 
-		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
-
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
@@ -135,10 +130,6 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
-
-		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -172,10 +163,6 @@ public class TestDddViolation extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
 
-		// Change system date. Mock Data has Today+480 for Violations to work. This should have Mock Data + ~2months depending on Testdata in yaml.
-		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(540);
-		TimeSetterUtil.getInstance().nextPhase(effDate);
-
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
@@ -194,16 +181,19 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private void renewAndEndorsementSteps() {
 		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
+		RadioGroup saleAgentAgreement = new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		new DriverTab().fillTab(testData).submitTab();
 
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		new PremiumAndCoveragesTab().btnCalculatePremium().click();
+		new PremiumAndCoveragesTab().calculatePremium();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		if (saleAgentAgreement.isPresent()) {
+			saleAgentAgreement.setValue("I Agree");
+		}
 		new DriverActivityReportsTab().getAssetList().getAsset(VALIDATE_DRIVING_HISTORY.getLabel(), Button.class).click();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		new PremiumAndCoveragesTab().calculatePremium();
 		verifyDrivers();
 	}
 

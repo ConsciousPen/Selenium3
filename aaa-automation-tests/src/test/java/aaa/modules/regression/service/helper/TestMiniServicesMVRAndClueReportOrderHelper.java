@@ -4,6 +4,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.List;
 
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -19,6 +21,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.service.helper.dtoDxp.*;
+import com.google.common.collect.ComparisonChain;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -32,6 +35,14 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	private DriverTab driverTab = new DriverTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
+
+	private static final String CLUE_RECORD_TYPE = "CLUE";
+	private static final String MVR_RECORD_TYPE = "MVR";
+	private static final Comparator<DrivingRecord> DRIVING_RECORDS_COMPARATOR = (record1, record2) -> ComparisonChain.start()
+			.compareTrueFirst(MVR_RECORD_TYPE.equals(record1.activitySource), MVR_RECORD_TYPE.equals(record2.activitySource))
+			.compareTrueFirst(CLUE_RECORD_TYPE.equals(record1.activitySource), CLUE_RECORD_TYPE.equals(record2.activitySource))
+			.compare(record2.accidentDate, record1.accidentDate) // newest first
+			.result();
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
@@ -375,6 +386,38 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage(), "attributeForRules");
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
+
+	protected void pas19673_theOrderOfViolationsBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		//MVR
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Twenty", "Points", "1970-01-01", "B16848001", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList = response.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
+		//CLUE
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Three", "Claims", "1970-01-01", "B19673001", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response2 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList2 = response2.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList2).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
+		//CLUE and MVR
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "Claims", "AndMVR", "1970-01-01", "B19673002", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response3 = HelperCommon.orderReports(policyNumber, oidDriver3, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList3 = response3.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList3).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {

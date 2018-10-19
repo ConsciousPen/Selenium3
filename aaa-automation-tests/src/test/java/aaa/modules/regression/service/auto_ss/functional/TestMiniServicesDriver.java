@@ -87,17 +87,17 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 4. add a driver through the service
 	 * 5. Update driver with required filed
 	 * 6. Hit View Driver service verify order.
-     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement.
 	 * 9. Delete the newest driver.
 	 * 10.Hit View Driver service verify order.
-     *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
+	 *    driverStatus 'active' should come before any 'pendingAdd' which should come before any 'pendingRemove'
 	 *@scenario PAS-18457: try to remove driver with code RD1003/RD1004 (driverStatus will be updated to driverTypeChanged), and validate that driverTypeChanged drivers are displayed after pending drivers
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653","PAS-14470", "PAS-18457"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14653", "PAS-14470", "PAS-18457"})
 	public void pas14653_ViewDriverServiceOrderOfPendingDelete(@Optional("VA") String state) {
 		pas14653_ViewDriverServiceOrderOfPendingDeleteBody();
 	}
@@ -216,12 +216,95 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 3. Remove 1 vehicle with reason code RD1003 or RD1004 and validate that there is 'revert' option in response
 	 * 4. Add 1 new driver so that max count of drivers is reached again and validate that driver removed with code RD1001/RD1002 (pendingRemoval) have 'revert' option
 	 *    and driver removed with code RD1003/RD1004 (driverTypeChanged) has revert option
+	 *    PAS-18643
+	 * 5. Try to Revert delete of pendingRemoval driver when there already is max count of drivers (i.e driver without Revert option) ----> I receive error
+	 * NOTE: step 5 is not applciable to driverTypeChanged driver as it always should have revert option
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9662_maxDrivers")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18672", "PAS-18643"})
 	public void pas18672_driversRevertOptionForDelete(@Optional("VA") String state) {
 		pas18672_driversRevertOptionForDeleteBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1001/RD1002)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 driver through service with reason code RD101 or RD102 so that driver has status 'pendingRemoval'
+	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithoutChangesPendingRemoval(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(true);
+		pas18643_CancelRemoveDriverBody(false, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1003/RD1004)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 driver through service with reason code RD103 or RD104 so that driver has status 'driverTypeChanged' and it is changed to NAFR
+	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(false);
+		pas18643_CancelRemoveDriverBody(false, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is updated before removal (removalReasonCode RD1001/RD1002)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 driver through service with reason code RD101 or RD102 so that driver has status 'pendingRemoval'
+	 *4. Run Cancel Remove Driver Transaction Service for 'pendingRemoval' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithChangesPendingRemoval(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(true);
+		pas18643_CancelRemoveDriverBody(true, removalReasonCode);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when driver is not updated before removal (removalReasonCode RD1003/RD1004)
+	 * @scenario
+	 *1. Create a policy in PAS with multiple drivers
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 driver through service with reason code RD103 or RD104 so that driver has status 'driverTypeChanged' and it is changed to NAFR
+	 *4. Run Cancel Remove Driver Transaction Service for 'driverTypeChanged' driver
+	 *5. Run viewDrivers service and validate response
+	 *6. Retrieve endorsement in PAS and validate that both drivers are reverted ---> driver is reverted back to state as it was after update and before removal
+	 * Note: test also validates that Driver Level coverages after revert are the same as before revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18643"})
+	public void pas18643_CancelRemoveDriverWithChangesDriverTypeChanged(@Optional("VA") String state) {
+		String removalReasonCode = getRandomDriverRemovalCode(false);
+		pas18643_CancelRemoveDriverBody(true, removalReasonCode);
 	}
 
 	/**
@@ -291,26 +374,26 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		pas15373_uniqueDriverLicensesBody(getPolicyType());
 	}
 
-    /**
-     * @author Bob Van
-     * @name Update Drivers service, set marital status.
-     * @scenario
-     * 1. Create policy on Pas.
-     * 2. Create endorsement outside of PAS
-     * 2. Add 2nd driver outside of PAS
-     * 3. Update 2nd driver as spouse outside of PAS
-     * 4. Verify married status in update response
-     * 5. Verify married status in view driver response
-     * 6. Verify PAS pended endorsement general tab data
-     * 7. Verify PAS pended endorsement driver tab data
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
-    public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
+	/**
+	 * @author Bob Van
+	 * @name Update Drivers service, set marital status.
+	 * @scenario
+	 * 1. Create policy on Pas.
+	 * 2. Create endorsement outside of PAS
+	 * 2. Add 2nd driver outside of PAS
+	 * 3. Update 2nd driver as spouse outside of PAS
+	 * 4. Verify married status in update response
+	 * 5. Verify married status in view driver response
+	 * 6. Verify PAS pended endorsement general tab data
+	 * 7. Verify PAS pended endorsement driver tab data
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14474"})
+	public void pas14474_UpdateSpouseDriver(@Optional("AZ") String state) {
 
-    	pas14474_UpdateSpouseDriverBody(getPolicyType());
-    }
+		pas14474_UpdateSpouseDriverBody(getPolicyType());
+	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -335,6 +418,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 				pas16481_TransactionInformationForEndorsementsAddDriverBody(softly)
 		);
 	}
+
 	/**
 	 * @author Megha Gubbala
 	 * @name Update Drivers service, set marital status.
@@ -443,6 +527,58 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 		assertSoftly(softly ->
 				pas14475_NameInsuredMaritalStatusBodyT(softly, true, "PSS")
 		);
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Default Marital Status - state deviations for multiple married statuses
+	 * @scenario1
+	 * 1. Create policy on Pas with the FNI set to non-married status
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add driver.
+	 * 4. Validate the driver's metadata allows all marital statuses.
+	 * 5. Set the driver to a married relationship.
+	 * 6. Validate the driver's metadata restricts marital statuses.
+	 * 7. Update the driver's marital status to a married status.
+	 * 8. Validate that the FNI marital status has been updated accordingly.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16548"})
+	public void pas16548_NamedInsuredMaritalStatus_MultipleMarital(@Optional("MD") String state) {
+		assertSoftly(softly ->
+				pas16548_NamedInsuredMaritalStatus_MultipleMaritalBody()
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Named Insured and the Relationship to the FNI - FNI is Equivalent to Married
+	 * @scenario1
+	 * 1. Create policy on Pas with the FNI set to Married status
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add driver, update like SP.
+	 * 4. Check if MS for new driver the same like FNI - Married.
+	 * @scenario2
+	 * 1. FNI (Married), create new endorsement outside of PAS
+	 * 2. Add driver, update like RDP.
+	 * 3. Check if MS for new driver the same like FNI - Married.
+	 * @scenario3
+	 * 4. Update FNI Marital Status to RDP
+	 * 5. Bind endorsement.
+	 * 6. Create new endorsement outside of PAS
+	 * 7. Add driver, update like SP.
+	 * 8. Check if MS for new driver the same like FNI = RDP.
+	 * @scenario4
+	 * 1. FNI(RDP) ,create new endorsement outside of PAS
+	 * 2. Add driver, update like RDP.
+	 * 3. Check if MS for new driver the same like FNI - RDP.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16610"})
+	public void pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried(@Optional("MD") String state) {
+		pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarriedBody();
 	}
 
 	/**
@@ -767,7 +903,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957" })
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16578", "PAS-17933", "PAS-17957"})
 	public void pas16578_removeDriverCheckIfTaskWasCreated(@Optional("VA") String state) {
 
 		pas16578_removeDriverCheckIfTaskWasCreatedBody();
@@ -795,6 +931,45 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	public void pas17769_tooOldDriverErrorAndNoHintFromReportResponse(@Optional("VA") String state) {
 
 		pas17769_tooOldDriverErrorAndNoHintFromReportResponseBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver MetaData Service
+	 * @scenario 1. Create policy. with 1 Afr and 1 Nafr
+	 * 2. Create endorsement outside of PAS
+	 * 3. run driver meta data service
+	 * 4. Verify ADB is visible true for AFR and disable to NAFR driver
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17641"})
+	public void pas17641_MetaDataServiceDriverAddADB(@Optional("AZ") String state) {
+
+		TestData td = getTestSpecificTD("TestData");
+		assertSoftly(softly ->
+				pas17641_MetaDataServiceDriverAddADBBody(softly, getPolicyType(), td)
+		);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name The "Age first licensed" cannot be greater than the age of the driver
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS
+	 * 3. Add new Driver. Update and set "Age First Licensed" to an age greater than their DOB.
+	 * 4. Check the error message.
+	 * 5. Set "Age First Licensed" = DOB.
+	 * 6. Check if error message is not displaying.
+	 * 7. Update "Age First Licensed" < DOB.
+	 * 8. Order report and bind the endorsement.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19768"})
+	public void pas19768_ageFirstLicensedCannotBeGreaterThanDob(@Optional("VA") String state) {
+
+		pas19768_ageFirstLicensedCannotBeGreaterThanDobBody();
 	}
 
 }

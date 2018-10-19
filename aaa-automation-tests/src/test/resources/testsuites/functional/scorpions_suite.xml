@@ -231,4 +231,10 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock"/>
         </classes>
     </test>
+    <test name="PAS-18994 - Test to check that STAT Conversion is not happening for VIN Match Case">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestChoiceStatCodeConversion"/>
+        </classes>
+    </test>
 </suite>

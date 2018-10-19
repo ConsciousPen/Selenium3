@@ -451,6 +451,7 @@ public class Scenario7 extends ScenarioBaseTest {
 		}
 	}
 
+	// Skip this step for CA Auto	
 	protected void customerDeclineRenewal() {
 		LocalDateTime declineDate = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(declineDate);
@@ -462,13 +463,10 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-	//	if (!getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-	//		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
-	//			.verifyPresent();
-	//	}
+
 		if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE).verifyPresent();
-		} else if (!getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+		} else {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
 			.verifyPresent();
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).verifyPresent();

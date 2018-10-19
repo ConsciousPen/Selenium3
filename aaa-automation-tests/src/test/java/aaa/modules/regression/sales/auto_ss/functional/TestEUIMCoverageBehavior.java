@@ -14,15 +14,12 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
@@ -127,10 +124,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
 
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class);
 
         // Save Standard UIM Total Premium value NB
         Dollar standardUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
@@ -147,6 +141,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
+        setDoNotRenewFlag(PolicySummaryPage.getPolicyNumber());
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -158,14 +153,16 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         Dollar enhancedUIMNBvalue1 = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
         assertThat(standardUIMNBvalue.lessThan(enhancedUIMNBvalue1)).as(standardUIMNBvalue + "Should be less than" + enhancedUIMNBvalue1).isTrue();
 
-                // Initiate Renewal navigate to P&C and calculate premium
+        // Initiate Renewal navigate to P&C and calculate premium
         premiumAndCoveragesTab.saveAndExit();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(35));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
 
         // Save Standard UIM Total Premium value
@@ -238,9 +235,12 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         mainApp().open();
         getCopiedPolicy();
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
+        setDoNotRenewFlag(policyNum);
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
+        TimeSetterUtil.getInstance().nextPhase(expDate);
 
         // open app search for policy
         mainApp().open();
@@ -250,6 +250,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyPolicySummaryPage("No");
 
         // Initiate Renewal
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
@@ -259,7 +260,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
-        purchaseRenewal(policyNum);
+        purchaseRenewal(expDate, policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -310,7 +311,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new DocumentsAndBindTab().submitTab();
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
-        purchaseRenewal(policyNum);
+        purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");
@@ -435,15 +436,5 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
-    }
-
-    private void purchaseRenewal(String policyNumber){
-        // Open Billing account and Pay min due for the renewal
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = BillingHelper.getPolicyMinimumDueAmount(policyNumber);
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-        // Open Policy
-        SearchPage.openPolicy(policyNumber);
     }
 }

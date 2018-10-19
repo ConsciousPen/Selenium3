@@ -32,6 +32,7 @@ import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYe
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
 import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
+import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
@@ -48,7 +49,6 @@ public class HelperCommon {
 	private static final String DXP_LOOKUPS = "/api/v1/lookups/%s?productCd=%s&riskStateCd=%s";
 
 	private static final String DXP_POLICIES_LOCK_UNLOCK_SERVICES = "/api/v1/policies/%s/lock";
-	private static final String DXP_POLICIES_CONTACT_INFO = "/api/v1/policies/%s/contact-info";
 	private static final String DXP_POLICIES_START_ENDORSEMENT_INFO = "/api/v1/policies/%s/start-endorsement-info";
 	private static final String DXP_POLICIES_VIN_INFO = "/api/v1/policies/%s/vin-info/%s";
 
@@ -78,6 +78,8 @@ public class HelperCommon {
 	private static final String DXP_POLICIES_UPDATE_DRIVERS = "/api/v1/policies/%s/endorsement/drivers/%s";
 	private static final String DXP_POLICIES_ENDORSEMENT_REMOVE_DRIVER = "/api/v1/policies/%s/endorsement/drivers/%s";
 	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_REPORTS = "/api/v1/policies/%s/endorsement/drivers/%s/reports";
+	private static final String DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL = "/api/v1/policies/%s/endorsement/drivers/%s/cancelRemoval";
+	private static final String DXP_POLICIES_ENDORSEMENT_VEHICLES_CANCEL_REMOVAL = "/api/v1/policies/%s/endorsement/vehicles/%s/cancelRemoval";
 
 	private static final String DXP_POLICIES_POLICY_COVERAGES = "/api/v1/policies/%s/coverages";
 	private static final String DXP_POLICIES_ENDORSEMENT_COVERAGES = "/api/v1/policies/%s/endorsement/coverages";
@@ -98,6 +100,8 @@ public class HelperCommon {
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
+
+	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
@@ -187,10 +191,27 @@ public class HelperCommon {
 		return runJsonRequestPutDxp(requestUrl, request, VehicleUpdateResponseDto.class);
 	}
 
+	@Deprecated
 	public static VehicleUpdateResponseDto deleteVehicle(String policyNumber, String oid) {
 		log.info("Delete vehicle params: policyNumber: " + policyNumber + ", oid: " + oid);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
 		return runJsonRequestDeleteDxp(requestUrl, VehicleUpdateResponseDto.class);
+	}
+
+	public static <T> T deleteVehicle(String policyNumber, String oid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_OID, policyNumber, oid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.DELETE);
+	}
+
+	public static <T> T revertVehicle(String policyNumber, String vehicleOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_VEHICLES_CANCEL_REMOVAL, policyNumber, vehicleOid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
 
 	public static AAAVehicleVinInfoRestResponseWrapper executeVinInfo(String policyNumber, String vin, String endorsementDate) {
@@ -339,6 +360,14 @@ public class HelperCommon {
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return runJsonRequestGetDxp(requestUrl, ViewDriverAssignmentResponse.class);
+	}
+
+	public static <T> T revertDriver(String policyNumber, String driverOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid));
+		restRequestInfo.responseType = responseType;
+		restRequestInfo.status = status;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
@@ -617,6 +646,15 @@ public class HelperCommon {
 		restRequestInfo.status = status;
         return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
     }
+
+	//Method to send JSON Request to Claims Matching Micro Service
+	public static ClaimsAssignmentResponse runJsonRequestPostClaims(String claimsRequest) {
+		RestRequestInfo<ClaimsAssignmentResponse> restRequestInfo = new RestRequestInfo<>();
+		restRequestInfo.url = claimsUrl;
+		restRequestInfo.bodyRequest = claimsRequest;
+		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
+		return runJsonRequestMethodDxp(restRequestInfo, RequestMethod.POST);
+	}
 
 	public static <T> T runJsonRequestPatchDxp(String url, RestBodyRequest bodyRequest, Class<T> responseType) {
 		return runJsonRequestPatchDxp(url, bodyRequest, responseType, Response.Status.OK.getStatusCode());
