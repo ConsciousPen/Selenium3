@@ -253,11 +253,39 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkAfterTXWasBound(policyNumber);
     }
 
-    protected void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
-
+    protected void pas6695_testClueClaimsReconciliationNB() {
         createCustomerWithClaimHistory();
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationEndorsement() {
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationRenewal() {
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationRewrite() {
+
+    }
+
+/**
+    * @author Dominykas Razgunas
+	 * @name Test Removed Dependency Between CAT And Chargeable?
+ * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 2. Initiate TX
+	 * 3. Fill Quote till Property Info Tab
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+ * **/
+    private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
         selectRentalClaimForCA();
 
         // Select Hail Claim and set CAT = YES chargeable = NO
@@ -303,29 +331,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something Else");
-
-        // Calculate Premium check that there is no errors. If VRD is able to open there were no errors
-        calculatePremiumAndOpenVRD();
-        PropertyQuoteTab.RatingDetailsView.close();
-    }
-
-    protected void pas6695_testClueClaimsReconciliationNB() {
-        createCustomerWithClaimHistory();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
-
-    }
-
-    protected void pas6695_testClueClaimsReconciliationEndorsement() {
-
-    }
-
-    protected void pas6695_testClueClaimsReconciliationRenewal() {
-
-    }
-
-    protected void pas6695_testClueClaimsReconciliationRewrite() {
-
     }
 
     private void removeClaim(){
