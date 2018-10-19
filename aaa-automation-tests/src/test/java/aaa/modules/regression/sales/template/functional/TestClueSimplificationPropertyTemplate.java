@@ -16,17 +16,17 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPointsVRDPageAbstract {
 
     protected abstract Tab getBindTab();
     protected abstract Tab getPurchaseTab();
+    protected abstract Tab getApplicantTab();
     protected abstract void navigateToBindTab();
+    protected abstract void navigateToApplicantTab();
     protected abstract RadioGroup getClaimChargeableAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
 
@@ -212,7 +212,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         TimeSetterUtil.getInstance().nextPhase(renewEff);
         openAppNonPrivilegedUser("A30");
         searchForPolicy(policyNumber);
-        policy.renew().perform();
+        policy.renew().start();
         navigateToPropertyInfoTab();
         getPropertyInfoTab().fillTab(td);
 
@@ -262,29 +262,30 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationEndorsement() {
+        openAppAndCreatePolicy();
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        addNamedInsuredWithClaims();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
     protected void pas6695_testClueClaimsReconciliationRenewal() {
+        openAppAndCreatePolicy();
+        policy.renew().perform();
+        addNamedInsuredWithClaims();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
+        openAppAndCreatePolicy();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        addNamedInsuredWithClaims();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
-/**
-    * @author Dominykas Razgunas
-	 * @name Test Removed Dependency Between CAT And Chargeable?
- * @scenario
-	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
-     * 2. Initiate TX
-	 * 3. Fill Quote till Property Info Tab
-	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
-	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
-	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
-	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
- * **/
     private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
         selectRentalClaimForCA();
 
@@ -331,6 +332,35 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something Else");
+    }
+
+    private void addNamedInsuredWithClaims() {
+        TestData tdApplicantTab;
+        if (isStateCA()) {
+            TestData ni = DataProviderFactory.dataOf(
+                    HomeCaMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+            tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), ni));
+        } else {
+            TestData ni = DataProviderFactory.dataOf(
+                    HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel(), "Married",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
+                    HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+            tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), ni));
+        }
+
+        navigateToApplicantTab();
+        getApplicantTab().fillTab(tdApplicantTab);
+        navigateToPropertyInfoTab();
+
     }
 
     private void removeClaim(){

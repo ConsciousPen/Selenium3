@@ -8,10 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -24,6 +21,16 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+
+	@Override
+	protected ApplicantTab getApplicantTab() {
+		return new ApplicantTab();
+	}
+
+	@Override
+	protected void navigateToApplicantTab() {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+	}
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -113,11 +120,11 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	 * 1. Open App with privileged user.
 	 * 2. Create customer.
 	 * 3. Create Property Quote.
-	 * 4. Fill Quote up to Bind Tab. Manually Add Claims
+	 * 4. Fill Quote up to Bind Tab and validate only full scope losses. Manually Add Claims
 	 * 5. Save and Exit.
 	 * 6. Log in with unprivileged User.
 	 * 7. Search Quote.
-	 * 8. Enter Datagather.
+	 * 8. Enter Data gather.
 	 * 9. Navigate to Property Info Tab.
 	 * 10. Check that there are 4 claims in claim table.
 	 * 11. Remove One Claim.

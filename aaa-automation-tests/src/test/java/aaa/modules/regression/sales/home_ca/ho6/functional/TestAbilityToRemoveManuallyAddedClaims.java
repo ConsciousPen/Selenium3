@@ -5,13 +5,14 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -24,6 +25,16 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(states = Constants.States.CA)
 public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+
+	@Override
+	protected ApplicantTab getApplicantTab() {
+		return new ApplicantTab();
+	}
+
+	@Override
+	protected void navigateToApplicantTab() {
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+	}
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -42,7 +53,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected void navigateToBindTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
 	}
 
 	@Override
@@ -68,41 +79,41 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected String getClaimHistoryLabel() {
-		return HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
+		return HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
 	}
 
 	@Override
 	protected void navigateToPropertyInfoTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 	}
 
 	@Override
 	protected TextBox getClaimDateOfLossAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
 	}
 
 	@Override
 	protected RadioGroup getClaimCatastropheAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
 	}
 	@Override
 	protected RadioGroup getClaimChargeableAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
 	}
 
 	@Override
 	protected TextBox getClaimNonChargeableReasonAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.REASON_CLAIM_IS_NOT_CHARGEABLE);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.REASON_CLAIM_IS_NOT_CHARGEABLE);
 	}
 
 	@Override
 	protected RadioGroup getAAAClaimAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
 	}
 
 	@Override
 	protected TextBox getClaimAmountAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
 	}
 
 	/**

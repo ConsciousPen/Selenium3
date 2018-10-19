@@ -8,10 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -24,6 +21,16 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+
+	@Override
+	protected ApplicantTab getApplicantTab() {
+		return new ApplicantTab();
+	}
+
+	@Override
+	protected void navigateToApplicantTab() {
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+	}
 
 	@Override
 	protected PolicyType getPolicyType() {

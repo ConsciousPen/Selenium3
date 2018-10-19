@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -38,7 +38,7 @@ public class TestClueClaimsReconciliation extends TestClueSimplificationProperty
 
     @Override
     protected PolicyType getPolicyType() {
-        return PolicyType.HOME_SS_HO3;
+        return PolicyType.HOME_SS_HO6;
     }
 
     @Override
@@ -131,7 +131,7 @@ public class TestClueClaimsReconciliation extends TestClueSimplificationProperty
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
     public void pas6695_testClueReconciliationNB(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationNB();
 
@@ -151,7 +151,7 @@ public class TestClueClaimsReconciliation extends TestClueSimplificationProperty
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
     public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -171,7 +171,7 @@ public class TestClueClaimsReconciliation extends TestClueSimplificationProperty
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
     public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRenewal();
 
@@ -191,7 +191,7 @@ public class TestClueClaimsReconciliation extends TestClueSimplificationProperty
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
     public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRewrite();
 
