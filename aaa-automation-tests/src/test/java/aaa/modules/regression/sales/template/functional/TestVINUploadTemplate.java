@@ -556,7 +556,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
 		//2. Upload new vin data with updated Y/M/M/S/S
-		adminApp().open();
+		/*adminApp().open();
 		new UploadToVINTableTab().uploadVinTable(vinTableFile);
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
@@ -580,7 +580,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 
-		softly.close();
+		softly.close();*/
 	}
 
 	private TestData getTestDataTwoVehicles(String vinNumber) {

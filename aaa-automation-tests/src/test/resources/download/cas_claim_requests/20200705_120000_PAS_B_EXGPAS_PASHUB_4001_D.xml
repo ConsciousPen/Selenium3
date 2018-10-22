@@ -2,26 +2,26 @@
 <aaan:ClaimBatchRequest xmlns:aaan="http://www.aaancnuit.com.BatchClaimFeedRequest_version1">
   <aaan:ClaimLineItem>
     <aaan:product>AAA_SS</aaan:product>
-    <aaan:agreementNumber>AZSS952918549</aaan:agreementNumber>
+    <aaan:agreementNumber>AZSS952918561</aaan:agreementNumber>
     <aaan:agreementIssuedState>AZ</aaan:agreementIssuedState>
-    <aaan:agreementEffectiveDate>2020-10-17-07:00</aaan:agreementEffectiveDate>
+    <aaan:agreementEffectiveDate>2021-09-06-07:00</aaan:agreementEffectiveDate>
     <aaan:agreementStatus>A</aaan:agreementStatus>
-    <aaan:claimFromDate>2013-10-17-07:00</aaan:claimFromDate>
-    <aaan:claimToDate>2019-08-15-07:00</aaan:claimToDate>
+    <aaan:claimFromDate>2014-09-06-07:00</aaan:claimFromDate>
+    <aaan:claimToDate>2020-07-05-07:00</aaan:claimToDate>
   </aaan:ClaimLineItem>
   <aaan1:batchFileSummary xmlns:aaan1="http://www.aaancnuit.com.AAANCNU_BatchCommon_version1">
     <aaan1:batchJobInfo>
       <aaan1:batchJobEnvironmentType>DEV</aaan1:batchJobEnvironmentType>
       <aaan1:batchJobApplicationName>EXGPAS</aaan1:batchJobApplicationName>
       <aaan1:batchJobName>renewalClaimOrderAsyncJob</aaan1:batchJobName>
-      <aaan1:batchJobServerName>NVDXPAS2AGL003.tent.trt.csaa.pri</aaan1:batchJobServerName>
-      <aaan1:batchJobIPAddress>192.168.15.202</aaan1:batchJobIPAddress>
-      <aaan1:batchJobCorrelationId>B0A82A21-7BD7-79AD-5309-FBD10DA74166</aaan1:batchJobCorrelationId>
+      <aaan1:batchJobServerName>NVDXPAS2AGL005.tent.trt.csaa.pri</aaan1:batchJobServerName>
+      <aaan1:batchJobIPAddress>192.168.15.230</aaan1:batchJobIPAddress>
+      <aaan1:batchJobCorrelationId>E3953703-E6AC-E686-21E3-909FC327CEF5</aaan1:batchJobCorrelationId>
     </aaan1:batchJobInfo>
     <aaan1:batchFileInfo>
-      <aaan1:batchFileName>20190815_120000_PAS_B_EXGPAS_PASHUB_4001_D.xml</aaan1:batchFileName>
-      <aaan1:batchFileCreationDateTime>2019-08-15T08:28:07.648-07:00</aaan1:batchFileCreationDateTime>
-      <aaan1:batchFileCorrelationId>6399b949-df41-4199-bf0d-38f47e06ce3c</aaan1:batchFileCorrelationId>
+      <aaan1:batchFileName>20200705_120000_PAS_B_EXGPAS_PASHUB_4001_D.xml</aaan1:batchFileName>
+      <aaan1:batchFileCreationDateTime>2020-07-05T09:27:36.872-07:00</aaan1:batchFileCreationDateTime>
+      <aaan1:batchFileCorrelationId>b17db90d-f480-4a90-92fb-c5968589e6e7</aaan1:batchFileCorrelationId>
       <aaan1:batchFileSequenceNumber>1</aaan1:batchFileSequenceNumber>
       <aaan1:batchFileLineItemCount>1</aaan1:batchFileLineItemCount>
       <aaan1:batchFileCreditLineItemCount>0</aaan1:batchFileCreditLineItemCount>
