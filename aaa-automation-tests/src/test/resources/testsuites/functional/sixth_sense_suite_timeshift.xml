@@ -150,7 +150,7 @@
         </classes>
     </test>
 
-    <!--<test name="Test Ability to Remove Manually Added Claims CA">-->
+    <!--<test name="Test CLUE Simplification for CA">-->
         <!--<parameter name="state" value="CA"/>-->
         <!--<classes>-->
             <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">-->
@@ -176,7 +176,7 @@
         <!--</classes>-->
     <!--</test>-->
 
-    <!--<test name="Test Ability to Remove Manually Added Claims SS">-->
+    <!--<test name="Test CLUE Simplification for SS">-->
         <!--<parameter name="state" value="AZ"/>-->
         <!--<classes>-->
             <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">-->
