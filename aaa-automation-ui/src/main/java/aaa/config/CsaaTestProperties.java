@@ -19,6 +19,7 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String APP_STUB_SCRIPT_STOP = "app.stub.script.stop";
 	public static final String DOMAIN_NAME = "domain.name";
 	public static final String JOB_FOLDER = "job.folder";
+	public static final String PAS_ADMIN_LOG_FOLDER = "pas.admin.logs.folder";
 	public static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location";
 	public static final String USER_DIR_PROP = "user.dir";
 	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";

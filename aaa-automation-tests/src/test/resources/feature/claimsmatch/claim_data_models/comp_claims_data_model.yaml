@@ -1,0 +1,177 @@
+!!com.eis.automation.dto.CASClaimResponse
+claimLineItemList:
+- agreementNumber: AZSS203552391
+  claimList:
+  - accidentFault: AT_FAULT
+    claimCause: cause1
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_001,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_002,
+       coverageName: COMP_DED_400}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_003,
+       coverageName: RENTAL_REIMBURSEMENT}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: AnalyticsClaim1
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: OPEN
+    claimType: Accident
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
+  - accidentFault: NOT_AT_FAULT
+    claimCause: cause2
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '150', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_006,
+       coverageName: COMP_DED_400}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: AnalyticsClaim2
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: OPEN
+    claimType: Comprehensive
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  - accidentFault: AT_FAULT
+    claimCause: cause3
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_007,
+       coverageName: COMP_DED_400}
+    - {claimCoverageAmount: '150', claimCoverageCurrencyCode: USD, coverageId: COV_008,
+       coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_009,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_010,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: AnalyticsClaim3
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: Accident
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  - accidentFault: NOT_AT_FAULT
+    claimCause: cause4
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_011,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_012,
+       coverageName: RENTAL_REIMBURSEMENT}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: AnalyticsClaim4
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: Comprehensive
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  - accidentFault: NOT_AT_FAULT
+    claimCause: cause5
+    claimCloseDate: '2018-08-12'
+    claimCoverageList:
+    - {claimCoverageAmount: '1', claimCoverageCurrencyCode: USD, coverageId: COV_013,
+       coverageName: MEDICAL_PAYMENTS}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_014,
+       coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_015,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_016,
+       coverageName: COMP_DED_400}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: AnalyticsClaim5
+    claimPrefix: ''
+    claimOpenDate: '2018-05-26'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: OPEN
+    claimType: Accident
+    driverAgeAsOfDateOfLoss: '21'
+    driverDateOfBirth: '1996-05-05'
+    driverName: casMATTHEW casFOX
+    driverRelationToInsured: INSURED
+    drivingLicenseNumber: A19191912
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while turning.
+    subroFlag: Y
+    totalAmountPaid: '5000.000000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
+  product: AAA_SS
