@@ -8,11 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -24,7 +20,7 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(states = Constants.States.CA)
-public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
 
 	@Override
 	protected ApplicantTab getApplicantTab() {
@@ -116,6 +112,12 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	protected TextBox getClaimAmountAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
 	}
+
+    @Override
+    protected void reorderClueReport() {
+        new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+        new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.CLUEreportRow.REPORT).click();
+    }
 
 	/**
 	 * @author Dominykas Razgunas
@@ -288,5 +290,85 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("CA") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal();
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Initiate TX
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationNB(@Optional("CA") String state) {
+		pas6695_testClueClaimsReconciliationNB();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy and initiate endorsement
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationEndorsement(@Optional("CA") String state) {
+		pas6695_testClueClaimsReconciliationEndorsement();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy and then create renewal image
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationRenewal(@Optional("CA") String state) {
+		pas6695_testClueClaimsReconciliationRenewal();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy, cancel, and rewrite policy
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationRewrite(@Optional("CA") String state) {
+		pas6695_testClueClaimsReconciliationRewrite();
+
 	}
 }

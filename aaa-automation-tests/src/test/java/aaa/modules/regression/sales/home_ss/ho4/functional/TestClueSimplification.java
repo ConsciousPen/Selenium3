@@ -1,18 +1,14 @@
-package aaa.modules.regression.sales.home_ca.ho6.functional;
+package aaa.modules.regression.sales.home_ss.ho4.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -23,8 +19,8 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
-@StateList(states = Constants.States.CA)
-public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+@StateList(statesExcept = Constants.States.CA)
+public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
 
 	@Override
 	protected ApplicantTab getApplicantTab() {
@@ -33,12 +29,12 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected void navigateToApplicantTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
 	}
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO6;
+		return PolicyType.HOME_SS_HO4;
 	}
 
 	@Override
@@ -53,7 +49,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected void navigateToBindTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 	}
 
 	@Override
@@ -79,41 +75,48 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected String getClaimHistoryLabel() {
-		return HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
+		return HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel();
 	}
 
 	@Override
 	protected void navigateToPropertyInfoTab() {
-		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 	}
 
 	@Override
 	protected TextBox getClaimDateOfLossAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS);
 	}
 
 	@Override
 	protected RadioGroup getClaimCatastropheAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
 	}
+
 	@Override
 	protected RadioGroup getClaimChargeableAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
 	}
 
 	@Override
 	protected TextBox getClaimNonChargeableReasonAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.REASON_CLAIM_IS_NOT_CHARGEABLE);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.REASON_CLAIM_IS_NOT_CHARGEABLE);
 	}
 
 	@Override
 	protected RadioGroup getAAAClaimAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AAA_CLAIM);
 	}
 
 	@Override
 	protected TextBox getClaimAmountAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
+	}
+
+	@Override
+	protected void reorderClueReport() {
+		new ReportsTab().getAssetList().getAsset(HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+		new ReportsTab().getAssetList().getAsset(HomeSSMetaData.ReportsTab.CLUEreportRow.REPORT).click();
 	}
 
 	/**
@@ -160,8 +163,8 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims")
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6759")
-	public void pas6759_AbilityToRemoveManuallyEnteredClaimsNB(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6759")
+	public void pas6759_AbilityToRemoveManuallyEnteredClaimsNB(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsNB();
 	}
@@ -206,8 +209,8 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6759")
-	public void pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6759")
+	public void pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement();
 	}
@@ -237,8 +240,8 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims ReWrite")
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6759")
-	public void pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6759")
+	public void pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite();
 	}
@@ -283,9 +286,90 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-6759")
-	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6759")
+	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal();
 	}
+
+    /**
+     * @author Dominykas Razgunas, Josh Carpenter
+     * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+     * @scenario
+     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 2. Initiate TX
+     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 4. Select Hail Claim and set CAT = YES chargeable = NO
+     * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+     * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+     * 7. Select Water Claim and set CAT = NO chargeable = NO.
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    public void pas6695_testClueReconciliationNB(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationNB();
+
+    }
+
+    /**
+     * @author Dominykas Razgunas, Josh Carpenter
+     * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+     * @scenario
+     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 2. Create policy and initiate endorsement
+     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 4. Select Hail Claim and set CAT = YES chargeable = NO
+     * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+     * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+     * 7. Select Water Claim and set CAT = NO chargeable = NO.
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationEndorsement();
+
+    }
+
+    /**
+     * @author Dominykas Razgunas, Josh Carpenter
+     * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+     * @scenario
+     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 2. Create policy and then create renewal image
+     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 4. Select Hail Claim and set CAT = YES chargeable = NO
+     * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+     * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+     * 7. Select Water Claim and set CAT = NO chargeable = NO.
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationRenewal();
+
+    }
+
+    /**
+     * @author Dominykas Razgunas, Josh Carpenter
+     * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+     * @scenario
+     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 2. Create policy, cancel, and rewrite policy
+     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 4. Select Hail Claim and set CAT = YES chargeable = NO
+     * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+     * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+     * 7. Select Water Claim and set CAT = NO chargeable = NO.
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationRewrite();
+
+    }
+
 }

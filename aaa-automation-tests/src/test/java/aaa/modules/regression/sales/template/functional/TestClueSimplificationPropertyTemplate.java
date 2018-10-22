@@ -29,6 +29,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected abstract void navigateToApplicantTab();
     protected abstract RadioGroup getClaimChargeableAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
+    protected abstract void reorderClueReport();
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -365,8 +366,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab);
         getApplicantTab().submitTab();
-
-        //TODO need to add reorder CLUE report on Reports tab here
+        reorderClueReport();
 
         navigateToPropertyInfoTab();
 

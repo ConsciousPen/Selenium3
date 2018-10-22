@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ss.ho3.functional;
+package aaa.modules.regression.sales.home_ss.ho6.functional;
 
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -20,7 +20,7 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificationPropertyTemplate {
+public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
 
 	@Override
 	protected ApplicantTab getApplicantTab() {
@@ -34,7 +34,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO3;
+		return PolicyType.HOME_SS_HO6;
 	}
 
 	@Override
@@ -113,6 +113,12 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS);
 	}
 
+    @Override
+    protected void reorderClueReport() {
+        new ReportsTab().getAssetList().getAsset(HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+        new ReportsTab().getAssetList().getAsset(HomeSSMetaData.ReportsTab.CLUEreportRow.REPORT).click();
+    }
+
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test Ability To Remove Manually Added Claims NB
@@ -120,11 +126,11 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 	 * 1. Open App with privileged user.
 	 * 2. Create customer.
 	 * 3. Create Property Quote.
-	 * 4. Fill Quote up to Bind Tab and validate only full scope losses. Manually Add Claims
+	 * 4. Fill Quote up to Bind Tab. Manually Add Claims
 	 * 5. Save and Exit.
 	 * 6. Log in with unprivileged User.
 	 * 7. Search Quote.
-	 * 8. Enter Data gather.
+	 * 8. Enter Datagather.
 	 * 9. Navigate to Property Info Tab.
 	 * 10. Check that there are 4 claims in claim table.
 	 * 11. Remove One Claim.
@@ -157,7 +163,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsNB(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsNB();
@@ -203,7 +209,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Endorsement")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsEndorsement();
@@ -234,7 +240,7 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims ReWrite")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite();
@@ -280,9 +286,90 @@ public class TestAbilityToRemoveManuallyAddedClaims extends TestClueSimplificati
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Ability To Remove Manually Added Claims Renewal")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6759")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6759")
 	public void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(@Optional("AZ") String state) {
 
 		pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal();
 	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Initiate TX
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationNB(@Optional("") String state) {
+		pas6695_testClueClaimsReconciliationNB();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy and initiate endorsement
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
+		pas6695_testClueClaimsReconciliationEndorsement();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy and then create renewal image
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
+		pas6695_testClueClaimsReconciliationRenewal();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas, Josh Carpenter
+	 * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
+	 * @scenario
+	 * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+	 * 2. Create policy, cancel, and rewrite policy
+	 * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+	 * 4. Select Hail Claim and set CAT = YES chargeable = NO
+	 * 5. Select Wind Claim and set CAT = YES chargeable = YES.
+	 * 6. Select Fire Claim and set CAT = NO chargeable = YES.
+	 * 7. Select Water Claim and set CAT = NO chargeable = NO.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695")
+	public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
+		pas6695_testClueClaimsReconciliationRewrite();
+
+	}
+
 }

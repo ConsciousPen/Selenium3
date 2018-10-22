@@ -123,26 +123,6 @@
         </classes>
     </test>
 
-    <test name="Test Removed Dependency Between CAT And Chargeable CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-        </classes>
-    </test>
-
-    <test name="Test Removed Dependency Between CAT And Chargeable SS">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovedDependencyBetweenCATAndChargeable"/>
-        </classes>
-    </test>
-
     <test name="Test MD Hurricane Deductible">
         <parameter name="state" value="MD"/>
         <classes>
@@ -314,22 +294,22 @@
     <!--<test name="Test Ability to Remove Manually Added Claims CA">-->
         <!--<parameter name="state" value="CA"/>-->
         <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
@@ -340,22 +320,22 @@
     <!--<test name="Test Ability to Remove Manually Added Claims SS">-->
         <!--<parameter name="state" value="AZ"/>-->
         <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
             <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestAbilityToRemoveManuallyAddedClaims">-->
+            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">-->
                 <!--<methods>-->
                     <!--<exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>-->
                 <!--</methods>-->
