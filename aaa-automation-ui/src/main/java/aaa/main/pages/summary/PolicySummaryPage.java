@@ -65,8 +65,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Button buttonBackFromRenewals = new Button(By.id("renewalForm:backToSummary_footer"));
 	public static Button buttonOk = new Button(By.id("policyDataGatherForm:okButton_footer"));
 	public static Button buttonOkPopup = new Button(By.id("policyDataGatherForm:okBtn"));
-	public static Button buttonDriverInformationNext = new Button(By.id("productConsolidatedViewForm:body_scolumn_DriverView:dataScrollerscolumn_DriverView_ds_next"));
-
+	
 	public static Link linkPolicy = new Link(By.id("productContextInfoForm:policyDetail_policyNumLnk"));
 	public static StaticElement labellinkPolicy = new StaticElement(By.id("productContextInfoForm:policyDetail_policyNumTxt"));
 
