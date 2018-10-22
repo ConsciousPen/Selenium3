@@ -20,7 +20,7 @@ claimLineItemList:
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
-    driverDateOfBirth: '1996-05-05'
+    driverDateofBirth: '1996-05-05'
     driverName: JOSHUA FUSSELL
     driverRelationToInsured: INSURED
     drivingLicenseNumber: D07963714
@@ -52,7 +52,7 @@ claimLineItemList:
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
-    driverDateOfBirth: '1996-05-05'
+    driverDateofBirth: '1996-05-05'
     driverName: JOSHUA FUSSELL
     driverRelationToInsured: INSURED
     drivingLicenseNumber: D07963714

@@ -1,16 +1,16 @@
 ############### 3 Drivers on policy
 TestData_DriverTab_OfflineClaim_AZ: {
-  DriverTab: ['@Driver2','@Driver3']
+  DriverTab: ['@Driver2','@Driver3','@Driver4']
 }
 
-  ######Test Data for 2 and 3 Drivers
+  ######Test Data for 2/3/4 Drivers
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
   First Name: JOSHUA,
   Last Name: FUSSELL,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-21y>,
+  Date of Birth: 12/05/1970,
   Gender: Male,
   Marital Status: Married,
   Occupation: Clergy,
@@ -33,5 +33,21 @@ Driver3: {
   License Type: "Licensed (US)",
   License State: AZ,
   License Number: A12345333,
+  Age First Licensed: 18
+}
+
+Driver4: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: Robin,
+  Last Name: Hood,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: 12/20/1975,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  License Number: A12345444,
   Age First Licensed: 18
 }

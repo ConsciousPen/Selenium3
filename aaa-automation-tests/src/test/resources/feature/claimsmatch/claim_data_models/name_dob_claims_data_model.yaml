@@ -4,56 +4,24 @@ claimLineItemList:
   claimList:
   - accidentFault: ADVERSE_PARTY_AT_FAULT
     claimCause: tur
-    claimCloseDate: '2019-07-31'
+    claimCloseDate: '2018-03-12'
     claimCoverageList:
-    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
-       coverageName: COLL_GROUP}
-    claimDateOfLoss: '2019-01-11'
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004, coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005, coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2017-05-26'
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 1FAZ1111OHS
+    claimNumber: 1002-10-8704
     claimPrefix: ''
-    claimOpenDate: '2019-01-02'
-    claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
-    claimType: B
-    driverAgeAsOfDateOfLoss: '21'
-    driverDateOfBirth: '1990-05-09'
     driverName: Tony Stark
-    driverRelationToInsured: INSURED
-    drivingLicenseNumber: A99999999
-    drivingLicenseState: AZ
-    lossSummary: IV hit OV while turning.
-    subroFlag: Y
-    totalAmountPaid: '4358.250000000'
-    totalAmountPaidCurrencyCode: USD
-    vehicleBodyType: SRW SUPER DUTY
-    vehicleMake: FORD
-    vehicleManufacturedYear: '2006'
-    vehicleDescription: Big truck
-    vehicleSerialNumber: 1FTNF20506ED96616
-  - accidentFault: AT_FAULT
-    claimCause: tur
-    claimCloseDate: '2019-01-12'
-    claimCoverageList:
-    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
-       coverageName: COLL_GROUP}
-    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
-       coverageName: MEDICAL_PAYMENTS}
-    claimDateOfLoss: '2019-01-01'
-    claimDeductibleAmount: '0.000000000'
-    claimDeductibleCurrencyCode: USD
-    claimNumber: 4FAZ44444OHS
-    claimPrefix: ''
-    claimOpenDate: '2019-01-02'
+    claimOpenDate: '2017-05-26'
     claimPolicyReferenceNumber: AZSS203552391
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
-    driverDateOfBirth: '1997-10-16'
-    driverName: Trory Stark
+    driverDateofBirth: '1997-10-16'
     driverRelationToInsured: INSURED
-    drivingLicenseNumber: A99999999
+    drivingLicenseNumber: D07963704
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
@@ -66,26 +34,24 @@ claimLineItemList:
     vehicleDescription: Big truck
   - accidentFault: ADVERSE_PARTY_AT_FAULT
     claimCause: tur
-    claimCloseDate: '2019-01-12'
+    claimCloseDate: '2018-03-12'
     claimCoverageList:
-    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
-       coverageName: COLL_GROUP}
-    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
-       coverageName: MEDICAL_PAYMENTS}
-    claimDateOfLoss: '2019-01-01'
+    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004, coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005, coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2017-05-26'
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 8FAZ88888OHS
+    claimNumber: 1002-10-8705
     claimPrefix: ''
-    claimOpenDate: '2019-01-01'
+    driverName: Robin Hood
+    claimOpenDate: '2017-05-26'
     claimPolicyReferenceNumber: AZSS203552391
     claimStatusCode: CLOSED
     claimType: B
     driverAgeAsOfDateOfLoss: '21'
-    driverDateOfBirth: '1997-01-01'
-    driverName: Leeroy Stark
+    driverDateofBirth: '1975-05-26'
     driverRelationToInsured: INSURED
-    drivingLicenseNumber: A99999999
+    drivingLicenseNumber: D07963705
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
@@ -94,6 +60,6 @@ claimLineItemList:
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD
     vehicleManufacturedYear: '2006'
-    vehicleDescription: Big truck
     vehicleSerialNumber: 1FTNF20506ED96616
+    vehicleDescription: Big truck
   product: AAA_SS
