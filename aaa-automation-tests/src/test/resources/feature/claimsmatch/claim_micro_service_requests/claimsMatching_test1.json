@@ -11,7 +11,7 @@
       ],
       "cause":"cha",
       "totalAmountPaid":2200,
-      "dateClosed":"2019-07-31",
+      "dateClosed":"",
       "type":"Accident",
       "claimDeductible":500,
       "driverInformation":{
@@ -28,7 +28,7 @@
       "amountpaid":2200,
       "isCompClaim": false,
       "claimNumber":"1TAZ1111OHS",
-      "status":"CLOSED"
+      "status":"OPEN"
     },
     {
       "dateOfLoss":"2019-01-11",
