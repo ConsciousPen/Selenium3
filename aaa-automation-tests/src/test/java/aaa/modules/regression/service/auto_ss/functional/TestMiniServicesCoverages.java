@@ -708,6 +708,30 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(), false);
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(),true);
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @scenario
+	 * 1. Create Auto SS policy with 2 AFR, 1 NAFR and 1 Excluded driver (all applicable drivers should have TORT coverage)
+	 * 2. Create endorsement through service
+	 * 3. Run view coverages and validate that PIP coverages are the same as in PAS UI
+	 * 4. Update Basic PIP to No Coverage through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 5. Update Basic PIP to $10,000 through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 6. Update one or more drivers to be Reject Limit to Sue = No through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 7. Update endorsement coverages (ADDPIP) to 0 through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 8. Update (ADDPIP) back to to other than 0 through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 9. Update endorsement coverages (PIPDED) to 0 through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 10. Update (PIPDED) back to to other than 0 through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 11. Update all drivers to be Reject Limit to Sue = YES through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 * 12. Update BPIP to no coverage and then update one or more drivers to be Reject Limit to Sue = No through service and validate PIP in response. Run viiewEndorsement coverages and validate PIP in response.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19195", "PAS-19194"})
+	public void pas19195_viewUpdatePIPCoverage(@Optional("KY") String state) {
+		pas19195_viewUpdatePIPCoverageBody();
+	}
+
 }
 
 
