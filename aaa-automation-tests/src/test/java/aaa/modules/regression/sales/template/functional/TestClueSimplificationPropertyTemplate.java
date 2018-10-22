@@ -266,6 +266,11 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         openAppAndCreatePolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         addNamedInsuredWithClaims();
+
+        //Validation for PAS-6695
+        checkTblClaimRowCount(9);
+
+        // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
@@ -274,6 +279,11 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         openAppAndCreatePolicy();
         policy.renew().perform();
         addNamedInsuredWithClaims();
+
+        //Validation for PAS-6695
+        checkTblClaimRowCount(9);
+
+        // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
@@ -283,14 +293,17 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
         addNamedInsuredWithClaims();
+
+        //Validation for PAS-6695
+        checkTblClaimRowCount(9);
+
+        // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
     private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
 
-        //Validation for PAS-6695
-        checkTblClaimRowCount(9);
         selectRentalClaimForCA();
 
         // Select Hail Claim and set CAT = YES chargeable = NO
@@ -367,7 +380,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab);
         getApplicantTab().submitTab();
         reorderClueReport();
-
         navigateToPropertyInfoTab();
 
     }
