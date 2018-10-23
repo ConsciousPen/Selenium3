@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -3259,7 +3258,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			assertThat(getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").availableDrivers.size()).as("In this test only 2 drivers are expected to have TORT available.").isEqualTo(2);
 
 			//AC#1: update Basic PIP to No Coverage
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, true);
+			validateTORTPrecondition_pas19195(policyNumber, true);
 			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "0");
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3271,7 +3270,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#2: update Basic PIP to $10,000
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, true);
+			validateTORTPrecondition_pas19195(policyNumber, true);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "10000");
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3284,13 +3283,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#5: update one or more drivers to be Reject Limit to Sue = No
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, true);
+			validateTORTPrecondition_pas19195(policyNumber, true);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid2));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			//PIP doesn't change
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", true, false);
 			validateADDPIP(softly, mapPIPCoverages, "30000", "$30,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "500", "$500", true, true);
@@ -3299,7 +3298,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#3: validate update endorsement coverages (ADDPIP) to 0
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADDPIP", "0");
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3312,7 +3311,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//Update back to to other than 0
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADDPIP", "20000");
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3325,7 +3324,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#3: validate update endorsement coverages (PIPDED) to 0
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PIPDED", "0");
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3338,7 +3337,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//Update back to other than 0
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PIPDED", "250");
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3351,7 +3350,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#4: update all drivers to be Reject Limit to Sue = YES
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid1, driverWithTORTOid2));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3370,7 +3369,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 			//update one or more drivers to be Reject Limit to Sue = No
-			validateTORTPrecondition_pas19195(viewEndorsementCoverages, true);
+			validateTORTPrecondition_pas19195(policyNumber, true);
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid1));
 			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
@@ -3391,33 +3390,33 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void validatePIPInUI_pas19195(ETCSCoreSoftAssertions softly, Map<String, Coverage> mapPIPCoverages) {
-			PolicySummaryPage.buttonPendedEndorsement.click();
-			policy.quoteInquiry().start();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.quoteInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
-					.isEqualTo(mapPIPCoverages.get("BPIP").coverageLimitDisplay);
+		assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
+				.isEqualTo(mapPIPCoverages.get("BPIP").coverageLimitDisplay);
 
-			//check that if BPIP is No Coverage, then ADDPIP and PIPDED is not displayed in UI
-			if ("No Coverage".equals(mapPIPCoverages.get("BPIP").coverageLimitDisplay)) {
-				softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel())
-						.getValue()).isEmpty();
-				softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel())
-						.getValue()).isEmpty();
-			} else {
-				softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel())
-						.getValue()).isNotEmpty();
-				softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel())
-						.getValue()).isNotEmpty();
-				softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
-						.isEqualTo(mapPIPCoverages.get("ADDPIP").coverageLimitDisplay);
-				softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()))
-						.isEqualTo(mapPIPCoverages.get("PIPDED").coverageLimitDisplay);
-			}
+		//check that if BPIP is No Coverage, then ADDPIP and PIPDED is not displayed in UI
+		if ("No Coverage".equals(mapPIPCoverages.get("BPIP").coverageLimitDisplay)) {
+			softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel())
+					.getValue()).isEmpty();
+			softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel())
+					.getValue()).isEmpty();
+		} else {
+			softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel())
+					.getValue()).isNotEmpty();
+			softly.assertThat(PremiumAndCoveragesTab.tablePolicyLevelLiabilityCoverages.getRowContains(1, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel())
+					.getValue()).isNotEmpty();
+			softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
+					.isEqualTo(mapPIPCoverages.get("ADDPIP").coverageLimitDisplay);
+			softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()))
+					.isEqualTo(mapPIPCoverages.get("PIPDED").coverageLimitDisplay);
+		}
 
-			softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.GUEST_PIP.getLabel()))
-					.isEqualTo(mapPIPCoverages.get("GPIP").coverageLimitDisplay);
-			premiumAndCoveragesTab.cancel();
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.GUEST_PIP.getLabel()))
+				.isEqualTo(mapPIPCoverages.get("GPIP").coverageLimitDisplay);
+		premiumAndCoveragesTab.cancel();
 	}
 
 	private void validateViewEndorsementCoveragesResponse_pas19195(ETCSCoreSoftAssertions softly, String policyNumber, PolicyCoverageInfo updateCoverageResponse) {
@@ -3462,18 +3461,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void validateAvailableCoverageLimitForBPIP(ETCSCoreSoftAssertions softly, Coverage coverageBPIP, boolean allDriversHaveTort) {
-			List<CoverageLimit> availableLimits = coverageBPIP.availableLimits;
+		List<CoverageLimit> availableLimits = coverageBPIP.availableLimits;
 
-			//No Coverage for BPIP should be available only if all drivers have TORT
-			softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("10000");
-			softly.assertThat(availableLimits.get(0).coverageLimitDisplay).isEqualTo("$10,000");
-			if (allDriversHaveTort) {
-				softly.assertThat(coverageBPIP.availableLimits.size()).isEqualTo(2);
-				softly.assertThat(availableLimits.get(1).coverageLimit).isEqualTo("0");
-				softly.assertThat(availableLimits.get(1).coverageLimitDisplay).isEqualTo("No Coverage");
-			} else {
-				assertThat(coverageBPIP.availableLimits.size()).isEqualTo(1);
-			}
+		//No Coverage for BPIP should be available only if all drivers have TORT
+		softly.assertThat(availableLimits.get(0).coverageLimit).isEqualTo("10000");
+		softly.assertThat(availableLimits.get(0).coverageLimitDisplay).isEqualTo("$10,000");
+		if (allDriversHaveTort) {
+			softly.assertThat(coverageBPIP.availableLimits.size()).isEqualTo(2);
+			softly.assertThat(availableLimits.get(1).coverageLimit).isEqualTo("0");
+			softly.assertThat(availableLimits.get(1).coverageLimitDisplay).isEqualTo("No Coverage");
+		} else {
+			assertThat(coverageBPIP.availableLimits.size()).isEqualTo(1);
+		}
 	}
 
 	private void validateAvailableCoverageLimitForADDPIP(Coverage coverageADDPIP) {
@@ -3516,7 +3515,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	//check that all drivers/not all drivers have TORT
-	private void validateTORTPrecondition_pas19195(PolicyCoverageInfo viewEndorsementCoverages, boolean allDriversHaveTORT) {
+	private void validateTORTPrecondition_pas19195(String policyNumber, boolean allDriversHaveTORT) {
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		if (allDriversHaveTORT) {
 			assertThat(getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").currentlyAddedDrivers.size()).as("Precondiiton: All applicable drivers must have TORT").isEqualTo(2);
 		} else {
