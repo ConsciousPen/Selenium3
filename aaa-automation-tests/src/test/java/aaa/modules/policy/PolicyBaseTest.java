@@ -186,22 +186,30 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return openAppAndCreateConversionPolicy(getManualConversionInitiationTd(), getConversionPolicyDefaultTD());
 	}
 
+    protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab, boolean isFillTab) {
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, tab, isFillTab);
+    }
+
 	protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, tab, true);
+        createQuoteAndFillUpTo(testData, tab, true);
 	}
 
 	protected void createQuoteAndFillUpTo(Class<? extends Tab> tab) {
 		createQuoteAndFillUpTo(getPolicyTD(), tab);
 	}
 
+    protected void createConversionQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab, boolean isFillTab) {
+        mainApp().open();
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        policy.getDefaultView().fillUpTo(testData, tab, isFillTab);
+    }
+
 	protected void createConversionQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(testData, tab, false);
+        createConversionQuoteAndFillUpTo(testData, tab, true);
 	}
 
 	protected void createConversionQuoteAndFillUpTo(Class<? extends Tab> tab) {

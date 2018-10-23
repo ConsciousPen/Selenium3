@@ -469,17 +469,17 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
-	 * @author MeghaGubbala
-	 * @name Verify Policy and Vehicle level coverages Order
+	 * @author Megha Gubbala, Maris Strazds
+	 * @name Verify Policy and Vehicle level coverages Order + Driver level coverages order for states where we have requirements
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT})
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
-				pas17646_OrderOfCoverageBody(state, softly)
+				pas17646_OrderOfCoverageBody(softly)
 		);
 	}
 
@@ -613,6 +613,27 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
+		);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Tort Coverage - Kentucky
+	 * @scenario for KY
+	 * * @details
+	 * 1. Create a KY policy with afr, nafr and excluded driver.
+	 * 2. run view coverage service and see can view Driver Rejects Limitation on Right To Sue for
+	 * 3. Update Tort Coverage yes for all AFRD and verify
+	 * 4. Update Tort Coverage no for all AFRD and verify
+	 * 	 **/
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
+	public void pas20675_TortCoverage(@Optional("KY") String state) {
+		assertSoftly(softly ->
+
+				pas20675_TortCoverageBody(softly, getPolicyType())
 		);
 	}
 	/**

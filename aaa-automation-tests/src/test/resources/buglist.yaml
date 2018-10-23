@@ -82,6 +82,14 @@ OSI-1116:
   failures:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestServiceRFI.pas349_rfiNano]
       messages: ["rfiName"]
+PAS-9157:
+  summary: "Regression: Home SS: On R-45 status of 2-nd renewal is not Premium Calculated"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.*.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
+    - tests: [aaa.modules.e2e.pup.TestScenario12.TC01_createPolicy]
+      messages: ["Table 'Renewals', Row '1', Column 'Status' expected [Premium Calculated] but found [Gathering Info]"]
 PAS-9361:
   summary: "Generate eSignature Document button doesnt open email popup"
   reason: PROD
@@ -261,7 +269,7 @@ PAS-5437:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
-PAS-16433:
+PAS-19817:
   summary: "Regression BCT: Time Out Error during cancellation"
   reason: PROD
   failures:
@@ -271,6 +279,8 @@ PAS-16433:
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
       messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: The connection has timed out']
 PAS-2171:
   summary: "Membership Discount wasn't removed when it should"
   reason: PROD
@@ -305,7 +315,7 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
-PT-2385:
+PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
   failures:
@@ -324,7 +334,7 @@ PAS-9290:
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
-    messages: ["'Reason claim is not chargeable' is required Need to be created"]
+    messages: ["Errors: 'Reason claim is not chargeable' is required"]
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["Unable to locate element: {\"method\":\"id\",\"selector\":\"policyDataGatherForm:premiumRecalcCov\"}"]
 PAS-18945:
@@ -377,3 +387,15 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+PAS-20827:
+  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
