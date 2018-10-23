@@ -124,8 +124,8 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		// Verify Claim Analytic Logs: PAS Driver Name according to Claim Number
 			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, pasDriverNameKey)).as("PAS Driver should be First Named Insured")
 					.isEqualTo(pasFirstNamedInsured);
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, pasDriverNameKey)).as("PAS Driver should be 2nd added PAS Driver")
-					.isEqualTo(pas2ndDriver); //TODO BUG: PAS-21025
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, pasDriverNameKey)).as("PAS Driver should be added 2nd PAS Driver")
+					.isEqualTo(pas2ndDriver); //BUG PAS-21025 - driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS
 
 		});
 	}

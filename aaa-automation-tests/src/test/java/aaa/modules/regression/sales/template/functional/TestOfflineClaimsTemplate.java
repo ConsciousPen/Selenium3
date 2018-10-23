@@ -1,19 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 
-import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
-import aaa.helpers.claim.datamodel.claim.Claim;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.helpers.ssh.RemoteHelper;
-import aaa.modules.policy.AutoSSBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.io.FileUtils;
-import org.testng.annotations.BeforeTest;
-import toolkit.config.PropertyProvider;
-import toolkit.datax.TestData;
-
-import javax.annotation.Nonnull;
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -26,10 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Files.contentOf;
+import javax.annotation.Nonnull;
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+import org.testng.annotations.BeforeTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.PasAdminLogGrabber;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
+import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
+import aaa.modules.policy.AutoSSBaseTest;
+import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -48,6 +48,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String CAS_RESPONSE_FILE_NAME_TEMPLATE = "%s_PAS_B_PASHUB_EXGPAS_4071_D.xml";
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
+    @SuppressWarnings("SpellCheckingInspection")
+    private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
+            + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
+    public static final String SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'MatchMoreClaims'";
+
 
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
@@ -157,6 +162,42 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         String content = contentOf(claimRequestFile, Charset.defaultCharset());
         log.info("Downloaded CAS claim request: {}" + content);
         return claimRequestFile;
+    }
+
+    /**
+     Method returns pas-admins wrapper.log as String
+     */
+    protected String downloadPasAdminLog() {
+        String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
+        List<String> adminLogFiles = RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
+        RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
+        File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
+        assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
+        String content = contentOf(pasAdminLogFile, Charset.defaultCharset());
+        log.info("Downloaded PAS Admin Log File: {}" + content);
+        return content;
+    }
+
+    /**
+     Method goes though all Claim Analytics items and returns required value according to claimNumber
+     *
+     * @param listOfClaims list Of Claim JSONs as strings;
+     * @param claimNumber given claim number
+     * @param key key value which you want to get
+     */
+    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String key){
+        String claimValue = null;
+
+        for (int i=0;i <= listOfClaims.size()-1; i++){
+            JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
+            if (specificClaimData.getString("claimNumber").equals(claimNumber)) {
+                claimValue = specificClaimData.getString(key);
+            } else {
+                log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
+                        +claimNumber+" Moving to the next one..");
+            }
+        }
+        return claimValue;
     }
 
     protected void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
