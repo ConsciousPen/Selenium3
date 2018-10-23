@@ -9,7 +9,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.RestRequestMethodTypes;
-import aaa.common.enums.Constants;
+
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.JsonClient;
@@ -17,25 +17,16 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.dtoClaim.ClaimsAssignmentResponse;
+
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import aaa.utils.StateList;
+
 import toolkit.utils.TestInfo;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
 	@SuppressWarnings("SpellCheckingInspection")
-	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
 	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
     /**
@@ -99,8 +90,6 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
 		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
-        //Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
-        ClaimsAssignmentResponse microServiceResponse = HelperCommon.runJsonRequestPostClaims(claimsRequest);
 
         //Throw the microServiceResponse to log - assists with debugging
         log.info(microServiceResponse.toString());
@@ -132,6 +121,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		restRequestInfo.responseType = ClaimsAssignmentResponse.class;
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
+  }
 }
 
 
