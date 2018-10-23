@@ -1,0 +1,11 @@
+TestData: {
+  NotesAndAlertsTab: '@NotesAndAlertsTab',
+  }
+
+NotesAndAlertsTab: {
+  Title: 'Pas_Automation',
+  Note: 'test',
+  }
+
+
+
