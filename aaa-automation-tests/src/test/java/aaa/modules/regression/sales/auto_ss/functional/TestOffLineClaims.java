@@ -33,7 +33,10 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
-    private static final String CLAIM_NUMBER_4 = "1002-10-8705";
+	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
+	private static final String CLAIM_NUMBER_5 = "4FAZ8888OHS";
+	private static final String CLAIM_NUMBER_6 = "8FAZ8888OHS";
+    private static final String CLAIM_NUMBER_7 = "1002-10-8705";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
             ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
     private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
@@ -160,19 +163,19 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
 	        DriverTab.tableActivityInformationList.selectRow(2);
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("1FAZ1111OHS");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_4);
 	        DriverTab.tableActivityInformationList.selectRow(3);
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("4FAZ44444OHS");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_5);
 	        DriverTab.tableActivityInformationList.selectRow(4);
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue("8FAZ88888OHS");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_6);
 
             // Check 4th driver.
 	        // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_4);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_7);
         });
     }
 }
