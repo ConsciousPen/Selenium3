@@ -292,7 +292,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void newBusinessTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Quote and fill up to Endorsements tab
-		createConversionQuoteAndFillUpTo(EndorsementTab.class);
+		createConversionQuoteAndFillUpTo(getConversionPolicyDefaultTD(), EndorsementTab.class, false);
 
 		//Add endorsements
 		addEndorsementForm(parentEndorsementFormId, subEndorsementFormId);
