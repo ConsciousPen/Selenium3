@@ -115,7 +115,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
     @Override
     protected void reorderClueReport() {
         new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
-        new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.CLUEreportRow.REPORT).click();
+	    new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.CLUE_REPORT).getTable().getRow(1).getCell("Report").controls.links.getFirst().click();
     }
 
 	/**
