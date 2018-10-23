@@ -115,7 +115,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         });
     }
 
-
     /**
      * @author Kiruthika Rajendran
      * @author Chris Johns
