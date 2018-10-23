@@ -1,120 +1,134 @@
 package aaa.modules.regression.finance.template;
 
 import java.time.LocalDateTime;
-
-import aaa.helpers.jobs.Job;
+import java.util.List;
+import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
-    BillingAccount billingAccount = new BillingAccount();
-    TestData tdBilling = testDataManager.billingAccount;
+	BillingAccount billingAccount = new BillingAccount();
+	TestData tdBilling = testDataManager.billingAccount;
 
-    /**
-     * @author Reda Kazlauskiene
-     * @name Test Escheatment transaction creation
-     * @scenario 1. Create Annual Policy
-     * 2. Pay $25 more than full with check
-     * 3. Refund 25$ with check - run *aaaRefundGenerationAsyncJob*
-     * 4. Run *aaaRefundDisbursementAsyncJob* to make refund status to issued
-     * 5. Turn time for more than a year of Refund
-     * 6. Run Esheatment async job at the beginning of the month:  *aaaEscheatmentProcessAsyncJob*
-     * 7. Navigate to BA
-     */
+	protected static List<Map<String, String>> getCalculationsFromDB(String policyNumber) {
+		String query = "select TXDATE, "
+				+ "sum(case when entrytype='DEBIT' then entryamt else -entryamt end) "
+				+ "from LEDGERENTRY where PRODUCTNUMBER = '%s' "
+				+ "and PERIODTYPE = 'MONTHLY' "
+				+ "and LEDGERACCOUNTNO = '1015' "
+				+ "group by TXDATE "
+				+ "ORDER BY TXDATE";
 
-    protected String createEscheatmentTransaction() {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+		return DBService.get().getRows(String.format(query, policyNumber));
+	}
 
-        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), new Dollar(25));
+	/**
+	 * @author Reda Kazlauskiene
+	 * @name Test Escheatment transaction creation
+	 * @scenario 1. Create Annual Policy
+	 * 2. Pay $25 more than full with check
+	 * 3. Refund 25$ with check - run *aaaRefundGenerationAsyncJob*
+	 * 4. Run *aaaRefundDisbursementAsyncJob* to make refund status to issued
+	 * 5. Turn time for more than a year of Refund
+	 * 6. Run Esheatment async job at the beginning of the month:  *aaaEscheatmentProcessAsyncJob*
+	 * 7. Navigate to BA
+	 */
 
-        LocalDateTime paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
-        LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
-        TimeSetterUtil.getInstance().nextPhase(refundDate);
-        JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-        JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+	protected String createEscheatmentTransaction() {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), new Dollar(25));
 
-        JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
+		LocalDateTime paymentDate = TimeSetterUtil.getInstance().getCurrentTime();
+		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
+		TimeSetterUtil.getInstance().nextPhase(refundDate);
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
 
-        return policyNumber;
-    }
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
 
-    /**
-     * @author Reda Kazlauskiene
-     * @name Run earnedPremiumPostingAsyncTaskGenerationJob and shift to next month until provided date
-     */
-    protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until, Job jobName) {
-        while (until.isAfter(jobDate)) {
-            TimeSetterUtil.getInstance().nextPhase(jobDate);
-            JobUtils.executeJob(jobName);
-            jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
-        }
-        return jobDate;
-    }
+		JobUtils.executeJob(Jobs.aaaEscheatmentProcessAsyncJob);
 
-    /**
-     * @author Reda Kazlauskiene
+		return policyNumber;
+	}
+
+	/**
+	 * @author Reda Kazlauskiene
+	 * @name Run earnedPremiumPostingAsyncTaskGenerationJob and shift to next month until provided date
+	 */
+	protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until, Job jobName) {
+		while (until.isAfter(jobDate)) {
+			TimeSetterUtil.getInstance().nextPhase(jobDate);
+			JobUtils.executeJob(jobName);
+			jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
+		}
+		return jobDate;
+	}
+
+	/**
+	 * @author Reda Kazlauskiene
 	 * @name Create Endorsement with specific TestDate and Effective date
-     */
-    protected void createEndorsement(LocalDateTime effectiveDate, String testDataName) {
-        policy.endorse().performAndFill(getTestSpecificTD(testDataName)
-                .adjust(getPolicyTD("Endorsement", "TestData")).resolveLinks()
-                .adjust("EndorsementActionTab|Endorsement Date",
-                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
-    }
+	 */
+	protected void createEndorsement(LocalDateTime effectiveDate, String testDataName) {
+		policy.endorse().performAndFill(getTestSpecificTD(testDataName)
+				.adjust(getPolicyTD("Endorsement", "TestData")).resolveLinks()
+				.adjust("EndorsementActionTab|Endorsement Date",
+						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+	}
 
-    protected void createEndorsement(int daysToEffective, String testDataName) {
-        createEndorsement(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective), testDataName);
-    }
+	protected void createEndorsement(int daysToEffective, String testDataName) {
+		createEndorsement(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective), testDataName);
+	}
 
-    /**
+	/**
 	 * @author Maksim Piatrouski
 	 * @name Roll Back Endorsement with specific Effective date
-     */
-    protected void rollBackEndorsement(LocalDateTime effectiveDate) {
-        policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
-                .adjust("RollBackEndorsementActionTab|Endorsement Roll Back Date",
-                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
-    }
+	 */
+	protected void rollBackEndorsement(LocalDateTime effectiveDate) {
+		policy.rollBackEndorsement().perform(getPolicyTD("EndorsementRollBack", "TestData")
+				.adjust("RollBackEndorsementActionTab|Endorsement Roll Back Date",
+						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+	}
 
-    /**
-     * @author Maksim Piatrouski
-     * @name Cancel Policy with specific Effective date
-     */
-    protected void cancelPolicy(LocalDateTime effectiveDate) {
-        policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
-                .adjust("CancellationActionTab|Cancel Date",
-                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
-    }
+	/**
+	 * @author Maksim Piatrouski
+	 * @name Cancel Policy with specific Effective date
+	 */
+	protected void cancelPolicy(LocalDateTime effectiveDate) {
+		policy.cancel().perform(getPolicyTD("Cancellation", "TestData")
+				.adjust("CancellationActionTab|Cancel Date",
+						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+	}
 
-    protected void cancelPolicy(int daysToEffective) {
-        cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
-    }
+	protected void cancelPolicy(int daysToEffective) {
+		cancelPolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
+	}
 
-    /**
-     * @author Maksim Piatrouski
-     * @name Reinstate Policy with specific Effective date
-     */
-    protected void reinstatePolicy(LocalDateTime effectiveDate) {
-        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
-                .adjust("ReinstatementActionTab|Reinstate Date",
-                        effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
-    }
+	/**
+	 * @author Maksim Piatrouski
+	 * @name Reinstate Policy with specific Effective date
+	 */
+	protected void reinstatePolicy(LocalDateTime effectiveDate) {
+		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData")
+				.adjust("ReinstatementActionTab|Reinstate Date",
+						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
+	}
 
-    protected void reinstatePolicy(int daysToEffective) {
-        reinstatePolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
-    }
+	protected void reinstatePolicy(int daysToEffective) {
+		reinstatePolicy(TimeSetterUtil.getInstance().getCurrentTime().plusDays(daysToEffective));
+	}
 }
