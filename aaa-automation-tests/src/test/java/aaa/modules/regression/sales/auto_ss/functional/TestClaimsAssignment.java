@@ -28,6 +28,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 * PAS-14679: MATCH MORE: Create Claim to Driver Match Logic (use DL # when not comp/not already assigned to driver)
 	 * PAS-18391: Add Existing Logic to Micro service (previously matched claims)
 	 * PAS-14058: MATCH MORE: Create Claim to Driver Match Logic (comp claims and not already assigned to driver)
+	 * PAS-8310: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 1)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
@@ -38,6 +39,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 2, 7TZ02222OHS: Existing Match
 	 *      --Claim 3, 3TAZ3333OHS: DL Match
 	 *      --Claim 4, 4TAZ4444OHS: COMP Match - goes to fist named insured
+	 *      --Claim 5, 1TZ90531OHS: LASTNAME_FIRSTNAME_DOB Match
+	 *      --Cliam 6, 1TZ90411OHS: LASTNAME_FIRSTNAME_YOB Match
 	 *      --Claim 17894- 2, 3, 5, 7, & 9: UNMATCHED
 	 *      --Claim 17894- 1: LASTNAME_FIRSTNAME
 	 *      --Claim 17894- 4: LASTNAME_FIRSTINITAL_DOB
@@ -86,5 +89,4 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 }
-
 
