@@ -2999,57 +2999,34 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			String coverageCd = "BI";
 			String newBILimits = "25000/50000";
 
-			PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
-			Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
-
-			Coverage filteredCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUMBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUMBI.canChangeCoverage.equals(false));
-			softly.assertThat(filteredCoverageResponseUMBI.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
-
-			Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUIMBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUIMBI.canChangeCoverage.equals(false));
-			softly.assertThat(filteredCoverageResponseUIMBI.availableLimits.get(0).coverageLimit).isEqualTo("25000/50000");
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd, newBILimits);
 
 			String coverageCd1 = "BI";
 			String newBILimits1 = "100000/300000";
 
-			PolicyCoverageInfo coverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, newBILimits1), PolicyCoverageInfo.class);
-			Coverage filteredCoverageResponseBI1 = coverageResponse1.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseBI1.coverageLimit.equals(newBILimits1)).isEqualTo(true);
-
-			Coverage filteredCoverageResponseUMBI1 = coverageResponse1.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUMBI1.coverageLimit.equals(newBILimits1)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUMBI1.canChangeCoverage.equals(false));
-			softly.assertThat(filteredCoverageResponseUMBI1.availableLimits.get(0).coverageLimit).isEqualTo(newBILimits1);
-
-			Coverage filteredCoverageResponseUIMBI1 = coverageResponse1.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUIMBI1.coverageLimit.equals(newBILimits1)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUIMBI1.canChangeCoverage.equals(false));
-			softly.assertThat(filteredCoverageResponseUIMBI1.availableLimits.get(0).coverageLimit).isEqualTo(newBILimits1);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd1, newBILimits1);
 
 			String coverageCd2 = "BI";
 			String newBILimits2 = "1000000/1000000";
 
-			PolicyCoverageInfo coverageResponse2 = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, newBILimits2), PolicyCoverageInfo.class);
-			Coverage filteredCoverageResponseBI2 = coverageResponse2.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseBI2.coverageLimit.equals(newBILimits2)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseBI2.canChangeCoverage.equals(true));
-
-			Coverage filteredCoverageResponseUMBI2 = coverageResponse2.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUMBI2.coverageLimit.equals(newBILimits2)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUMBI2.canChangeCoverage.equals(true));
-			softly.assertThat(filteredCoverageResponseUMBI2.canChangeCoverage.equals(true));
-
-			AvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUMBI2);
-
-			Coverage filteredCoverageResponseUIMBI2 = coverageResponse2.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredCoverageResponseUIMBI2.coverageLimit.equals(newBILimits2)).isEqualTo(true);
-			softly.assertThat(filteredCoverageResponseUIMBI2.canChangeCoverage.equals(true));
-			AvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUMBI2);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd2, newBILimits2);
 		});
+	}
+
+	private void verifyUMUIMAfterBIChange(ETCSCoreSoftAssertions softly, String policyNumber, String coverageCd, String newBILimits) {
+		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
+		Coverage filteredCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredCoverageResponseBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
+
+		Coverage filteredCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredCoverageResponseUMBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
+		softly.assertThat(filteredCoverageResponseUMBI.canChangeCoverage.equals(false));
+		softly.assertThat(filteredCoverageResponseUMBI.availableLimits.get(0).coverageLimit).isEqualTo(newBILimits);
+
+		Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.coverageCd)).findFirst().orElse(null);
+		softly.assertThat(filteredCoverageResponseUIMBI.coverageLimit.equals(newBILimits)).isEqualTo(true);
+		softly.assertThat(filteredCoverageResponseUIMBI.canChangeCoverage.equals(false));
+		softly.assertThat(filteredCoverageResponseUIMBI.availableLimits.get(0).coverageLimit).isEqualTo(newBILimits);
 	}
 
 	private void AvailableLimitsForUMUIMSD(ETCSCoreSoftAssertions softly, Coverage filteredCoverageResponseUMBI2) {
