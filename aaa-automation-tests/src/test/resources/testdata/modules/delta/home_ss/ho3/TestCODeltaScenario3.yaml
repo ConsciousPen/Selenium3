@@ -1,16 +1,8 @@
 TestData: {
-  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab',
-  ApplicantTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ApplicantTab',
-  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab',
   PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PurchaseTab'
 }
 
 ProductOfferingTab: {
@@ -21,4 +13,42 @@ ProductOfferingTab: {
 
 TestData_add_Forms: {
   EndorsementTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@EndorsementTab',
+}
+
+# ========= TC04 Adversely Impacted verification =========
+TestData_Declined_with_Score700: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_Declined', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_Dissolution_with Score700: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_Dissolution', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score700'
+}
+
+TestData_IdentityTheft_with_Score800: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score800'
+}
+
+TestData_IdentityTheft_with_Score999: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_IdentityTheft', 
+  ReportsTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@ReportsTab_Score999'
+}
+
+TestData_AdverselyImpacted_None: {
+  GeneralTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@GeneralTab_AdverselyImpacted_None'
+}
+
+# ========= TC05 Override errors verification =========
+TestData_Construction1: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestCODeltaScenario1@PropertyInfoTab_Construction3'
 }

@@ -1,25 +1,7 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ApplicantTab',
-  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  EndorsementTab: '@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'CT',
-  Policy type: 'HO6',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+  #EndorsementTab: '@EndorsementTab',
+  MortgageesTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@MortgageesTab'
 }
 
 PropertyInfoTab: {

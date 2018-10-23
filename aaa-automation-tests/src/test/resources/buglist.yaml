@@ -257,14 +257,6 @@ PAS-14398:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.premiumCalculationTest]
       messages: ["Medical Expenses=starts=$5,000"]
-PT-1968:
-  summary: "Policy tier is required appears on 'Applicant' tab "
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["Unable to locate element"]
-    - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["'Policy tier' is required"]
 PAS-5419:
   summary: "'Liability Code' is not in within range"
   reason: PROD
