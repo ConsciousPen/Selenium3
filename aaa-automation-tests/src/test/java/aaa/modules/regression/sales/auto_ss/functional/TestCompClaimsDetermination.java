@@ -1,14 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.helpers.claim.PasAdminLogGrabber;
 import aaa.helpers.constants.ComponentConstant;
@@ -16,11 +13,14 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomSoftAssertions;
 
 @StateList(states = {Constants.States.AZ})
 public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
@@ -30,24 +30,20 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 
 	private static String adminLog;
 	private static List<String> listOfClaims;
+	private static String pasFirstNamedInsured;
+	private static String pas2ndDriver = "pasMATTHEW pasFOX";
 
-	private static final String matchCode = "matchCode";
-	private static final String pasDriverName = "pasDriverName";
+	private static final String matchCodeKey = "matchCode";
+	private static final String pasDriverNameKey = "pasDriverName";
 	private static final String CLAIM_NUMBER_1 = "AnalyticsClaim1"; // for MatchCode = COMP
 	private static final String CLAIM_NUMBER_2 = "AnalyticsClaim2"; // for MatchCode = COMP
 	private static final String CLAIM_NUMBER_3 = "AnalyticsClaim3"; // for MatchCode = COMP
 	private static final String CLAIM_NUMBER_4 = "AnalyticsClaim4"; // for MatchCode = DL
 	private static final String CLAIM_NUMBER_5 = "AnalyticsClaim5"; // for MatchCode = DL
-	private static final String LICENSE_NUMBER = "A19191912";
-
-	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
-			ImmutableMap.of(CLAIM_NUMBER_1, LICENSE_NUMBER, CLAIM_NUMBER_2, LICENSE_NUMBER,
-					CLAIM_NUMBER_3, LICENSE_NUMBER, CLAIM_NUMBER_4, LICENSE_NUMBER, CLAIM_NUMBER_5, LICENSE_NUMBER); //TODO gunxgar - get knowledge about this one;
 
 	private static final String COMP_CLAIMS_DATA_MODEL = "comp_claims_data_model.yaml";
 
 
-	// TODO gunxgar add notes to TOGGLE ON MatchMoreClaims logic
 	/**
 	 * @author Mantas Garsvinskas
 	 * @name Test Comprehensive Claims Determination before sending to MS
@@ -61,12 +57,15 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	 * 6. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
 	 * 7. Retrieve the pas-admin log file
 	 * 8. Parse Claims Analytics rows from the log
-	 * 8. Verify matchCode values in JSON claim analytics according to Claim Number
-	 * 8.1: Claim1 = COMP: COMP/RENTAL/TOWING = 0;
-	 * 8.1: Claim2 = COMP: COMP/RENTAL/TOWING > 0;
-	 * 8.1: Claim3 = COMP: COMP/RENTAL/TOWING >= 0, OTHER COVERAGE = 0;
-	 * 8.1: Claim4 = DL: RENTAL/TOWING >= 0;
-	 * 8.1: Claim5 = DL: COMP/RENTAL/TOWING >= 0, OTHER COVERAGE > 1;
+	 * 9. Verify matchCode values in JSON claim analytics according to Claim Number
+	 * 9.1: Claim1 = AnalyticsClaim1 = COMP: COMP/RENTAL/TOWING = 0;
+	 * 9.2: Claim2 = AnalyticsClaim2 = COMP: COMP/RENTAL/TOWING > 0;
+	 * 9.3: Claim3 = AnalyticsClaim3 = COMP: COMP/RENTAL/TOWING >= 0, OTHER COVERAGE = 0;
+	 * 9.4: Claim4 = AnalyticsClaim4 = DL: RENTAL/TOWING >= 0;
+	 * 9.5: Claim5 = AnalyticsClaim5 = DL: COMP/RENTAL/TOWING/ >= 0, OTHER COVERAGE > 1;
+	 * 10. Verify pasDriverName values in JSON claim analytics according to Claim Number
+	 * 10.1 Claim1 = AnalyticsClaim1 = COMP: First Named Insured
+	 * 10.2 Claim5 = AnalyticsClaim5 = DL: 2nd Driver from PAS
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -74,9 +73,8 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-20361")
 	public void pas20361_compClaimDeterminationBeforeMS(@Optional("AZ") String state) {
 
-
-		//TODO gunxgar negatvie cases exceptions and so on catch
-		//TODO gunxgar maybe at the end, go to app, and validate that COMP claims assigned to FNI, other assigned to Driver2 for instance. OUT OF SCOPE OR IN SCOPE? other tests covering maybe this one?
+		// Toggle ON MatchMoreClaims Logic
+		DBService.get().executeUpdate(SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE);
 
 		TestData testData = getTestSpecificTD("TestData_DriverTab_CompClaimsDetermination_AZ").resolveLinks();
 		TestData td = getPolicyTD().adjust(testData);
@@ -84,6 +82,8 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		// Create Customer and Policy
 		mainApp().open();
 		createCustomerIndividual();
+		pasFirstNamedInsured = CustomerSummaryPage.labelCustomerName.getValue();
+
 		policy.createPolicy(td);
 
 		// Gather Policy details: Policy Number and expiration date
@@ -98,7 +98,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 
 
 		// Create the claim response
-		createCasClaimResponseAndUpload(policyNumber, COMP_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+		createCasClaimResponseAndUpload(policyNumber, COMP_CLAIMS_DATA_MODEL, null);
 
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
@@ -108,23 +108,26 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		adminLog = downloadPasAdminLog();
 		listOfClaims = pasAdminLogGrabber.retrieveClaimsAnalyticsLogValues(adminLog);
 
+		CustomSoftAssertions.assertSoftly(softly -> {
 		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number
-		assertThat(verifyMatchCodeAccordingToClaimNumber(CLAIM_NUMBER_1, matchCode)).as("Match Code is not COMP").isEqualTo("COMP");
-		assertThat(verifyMatchCodeAccordingToClaimNumber(CLAIM_NUMBER_2, matchCode)).as("Match Code is not COMP").isEqualTo("COMP");
-		assertThat(verifyMatchCodeAccordingToClaimNumber(CLAIM_NUMBER_3, matchCode)).as("Match Code is not COMP").isEqualTo("COMP");
-		assertThat(verifyMatchCodeAccordingToClaimNumber(CLAIM_NUMBER_4, matchCode)).as("Match Code is not DL").isEqualTo("DL");
-		assertThat(verifyMatchCodeAccordingToClaimNumber(CLAIM_NUMBER_5, matchCode)).as("Match Code is not DL").isEqualTo("DL");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, matchCodeKey)).as("Match Code should be equal to COMP")
+					.isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_2, matchCodeKey)).as("Match Code should be equal to COMP")
+					.isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_3, matchCodeKey)).as("Match Code should be equal to COMP")
+					.isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_4, matchCodeKey)).as("Match Code should be equal to DL")
+					.isEqualTo("DL");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, matchCodeKey)).as("Match Code should be equal to DL")
+					.isEqualTo("DL");
 
+		// Verify Claim Analytic Logs: PAS Driver Name according to Claim Number
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, pasDriverNameKey)).as("PAS Driver should be First Named Insured")
+					.isEqualTo(pasFirstNamedInsured);
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, pasDriverNameKey)).as("PAS Driver should be 2nd added PAS Driver")
+					.isEqualTo(pas2ndDriver); //TODO BUG: PAS-21025
 
-		// TODO gunxgar, add assertions and check if claims have pasDriverName = correct one. COMP claims for FNI, DL for Driver with DL stated
-
-	}
-
-	/**
-	Method returns matchCode value for selected Claim (claimNumber)
-	 */
-	private String verifyMatchCodeAccordingToClaimNumber(String claimNumber, String requiredValue) {
-		return retrieveClaimValueFromAnalytics(listOfClaims, claimNumber, matchCode);
+		});
 	}
 }
 

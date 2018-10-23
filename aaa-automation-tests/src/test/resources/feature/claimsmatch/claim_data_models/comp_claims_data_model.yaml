@@ -114,6 +114,8 @@ claimLineItemList:
        coverageName: TOWING_N_LABOR}
     - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_012,
        coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_013,
+       coverageName: BODILY_INJURY}
     claimDateOfLoss: '2018-05-26'
     claimDeductibleAmount: '0'
     claimDeductibleCurrencyCode: USD
@@ -142,13 +144,13 @@ claimLineItemList:
     claimCause: cause5
     claimCloseDate: '2018-08-12'
     claimCoverageList:
-    - {claimCoverageAmount: '1', claimCoverageCurrencyCode: USD, coverageId: COV_013,
+    - {claimCoverageAmount: '1', claimCoverageCurrencyCode: USD, coverageId: COV_014,
        coverageName: MEDICAL_PAYMENTS}
-    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_014,
+    - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_015,
        coverageName: RENTAL_REIMBURSEMENT}
-    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_015,
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_016,
        coverageName: TOWING_N_LABOR}
-    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_016,
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_017,
        coverageName: COMP_DED_400}
     claimDateOfLoss: '2018-05-26'
     claimDeductibleAmount: '0'

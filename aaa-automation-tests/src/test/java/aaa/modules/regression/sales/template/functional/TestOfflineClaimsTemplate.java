@@ -48,6 +48,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
+    public static final String SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'MatchMoreClaims'";
+
+
 
     @BeforeTest
     public void prepare() {
@@ -149,7 +152,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
         File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
             setPolicyNumber(policyNumber, response);
-            updateDriverLicence(claimToDriverLicence, response);
+            if (claimToDriverLicence != null) updateDriverLicence(claimToDriverLicence, response);
         });
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
