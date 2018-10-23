@@ -7,11 +7,14 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
+import aaa.helpers.docgen.DocGenHelper;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
@@ -20,20 +23,20 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
+import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
 public class ORDeltaScenario1 extends BaseTest { 
 	protected IPolicy policy;
+	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
 	
-	public void TC_createQuote(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
-		mainApp().open();
-		
+		mainApp().open();		
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
@@ -43,7 +46,7 @@ public class ORDeltaScenario1 extends BaseTest {
         log.info("DELTA OR SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
 	
-	public void TC_verifyLOVsOfImmediatePriorCarrier() {
+	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -51,7 +54,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
 	
-	public void TC_verifyUnderwritingApprovalTab() {
+	public void verifyUnderwritingApprovalTab() {
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
 		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
 		
@@ -89,7 +92,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		});
 	}
 	
-	public void TC_verifyClaims() {
+	public void verifyClaims() {
 		TestData td_Claims1 = getTestSpecificTD("TestData_Claims1");
 		TestData td_Claims2 = getTestSpecificTD("TestData_Claims2");
 		
@@ -125,8 +128,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		});
 	}
 	
-	public void TC_purchasePolicy(String scenarioPolicyType) {
-		TestData td = getTestSpecificTD("TestData");
+	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
 		policy.dataGather().start();
@@ -145,8 +147,43 @@ public class ORDeltaScenario1 extends BaseTest {
         log.info("DELTA OR SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
 	
-	public void TC_verifyODDPolicy() {
-		//TODO verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
+	public void verifyODDPolicy() {
+		//verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
+		mainApp().open(); 		
+		SearchPage.openPolicy(policyNumber);
+
+		policy.policyDocGen().start();
+		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
+
+		switch (getPolicyType().getShortName()) {
+			case "HomeSS":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11.setState(getState()), DocGenEnum.Documents.AHAUXX);
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()), DocGenEnum.Documents.AHAUXX);
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11.setState(getState()),
+						DocGenEnum.Documents.AHAUXX);
+				break;
+			case "HomeSS_HO4":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_4.setState(String.format("%s4", getState())));
+				break;
+			case "HomeSS_HO6":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				odd_tab.generateDocuments(DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11_6.setState(String.format("%s6", getState())));
+				break;
+			case "HomeSS_DP3":
+				odd_tab.verify.documentsPresent(DocGenEnum.Documents.DS11.setState(getState()));
+				odd_tab.generateDocuments(DocGenEnum.Documents.DS11.setState(getState()));
+				WebDriverHelper.switchToDefault();
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.DS11.setState(getState()));
+				break;
+			default:
+				break;
+		}
 	}
 	
 	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();

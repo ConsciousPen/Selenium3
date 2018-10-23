@@ -1,49 +1,12 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@DocumentsTab',
-  BindTab: '@BindTab',
-  PurchaseTab: '@PurchaseTab'
+  MortgageesTab: '@MortgageesTab'
 }
 
 TestData_add_Forms: {
   EndorsementTab: '@EndorsementTab'
-}
-
-GeneralTab: {
-  State: 'KS',
-  Policy type: 'HO3',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
-}
-
-ApplicantTab: {
-  NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
-  DwellingAddress: '@DwellingAddress',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@NamedInsuredInformation',
-  AgentInfo: '@AgentInfo',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-}
-
-ReportsTab: {
-  Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
-  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
-  PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
@@ -72,12 +35,6 @@ EndorsementTab: {
   HS 24 73: '@Endorsement_HS2473'
 }
 
-PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Pay in Full,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
-}
-
 MortgageesTab: {
   Mortgagee: 'Yes',
   MortgageeInformation: '@MortgageeInformation', 
@@ -85,76 +42,6 @@ MortgageesTab: {
   AdditionalInsured: '@AdditionalInsured', 
   "Is there an additional interest?": 'Yes', 
   AdditionalInterest: '@AdditionalInterest'
-}
-
-UnderwritingAndApprovalTab: {
-  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
-  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
-  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
-  "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
-}
-
-DocumentsTab: {
-  DocumentsToIssue: {
-  Signed policy application: Physically Signed
-  }
-}
-  
-BindTab: {}
-
-PurchaseTab: {
- PaymentAllocation: {
-  Cash: /rest
- },
-}
-
-# ----- Applicant Tab -----
-NamedInsured: {
-  Relationship to primary named insured:  Primary Insured,
-  Social security number: 1234567890,
-  Employer: '1234567890',
-}
-
-AAAMembership: {
-  Membership number: '4290023667710001'
-}
-
-DwellingAddress: {
- Zip code: '66006',
- Street address 1: 265 CHIPMAN AVE,
- Validate Address: true,
- Validate Address Dialog: {
-    #Street number: '265', 
-    #Street Name: CHIPMAN AVE
- }
-}
-
-NamedInsuredInformation: {
-  Home Phone Number: '1234567890'
-}
-
-OtherActiveAAAPolicies: {
-  Other active AAA policies: "Yes",
-  Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {},
-  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual', 
-}
-
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
-  Policy type: Auto,
-  "Companion Auto Pending with Discount?": 'No',
-  Auto policy state: KS, 
-  Policy number: '345345345',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Policy tier: 'index=1',
-  Auto policy BI limit: 'index=1',
-  Auto Insurance Persistency: '21'
-}
-
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
 }
 
 # ----- PropertyInfo Tab -----
@@ -172,8 +59,8 @@ PropertyValue: {
 Construction: {
     Year built: 2009,
     Square footage: 1,
-    #Roof type: Laminate / Architectural, 
-    Roof type: 'Wood shingle/Wood shake',
+    Roof type: Laminate / Architectural, 
+    #Roof type: 'Wood shingle/Wood shake',
     Roof shape: 'Gable', 
     Construction type: 'Masonry', 
     Hail-resistance rating: 'index=1'
@@ -347,6 +234,7 @@ PropertyInfoTab_hailResistanceRating: {
 }
 
 Construction_1: {
+  Roof type: 'Wood shingle/Wood shake',
   Hail-resistance rating: '3',
 }
 
