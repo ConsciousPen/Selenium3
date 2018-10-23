@@ -45,6 +45,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     /**
      * @author Andrii Syniagin
      * @name Test generation cas claim reponse.
+     * @details This is to verify that the framework can correctly build a CAS Response XML. Run this after making any Response or YAML changes
      */
     @SuppressWarnings("SpellCheckingInspection")
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
