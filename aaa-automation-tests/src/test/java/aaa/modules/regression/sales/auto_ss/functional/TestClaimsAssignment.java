@@ -41,10 +41,10 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 4, 4TAZ4444OHS: COMP Match - goes to fist named insured
 	 *      --Claim 5, 1TZ90531OHS: LASTNAME_FIRSTNAME_DOB Match
 	 *      --Cliam 6, 1TZ90411OHS: LASTNAME_FIRSTNAME_YOB Match
-	 *      --Claim 17894- 2, 3, 5, 7, & 9: UNMATCHED
-	 *      --Claim 17894- 1: LASTNAME_FIRSTNAME
-	 *      --Claim 17894- 4: LASTNAME_FIRSTINITAL_DOB
-	 *      --Claim 17894- 6 & 8: LASTNAME_YOB
+	 *      --Claim 7-11,  17894- 2, 3, 5, 7, & 9: UNMATCHED
+	 *      --Claim 12,    17894- 1: LASTNAME_FIRSTNAME
+	 *      --Claim 13,    17894- 4: LASTNAME_FIRSTINITAL_DOB
+	 *      --Claim 14-15, 17894- 6 & 8: LASTNAME_YOB
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
