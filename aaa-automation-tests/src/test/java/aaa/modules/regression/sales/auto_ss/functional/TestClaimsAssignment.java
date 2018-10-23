@@ -24,13 +24,11 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
-	 * * @author Chris Johns
-	 *
+	 * @author Chris Johns
 	 * PAS-14679: MATCH MORE: Create Claim to Driver Match Logic (use DL # when not comp/not already assigned to driver)
 	 * PAS-18391: Add Existing Logic to Micro service (previously matched claims)
 	 * PAS-14058: MATCH MORE: Create Claim to Driver Match Logic (comp claims and not already assigned to driver)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
-	 *
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:
