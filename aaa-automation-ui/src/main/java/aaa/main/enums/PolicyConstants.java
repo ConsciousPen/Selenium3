@@ -269,4 +269,21 @@ public final class PolicyConstants {
         public static final String NOT_SIGNED = "Not Signed";
     }
 
+    public static final class AssignmentTabTable {
+        public static final String PRIMARY_DRIVER = "Primary Driver";
+        public static final String SYSTEM_RATED_DRIVER = "System Rated Driver";
+        public static final String MANUALLY_RATED_DRIVER = "Manually Rated Driver";
+        public static final String UNDESIGNATED = "Undesignated";
+    }
+
+    public static final class ActivityInformationTable {
+        public static final String DATE = "Date";
+        public static final String DESCRIPTION = "Description";
+        public static final String SOURCE = "Source";
+        public static final String POINTS = "Points";
+        public static final String INCLUDE_IN_POINTS_TIER = "Include in Points and/or Tier?";
+        public static final String NOT_INCLUDED_REASON_CODES = "Not Included in Points and/or Tier - Reason Codes";
+        public static final String REASON_CODE_ASW = "Waived - Accident Surcharge Waiver";
+    }
+
 }
