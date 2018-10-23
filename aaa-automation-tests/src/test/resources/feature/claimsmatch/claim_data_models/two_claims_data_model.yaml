@@ -1,4 +1,4 @@
-!!com.eis.automation.dto.CASClaimResponse
+!!aaa.helpers.claim.datamodel.claim.CASClaimResponse
 claimLineItemList:
 - agreementNumber: AZSS203552391
   claimList:
