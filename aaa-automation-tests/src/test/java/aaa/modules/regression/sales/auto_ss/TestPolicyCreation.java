@@ -30,7 +30,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
 	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyCreation(@Optional("AZ") String state) {
+	public void testPolicyCreation(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
