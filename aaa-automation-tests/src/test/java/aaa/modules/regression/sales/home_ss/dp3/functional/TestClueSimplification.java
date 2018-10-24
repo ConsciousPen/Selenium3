@@ -306,9 +306,9 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
      * @author Dominykas Razgunas, Josh Carpenter
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
-     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
-     * 2. Initiate TX
-     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 1. Create Individual Customer Virat Kohli and second named insured Silvia Kohli (both have claims to return)
+     * 2. Initiate policy creation
+     * 3. Fill Quote till Property Info Tab, validate only full scope claims are populated
      * 4. Select Hail Claim and set CAT = YES chargeable = NO
      * 5. Select Wind Claim and set CAT = YES chargeable = YES.
      * 6. Select Fire Claim and set CAT = NO chargeable = YES.
@@ -326,9 +326,9 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
      * @author Dominykas Razgunas, Josh Carpenter
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
-     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
-     * 2. Create policy and initiate endorsement
-     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 1. Create policy with default test data (including customer)
+     * 2. Initiate endorsement, add 2 named insured with claims (Virat and Silvia Kohli)
+     * 3. Reorder CLUE, validate only full scope claims are populated on property info tab
      * 4. Select Hail Claim and set CAT = YES chargeable = NO
      * 5. Select Wind Claim and set CAT = YES chargeable = YES.
      * 6. Select Fire Claim and set CAT = NO chargeable = YES.
@@ -346,9 +346,9 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
      * @author Dominykas Razgunas, Josh Carpenter
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
-     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
-     * 2. Create policy and then create renewal image
-     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
+     * 1. Create policy with default test data (including customer)
+     * 2. Create renewal image, add 2 named insured with claims (Virat and Silvia Kohli)
+     * 3. Reorder CLUE, validate only full scope claims are populated on property info tab
      * 4. Select Hail Claim and set CAT = YES chargeable = NO
      * 5. Select Wind Claim and set CAT = YES chargeable = YES.
      * 6. Select Fire Claim and set CAT = NO chargeable = YES.
@@ -366,13 +366,14 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
      * @author Dominykas Razgunas, Josh Carpenter
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
-     * 1. Create Individual Customer Virat Kohli with all the claims added in mock sheet PAS-6742(attached)
+     * 1. Create policy with default test data (including customer)
      * 2. Create policy, cancel, and rewrite policy
-     * 3. Fill Quote till Property Info Tab, validate only limited scope claims are populated
-     * 4. Select Hail Claim and set CAT = YES chargeable = NO
-     * 5. Select Wind Claim and set CAT = YES chargeable = YES.
-     * 6. Select Fire Claim and set CAT = NO chargeable = YES.
-     * 7. Select Water Claim and set CAT = NO chargeable = NO.
+     * 3. Add 2 named insured with claims (Virat and Silvia Kohli)
+     * 4. Reorder CLUE, validate only full scope claims are populated on property info tab
+     * 5. Select Hail Claim and set CAT = YES chargeable = NO
+     * 6. Select Wind Claim and set CAT = YES chargeable = YES.
+     * 7. Select Fire Claim and set CAT = NO chargeable = YES.
+     * 8. Select Water Claim and set CAT = NO chargeable = NO.
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
