@@ -33,3 +33,6 @@ aaa-automation-tests/src/test/java/aaa/modules/debug/*
 aaa-automation-tests/src/test/resources/testdata/modules/debug/*
 aaa-automation-tests/src/test/resources/config/browserpools/DebugBrowserPool.xml
 /patches/
+
+aaa-automation-tests/src/test/resources/download/cas_claim_requests/*
+aaa-automation-tests/src/test/resources/download/cas_claim_responses/*
