@@ -25,9 +25,8 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {CA})
 	public void BCT_ONL_014_ReinstatePolicy(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
-
 		mainApp().open();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -42,9 +41,8 @@ public class ReinstatePolicyTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {CA})
 	public void BCT_ONL_016_ReinstatePolicy(@Optional("") String state) {
-		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
-
 		mainApp().open();
+		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

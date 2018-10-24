@@ -26,8 +26,6 @@ public class TestEndorsement extends EndorsementTemplate {
 	@Test(dataProvider = "getPoliciesForEmptyEndorsementTests")
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo6(String state, String policyNumber) {
-		TestData td = getTestSpecificTD(TESTDATA_NAME_ENDORSE_HOME_SS);
-
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
 
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(), TESTDATA_INQUIRY_HOME_SS, generalTab, bindTab);

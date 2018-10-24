@@ -45,9 +45,9 @@ public class CancelPolicy extends EndorsementTemplate {
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_009_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);

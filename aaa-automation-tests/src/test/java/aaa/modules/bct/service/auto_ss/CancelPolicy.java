@@ -23,9 +23,9 @@ public class CancelPolicy extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_005_CancelPolicy(@Optional("AZ") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		assertSoftly(softly -> {
@@ -49,10 +49,10 @@ public class CancelPolicy extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_008_CancelPolicy(@Optional("AZ") String state) {
+		mainApp().open();
 		//TODO Test moved from Deloite's code as is, should be updated
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.CANCELLATION_PENDING);
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);

@@ -40,6 +40,7 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_006_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		verifyReinstateCase(false, policyNumber);
@@ -57,23 +58,23 @@ public class ReinstatePolicy extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_007_ReinstatePolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		verifyReinstateCase(true, policyNumber);
 	}
 
 	private void verifyReinstateCase(boolean isActivePolicyFound, String policyNumber) {
-		mainApp().open();
-		if (false) {
+		if (!isActivePolicyFound) {
 			SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_CANCELLED);
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-
 		} else {
 			SearchPage.openPolicy(policyNumber, ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 			deletePendingTransaction(policy);
 			policy.cancel().perform(getStateTestData(tdPolicy, "Cancellation", "TestData"));
 		}
+
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
 		LocalDateTime cancellationDate = TimeSetterUtil.getInstance().parse(PolicySummaryPage.tableGeneralInformation

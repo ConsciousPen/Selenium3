@@ -29,6 +29,7 @@ public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_059_BillingHold(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		verifyBillingHold(policyNumber);
@@ -60,13 +61,13 @@ public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_064_BillingHold(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
 		verifyBillingHold(policyNumber);
 	}
 
 	private void verifyBillingHold(String policyNumber) {
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 

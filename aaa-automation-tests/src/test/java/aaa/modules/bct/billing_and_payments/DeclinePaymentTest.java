@@ -35,9 +35,9 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {UT, NJ, PA})
 	public void BCT_ONL_076_Decline_Payment(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		//TODO Test moved from Deloite's code as is, probably some additional steps should be added
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 
@@ -72,9 +72,9 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_120_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 
@@ -121,9 +121,9 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_121_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 
@@ -172,9 +172,9 @@ public class DeclinePaymentTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = AZ)
 	public void BCT_ONL_122_Payments(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		billingAccountPoliciesVerifier.setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verify(1);
 

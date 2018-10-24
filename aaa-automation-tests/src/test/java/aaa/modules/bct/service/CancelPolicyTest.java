@@ -32,6 +32,7 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_012_CancelPolicy(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		verifyCancelNoticeIsAbsent(policyNumber);
 	}
@@ -50,13 +51,12 @@ public class CancelPolicyTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {CA})
 	public void BCT_ONL_015_CancelPolicy(@Optional("CA") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 		verifyCancelNoticeIsAbsent(policyNumber);
 	}
 
 	private void verifyCancelNoticeIsAbsent(String policyNumber) {
-		mainApp().open();
-
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 

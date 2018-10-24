@@ -82,7 +82,7 @@ public class TestEndorsement extends EndorsementTemplate {
 				HomeSSMetaData.PropertyInfoTab.ROOF_RENOVATION,
 				HomeSSMetaData.PropertyInfoTab.HEATING_COOLING_RENOVATION
 		};
-		Assertions.assertThat(policy.dataGather().getView().getTab(PropertyInfoTab.class).getAssetList().getAssets(labelsAreNotDisplayed)).extractingResultOf("isPresent").containsOnly(false);
+		assertThat(policy.dataGather().getView().getTab(PropertyInfoTab.class).getAssetList().getAssets(labelsAreNotDisplayed)).extractingResultOf("isPresent").containsOnly(false);
 
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());

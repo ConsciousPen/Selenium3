@@ -41,9 +41,9 @@ public class FeesTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_061_ManageFees(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_061_ManageFees", SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
 		Dollar initialMinDue = BillingSummaryPage.getMinimumDue();

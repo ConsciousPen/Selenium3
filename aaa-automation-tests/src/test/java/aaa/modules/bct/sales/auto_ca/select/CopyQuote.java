@@ -36,9 +36,9 @@ public class CopyQuote extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {CA})
 	public void BCT_ONL_025_CopyQuote(@Optional("") String state) {
+		mainApp().open();
 		String quoteNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNumber);
 
 		policy.copyQuote().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromQuote", "TestData"));

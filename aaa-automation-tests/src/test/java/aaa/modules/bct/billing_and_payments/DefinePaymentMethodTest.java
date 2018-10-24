@@ -31,9 +31,9 @@ public class DefinePaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = CA)
 	public void BCT_ONL_031_Define_Payment_Method(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar minDue = BillingSummaryPage.getMinimumDue();
 

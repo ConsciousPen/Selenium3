@@ -44,9 +44,9 @@ public class ModifyPaymentMethodTest extends BackwardCompatibilityBaseTest {
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_032_Modify_Payment_Method(@Optional("") String state) {
+		mainApp().open();
 		String policyNumber = getPoliciesByQuery(getMethodName(), SELECT_POLICY_QUERY_TYPE).get(0);
 
-		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(policy);
 
