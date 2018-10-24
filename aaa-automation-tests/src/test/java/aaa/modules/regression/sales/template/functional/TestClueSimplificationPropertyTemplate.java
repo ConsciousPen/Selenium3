@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
-
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
@@ -472,8 +472,8 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     }
 
     private void selectRentalClaimForCA(){
-        if(isStateCA()){
-            new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
+        if(getPolicyType().equals(PolicyType.HOME_CA_DP3)){
+            new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
         }
     }
 
