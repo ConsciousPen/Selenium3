@@ -102,7 +102,7 @@ TestData_Endorsement1_WV: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorists Bodily Injury: 'contains=$500,000'
+    Underinsured Motorist Bodily Injury: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {

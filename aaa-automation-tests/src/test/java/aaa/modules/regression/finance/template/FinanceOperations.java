@@ -1,8 +1,6 @@
 package aaa.modules.regression.finance.template;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
@@ -13,25 +11,12 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
 	BillingAccount billingAccount = new BillingAccount();
 	TestData tdBilling = testDataManager.billingAccount;
-
-	protected static List<Map<String, String>> getCalculationsFromDB(String policyNumber) {
-		String query = "select TXDATE, "
-				+ "sum(case when entrytype='DEBIT' then entryamt else -entryamt end) "
-				+ "from LEDGERENTRY where PRODUCTNUMBER = '%s' "
-				+ "and PERIODTYPE = 'MONTHLY' "
-				+ "and LEDGERACCOUNTNO = '1015' "
-				+ "group by TXDATE "
-				+ "ORDER BY TXDATE";
-
-		return DBService.get().getRows(String.format(query, policyNumber));
-	}
 
 	/**
 	 * @author Reda Kazlauskiene
