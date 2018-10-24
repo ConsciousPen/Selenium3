@@ -2697,15 +2697,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).availableDrivers).contains(oid3);
 		softly.assertThat(policyCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).isEmpty();
 
-		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(oid1, oid2, oid3));
-		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(oid1, oid2, oid3));
 		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid1);
 		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid2);
 		softly.assertThat(updateCoverageResponse.driverCoverages.get(1).currentlyAddedDrivers).contains(oid3);
 
-		UpdateCoverageRequest updateCoverageRequest1 = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(oid1));
-		PolicyCoverageInfo updateCoverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest1, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		softly.assertThat(updateCoverageResponse1.driverCoverages.get(1).currentlyAddedDrivers).contains(oid1);
+		PolicyCoverageInfo updateCoverageResponse1 = updateTORTCoverage(policyNumber, ImmutableList.of(oid1));
+		softly.assertThat(updateCoverageResponse1.driverCoverages.get(1).currentlyAddedDrivers).containsExactly(oid1);
 	}
 
 	protected void pas14680_TrailersCoveragesThatDoNotApplyBody(PolicyType policyType) {
@@ -3259,8 +3257,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#1: update Basic PIP to No Coverage
 			validateTORTPrecondition_pas19195(policyNumber, true);
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "0");
-			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber,"BPIP", "0");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 			validateBPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);
 			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", false, false);
@@ -3271,8 +3268,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#2: update Basic PIP to $10,000
 			validateTORTPrecondition_pas19195(policyNumber, true);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "10000");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "BPIP", "10000");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", true, true);
@@ -3284,8 +3280,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#5: update one or more drivers to be Reject Limit to Sue = No
 			validateTORTPrecondition_pas19195(policyNumber, true);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid2));
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid2));
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			//PIP doesn't change
@@ -3299,8 +3294,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#3: validate update endorsement coverages (ADDPIP) to other than 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADDPIP", "20000");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "20000");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3312,8 +3306,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//Update back to to 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADDPIP", "0");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "0");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3325,8 +3318,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//Update back to to other than 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("ADDPIP", "40000");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "40000");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3338,8 +3330,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#3: validate update endorsement coverages (PIPDED) to other than 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PIPDED", "250");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "250");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3351,8 +3342,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//Update back to 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PIPDED", "0");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "0");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3364,8 +3354,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//Update back to other than 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("PIPDED", "1000");
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "1000");
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
@@ -3377,8 +3366,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#4: update all drivers to be Reject Limit to Sue = YES
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid1, driverWithTORTOid2));
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1, driverWithTORTOid2));
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			//values stays the same as above
@@ -3392,13 +3380,11 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC#6: update one or more drivers to be Reject Limit to Sue = No
 			//update BPIP to no coverage (this is AC#1 functionality again)
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "0");
-			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverage(policyNumber, "BPIP", "0");
 
 			//update one or more drivers to be Reject Limit to Sue = No
 			validateTORTPrecondition_pas19195(policyNumber, true);
-			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", ImmutableList.of(driverWithTORTOid1));
-			updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1));
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateTORTPrecondition_pas19195(policyNumber, false);
@@ -3410,6 +3396,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 		});
 	}
+
 
 	private void validateViewCoveragesResponseAndUI_pas19195(ETCSCoreSoftAssertions softly, String policyNumber, Map<String, Coverage> mapPIPCoverages, PolicyCoverageInfo updateCoverageResponse) {
 		validateViewEndorsementCoveragesResponse_pas19195(softly, policyNumber, updateCoverageResponse);
@@ -3929,6 +3916,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+	}
+
+	private PolicyCoverageInfo updateCoverage(String policyNumber, String coverageCd, String coverageLimit) {
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageCd, coverageLimit);
+		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
+	}
+
+	private PolicyCoverageInfo updateTORTCoverage(String policyNumber, List<String> driverOidList) {
+		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", driverOidList);
+		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 	}
 
 }
