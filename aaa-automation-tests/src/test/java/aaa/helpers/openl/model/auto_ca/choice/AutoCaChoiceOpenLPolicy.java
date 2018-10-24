@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaChoiceTestDataGenerator;
@@ -15,13 +16,18 @@ import toolkit.datax.TestData;
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLPolicy extends AutoCaOpenLPolicy<AutoCaChoiceOpenLDriver, AutoCaChoiceOpenLVehicle> {
 
+	@RequiredField
 	private List<AutoCaChoiceOpenLDriver> drivers;
+
+	@RequiredField
 	private List<AutoCaChoiceOpenLVehicle> vehicles;
 
 	@ExcelTransient
 	private LocalDate effectiveDate;
 
+	@RequiredField
 	private Integer term;
+
 	private Integer monsOfPriorIns; // unknown type, it's always empty in excel
 
 	public Integer getMonsOfPriorIns() {

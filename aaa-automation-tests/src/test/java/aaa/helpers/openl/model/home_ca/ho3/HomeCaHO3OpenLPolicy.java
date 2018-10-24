@@ -4,6 +4,7 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO3TestDataGenerator;
@@ -14,12 +15,22 @@ import toolkit.datax.TestData;
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm, HomeCaHO3OpenLDwelling> {
 
+	@RequiredField
 	private HomeCaHO3OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaHO3OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaOpenLCoverage> coverages;
 
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
+
+	@RequiredField
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasMultiPolicyDiscount;
 	private Boolean hasPolicySupportingForm;

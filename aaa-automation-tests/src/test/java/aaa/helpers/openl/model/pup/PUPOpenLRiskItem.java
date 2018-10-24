@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.pup;
 
 import java.util.Comparator;
 import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -10,13 +11,15 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
  * Note: this class has a natural ordering that is inconsistent with equals.
  */
 @ExcelTableElement(sheetName = PUPOpenLFile.PUP_RISK_ITEM_SHEET_NAME, headerRowIndex = PUPOpenLFile.PUP_RISK_ITEM_HEADER_ROW_NUMBER)
-public class OpenLRiskItem implements Comparable<OpenLRiskItem> {
+public class PUPOpenLRiskItem implements Comparable<PUPOpenLRiskItem> {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
 	private String riskItemCategoryCd;
 
 	@MatchingField
+	@RequiredField
 	private String riskItemCd;
 
 	private Integer riskItemCount;
@@ -54,9 +57,9 @@ public class OpenLRiskItem implements Comparable<OpenLRiskItem> {
 	}
 
 	@Override
-	public int compareTo(OpenLRiskItem otherRiskItem) {
-		return Comparator.comparing(OpenLRiskItem::getRiskItemCd)
-				.thenComparingInt(OpenLRiskItem::getRiskItemCount)
+	public int compareTo(PUPOpenLRiskItem otherRiskItem) {
+		return Comparator.comparing(PUPOpenLRiskItem::getRiskItemCd)
+				.thenComparingInt(PUPOpenLRiskItem::getRiskItemCount)
 				.compare(this, otherRiskItem);
 	}
 }
