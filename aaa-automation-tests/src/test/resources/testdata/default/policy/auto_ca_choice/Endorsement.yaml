@@ -46,3 +46,16 @@ TestData_Plus30Days: {
     Endorsement Reason: Maintain Vehicle(s)
   }
 }
+
+TestData_Empty_Endorsement: {
+  PrefillTab: {},
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {}
+}

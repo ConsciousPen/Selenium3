@@ -51,6 +51,18 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Returns the AAA InsurerCd from DB. <br>
+     * InsurerCd represents the selection of Current AAA Member during Quoting in the UI. <br>
+     * If it is Yes, there should also be a fallback number available.
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     */
+    public static java.util.Optional<String> getAAAInsurerCdFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("OP.insurercd", quoteOrPolicyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
      * Returns the AAA Membership Status from DB
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return an optional AAAMembershipStatus. If no DB rows come back, will be null.
@@ -84,7 +96,7 @@ public class AAAMembershipQueries {
      * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return an optional String. If no DB rows come back, will be null.
+     * @return an optional String. If no DB rows come back- will be null.
      */
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);

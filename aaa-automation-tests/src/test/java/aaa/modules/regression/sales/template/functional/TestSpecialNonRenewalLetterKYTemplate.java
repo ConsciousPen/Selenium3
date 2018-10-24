@@ -56,7 +56,8 @@ public class TestSpecialNonRenewalLetterKYTemplate extends TestMaigConversionHom
 		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
 
 		//Try to generate Conversion Specific Special Non-renewal letter (FORM# HSSNRKY 01 18) (document should not be generated)
-		runPreRenewalNoticeJob(conversionExpDate.minusDays(81));
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 
 		//Check that document is not generated - special conversion non renewal letter for KY (HSSNRKY)
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.HSSNRKYXX, policyNumber, PRE_RENEWAL, false);
