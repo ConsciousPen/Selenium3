@@ -17,6 +17,7 @@ import toolkit.datax.TestData;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -25,10 +26,12 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected abstract Tab getBindTab();
     protected abstract Tab getPurchaseTab();
     protected abstract Tab getApplicantTab();
+    protected abstract Tab getReportsTab();
     protected abstract void navigateToBindTab();
     protected abstract void navigateToApplicantTab();
     protected abstract RadioGroup getClaimChargeableAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
+    protected abstract String getBtnAddInsuredLabel();
     protected abstract void reorderClueReport();
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
@@ -255,9 +258,14 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("Silvia", "Kohli")));
+
         createCustomerWithClaimHistory();
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD("DataGather", "TestData"), getPropertyInfoTab().getClass(), true);
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
 
         //Validation for PAS-6695
         checkTblClaimRowCount(9);
@@ -270,6 +278,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected void pas6695_testClueClaimsReconciliationEndorsement() {
         openAppAndCreatePolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -283,6 +292,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected void pas6695_testClueClaimsReconciliationRenewal() {
         openAppAndCreatePolicy();
         policy.renew().perform();
+        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -297,6 +307,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         openAppAndCreatePolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -357,36 +368,37 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     }
 
     private void addNamedInsuredWithClaims() {
-        TestData tdApplicantTab;
-        if (isStateCA()) {
-            TestData ni = DataProviderFactory.dataOf(
-                    HomeCaMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
-                    HomeCaMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
-            tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), ni));
-        } else {
-            TestData ni = DataProviderFactory.dataOf(
-                    HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
-                    HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Virat",
-                    HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Kohli",
-                    HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Spouse",
-                    HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel(), "Married",
-                    HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                    HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
-            tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), ni));
-        }
+        List<TestData> tdNamedInsured = new ArrayList<>();
+        tdNamedInsured.add(getNamedInsuredTd("Virat", "Kohli"));
+        tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli").mask(getBtnAddInsuredLabel()));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdNamedInsured));
 
-        navigateToApplicantTab();
-        getApplicantTab().fillTab(tdApplicantTab);
-        getApplicantTab().submitTab();
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
         reorderClueReport();
         navigateToPropertyInfoTab();
+    }
 
+    private TestData getNamedInsuredTd(String fName, String lName) {
+        if (isStateCA()) {
+            return DataProviderFactory.dataOf(
+                    HomeCaMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
+                    HomeCaMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), fName,
+                    HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), lName,
+                    HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
+                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+        }
+        return DataProviderFactory.dataOf(
+                HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
+                HomeCaMetaData.ApplicantTab.NamedInsured.CUSTOMER_SEARCH.getLabel(), DataProviderFactory.emptyData(),
+                HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), fName,
+                HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), lName,
+                HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
+                HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel(), "Married",
+                HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
+                HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
     }
 
     private void removeClaim(){

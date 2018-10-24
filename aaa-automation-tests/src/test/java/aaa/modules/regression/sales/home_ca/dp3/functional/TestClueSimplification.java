@@ -22,6 +22,16 @@ import toolkit.webdriver.controls.composite.table.Table;
 @StateList(states = Constants.States.CA)
 public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
 
+    @Override
+    protected String getBtnAddInsuredLabel() {
+        return HomeCaMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel();
+    }
+
+	@Override
+	protected ReportsTab getReportsTab() {
+		return new ReportsTab();
+	}
+
 	@Override
 	protected ApplicantTab getApplicantTab() {
 		return new ApplicantTab();
