@@ -301,7 +301,9 @@ PAS-16433:
       messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
-    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
+      messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.CancelPolicyTest.*]
       messages: ['Errors: Time out. No session available.']
 PAS-2171:
   summary: "Membership Discount wasn't removed when it should"
@@ -373,3 +375,10 @@ PAS-19445:
     messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
     messages: ["Risks with a property liability limit less than $300,000 are ineligible"]
+PAS-20919:
+  summary: "Regression BCT: Cancel Notice flag is present after accepting payment on total due amount"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.*]
+    messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
+
