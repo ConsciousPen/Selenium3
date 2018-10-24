@@ -11,7 +11,7 @@ CopyFromPolicyActionTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Re-order report'}],
 }
 
 UnderwritingAndApprovalTab: {
