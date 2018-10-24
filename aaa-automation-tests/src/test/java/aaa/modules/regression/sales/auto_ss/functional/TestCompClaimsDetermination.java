@@ -57,7 +57,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	 * 6. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
 	 * 7. Retrieve the pas-admin log file
 	 * 8. Parse Claims Analytics rows from the log
-	 * 9. Verify matchCode values in JSON claim analytics according to Claim Number
+	 * 9. Verify matchCode values in JSON claim analytics according to Claim Number and policyNumber
 	 * 9.1: Claim1 = AnalyticsClaim1 = COMP: COMP/RENTAL/TOWING = 0;
 	 * 9.2: Claim2 = AnalyticsClaim2 = COMP: COMP/RENTAL/TOWING > 0;
 	 * 9.3: Claim3 = AnalyticsClaim3 = COMP: COMP/RENTAL/TOWING >= 0, OTHER COVERAGE = 0;
@@ -109,23 +109,23 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		listOfClaims = pasAdminLogGrabber.retrieveClaimsAnalyticsLogValues(adminLog);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, matchCodeKey)).as("Match Code should be equal to COMP")
-					.isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_2, matchCodeKey)).as("Match Code should be equal to COMP")
-					.isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_3, matchCodeKey)).as("Match Code should be equal to COMP")
-					.isEqualTo("COMP");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_4, matchCodeKey)).as("Match Code should be equal to DL")
-					.isEqualTo("DL");
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, matchCodeKey)).as("Match Code should be equal to DL")
-					.isEqualTo("DL");
+		// Verify Claim Analytic Logs: MATCH CODE according to Claim Number and policyNumber
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, matchCodeKey))
+					.as("Match Code should be equal to COMP").isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_2, policyNumber, matchCodeKey))
+					.as("Match Code should be equal to COMP").isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_3, policyNumber, matchCodeKey))
+					.as("Match Code should be equal to COMP").isEqualTo("COMP");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_4, policyNumber, matchCodeKey))
+					.as("Match Code should be equal to DL").isEqualTo("DL");
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, matchCodeKey))
+					.as("Match Code should be equal to DL").isEqualTo("DL");
 
-		// Verify Claim Analytic Logs: PAS Driver Name according to Claim Number
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, pasDriverNameKey)).as("PAS Driver should be First Named Insured")
-					.isEqualTo(pasFirstNamedInsured);
-			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, pasDriverNameKey)).as("PAS Driver should be 2nd Driver of Policy")
-					.isEqualTo(pas2ndDriver); //BUG PAS-21025 - driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS
+		// Verify Claim Analytic Logs: PAS Driver Name according to Claim Number and policyNumber
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, pasDriverNameKey))
+					.as("PAS Driver should be First Named Insured").isEqualTo(pasFirstNamedInsured);
+			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, pasDriverNameKey))
+					.as("PAS Driver should be 2nd Driver of Policy").isEqualTo(pas2ndDriver); //BUG PAS-21025 - driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS
 
 		});
 	}

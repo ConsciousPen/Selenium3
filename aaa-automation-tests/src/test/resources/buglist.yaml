@@ -404,4 +404,4 @@ PAS-21025:
   reason: PROD
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
-    messages: ["PAS Driver should be added 2nd PAS Driver"]
+    messages: ["PAS Driver should be 2nd Driver of Policy"]

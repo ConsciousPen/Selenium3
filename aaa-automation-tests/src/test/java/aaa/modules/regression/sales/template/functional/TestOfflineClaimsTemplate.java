@@ -179,22 +179,23 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     Method goes though all Claim Analytics items and returns required value according to claimNumber
+     Method goes though all Claim Analytics items and returns required value according to claimNumber and policyNumber
      *
      * @param listOfClaims list Of Claim JSONs as strings;
      * @param claimNumber given claim number
-     * @param key key value which you want to get
+     * @param policyNumber given policy number
+     * @param key key of value which you want to get
      */
-    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String key){
+    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key){
         String claimValue = null;
 
         for (int i=0;i <= listOfClaims.size()-1; i++){
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
-            if (specificClaimData.getString("claimNumber").equals(claimNumber)) {
+            if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
                 claimValue = specificClaimData.getString(key);
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
-                        +claimNumber+" Moving to the next one..");
+                        +claimNumber);
             }
         }
         return claimValue;

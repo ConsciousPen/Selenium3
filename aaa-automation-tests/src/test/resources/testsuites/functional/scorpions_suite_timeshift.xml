@@ -274,4 +274,24 @@
             </class>
         </classes>
     </test>
+
+    <!-- AUTO SS (AZ) Offline Claims Tests -->
+
+    <test name="Offline Claims AUTO SS" >
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination">
+                <methods>
+                    <include name="pas20361_compClaimDeterminationBeforeMS"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
+                <methods>
+                    <include name="PAS14679_DLMatchMore"/>
+                    <include name="PAS8310_nameDOBYOBMatchMore"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
 </suite>
