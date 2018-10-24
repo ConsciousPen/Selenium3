@@ -473,7 +473,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
     private void selectRentalClaimForCA(){
         if(getPolicyType().equals(PolicyType.HOME_CA_DP3)){
-            new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
+            new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
         }
     }
 
