@@ -1,0 +1,41 @@
+TestData_AZ: {
+  DriverTab: '@DriverTab_AZ'
+}
+
+DriverTab_AZ: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  First Name: Curry,
+  Last Name: King,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: '10/17/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  License Type: "Licensed (US)",
+  License State: PA,
+  License Number: 10144434,
+  Age First Licensed: 18
+}
+
+TestData_CA: {
+  DriverTab: '@DriverTab_CA'
+}
+
+DriverTab_CA: {
+  Add Driver: Click,
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: Curry,
+  Last Name: King,
+  Date of Birth: '10/17/1950',
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self Employed,
+  Permit Before License: 'No',
+  License Type: "Licensed (US)",
+  License State: PA,
+  License Number: 10144434,
+  Age First Licensed: 18
+}
