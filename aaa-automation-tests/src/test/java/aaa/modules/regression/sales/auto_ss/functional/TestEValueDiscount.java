@@ -436,7 +436,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 			DocumentsAndBindTab.btnPurchase.click();
-			softly.assertThat(errorTab.getErrorsControl().getTable().getColumn("Message").getValue().toString().contains("'Email' is required")).isTrue();
+			assertThat(documentsAndBindTab.getGeneralInformationAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).getWarning().get()).contains("'Email' is required");
 			//PAS-276 end
 		});
 	}

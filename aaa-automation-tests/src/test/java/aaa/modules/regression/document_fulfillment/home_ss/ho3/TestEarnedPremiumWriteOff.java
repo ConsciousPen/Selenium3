@@ -51,6 +51,7 @@ import toolkit.utils.TestInfo;
 public class TestEarnedPremiumWriteOff extends HomeSSHO3BaseTest {
 	private String policyNumber;
 	private LocalDateTime policyCancellationDate;
+	private LocalDateTime effDate;
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.UT)
@@ -60,7 +61,8 @@ public class TestEarnedPremiumWriteOff extends HomeSSHO3BaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		policyNumber = createPolicy(getPolicyTD().adjust(getTestSpecificTD("TestData")));
-		policyCancellationDate = PolicySummaryPage.getEffectiveDate().plusDays(50);
+		effDate = PolicySummaryPage.getEffectiveDate();
+		policyCancellationDate = getTimePoints().getCancellationDate(effDate);
 
 		TimeSetterUtil.getInstance().nextPhase(policyCancellationDate);
 		mainApp().open();
