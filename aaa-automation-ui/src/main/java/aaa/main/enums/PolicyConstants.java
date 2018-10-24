@@ -196,6 +196,7 @@ public final class PolicyConstants {
 
     public static final class PolicyEndorsementFormsTable {
         public static final String DESCRIPTION = "Description";
+        public static final String TERM_PREMIUM = "Term Premium ($)";
     }
 
     public static final class PolicyPupPropertyInformationTable {
