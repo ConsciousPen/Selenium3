@@ -24,7 +24,6 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -3222,7 +3221,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			mainApp().open();
 
-			String policyNumber = "KYSS952918846"; //getCopiedPolicy(); //TODO-mstrazds:remove
+			String policyNumber = "KYSS952918540"; //getCopiedPolicy(); //TODO-mstrazds:remove
 
 			//TODO-mstrazds:uncomment
 //						TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
@@ -3249,7 +3248,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", true, true);
 			validateADDPIP(softly, mapPIPCoverages, "30000", "$30,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "500", "$500", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate PIP coverages in UI
 			validatePIPInUI_pas19195(softly, mapPIPCoverages);
 
@@ -3266,7 +3265,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);
 			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", false, false);
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", false, false);
-			validateGPIP(softly, mapPIPCoverages, "10000", "$10,000", true);
+			validateGPIP(softly, mapPIPCoverages, "10000", "$10,000");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3277,9 +3276,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			mapPIPCoverages = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", true, true);
-			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);//limit the same as before
-			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true); //limit the same as before
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);
+			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3294,7 +3293,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3307,7 +3306,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "20000", "$20,000", true, true); //TODO-mstrazds:changes only this
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3320,7 +3319,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);//TODO-mstrazds:changes only this
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3333,7 +3332,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);//TODO-mstrazds:changes only this
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3346,7 +3345,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "250", "$250", true, true);//TODO-mstrazds:changes only this
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3359,7 +3358,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);//TODO-mstrazds:changes only this
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3372,7 +3371,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
 			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "1000", "$1,000", true, true);//TODO-mstrazds:changes only this
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
@@ -3387,12 +3386,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", true, true);
 			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);
 			validatePIPDED(softly, mapPIPCoverages, "1000", "$1,000", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 
 			//AC#6: update one or more drivers to be Reject Limit to Sue = No
-			//update BPIP to no coverage
+			//update BPIP to no coverage (this is AC#1 functionality again)
 			updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BPIP", "0");
 			HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
@@ -3404,9 +3403,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			validateTORTPrecondition_pas19195(policyNumber, false);
 			validateBPIP(softly, mapPIPCoverages, "10000", "$10,000", false, false);
-			validateADDPIP(softly, mapPIPCoverages, "40000", "$40,000", true, true);
-			validatePIPDED(softly, mapPIPCoverages, "1000", "$1,000", true, true);
-			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage", false);
+			validateADDPIP(softly, mapPIPCoverages, "0", "No Coverage", true, true);
+			validatePIPDED(softly, mapPIPCoverages, "0", "$0", true, true);
+			validateGPIP(softly, mapPIPCoverages, "0", "No Coverage");
 			//validate view endorsement coverages (the same as update coverages), and PIP Coverages in UI
 			validateViewCoveragesResponseAndUI_pas19195(softly, policyNumber, mapPIPCoverages, updateCoverageResponse);
 		});
@@ -3466,7 +3465,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateBPIP(ETCSCoreSoftAssertions softly, Map<String, Coverage> mapPIPCoverages, String coverageLimit, String coverageLimitDisplay, boolean canChangeCoverage, boolean allDriversHaveTORT) {
 		String coverageCd = "BPIP";
 		coverageXproperties(softly, mapPIPCoverages.get(coverageCd), coverageCd, "Basic Personal Injury Protection Coverage", coverageLimit, coverageLimitDisplay, null, true, canChangeCoverage);
-		//No Coverage for BPIP is available only if all drivers have TORT
 		validateAvailableCoverageLimitForBPIP(softly, mapPIPCoverages.get(coverageCd), allDriversHaveTORT);
 	}
 
@@ -3483,9 +3481,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateAvailableCoverageLimitForPIPDED(mapPIPCoverages.get(coverageCd));
 	}
 
-	private void validateGPIP(ETCSCoreSoftAssertions softly, Map<String, Coverage> mapPIPCoverage, String coverageLimit, String coverageLimitDisplay, boolean customerDisplay) {
+	private void validateGPIP(ETCSCoreSoftAssertions softly, Map<String, Coverage> mapPIPCoverage, String coverageLimit, String coverageLimitDisplay) {
 		String coverageCd = "GPIP";
-		//customerDisplay = "0".equals(mapPIPCoverage.get("BPIP").coverageLimit);//customerDisplay always will be true if BPIP is 0 and false if BPIP is other than 0
+		boolean customerDisplay = "0".equals(mapPIPCoverage.get("BPIP").coverageLimit);//customerDisplay always will be true for GPIP if BPIP is 0 and false if BPIP is other than 0
 		coverageXproperties(softly, mapPIPCoverage.get(coverageCd), coverageCd, "Guest Personal Injury Protection", coverageLimit, coverageLimitDisplay, null, customerDisplay, false);
 		//TODO-mstrazds: how about available limits - preferably they should not be there at all
 	}
