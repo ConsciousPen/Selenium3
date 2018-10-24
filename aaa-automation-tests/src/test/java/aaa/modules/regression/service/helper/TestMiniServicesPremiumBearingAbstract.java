@@ -6,9 +6,11 @@ import static aaa.modules.regression.service.helper.preconditions.TestMiniServic
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.ITestContext;
@@ -1620,6 +1622,67 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(response[0].premiumCode).isEqualTo("GWT");
 			softly.assertThat(new Dollar(response[0].actualAmt)).isEqualTo(new Dollar(actualPremium));
 			softly.assertThat(new Dollar(response[0].termPremium)).isEqualTo(new Dollar(totalPremium));
+		});
+	}
+
+	protected void pas19742ViewPremiumServiceTaxInformationBody() {
+		mainApp().open();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
+
+		PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfTaxInfoIsDisplaying(policyNumber, response);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Ponia", "Jovita", "Puk", "1991-05-03", "");
+		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+		String driverOid = addDriver.oid;
+		DXPRequestFactory.createUpdateDriverRequest("female", "D8571783", 28, "CA", "CH", "MSS");
+
+		HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
+
+		PolicyPremiumInfo[] response2 = HelperCommon.viewEndorsementPremiums(policyNumber);
+		checkIfTaxInfoIsDisplaying(policyNumber, response2);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		PolicyPremiumInfo[] response3 = HelperCommon.viewPolicyPremiums(policyNumber);
+		checkIfTaxInfoIsDisplaying(policyNumber, response);
+	}
+
+	private void checkIfTaxInfoIsDisplaying(String policyNumber, PolicyPremiumInfo[] response){
+
+		String premium = "GWT";
+		String countyTax = "PREMT_COUNTY";
+		String cityTax = "PREMT_CITY";
+		String kyTax = "PRMS_KY";
+
+		PolicyPremiumInfo grossPremium = Arrays.stream(response).filter(policyPremiumInfo -> premium.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicyPremiumInfo county = Arrays.stream(response).filter(policyPremiumInfo -> countyTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicyPremiumInfo city = Arrays.stream(response).filter(policyPremiumInfo -> cityTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicyPremiumInfo kyStateTax = Arrays.stream(response).filter(policyPremiumInfo -> kyTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+
+		assertSoftly(softly -> {
+			softly.assertThat(grossPremium.premiumCode).isEqualTo("GROSS_PREMIUM");
+			softly.assertThat(grossPremium.premiumType).isEqualTo(grossPremium);
+			softly.assertThat(grossPremium.actualAmt).isNotEmpty();
+			softly.assertThat(grossPremium.termPremium).isNotEmpty();
+
+			softly.assertThat(county.premiumCode).isEqualTo("TAX");
+			softly.assertThat(county.premiumType).isEqualTo(countyTax);
+			softly.assertThat(county.actualAmt).isNotEmpty();
+			softly.assertThat(county.termPremium).isNotEmpty();
+
+			softly.assertThat(city.premiumCode).isEqualTo("TAX");
+			softly.assertThat(city.premiumType).isEqualTo(cityTax);
+			softly.assertThat(city.actualAmt).isNotEmpty();
+			softly.assertThat(city.termPremium).isNotEmpty();
+
+			softly.assertThat(kyStateTax.premiumCode).isEqualTo("TAX");
+			softly.assertThat(kyStateTax.premiumType).isEqualTo(kyTax);
+			softly.assertThat(kyStateTax.actualAmt).isNotEmpty();
+			softly.assertThat(kyStateTax.termPremium).isNotEmpty();
 		});
 	}
 
