@@ -273,7 +273,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkTblClaimRowCount(9);
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -286,7 +286,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkTblClaimRowCount(9);
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -299,7 +299,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkTblClaimRowCount(9);
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -314,7 +314,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         checkTblClaimRowCount(9);
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
