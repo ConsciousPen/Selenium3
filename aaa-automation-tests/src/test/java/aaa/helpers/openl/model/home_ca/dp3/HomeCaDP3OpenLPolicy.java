@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.home_ca.dp3;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
@@ -12,12 +13,21 @@ import toolkit.datax.TestData;
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, HomeCaDP3OpenLDwelling> {
 
+	@RequiredField
 	private HomeCaDP3OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaDP3OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaDP3OpenLCoverage> coverages;
 
 	private Integer ageOfOldestInsured;
+
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
 	private Double deductible;
 	private Double frequencyOfDwellingLoss;

@@ -1,11 +1,13 @@
 package aaa.helpers.openl.model.home_ca.dp3;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLDwelling extends HomeCaOpenLDwelling {
+	@RequiredField
 	private Integer ageOfHome;
 	private Boolean brushFireZone;
 	private String burglarAlarmType;
@@ -15,7 +17,11 @@ public class HomeCaDP3OpenLDwelling extends HomeCaOpenLDwelling {
 	private Boolean hasSprinklers;
 	private Boolean hasWoodStove;
 	private Boolean isGatedCommunity;
+
+	@RequiredField
 	private Integer numOfFamilies;
+
+	@RequiredField
 	private Integer numOfLivestock;
 	private String roofType;
 	private String swimmingPoolType;

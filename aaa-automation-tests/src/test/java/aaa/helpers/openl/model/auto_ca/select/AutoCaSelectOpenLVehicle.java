@@ -3,6 +3,7 @@ package aaa.helpers.openl.model.auto_ca.select;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
@@ -11,9 +12,14 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 
+	@RequiredField
 	private List<AutoCaSelectOpenLCoverage> coverages;
+
 	private List<AutoCaSelectOpenLCoverage> optionalCoverages;
+
+	@RequiredField
 	private AutoCaSelectOpenLDriver primaryDriver;
+
 	private AutoCaSelectOpenLDriver manuallyAssignedDriver;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
@@ -30,6 +36,8 @@ public class AutoCaSelectOpenLVehicle extends OpenLVehicle {
 	private Boolean newCarProtection;
 	private Boolean oemCoverage;
 	private Boolean rideShareCov;
+
+	@RequiredField
 	private Integer vehicleAge;
 	private Boolean manuallyAssignedUndesignatedDriverInd;
 
