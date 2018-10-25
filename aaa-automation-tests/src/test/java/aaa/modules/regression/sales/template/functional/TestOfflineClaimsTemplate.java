@@ -169,7 +169,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      */
     protected String downloadPasAdminLog() {
         String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
-        List<String> adminLogFiles = RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
+        RemoteHelper.get().getListOfFiles(pasAdminLogFolder);
         RemoteHelper.get().downloadFile("wrapper.log", PAS_ADMIN_LOG_PATH);
         File pasAdminLogFile = new File(PAS_ADMIN_LOG_PATH + File.separator + "wrapper.log");
         assertThat(pasAdminLogFile).exists().isFile().canRead().isAbsolute();
