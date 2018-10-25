@@ -415,8 +415,8 @@ AgentInfo_CT: {
 
 ReportsTab_CT: {
   Sales Agent Agreement: 'I Agree',
-  #AAAMembershipReport: [{Report: 'Order report'}],
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -486,8 +486,8 @@ AgentInfo_DC: {
 
 ReportsTab_DC: {
   Sales Agent Agreement: 'I Agree',
-  #AAAMembershipReport: [{Report: 'Order report'}],
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -550,7 +550,7 @@ AgentInfo_DE: {
 
 ReportsTab_DE: {
   Sales Agent Agreement: 'I Agree',
-  #AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -686,7 +686,7 @@ AgentInfo_IN: {
 
 ReportsTab_IN: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -796,7 +796,7 @@ AgentInfo_KS: {
 
 ReportsTab_KS: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -907,7 +907,7 @@ OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_KY:  {
 
 ReportsTab_KY: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1034,7 +1034,7 @@ AgentInfo_MD: {
 
 ReportsTab_MD: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   #InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
@@ -1106,7 +1106,7 @@ AgentInfo_MT: {
 
 ReportsTab_MT: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1169,7 +1169,7 @@ AgentInfo_NJ: {
 
 ReportsTab_NJ: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   #FirelineReport: [{Report: 'Order Report'}],
@@ -1296,7 +1296,7 @@ AgentInfo_NY: {
 
 ReportsTab_NY: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1378,7 +1378,7 @@ AgentInfo_OH: {
 
 ReportsTab_OH: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1487,7 +1487,7 @@ AgentInfo_OK: {
 
 ReportsTab_OK: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1654,7 +1654,7 @@ AgentInfo_PA: {
 
 ReportsTab_PA: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1718,7 +1718,7 @@ AgentInfo_SD: {
 
 ReportsTab_SD: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1809,7 +1809,7 @@ AgentInfo_VA: {
 
 ReportsTab_VA: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
@@ -1873,7 +1873,7 @@ AgentInfo_WV: {
 
 ReportsTab_WV: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -1964,7 +1964,7 @@ AgentInfo_WY: {
 
 ReportsTab_WY: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Re-order report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],

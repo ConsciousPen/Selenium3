@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.home_ss;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -7,41 +8,85 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.DISCOUNT_INFORMATION_SHEET_NAME, headerRowIndex = OpenLFile.DISCOUNT_INFORMATION_HEADER_ROW_NUMBER)
 public class OpenLDiscountInformation {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
+	@RequiredField
 	private Integer autoInsPersistency;
 	private String discountByAutoGroup;
+
+	@RequiredField
 	private String fireAlarmType;
+
+	@RequiredField
 	private Boolean greenHomeDiscApplicability;
+
+	@RequiredField
 	private Integer homeInsPersistency;
 	private String installmentType;
+
+	@RequiredField
 	private Boolean isAAAEmployee;
+
+	@RequiredField
 	private Boolean isAMIGMotorPolicyInd;
+
+	@RequiredField
 	private Boolean isAMIGWatercraftPolicyInd;
+
+	@RequiredField
 	private Boolean isAutoPolicyInd;
 	private Boolean isCEQPolicyInd;
+
+	@RequiredField
 	private Boolean isCurrAAAMember;
+
+	@RequiredField
 	private Boolean isDP3PolicyInd;
+
+	@RequiredField
 	private Boolean isLifePolicyInd;
+
+	@RequiredField
 	private Boolean isPUPPolicyInd;
+
+	@RequiredField
 	private Boolean isPrivateCommunity;
+
+	@RequiredField
 	private Boolean isUnderlyingRenterPolicy;
 	private Boolean isLightningProtected;
+
+	@RequiredField
 	private Integer memberPersistency;
 	private Integer noOfConsecutiveYrs;
+
+	@RequiredField
 	private Integer noOfYrsSinceLoanInception;
+
+	@RequiredField
 	private String paymentPlan;
+
+	@RequiredField
 	private Boolean proofCentralFireAlarm;
+
+	@RequiredField
 	private Boolean proofCentralTheftAlarm;
 	private Boolean proofOfGreenHome;
 	private Boolean proofOfPEHCR;
+
+	@RequiredField
 	private Boolean proofOfTenant;
 	private String rentalPropertyMgr;
 	private String sprinklerType;
+
+	@RequiredField
 	private String theftAlarmType;
 	private Integer timeSinceRenovElectrical;
 	private Integer timeSinceRenovHeatOrCooling;
 	private Integer timeSinceRenovPlumbing;
+
+	@RequiredField
 	private Integer timeSinceRenovRoof;
 	private String windStorm;
 
