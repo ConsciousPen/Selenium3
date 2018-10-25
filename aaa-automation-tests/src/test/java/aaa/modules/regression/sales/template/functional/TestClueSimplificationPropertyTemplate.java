@@ -14,6 +14,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
@@ -31,6 +32,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected abstract void navigateToApplicantTab();
     protected abstract RadioGroup getClaimChargeableAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
+    protected abstract ComboBox getClaimSourceAsset();
     protected abstract String getBtnAddInsuredLabel();
     protected abstract void reorderClueReport();
 
@@ -327,7 +329,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         createCustomerWithClaimHistory("MARSHA", "LACKEY");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
-        checkTblClaimRowCount(1);
+        assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
 
     }
 

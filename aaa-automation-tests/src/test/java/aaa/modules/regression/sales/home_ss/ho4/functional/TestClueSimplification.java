@@ -15,12 +15,18 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
+
+    @Override
+    protected ComboBox getClaimSourceAsset() {
+        return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.SOURCE);
+    }
 
     @Override
     protected String getBtnAddInsuredLabel() {
