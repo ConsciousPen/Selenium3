@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 
@@ -45,6 +48,9 @@ public abstract class Workspace {
 		for (Tab t : tabs.values()) {
 			if (td.containsKey(t.getMetaKey())) {
 				t.fillTab(td);
+				if (t.getMetaKey().contains(HomeSSMetaData.ApplicantTab.class.getSimpleName())) {
+					System.out.println();
+				}
 				t.submitTab();
 			}
 		}

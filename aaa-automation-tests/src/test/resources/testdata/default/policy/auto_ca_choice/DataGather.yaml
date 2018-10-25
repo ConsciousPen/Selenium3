@@ -65,7 +65,7 @@ DriverTab: {
 }
 
 MembershipTab: {
-  #Customer Agreement: Customer Agrees,
+  #Customer Agreement: Customer Agrees,A
   #Sales Agent Agreement: I Agree,
   Order Report: click
 }
