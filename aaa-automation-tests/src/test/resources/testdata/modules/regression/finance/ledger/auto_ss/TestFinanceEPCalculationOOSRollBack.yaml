@@ -6,7 +6,7 @@ TestData_Endorsement1: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$500,000',
-    Underinsured Motorist Bodily Injury: 'contains=$500,000'
+    Underinsured Motorists Bodily Injury: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
@@ -22,13 +22,13 @@ TestData_Endorsement2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$100,000/$300,000',
-    Underinsured Motorist Bodily Injury: 'contains=No Coverage',
+    Underinsured Motorists Bodily Injury: 'contains=No Coverage',
     Comprehensive Deductible: 'contains=$500',
   },
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: {
     RequiredToBind: {
-      Coverage Acceptance Statement: Physically Signed,
+      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
     },
   }
 }

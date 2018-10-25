@@ -25,7 +25,7 @@ public class Claim {
     private String drivingLicenseNumber;
     private String drivingLicenseState;
     private String driverAgeAsOfDateOfLoss;
-    private String driverDateOfBirth;
+    private String driverDateofBirth;
     private String driverRelationToInsured;
     private String vehicleSerialNumber;
     private String vehicleBodyType;
@@ -195,12 +195,12 @@ public class Claim {
         this.driverAgeAsOfDateOfLoss = driverAgeAsOfDateOfLoss;
     }
 
-    public String getDriverDateOfBirth() {
-        return driverDateOfBirth;
+    public String getDriverDateofBirth() {
+        return driverDateofBirth;
     }
 
-    public void setDriverDateOfBirth(String driverDateOfBirth) {
-        this.driverDateOfBirth = driverDateOfBirth;
+    public void setDriverDateofBirth(String driverDateofBirth) {
+        this.driverDateofBirth = driverDateofBirth;
     }
 
     public String getDriverRelationToInsured() {
@@ -282,7 +282,7 @@ public class Claim {
                 ", drivingLicenseNumber='" + drivingLicenseNumber + '\'' +
                 ", drivingLicenseState='" + drivingLicenseState + '\'' +
                 ", driverAgeAsOfDateOfLoss='" + driverAgeAsOfDateOfLoss + '\'' +
-                ", driverDateOfBirth='" + driverDateOfBirth + '\'' +
+                ", driverDateofBirth='" + driverDateofBirth + '\'' +
                 ", driverRelationToInsured='" + driverRelationToInsured + '\'' +
                 ", vehicleSerialNumber='" + vehicleSerialNumber + '\'' +
                 ", vehicleBodyType='" + vehicleBodyType + '\'' +

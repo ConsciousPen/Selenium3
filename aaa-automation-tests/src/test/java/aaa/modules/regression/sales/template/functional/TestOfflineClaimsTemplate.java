@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.template.functional;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 
@@ -46,6 +49,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd_hhmmss");
 
+    protected TestData adjusted;
+    protected LocalDateTime policyExpirationDate;
+    protected String policyNumber;
+
     @BeforeTest
     public void prepare() {
         try {
@@ -57,6 +64,55 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             throw new IllegalStateException("Can't delete directories " + CAS_RESPONSE_PATH + " "
                     + CAS_REQUEST_PATH, e);
         }
+    }
+
+    public String createPolicyMultiDrivers() {
+        TestData testData = getPolicyTD();
+        List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
+        testDataDriverData.add(testData.getTestData("DriverTab"));
+        testDataDriverData.addAll(getTestSpecificTD("TestData_DriverTab_OfflineClaim").resolveLinks().getTestDataList("DriverTab"));
+        adjusted = testData.adjust("DriverTab", testDataDriverData);
+
+        // Create Customer and Policy with 4 drivers
+        mainApp().open();
+        createCustomerIndividual();
+        policy.createPolicy(adjusted);
+
+        policyNumber = labelPolicyNumber.getValue();
+
+        mainApp().close();
+        return policyNumber;
+    }
+
+    // Move to R-63, run batch job part 1 and offline claims batch job
+    public void runRenewalClaimOrderJob() {
+        policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
+        LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
+        assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+    }
+
+    public void generateClaimRequest() {
+        // Download the claim request
+        File claimRequestFile = downloadClaimRequest();
+
+        //PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain DL
+        List<String> driverLicenseList = getDriverLicences(adjusted);
+        String content = contentOf(claimRequestFile, Charset.defaultCharset());
+        assertThat(content)
+                .contains("ClaimBatchRequest")
+                .contains(policyNumber)
+                .endsWith("ClaimBatchRequest>");
+        driverLicenseList.forEach(l -> assertThat(content).doesNotContain(l));
+    }
+
+    // Move to R-46 and run batch job part 2 and offline claims receive batch job
+    public void runRenewalClaimReceiveJob() {
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
     }
 
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
@@ -110,7 +166,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
         File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
             setPolicyNumber(policyNumber, response);
-            updateDriverLicence(claimToDriverLicence, response);
+            if (claimToDriverLicence != null) updateDriverLicence(claimToDriverLicence, response);
         });
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
