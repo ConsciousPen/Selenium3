@@ -1474,8 +1474,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas14648_MedpmDelimiter(PolicyType policyType) {
 		mainApp().open();
-		String policyNumber = "KYSS952918830";//getCopiedPolicy();
-		SearchPage.openPolicy(policyNumber);
+		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
