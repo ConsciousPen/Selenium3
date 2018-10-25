@@ -6,7 +6,10 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
+
 import java.time.LocalDateTime;
 
 public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
@@ -109,6 +112,9 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         //DEBUGBREAKPOINT MANUALLY MAKE PAYMENT IN UI.
         SearchPage.openBilling(_policyNumber);
         new BillingAccount().generateFutureStatement().perform();
+        TestData check_payment = testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check");
+        new BillingAccount().acceptPayment().perform(check_payment, new Dollar(200));
+
         mainApp().close();
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
