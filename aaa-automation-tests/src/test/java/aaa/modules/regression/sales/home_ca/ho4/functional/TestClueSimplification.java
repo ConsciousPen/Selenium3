@@ -383,4 +383,37 @@ public class TestClueSimplification extends TestClueSimplificationPropertyTempla
 		pas6695_testClueClaimsReconciliationRewrite();
 
 	}
+
+    /**
+     * @author Josh Carpenter
+     * @name Test chargeable CLUE claim mapping specifically when NI is claimant only in subject classification (not insured)
+     * @scenario
+     * 1. Create policy with customer "Agustin Miras"
+     * 2. Fill up to Property Info Tab
+     * 3. Validate no claims are showing
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6695")
+    public void pas6695_testClueReconciliationClaimantOnly(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationClaimantOnly();
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test chargeable CLUE claim mapping specifically when NI is insured only in subject classification (not claimant)
+     * @scenario
+     * 1. Create policy with customer "MARSHA LACKEY"
+     * 2. Fill up to Property Info Tab
+     * 3. Validate one claim is showing
+     **/
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6695")
+    public void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant(@Optional("") String state) {
+        pas6695_testClueClaimsReconciliationInsuredAndNotClaimant();
+
+    }
+
 }

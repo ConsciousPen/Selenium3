@@ -261,7 +261,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("Silvia", "Kohli")));
 
-        createCustomerWithClaimHistory();
+        createCustomerWithClaimHistory("Virat", "Kohli");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
@@ -315,6 +315,20 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
+        createCustomerWithClaimHistory("Agustin", "Miras");
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
+        checkTblClaimRowCount(0);
+
+    }
+
+    protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
+        createCustomerWithClaimHistory("MARSHA", "LACKEY");
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
+        checkTblClaimRowCount(1);
 
     }
 
@@ -477,10 +491,10 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         }
     }
 
-    private void createCustomerWithClaimHistory() {
+    private void createCustomerWithClaimHistory(String fName, String lName) {
         TestData td = getCustomerIndividualTD("DataGather", "TestData")
-                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "Virat")
-                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "Kohli");
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), fName)
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), lName);
 
         mainApp().open();
         createCustomerIndividual(td);
