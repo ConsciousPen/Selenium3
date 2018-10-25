@@ -1,16 +1,21 @@
 package aaa.helpers.openl.model.pup;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = PUPOpenLFile.PUP_DWELLING_SHEET_NAME, headerRowIndex = PUPOpenLFile.DWELLING_HEADER_ROW_NUMBER)
-public class OpenLDwelling {
+public class PUPOpenLDwelling {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
+	@RequiredField
 	private PUPOpenLAddress address;
-	private OpenLRecEquipmentInfo recEquipmentInfo;
+
+	@RequiredField
+	private PUPOpenLRecEquipmentInfo recEquipmentInfo;
 
 	private Integer firearmsCount;
 	private Boolean retirementCommunityInd;
@@ -32,11 +37,11 @@ public class OpenLDwelling {
 		this.address = address;
 	}
 
-	public OpenLRecEquipmentInfo getRecEquipmentInfo() {
+	public PUPOpenLRecEquipmentInfo getRecEquipmentInfo() {
 		return recEquipmentInfo;
 	}
 
-	public void setRecEquipmentInfo(OpenLRecEquipmentInfo recEquipmentInfo) {
+	public void setRecEquipmentInfo(PUPOpenLRecEquipmentInfo recEquipmentInfo) {
 		this.recEquipmentInfo = recEquipmentInfo;
 	}
 
