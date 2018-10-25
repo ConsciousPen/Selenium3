@@ -39,4 +39,93 @@ public class Coverage {
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	public List<String> currentlyAddedDrivers;
 
+	public String getCoverageCd() {
+		return coverageCd;
+	}
+
+	public Coverage setCoverageCd(String coverageCd) {
+		this.coverageCd = coverageCd;
+		return this;
+	}
+
+	public String getCoverageDescription() {
+		return coverageDescription;
+	}
+
+	public Coverage setCoverageDescription(String coverageDescription) {
+		this.coverageDescription = coverageDescription;
+		return this;
+	}
+
+	public String getCoverageLimit() {
+		return coverageLimit;
+	}
+
+	public Coverage setCoverageLimit(String coverageLimit) {
+		this.coverageLimit = coverageLimit;
+		return this;
+	}
+
+	public String getCoverageLimitDisplay() {
+		return coverageLimitDisplay;
+	}
+
+	public Coverage setCoverageLimitDisplay(String coverageLimitDisplay) {
+		this.coverageLimitDisplay = coverageLimitDisplay;
+		return this;
+	}
+
+	public String getCoverageType() {
+		return coverageType;
+	}
+
+	public Coverage setCoverageType(String coverageType) {
+		this.coverageType = coverageType;
+		return this;
+	}
+
+	public Boolean getCustomerDisplayed() {
+		return customerDisplayed;
+	}
+
+	public Coverage setCustomerDisplayed(Boolean customerDisplayed) {
+		this.customerDisplayed = customerDisplayed;
+		return this;
+	}
+
+	public Boolean getCanChangeCoverage() {
+		return canChangeCoverage;
+	}
+
+	public Coverage setCanChangeCoverage(Boolean canChangeCoverage) {
+		this.canChangeCoverage = canChangeCoverage;
+		return this;
+	}
+
+	public List<CoverageLimit> getAvailableLimits() {
+		return availableLimits;
+	}
+
+	public Coverage setAvailableLimits(List<CoverageLimit> availableLimits) {
+		this.availableLimits = availableLimits;
+		return this;
+	}
+
+	public List<String> getAvailableDrivers() {
+		return availableDrivers;
+	}
+
+	public Coverage setAvailableDrivers(List<String> availableDrivers) {
+		this.availableDrivers = availableDrivers;
+		return this;
+	}
+
+	public List<String> getCurrentlyAddedDrivers() {
+		return currentlyAddedDrivers;
+	}
+
+	public Coverage setCurrentlyAddedDrivers(List<String> currentlyAddedDrivers) {
+		this.currentlyAddedDrivers = currentlyAddedDrivers;
+		return this;
+	}
 }
