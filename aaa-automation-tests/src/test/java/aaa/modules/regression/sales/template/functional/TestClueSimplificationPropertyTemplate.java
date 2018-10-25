@@ -278,7 +278,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected void pas6695_testClueClaimsReconciliationEndorsement() {
         openAppAndCreatePolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -292,7 +291,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected void pas6695_testClueClaimsReconciliationRenewal() {
         openAppAndCreatePolicy();
         policy.renew().perform();
-        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -307,7 +305,6 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         openAppAndCreatePolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
-        navigateToApplicantTab();
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695
@@ -320,6 +317,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
     protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
         createCustomerWithClaimHistory("Agustin", "Miras");
+        policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         checkTblClaimRowCount(0);
 
@@ -327,6 +325,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
     protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
         createCustomerWithClaimHistory("MARSHA", "LACKEY");
+        policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         checkTblClaimRowCount(1);
 
@@ -388,6 +387,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdNamedInsured));
 
+        navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         reorderClueReport();
         navigateToPropertyInfoTab();
