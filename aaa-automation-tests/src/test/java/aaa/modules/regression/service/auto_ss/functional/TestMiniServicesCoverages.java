@@ -731,8 +731,8 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.KY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19195", "PAS-19194"})
-	public void pas19195_viewUpdatePIPCoverage(@Optional("KY") String state) {
-		pas19195_viewUpdatePIPCoverageBody();
+	public void pas19195_viewUpdatePIPCoverage_KY(@Optional("KY") String state) {
+		pas19195_viewUpdatePIPCoverageKYBody();
 	}
 
 }

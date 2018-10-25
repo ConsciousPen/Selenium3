@@ -21,6 +21,7 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -3212,29 +3213,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 	}
 
-	protected void pas19195_viewUpdatePIPCoverageBody() {
+	protected void pas19195_viewUpdatePIPCoverageKYBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
 
-			String policyNumber = "KYSS952918540"; //getCopiedPolicy(); //TODO-mstrazds:remove
+			TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+			TestData td = getPolicyDefaultTD();
+			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_4drivers").getTestDataList("DriverTab"))
+					.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 
-			//TODO-mstrazds:uncomment
-//						TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
-//						TestData td = getPolicyDefaultTD();
-//						td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_4drivers").getTestDataList("DriverTab"))
-//								.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
-//
-//						td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
-//								, AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$10,000")
-//								.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
-//										, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$30,000")
-//								.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
-//										, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()), "contains=$500");
-//
-//						createCustomerIndividual();
-//						String policyNumber = createPolicy(td);
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+					, AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$10,000")
+					.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+							, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$30,000")
+					.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+							, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()), "contains=$500");
 
-			SearchPage.openPolicy(policyNumber);//TODO-mstrazds:remove
+			createCustomerIndividual();
+			String policyNumber = createPolicy(td);
 
 			Coverage coverageBPIPExpected = new Coverage().setCoverageCd("BPIP")
 					.setCoverageDescription("Basic Personal Injury Protection Coverage")

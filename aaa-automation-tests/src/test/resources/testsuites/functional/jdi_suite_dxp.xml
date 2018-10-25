@@ -755,4 +755,14 @@
             </class>
         </classes>
     </test>
+    <test name="pas19195_viewUpdatePIPCoverage_KY">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
