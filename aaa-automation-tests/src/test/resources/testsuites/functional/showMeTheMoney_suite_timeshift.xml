@@ -33,4 +33,10 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
         </classes>
     </test>
+    <test name="PAS-20300 Earned Premium Calculation Changes - Flag Transactions" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
+        </classes>
+    </test>
 </suite>

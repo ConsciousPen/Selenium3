@@ -86,7 +86,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	 * @name Create Endorsement with specific TestDate and Effective date
 	 */
 	protected void createEndorsement(LocalDateTime effectiveDate, String testDataName) {
-		policy.endorse().performAndFill(getTestSpecificTD(testDataName)
+		policy.createEndorsement(getTestSpecificTD(testDataName)
 				.adjust(getPolicyTD("Endorsement", "TestData")).resolveLinks()
 				.adjust("EndorsementActionTab|Endorsement Date",
 						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
