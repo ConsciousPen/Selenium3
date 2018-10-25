@@ -28,7 +28,7 @@ GeneralTab: {
 
 ReportsTab: {
     Sales Agent Agreement: 'I Agree',
-    AAAMembershipReport: [{Report: 'Re-order report'}],
+    AAAMembershipReport: [{Report: 'Order report'}],
     PublicProtectionClass: [{Report: 'Order Report'}],
     CLUEreport: [{Report: 'Order report'}],
 }
