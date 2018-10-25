@@ -44,10 +44,10 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     }
 
     @Parameters({"state"})
-    @StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ})
+	@StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
-    public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("AZ") String state) {
+	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("NJ") String state) {
 
         mainApp().open();
         createCustomerIndividual();
