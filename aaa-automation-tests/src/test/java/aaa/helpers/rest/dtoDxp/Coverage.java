@@ -1,6 +1,7 @@
 package aaa.helpers.rest.dtoDxp;
 
 import java.util.List;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -122,6 +123,32 @@ public class Coverage {
 
 	public List<String> getCurrentlyAddedDrivers() {
 		return currentlyAddedDrivers;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Coverage coverage = (Coverage) o;
+		return Objects.equals(coverageCd, coverage.coverageCd) &&
+				Objects.equals(coverageDescription, coverage.coverageDescription) &&
+				Objects.equals(coverageLimit, coverage.coverageLimit) &&
+				Objects.equals(coverageLimitDisplay, coverage.coverageLimitDisplay) &&
+				Objects.equals(coverageType, coverage.coverageType) &&
+				Objects.equals(customerDisplayed, coverage.customerDisplayed) &&
+				Objects.equals(canChangeCoverage, coverage.canChangeCoverage) &&
+				Objects.equals(availableLimits, coverage.availableLimits) &&
+				Objects.equals(availableDrivers, coverage.availableDrivers) &&
+				Objects.equals(currentlyAddedDrivers, coverage.currentlyAddedDrivers);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(coverageCd, coverageDescription, coverageLimit, coverageLimitDisplay, coverageType, customerDisplayed, canChangeCoverage, availableLimits, availableDrivers, currentlyAddedDrivers);
 	}
 
 	public Coverage setCurrentlyAddedDrivers(List<String> currentlyAddedDrivers) {

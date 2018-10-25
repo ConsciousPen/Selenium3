@@ -1,15 +1,28 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import javax.ws.rs.core.Response;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.rest.dtoDxp.Coverage;
+import aaa.helpers.rest.dtoDxp.PolicyCoverageInfo;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
+import toolkit.datax.DataProviderFactory;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
@@ -732,7 +745,184 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19195", "PAS-19194"})
 	public void pas19195_viewUpdatePIPCoverage_KY(@Optional("KY") String state) {
-		pas19195_viewUpdatePIPCoverageKYBody();
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData td = getPolicyDefaultTD();
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_4drivers").getTestDataList("DriverTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+				, AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$10,000")
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+						, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$30,000")
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+						, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()), "contains=$500");
+
+			String policyNumber = openAppAndCreatePolicy(td);
+
+			Coverage coverageBPIPExpected = new Coverage().setCoverageCd("BPIP")
+				.setCoverageDescription("Basic Personal Injury Protection Coverage")
+					.setCoverageLimit("10000")
+					.setCoverageLimitDisplay("$10,000")
+					.setCustomerDisplayed(true)
+					.setCanChangeCoverage(true)
+					.setAvailableLimits(getBPIPAvailableLimitsExpected(true));//TODO-mstrazds add build
+
+			Coverage coverageADDPIPExpected = new Coverage().setCoverageCd("ADDPIP")
+					.setCoverageDescription("Additional Personal Injury Protection Coverage")
+					.setCoverageLimit("30000")
+					.setCoverageLimitDisplay("$30,000")
+					.setCustomerDisplayed(true)
+					.setCanChangeCoverage(true)
+					.setAvailableLimits(getADDPIPAvailableLimitsExpected());
+
+			Coverage coveragePIPDEDExpected = new Coverage().setCoverageCd("PIPDED")
+					.setCoverageDescription("Personal Injury Protection Deductible")
+					.setCoverageLimit("500")
+					.setCoverageLimitDisplay("$500")
+					.setCustomerDisplayed(true)
+					.setCanChangeCoverage(true)
+					.setAvailableLimits(getPIPDEDAvailableLimitsExpected());
+
+			Coverage coverageGPIPExpected = new Coverage().setCoverageCd("GPIP")
+					.setCoverageDescription("Guest Personal Injury Protection")
+					.setCoverageLimit("0")
+					.setCoverageLimitDisplay("No Coverage")
+					.setCustomerDisplayed(false)
+					.setCanChangeCoverage(false);
+
+			Map<String, Coverage> mapPIPCoveragesExpected = new LinkedHashMap<>();
+			mapPIPCoveragesExpected.put("BPIP", coverageBPIPExpected);
+			mapPIPCoveragesExpected.put("ADDPIP", coverageADDPIPExpected);
+			mapPIPCoveragesExpected.put("PIPDED", coveragePIPDEDExpected);
+			mapPIPCoveragesExpected.put("GPIP", coverageGPIPExpected);
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			//validate view endorsement coverages
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			assertSoftly(softly -> {
+
+			Map<String, Coverage> mapPIPCoveragesActual = getPIPCoverages(viewEndorsementCoverages.policyCoverages);
+
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, null);
+
+			//get drivers with TORT coverage available
+			String driverWithTORTOid1 = getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").availableDrivers.get(0);
+			String driverWithTORTOid2 = getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").availableDrivers.get(1);
+			assertThat(getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").availableDrivers.size()).as("In this test only 2 drivers are expected to have TORT available.").isEqualTo(2);
+
+			//AC#1: update Basic PIP to No Coverage
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, "BPIP", "0");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageBPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCanChangeCoverage(true);
+			coverageADDPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(false).setCanChangeCoverage(false);
+			coveragePIPDEDExpected.setCoverageLimit("0").setCoverageLimitDisplay("$0").setCustomerDisplayed(false).setCanChangeCoverage(false);
+			coverageGPIPExpected.setCoverageLimit("10000").setCoverageLimitDisplay("$10,000").setCustomerDisplayed(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#2: update Basic PIP to $10,000
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateCoverage(policyNumber, "BPIP", "10000");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageBPIPExpected.setCoverageLimit("10000").setCoverageLimitDisplay("$10,000").setCanChangeCoverage(true);//customerDisplay always true
+			coverageADDPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coveragePIPDEDExpected.setCoverageLimit("0").setCoverageLimitDisplay("$0").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coverageGPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(false);//canChangeCoverage always false
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#5: update one or more drivers to be Reject Limit to Sue = No
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid2));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			//PIP doesn't change
+			coverageBPIPExpected.setCoverageLimit("10000").setCoverageLimitDisplay("$10,000").setCanChangeCoverage(false).setAvailableLimits(getBPIPAvailableLimitsExpected(false));
+			coverageADDPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coveragePIPDEDExpected.setCoverageLimit("0").setCoverageLimitDisplay("$0").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coverageGPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(false);
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#3: validate update endorsement coverages (ADDPIP) to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "20000");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageADDPIPExpected.setCoverageLimit("20000").setCoverageLimitDisplay("$20,000").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to to 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "0");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageADDPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "ADDPIP", "40000");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageADDPIPExpected.setCoverageLimit("40000").setCoverageLimitDisplay("$40,000").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#3: validate update endorsement coverages (PIPDED) to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "250");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coveragePIPDEDExpected.setCoverageLimit("250").setCoverageLimitDisplay("$250").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "0");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coveragePIPDEDExpected.setCoverageLimit("0").setCoverageLimitDisplay("$0").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, "PIPDED", "1000");
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coveragePIPDEDExpected.setCoverageLimit("1000").setCoverageLimitDisplay("$1,000").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#4: update all drivers to be Reject Limit to Sue = YES
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1, driverWithTORTOid2));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			//values stays the same as above
+			coverageBPIPExpected.setCoverageLimit("10000").setCoverageLimitDisplay("$10,000").setCanChangeCoverage(true).setAvailableLimits(getBPIPAvailableLimitsExpected(true));
+			coverageGPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(false);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#6: update one or more drivers to be Reject Limit to Sue = No
+			//update BPIP to no coverage (this is AC#1 functionality again)
+			updateCoverage(policyNumber, "BPIP", "0");
+
+			//update one or more drivers to be Reject Limit to Sue = No
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			coverageBPIPExpected.setCoverageLimit("10000").setCoverageLimitDisplay("$10,000").setCanChangeCoverage(false).setAvailableLimits(getBPIPAvailableLimitsExpected(false));
+			coverageADDPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coveragePIPDEDExpected.setCoverageLimit("0").setCoverageLimitDisplay("$0").setCustomerDisplayed(true).setCanChangeCoverage(true);
+			coverageGPIPExpected.setCoverageLimit("0").setCoverageLimitDisplay("No Coverage").setCustomerDisplayed(false);
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, updateCoverageResponse);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+
+		});
 	}
 
 }
