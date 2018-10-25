@@ -3395,7 +3395,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validatePIPCoverages_KY(ETCSCoreSoftAssertions softly, String policyNumber, Map<String, Coverage> mapPIPCoveragesExpected, Map<String, Coverage> mapPIPCoveragesActual, PolicyCoverageInfo updateCoverageResponse) {
 		for (Map.Entry<String, Coverage> stringCoverageEntry : mapPIPCoveragesExpected.entrySet()) {
-			assertThat(mapPIPCoveragesActual.get(stringCoverageEntry.getKey())).isEqualToIgnoringNullFields(stringCoverageEntry.getValue());
+			softly.assertThat(mapPIPCoveragesActual.get(stringCoverageEntry.getKey())).isEqualToIgnoringNullFields(stringCoverageEntry.getValue());
 		}
 		if (updateCoverageResponse != null) {
 			//validate that viewEndorsementCoverages is the same as updateCoverages response
@@ -3444,7 +3444,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policy.quoteInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
-		assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
 				.isEqualTo(mapPIPCoverages.get("BPIP").coverageLimitDisplay);
 
 		//check that if BPIP is No Coverage, then ADDPIP and PIPDED is not displayed in UI
