@@ -82,8 +82,8 @@ AgentInfo: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-   AAAMembershipReport: [{Report: 'Order report'}],
-  #AAAMembershipReport: [{Report: 'Re-order report'}],
+  #AAAMembershipReport: [{Report: 'Order report'}],
+  AAAMembershipReport: [{Report: 'Re-order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]
