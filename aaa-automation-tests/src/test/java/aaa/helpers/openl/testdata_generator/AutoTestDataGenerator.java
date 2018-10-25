@@ -4,8 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
@@ -98,6 +96,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPrivatePassengerAutoType(String statCode) {
+		if (statCode.matches("^BI\\d{3}$")) {
+			return true;
+		}
 		List<String> codes = new ArrayList<>(Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ"));
 		return codes.contains(statCode);
 	}
@@ -522,12 +523,5 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getDbAntitheftCode(String openlAntiTheftString) {
 		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
-	}
-
-	String covertToValidVin(String vin) {
-		if (StringUtils.isBlank(vin)) {
-			return null;
-		}
-		return vin.replaceAll("&", RandomStringUtils.randomNumeric(1)) + RandomStringUtils.randomNumeric(7);
 	}
 }
