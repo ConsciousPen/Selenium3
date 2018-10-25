@@ -1,8 +1,8 @@
-TestData_AZ: {
-  DriverTab: '@DriverTab_AZ'
+TestData_SS: {
+  DriverTab: '@DriverTab_SS'
 }
 
-DriverTab_AZ: {
+DriverTab_SS: {
   Add Driver: Click,
   DriverSearchDialog: {},
   First Name: Curry,
@@ -13,7 +13,7 @@ DriverTab_AZ: {
   Marital Status: Single,
   Occupation: Self-Employed,
   License Type: "Licensed (US)",
-  License State: PA,
+  License State: AZ,
   License Number: 10144434,
   Age First Licensed: 18
 }
@@ -35,7 +35,7 @@ DriverTab_CA: {
   Occupation: Self Employed,
   Permit Before License: 'No',
   License Type: "Licensed (US)",
-  License State: PA,
+  License State: CA,
   License Number: 10144434,
   Age First Licensed: 18
 }

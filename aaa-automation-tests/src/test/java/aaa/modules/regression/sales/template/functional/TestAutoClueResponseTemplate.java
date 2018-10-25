@@ -5,10 +5,9 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.*;
-import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.modules.policy.PolicyBaseTest;
+import org.apache.commons.lang.StringUtils;
 import toolkit.datax.TestData;
 
 import java.util.HashMap;
@@ -41,46 +40,53 @@ public abstract class TestAutoClueResponseTemplate extends PolicyBaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(getPolicyTD(), getDriverTab().getClass(), true);
 
-
-		String licenseNumberPA = "10144434";
-		int licenceNumberPAint;
+		// Taking License numbers for drivers
+		String licenseNumber = getPolicyTD().getTestData(AutoSSMetaData.DriverTab.class.getSimpleName()).getValue(AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel());
+		String licenseNumberCa = getPolicyTD().getTestData(AutoCaMetaData.DriverTab.class.getSimpleName()).getValue(AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel());
 
 		for (HashMap.Entry<String, String> entry : drivers.entrySet()) {
+			// Checks if Policy is for CA
+			if (isStateCA()){
+
+				// increment license number for next driver
+				String licenseStart = StringUtils.substring(licenseNumberCa, 0, 3);
+				String licenseAdd = StringUtils.substring(licenseNumberCa, 3, licenseNumberCa.length());
+				int licenseIncrement = Integer.valueOf(licenseAdd);
+				++licenseIncrement;
+				licenseNumberCa = licenseStart + licenseIncrement;
 
 				// Create TestData for Driver
-			TestData tdDrivers = testDataManager.getDefault(TestAutoClueResponseTemplate.class).getTestData("TestData_AZ");
-			TestData tdDriversCa = testDataManager.getDefault(TestAutoClueResponseTemplate.class).getTestData("TestData_CA");
+				TestData tdDrivers = testDataManager.getDefault(TestAutoClueResponseTemplate.class).getTestData("TestData_CA");
 
-			if (isStateCA()){
-				tdDriversCa.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.FIRST_NAME.getLabel()), entry.getKey())
+				tdDrivers.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.FIRST_NAME.getLabel()), entry.getKey())
 						.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LAST_NAME.getLabel()), entry.getValue())
-						.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberPA);
+						.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberCa);
 				// Add Driver
-				getDriverTab().fillTab(tdDriversCa);
+				getDriverTab().fillTab(tdDrivers);
 			} else {
+
+				// increment license number for next driver
+				String licenseStart = StringUtils.substring(licenseNumber, 0, 3);
+				String licenseAdd = StringUtils.substring(licenseNumber, 3, licenseNumber.length());
+				int licenseIncrement = Integer.valueOf(licenseAdd);
+				++licenseIncrement;
+				licenseNumber = licenseStart + licenseIncrement;
+
+				// Create TestData for Driver
+				TestData tdDrivers = testDataManager.getDefault(TestAutoClueResponseTemplate.class).getTestData("TestData_SS");
+
 				tdDrivers.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.FIRST_NAME.getLabel()), entry.getKey())
 						.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LAST_NAME.getLabel()), entry.getValue())
-						.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberPA);
+						.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumber)
+						.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel()), getState());
 				// Add Driver
 				getDriverTab().fillTab(tdDrivers);
 			}
-
-			// increment license number for next driver
-			licenceNumberPAint = Integer.valueOf(licenseNumberPA);
-			++licenceNumberPAint;
-			licenseNumberPA = String.valueOf(licenceNumberPAint);
 		}
 
+		//submit tab and fill policy until DriverActivityReports
 		getDriverTab().submitTab();
-		policy.getDefaultView().fillFromTo(getPolicyTD(), getFirstReportsTab().getClass(), getPremiumAndCoveragesTab().getClass(), true);
-		getPremiumAndCoveragesTab().submitTab();
-
-		if(getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)){
-			new ErrorTab().overrideAllErrors();
-			new ErrorTab().override();
-			getPremiumAndCoveragesTab().submitTab();
-		}
-		getDriverActivityReportsTab().fillTab(getPolicyTD());
+		policy.getDefaultView().fillFromTo(getPolicyTD(), getFirstReportsTab().getClass(), getDriverActivityReportsTab().getClass(), true);
 	}
 
 	protected void pas_20371_ClueActivityMappingToDriver(){

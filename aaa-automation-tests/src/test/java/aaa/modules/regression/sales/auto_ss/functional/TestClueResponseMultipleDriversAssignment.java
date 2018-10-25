@@ -52,7 +52,6 @@ public class TestClueResponseMultipleDriversAssignment extends TestAutoClueRespo
 		return new DocumentsAndBindTab();
 	}
 
-
 	/**
 	 *@author Dominykas Razgunas
 	 *@name Test Clue assignment for multiple drivers

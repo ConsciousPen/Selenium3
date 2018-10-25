@@ -1,11 +1,14 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
-import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.sales.template.functional.TestAutoClueResponseTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -30,7 +33,7 @@ public class TestClueResponseMultipleDriversAssignment extends TestAutoClueRespo
 	}
 
 	@Override
-	protected Tab getFirstReportsTab() {
+	protected MembershipTab getFirstReportsTab() {
 		return new MembershipTab();
 	}
 
@@ -48,7 +51,6 @@ public class TestClueResponseMultipleDriversAssignment extends TestAutoClueRespo
 	protected DocumentsAndBindTab getDocumentsAndBindTab() {
 		return new DocumentsAndBindTab();
 	}
-
 
 	/**
 	 *@author Dominykas Razgunas
