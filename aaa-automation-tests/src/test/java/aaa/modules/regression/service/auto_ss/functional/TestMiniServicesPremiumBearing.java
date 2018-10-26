@@ -629,6 +629,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 8. Check tax information
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.KY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19742"})
 	public void pas19742ViewPremiumServiceTaxInformation(@Optional("KY") String state) {
