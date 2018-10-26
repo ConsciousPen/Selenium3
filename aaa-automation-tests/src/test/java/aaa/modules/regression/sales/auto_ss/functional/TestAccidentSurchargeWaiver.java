@@ -23,8 +23,6 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
 
-    private TestData tdActivityInfo;
-
     /**
      * @author Josh Carpenter
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during conversion
@@ -143,28 +141,22 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-5y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>")
-                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo);
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getAccidentInfoTd());
     }
 
     private void validateAFW(TestData policyTd) {
-        tdActivityInfo = DataProviderFactory.dataOf(
-                AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click",
-                AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "At-Fault Accident",
-                AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Accident (Property Damage Only)",
-                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
-                AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
 
         // Add AF accident
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo));
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getAccidentInfoTd()));
 
         // Validate AFW is given
         validateIncludedInPoints("No");
 
         // Add a second AF accident in past 33 months and validate
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        tdActivityInfo.adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>");
+        TestData tdActivityInfo = getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>");
         new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo));
         validateIncludedInPoints("Yes", "Yes");
@@ -201,6 +193,15 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
                 assertThat(DriverTab.tableActivityInformationList.getRow(i).getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEmpty();
             }
         }
+    }
+
+    private TestData getAccidentInfoTd() {
+        return DataProviderFactory.dataOf(
+                AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY.getLabel(), "Click",
+                AutoSSMetaData.DriverTab.ActivityInformation.TYPE.getLabel(), "At-Fault Accident",
+                AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Accident (Property Damage Only)",
+                AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
+                AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
     }
 
 }
