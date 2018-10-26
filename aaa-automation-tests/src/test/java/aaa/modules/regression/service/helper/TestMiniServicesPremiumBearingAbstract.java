@@ -1712,47 +1712,47 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertSoftly(softly -> {
 			softly.assertThat(veh1.changeType).isEqualTo("ADDED");
 			softly.assertThat(veh1.data.oid).isEqualTo(newVehicleOid);
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").data.coverageCd).isEqualTo("SPECEQUIP");
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").data.coverageLimit).isEqualTo("1000");
+			softly.assertThat(veh1.coverages.get("SPECEQUIP").data.getCoverageCd()).isEqualTo("SPECEQUIP");
+			softly.assertThat(veh1.coverages.get("SPECEQUIP").data.getCoverageLimit()).isEqualTo("1000");
 
-			softly.assertThat(veh1.coverages.get("RREIM").data.coverageCd).isEqualTo("RREIM");
-			softly.assertThat(veh1.coverages.get("RREIM").data.coverageDescription).isEqualTo("Transportation Expense");
-			softly.assertThat(veh1.coverages.get("RREIM").data.coverageLimit).isEqualTo("600");
-			softly.assertThat(veh1.coverages.get("RREIM").data.coverageLimitDisplay).isEqualTo("$600 (Included)");
-			softly.assertThat(veh1.coverages.get("RREIM").data.coverageType).isEqualTo("Per Occurrence");
+			softly.assertThat(veh1.coverages.get("RREIM").data.getCoverageCd()).isEqualTo("RREIM");
+			softly.assertThat(veh1.coverages.get("RREIM").data.getCoverageDescription()).isEqualTo("Transportation Expense");
+			softly.assertThat(veh1.coverages.get("RREIM").data.getCoverageLimit()).isEqualTo("600");
+			softly.assertThat(veh1.coverages.get("RREIM").data.getCoverageLimitDisplay()).isEqualTo("$600 (Included)");
+			softly.assertThat(veh1.coverages.get("RREIM").data.getCoverageType()).isEqualTo("Per Occurrence");
 
-			softly.assertThat(veh1.coverages.get("COLLDED").data.coverageCd).isEqualTo("COLLDED");
-			softly.assertThat(veh1.coverages.get("COLLDED").data.coverageDescription).isEqualTo("Collision Deductible");
-			softly.assertThat(veh1.coverages.get("COLLDED").data.coverageLimit).isEqualTo("500");
-			softly.assertThat(veh1.coverages.get("COLLDED").data.coverageLimitDisplay).isEqualTo("$500");
-			softly.assertThat(veh1.coverages.get("COLLDED").data.coverageType).isEqualTo("Deductible");
+			softly.assertThat(veh1.coverages.get("COLLDED").data.getCoverageCd()).isEqualTo("COLLDED");
+			softly.assertThat(veh1.coverages.get("COLLDED").data.getCoverageDescription()).isEqualTo("Collision Deductible");
+			softly.assertThat(veh1.coverages.get("COLLDED").data.getCoverageLimit()).isEqualTo("500");
+			softly.assertThat(veh1.coverages.get("COLLDED").data.getCoverageLimitDisplay()).isEqualTo("$500");
+			softly.assertThat(veh1.coverages.get("COLLDED").data.getCoverageType()).isEqualTo("Deductible");
 
-			softly.assertThat(veh1.coverages.get("LOAN").data.coverageCd).isEqualTo("LOAN");
-			softly.assertThat(veh1.coverages.get("LOAN").data.coverageDescription).isEqualTo("Auto Loan/Lease Coverage");
-			softly.assertThat(veh1.coverages.get("LOAN").data.coverageLimit).isEqualTo("0");
-			softly.assertThat(veh1.coverages.get("LOAN").data.coverageLimitDisplay).isEqualTo("No Coverage");
-			softly.assertThat(veh1.coverages.get("LOAN").data.coverageType).isEqualTo("None");
+			softly.assertThat(veh1.coverages.get("LOAN").data.getCoverageCd()).isEqualTo("LOAN");
+			softly.assertThat(veh1.coverages.get("LOAN").data.getCoverageDescription()).isEqualTo("Auto Loan/Lease Coverage");
+			softly.assertThat(veh1.coverages.get("LOAN").data.getCoverageLimit()).isEqualTo("0");
+			softly.assertThat(veh1.coverages.get("LOAN").data.getCoverageLimitDisplay()).isEqualTo("No Coverage");
+			softly.assertThat(veh1.coverages.get("LOAN").data.getCoverageType()).isEqualTo("None");
 
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.coverageCd).isEqualTo("TOWINGLABOR");
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.coverageDescription).isEqualTo("Towing and Labor Coverage");
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.coverageLimit).isEqualTo("0/0");
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.coverageLimitDisplay).isEqualTo("No Coverage");
-			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.coverageType).isEqualTo("Per Disablement/Maximum");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.getCoverageCd()).isEqualTo("TOWINGLABOR");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.getCoverageDescription()).isEqualTo("Towing and Labor Coverage");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.getCoverageLimit()).isEqualTo("0/0");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.getCoverageLimitDisplay()).isEqualTo("No Coverage");
+			softly.assertThat(veh1.coverages.get("TOWINGLABOR").data.getCoverageType()).isEqualTo("Per Disablement/Maximum");
 
-			softly.assertThat(veh1.coverages.get("GLASS").data.coverageCd).isEqualTo("GLASS");
-			softly.assertThat(veh1.coverages.get("GLASS").data.coverageDescription).isEqualTo("Full Safety Glass");
-			softly.assertThat(veh1.coverages.get("GLASS").data.coverageLimit).isEqualTo("false");
-			softly.assertThat(veh1.coverages.get("GLASS").data.coverageLimitDisplay).isEqualTo("No Coverage");
-			softly.assertThat(veh1.coverages.get("GLASS").data.coverageType).isEqualTo("None");
+			softly.assertThat(veh1.coverages.get("GLASS").data.getCoverageCd()).isEqualTo("GLASS");
+			softly.assertThat(veh1.coverages.get("GLASS").data.getCoverageDescription()).isEqualTo("Full Safety Glass");
+			softly.assertThat(veh1.coverages.get("GLASS").data.getCoverageLimit()).isEqualTo("false");
+			softly.assertThat(veh1.coverages.get("GLASS").data.getCoverageLimitDisplay()).isEqualTo("No Coverage");
+			softly.assertThat(veh1.coverages.get("GLASS").data.getCoverageType()).isEqualTo("None");
 
-			softly.assertThat(veh1.coverages.get("NEWCAR").data.coverageCd).isEqualTo("NEWCAR");
-			softly.assertThat(veh1.coverages.get("NEWCAR").data.coverageDescription).isEqualTo("New Car Added Protection");
+			softly.assertThat(veh1.coverages.get("NEWCAR").data.getCoverageCd()).isEqualTo("NEWCAR");
+			softly.assertThat(veh1.coverages.get("NEWCAR").data.getCoverageDescription()).isEqualTo("New Car Added Protection");
 
-			softly.assertThat(veh1.coverages.get("COMPDED").data.coverageCd).isEqualTo("COMPDED");
-			softly.assertThat(veh1.coverages.get("COMPDED").data.coverageDescription).isEqualTo("Other Than Collision");
-			softly.assertThat(veh1.coverages.get("COMPDED").data.coverageLimit).isEqualTo("250");
-			softly.assertThat(veh1.coverages.get("COMPDED").data.coverageLimitDisplay).isEqualTo("$250");
-			softly.assertThat(veh1.coverages.get("COMPDED").data.coverageType).isEqualTo("Deductible");
+			softly.assertThat(veh1.coverages.get("COMPDED").data.getCoverageCd()).isEqualTo("COMPDED");
+			softly.assertThat(veh1.coverages.get("COMPDED").data.getCoverageDescription()).isEqualTo("Other Than Collision");
+			softly.assertThat(veh1.coverages.get("COMPDED").data.getCoverageLimit()).isEqualTo("250");
+			softly.assertThat(veh1.coverages.get("COMPDED").data.getCoverageLimitDisplay()).isEqualTo("$250");
+			softly.assertThat(veh1.coverages.get("COMPDED").data.getCoverageType()).isEqualTo("Deductible");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
