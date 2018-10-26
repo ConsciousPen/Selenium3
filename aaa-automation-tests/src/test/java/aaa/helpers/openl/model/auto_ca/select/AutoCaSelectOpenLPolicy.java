@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoCaSelectTestDataGenerator;
@@ -14,15 +15,28 @@ import toolkit.datax.TestData;
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLPolicy extends AutoCaOpenLPolicy<AutoCaSelectOpenLDriver, AutoCaSelectOpenLVehicle> {
 
+	@RequiredField
 	private List<AutoCaSelectOpenLDriver> drivers;
+
+	@RequiredField
 	private List<AutoCaSelectOpenLVehicle> vehicles;
 
+	@RequiredField
 	private LocalDate effectiveDate;
+
+	@RequiredField
 	private Integer baseYear;
+
+	@RequiredField
 	private Boolean aaaMember;
+
+	@RequiredField
 	private Boolean goodDriverPolicy;
+
 	private String home3or4;
 	private Integer id;
+
+	@RequiredField
 	private String lifemoto;
 
 	public Integer getBaseYear() {

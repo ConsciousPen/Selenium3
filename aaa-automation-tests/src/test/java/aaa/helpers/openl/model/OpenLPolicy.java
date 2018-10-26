@@ -13,6 +13,7 @@ import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.ReflectionHelper;
@@ -26,6 +27,7 @@ public abstract class OpenLPolicy {
 	protected static Logger log = LoggerFactory.getLogger(OpenLPolicy.class);
 
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
 	protected String policyNumber;
@@ -192,6 +194,46 @@ public abstract class OpenLPolicy {
 	 */
 	public Map<String, String> getFilteredOpenLFieldsMap() {
 		return removeOpenLFields(getOpenLFieldsMap(), "policy.policyNumber");
+	}
+
+	/**
+	 * Verifies whether OpenL policy object is proper for testing or no by checking recursively that all class fields with {@link RequiredField} annotation have non-null values (and not empty lists for Collections).<p>
+	 * This check is useful to verify whether correct openl model class was used for unmarshalling while building this object or not.<p>
+	 *
+	 * @return <b>true</b> if openl policy is proper for testing and <b>false</b> if not
+	 */
+	public boolean isProper() {
+		return ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(getClass()).stream().allMatch(f -> isProperField(f, this));
+	}
+
+	protected boolean isProperField(Field openLField, Object classInstance) {
+		if (openLField.isAnnotationPresent(RequiredField.class)) {
+			if (ReflectionHelper.isTableClassField(openLField)) {
+				Class<?> fieldType = ReflectionHelper.getFieldType(openLField);
+				List<?> listElements = ReflectionHelper.getValueAsList(openLField, classInstance);
+				if (CollectionUtils.isEmpty(listElements)) {
+					log.warn("Required openL field \"{}\" has null value or empty list", openLField);
+					return false;
+				}
+
+				for (Field field : ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(fieldType)) {
+					for (Object instance : listElements) {
+						if (!isProperField(field, instance)) {
+							return false;
+						}
+					}
+				}
+
+			} else {
+				Object value = ReflectionHelper.getFieldValue(openLField, classInstance);
+				if (value == null) {
+					log.warn("Required openL field \"{}\" has null value", openLField);
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	protected Map<String, String> removeOpenLFields(Map<String, String> openLFieldsMap, String... openLFieldsRegexToRemove) {

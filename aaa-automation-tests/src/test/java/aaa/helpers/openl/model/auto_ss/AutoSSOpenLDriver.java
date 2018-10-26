@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.auto_ss;
 
 import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLDriver;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -15,6 +16,8 @@ public class AutoSSOpenLDriver extends OpenLDriver implements Comparable<AutoSSO
 
 	private Boolean hasSR22;
 	private Boolean hasFR44; // VA specific
+
+	@RequiredField
 	private Integer driverAge;
 	private Integer ageBeforeEndorsement;
 	private String defensiveDrivingCourse;
