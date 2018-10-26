@@ -240,11 +240,7 @@
     <test name="Offline Claims AUTO SS">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
-                <methods>
-                     <include name="claimsMatching_test1"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment"/>
         </classes>
     </test>
 </suite>

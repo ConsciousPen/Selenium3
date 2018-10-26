@@ -21,7 +21,7 @@ import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.PasAdminLogGrabber;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;

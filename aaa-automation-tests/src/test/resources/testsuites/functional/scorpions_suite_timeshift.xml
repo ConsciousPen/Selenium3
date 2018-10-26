@@ -280,11 +280,7 @@
     <test name="Offline Claims AUTO SS" >
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination">
-                <methods>
-                    <include name="pas20361_compClaimDeterminationBeforeMS"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
                 <methods>
                     <include name="PAS14679_DLMatchMore"/>
