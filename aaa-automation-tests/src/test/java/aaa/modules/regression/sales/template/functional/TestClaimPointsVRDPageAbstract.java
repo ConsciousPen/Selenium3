@@ -186,7 +186,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 	}
 
 	void viewEditClaimByLossAmount(String lossAmount) {
-		getClaimHistoryTable().getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.AMOUNT_OF_LOSS, lossAmount)
+		getClaimHistoryTable().getRow(PolicyConstants.PropertyInfoClaimHistoryTable.AMOUNT_OF_LOSS, lossAmount)
 				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
 	}
 
