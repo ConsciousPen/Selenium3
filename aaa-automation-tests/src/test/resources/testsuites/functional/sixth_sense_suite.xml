@@ -8,7 +8,7 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Clue assignment for multiple drivers">
+    <test name="Test Clue assignment for multiple drivers CA">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment"/>
@@ -16,7 +16,7 @@
         </classes>
     </test>
 
-    <test name="Test Clue assignment for multiple drivers">
+    <test name="Test Clue assignment for multiple drivers SS">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueResponseMultipleDriversAssignment"/>
