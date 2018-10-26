@@ -83,8 +83,6 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
-		//For now 'Proposed Renewal' is not always generated after first run
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 

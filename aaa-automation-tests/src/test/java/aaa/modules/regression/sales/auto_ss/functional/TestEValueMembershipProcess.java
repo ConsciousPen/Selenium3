@@ -4,7 +4,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
@@ -39,9 +39,12 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -55,10 +58,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.SSHController;
@@ -519,6 +521,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		LocalDateTime renewBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
@@ -531,8 +535,25 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry", softly);
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 			renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather", softly);
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
+			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 		});
+
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(renewBillGenDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar renewalMinDue = BillingSummaryPage.getMinimumDue();
+		BillingAccount billingAccount = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), renewalMinDue);
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EVALUE_STATUS)).hasValue("Active");
 	}
 
 	@Parameters({"state"})

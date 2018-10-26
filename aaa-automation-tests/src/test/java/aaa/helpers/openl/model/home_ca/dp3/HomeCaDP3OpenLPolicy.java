@@ -2,21 +2,32 @@ package aaa.helpers.openl.model.home_ca.dp3;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaDP3TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, HomeCaDP3OpenLDwelling> {
 
+	@RequiredField
 	private HomeCaDP3OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaDP3OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaDP3OpenLCoverage> coverages;
 
 	private Integer ageOfOldestInsured;
+
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
 	private Double deductible;
 	private Double frequencyOfDwellingLoss;
@@ -140,7 +151,12 @@ public class HomeCaDP3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaDP3OpenLForm, 
 	public void setForms(List<HomeCaDP3OpenLForm> forms) {
 		this.forms = new ArrayList<>(forms);
 	}
-	
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_DP3;
+	}
+
 	@Override
 	public HomeCaDP3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
 		return new HomeCaDP3TestDataGenerator(this.getState(), baseTestData);

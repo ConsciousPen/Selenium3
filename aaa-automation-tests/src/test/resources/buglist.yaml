@@ -29,14 +29,6 @@ PAS-0002:
   - tests: [aaa.modules.bct.*]
     messages: ["No policies found by 'SelectPolicy' query"]
 
-QC-E2ECOMMON:
-  summary: "Common dummy ticket for all dependent e2e tests to mark them yellow if they are skipped due to failed 1st policy creation test"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.e2e.*]
-    messages: ["Errors: Time out. No session available."]
-  - tests: [aaa.modules.e2e.*]
-    messages: ["depends on not successfully finished methods"]
 QC-DOCGENCOMMON:
   summary: "Common dummy ticket for all dependent docgen tests to mark them yellow if they are skipped due to failed 1st policy creation test"
   reason: PROD
@@ -167,7 +159,7 @@ PAS-18399:
   failures:
     - tests: [aaa.modules.regression.conversions.*]
       messages: ["doesn't have Success status. Reason"]
-PAS-19656:
+PT-2620:
   summary: "Auto SS Defensive Driver Discount is applied to a driver with minor violations after DDCC"
   reason: PROD
   failures:
@@ -190,16 +182,6 @@ PAS-12949:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueNsfAHDRXX.pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse]
       messages: ["Checked value of Cell"]
-PAS-13203:
-  summary: "Regression: Auto: Birthday value is not returned from stub"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports.*]
-      messages: ["Cannot set value of AssetList {RatingDetailReportsTab", "Errors: 'Date of Birth' is required"]
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
-      messages: ["Cannot get value of CheckBox"]
-    - tests: [aaa.modules.regression.sales.auto_ca.select.TestQuotePrefill.*]
-      messages: ['expected:<"[07/08/1976]"> but was:<"[]"']
 PAS-15989:
   summary: "PA PUP - View Rating Details Page - Wrong Auto Tier is displayed"
   reason: PROD
@@ -213,20 +195,6 @@ PAS-13651:
     - tests: [aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.pas12866_e2eBct,
     ]
       messages: ["no such element: Unable to locate element: {", "Error 500"]
-PAS-14137:
-  summary: "Regression: PUP, Auto CA, Auto SS specific states: Exception occurs switching to Premium tab"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*.pup.*]
-      messages: ["Cannot set value of AssetList {PremiumAndCoveragesQuoteTab", "Errors: Time out. No session available."]
-    - tests: [aaa.modules.regression.*.auto_ca.*]
-      messages: ["Cannot set value of AssetList {PremiumAndCoveragesTab:", "Errors: Time out. No session available."]
-PAS-14387:
-  summary: "Regression: PUP CA: Underlying Risks Auto: Driver: Occupation field is blank - impossible to issue policy"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.*.pup.*]
-      messages: ["Cannot set value of AssetList {UnderlyingRisksAutoTab", "Errors: 'Occupation' is not in within range"]
 PAS-5529:
   summary: "Roof shape does not pull into PAS from ISO 360"
   reason: PROD
@@ -301,7 +269,7 @@ PAS-5437:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
-PAS-16433:
+PAS-19817:
   summary: "Regression BCT: Time Out Error during cancellation"
   reason: PROD
   failures:
@@ -311,6 +279,8 @@ PAS-16433:
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
       messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
+      messages: ['Errors: The connection has timed out']
 PAS-2171:
   summary: "Membership Discount wasn't removed when it should"
   reason: PROD
@@ -329,12 +299,6 @@ PAS-17689:
   failures:
     - tests: [aaa.modules.regression.conversions.home_ss.*]
       messages: ["ComboBox {Fire department type:"]
-PAS-5260:
-  summary: "Premium-reducing endorsement getting error message on bind for KY"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestReducedPremiumEndorsementKY.*]
-      messages: ['Cannot transfer payment', 'is not present as expected']
 PAS-18111:
   summary: "Cannot save endorsement Form"
   reason: PROD
@@ -351,7 +315,7 @@ PAS-15144:
   failures:
     - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
       messages: ['Total premium for quote/policy number QCOSS']
-PT-2385:
+PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
   failures:
@@ -370,7 +334,7 @@ PAS-9290:
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
-    messages: ["'Reason claim is not chargeable' is required Need to be created"]
+    messages: ["Errors: 'Reason claim is not chargeable' is required"]
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["Unable to locate element: {\"method\":\"id\",\"selector\":\"policyDataGatherForm:premiumRecalcCov\"}"]
 PAS-18945:
@@ -387,3 +351,51 @@ PAS-19445:
     messages: ["Expecting", "Errors: AAA_PUP_SS2220190"]
   - tests: [aaa.modules.regression.conversions.pup.functional.TestOverrideBindRelaxedCoverageLimits.*]
     messages: ["Risks with a property liability limit less than $300,000 are ineligible"]
+PAS-20608:
+  summary: "Regression: CA choice: Payment plan dropdown resets after premium calculation"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.service.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.document_fulfillment.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+  - tests: [aaa.modules.regression.billing_and_payments.auto_ca.choice.*]
+    messages: ["Cannot set value of AssetList {DriverActivityReportsTab:"]
+PT-2761:
+  summary: "Homeowners DP3 Conversion Policies second Renewal is not being Proposed"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacket,
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas2674_ConversionPacketMortgagee,
+            aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.pas9816_BillingPacketGeneration]
+    messages: ["Second renewal cannot be proposed due to defect PT-2761"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3.*]
+    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[1]>"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3.*]
+    messages: ["[2nd Renewal Offer is not generated] expected:<[2]> but was:<[3]>"]
+PAS-20303:
+  summary: "KY - Non-Renewal letter generated for policies at @R-81 and @R-79"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho3.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho4.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+  - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
+    messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
+PAS-20827:
+  summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
+    messages: ["[Renewal Bill for 2nd Renewal is not generated]"]

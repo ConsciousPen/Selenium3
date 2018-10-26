@@ -12,13 +12,16 @@ import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
+import toolkit.exceptions.IstfException;
 
 //import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 
@@ -28,24 +31,47 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@ExcelColumnElement(name = "id")
 	private String policyNumber;
 
+	@RequiredField
 	private String policyType;
+
 	private String level;
 	private String prevLevel;
+
+	@RequiredField
 	private List<HomeSSOpenLCoverage> coverages;
+
+	@RequiredField
 	private HomeSSOpenLAddress policyAddress;
+
+	@RequiredField
 	private OpenLNamedInsured policyNamedInsured;
+
+	@RequiredField
 	private OpenLDwellingRatingInfo policyDwellingRatingInfo;
+
+	@RequiredField
 	private OpenLConstructionInfo policyConstructionInfo;
+
+	@RequiredField
 	private OpenLCoverageDeductible policyCoverageDeductible;
+
+	@RequiredField
 	private OpenLLossInformation policyLossInformation;
+
+	@RequiredField
 	private OpenLDiscountInformation policyDiscountInformation;
 	private String profession; // OK specific ?
 	private String transactionType;
+
+	@RequiredField
 	private LocalDate effectiveDate;
+
 	private List<HomeSSOpenLForm> forms;
 	private OpenLRiskMeterData riskMeterData; // NJ Specific
 	private String chamberOfCommerce; // NJ specific ?
 	private LocalDate previousEffectiveDate;
+
+	@RequiredField
 	private HomeSSOpneLCappingDetails cappingDetails;
 	private Boolean isVariationRequest;
 	private String riskState;
@@ -151,6 +177,22 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	public String getPolicyType() {
 		return policyType;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		switch (getPolicyType()) {
+			case "HO3":
+				return PolicyType.HOME_SS_HO3;
+			case "HO4":
+				return PolicyType.HOME_SS_HO4;
+			case "HO6":
+				return PolicyType.HOME_SS_HO6;
+			case "DP3":
+				return PolicyType.HOME_SS_DP3;
+			default:
+				throw new IstfException("Unknown policy type: " + getPolicyType());
+		}
 	}
 
 	public void setPolicyType(String policyType) {

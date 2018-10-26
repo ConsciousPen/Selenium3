@@ -53,6 +53,19 @@ GeneralTab: {
   CurrentCarrierInformation: '@CurrentCarrierInformation'
 }
 
+TestDataExcluded: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 CurrentCarrierInformation: {
  'Override Prefilled Current Carrier?': 'Yes',
   'Agent Entered Current/Prior Carrier': 'AAA Insurance',
@@ -340,6 +353,10 @@ TestData_TwoDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
 }
 
+TestData_DriverWithActivity: {
+  DriverTab: ['@Driver_one', '@Driver_withActivity'],
+}
+
 TestData_ThreeDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three_nafr'],
 }
@@ -556,4 +573,25 @@ Driver_two1: {
     Age First Licensed: '18',
     License Number: '454353443',
     License Status: 'Licensed (US)'
+}
+
+Driver_withActivity: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  "Policy #": '123456789',
+  Rel. to First Named Insured: Child,
+  First Name: 'OneLoss',
+  Middle Name: 'Sam',
+  Last Name: 'UnderThreshold',
+  Date of Birth: '01/01/1970',
+  Gender: 'Male',
+  Suffix: 'II',
+  Marital Status: Married,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 'B19115001',
+  License Status: 'Licensed (US)',
+  Death Indemnity and Specific Disability: "Yes",
+  Total Disability: "No"
 }
