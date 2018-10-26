@@ -4,11 +4,11 @@
  */
 package aaa.main.modules.policy.auto_ss.defaulttabs;
 
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.composite.table.Table;
 
 /**
@@ -21,6 +21,7 @@ public class ErrorTab extends CommonErrorTab {
 
 	public Table tableErrors = new Table(By.xpath(".//form[@id='errorsForm']//table"));
 	public Table tableBaseErrors = new Table(By.xpath(".//form[@id='errorsForm']//table[2]"));
+	public Table tableTabFormErrors = new Table(By.xpath(".//div[@id='contents']//table//table"));
 
 	public ErrorTab() {
 		super(AutoSSMetaData.ErrorTab.class);
