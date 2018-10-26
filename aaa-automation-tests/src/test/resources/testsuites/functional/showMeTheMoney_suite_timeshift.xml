@@ -39,4 +39,10 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
         </classes>
     </test>
+    <test name="PAS-20308 Earned Premium Calculation OOS Endorse Negative Premium" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
+        </classes>
+    </test>
 </suite>

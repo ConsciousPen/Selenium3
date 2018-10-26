@@ -1,0 +1,44 @@
+TestData_Endorsement1: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$100,000',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement2: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
+
+TestData_Endorsement3: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$100,000',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}
