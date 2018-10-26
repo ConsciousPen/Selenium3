@@ -110,7 +110,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         //Remove Flag
         log.info("TEST: Remove Do not Renew for Policy #" + policyNumber);
-        policy.removeManualRenew().perform(new SimpleDataProvider());
+        policy.removeDoNotRenew().perform(new SimpleDataProvider());
         assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 
         runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
