@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiModelProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class Coverage {
+	public Coverage(){
+	}
+
 	private Coverage(CoverageBuilder coverageBuilder){
 		this.coverageCd = coverageBuilder.coverageCd;
 		this.coverageDescription = coverageBuilder.coverageDescription;
