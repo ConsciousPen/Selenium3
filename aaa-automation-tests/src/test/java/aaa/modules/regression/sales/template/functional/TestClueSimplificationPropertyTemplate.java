@@ -270,7 +270,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
 
-        //Validation for PAS-6695
+        //Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
         validateCatastropheAndLossForFields();
 
@@ -284,7 +284,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         addNamedInsuredWithClaims();
 
-        // Validation for PAS-6695
+        // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
         validateCatastropheAndLossForFields();
 
@@ -298,7 +298,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.renew().perform();
         addNamedInsuredWithClaims();
 
-        // Validation for PAS-6695
+        // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
         validateCatastropheAndLossForFields();
 
@@ -314,7 +314,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         policy.dataGather().start();
         addNamedInsuredWithClaims();
 
-        // Validation for PAS-6695
+        // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
         validateCatastropheAndLossForFields();
 
