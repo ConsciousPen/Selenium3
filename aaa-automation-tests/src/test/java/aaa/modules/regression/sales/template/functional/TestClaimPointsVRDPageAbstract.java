@@ -56,7 +56,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 		// Update Liability claim so it is over 3 years old (over 5 years for DP3), update Water claim to catastrophe = 'No'
 		navigateToPropertyInfoTab();
-		viewEditClaim(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
 		String newLiabilityLossDate;
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
 			newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusMonths(61).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -64,7 +64,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusMonths(37).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		}
 		getClaimDateOfLossAsset().setValue(newLiabilityLossDate);
-		viewEditClaim(Labels.WATER);
+		viewEditClaimByCauseOfLoss(Labels.WATER);
 		getClaimCatastropheAsset().setValue("No");
 
 		// Validate VRD page
@@ -87,7 +87,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 		// Update Liability claim to 2 years ago so it is now included in rating as oldest claim
 		navigateToPropertyInfoTab();
-		viewEditClaim(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
 		newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusYears(2).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		getClaimDateOfLossAsset().setValue(newLiabilityLossDate);
 
@@ -107,14 +107,14 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 		// Update Liability claim back to original date of loss and set all claims to non-AAA
 		navigateToPropertyInfoTab();
-		viewEditClaim(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
 		getClaimDateOfLossAsset().setValue(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
 		getAAAClaimAsset().setValue("No");
-		viewEditClaim(Labels.FIRE);
+		viewEditClaimByCauseOfLoss(Labels.FIRE);
 		getAAAClaimAsset().setValue("No");
-		viewEditClaim(Labels.WATER);
+		viewEditClaimByCauseOfLoss(Labels.WATER);
 		getAAAClaimAsset().setValue("No");
-		viewEditClaim(Labels.THEFT);
+		viewEditClaimByCauseOfLoss(Labels.THEFT);
 		getAAAClaimAsset().setValue("No");
 
 		// Validate VRD page
@@ -133,16 +133,16 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 		// Set Fire and Water claims back to AAA claims, change theft claim to a catastrophe loss, and update value of Fire claim to $2001
 		navigateToPropertyInfoTab();
-		viewEditClaim(Labels.FIRE);
+		viewEditClaimByCauseOfLoss(Labels.FIRE);
 		getAAAClaimAsset().setValue("Yes");
 		if (isStateCA()) {
 			getClaimAmountAsset().setValue("2001");
 		} else {
 			getClaimAmountAsset().setValue("1001");
 		}
-		viewEditClaim(Labels.WATER);
+		viewEditClaimByCauseOfLoss(Labels.WATER);
 		getAAAClaimAsset().setValue("Yes");
-		viewEditClaim(Labels.THEFT);
+		viewEditClaimByCauseOfLoss(Labels.THEFT);
 		getClaimCatastropheAsset().setValue("Yes");
 
 		// Validate VRD page
@@ -167,7 +167,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 
 	}
 
-	List<TestData> getClaimsTD() {
+	protected List<TestData> getClaimsTD() {
 		List<TestData> tdList = testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
 			for (TestData td : tdList) {
@@ -180,8 +180,13 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		return tdList;
 	}
 
-	void viewEditClaim(String claimType) {
+	void viewEditClaimByCauseOfLoss(String claimType) {
 		getClaimHistoryTable().getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.CAUSE_OF_LOSS, claimType)
+				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
+	}
+
+	void viewEditClaimByLossAmount(String lossAmount) {
+		getClaimHistoryTable().getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.AMOUNT_OF_LOSS, lossAmount)
 				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
 	}
 
@@ -274,6 +279,10 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		static final String CLAIM_3 = "Claim 3";
 		static final String CLAIM_4 = "Claim 4";
 		static final String DATE_OF_LOSS = "Date of loss";
+		static final String APPLICANT_PROPERTY = "Applicant and Property";
+        static final String APPLICANT = "Applicant";
+        static final String RADIO_YES = "Yes";
+        static final String RADIO_NO = "No";
 	}
 
 }

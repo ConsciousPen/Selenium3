@@ -23,6 +23,11 @@ import toolkit.webdriver.controls.composite.table.Table;
 @StateList(states = Constants.States.CA)
 public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
 
+	@Override
+	protected ComboBox getClaimLossForAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LOSS_FOR);
+	}
+
     @Override
     protected ComboBox getClaimSourceAsset() {
         return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.SOURCE);

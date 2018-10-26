@@ -34,6 +34,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
     protected abstract TextBox getClaimNonChargeableReasonAsset();
     protected abstract ComboBox getClaimSourceAsset();
     protected abstract String getBtnAddInsuredLabel();
+    protected abstract ComboBox getClaimLossForAsset();
     protected abstract void reorderClueReport();
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
@@ -55,7 +56,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaim(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(Labels.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -65,7 +66,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
         policy.dataGather().start();
         navigateToPropertyInfoTab();
-        viewEditClaim(Labels.WATER);
+        viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -111,7 +112,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaim(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(Labels.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -121,7 +122,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
         policy.endorse().start();
         navigateToPropertyInfoTab();
-        viewEditClaim(Labels.WATER);
+        viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -159,7 +160,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaim(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(Labels.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -168,7 +169,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         policy.dataGather().start();
         navigateToPropertyInfoTab();
-        viewEditClaim(Labels.WATER);
+        viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -200,7 +201,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Last added Claim can be removed
         checkRemoveButtonAvailable(true);
         removeClaim();
-        viewEditClaim(Labels.LIABILITY);
+        viewEditClaimByCauseOfLoss(Labels.LIABILITY);
         checkRemoveButtonAvailable(false);
     }
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(){
@@ -224,7 +225,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaim(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(Labels.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -234,7 +235,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
         policy.renew().start().submit();
         navigateToPropertyInfoTab();
-        viewEditClaim(Labels.WATER);
+        viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -271,6 +272,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         //Validation for PAS-6695
         checkTblClaimRowCount(9);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
@@ -284,6 +286,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Validation for PAS-6695
         checkTblClaimRowCount(9);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
@@ -297,6 +300,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Validation for PAS-6695
         checkTblClaimRowCount(9);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
@@ -312,6 +316,7 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         // Validation for PAS-6695
         checkTblClaimRowCount(9);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
@@ -338,8 +343,8 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         selectRentalClaimForCADP3();
 
-        // Select Hail Claim and set CAT = YES chargeable = NO
-        viewEditClaim(Labels.HAIL);
+        // Select Hail Claim and set CAT = RADIO_YES chargeable = RADIO_NO
+        viewEditClaimByCauseOfLoss(Labels.HAIL);
         selectRentalClaimForCADP3();
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
@@ -350,11 +355,11 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("No");
         assertThat(getClaimChargeableAsset()).isEnabled();
-        // Check that Non Chargeable reason is not present because CAT is YES
+        // Check that Non Chargeable reason is not present because CAT is RADIO_YES
         assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
-        // Select Wind Claim and set CAT = YES chargeable = YES
-        viewEditClaim(Labels.WIND);
+        // Select Wind Claim and set CAT = RADIO_YES chargeable = RADIO_YES
+        viewEditClaimByCauseOfLoss(Labels.WIND);
         selectRentalClaimForCADP3();
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
@@ -364,18 +369,18 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("Yes");
         assertThat(getClaimChargeableAsset()).isEnabled();
-        // Check that Non Chargeable reason is not present because CAT is YES
+        // Check that Non Chargeable reason is not present because CAT is RADIO_YES
         assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
-        // Select Fire Claim and set CAT = NO chargeable = YES
-        viewEditClaim(Labels.FIRE);
+        // Select Fire Claim and set CAT = RADIO_NO chargeable = RADIO_YES
+        viewEditClaimByCauseOfLoss(Labels.FIRE);
         selectRentalClaimForCADP3();
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
         getClaimChargeableAsset().setValue("Yes");
 
-        // Select Water Claim and set CAT = NO chargeable = NO
-        viewEditClaim(Labels.WATER);
+        // Select Water Claim and set CAT = RADIO_NO chargeable = RADIO_NO
+        viewEditClaimByCauseOfLoss(Labels.WATER);
         selectRentalClaimForCADP3();
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("No");
@@ -501,6 +506,31 @@ public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPo
 
         mainApp().open();
         createCustomerIndividual(td);
+    }
+
+    private void validateCatastropheAndLossForFields() {
+
+        // Validates 'Applicant & Property' with catastrophe = 'Yes'
+        viewEditClaimByLossAmount("11000");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+
+        // Validates 'Applicant & Property' with catastrophe = 'No'
+        viewEditClaimByLossAmount("42500");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+
+        // Validates 'Applicant' with catastrophe = 'Yes'
+        viewEditClaimByLossAmount("1500");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+
+        // Validates 'Applicant' with catastrophe = 'No'
+        viewEditClaimByLossAmount("2500");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+
+
     }
 
 }
