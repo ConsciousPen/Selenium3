@@ -708,6 +708,86 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(), false);
 		pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(state, getPolicyType(),true);
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Update Coverage - ADB
+	 * @scenario1
+	 * 1. Create policy With multiple drivers
+	 * 2. Verify ADB coverage showing only for AFR drivers.
+	 * 3. Run View Premium service save the Premium
+	 * 4. Update Coverage Service add adb coverage to the AFR driver verify Premium should increased
+	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
+	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
+
+		pas17642_UpdateCoverageADBBody(getPolicyType());
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name UM and UIM Coverage - Kentucky
+	 * @scenario1
+	 * 1. Create policy for Ky
+	 * 2. Run view coverages service. check  UM and UIM coverages are separate
+	 * and UM Coverage has cusstomerDisplayed = true
+	 * and UIM Coverage has canChangeCoverage = false
+	 * 3. run update coverage service update BI limit to "25000/50000";
+	 * 4. verify UIM UMUIM is same.
+	 * 5. verify available limits according to following table.
+
+	||BI Limit ||UIM/UIM Limit
+	||25/50	   ||No Coverage,25/50
+	||50/100   ||	Above plus 50/100
+	||100/300  ||	Above plus 100/300
+	||250/500  ||	Above plus 250/500
+	||300/500  ||	Above plus 300/500
+	||500/500  ||	Above plus 500/500
+	||500/1000 ||	Above plus 500/1000
+	||1000/1000||	Above plus 1000/1000
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas19627"})
+	public void pas19627_UMAndUimCoverage(@Optional("KY") String state) {
+
+		pas19627_UMAndUimCoverageBody(getPolicyType());
+
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name South Dakota - BI and UM and UIM Coverage Rules
+	 * @scenario1
+	 * 1. Create policy for SD
+	 * 2. Run view coverages service. check  UM and UIM coverages are separate
+	 * and UM Coverage has cusstomerDisplayed = true
+	 * and UIM Coverage has canChangeCoverage = false
+	 * 3.update  bi BI is <= 100/300 verify  UM and UIM have canChangeCoverage = false
+	 * 4.update  bi BI is > 100/300 verify  UM and UIM have canChangeCoverage = true
+	 * 5.verify Available limits according to table.
+
+	||BI Limit	||UM Limit	           ||UIM Limit	        ||canChange
+	||25/50	    ||25/50	               ||25/50	            ||No
+	||50/100	||50/100	           ||50/100             ||No
+	||100/300	||100/300	           ||100/300	        ||No
+	||250/500	||100/300, 250/500     ||100/300, 250/500   ||	Yes
+	||300/500	||Above plus 300/500   ||Above plus 300/500	||Yes
+	||500/500	||Above plus 500/500   ||Above plus 500/500	||Yes
+	||500/1000	||Above plus 500/1000  ||Above plus 500/1000||Yes
+	||1000/1000	||Above plus 1000/1000||Above plus 1000/1000||Yes
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19626"})
+	public void pas19626_biAndUMAndUIMCoverageSD(@Optional("SD") String state) {
+
+		pas19626_biAndUMAndUIMCoverageSDBody(getPolicyType());
+	}
 }
 
 

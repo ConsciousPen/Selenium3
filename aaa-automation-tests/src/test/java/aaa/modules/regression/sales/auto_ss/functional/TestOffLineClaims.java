@@ -34,8 +34,8 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
 	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
-	private static final String CLAIM_NUMBER_5 = "4FAZ8888OHS";
-	private static final String CLAIM_NUMBER_6 = "8FAZ8888OHS";
+	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
+	private static final String CLAIM_NUMBER_6 = "8FAZ88888OHS";
     private static final String CLAIM_NUMBER_7 = "1002-10-8705";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
             ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
