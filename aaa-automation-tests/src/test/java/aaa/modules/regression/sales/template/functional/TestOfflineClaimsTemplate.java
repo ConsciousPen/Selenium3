@@ -70,7 +70,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                     + CAS_REQUEST_PATH, e);
         }
     }
-
+    //TODO:gunxgar improve method to be able to pass specifc test data
     public String createPolicyMultiDrivers() {
         TestData testData = getPolicyTD();
         List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
@@ -165,7 +165,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     Method returns pas-admins wrapper.log as String
+     Method returns pas-admins wrapper.log as String TODO:gunxgar combine download methods and move to common classes to be able to use downloadFILE from any method.
      */
     protected String downloadPasAdminLog() {
         String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();

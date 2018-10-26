@@ -9,7 +9,7 @@ import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 /**
- * PasAdminLogGrabber is used to take pas-admin logs' specific lines with claims-assignment info for Claim Analytics, Microservice Request and Response
+ * PasAdminLogGrabber is used to take pas-admin wrapper log
  * @author Mantas Garsvinskas
  */
 public class PasAdminLogGrabber {

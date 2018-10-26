@@ -1,17 +1,13 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -88,22 +84,16 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 
 		// Gather Policy details: Policy Number and expiration date
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		mainApp().close();
 
 		// Move to R-63, run batch job part 1 and renewalClaimOrderAsyncJob to generate CAS Request
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
-
+		runRenewalClaimOrderJob();
 
 		// Create the claim response
 		createCasClaimResponseAndUpload(policyNumber, COMP_CLAIMS_DATA_MODEL, null);
 
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
-		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+		runRenewalClaimReceiveJob();
 
 		adminLog = downloadPasAdminLog();
 		listOfClaims = pasAdminLogGrabber.retrieveClaimsAnalyticsLogValues(adminLog);
