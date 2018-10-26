@@ -39,7 +39,7 @@ public class OpenLTest {
 	}
 
 	public List<Dollar> getPremiums() {
-		return this.premiums != null ? new ArrayList<>(this.premiums) : null;
+		return this.premiums != null ? new ArrayList<>(this.premiums) : new ArrayList<>();
 	}
 
 	public void setPremiums(List<Dollar> premiums) {
@@ -47,7 +47,7 @@ public class OpenLTest {
 	}
 
 	public Dollar getTotalPremium() {
-		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).reduce(Dollar::add).get();
+		return this.totalPremium != null ? this.totalPremium : getPremiums().stream().filter(Objects::nonNull).reduce(Dollar::add).orElse(null);
 	}
 
 	public void setTotalPremium(Dollar totalPremium) {

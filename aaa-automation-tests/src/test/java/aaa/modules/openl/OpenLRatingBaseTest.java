@@ -89,7 +89,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	protected Object[][] getOpenLTestData(ITestContext context) {
 		OpenLTestInfo<P> testInfo = openLTestsManager.getTestInfo(context);
 		if (testInfo.isFailed()) {
-			Assert.fail(String.format("OpenL test preparation for file \"%s\" has been failed", testInfo.getOpenLFilePath()), testInfo.getException());
+			Assert.fail(String.format("OpenL test preparation for file [%s] has been failed", testInfo.getOpenLFilePath()), testInfo.getException());
 		}
 		testInfo.setTestContext(context);
 
