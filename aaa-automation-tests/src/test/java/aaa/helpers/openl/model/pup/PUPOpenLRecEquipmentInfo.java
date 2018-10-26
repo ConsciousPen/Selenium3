@@ -1,18 +1,29 @@
 package aaa.helpers.openl.model.pup;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_SHEET_NAME, headerRowIndex = PUPOpenLFile.PUP_REC_EQUIPMENT_INFO_HEADER_ROW_NUMBER)
-public class OpenLRecEquipmentInfo {
+public class PUPOpenLRecEquipmentInfo {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
+	@RequiredField
 	private Boolean divingBoardInd;
+
+	@RequiredField
 	private Boolean poolInd;
+
+	@RequiredField
 	private Boolean slideInd;
+
+	@RequiredField
 	private Boolean spaInd;
+
+	@RequiredField
 	private Boolean trampolineInd;
 
 	public Integer getNumber() {

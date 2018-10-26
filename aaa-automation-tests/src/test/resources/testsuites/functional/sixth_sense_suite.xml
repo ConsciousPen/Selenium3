@@ -8,6 +8,21 @@
 
     <!--Tests for Auto-->
 
+    <test name="Test Clue assignment for multiple drivers">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestClueResponseMultipleDriversAssignment"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestClueResponseMultipleDriversAssignment"/>
+        </classes>
+    </test>
+
+    <test name="Test Clue assignment for multiple drivers">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueResponseMultipleDriversAssignment"/>
+        </classes>
+    </test>
+
     <test name="Test Major Violation Validation">
         <parameter name="state" value="CA"/>
         <classes>

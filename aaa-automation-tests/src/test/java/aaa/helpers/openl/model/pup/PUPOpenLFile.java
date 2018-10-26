@@ -33,37 +33,37 @@ public class PUPOpenLFile extends OpenLFile<PUPOpenLPolicy> {
 	private List<PUPOpenLPolicy> policies;
 
 	@ExcelTransient
-	private List<OpenLDwelling> dwelling;
+	private List<PUPOpenLDwelling> dwelling;
 	@ExcelTransient
-	private List<OpenLRecEquipmentInfo> recEquipmentInfo;
+	private List<PUPOpenLRecEquipmentInfo> recEquipmentInfo;
 	@ExcelTransient
-	private List<OpenLRiskItem> riskItems;
+	private List<PUPOpenLRiskItem> riskItems;
 	@ExcelTransient
 	private List<PUPOpenLCoverage> coverages;
 	@ExcelTransient
 	private List<PUPOpenLAddress> address;
 
-	public List<OpenLDwelling> getDwelling() {
+	public List<PUPOpenLDwelling> getDwelling() {
 		return new ArrayList<>(dwelling);
 	}
 
-	public void setDwelling(List<OpenLDwelling> dwelling) {
+	public void setDwelling(List<PUPOpenLDwelling> dwelling) {
 		this.dwelling = new ArrayList<>(dwelling);
 	}
 
-	public List<OpenLRecEquipmentInfo> getRecEquipmentInfo() {
+	public List<PUPOpenLRecEquipmentInfo> getRecEquipmentInfo() {
 		return new ArrayList<>(recEquipmentInfo);
 	}
 
-	public void setRecEquipmentInfo(List<OpenLRecEquipmentInfo> recEquipmentInfo) {
+	public void setRecEquipmentInfo(List<PUPOpenLRecEquipmentInfo> recEquipmentInfo) {
 		this.recEquipmentInfo = new ArrayList<>(recEquipmentInfo);
 	}
 
-	public List<OpenLRiskItem> getRiskItems() {
+	public List<PUPOpenLRiskItem> getRiskItems() {
 		return new ArrayList<>(riskItems);
 	}
 
-	public void setRiskItems(List<OpenLRiskItem> riskItems) {
+	public void setRiskItems(List<PUPOpenLRiskItem> riskItems) {
 		this.riskItems = new ArrayList<>(riskItems);
 	}
 
