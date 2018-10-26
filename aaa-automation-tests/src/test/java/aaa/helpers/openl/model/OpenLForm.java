@@ -2,6 +2,7 @@ package aaa.helpers.openl.model;
 
 import java.util.Comparator;
 import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 /**
@@ -9,9 +10,11 @@ import aaa.utils.excel.bind.annotation.ExcelColumnElement;
  */
 public class OpenLForm implements Comparable<OpenLForm> {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
 	@MatchingField
+	@RequiredField
 	protected String formCode;
 
 	protected Double limit;

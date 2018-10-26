@@ -53,6 +53,19 @@ GeneralTab: {
   CurrentCarrierInformation: '@CurrentCarrierInformation'
 }
 
+TestDataExcluded: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 CurrentCarrierInformation: {
  'Override Prefilled Current Carrier?': 'Yes',
   'Agent Entered Current/Prior Carrier': 'AAA Insurance',

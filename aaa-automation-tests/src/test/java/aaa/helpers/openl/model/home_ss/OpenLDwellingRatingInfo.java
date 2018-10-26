@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.home_ss;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -7,18 +8,24 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_RATING_INFO_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_RATING_INFO_HEADER_ROW_NUMBER)
 public class OpenLDwellingRatingInfo {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
 	@ExcelColumnElement(ignoreCase = true)
+	@RequiredField
 	private Boolean isSecondaryHome;
 
 	private Double dwellingLossFreq;
 	private Integer familyUnits;
+
+	@RequiredField
 	private Integer homeAge;
 	private Double noOfFloors;
 	private String protectionClass;
 	private Integer roofAge;
 	private String roofType;
+
+	@RequiredField
 	private Integer yearBuilt;
 	private String hailResistiveCode;
 	private String laundryLocation;

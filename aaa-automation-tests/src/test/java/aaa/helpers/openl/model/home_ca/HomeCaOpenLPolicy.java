@@ -7,6 +7,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeCaMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -18,6 +19,8 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	protected Integer expClaimPoints;
 	protected Boolean isAaaMember;
 	protected Integer yearsOfPriorInsurance;
+
+	@RequiredField
 	protected Integer yearsWithCsaa;
 
 	@ExcelTransient
