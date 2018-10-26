@@ -276,7 +276,8 @@ public class Scenario3 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		if (!getPolicyType().isAutoPolicy()) {
+		if (!getPolicyType().isAutoPolicy() && 
+			!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))  ) { //PASBB-775
 			//TODO Possible problems with MD state, See QC 35220 for details.
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(lapsedRenewShort).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		}
