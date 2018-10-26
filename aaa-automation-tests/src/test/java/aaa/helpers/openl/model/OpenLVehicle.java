@@ -1,19 +1,33 @@
 package aaa.helpers.openl.model;
 
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public abstract class OpenLVehicle {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
+	@RequiredField
 	protected OpenLAddress address;
+
 	protected Integer annualMileage;
+
+	@RequiredField
 	protected Integer collSymbol;
+
+	@RequiredField
 	protected Integer compSymbol;
+
 	protected String id;
+
+	@RequiredField
 	protected Integer modelYear;
+
+	@RequiredField
 	protected String biLiabilitySymbol;
+
 	protected String pdLiabilitySymbol;
 	protected String mpLiabilitySymbol;
 	protected String umLiabilitySymbol;

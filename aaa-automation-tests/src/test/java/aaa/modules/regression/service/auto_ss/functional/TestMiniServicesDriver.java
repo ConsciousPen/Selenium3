@@ -643,7 +643,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482,Pas-15495"})
 	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {
 		TestData td = getTestSpecificTD("TestData2");
 		pas15513_ViewDriverRemoveDriverIndicatorBody(td, getPolicyType());
