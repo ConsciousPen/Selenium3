@@ -788,6 +788,27 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 		pas19626_biAndUMAndUIMCoverageSDBody(getPolicyType());
 	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Let's Check for Wrong Values - Coverages
+	 * @scenario1
+	 * 1. Create a policy for a given state.
+	 * 2. Create an endorsement for the policy.
+	 * 3. Run the View Coverage service and retrieve the details for the coverages of that state.
+	 * 4. For each coverage that can be changed, attempt to update the coverage with a bogus coverage limit. Validate
+	 * that an error is returned.
+	 * 5. For each coverage that can be changed, attempt to update the coverage with a valid coverage limit. Validate
+	 * that the update goes through.
+	 * 6. For each coverage that cannot be changed, attempt to update the coverage with a valid coverage limit.
+	 * Validate that an error is returned.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16984"})
+	public void pas16984_validateCoverageConstraints(@Optional("VA") String state) {
+		pas16984_validateCoverageConstraints(getPolicyType());
+	}
 }
 
 

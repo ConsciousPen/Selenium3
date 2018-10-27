@@ -200,6 +200,7 @@
                     <include name="pas14536_TransportationExpensePart2"/>
                     <include name="pas14536_TransportationExpensePart3"/>
                     <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
                 </methods>
             </class>
         </classes>

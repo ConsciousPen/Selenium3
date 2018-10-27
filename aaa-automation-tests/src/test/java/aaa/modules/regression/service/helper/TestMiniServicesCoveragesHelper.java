@@ -261,6 +261,76 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas16984_validateCoverageConstraints(PolicyType policyType) {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
+
+		mainApp().open();
+		createCustomerIndividual();
+		policyType.get().createPolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		/*
+		 * Test first cycles through the coverages that can be updated. The test first tries to update the limit
+		 * to some made up value and validates that the service returns back an error message.
+		 */
+		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> coverage.canChangeCoverage)
+				.forEach(coverage -> {
+					ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
+							DXPRequestFactory.createUpdateCoverageRequest(coverage.coverageCd, "invalidLimit"), ErrorResponseDto.class, 422);
+					assertSoftly(softly -> {
+						softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+						softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + coverage.coverageCd + "'");
+					});
+				});
+		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
+				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> vehicleCoverage.canChangeCoverage)
+						.forEach(vehicleCoverage -> {
+							assertSoftly(softly -> {
+								ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
+										DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.coverageCd, "invalidLimit"), ErrorResponseDto.class, 422);
+								softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+								softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + vehicleCoverage.coverageCd + "'");
+							});
+						}));
+
+		/*
+		 * Test next cycles through the coverages that cannot be updated. The test tries to update the coverage and
+		 * validates that the service returns an error.
+		 */
+		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> !coverage.canChangeCoverage)
+				.forEach(coverage -> {
+					ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
+							DXPRequestFactory.createUpdateCoverageRequest(coverage.coverageCd, "0"), ErrorResponseDto.class, 422);
+					assertSoftly(softly -> {
+						softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+						softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + coverage.coverageCd + "'");
+					});
+				});
+		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
+				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> !vehicleCoverage.canChangeCoverage)
+					.forEach(vehicleCoverage -> {
+						assertSoftly(softly -> {
+							ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
+									DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.coverageCd, "0"), ErrorResponseDto.class, 422);
+							softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+							softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.coverageCd + "'");
+						});
+					}));
+
+		/*
+		 * Test next tries to update a bogus coverage code and validates that the service returns an error.
+		 */
+		ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
+				DXPRequestFactory.createUpdateCoverageRequest("TEST", "0"), ErrorResponseDto.class, 422);
+		assertSoftly(softly -> {
+			softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+			softly.assertThat(response.message).isEqualTo("Cannot find coverage with coverage code 'TEST'");
+		});
+	}
+
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
