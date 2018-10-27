@@ -2,27 +2,18 @@ package aaa.helpers.rest.dtoDxp;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import aaa.main.enums.AvailableCoverageLimits;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import aaa.main.enums.CoverageInfo;
+import aaa.main.enums.CoverageLimits;
 
 @ApiModel(description = "Coverage Information")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class Coverage {
-	private Coverage(CoverageBuilder coverageBuilder){
-		this.coverageCd = coverageBuilder.coverageCd;
-		this.coverageDescription = coverageBuilder.coverageDescription;
-		this.coverageLimit = coverageBuilder.coverageLimit;
-		this.coverageLimitDisplay = coverageBuilder.coverageLimitDisplay;
-		this.coverageType = coverageBuilder.coverageType;
-		this.customerDisplayed = coverageBuilder.customerDisplayed;
-		this.canChangeCoverage = coverageBuilder.canChangeCoverage;
-		this.availableLimits = coverageBuilder.availableLimits;
-		this.availableDrivers = coverageBuilder.availableDrivers;
-		this.currentlyAddedDrivers = coverageBuilder.currentlyAddedDrivers;
-
-	}
 
 	@ApiModelProperty(value = "Coverage Code", example = "BI")
 	private String coverageCd;
@@ -52,6 +43,47 @@ public class Coverage {
 
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	private List<String> currentlyAddedDrivers;
+
+	public static Coverage create(CoverageInfo coverageInfo) {
+		Coverage coverage = new Coverage();
+		coverage.coverageCd = coverageInfo.getCode();
+		coverage.coverageDescription = coverageInfo.getDescription();
+		coverage.coverageLimit = coverageInfo.getDefaultLimit().getLimit();
+		coverage.coverageLimitDisplay = coverageInfo.getDefaultLimit().getDisplay();
+		coverage.availableLimits = coverageInfo.getAvailableLimits().stream()
+				.map(al -> new CoverageLimit().setCoverageLimit(al.getLimit()).setCoverageLimitDisplay(al.getDisplay()))
+				.collect(Collectors.toList());
+		coverage.canChangeCoverage = true;
+		coverage.customerDisplayed = true;
+		return coverage;
+	}
+
+	public Coverage changeLimit(CoverageLimits coverageLimit) {
+		this.coverageLimit = coverageLimit.getLimit();
+		this.coverageLimitDisplay = coverageLimit.getDisplay();
+		return this;
+	}
+
+	public Coverage removeAvailableLimit(CoverageLimits coverageLimit) {
+		this.availableLimits.removeIf(p -> p.coverageLimit.equals(coverageLimit.getLimit()));
+		return this;
+	}
+
+	public Coverage enableCanChange() {
+		this.canChangeCoverage = true;
+		return this;
+	}
+
+	public Coverage disableCustomerDisplay() {
+		this.customerDisplayed = false;
+		this.canChangeCoverage = false;
+		return this;
+	}
+
+	public Coverage disableCanChange() {
+		this.canChangeCoverage = false;
+		return this;
+	}
 
 	public String getCoverageCd() {
 		return coverageCd;
@@ -117,96 +149,6 @@ public class Coverage {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(), getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(), getAvailableDrivers(), getCurrentlyAddedDrivers());
-	}
-
-	public Coverage setCurrentlyAddedDrivers(List<String> currentlyAddedDrivers) {
-		this.currentlyAddedDrivers = currentlyAddedDrivers;
-		return this;
-	}
-
-	public static class CoverageBuilder{
-		@ApiModelProperty(value = "Coverage Code", example = "BI")
-		private String coverageCd;
-
-		@ApiModelProperty(value = "Coverage Description", example = "Bodily Injury Liability")
-		private String coverageDescription;
-
-		@ApiModelProperty(value = "Limit", example = "500000/1000000")
-		private String coverageLimit;
-
-		@ApiModelProperty(value = "Coverage Limit", example = "$500,000/$1,000,000")
-		private String coverageLimitDisplay;
-
-		@ApiModelProperty(value = "Delimiter", example = "Deductible")
-		private String coverageType;
-
-		@ApiModelProperty(value = "Customer Displayed?", example = "false")
-		private Boolean customerDisplayed;
-
-		@ApiModelProperty(value = "Is Coverage Available for Update", example = "false")
-		private Boolean canChangeCoverage;
-
-		private List<CoverageLimit> availableLimits;
-
-		@ApiModelProperty(value = "List of drivers the coverage can be applied to")
-		private List<String> availableDrivers;
-
-		@ApiModelProperty(value = "List of drivers that the coverage is applied to")
-		private List<String> currentlyAddedDrivers;
-
-		public CoverageBuilder setCoverageCd(String coverageCd) {
-			this.coverageCd = coverageCd;
-			return this;
-		}
-
-		public CoverageBuilder setCoverageDescription(String coverageDescription) {
-			this.coverageDescription = coverageDescription;
-			return this;
-		}
-
-		public CoverageBuilder setCoverageLimit(String coverageLimit) {
-			this.coverageLimit = coverageLimit;
-			return this;
-		}
-
-		public CoverageBuilder setCoverageLimitDisplay(String coverageLimitDisplay) {
-			this.coverageLimitDisplay = coverageLimitDisplay;
-			return this;
-		}
-
-		public CoverageBuilder setCoverageType(String coverageType) {
-			this.coverageType = coverageType;
-			return this;
-		}
-
-		public CoverageBuilder setCustomerDisplayed(Boolean customerDisplayed) {
-			this.customerDisplayed = customerDisplayed;
-			return this;
-		}
-
-		public CoverageBuilder setCanChangeCoverage(Boolean canChangeCoverage) {
-			this.canChangeCoverage = canChangeCoverage;
-			return this;
-		}
-
-		public CoverageBuilder setAvailableLimits(List<CoverageLimit> availableLimits) {
-			this.availableLimits = availableLimits;
-			return this;
-		}
-
-		public CoverageBuilder setAvailableDrivers(List<String> availableDrivers) {
-			this.availableDrivers = availableDrivers;
-			return this;
-		}
-
-		public CoverageBuilder setCurrentlyAddedDrivers(List<String> currentlyAddedDrivers) {
-			this.currentlyAddedDrivers = currentlyAddedDrivers;
-			return this;
-		}
-
-		public Coverage build(){
-			return new Coverage(this);
-		}
 	}
 
 }
