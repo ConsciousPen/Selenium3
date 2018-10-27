@@ -798,10 +798,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 3. Run the View Coverage service and retrieve the details for the coverages of that state.
 	 * 4. For each coverage that can be changed, attempt to update the coverage with a bogus coverage limit. Validate
 	 * that an error is returned.
-	 * 5. For each coverage that can be changed, attempt to update the coverage with a valid coverage limit. Validate
-	 * that the update goes through.
-	 * 6. For each coverage that cannot be changed, attempt to update the coverage with a valid coverage limit.
+	 * 5. For each coverage that cannot be changed, attempt to update the coverage with a valid coverage limit.
 	 * Validate that an error is returned.
+	 * 6. Try to update a coverage that doesn't exist and validate that an error is returned.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
