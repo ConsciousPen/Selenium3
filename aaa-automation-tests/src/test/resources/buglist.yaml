@@ -399,3 +399,9 @@ PAS-20827:
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+PAS-21025:
+  summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
+    messages: ["PAS Driver should be 2nd Driver of Policy"]

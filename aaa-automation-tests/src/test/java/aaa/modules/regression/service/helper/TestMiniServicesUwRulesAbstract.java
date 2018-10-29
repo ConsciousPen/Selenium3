@@ -277,7 +277,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid,VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle,VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
