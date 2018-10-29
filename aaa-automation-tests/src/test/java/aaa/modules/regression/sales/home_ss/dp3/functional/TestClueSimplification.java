@@ -24,6 +24,11 @@ import toolkit.webdriver.controls.composite.table.Table;
 public class TestClueSimplification extends TestClueSimplificationPropertyAbstract {
 
 	@Override
+	protected String getNamedInsuredLabel() {
+		return HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel();
+	}
+
+	@Override
 	protected ComboBox getClaimLossForAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.LOSS_FOR);
 	}
