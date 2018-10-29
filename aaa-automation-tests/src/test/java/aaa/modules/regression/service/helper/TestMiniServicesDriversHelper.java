@@ -2651,27 +2651,27 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	private void validateAvailableCoverages_pas17968(DriversDto driver, PolicyCoverageInfo driverCoverages, ETCSCoreSoftAssertions softly) {
 		//PAS-14650 deathAndSpecificDisability should be available for all afr drivers
 		if ("afr".equals(driver.driverType)) {
-			softly.assertThat(driverCoverages.driverCoverages.get(0).availableDrivers).contains(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
+			softly.assertThat(driverCoverages.driverCoverages.get(0).getAvailableDrivers()).contains(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
 		} else {
 			softly.assertThat("nafr".equals(driver.driverType)).isTrue();
-			softly.assertThat(driverCoverages.driverCoverages.get(0).availableDrivers).doesNotContain(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
+			softly.assertThat(driverCoverages.driverCoverages.get(0).getAvailableDrivers()).doesNotContain(driver.oid); //coverages.get(0) should be deathAndSpecificDisability
 		}
 
 		//PAS-17050 totalDisability should be available only if deathAndSpecificDisability is selected
-		if (BooleanUtils.isTrue(driverCoverages.driverCoverages.get(0).currentlyAddedDrivers.contains(driver.oid))) { //coverages.get(0) should be deathAndSpecificDisability
-			softly.assertThat(driverCoverages.driverCoverages.get(1).availableDrivers).contains(driver.oid); //coverages.get(1) should be totalDisability
+		if (BooleanUtils.isTrue(driverCoverages.driverCoverages.get(0).getCurrentlyAddedDrivers().contains(driver.oid))) { //coverages.get(0) should be deathAndSpecificDisability
+			softly.assertThat(driverCoverages.driverCoverages.get(1).getAvailableDrivers()).contains(driver.oid); //coverages.get(1) should be totalDisability
 		} else {
-			softly.assertThat(driverCoverages.driverCoverages.get(1).availableDrivers).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
+			softly.assertThat(driverCoverages.driverCoverages.get(1).getAvailableDrivers()).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
 		}
 
 	}
 
 	private void validateCoverageDetails_pas17968(PolicyCoverageInfo driverCoverages) {
-		assertThat(driverCoverages.driverCoverages.get(0).coverageCd).isEqualTo("DISD");
-		assertThat(driverCoverages.driverCoverages.get(0).coverageDescription).isEqualTo("Death Indemnity and Specific Disability");
+		assertThat(driverCoverages.driverCoverages.get(0).getCoverageCd()).isEqualTo("DISD");
+		assertThat(driverCoverages.driverCoverages.get(0).getCoverageDescription()).isEqualTo("Death Indemnity and Specific Disability");
 
-		assertThat(driverCoverages.driverCoverages.get(1).coverageCd).isEqualTo("TD");
-		assertThat(driverCoverages.driverCoverages.get(1).coverageDescription).isEqualTo("Total Disability");
+		assertThat(driverCoverages.driverCoverages.get(1).getCoverageCd()).isEqualTo("TD");
+		assertThat(driverCoverages.driverCoverages.get(1).getCoverageDescription()).isEqualTo("Total Disability");
 	}
 
 	private void validateSelectedCoverages(DriversDto driver, Boolean specificDisabilityIndExpected, Boolean totalDisabilityIndExpected, ETCSCoreSoftAssertions softly) {
@@ -2692,16 +2692,16 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		}
 
 		if (BooleanUtils.isTrue(specificDisabilityExpected)) {
-			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).contains(driver.oid);
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).getCurrentlyAddedDrivers()).contains(driver.oid);
 		} else {
-			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).doesNotContain(driver.oid);
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).getCurrentlyAddedDrivers()).doesNotContain(driver.oid);
 		}
 
 		if (BooleanUtils.isTrue(totalDisabilityExpected)) {
-			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).currentlyAddedDrivers).contains(driver.oid); // totalDisability can be selected only if specificDisability (coverages.get(0) is selected.
-			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).currentlyAddedDrivers).contains(driver.oid); //coverages.get(0) should be totalDisability
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(0).getCurrentlyAddedDrivers()).contains(driver.oid); // totalDisability can be selected only if specificDisability (coverages.get(0) is selected.
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).getCurrentlyAddedDrivers()).contains(driver.oid); //coverages.get(0) should be totalDisability
 		} else {
-			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).currentlyAddedDrivers).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
+			softly.assertThat(policyCoveragesInfo.driverCoverages.get(1).getCurrentlyAddedDrivers()).doesNotContain(driver.oid); //coverages.get(1) should be totalDisability
 		}
 
 	}
