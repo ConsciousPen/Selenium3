@@ -262,12 +262,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
-        List<TestData> tdNamedInsured = new ArrayList<>();
-        tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli"));
-        tdNamedInsured.add(getNamedInsuredTd("Sachin", "Kohli").mask(getBtnAddInsuredLabel()));
-        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("Silvia", "Kohli")));
 
-        createSpecificCustomerInitiatePolicy("Virat", "Kohli");
+        createSpecificCustomerIndividual("Virat", "Kohli");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
@@ -283,8 +281,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationEndorsement() {
-        createSpecificCustomerInitiatePolicy("Sachin", "Kohli");
-        createPolicy();
+        openAppAndCreatePolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         addNamedInsuredWithClaims();
 
@@ -298,8 +295,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationRenewal() {
-        createSpecificCustomerInitiatePolicy("Sachin", "Kohli");
-        createPolicy();
+        openAppAndCreatePolicy();
         policy.renew().perform();
         addNamedInsuredWithClaims();
 
@@ -313,8 +309,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
-        createSpecificCustomerInitiatePolicy("Sachin", "Kohli");
-        createPolicy();
+        openAppAndCreatePolicy();
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
         policy.dataGather().start();
@@ -330,7 +325,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
-        createSpecificCustomerInitiatePolicy("Agustin", "Miras");
+        createSpecificCustomerIndividual("Agustin", "Miras");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         checkTblClaimRowCount(0);
@@ -338,7 +333,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
-        createSpecificCustomerInitiatePolicy("MARSHA", "LACKEY");
+        createSpecificCustomerIndividual("MARSHA", "LACKEY");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
@@ -505,7 +500,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         }
     }
 
-    private void createSpecificCustomerInitiatePolicy(String fName, String lName) {
+    private void createSpecificCustomerIndividual(String fName, String lName) {
         TestData td = getCustomerIndividualTD("DataGather", "TestData")
                 .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), fName)
                 .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), lName);
@@ -536,6 +531,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
+    }
+
+    private void validateCatastropheFieldWhenUnknown() {
+
         // Validates 'Applicant & Property' with catastrophe = 'Unknown'
         viewEditClaimByLossAmount("14000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
@@ -545,8 +544,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("13000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
-
-
     }
 
 }
