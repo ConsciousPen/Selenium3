@@ -743,15 +743,14 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		String vin = "";
 
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
-		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getBiLiabilitySymbol())) {
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85) {
 			String getVinQuery = String.format("select VIN from VEHICLEREFDATAVIN inner join VEHICLEREFDATAMODEL \n"
 							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
 							+ "where PHYSICALDAMAGECOLLISION %1$s and PHYSICALDAMAGECOMPREHENSIVE %2$s and YEAR %3$s \n"
 							+ "and BI_SYMBOL %4$s and PD_SYMBOL %5$s and MP_SYMBOL %6$s and UM_SYMBOL %7$s \n"
 							+ "and (RESTRAINTSCODE %8$s) AND ANTITHEFTCODE %9$s",
 					vehicle.getCollSymbol() == null ? "is null" : "= " + vehicle.getCollSymbol(),
-					vehicle.getCompSymbol() == null ? "is null" : "= " + vehicle.getCollSymbol(),
+					vehicle.getCompSymbol() == null ? "is null" : "= " + vehicle.getCompSymbol(),
 					vehicle.getModelYear() == null ? "is null" : "= " + vehicle.getModelYear(),
 					vehicle.getBiLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getBiLiabilitySymbol() + "'",
 					vehicle.getPdLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getPdLiabilitySymbol() + "'",
