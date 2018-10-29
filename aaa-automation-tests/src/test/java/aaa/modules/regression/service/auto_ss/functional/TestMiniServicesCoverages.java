@@ -829,7 +829,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas19195_viewUpdatePIPCoverage_KY(@Optional("KY") String state) {
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		TestData td = getPolicyDefaultTD();
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_4drivers").getTestDataList("DriverTab"))
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FNI_AFR_Excluded_NAFR").getTestDataList("DriverTab"))
 				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
