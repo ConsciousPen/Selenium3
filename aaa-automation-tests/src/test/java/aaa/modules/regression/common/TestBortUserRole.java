@@ -16,7 +16,11 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
@@ -25,8 +29,12 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.service.EndorsementTest;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification;
+import aaa.modules.regression.service.auto_ss.TestPolicyCancellation;
 import aaa.modules.regression.service.auto_ss.TestPolicyEndorsementMidTerm;
+import aaa.modules.regression.service.template.PolicyCancellation;
 import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
+import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -36,7 +44,9 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
@@ -64,26 +74,31 @@ import static toolkit.verification.CustomAssertions.assertThat;
  */
 public class TestBortUserRole extends AutoSSBaseTest {
     GeneralTab gTab = new GeneralTab();
+    private BillingAccount billingAccount = new BillingAccount();
+    private UpdateBillingAccountActionTab updateBillingAccountActionTab = new UpdateBillingAccountActionTab();
+    private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
     public static Link linkTransactionHistory = new Link(By.id("historyForm:body_historyTable"));
     @Parameters({"state"})
     @Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testBortCreateObject(@Optional("AZ") String state) {
         NotesAndAlertsSummaryPage notesAndAlertsSummaryPage = new NotesAndAlertsSummaryPage();
-        String policyNumber = "SDSS203805910";
+        String policyNumber = "SDSS204385225";
 
-        //Inquiry leave notes
 
-/*       loginAsA30();
-       //Inquiry for active image
-        String agentDetails = gettargetAgentDetails(policyNumber);
-        //validate all transaction images
-        validateAllTransactionImages();
-        loginAsA30();
-        //Leave and verify notes
-        leaveAndVerifyNotes(notesAndAlertsSummaryPage, policyNumber);*/
+//Inquiry for active image validate all transaction images
+         loginAsUser("U500018077", "AZ", "F35", "01","01");
+      /*  String agentDetails = gettargetAgentDetails(policyNumber);
 
-        loginAsA30();
+        validateAllTransactionImages(policyNumber);
+*/
+//Leave and verify notes
+      /*  loginAsL41();*/
+
+       // leaveAndVerifyNotes(notesAndAlertsSummaryPage, policyNumber);
+
+//Endorse Policy
+     /*   loginAsL41();*/
         SearchPage.openPolicy(policyNumber);
         TestData endorsementTd =testDataManager.getDefault(TestPolicyEndorsementMidTerm.class).getTestData("TestData");
         policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
@@ -91,6 +106,34 @@ public class TestBortUserRole extends AutoSSBaseTest {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 
+//Cancel Policy
+   /*     loginAsF35();
+        SearchPage.openPolicy(policyNumber);
+        log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+*/
+
+
+      /*  loginAsG36();
+        SearchPage.openPolicy(policyNumber);
+        log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
+        policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+*/
+      /*  loginAsL41();
+        SearchPage.openPolicy(policyNumber);
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        TestData update_payment = testDataManager.billingAccount.getTestData("PaymentMethods", "TestData");
+       // billingAccount.update().perform(update_payment);
+        new BillingAccount().update().perform(update_payment);
+
+        *//*AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
+        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+
+        new BillingAccount().update().perform(update_payment);*//*
+      //acceptPaymentActionTab.back();
+*/
 
 
       /*  loginAsF35();
@@ -120,12 +163,14 @@ public class TestBortUserRole extends AutoSSBaseTest {
         mainApp().close();
     }
 
-    private void validateAllTransactionImages() {
+    private void validateAllTransactionImages(String policyNumber) {
+
         PolicySummaryPage.TransactionHistory.open();
         int countOfTransactionType = (PolicySummaryPage.tableTransactionHistory.getRowsCount());
         for(int i=1; i<=countOfTransactionType;i++) {
         PolicySummaryPage.tableTransactionHistory.getRow(i).getCell("Type").controls.links.get(1).click();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        ScreenshotManager.getInstance().makeScreenshot(policyNumber +" Transaction History " + getSaltString() );
         String newAgentDetails = gTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).getValue();
         String newAgencyDetails = gTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENCY).getValue();
 
@@ -151,6 +196,15 @@ public class TestBortUserRole extends AutoSSBaseTest {
             NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(note, true, softly);
         });
         return note;
+    }
+
+    private void loginAsB31() {
+        mainApp().open(initiateLoginTD()
+                .adjust("User","qa_roles")
+                .adjust("Groups", "B31")
+                .adjust("UW_AuthLevel", "00")
+                .adjust("Billing_AuthLevel", "01")
+        );
     }
 
     private void loginAsA30() {
@@ -197,6 +251,16 @@ public class TestBortUserRole extends AutoSSBaseTest {
                 .adjust("Groups", "L41")
                 .adjust("UW_AuthLevel", "04")
                 .adjust("Billing_AuthLevel", "05")
+        );
+    }
+
+    private void loginAsUser(String user, String state, String groups, String uW_AuthLevel, String billing_AuthLevel) {
+        mainApp().open(initiateLoginTD()
+                .adjust("User",user)
+                .adjust("Groups", groups)
+                .adjust("UW_AuthLevel", uW_AuthLevel)
+                .adjust("States",state)
+                .adjust("Billing_AuthLevel", billing_AuthLevel)
         );
     }
 
@@ -262,6 +326,7 @@ public class TestBortUserRole extends AutoSSBaseTest {
         return saltStr;
 
     }
+
 
 
 
