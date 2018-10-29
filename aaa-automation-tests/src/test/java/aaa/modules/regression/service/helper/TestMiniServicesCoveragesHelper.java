@@ -3435,7 +3435,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void validatePIPCoverages_KY(ETCSCoreSoftAssertions softly, String policyNumber, Map<String, Coverage> mapPIPCoveragesExpected, Map<String, Coverage> mapPIPCoveragesActual, PolicyCoverageInfo updateCoverageResponse) {
 		for (Map.Entry<String, Coverage> stringCoverageEntry : mapPIPCoveragesExpected.entrySet()) {
-			assertCoveragesEqual(softly, mapPIPCoveragesActual.get(stringCoverageEntry.getKey()), stringCoverageEntry.getValue());
+			softly.assertThat(mapPIPCoveragesActual.get(stringCoverageEntry.getKey())).isEqualToComparingFieldByField(stringCoverageEntry.getValue());
 		}
 		if (updateCoverageResponse != null) {
 			//validate that viewEndorsementCoverages is the same as updateCoverages response
@@ -3887,10 +3887,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected PolicyCoverageInfo updateTORTCoverage(String policyNumber, List<String> driverOidList) {
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", driverOidList);
 		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
-	}
-
-	private void assertCoveragesEqual(ETCSCoreSoftAssertions softly, Coverage coverageActual, Coverage coverageExpected) {
-		softly.assertThat(coverageActual).isEqualToIgnoringNullFields(coverageExpected);
 	}
 
 }
