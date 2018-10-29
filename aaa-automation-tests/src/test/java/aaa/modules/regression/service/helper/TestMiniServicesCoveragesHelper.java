@@ -280,23 +280,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		 * Test first cycles through the coverages that can be updated. The test first tries to update the limit
 		 * to some made up value and validates that the service returns back an error message.
 		 */
-		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> coverage.canChangeCoverage)
+		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> coverage.getCanChangeCoverage())
 				.forEach(coverage -> {
 					ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
-							DXPRequestFactory.createUpdateCoverageRequest(coverage.coverageCd, "invalidLimit"), ErrorResponseDto.class, 422);
+							DXPRequestFactory.createUpdateCoverageRequest(coverage.getCoverageCd(), "invalidLimit"), ErrorResponseDto.class, 422);
 					assertSoftly(softly -> {
 						softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-						softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + coverage.coverageCd + "'");
+						softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + coverage.getCoverageCd() + "'");
 					});
 				});
 		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
-				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> vehicleCoverage.canChangeCoverage)
+				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> vehicleCoverage.getCanChangeCoverage())
 						.forEach(vehicleCoverage -> {
 							assertSoftly(softly -> {
 								ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
-										DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.coverageCd, "invalidLimit"), ErrorResponseDto.class, 422);
+										DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.getCoverageCd(), "invalidLimit"), ErrorResponseDto.class, 422);
 								softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-								softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + vehicleCoverage.coverageCd + "'");
+								softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
 							});
 						}));
 
@@ -304,23 +304,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		 * Test next cycles through the coverages that cannot be updated. The test tries to update the coverage and
 		 * validates that the service returns an error.
 		 */
-		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> !coverage.canChangeCoverage)
+		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> !coverage.getCanChangeCoverage())
 				.forEach(coverage -> {
 					ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
-							DXPRequestFactory.createUpdateCoverageRequest(coverage.coverageCd, "0"), ErrorResponseDto.class, 422);
+							DXPRequestFactory.createUpdateCoverageRequest(coverage.getCoverageCd(), "0"), ErrorResponseDto.class, 422);
 					assertSoftly(softly -> {
 						softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-						softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + coverage.coverageCd + "'");
+						softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + coverage.getCoverageCd() + "'");
 					});
 				});
 		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
-				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> !vehicleCoverage.canChangeCoverage)
+				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> !vehicleCoverage.getCanChangeCoverage())
 					.forEach(vehicleCoverage -> {
 						assertSoftly(softly -> {
 							ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
-									DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.coverageCd, "0"), ErrorResponseDto.class, 422);
+									DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.getCoverageCd(), "0"), ErrorResponseDto.class, 422);
 							softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-							softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.coverageCd + "'");
+							softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
 						});
 					}));
 
@@ -1620,15 +1620,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertSoftly(softly -> {
 			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredPolicyCoverageResponseUMPD = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
+			Coverage filteredPolicyCoverageResponseUMPD = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
 			//BUG: PAS-15829 UMPD not returned from viewPolicyCoverages for NJ (for Policy and Endorsement)
-			softly.assertThat(filteredPolicyCoverageResponseUMPD.coverageType).isEqualTo("Per Accident");
-			softly.assertThat(filteredPolicyCoverageResponseUMPD.canChangeCoverage).isFalse();
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCanChangeCoverage()).isFalse();
 
 			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredEndorsementCoverageResponseUMPD = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.coverageCd)).findFirst().orElse(null);
-			softly.assertThat(filteredEndorsementCoverageResponseUMPD.coverageType).isEqualTo("Per Accident");
-			softly.assertThat(filteredEndorsementCoverageResponseUMPD.canChangeCoverage).isFalse();
+			Coverage filteredEndorsementCoverageResponseUMPD = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCanChangeCoverage()).isFalse();
 		});
 	}
 
@@ -2642,7 +2642,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertSoftly(softly -> {
 
-			Coverage umpdCoverage = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(coverage -> "UMPDDED".equals(coverage.coverageCd))
+			Coverage umpdCoverage = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(coverage -> "UMPDDED".equals(coverage.getCoverageCd()))
                     .findFirst().orElse(null);
 			coverageXproperties(softly, umpdCoverage, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
 
