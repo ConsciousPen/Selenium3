@@ -342,7 +342,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//get all coverages
 		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
-		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
@@ -498,8 +498,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String compDedCovCd = "COMPDED";
 		String compDedAvailableLimits = "100";
 		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class);
-		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredCoverageResponse.coverageLimit).isEqualTo("100");
+		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredCoverageResponse.getCoverageLimit()).isEqualTo("100");
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 		//Rate endorsement
@@ -520,13 +520,13 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
 		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class);
-		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
+		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredUpdateCoverageResponse2.getCoverageLimit()).isEqualTo("500");
 
 		//View endorsement Coverage
 		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
-		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
+		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewEndorsementCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		//BUG not reset status
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
@@ -544,8 +544,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//View endorsement Coverage
 		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
-		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
+		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewPolicyCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsement created/issued through service
