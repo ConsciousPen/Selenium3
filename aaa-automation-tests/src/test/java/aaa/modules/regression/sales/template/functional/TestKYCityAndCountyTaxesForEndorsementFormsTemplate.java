@@ -5,6 +5,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.main.enums.EndorsementForms;
 import aaa.main.enums.products.HomeSSConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
@@ -60,17 +61,24 @@ public class TestKYCityAndCountyTaxesForEndorsementFormsTemplate extends TestEnd
                 endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_09_26)
                         .getAsset(HomeSSMetaData.EndorsementTab.EndorsementHS0926.COVERAGE_LIMIT).setValue("index=2");
                 break;
+            case DS_04_20:
+                endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.DS_04_20)
+                        .getAsset(HomeSSMetaData.EndorsementTab.EndorsementDS0420.COVERAGE_LIMIT).setValue("index=1");
+                break;
                 }
         endorsementTab.btnSaveForm.click();
     }
 
     private void validateCityAndCountyTaxIncrease(){
 
-        addEndorsementForm(
-                EndorsementForms.HomeSSEndorsementForms.HS_04_53.getFormId(),
-                EndorsementForms.HomeSSEndorsementForms.HS_09_26.getFormId(),
-                EndorsementForms.HomeSSEndorsementForms.HS_09_34.getFormId());
-
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)){
+            addEndorsementForm(EndorsementForms.HomeSSEndorsementForms.DS_04_20.getFormId());
+        }
+        else {
+            addEndorsementForm(
+                    EndorsementForms.HomeSSEndorsementForms.HS_04_53.getFormId(),
+                    EndorsementForms.HomeSSEndorsementForms.HS_09_26.getFormId());
+        }
         premiumsAndCoveragesQuoteTab.calculatePremium();
         Dollar dwellingPremium = PremiumsAndCoveragesQuoteTab.getPolicyDwellingPremium();
         Dollar endorsementsPremium = PremiumsAndCoveragesQuoteTab.getEndorsedPolicyActualPremium();
