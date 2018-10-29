@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.home_ca.ho6;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -8,10 +9,18 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 public class HomeCaHO6OpenLDwelling extends HomeCaOpenLDwelling {
 	private Integer ageOfHome;
 	private String burglarAlarmType;
+
+	@RequiredField
 	private String constructionType;
 	private String fireAlarmType;
+
+	@RequiredField
 	private Boolean hasSprinklers;
+
+	@RequiredField
 	private Boolean isGatedCommunity;
+
+	@RequiredField
 	private Boolean isSecondaryHome;
 
 	public Integer getAgeOfHome() {
