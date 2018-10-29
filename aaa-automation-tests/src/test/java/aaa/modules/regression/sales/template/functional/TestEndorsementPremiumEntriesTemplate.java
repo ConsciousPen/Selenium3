@@ -23,12 +23,13 @@ public class TestEndorsementPremiumEntriesTemplate extends PolicyBaseTest {
 
         // Create policy and validate DB entries
         String policyNumber = openAppAndCreatePolicy();
+        policy.policyInquiry().start();
         validatePremiumEntriesInDB(policyNumber, getIncludedEndorsementsWithPremiumAmount());
 
         // Copy policy and validate again
         SearchPage.openPolicy(policyNumber);
         policy.policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
-        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumsAndCoveragesQuoteTab.class, true);
+        policy.dataGather().start();
         premiumsAndCoveragesQuoteTab.calculatePremium();
         validatePremiumEntriesInDB(premiumsAndCoveragesQuoteTab.getPolicyNumber(), getIncludedEndorsementsWithPremiumAmount());
 
@@ -75,14 +76,13 @@ public class TestEndorsementPremiumEntriesTemplate extends PolicyBaseTest {
 
         for (Map<String, String> row : dbEntries) {
             String coverageCdValue = row.get("COVERAGECD");
-            assertThat(endorsements.get(coverageCdValue.substring(coverageCdValue.indexOf("#")))).isEqualTo(new Dollar(row.get("PREMIUMAMT")));
+            assertThat(endorsements.get(coverageCdValue.substring(0, coverageCdValue.indexOf("#")))).isEqualTo(new Dollar(row.get("PREMIUMAMT")));
         }
 
     }
 
     private Map<String, Dollar> getIncludedEndorsementsWithPremiumAmount() {
         // Get all included endorsement forms from Endorsements Tab
-        policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         List<String>  includedForms = IntStream.rangeClosed(1, endorsementTab.tblIncludedEndorsements.getRowsCount())
                 .mapToObj(i -> endorsementTab.tblIncludedEndorsements.getColumn(PolicyConstants.PolicyIncludedAndSelectedEndorsementsTable.FORM_ID).getCell(i).getValue()).collect(Collectors.toList());
