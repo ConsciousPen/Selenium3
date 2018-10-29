@@ -1,0 +1,29 @@
+TestData_DriverTab_CompClaimsDetermination_AZ: {
+    DriverTab: ['@Driver_FNI', '@Driver_Second'],
+  }
+
+Driver_FNI: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  Date of Birth: '12/12/1980',
+  License Type: 'Licensed (US)',
+  License Number: A19191911,
+  Age First Licensed: 18
+}
+
+Driver_Second: {
+  Add Driver: Click,
+  DriverSearchDialog:{},
+  First Name: pasMATTHEW,
+  Last Name: pasFOX,
+  'Rel. to First Named Insured': Sibling,
+  Date of Birth: '12/12/1980',
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Clergy,
+  License Type: "Licensed (US)",
+  License State: AZ,
+  License Number: A19191912,
+  Age First Licensed: 18
+}
+
