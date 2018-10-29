@@ -103,7 +103,9 @@ public class TestKYCityAndCountyTaxesForEndorsementFormsTemplate extends TestEnd
                 .adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
                         HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), "268 WARD AVE")
                 .adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
-                        HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel()), "CountyCounty");
+                        HomeSSMetaData.ApplicantTab.DwellingAddress.COUNTY.getLabel()), "CountyCounty")
+                .mask(TestData.makeKeyPath(HomeSSMetaData.DocumentsTab.class.getSimpleName(), HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_ISSUE.getLabel(),
+                        HomeSSMetaData.DocumentsTab.DocumentsToIssue.KENTUCKY_MINE_SUBSIDENCE_INSURANCE_FUND_WAIVER_FORM.getLabel()));
     }
 
 }
