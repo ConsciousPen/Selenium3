@@ -6,7 +6,7 @@ public enum CoverageInfo {
 
 	BPIP("BPIP", "Basic Personal Injury Protection Coverage", CoverageLimits.COV_10000, AvailableCoverageLimits.BPIP_CL.getAvailableLimits()),
 	ADDPIP("ADDPIP", "Additional Personal Injury Protection Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.ADDPIP_CL.getAvailableLimits()),
-	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.COV_00, AvailableCoverageLimits.PIPDED_CL.getAvailableLimits()),
+	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_CL.getAvailableLimits()),
 	GPIP("GPIP", "Guest Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.GPIP_CL.getAvailableLimits());
 
 	private final String code;

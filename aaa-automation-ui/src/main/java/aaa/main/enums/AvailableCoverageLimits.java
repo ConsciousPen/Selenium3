@@ -17,7 +17,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_0
 	)),
 	PIPDED_CL(ImmutableList.of(
-			CoverageLimits.COV_00,
+			CoverageLimits.DED_0,
 			CoverageLimits.DED_250,
 			CoverageLimits.DED_500,
 			CoverageLimits.DED_1000

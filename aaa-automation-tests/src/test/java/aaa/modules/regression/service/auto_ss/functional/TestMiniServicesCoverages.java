@@ -10,7 +10,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.Coverage;
@@ -956,7 +955,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 			//Update back to 0
 			validateTORTPrecondition_pas19195(policyNumber, false);
-			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPDED.getCode(), CoverageLimits.COV_00.getLimit());
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPDED.getCode(), CoverageLimits.DED_0.getLimit());
 			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
 
 			Map<String, Coverage> pipdedBackToZero = new LinkedHashMap<>();
