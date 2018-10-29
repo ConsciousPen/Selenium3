@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Empty Endorsement Suite" verbose="1" parallel="tests" thread-count="1024" data-provider-thread-count="1">
+<suite name="BCT Empty Endorsement Suite" verbose="1" parallel="tests" thread-count="50" data-provider-thread-count="1">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
