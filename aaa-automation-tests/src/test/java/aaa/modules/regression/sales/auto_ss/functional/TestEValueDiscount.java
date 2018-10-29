@@ -1240,8 +1240,9 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	public void pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences(@Optional("VA") String state) {
 
 		//eValueQuoteCreation();
-		String quoteNumber = "VASS952918542";
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_IN_PENDING);
+		eValueQuoteCreation();
+		String quoteNumber = PolicySummaryPage.getPolicyNumber();
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
