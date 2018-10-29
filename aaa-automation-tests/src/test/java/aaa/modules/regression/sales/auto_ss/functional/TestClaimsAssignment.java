@@ -48,13 +48,13 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14679,PAS-18391,PAS-14058,PAS-8310,PAS-17894")
 	@StateList(states = {Constants.States.AZ})
-	public void claimsMatching_test1(@Optional("AZ") String state) throws IOException {
+	public void PAS14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
 
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
-		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "claimsMatching_test1.json")));
+		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "PAS14679_testMSClaimsAssignment.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
 		ClaimsAssignmentResponse microServiceResponse = runJsonRequestPostClaims(claimsRequest);
