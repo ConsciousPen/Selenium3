@@ -9,7 +9,7 @@ import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
-import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyTemplate;
+import aaa.modules.regression.sales.template.functional.TestClueSimplificationPropertyAbstract;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -21,7 +21,7 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.table.Table;
 
 @StateList(states = Constants.States.CA)
-public class TestClueSimplification extends TestClueSimplificationPropertyTemplate {
+public class TestClueSimplification extends TestClueSimplificationPropertyAbstract {
 
 	@Override
 	protected ComboBox getClaimLossForAsset() {

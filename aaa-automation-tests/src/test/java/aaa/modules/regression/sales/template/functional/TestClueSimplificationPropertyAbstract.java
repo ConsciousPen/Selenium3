@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static toolkit.verification.CustomAssertions.assertThat;
 
-public abstract class TestClueSimplificationPropertyTemplate extends TestClaimPointsVRDPageAbstract {
+public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {
 
     protected abstract Tab getBindTab();
     protected abstract Tab getPurchaseTab();
