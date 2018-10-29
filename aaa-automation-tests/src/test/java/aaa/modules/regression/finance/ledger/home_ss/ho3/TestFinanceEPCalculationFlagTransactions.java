@@ -63,19 +63,21 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         LocalDateTime e1date = today.plusDays(62);
         LocalDateTime e2date = e1date.plusDays(61);
         LocalDateTime e3date = e2date.plusDays(64);
+        LocalDateTime manualRenewDate = e1date.plusMonths(1).withDayOfMonth(1);
+        LocalDateTime doNotRenewDate = e2date.plusMonths(1).withDayOfMonth(1);
 
         LocalDateTime jobEndDate  = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
-
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
+
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
-        TimeSetterUtil.getInstance().nextPhase(e1date.plusMonths(1).withDayOfMonth(1));
+
+        jobDate = runEPJobUntil(jobDate, manualRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
         log.info("TEST: Add Manual Renew for Policy #" + policyNumber);
         policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
         assertThat(PolicySummaryPage.labelManualRenew).isPresent();
@@ -90,7 +92,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         policy.removeManualRenew().perform(new SimpleDataProvider());
         assertThat(PolicySummaryPage.labelManualRenew).isPresent(false);
 
-        TimeSetterUtil.getInstance().nextPhase(e2date.plusMonths(1).withDayOfMonth(1));
+        jobDate = runEPJobUntil(jobDate, doNotRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         //Set Do not Renew Flag

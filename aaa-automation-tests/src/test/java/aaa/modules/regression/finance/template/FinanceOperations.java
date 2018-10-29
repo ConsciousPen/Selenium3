@@ -73,7 +73,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	 * @name Run earnedPremiumPostingAsyncTaskGenerationJob and shift to next month until provided date
 	 */
 	protected LocalDateTime runEPJobUntil(LocalDateTime jobDate, LocalDateTime until, Job jobName) {
-		while (until.isAfter(jobDate)) {
+		while (!until.isBefore(jobDate)) {
 			TimeSetterUtil.getInstance().nextPhase(jobDate);
 			JobUtils.executeJob(jobName);
 			jobDate = jobDate.plusMonths(1).withDayOfMonth(1);
