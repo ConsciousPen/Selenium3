@@ -2,6 +2,10 @@ package aaa.modules.regression.finance.ledger.auto_ss;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -47,7 +51,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 	@StateList(states = {Constants.States.WV, Constants.States.KY, Constants.States.AZ, Constants.States.NJ})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
-	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("NJ") String state) {
+	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("AZ") String state) {
 
         mainApp().open();
         createCustomerIndividual();
@@ -57,7 +61,8 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         LocalDateTime e2date = e1date.plusDays(61);
         LocalDateTime e3date = e2date.plusDays(64);
 
-        LocalDateTime jobEndDate  = PolicySummaryPage.getExpirationDate().plusMonths(1);
+        LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+        LocalDateTime jobEndDate  = expirationDate.plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
@@ -90,8 +95,10 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();
 
-        assertThat(new Dollar(PolicySummaryPage.tableTransactionHistory.getRow(1)
-                .getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))
+        assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
                 .isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+
+        List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE, TxType.OOS_ENDORSE, TxType.ROLL_ON);
+        validateEPCalculations(policyNumber, txTypes, today, expirationDate);
     }
 }

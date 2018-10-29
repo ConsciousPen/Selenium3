@@ -86,8 +86,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(new Dollar(PolicySummaryPage.tableTransactionHistory.getRow(1)
-				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))
+		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 	}
 }

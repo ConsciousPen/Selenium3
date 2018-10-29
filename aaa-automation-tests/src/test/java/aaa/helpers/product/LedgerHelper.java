@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
+
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
 
@@ -28,7 +30,35 @@ public class LedgerHelper {
 					+ "group by TXDATE "
 					+ "ORDER BY TXDATE";
 
-	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	private static final String GET_TERM_AND_ACTUAL_PREMIUMS =
+			"Select TO_CHAR(TRANSACTIONDATE, 'MM/DD/YYYY') as TRANSACTION_DATE, TO_CHAR(TRANSACTIONEFFECTIVEDATE, 'MM/DD/YYYY') as TRANSACTION_EFFECTIVE_DATE, txtype, sum(PERIODAMT) as TERM_PREMIUM, sum(PREMIUMAMT) as ACTUAL_PREMIUM from " +
+					"(select p.id, p.TRANSACTIONDATE, p.TRANSACTIONEFFECTIVEDATE, p.txType,c.coverageCd, pe.PREMIUMAMT, " +
+					"pe.PERIODAMT, " +
+					"pe.CHANGEAMT, " +
+					"pe.FACTOR, " +
+					"pe.MONTHLYAMT, " +
+					"pe.PREMIUMCD, " +
+					"pe.PREMIUMTYPE, " +
+					"pe.ANNUALAMT, " +
+					"pe.REMOVEDAMT " +
+					" from PolicySummary p " +
+					"inner join RiskItem ri on ri.POLICYDETAIL_ID = p.policyDetail_id " +
+					"inner join Coverage c on c.RiskItem_ID = ri.id " +
+					"inner join PremiumEntry pe on pe.Coverage_ID = c.id " +
+					"where p.policyNumber = '%s' " +
+					"ORDER BY POLICYSUMMARY_ID, PE.PREMIUMCD) " +
+					"where premiumtype='NET_PREMIUM' and PREMIUMCD='NWT' " +
+					"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype " +
+					"order by TRANSACTIONDATE ";
+
+	public static final String TERM_PREMIUM = "TERM_PREMIUM";
+	public static final String ACTUAL_PREMIUM = "ACTUAL_PREMIUM";
+	public static final String TRANSACTION_DATE = "TRANSACTION_DATE";
+	public static final String TRANSACTION_EFFECTIVE_DATE = "TRANSACTION_EFFECTIVE_DATE";
+
+	private static final String GET_TERM_AND_ACTUAL_PREMIUMS_DESC = GET_TERM_AND_ACTUAL_PREMIUMS + "DESC";
+
+	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
 	public static String getEarnedMonthlyReportedPremiumTotal(@Nonnull String policyNumber) {
 		String query = String.format(GET_EARNED_MONTHLY_REPORTED_PREMIUM_TOTAL, policyNumber);
@@ -40,11 +70,22 @@ public class LedgerHelper {
 		List<Map<String, String>> epsFromDb = DBService.get().getRows(query);
 		Map<LocalDate, BigDecimal> convertedEPs = new LinkedHashMap<>();
 		for (Map<String, String> epFromDb : epsFromDb) {
-			LocalDate txdate = LocalDate.parse(epFromDb.get("TX_DATE"), formatter);
+			LocalDate txdate = LocalDate.parse(epFromDb.get("TX_DATE"), DATE_TIME_FORMATTER);
 			BigDecimal earnedPremium = toBigDecimal(epFromDb.get("EARNED_PREMIUM"));
 			convertedEPs.put(txdate, earnedPremium);
 		}
 		return convertedEPs;
+	}
+
+	public static List<Map<String, String>> getTermAndActualPremiums(@Nonnull String policyNumber) {
+		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS, policyNumber);
+		return DBService.get().getRows(query);
+	}
+
+	public static Dollar getEndingActualPremium(@Nonnull String policyNumber) {
+		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_DESC, policyNumber);
+		Map<String, String> premiums = DBService.get().getRow(query);
+		return new Dollar(premiums.get(ACTUAL_PREMIUM));
 	}
 
 	public static BigDecimal toBigDecimal(Object sum) {

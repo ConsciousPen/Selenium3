@@ -135,9 +135,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	}
 
     public static void main(String[] args) {
-		/*List<Integer> list = new ArrayList<>(Arrays.asList(0,1,2,3,4,5));
-		List<Integer> integers = list.subList(2, list.size());*/
-
         FinanceOperations financeOperations = new FinanceOperations() {};
         financeOperations.test();
     }
@@ -150,14 +147,14 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1168, 1171, LocalDate.of(2019, 2, 22), LocalDate.of(2019, 2, 21)));
 		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1186, 1185, LocalDate.of(2019, 4, 27), LocalDate.of(2019, 1, 22)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 1168, 1173, LocalDate.of(2019, 4, 27), LocalDate.of(2019, 2, 21)));
-		validateLedger("asd" ,premiums, LocalDate.of(2018, 10, 22), LocalDate.of(2019, 10, 22));*/
+		validateEPCalculationsFromTransactions("asd" ,premiums, LocalDate.of(2018, 10, 22), LocalDate.of(2019, 10, 22));*/
 
 		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, new BigDecimal(405), LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(333), LocalDate.of(2018, 10, 29), LocalDate.of(2018, 10, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(450), LocalDate.of(2018, 12, 29), LocalDate.of(2018, 12, 28)));
 		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, new BigDecimal(333), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 11, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, new BigDecimal(450), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 12, 28)));
-		validateLedger(premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
+		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
 
 		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 2565, 2565, LocalDate.of(2018, 10, 15), LocalDate.of(2018, 10, 15)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 3761, 2873, LocalDate.of(2019, 7, 15), LocalDate.of(2019, 7, 13)));
@@ -165,24 +162,39 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1448, 2242, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 1)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 2434, 2496, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 13)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 2434, 2496, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 13)));
-		validateLedger(premiums, LocalDate.of(2018, 10, 15), LocalDate.of(2019, 10, 15));*/
+		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 10, 15), LocalDate.of(2019, 10, 15));*/
 
         /*premiums.add(new TxWithTermPremium(TxType.ISSUE, 397, 397, LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 401, 399.67, LocalDate.of(2018, 12, 29), LocalDate.of(2018, 12, 28)));
         premiums.add(new TxWithTermPremium(TxType.OOS_CANCEL, 0, 33.72, LocalDate.of(2019, 2, 2), LocalDate.of(2018, 9, 28)));
         premiums.add(new TxWithTermPremium(TxType.REINSTATE, 329, 334.78, LocalDate.of(2019, 3, 2), LocalDate.of(2018, 9, 28)));
-        validateLedger("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
+        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
 
         premiums.add(new TxWithTermPremium(TxType.ISSUE, 361, 361, LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 397, 390.99, LocalDate.of(2018, 10, 29), LocalDate.of(2018, 10, 28)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 447, 428.38, LocalDate.of(2018, 11, 29), LocalDate.of(2018, 11, 28)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 451, 429.05, LocalDate.of(2019, 6, 29), LocalDate.of(2019, 6, 28)));
         premiums.add(new TxWithTermPremium(TxType.ROLL_BACK, 361, 361, LocalDate.of(2019, 7, 2), LocalDate.of(2018, 9, 28)));
-        validateLedger("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));
+        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));
     }
 
-    protected void validateLedger(String policyNumber, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
-//		calculateActualPremiums(txsWithPremium, effectiveDate, expirationDate);
+    protected void validateEPCalculations(String policyNumber, List<TxType> txTypes, LocalDateTime effectiveDate, LocalDateTime expirationDate) {
+        List<TxWithTermPremium> txsWithPremium = new ArrayList<>();
+        List<Map<String, String>> termAndActualPremiums = LedgerHelper.getTermAndActualPremiums(policyNumber);
+        assertThat(txTypes.size()).as("Provided transaction type list do not match actual transactions").isEqualTo(termAndActualPremiums.size());
+        for (int i = 0; i < termAndActualPremiums.size(); i++) {
+            Map<String, String> termAndActualPremium = termAndActualPremiums.get(i);
+            TxType txType = txTypes.get(i);
+            String termPremium = termAndActualPremium.get("TERM_PREMIUM");
+            String actualPremium = termAndActualPremium.get("ACTUAL_PREMIUM");
+            LocalDate txDate = LocalDate.parse(termAndActualPremium.get("TRANSACTION_DATE"), LedgerHelper.DATE_TIME_FORMATTER);
+            LocalDate txEffectiveDate = LocalDate.parse(termAndActualPremium.get("TRANSACTION_EFFECTIVE_DATE"), LedgerHelper.DATE_TIME_FORMATTER);
+            txsWithPremium.add(new TxWithTermPremium(txType, termPremium, actualPremium, txDate, txEffectiveDate));
+        }
+        validateEPCalculationsFromTransactions(policyNumber, txsWithPremium, effectiveDate.toLocalDate(), expirationDate.toLocalDate());
+    }
+
+    private void validateEPCalculationsFromTransactions(String policyNumber, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
 
         List<LocalDate> monthlyTimePoints = new ArrayList<>(13);
         LocalDate monthlyTimePoint = effectiveDate;
@@ -406,39 +418,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         }
         return index;
     }
-
-/*	private void calculateActualPremiums(List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
-		BigDecimal termDays = new BigDecimal(DAYS.between(effectiveDate, expirationDate));
-		for (TxWithTermPremium tx : txsWithPremium) {
-			TxWithTermPremium effectiveTxBefore = getEffectiveTxBefore(tx, txsWithPremium);
-			BigDecimal unearnedDays = new BigDecimal(DAYS.between(tx.getTxEffectiveDate(), expirationDate));
-			BigDecimal factor = unearnedDays.divide(termDays, 16, ROUND_HALF_UP);
-			tx.setFactor(factor);
-			if (effectiveTxBefore != null) {
-				tx.setEarned(effectiveTxBefore.getFactor().subtract(factor).multiply(effectiveTxBefore.getTermPremium()).add(effectiveTxBefore.getEarned()));
-				tx.setReturned(tx.getTxType().isReturned() ? effectiveTxBefore.getTermPremium().multiply(tx.getFactor(), new MathContext(16, RoundingMode.HALF_UP)).negate() : new BigDecimal(0));
-			}
-			tx.setAdded(tx.getTxType().isAdded() ? tx.getTermPremium().multiply(tx.getFactor(), new MathContext(16, RoundingMode.HALF_UP)) : new BigDecimal(0));
-			boolean isOOS = TxType.OOS_CANCEL.equals(tx.getTxType()) || TxType.OOS_ENDORSE.equals(tx.getTxType());
-			tx.setReversed(isOOS ? calculatePreviousChange(tx, txsWithPremium).negate() : new BigDecimal(0));
-			tx.setChange(tx.getAdded().add(tx.getReturned()).add(tx.getReversed()));
-			int index = txsWithPremium.indexOf(tx);
-			TxWithTermPremium previousTx = index != 0 ? txsWithPremium.get(index - 1) : null;
-			BigDecimal previousActual = previousTx != null ? previousTx.getActualPremium() : new BigDecimal(0);
-			tx.setActualPremium(previousActual.add(tx.getChange()).setScale(2, ROUND_HALF_UP));
-		}
-	}
-
-	private BigDecimal calculatePreviousChange(TxWithTermPremium currentTx, List<TxWithTermPremium> txsWithPremium) {
-		BigDecimal totalChange = new BigDecimal(0);
-		for (int i = 1; i < txsWithPremium.indexOf(currentTx); i++) {
-			TxWithTermPremium tx = txsWithPremium.get(i);
-			if (tx.getTxEffectiveDate().isAfter(currentTx.getTxEffectiveDate())){
-				totalChange = totalChange.add(tx.getChange());
-			}
-		}
-		return totalChange;
-	}*/
 
     private Map<LocalDate, BigDecimal> calculateEpForEndorsement(TxWithTermPremium tx, List<TxWithTermPremium> txsWithPremium, LocalDate effective, LocalDate expiration, List<PeriodFactor> periodFactors) {
         Map<LocalDate, BigDecimal> results = new LinkedHashMap<>();
