@@ -272,6 +272,16 @@
             </class>
         </classes>
     </test>
+    <test name="ViewPremiumService - Tax">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19742ViewPremiumServiceTaxInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="PolicySummaryService DC">
         <parameter name="state" value="DC"/>
         <classes>
@@ -764,6 +774,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas19195_viewUpdatePIPCoverage_KY">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
                 </methods>
             </class>
         </classes>
