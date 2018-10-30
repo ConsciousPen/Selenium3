@@ -1,0 +1,19 @@
+TestData: {
+  AgencyTransferTab: '@AgencyTransferTab',
+  }
+
+AgencyTransferTab: {
+  Transfer Type: 'Intra-agency',
+  Reason: Agent retired,
+  Transfer Effective Upon: ' Other',
+  Transfer Effective Date: '$<today>',
+  Commission Impact: 'No',
+  Location Name: click,
+  Agency Code: '500001004',
+  Search: click,
+  Agency Name: click,
+  Insurance Agent:  Foster Bottenberg,
+  }
+
+
+
