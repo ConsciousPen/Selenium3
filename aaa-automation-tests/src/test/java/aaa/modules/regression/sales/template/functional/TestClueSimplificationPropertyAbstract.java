@@ -276,7 +276,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -290,7 +290,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -304,7 +304,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -320,7 +320,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        //pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
