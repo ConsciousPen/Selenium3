@@ -17,6 +17,8 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.joda.time.DateTime;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -38,12 +40,19 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * @details
  */
 public class TestBortCreateObject extends AutoSSBaseTest {
+
+
     GeneralTab gTab = new GeneralTab();
+    private String policyNumber;
+
     @Parameters({"state"})
     @Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+    @BeforeClass(alwaysRun = true)
+
+
     public void testBortCreateObject(@Optional("AZ") String state) {
-        String policyNumber = createPolicyNumber();
+        policyNumber = createPolicyNumber();
         String sourceAgent = getSourceAgentDetails();
         createBortObject();
         JobUtils.executeJob(Jobs.policyBORTransferJob);
@@ -87,9 +96,14 @@ public class TestBortCreateObject extends AutoSSBaseTest {
         log.info("Transfer ID:  "+ AgencyTransferMetaData.AgencyTransferTab.TRANSFER_ID.getLabel());
 
         log.info("Waiting for Object to be Submitted");
+        int counter =0;
         do {AgencyTransferPage.buttonSearchTransfer.click();
             Waiters.SLEEP(3000).go();
-        } while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue().equalsIgnoreCase("Submitted to Batch"));
+            counter++;
+            if(counter==200){
+                log.info("Timed out after waiting for 10 minutes for status to become Submitted to Batch");
+            }
+        } while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue().equalsIgnoreCase("Submitted to Batch") && counter<200);
         adminApp().close();
     }
 
@@ -101,4 +115,11 @@ public class TestBortCreateObject extends AutoSSBaseTest {
         mainApp().close();
         return sourceAgent;
     }
+
+
+
+
+
+
+
 }
