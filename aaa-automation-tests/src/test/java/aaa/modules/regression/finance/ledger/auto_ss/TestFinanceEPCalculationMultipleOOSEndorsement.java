@@ -115,8 +115,8 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
                 .isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
-				TxType.OOS_ENDORSE, TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON, TxType.ROLL_ON);
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE, TxType.OOS_ENDORSE,
+				TxType.ROLL_ON, TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON, TxType.ROLL_ON);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
     }
 }

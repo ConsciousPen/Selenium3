@@ -91,7 +91,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.CANCEL, TxType.REINSTATE);
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.OOS_CANCEL, TxType.REINSTATE);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
 	}
 }
