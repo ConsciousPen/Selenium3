@@ -1,0 +1,29 @@
+TestData: {
+  CopyQuoteActionTab: {
+    Quote Effective Date: '$<today>'
+  }
+}
+
+TestData_BackDated: {
+  CopyQuoteActionTab: {
+    Quote Effective Date: $<today-30d>,
+  }
+}
+
+TestData_ChangePlan: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {
+    Sales Agent Agreement: 'I Agree',
+    AAAMembershipReport: [{Report: 'Order report'}],
+  },
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+  PurchaseTab: '@DataGather@PurchaseTab'
+}

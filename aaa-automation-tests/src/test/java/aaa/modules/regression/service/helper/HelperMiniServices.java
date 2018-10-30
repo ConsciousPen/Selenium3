@@ -13,7 +13,7 @@ import aaa.modules.policy.PolicyBaseTest;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
-	void createEndorsementWithCheck(String policyNumber) {
+	public void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
@@ -61,7 +61,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(endorsementStatus);
 	}
 
-	void endorsementRateAndBind(String policyNumber) {
+	public void endorsementRateAndBind(String policyNumber) {
 		assertSoftly(softly -> {
 			//Rate endorsement
 			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
