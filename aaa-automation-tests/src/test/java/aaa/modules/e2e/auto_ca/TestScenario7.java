@@ -49,7 +49,7 @@ public class TestScenario7 extends Scenario7 {
 			checkRenewalStatusAndPaymentNotGenerated();
 			expirePolicy();
 			generateFirstRenewalBill();
-			//customerDeclineRenewal(); //customer declined for CA Auto on expiration date according to PASBB-624/PAS-624
+			customerDeclineRenewal(); //customer declined for CA Auto on R+10 according to PASBB-624/PAS-624
 			createRemittanceFile();
 			payRenewalBillByRemittance();
 		});
