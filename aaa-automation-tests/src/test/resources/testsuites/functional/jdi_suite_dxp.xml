@@ -110,6 +110,7 @@
                     <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
                     <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
                 </methods>
             </class>
         </classes>
@@ -199,6 +200,7 @@
                     <include name="pas14536_TransportationExpensePart2"/>
                     <include name="pas14536_TransportationExpensePart3"/>
                     <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
                 </methods>
             </class>
         </classes>
@@ -266,6 +268,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="ViewPremiumService - Tax">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19742ViewPremiumServiceTaxInformation"/>
                 </methods>
             </class>
         </classes>
@@ -731,6 +743,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas20675_TortCoverage"/>
+                    <include name="pas19627_UMAndUimCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -751,6 +764,26 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas19626_biAndUMAndUIMCoverageSD">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas19195_viewUpdatePIPCoverage_KY">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
                 </methods>
             </class>
         </classes>
