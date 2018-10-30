@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.home_ss;
 
 import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -15,11 +16,14 @@ public class HomeSSOpenLCoverage implements Comparable<HomeSSOpenLCoverage> {
 	private Integer id; // IDs in some files are too big for Integer type (e.g. see "ORTests-20171023.xls" file) therefore it's skipped
 
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
 	@MatchingField
+	@RequiredField
 	private String code;
 
+	@RequiredField
 	private String limit;
 
 	public Integer getId() {

@@ -256,7 +256,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
-        purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
+        payTotalAmtDue(policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -311,7 +311,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 		}
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
-        purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime(), policyNum);
+        payTotalAmtDue(policyNum);
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");

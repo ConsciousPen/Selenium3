@@ -62,6 +62,7 @@
     <test name="PAS-17479 earthquake endorsement OK" parallel="methods" thread-count="1024">
         <parameter name="state" value="OK"/>
         <classes>
+            <!-- Organic -->
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
                     <exclude name="pas17498_checkDocGenTrigger_Renewal"/>
@@ -82,6 +83,7 @@
                     <exclude name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
+            <!-- Conversion -->
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
                     <include name="pas17479_Conversion_Privileged_NewBusiness"/>
@@ -100,6 +102,31 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestEarthquakeEndorsements">
                 <methods>
                     <include name="pas17479_Conversion_Privileged_NewBusiness"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-10703 Fire related fields on the Property info tab - CW" parallel="methods" thread-count="1024">
+        <parameter name="state" value="VA, DE, NJ, AZ, PA, MD"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
                 </methods>
             </class>
         </classes>

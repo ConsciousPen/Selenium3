@@ -188,8 +188,6 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));//-35 days
 
 		//Create Proposed Renewal
-		//For now 'Proposed Renewal' is not always generated after first run
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
@@ -198,8 +196,6 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(policyExpirationDate));//-20 days
 
 		//Generate Renewal bill
-		//For now 'Renewal bill' is not always generated after first run
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 	}
 
@@ -222,7 +218,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends AutoSSB
 	 */
 	private void checkThatPaperBillIsGeneratedInDB(String policyNumber) {
 		String numberOfDocumentsRecordsInDbQuery = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "%%", RENEWAL_BILL);
-		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).isEqualTo(1);
+		assertThat(Integer.parseInt(DBService.get().getValue(numberOfDocumentsRecordsInDbQuery).get())).as("Renewal Bill (Paper Bill) is not generated.").isEqualTo(1);
 
 		checkDocGenTriggered(policyNumber, RENEWAL_BILL, DocGenEnum.Documents.AHRBXX.getIdInXml());
 	}

@@ -292,7 +292,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void newBusinessTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Quote and fill up to Endorsements tab
-		createConversionQuoteAndFillUpTo(EndorsementTab.class);
+		createConversionQuoteAndFillUpTo(getConversionPolicyDefaultTD(), EndorsementTab.class, false);
 
 		//Add endorsements
 		addEndorsementForm(parentEndorsementFormId, subEndorsementFormId);
@@ -307,7 +307,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 	protected void endorsementTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Policy
 		String policyNumber = openAppAndCreateConversionPolicy();
-		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
+		payTotalAmtDue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
 
 		//Initiate Endorsement transaction
 		initiateEndorsementTx();
@@ -325,7 +325,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 	protected void renewalTx_Privileged_Conversion(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Conversion Policy
 		String policyNumber = openAppAndCreateConversionPolicy();
-		purchaseRenewal(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
+		payTotalAmtDue(TimeSetterUtil.getInstance().getCurrentTime().plusDays(35), policyNumber);
 
 		//Initiate Renewal transactions
 		initiateRenewalTx();

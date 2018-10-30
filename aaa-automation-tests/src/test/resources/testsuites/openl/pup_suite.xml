@@ -8,8 +8,8 @@
     <!--<parameter name="testsDir" value="src/test/resources/openl/pup"/>-->
     <!--<parameter name="localTests" value="true"/>-->
     <test name="PUP [AZ] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="AZTests-20170920.xls"/>
-        <parameter name="policyNumbers" value="30,139"/>
+        <parameter name="fileName" value="AZTests-20180920.xls"/>
+        <parameter name="policyNumbers" value="426,650"/>
         <!-- uncomment and replace with these tests when AZTests-20170920.xls appears in master branch
         <parameter name="fileName" value="AZTests-20180920.xls"/>
         <parameter name="policyNumbers" value="426, 650"/>-->
@@ -152,7 +152,7 @@
     </test>
     <test name="PUP [VA] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="VATests - 20181101.xls"/>
-        <parameter name="policyNumbers" value="2,23"/>
+        <parameter name="policyNumbers" value="308,418"/>
         <classes>
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>

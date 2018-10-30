@@ -44,4 +44,5 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = "openl.rating.logs.filename.regexp"; // for openl tests only - regexp which matches with all rating log filenames including initial one (e.g. "aaa-rating-engine-app.log, aaa-rating-engine-app.log.1, etc...")
 	public static final String OPENL_ATTACH_RATING_LOGS = "openl.attach.rating.logs"; // for openl tests only, available values: "true|always|all" to attach logs always and "failed" to attach only if test fails
 	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl tests only - make zip archive of grabbed logs, available values: true, false
+	public static final String PAS_ADMIN_LOG_FOLDER = "pas.admin.logs.folder";
 }

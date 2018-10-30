@@ -186,22 +186,30 @@ public abstract class PolicyBaseTest extends BaseTest {
 		return openAppAndCreateConversionPolicy(getManualConversionInitiationTd(), getConversionPolicyDefaultTD());
 	}
 
+    protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab, boolean isFillTab) {
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(testData, tab, isFillTab);
+    }
+
 	protected void createQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, tab, true);
+        createQuoteAndFillUpTo(testData, tab, true);
 	}
 
 	protected void createQuoteAndFillUpTo(Class<? extends Tab> tab) {
 		createQuoteAndFillUpTo(getPolicyTD(), tab);
 	}
 
+    protected void createConversionQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab, boolean isFillTab) {
+        mainApp().open();
+        createCustomerIndividual();
+        customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
+        policy.getDefaultView().fillUpTo(testData, tab, isFillTab);
+    }
+
 	protected void createConversionQuoteAndFillUpTo(TestData testData, Class<? extends Tab> tab) {
-		mainApp().open();
-		createCustomerIndividual();
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
-		policy.getDefaultView().fillUpTo(testData, tab, false);
+        createConversionQuoteAndFillUpTo(testData, tab, true);
 	}
 
 	protected void createConversionQuoteAndFillUpTo(Class<? extends Tab> tab) {
@@ -228,10 +236,14 @@ public abstract class PolicyBaseTest extends BaseTest {
 		);
 	}
 
-	protected void purchaseRenewal(LocalDateTime renewalEffectiveDate, String policyNumber){
+	protected void payTotalAmtDue(LocalDateTime renewalEffectiveDate, String policyNumber){
 		//Move time to Policy Expiration Date
 		TimeSetterUtil.getInstance().nextPhase(renewalEffectiveDate);
+		payTotalAmtDue(policyNumber);
 
+	}
+
+	protected void payTotalAmtDue(String policyNumber) {
 		// Open Billing account and Pay min due for the renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -240,5 +252,6 @@ public abstract class PolicyBaseTest extends BaseTest {
 
 		// Open Policy (Renewal)
 		SearchPage.openPolicy(policyNumber);
+
 	}
 }

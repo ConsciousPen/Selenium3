@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.auto_ca.choice;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -7,7 +8,11 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean driverTrainingDiscount;
+
+	@RequiredField
 	private Boolean nonSmoker;
+
+	@RequiredField
 	private Boolean occasionalUse;
 
 	public void setDriverTrainingDiscount(Boolean driverTrainingDiscount) {

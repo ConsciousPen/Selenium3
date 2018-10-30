@@ -1,0 +1,11 @@
+TestData: {
+  CopyQuoteActionTab: {
+    Quote Effective Date: '$<today>'
+  }
+}
+
+TestData_BackDated: {
+  CopyQuoteActionTab: {
+    Quote Effective Date: $<today-1m>,
+  }
+}

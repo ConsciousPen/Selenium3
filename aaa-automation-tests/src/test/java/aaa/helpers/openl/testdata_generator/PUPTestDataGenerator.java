@@ -11,8 +11,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.TestDataManager;
-import aaa.helpers.openl.model.pup.OpenLRiskItem;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
+import aaa.helpers.openl.model.pup.PUPOpenLRiskItem;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
@@ -336,11 +336,11 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getUnderlyingRisksAutoData(PUPOpenLPolicy openLPolicy) {
-		int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfMotorhomes = openLPolicy.getRiskItems().stream().filter(c -> "Motorhome".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfMotorcycles = openLPolicy.getRiskItems().stream().filter(c -> "Motorcycle".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfAntique = openLPolicy.getRiskItems().stream().filter(c -> "Antique".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfAddlAuto = openLPolicy.getRiskItems().stream().filter(c -> "AddlAuto".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfAutoCredit = openLPolicy.getRiskItems().stream().filter(c -> "AutoCredit".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 		int maxAutoCount = getState().equals(Constants.States.CA) ? 1 : 2;
 
 		int numOfSeniorDriver = openLPolicy.getNumOfSeniorOps();
@@ -476,15 +476,15 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getUnderlyingRisksOtherVehiclesData(PUPOpenLPolicy openLPolicy) {
 		List<TestData> tdWaterCrafts = new ArrayList<>();
 		List<TestData> tdRecreationVehicles = new ArrayList<>();
-		int numOfWaterCraftI = openLPolicy.getRiskItems().stream().filter(c -> "I".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftII = openLPolicy.getRiskItems().stream().filter(c -> "II".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftIII = openLPolicy.getRiskItems().stream().filter(c -> "III".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftIV = openLPolicy.getRiskItems().stream().filter(c -> "IV".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftV = openLPolicy.getRiskItems().stream().filter(c -> "V".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftVI = openLPolicy.getRiskItems().stream().filter(c -> "VI".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfWaterCraftPERS = openLPolicy.getRiskItems().stream().filter(c -> "PERS".equals(c.getRiskItemCategoryCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfAtv = openLPolicy.getRiskItems().stream().filter(c -> "ATV".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
-		int numOfSnowmobile = openLPolicy.getRiskItems().stream().filter(c -> "Snowmobile".equals(c.getRiskItemCd())).map(OpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftI = openLPolicy.getRiskItems().stream().filter(c -> "I".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftII = openLPolicy.getRiskItems().stream().filter(c -> "II".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftIII = openLPolicy.getRiskItems().stream().filter(c -> "III".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftIV = openLPolicy.getRiskItems().stream().filter(c -> "IV".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftV = openLPolicy.getRiskItems().stream().filter(c -> "V".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftVI = openLPolicy.getRiskItems().stream().filter(c -> "VI".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfWaterCraftPERS = openLPolicy.getRiskItems().stream().filter(c -> "PERS".equals(c.getRiskItemCategoryCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfAtv = openLPolicy.getRiskItems().stream().filter(c -> "ATV".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
+		int numOfSnowmobile = openLPolicy.getRiskItems().stream().filter(c -> "Snowmobile".equals(c.getRiskItemCd())).map(PUPOpenLRiskItem::getRiskItemCount).findFirst().orElse(0);
 
 		if (numOfWaterCraftI > 0) {
 			String[] listOfWatercraftIFieldValues = {"Inboard Powerboat", "14-25 ft", "0-100 hp"};
