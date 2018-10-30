@@ -44,6 +44,9 @@ public class Coverage {
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
 	private List<String> currentlyAddedDrivers;
 
+	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
+	private List<Coverage> subCoverages;
+
 	public static Coverage create(CoverageInfo coverageInfo) {
 		Coverage coverage = new Coverage();
 		coverage.coverageCd = coverageInfo.getCode();
@@ -53,6 +56,7 @@ public class Coverage {
 		coverage.availableLimits = coverageInfo.getAvailableLimits().stream()
 				.map(al -> new CoverageLimit().setCoverageLimit(al.getLimit()).setCoverageLimitDisplay(al.getDisplay()))
 				.collect(Collectors.toList());
+		coverage.coverageType = coverageInfo.getCoverageType();
 		coverage.canChangeCoverage = true;
 		coverage.customerDisplayed = true;
 		return coverage;
@@ -125,6 +129,10 @@ public class Coverage {
 		return currentlyAddedDrivers;
 	}
 
+	public List<Coverage> getSubCoverages() {
+		return subCoverages;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -143,12 +151,13 @@ public class Coverage {
 				Objects.equals(getCanChangeCoverage(), coverage.getCanChangeCoverage()) &&
 				Objects.equals(getAvailableLimits(), coverage.getAvailableLimits()) &&
 				Objects.equals(getAvailableDrivers(), coverage.getAvailableDrivers()) &&
-				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers());
+				Objects.equals(getCurrentlyAddedDrivers(), coverage.getCurrentlyAddedDrivers()) &&
+				Objects.equals(getSubCoverages(), coverage.getSubCoverages());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(), getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(), getAvailableDrivers(), getCurrentlyAddedDrivers());
+		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(), getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(), getAvailableDrivers(), getCurrentlyAddedDrivers(), getSubCoverages());
 	}
 
 }

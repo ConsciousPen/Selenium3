@@ -15,7 +15,6 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import aaa.common.enums.Constants;
 import toolkit.datax.TestData;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -26,7 +25,6 @@ import aaa.main.enums.CoverageLimits;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -34,7 +32,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
@@ -3533,16 +3530,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 		if (updateCoverageResponse != null) {
 			//validate that viewEndorsementCoverages is the same as updateCoverages response
-			validateViewEndorsementCoveragesResponse_pas19195(softly, policyNumber, updateCoverageResponse);
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 		}
 		//validate PIP coverages in UI
 		validatePIPInUI_pas19195(softly, mapPIPCoveragesActual);
 	}
 
 	private void validatePIPInUI_pas19195(ETCSCoreSoftAssertions softly, Map<String, Coverage> mapPIPCoverages) {
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.quoteInquiry().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		openPendedEndorsementInquiryAndNavigateToPC();
 
 		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()))
 				.isEqualTo(mapPIPCoverages.get(CoverageInfo.BPIP.getCode()).getCoverageLimitDisplay());
@@ -3569,7 +3564,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.cancel();
 	}
 
-	private void validateViewEndorsementCoveragesResponse_pas19195(ETCSCoreSoftAssertions softly, String policyNumber, PolicyCoverageInfo updateCoverageResponse) {
+	private void validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(ETCSCoreSoftAssertions softly, String policyNumber, PolicyCoverageInfo updateCoverageResponse) {
 		PolicyCoverageInfo viewEndorsementCoverages;
 		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		softly.assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
@@ -3592,6 +3587,62 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		} else {
 			assertThat(getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").getCurrentlyAddedDrivers().size()).as("Precondiiton: Not all applicable drivers must have TORT").isLessThan(2);
 		}
+	}
+
+	protected List<Coverage> validateUpdatePIP_pas15359(ETCSCoreSoftAssertions softly, String policyNumber, CoverageLimits newCoverageLimit) {
+		String pipCoverageCd = CoverageInfo.PIP_KS_10000_25000.getCode(); //PIP code is the same for all limits
+		Coverage pipExpected;
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_KS).changeLimit(newCoverageLimit);
+		Coverage worklossExpected;
+
+		if (newCoverageLimit.equals(CoverageLimits.COV_4500)) {
+			pipExpected = Coverage.create(CoverageInfo.PIP_KS_4500).disableCanChange();
+			worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
+		} else {
+			pipExpected = Coverage.create(CoverageInfo.PIP_KS_10000_25000).changeLimit(newCoverageLimit).disableCanChange();
+			worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_10000_25000).disableCanChange();
+		}
+
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.MEDEXP_KS.getCode(), newCoverageLimit.getLimit()); //PIP is updated by updating MEDEXP
+		List<Coverage> pipSubCoveragesActual = getCoverage(updateCoverageResponse.policyCoverages, pipCoverageCd).getSubCoverages();
+		Coverage pipCoverageActual = getCoverage(updateCoverageResponse.policyCoverages, pipCoverageCd);
+
+		assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected); //WORKLOSS code is the same for all limits
+
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+		validatePIPInUI_pas15358(softly, pipCoverageActual);
+
+		return pipSubCoveragesActual;
+	}
+
+	protected void validatePIPSubCoveragesThatDoesntChange_pas15358(List<Coverage> pipSubCoverages) {
+		//these coverages are always the same
+		Coverage rehabexpExpected = Coverage.create(CoverageInfo.REHABEXP_KS).disableCanChange();
+		Coverage essenservExpected = Coverage.create(CoverageInfo.ESSENSERV_KS).disableCanChange();
+		Coverage funexpExpected = Coverage.create(CoverageInfo.FUNEXP_KS).disableCanChange();
+		Coverage survlossExpected = Coverage.create(CoverageInfo.SURVLOSS_KS).disableCanChange();
+
+		assertThat(getCoverage(pipSubCoverages, CoverageInfo.REHABEXP_KS.getCode())).isEqualToComparingFieldByField(rehabexpExpected);
+		assertThat(getCoverage(pipSubCoverages, CoverageInfo.ESSENSERV_KS.getCode())).isEqualToComparingFieldByField(essenservExpected);
+		assertThat(getCoverage(pipSubCoverages, CoverageInfo.FUNEXP_KS.getCode())).isEqualToComparingFieldByField(funexpExpected);
+		assertThat(getCoverage(pipSubCoverages, CoverageInfo.SURVLOSS_KS.getCode())).isEqualToComparingFieldByField(survlossExpected);
+	}
+
+	protected void validatePIPInUI_pas15358(ETCSCoreSoftAssertions softly, Coverage pipCoverage) {
+		openPendedEndorsementInquiryAndNavigateToPC();
+
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
+				.isEqualTo(pipCoverage.getCoverageLimitDisplay());
+
+		premiumAndCoveragesTab.cancel();
+	}
+
+	private void openPendedEndorsementInquiryAndNavigateToPC() {
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.quoteInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
 	private Vehicle getVehicleByVin(List<Vehicle> vehicleList, String vin) {

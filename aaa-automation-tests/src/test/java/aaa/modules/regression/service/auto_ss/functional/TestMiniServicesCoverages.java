@@ -3,6 +3,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import org.testng.annotations.Optional;
@@ -10,6 +11,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.Coverage;
@@ -18,6 +22,8 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
@@ -26,8 +32,11 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
+import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
+
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -1014,6 +1023,56 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		});
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update KS PIP Coverages
+	 * @scenario
+	 * 1. Create KS Auto SS policy in PAS
+	 * 2. Run vieEndorsementCoverages service and validate response and compare it with PAS UI
+	 * 3. Update PIP by updating MEDEXP coverage to 10000 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 * 4. Update PIP by updating MEDEXP coverage to 25000 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 * 5. Update PIP by updating MEDEXP coverage to 4500 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15358", "PAS-15359"})
+	public void pas15358_pas15359_viewUpdatePIPCoverage_KS(@Optional("KS") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage pipExpected = Coverage.create(CoverageInfo.PIP_KS_4500).disableCanChange();
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_KS);
+		Coverage worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
+
+		assertSoftly(softly -> {
+			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode());
+			assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+
+			List<Coverage> pipSubCoverages = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
+			assertThat(getCoverage(pipSubCoverages, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			assertThat(getCoverage(pipSubCoverages, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			validatePIPInUI_pas15358(softly, pipCoverageActual);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+
+			//Update PIP (MEDPIP) coverage to 10000
+			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_10000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+
+			//Update PIP (MEDPIP) coverage to 25000
+			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_25000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+
+			//Update PIP (MEDPIP) coverage to 4500
+			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_4500);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+		});
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
 
 	/**
 	 * @author Sabra Domeika
