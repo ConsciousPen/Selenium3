@@ -393,7 +393,7 @@ PAS-21025:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
     messages: ["PAS Driver should be 2nd Driver of Policy"]
-PT-2808:
+PT-20880:
   summary: "Cannot save and exit on property info tab"
   reason: PROD
   failures:
