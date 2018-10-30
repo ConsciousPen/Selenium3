@@ -120,6 +120,19 @@
 
     <!--Tests for Property-->
 
+    <test name="Test Coverage C limit 70% within of Coverage A">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
+        </classes>
+    </test>
+
+    <test name="Test Coverage C limit 70% within of Coverage A">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
+        </classes>
+    </test>
 
     <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
         <parameter name="state" value="MD"/>
