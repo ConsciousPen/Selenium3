@@ -452,7 +452,10 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (tdAutomobiles.size() < 1) {
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
-				//addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
+				if ("DE".equals(getState())) {
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.POLICY_NUM.getLabel(), String.format("%sSS123456", getState()));
+				}
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 				if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
