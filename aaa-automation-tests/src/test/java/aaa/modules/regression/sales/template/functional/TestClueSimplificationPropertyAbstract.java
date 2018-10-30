@@ -340,6 +340,24 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
+    protected void pas6703_testCatastropheIndicatorUnknownNB() {
+        createSpecificCustomerIndividual("Sachin", "Kohli");
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
+        checkTblClaimRowCount(2);
+
+        // Validates 'Applicant & Property' with catastrophe = 'Unknown'
+        viewEditClaimByLossAmount("14000");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+
+        // Validates 'Applicant' with catastrophe = 'Unknown'
+        viewEditClaimByLossAmount("13000");
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+
+    }
+
     private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
 
         selectRentalClaimForCADP3();
@@ -531,19 +549,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
-    }
-
-    private void validateCatastropheFieldWhenUnknown() {
-
-        // Validates 'Applicant & Property' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("14000");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
-        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
-
-        // Validates 'Applicant' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("13000");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
     }
 
 }

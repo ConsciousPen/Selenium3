@@ -431,4 +431,21 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 
 	}
 
+	/**
+	 * @author Josh Carpenter
+	 * @name Test CLUE claim catastrophe indicator when 'Unknown' defaults to 'No'
+	 * @scenario
+	 * 1. Create policy with customer "Sachin Kohli"
+	 * 2. Fill up to Property Info Tab
+	 * 3. Validate two claims are showing
+	 * 4. Validate both claims show catastrophe indicator = 'No'
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6703")
+	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("") String state) {
+		pas6703_testCatastropheIndicatorUnknownNB();
+
+	}
+
 }
