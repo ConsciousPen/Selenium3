@@ -2,6 +2,8 @@ package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -45,6 +47,7 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
@@ -79,5 +82,9 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 		assertThat(new Dollar(PolicySummaryPage.tableTransactionHistory.getRow(1)
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
+				TxType.OOS_ENDORSE, TxType.ROLL_ON);
+		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
 	}
 }

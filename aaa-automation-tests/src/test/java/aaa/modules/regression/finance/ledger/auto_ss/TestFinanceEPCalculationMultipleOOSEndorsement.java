@@ -1,12 +1,20 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
@@ -14,16 +22,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOperations {
     private ErrorTab errorTab = new ErrorTab();
@@ -63,6 +62,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 
         LocalDateTime jobEndDate  = PolicySummaryPage.getExpirationDate().plusMonths(1);
         LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
@@ -114,5 +114,9 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 
         assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
                 .isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
+				TxType.OOS_ENDORSE, TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON, TxType.ROLL_ON);
+		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
     }
 }

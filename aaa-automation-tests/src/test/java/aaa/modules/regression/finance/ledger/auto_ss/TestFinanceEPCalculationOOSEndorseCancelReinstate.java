@@ -2,6 +2,8 @@ package aaa.modules.regression.finance.ledger.auto_ss;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,7 +15,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
-import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
@@ -65,6 +66,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
+		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
 		jobDate = runEPJobUntil(jobDate, e1Date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1Date);
@@ -113,5 +115,9 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
+
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.CANCEL, TxType.REINSTATE,
+				TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON_CANCEL, TxType.ROLL_ON_REINSTATE);
+		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
 	}
 }
