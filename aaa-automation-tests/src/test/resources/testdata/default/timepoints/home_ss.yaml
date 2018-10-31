@@ -36,7 +36,6 @@ TestData_AZ: {
   Refund: [10, NONE],
   Cancellation notice: [8, NEXT],
   Cancellation: [10, NONE],
-  Insurance renewal reminder: [10, NEXT],
   Mortgagee Bill First Renewal: [10, PREVIOUS],
   Insurance renewal reminder: [10, NEXT],
   Renew customer decline: [15, NONE],

@@ -48,9 +48,6 @@ public abstract class Workspace {
 		for (Tab t : tabs.values()) {
 			if (td.containsKey(t.getMetaKey())) {
 				t.fillTab(td);
-				if (t.getMetaKey().contains(HomeSSMetaData.ApplicantTab.class.getSimpleName())) {
-					System.out.println();
-				}
 				t.submitTab();
 			}
 		}
