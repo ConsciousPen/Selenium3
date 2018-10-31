@@ -30,6 +30,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 * PAS-14058: MATCH MORE: Create Claim to Driver Match Logic (comp claims and not already assigned to driver)
 	 * PAS-8310: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 1)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
+	 * PAS-21435: Remove LASTNAME_YOB match logi
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:
@@ -44,7 +45,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 7-11,  17894- 2, 3, 5, 7, & 9: UNMATCHED
 	 *      --Claim 12,    17894- 1: LASTNAME_FIRSTNAME
 	 *      --Claim 13,    17894- 4: LASTNAME_FIRSTINITAL_DOB
-	 *      --Claim 14-15, 17894- 6 & 8: LASTNAME_YOB
+	 *      --Claim 14-15, 17894- 6 & 8: Unmatched (PAS-21435 Removed LASTNAME_YOB Match)
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
