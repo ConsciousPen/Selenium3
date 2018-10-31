@@ -292,4 +292,29 @@
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration"/>
         </classes>
     </test>
+    <test name="PAS-20836 Expiration Notice (AH64XX)" parallel="methods">
+        <parameter name="state" value="AZ, NY, OH, DE, CT"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

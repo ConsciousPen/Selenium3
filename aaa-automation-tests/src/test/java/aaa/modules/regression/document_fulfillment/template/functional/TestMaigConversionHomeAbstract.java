@@ -1,6 +1,7 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -45,6 +46,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 			.put(RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(EXPIRATION_NOTICE, ImmutableList.of(Jobs.aaaRenewalReminderGenerationAsyncJob, Jobs.aaaDocGenBatchJob))
 			.build();
 
 	ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
@@ -59,6 +61,20 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	public void pas2305_preRenewalLetterHSPRNXX(String state) throws NoSuchFieldException {
 		preRenewalLetterFormGeneration(getConversionPolicyDefaultTD(), HSPRNXX, false);
+	}
+
+	/**
+	 * @name Creation converted policy for checking 'Expiration Notice' letter
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Conversion Policy
+	 * 3. Generate Bill at R-20
+	 * 4. Generate 'Expiration Notice' at R+10
+	 * 5. Check that form is getting generated with correct content
+	 * @details
+	 */
+	public void pas20836_expirationNoticeFormGeneration(String state) throws NoSuchFieldException {
+		expirationNoticeFormGeneration(getConversionPolicyDefaultTD(), AH64XX);
 	}
 
 	/**
@@ -81,6 +97,33 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
 		verifyRenewalDocumentTagData(document, testData, isPupPresent, PRE_RENEWAL);
+	}
+
+	/**
+	 * @name Creation converted policy for checking 'Expiration Notice' letter
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Conversion Policy
+	 * 3. Generate Bill at R-20
+	 * 4. Generate 'Expiration Notice' at R+10
+	 * 5. Check that form is getting generated with correct content
+	 * @details
+	 */
+	private void expirationNoticeFormGeneration(TestData testData, DocGenEnum.Documents form) throws NoSuchFieldException {
+		String policyNumber = openAppAndCreateConversionPolicy(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		expirationNoticeJobExecution(policyExpirationDate);
+
+		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, EXPIRATION_NOTICE);
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
+
+		//PAS-20836
+		if (getState().equals(Constants.States.AZ) || getState().equals(Constants.States.NY) || getState().equals(Constants.States.OH)) {
+			assertThat(policyTransactionCode.equals("CANB")).isTrue();
+		} else {
+			assertThat(policyTransactionCode.equals("STMT")).isTrue();
+		}
 	}
 
 	/**
@@ -546,7 +589,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFinalxpNoticeJobExecution(expirationDate);
+		mortgageeBillFinalRenewalReminderNoticeJobExecution(expirationDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, MORTGAGEE_BILL_FINAL_EXP_NOTICE);
 		verifyTagDataBill(document, policyNumber,MORTGAGEE_BILL_FINAL_EXP_NOTICE);
@@ -579,7 +622,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFirstReminderNoticeJobExecution(expirationDate);
+		mortgageeBillFirstRenewalReminderNoticeJobExecution(expirationDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
 		verifyTagDataBill(document, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
@@ -633,23 +676,31 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JOBS_FOR_EVENT.get(RENEWAL_BILL).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFirstReminderNoticeJobExecution(LocalDateTime expirationDate){
+	private void mortgageeBillFirstRenewalReminderNoticeJobExecution(LocalDateTime expirationDate){
 		renewalBillJobExecution(expirationDate);
-		LocalDateTime statusUpdate = getTimePoints().getUpdatePolicyStatusDate(expirationDate);
-		TimeSetterUtil.getInstance().nextPhase(statusUpdate);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		LocalDateTime mortgageeBillFirstRenewalReminder = getTimePoints().getMortgageeBillFirstRenewalReminder(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFirstRenewalReminder);
 		JOBS_FOR_EVENT.get(BILL_FIRST_RENEW_REMINDER_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFinalxpNoticeJobExecution(LocalDateTime expirationDate){
-		billFirstReminderNoticeJobExecution(expirationDate);
+	private void mortgageeBillFinalRenewalReminderNoticeJobExecution(LocalDateTime expirationDate){
+		mortgageeBillFirstRenewalReminderNoticeJobExecution(expirationDate);
 		LocalDateTime lapsedRenewal = getTimePoints().getRenewCustomerDeclineDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(lapsedRenewal);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		TimeSetterUtil.getInstance().nextPhase(expirationDate.plusMonths(2).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
 		JOBS_FOR_EVENT.get(MORTGAGEE_BILL_FINAL_EXP_NOTICE).forEach(job -> JobUtils.executeJob(job));
+	}
+
+	private void expirationNoticeJobExecution(LocalDateTime expirationDate){
+		renewalBillJobExecution(expirationDate);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(expirationDate));
+		JOBS_FOR_EVENT.get(EXPIRATION_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
 	/**
