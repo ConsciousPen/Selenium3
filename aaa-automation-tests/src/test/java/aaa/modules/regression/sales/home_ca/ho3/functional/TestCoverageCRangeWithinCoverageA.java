@@ -49,8 +49,7 @@ public class TestCoverageCRangeWithinCoverageA extends HomeCaHO3BaseTest {
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-20367")
 	protected void pas20367_TestCoverageCRangeWithinCoverageATemplateCA(@Optional("CA") String state){
 
-		openAppAndCreatePolicy();
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = openAppAndCreatePolicy();
 		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate());
 
 		mainApp().open();
