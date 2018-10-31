@@ -20,8 +20,6 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Financial Scenario 1
 	 * @scenario
 	 * 1. Create new policy WITHOUT employee benefit
 	 * 2. Advance time one week
@@ -39,8 +37,6 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Financial Scenario 2
 	 * @scenario
 	 * 1. Create new policy with effective date three weeks from now, WITHOUT employee benefit
 	 * 2. Advance time 3 days
