@@ -251,8 +251,31 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
-	public void pas21199_ViewDriverAssignmentAfterAddRemoveActions(@Optional("VA") String state) {
+	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule1(@Optional("VA") String state) {
 
-		pas21199_ViewDriverAssignmentAfterAddRemoveActionsBody(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V > D)
+	 * @scenario 1. Create policy with 4D and 3V
+	 * D1-->V1, D2-->V2, D3-->V2, D4-->V3
+	 * 2. Remove D2
+	 * 3. Check DA: D1-->V1, D3-->V2, D4-->V3 and rate.
+	 * 4. Delete old endorsement, create new one.
+	 * 5. Delete V2 and after D3
+	 * 6. Check DA: D1-->V1, D2-->Unn, D4-->V3
+	 * 7. Update D2-->V1 and rate.
+	 * 8. Delete old endorsement, create new one.
+	 * 9. Remove V2 after V3
+	 * 10. Check DA: V1-->All D, rate.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
+	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule2(@Optional("VA") String state) {
+
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(getPolicyType());
 	}
 }

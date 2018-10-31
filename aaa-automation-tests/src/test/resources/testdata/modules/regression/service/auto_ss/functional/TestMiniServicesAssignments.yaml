@@ -199,6 +199,10 @@ AssignmentTabFourDrivers: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
 }
 
+AssignmentTabFourDriversThreeVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver3', '@AssignedDriver7' ]
+}
+
 AssignmentTabThreeDrivers: {
 DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver6' ]
  }
@@ -230,6 +234,11 @@ AssignedDriver5: {
 
 AssignedDriver6: {
     Driver: 'contains=Monica',
+    Select Vehicle: 'index=3'
+}
+
+AssignedDriver7: {
+    Driver: 'contains=Laura',
     Select Vehicle: 'index=3'
 }
 

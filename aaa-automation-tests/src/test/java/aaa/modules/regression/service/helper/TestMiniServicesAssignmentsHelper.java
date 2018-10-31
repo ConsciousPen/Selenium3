@@ -1465,7 +1465,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas21199_ViewDriverAssignmentAfterAddRemoveActionsBody(PolicyType policyType){
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(PolicyType policyType){
 		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
@@ -1496,7 +1496,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver1.oid, vehicle3.oid)
 					.addAssignment(driver2.oid, vehicle3.oid);
 			assertThat(driverAssignmentResponse1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
-
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//TC2
@@ -1513,7 +1512,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver1.oid, vehicle2.oid)
 					.addAssignment(driver1.oid, vehicle3.oid);
 			assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments");
-
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Prepare for other TC when we have 2V and 2D
@@ -1552,7 +1550,77 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver1.oid, replacedVeh1)
 					.addAssignment(driver2.oid, vehicle2.oid);
 			assertThat(driverAssignmentResponse4).isEqualToComparingOnlyGivenFields(toMatch4, "driverVehicleAssignments");
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		});
+	}
 
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(PolicyType policyType){
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_FourDrivers", "TestData_ThreeVehicles", "AssignmentTabFourDriversThreeVehicles");
+		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+		assertSoftly(softly -> {
+			String policyNumber = openAppAndCreatePolicy(td);
+
+			//Create a pended Endorsement
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
+			DriversDto driver2 = findDriver(td, dResponse, 1, "DriverTab");
+			DriversDto driver3 = findDriver(td, dResponse, 2, "DriverTab");
+			DriversDto driver4 = findDriver(td, dResponse, 3, "DriverTab");
+
+			//get vehicles oid's
+			ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+			Vehicle vehicle1 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+			Vehicle vehicle2 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(1).getValue("VIN"));
+			Vehicle vehicle3 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(2).getValue("VIN"));
+
+			//Remove D2
+			HelperCommon.removeDriver(policyNumber, driver2.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+			//Check D1-->V1, D3-->V2, D4-->V3
+			DriverAssignments driverAssignmentResponse1 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver3.oid, vehicle2.oid)
+					.addAssignment(driver4.oid, vehicle3.oid);
+			assertThat(driverAssignmentResponse1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			//TC2
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			//Delete V2 and after D3
+			HelperCommon.deleteVehicle(policyNumber, vehicle2.oid,VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
+			HelperCommon.removeDriver(policyNumber, driver3.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+
+			//Check D1-->V1, D2-->Unn, D4-->V3
+			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch2 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver4.oid, vehicle3.oid)
+					.addUnassignedDrivers(driver2.oid);
+			assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
+
+			//Update D2-->V1
+			HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Arrays.asList(driver2.oid, driver1.oid));
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			//TC3
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			//Delete V2, V3
+			HelperCommon.deleteVehicle(policyNumber, vehicle2.oid,VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
+			HelperCommon.deleteVehicle(policyNumber, vehicle3.oid,VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
+
+			//Check V1-->All D
+			DriverAssignments driverAssignmentResponse3 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch3 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicle1.oid)
+					.addAssignment(driver3.oid, vehicle1.oid)
+					.addAssignment(driver4.oid, vehicle1.oid);
+			assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		});
 	}
