@@ -50,7 +50,7 @@ public class HomeSSClaimTestDataGenerator {
 		maxCode = Integer.parseInt(DBService.get().getValue(sqlMaxCode).get());
 		List<TestData> claimList = getClaimList(claimPoints, 1);
 		if (isFirstClaim) {
-			claimList.get(0).adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes"));
+			claimList.get(0).adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD, "Click"));
 		}
 		return claimList;
 	}

@@ -4,7 +4,7 @@ PropertyInfo_Claims: [
 
   #Claim 1 - Not included in rating (first claim and amount less than $1000)
   {
-  Add a claim: 'Yes',
+  Add: 'Click',
   Date of loss: '$<today-12M:MM/dd/yyyy>',
   Cause of loss: 'Fire',
   Amount of loss: '500',
