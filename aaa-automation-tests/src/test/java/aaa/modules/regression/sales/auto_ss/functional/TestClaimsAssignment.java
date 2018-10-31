@@ -21,7 +21,7 @@ import toolkit.utils.TestInfo;
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://claims-assignment-pas-21435-yob.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
 	 * @author Chris Johns
@@ -64,7 +64,9 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 
 		//Verify the First claim is in the unmatched section
 		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getMatchCode()).isEqualTo("UNMATCHED");
+		//PAS-21435 - Remove LASTNAME_YOB match logic. These claims will now be unmatched
+		assertThat(microServiceResponse.getUnmatchedClaims().get(4).getClaimNumber()).isEqualTo("17894-66666OHS");
+		assertThat(microServiceResponse.getUnmatchedClaims().get(6).getClaimNumber()).isEqualTo("17894-88888OHS");
 
 		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
 		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
@@ -76,8 +78,6 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
 		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
-		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("LASTNAME_YOB"); //DOB is exact match
-		assertThat(microServiceResponse.getMatchedClaims().get(8).getMatchCode()).isEqualTo("LASTNAME_YOB"); //Only YOB matches
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
