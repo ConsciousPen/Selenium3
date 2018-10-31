@@ -60,8 +60,6 @@ public class TestCoverageCRangeWithinCoverageA extends HomeSSHO3BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PropertyValue.COVERAGE_A_DWELLING_LIMIT).setValue("271215");
 		propertyInfoTab.getPropertyValueAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.PropertyValue.ISO_REPLACEMENT_COST).setValue("271000");
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		// Check that Premium is calculated with no Error page
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).isPresent();
@@ -69,8 +67,6 @@ public class TestCoverageCRangeWithinCoverageA extends HomeSSHO3BaseTest {
 		bindTab.submitTab();
 		payTotalAmtDue(policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		// Check that Premium is calculated with no Error page
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN)).isPresent();
