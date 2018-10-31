@@ -365,9 +365,14 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     }
 
     private TestData getSSHomeReducePremiumTd() {
-        return getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
+        TestData td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=$100,000",
                 HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), "contains=$5,000"));
+        if (getPolicyType().equals(PolicyType.HOME_SS_HO3) || getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            td.adjust(TestData.makeKeyPath(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(),
+                    HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE.getLabel()), "index=1");
+        }
+        return td;
     }
 
     private TestData getCaHomeReducePremiumTd() {
@@ -385,7 +390,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.DURATION.getLabel(), "Life",
                 PersonalUmbrellaMetaData.ErrorTab.ErrorsOverride.REASON_FOR_OVERRIDE.getLabel(), "index=1");
         errorsOverride.add(overrideTd);
-        TestData errorTabOverride = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), errorsOverride);
+        TestData errorTabOverride = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
 
         TestData td;
         if (isStateCA()) {
@@ -437,7 +442,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
     }
 
     private TestData getEmptyTestDataSSHome() {
-        return DataProviderFactory.emptyData()
+        TestData td = DataProviderFactory.emptyData()
                 .adjust(HomeSSMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), DataProviderFactory.emptyData())
@@ -448,6 +453,10 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 .adjust(HomeSSMetaData.UnderwritingAndApprovalTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(HomeSSMetaData.DocumentsTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(HomeSSMetaData.BindTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+            td.adjust(HomeSSMetaData.ProductOfferingTab.class.getSimpleName(), DataProviderFactory.emptyData());
+        }
+        return td;
     }
 
     private TestData getEmptyTestDataCAPup() {
@@ -475,7 +484,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         TestData primaryDriver = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
         driverRelationshipTable.add(primaryDriver);
         driverRelationshipTable.add(primaryDriver);
-        return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.class.getSimpleName(), driverRelationshipTable);
+        return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverRelationshipTable);
     }
 
     private TestData getCaSelectVehicleTabTd() {
