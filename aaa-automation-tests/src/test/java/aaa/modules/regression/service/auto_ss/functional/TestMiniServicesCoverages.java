@@ -1046,11 +1046,11 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 		assertSoftly(softly -> {
 			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode());
-			assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+			softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
 
 			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
-			assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
-			assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
 			validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
 			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 

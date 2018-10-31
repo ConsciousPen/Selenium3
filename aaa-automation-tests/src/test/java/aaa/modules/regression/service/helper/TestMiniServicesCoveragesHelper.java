@@ -3619,9 +3619,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		List<Coverage> pipSubCoveragesActual = getCoverage(updateCoverageResponse.policyCoverages, pipCoverageCd).getSubCoverages();
 		Coverage pipCoverageActual = getCoverage(updateCoverageResponse.policyCoverages, pipCoverageCd);
 
-		assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
-		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
-		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected); //WORKLOSS code is the same for all limits
+		softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+		softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+		softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected); //WORKLOSS code is the same for all limits
 
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 		validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
