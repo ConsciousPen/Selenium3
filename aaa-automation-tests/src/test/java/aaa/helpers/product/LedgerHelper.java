@@ -73,7 +73,7 @@ public class LedgerHelper {
 				"and pe.premiumtype in ('NET_PREMIUM', 'ENDORSEMENT') "+
 				"and pe.PREMIUMCD='NWT') "+
 				"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype "+
-				"order by TRANSACTIONDATE";
+				"order by TRANSACTIONDATE ";
 
 	public static final String TERM_PREMIUM = "TERM_PREMIUM";
 	public static final String ACTUAL_PREMIUM = "ACTUAL_PREMIUM";
