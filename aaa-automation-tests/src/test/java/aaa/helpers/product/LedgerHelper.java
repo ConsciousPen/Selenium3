@@ -51,12 +51,37 @@ public class LedgerHelper {
 					"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype " +
 					"order by TRANSACTIONDATE ";
 
+	private static final String GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED =
+			"Select TO_CHAR(TRANSACTIONDATE, 'MM/DD/YYYY') as TRANSACTION_DATE, TO_CHAR(TRANSACTIONEFFECTIVEDATE, 'MM/DD/YYYY') as TRANSACTION_EFFECTIVE_DATE, txtype, sum(PERIODAMT) as TERM_PREMIUM, sum(PREMIUMAMT) as ACTUAL_PREMIUM from "+
+				"(select p.id, p.TRANSACTIONDATE, p.TRANSACTIONEFFECTIVEDATE, p.txType, "+
+				"case when pe.premiumType = 'ENDORSEMENT' then to_char(fo.formcd) else to_char(c.coverageCd) end, "+
+				"pe.PREMIUMAMT, "+
+				"pe.PERIODAMT, "+
+				"pe.CHANGEAMT, "+
+				"pe.FACTOR, "+
+				"pe.MONTHLYAMT, "+
+				"pe.PREMIUMCD, "+
+				"pe.PREMIUMTYPE, "+
+				"pe.ANNUALAMT, "+
+				"pe.REMOVEDAMT "+
+				"from PremiumEntry pe "+
+				"left join Form fo on pe.FORM_ID = fo.id "+
+				"left join Coverage c on pe.Coverage_ID = c.id "+
+				"left join RiskItem ri on c.RiskItem_ID = ri.id "+
+				"inner join PolicySummary p on (fo.POLICYDETAIL_ID = p.POLICYDETAIL_ID OR ri.POLICYDETAIL_ID = p.POLICYDETAIL_ID) "+
+				"where p.policyNumber = 'AZH3952415375' "+
+				"and pe.premiumtype in ('NET_PREMIUM', 'ENDORSEMENT') "+
+				"and pe.PREMIUMCD='NWT') "+
+				"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype "+
+				"order by TRANSACTIONDATE";
+
 	public static final String TERM_PREMIUM = "TERM_PREMIUM";
 	public static final String ACTUAL_PREMIUM = "ACTUAL_PREMIUM";
 	public static final String TRANSACTION_DATE = "TRANSACTION_DATE";
 	public static final String TRANSACTION_EFFECTIVE_DATE = "TRANSACTION_EFFECTIVE_DATE";
+	public static final String TXTYPE = "TXTYPE";
 
-	private static final String GET_TERM_AND_ACTUAL_PREMIUMS_DESC = GET_TERM_AND_ACTUAL_PREMIUMS + "DESC";
+	private static final String GET_TERM_AND_ACTUAL_PREMIUMS_DESC = GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED + "DESC";
 
 	public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
@@ -78,7 +103,7 @@ public class LedgerHelper {
 	}
 
 	public static List<Map<String, String>> getTermAndActualPremiums(@Nonnull String policyNumber) {
-		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS, policyNumber);
+		String query = String.format(GET_TERM_AND_ACTUAL_PREMIUMS_UPDATED, policyNumber);
 		return DBService.get().getRows(query);
 	}
 
