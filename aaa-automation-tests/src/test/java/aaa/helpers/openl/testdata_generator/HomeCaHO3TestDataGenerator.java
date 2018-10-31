@@ -286,7 +286,7 @@ public class HomeCaHO3TestDataGenerator extends TestDataGenerator<HomeCaHO3OpenL
 		TestData claimData;
 		if (isFirstClaim) {
 			claimData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD, "Click",
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD.getLabel(), "Click",
 					HomeCaMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel(),
 					openLPolicy.getEffectiveDate().minusYears(RandomUtils.nextInt(1, 3)).format(DateTimeUtils.MM_DD_YYYY),
 					HomeCaMetaData.PropertyInfoTab.ClaimHistory.CAUSE_OF_LOSS.getLabel(), AdvancedComboBox.RANDOM_MARK,
