@@ -227,4 +227,32 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType());
 		//NOTE: This test works for all Auto SS states
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V = D)
+	 * @scenario 1. Create a policy with 3V and 3D
+	 * D1-->V1, D2-->V2, D3-->D3
+	 * 2. Create endorsement outside of PAS
+	 * 3. Remove V1, V2, D3
+	 * 4. Check DA: D1-->V3, D2-->V3 and rate.
+	 * 5. Delete old endorsement, create new one.
+	 * 6. Delete D2, D3
+	 * 7. Check DA: D3-->V1, V2, V3 and rate.
+	 * Prepare for other TC when we have 2V and 2D
+	 * D1-->V1, D2-->V2
+	 * 8. +D3 and +V3
+	 * 9. Check DA: D1-->V1, D2-->V2, D3, V3-->Unn
+	 * 10. Update: D3-->V3 and rate after.
+	 * 11. Delete old endorsement, create new one.
+	 * 12. Replace V1.
+	 * 13. Check DA: D1-->V1, D2-->V2.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
+	public void pas21199_ViewDriverAssignmentAfterAddRemoveActions(@Optional("VA") String state) {
+
+		pas21199_ViewDriverAssignmentAfterAddRemoveActionsBody(getPolicyType());
+	}
 }
