@@ -230,7 +230,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private TestData getUnderlyingRisksPropertyData(PUPOpenLPolicy openLPolicy) {
 		List<TestData> businessOrFarmingData = new ArrayList<>();
 		List<TestData> additionalResidenciesData = new ArrayList<>();
-		int numOfAddlResidences = openLPolicy.getNumOfAddlResidences() + 1;
+		int numOfAddlResidences = openLPolicy.getNumOfAddlResidences();
 
 		if (Boolean.TRUE.equals(openLPolicy.getBusinessPursuitsInd())) {
 			businessOrFarmingData.add(new SimpleDataProvider(getBusinessOrFarmingData(businessOrFarmingData, "HS 24 71 - Business Pursuits")));
@@ -245,6 +245,9 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 
 		if (numOfAddlResidences > 0) {
+			if (openLPolicy.getRentalUnitsCount() > 0) {
+				numOfAddlResidences = numOfAddlResidences + 1;
+			}
 			for (int i = 0; i < numOfAddlResidences; i++) {
 				Map<String, Object> residency = new HashMap<>();
 				if (additionalResidenciesData.size() < 1) {
