@@ -494,9 +494,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD})
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
