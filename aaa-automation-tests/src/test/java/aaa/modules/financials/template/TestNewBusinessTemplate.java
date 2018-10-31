@@ -28,7 +28,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getEndorsementTD());
-		policy.getDefaultView().fill(getTestSpecificTD("TestData_AddPremium"));
+		policy.getDefaultView().fill(getAddPremiumTD());
 
 		// Pay additional premium
 		payAmountDue();
@@ -63,7 +63,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().perform(getEndorsementTD(effDate));
-		policy.getDefaultView().fill(getTestSpecificTD("TestData_ReducePremium"));
+		policy.getDefaultView().fill(getReducePremiumTD());
 
 		// Advance time another week and open policy
 		mainApp().close();
