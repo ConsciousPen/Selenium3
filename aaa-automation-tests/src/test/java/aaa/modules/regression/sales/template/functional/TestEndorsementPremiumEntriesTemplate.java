@@ -54,11 +54,8 @@ public class TestEndorsementPremiumEntriesTemplate extends PolicyBaseTest {
         createPolicyAndValidate();
 
         // Cancel/rewrite policy and validate DB entries
-        // TODO this can replace the lines below it once 6695 branch is merged (Cancellation/Renewal files for all CA products will exist)
-        //policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
-        //policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
-        policy.cancel().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "Cancellation", "TestData"));
-        policy.rewrite().perform(getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "Rewrite", "TestDataSameDate"));
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
         initiateDataGatherAndValidate();
 
     }
