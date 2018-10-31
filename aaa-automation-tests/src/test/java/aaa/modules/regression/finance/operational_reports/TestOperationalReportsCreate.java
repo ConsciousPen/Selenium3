@@ -69,6 +69,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> sshControllerRemote.pathExists(expectedFile));
+				sshControllerRemote.deleteFile(expectedFile);
 			} catch (ConditionTimeoutException e) {
 				throw new IstfException(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
 			}
