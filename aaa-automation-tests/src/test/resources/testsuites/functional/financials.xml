@@ -14,7 +14,6 @@
             <class name="aaa.modules.financials.pup.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
@@ -56,7 +55,6 @@
             <class name="aaa.modules.financials.pup.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness">
