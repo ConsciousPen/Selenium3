@@ -10,8 +10,8 @@ public enum CoverageInfo {
 	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_CL.getAvailableLimits()),
 	GPIP("GPIP", "Guest Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.GPIP_CL.getAvailableLimits()),
 
-	PIP_KS_4500("PIP", "Basic Personal Injury Protection", CoverageLimits.COV_4500, AvailableCoverageLimits.PIP_KS.getAvailableLimits()),//TODO-mstrazds: KS, CL?
-	PIP_KS_10000_25000("PIP", "Added Personal Injury Protection", CoverageLimits.COV_10000, AvailableCoverageLimits.PIP_KS.getAvailableLimits()),
+	PIP_KS_4500("PIP", "Basic Personal Injury Protection", null, ImmutableList.of()),
+	PIP_KS_10000_25000("PIP", "Added Personal Injury Protection",  null, ImmutableList.of()),
 	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month/Max 1 Year"),
 	WORKLOSS_KS_10000_25000("WORKLOSS", "Work Loss", CoverageLimits.COV_1500, ImmutableList.of(), "Per Month/Max 2 Year"),
 	MEDEXP_KS("MEDEXP", "Medical Expense", CoverageLimits.COV_4500, AvailableCoverageLimits.MEDEXP_KS.getAvailableLimits(), "Per Person"),

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.ImmutableList;
 import aaa.main.enums.AvailableCoverageLimits;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -59,6 +60,14 @@ public class Coverage {
 		coverage.coverageType = coverageInfo.getCoverageType();
 		coverage.canChangeCoverage = true;
 		coverage.customerDisplayed = true;
+		return coverage;
+	}
+
+	public static Coverage createWithCdAndDescriptionOnly(CoverageInfo coverageInfo) {
+		Coverage coverage = new Coverage();
+		coverage.coverageCd = coverageInfo.getCode();
+		coverage.coverageDescription = coverageInfo.getDescription();
+		coverage.availableLimits = ImmutableList.of();//empty list
 		return coverage;
 	}
 

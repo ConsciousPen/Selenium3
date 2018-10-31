@@ -3596,10 +3596,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage worklossExpected;
 
 		if (newCoverageLimit.equals(CoverageLimits.COV_4500)) {
-			pipExpected = Coverage.create(CoverageInfo.PIP_KS_4500).disableCanChange();
+			pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_KS_4500);
 			worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
 		} else {
-			pipExpected = Coverage.create(CoverageInfo.PIP_KS_10000_25000).changeLimit(newCoverageLimit).disableCanChange();
+			pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_KS_10000_25000);
 			worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_10000_25000).disableCanChange();
 		}
 
@@ -3612,29 +3612,29 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected); //WORKLOSS code is the same for all limits
 
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
-		validatePIPInUI_pas15358(softly, pipCoverageActual);
+		validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
 
 		return pipSubCoveragesActual;
 	}
 
-	protected void validatePIPSubCoveragesThatDoesntChange_pas15358(List<Coverage> pipSubCoverages) {
+	protected void validatePIPSubCoveragesThatDoesntChange_pas15358(List<Coverage> pipSubCoveragesActual) {
 		//these coverages are always the same
 		Coverage rehabexpExpected = Coverage.create(CoverageInfo.REHABEXP_KS).disableCanChange();
 		Coverage essenservExpected = Coverage.create(CoverageInfo.ESSENSERV_KS).disableCanChange();
 		Coverage funexpExpected = Coverage.create(CoverageInfo.FUNEXP_KS).disableCanChange();
 		Coverage survlossExpected = Coverage.create(CoverageInfo.SURVLOSS_KS).disableCanChange();
 
-		assertThat(getCoverage(pipSubCoverages, CoverageInfo.REHABEXP_KS.getCode())).isEqualToComparingFieldByField(rehabexpExpected);
-		assertThat(getCoverage(pipSubCoverages, CoverageInfo.ESSENSERV_KS.getCode())).isEqualToComparingFieldByField(essenservExpected);
-		assertThat(getCoverage(pipSubCoverages, CoverageInfo.FUNEXP_KS.getCode())).isEqualToComparingFieldByField(funexpExpected);
-		assertThat(getCoverage(pipSubCoverages, CoverageInfo.SURVLOSS_KS.getCode())).isEqualToComparingFieldByField(survlossExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.REHABEXP_KS.getCode())).isEqualToComparingFieldByField(rehabexpExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.ESSENSERV_KS.getCode())).isEqualToComparingFieldByField(essenservExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.FUNEXP_KS.getCode())).isEqualToComparingFieldByField(funexpExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.SURVLOSS_KS.getCode())).isEqualToComparingFieldByField(survlossExpected);
 	}
 
-	protected void validatePIPInUI_pas15358(ETCSCoreSoftAssertions softly, Coverage pipCoverage) {
+	protected void validatePIPInUI_pas15358(ETCSCoreSoftAssertions softly, Coverage medexpCoverage) {
 		openPendedEndorsementInquiryAndNavigateToPC();
 
 		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
-				.isEqualTo(pipCoverage.getCoverageLimitDisplay());
+				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
 
 		premiumAndCoveragesTab.cancel();
 	}

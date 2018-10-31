@@ -11,8 +11,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -23,7 +21,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
@@ -32,7 +29,6 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
-import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
@@ -1044,7 +1040,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		//validate view endorsement coverages
 		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
-		Coverage pipExpected = Coverage.create(CoverageInfo.PIP_KS_4500).disableCanChange();
+		Coverage pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_KS_4500);
 		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_KS);
 		Coverage worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
 
@@ -1052,23 +1048,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode());
 			assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
 
-			List<Coverage> pipSubCoverages = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
-			assertThat(getCoverage(pipSubCoverages, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
-			assertThat(getCoverage(pipSubCoverages, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
-			validatePIPInUI_pas15358(softly, pipCoverageActual);
-			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
+			assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 
 			//Update PIP (MEDPIP) coverage to 10000
-			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_10000);
-			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_10000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 
 			//Update PIP (MEDPIP) coverage to 25000
-			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_25000);
-			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_25000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 
 			//Update PIP (MEDPIP) coverage to 4500
-			pipSubCoverages = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_4500);
-			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoverages);
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_4500);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
