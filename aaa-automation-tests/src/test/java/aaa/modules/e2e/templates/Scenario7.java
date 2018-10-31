@@ -423,14 +423,8 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); //PASBB-624/PAS-624
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(expirePolicyDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
-			.verifyPresent();
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(expirePolicyDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).verifyPresent();
-		} else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		}
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 	}
 
 	protected void generateFirstRenewalBill() {
@@ -444,14 +438,10 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(1).plusYears(1)).verifyPresent(false);
 		// No new transactions
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.FEE).setTransactionDate(billGenDate).verifyPresent(false);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount+1);
-		} else {
-			CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount);
-		}
+		CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount);
+
 	}
 
-	// Skip this step for CA Auto	
 	protected void customerDeclineRenewal() {
 		LocalDateTime declineDate = getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(declineDate);
