@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.common;
+package aaa.modules.regression.agency_transfer;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs.AgencyTransferTab;
@@ -15,7 +15,6 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;

@@ -1,65 +1,38 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.common;
+package aaa.modules.regression.agency_transfer;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs.AgencyTransferTab;
 import aaa.admin.pages.agencyvendor.AgencyTransferPage;
-import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
-import aaa.main.enums.SearchEnum;
-import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.UpdateBillingAccountActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.service.EndorsementTest;
 import aaa.modules.policy.AutoSSBaseTest;
-import aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification;
-import aaa.modules.regression.service.auto_ss.TestPolicyCancellation;
-import aaa.modules.regression.service.auto_ss.TestPolicyEndorsementMidTerm;
-import aaa.modules.regression.service.template.PolicyCancellation;
-import aaa.modules.regression.service.template.PolicyEndorsementMidTerm;
-import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
-import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.utils.screenshots.ScreenshotManager;
 import toolkit.verification.CustomSoftAssertions;
-import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Row;
-import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
-import static aaa.main.pages.summary.PolicySummaryPage.tableTransactionHistory;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
@@ -88,17 +61,17 @@ public class TestBortUserRole extends AutoSSBaseTest {
 
 //Inquiry for active image validate all transaction images
          loginAsUser("U500018077", "AZ", "F35", "01","01");
-      /*  String agentDetails = gettargetAgentDetails(policyNumber);
+        String agentDetails = gettargetAgentDetails(policyNumber);
 
         validateAllTransactionImages(policyNumber);
-*/
+
 //Leave and verify notes
       /*  loginAsL41();*/
 
        // leaveAndVerifyNotes(notesAndAlertsSummaryPage, policyNumber);
-
+/*
 //Endorse Policy
-     /*   loginAsL41();*/
+     *//*   loginAsL41();*//*
         SearchPage.openPolicy(policyNumber);
         TestData endorsementTd =testDataManager.getDefault(TestPolicyEndorsementMidTerm.class).getTestData("TestData");
         policy.createEndorsement(endorsementTd.adjust(getPolicyTD("Endorsement", "TestData")));
@@ -107,36 +80,36 @@ public class TestBortUserRole extends AutoSSBaseTest {
 
 
 //Cancel Policy
-   /*     loginAsF35();
+   *//*     loginAsF35();
         SearchPage.openPolicy(policyNumber);
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-*/
+*//*
 
 
-      /*  loginAsG36();
+      *//*  loginAsG36();
         SearchPage.openPolicy(policyNumber);
         log.info("TEST: MidTerm Cancellation Policy #" + PolicySummaryPage.labelPolicyNumber.getValue());
         policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-*/
-      /*  loginAsL41();
+*//*
+      *//*  loginAsL41();
         SearchPage.openPolicy(policyNumber);
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         TestData update_payment = testDataManager.billingAccount.getTestData("PaymentMethods", "TestData");
        // billingAccount.update().perform(update_payment);
         new BillingAccount().update().perform(update_payment);
 
-        *//*AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
+        *//**//*AddPaymentMethodsMultiAssetList.buttonAddUpdatePaymentMethod.click();
         AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
 
-        new BillingAccount().update().perform(update_payment);*//*
+        new BillingAccount().update().perform(update_payment);*//**//*
       //acceptPaymentActionTab.back();
-*/
+*//*
 
 
-      /*  loginAsF35();
+      *//*  loginAsF35();
         assertThat(gettargetAgentDetails(policyNumber)).isNotEmpty();
         log.info("Note left on policy :" + leaveNote(notesAndAlertsSummaryPage));
         mainApp().close();
