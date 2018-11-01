@@ -1732,7 +1732,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver1.oid, vehicle4.oid)
 					.addAssignment(driver2.oid, vehicle2.oid)
 					.addAssignment(driver3.oid, vehicle3.oid);
-			assertThat(driverAssignmentResponse).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1747,7 +1747,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver3.oid, vehicle3.oid)
 					.addAssignment(driver1.oid, vehicle4.oid)
 					.addUnassignedDrivers(driver2.oid);
-			assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
+			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
 
 			//Update D2-->V4
 			HelperCommon.updateDriverAssignment(policyNumber, vehicle4.oid, Arrays.asList(driver2.oid));
@@ -1764,7 +1764,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 					.addAssignment(driver2.oid, vehicle2.oid)
 					.addAssignment(driver1.oid, vehicle4.oid)
 					.addUnassignedDrivers(driver3.oid);
-			assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedDrivers");
+			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedDrivers");
 
 			//Update D3-->V4
 			HelperCommon.updateDriverAssignment(policyNumber, vehicle4.oid, Arrays.asList(driver3.oid));
