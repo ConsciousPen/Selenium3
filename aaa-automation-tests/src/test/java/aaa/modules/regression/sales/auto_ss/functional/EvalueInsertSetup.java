@@ -128,8 +128,7 @@ public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreC
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValuePriorInsuranceBlueBoxConfigInsert() { DBService.get().executeUpdate(EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT); }
 
-	@Test(description = "Precondition for eRefund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void refundConfigurationUpdate() { DBService.get().executeUpdate(REFUND_CONFIG_UPDATE); }
+
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {

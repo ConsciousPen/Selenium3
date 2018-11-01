@@ -2,6 +2,7 @@ package aaa.helpers.rest.dtoDxp;
 
 import java.util.Collections;
 import java.util.List;
+import org.apache.xpath.operations.Bool;
 
 public class DXPRequestFactory {
 
@@ -78,5 +79,21 @@ public class DXPRequestFactory {
 		updateCoverageRequest.limit = limit;
 		updateCoverageRequest.driverOids = driverOids;
 		return updateCoverageRequest;
+	}
+
+
+	public static VehicleUpdateDto createUpdateVehicleRequest(String usage, Boolean garagingDifferent, String address1 , String city, String postalCode, String state) {
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.usage=usage;
+		updateVehicleRequest.garagingDifferent=garagingDifferent;
+		updateVehicleRequest.garagingAddress = new Address();
+		updateVehicleRequest.garagingAddress.addressLine1 = address1;
+		updateVehicleRequest.garagingAddress.city = city;
+		updateVehicleRequest.garagingAddress.postalCode = postalCode;
+		updateVehicleRequest.garagingAddress.stateProvCd = state;
+
+
+		return updateVehicleRequest;
 	}
 }

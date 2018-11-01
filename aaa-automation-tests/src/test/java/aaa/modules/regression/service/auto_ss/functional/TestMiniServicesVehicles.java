@@ -694,6 +694,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {
 
 		pas12175_RemoveReplaceWaiveLiabilityBody();
+		pas12175_RemoveReplaceWaiveLiabilityBody();
 	}
 
 	/**
@@ -708,9 +709,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942"})
-	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
+	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
 
-		pas12942_GaragingAddressConsistencyDXPBody();
+		pas12942_GaragingAddressConsistencyDXPBody(state);
 	}
 
 	/**
@@ -754,6 +755,15 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
 
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
+	public void pas15269_ViewVehicleServiceAddTownship(@Optional("CT") String state) {
+		assertSoftly(softly ->
+				pas15269_ViewVehicleServiceAddTownshipBody(softly)
+		);
 	}
 }
 
