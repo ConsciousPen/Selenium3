@@ -42,6 +42,10 @@ TestData_Endorsement3: {
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$50,000/$100,000',
     Comprehensive Deductible: 'contains=$250',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {}
   }
 }
 
@@ -90,6 +94,10 @@ TestData_Endorsement3_KY: {
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$50,000/$100,000',
     Comprehensive Deductible: 'contains=$250',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {}
   }
 }
 
@@ -138,5 +146,9 @@ TestData_Endorsement3_WV: {
   PremiumAndCoveragesTab: {
     Bodily Injury Liability: 'contains=$50,000/$100,000',
     Comprehensive Deductible: 'contains=$250',
+  },
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {}
   }
 }

@@ -31,6 +31,18 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 		return PolicyType.HOME_CA_HO3;
 	}
 
+	/**
+	 * @author Maksim Piatrouski
+	 * Objectives : OOS Endorse (Negative Premium)
+	 * Preconditions:
+	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
+	 * 1. Create Annual Home CA Policy with Effective date today
+	 * 2. Create first Endorsement (Decrease coverage) with date: Today +62 days (with txEffectiveDate -1)
+	 * 3. Create Second Endorsement(Increase coverage) with date: first endorsement +61 days (with txEffectiveDate -1)
+	 * 4. Create OOS Endorsement (Decrease coverage) with date: second endorsement + 89 dayst (with txEffectiveDate -120)
+	 * 5. Roll on Endorsement with available values (not current)
+	 * 6. Verify Calculations
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20308")

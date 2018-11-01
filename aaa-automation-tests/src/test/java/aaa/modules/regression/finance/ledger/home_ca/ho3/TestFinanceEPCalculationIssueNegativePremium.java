@@ -32,6 +32,15 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 		return PolicyType.HOME_CA_HO3;
 	}
 
+	/**
+	 * @author Maksim Piatrouski
+	 * Objectives : Issue (Negative Premium)
+	 * Preconditions:
+	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
+	 * 1. Create Annual Home CA Policy with Effective date today
+	 * 2. Create Endorsement (Decrease one coverage, increase another) with date: Today +62 days (with txEffectiveDate -1)
+	 * 3. Verify Calculations
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20308")
@@ -42,6 +51,7 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 		String policyNumber = createPolicy();
 
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
+		LocalDateTime eDate = today.plusDays(62);
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
@@ -49,6 +59,12 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		Assertions.assertThat(EndorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
+
+		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		TimeSetterUtil.getInstance().nextPhase(eDate);
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		createEndorsement(-1, "TestData_Endorsement");
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
