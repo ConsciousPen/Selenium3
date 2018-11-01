@@ -30,9 +30,11 @@ import toolkit.utils.datetime.DateTimeUtils;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
-    private static final BigDecimal toleranceAmount = new BigDecimal(4);
+    private static final String CANCELLATION = "cancellation";
+    private static final BigDecimal TOLERANCE_AMOUNT = new BigDecimal(4);
+    private static final String ZERO = "0";
 
-	BillingAccount billingAccount = new BillingAccount();
+    BillingAccount billingAccount = new BillingAccount();
 	TestData tdBilling = testDataManager.billingAccount;
 
 	/**
@@ -185,10 +187,11 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         for (int i = 0; i < termAndActualPremiums.size(); i++) {
             Map<String, String> termAndActualPremium = termAndActualPremiums.get(i);
             TxType txType = txTypes.get(i);
-            String termPremium = termAndActualPremium.get("TERM_PREMIUM");
-            String actualPremium = termAndActualPremium.get("ACTUAL_PREMIUM");
-            LocalDate txDate = LocalDate.parse(termAndActualPremium.get("TRANSACTION_DATE"), LedgerHelper.DATE_TIME_FORMATTER);
-            LocalDate txEffectiveDate = LocalDate.parse(termAndActualPremium.get("TRANSACTION_EFFECTIVE_DATE"), LedgerHelper.DATE_TIME_FORMATTER);
+            String persistedType = termAndActualPremium.get(LedgerHelper.TXTYPE);
+            String termPremium = CANCELLATION.equals(persistedType) ? ZERO : termAndActualPremium.get(LedgerHelper.TERM_PREMIUM);
+            String actualPremium = termAndActualPremium.get(LedgerHelper.ACTUAL_PREMIUM);
+            LocalDate txDate = LocalDate.parse(termAndActualPremium.get(LedgerHelper.TRANSACTION_DATE), LedgerHelper.DATE_TIME_FORMATTER);
+            LocalDate txEffectiveDate = LocalDate.parse(termAndActualPremium.get(LedgerHelper.TRANSACTION_EFFECTIVE_DATE), LedgerHelper.DATE_TIME_FORMATTER);
             txsWithPremium.add(new TxWithTermPremium(txType, termPremium, actualPremium, txDate, txEffectiveDate));
         }
         validateEPCalculationsFromTransactions(policyNumber, txsWithPremium, effectiveDate.toLocalDate(), expirationDate.toLocalDate());
@@ -294,15 +297,22 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         }
 
         Map<LocalDate, BigDecimal> epFromDb = LedgerHelper.getMonthlyEarnedPremiumAmounts(policyNumber);
+
+        txsWithPremium.forEach(tx -> log.info(tx.toString()));
+        log.info("Model calculations");
+        finalEp.entrySet().forEach(entry -> log.info(entry.toString()));
+        log.info("Actual posted EP");
+        epFromDb.entrySet().forEach(entry -> log.info(entry.toString()));
+
         for (LocalDate epDate : finalEp.keySet()) {
             BigDecimal modelAmt = finalEp.get(epDate);
             BigDecimal postedAmt = epFromDb.get(epDate);
-            assertThat(modelAmt.subtract(postedAmt).abs().compareTo(toleranceAmount) < 1)
+            assertThat(modelAmt.subtract(postedAmt).abs().compareTo(TOLERANCE_AMOUNT) < 1)
                     .as(String.format("Earned premium posted on %s did not meet the tolerance amount.\n" +
                             "Expected result: %s\n" +
                             "Actual result: %s\n" +
                             "Tolerance amount: %s",
-                            epDate, modelAmt, postedAmt, toleranceAmount))
+                            epDate, modelAmt, postedAmt, TOLERANCE_AMOUNT))
             .isTrue();
         }
     }
@@ -550,6 +560,11 @@ public abstract class FinanceOperations extends PolicyBaseTest {
             return actualPremium;
         }
 
+        @Override
+        public String toString() {
+            return String.format("Transaction: %s with transaction date: %s and effective date: %s - term premium: %s and actual premium: %s",
+                    txType, txDate, txEffectiveDate, termPremium, actualPremium);
+        }
     }
 
     protected enum TxType {
