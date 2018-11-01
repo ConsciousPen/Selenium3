@@ -1033,7 +1033,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15358", "PAS-15359"})
-	public void pas15358_pas15359_viewUpdatePIPCoverage_KS(@Optional("KS") String state) {
+	public void pas15358_viewUpdatePIPCoverage_KS(@Optional("KS") String state) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
