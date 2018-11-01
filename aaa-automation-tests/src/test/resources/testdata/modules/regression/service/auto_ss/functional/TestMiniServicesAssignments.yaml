@@ -10,6 +10,10 @@ TestData_VehicleTrailer: {
     VehicleTab: ['@VehicleTab_1','@VehicleTab_Trailer', '@VehicleTab_MotorHome'],
 }
 
+TestData_FourVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3', '@VehicleTab_4'],
+}
+
 TestData_VehicleTrailer_NY: {
   VehicleTab: ['@VehicleTab_1_NY','@VehicleTab_Trailer_NY', '@VehicleTab_MotorHome_NY'],
 }
@@ -41,6 +45,12 @@ VehicleTab_3: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: 1G2NE52T9XM924276
+}
+
+VehicleTab_4: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1D7HW22N95S201385
 }
 
 VehicleTab_Trailer: {
@@ -195,6 +205,10 @@ AssignmentTab_Two_Driver: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
 }
 
+AssignmentTabTwoDriversFourVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
+}
+
 AssignmentTabFourDrivers: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
 }
@@ -246,6 +260,50 @@ AssignedDriver7: {
     Select Vehicle: 'index=3'
 }
 
+AssignmentTabFourDriversTwoVehicles: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=3'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    },
+    {
+      Select Driver: 'index=2'
+    }
+  ]
+}
+
+AssignmentTabThreeDriversFourVehicles: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=2'
+    },
+    {
+      Driver: 'contains=Monica',
+      Select Vehicle: 'index=3'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    }
+  ]
+}
 
 AssignmentTab: {
   DriverVehicleRelationshipTable: [
