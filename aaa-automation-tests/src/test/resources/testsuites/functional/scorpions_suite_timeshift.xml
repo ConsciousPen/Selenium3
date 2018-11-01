@@ -283,7 +283,7 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
                 <methods>
-                    <include name="PAS14679_DLMatchMore"/>
+                    <include name="PAS14679_CompDLMatchMore"/>
                     <include name="PAS8310_nameDOBYOBMatchMore"/>
                 </methods>
             </class>
