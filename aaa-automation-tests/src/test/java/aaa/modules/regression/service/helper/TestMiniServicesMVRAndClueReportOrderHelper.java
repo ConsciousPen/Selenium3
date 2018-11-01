@@ -736,6 +736,17 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		return convicDate;
 	}
 
+	private String pasDriverActivityReportOccurrenceDate(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(2);
+		String convicDate = getAccidentViolationDate(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE);
+		driverTab.saveAndExit();
+		return convicDate;
+	}
+
 	private String getAccidentViolationDate(AssetDescriptor<TextBox> dateField) {
 		String date = driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION).getAsset(dateField).getValue();
 		if (StringUtils.isNotEmpty(date)) {

@@ -193,7 +193,7 @@ public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 		// 5. Verify an eligibility error if Claim is more than 25000 in 3 years
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS.getLabel(), TextBox.class).setValue("26000");
 		goToBindAndVerifyError(Errors.ERROR_AAA_HO_CA12190315);
-		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), RadioGroup.class).setValue("No");
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.BTN_REMOVE).click();
 		Page.dialogConfirmation.confirm();
 
 		// 6. Verify error if animal count is > 100

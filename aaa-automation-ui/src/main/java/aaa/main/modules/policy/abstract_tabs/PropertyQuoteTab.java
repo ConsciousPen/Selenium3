@@ -42,6 +42,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
 	public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));
 	public static Table tableTotalDwellingSummary = new Table(By.id("policyDataGatherForm:dwellingSummaryTable"));
+	public static Table tablePremiumSummaryActualEndorsementPremium = new Table(By.id("policyDataGatherForm:premiumSummaryTable"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
 	public static Link linkViewRatingDetailsPUP = new Link(By.id("policyDataGatherForm:ratingPUPDetailsPopupLink"), Waiters.AJAX);
@@ -76,6 +77,10 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static Dollar getEndorsedPolicyTermPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 2).getValue());
+	}
+
+	public static Dollar getEndorsedPolicyActualPremium() {
+		return new Dollar(tablePremiumSummaryActualEndorsementPremium.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
 	}
 
 	public static Dollar getPreEndorsementPremium() {

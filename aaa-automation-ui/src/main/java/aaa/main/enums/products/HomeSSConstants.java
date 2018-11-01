@@ -122,4 +122,22 @@ public final class HomeSSConstants {
 		public static final String CHARGEABLE = "Chargeable";
 		public static final String SOURCE = "Source";
 	}
+
+	// ----- Premium And Coverages Tab ----
+	public static final class PremiumSummaryTable {
+		public static final String DWELLING_ADDRESS = "Dwelling Address";
+		public static final String ACTUAL_PREMIUM = "Actual Premium ($)";
+		public static final String ENDORSEMENT_FORMS = "Endorsement forms";
+	}
+
+	public static final class StateAndLocalTaxesTable {
+		public static final String CITY_TAX = "City Tax";
+		public static final String COUNTY_TAX = "County Tax";
+		public static final String DESCRIPTION = "Description";
+		public static final String PERCENTAGE = "Percentage";
+		public static final String TERM_PREMIUM = "Term Premium ($)";
+
+	}
+
+
 }

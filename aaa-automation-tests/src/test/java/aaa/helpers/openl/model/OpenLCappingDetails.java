@@ -1,10 +1,12 @@
 package aaa.helpers.openl.model;
 
 import java.time.LocalDate;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public class OpenLCappingDetails {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
 	protected LocalDate plcyInceptionDate;
