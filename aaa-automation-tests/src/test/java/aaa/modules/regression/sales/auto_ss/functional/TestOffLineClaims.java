@@ -107,7 +107,8 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
 
             // Check 2nd driver: Has DL match claim
-            DriverTab.tableDriverList.selectRow(1);
+            DriverTab.tableDriverList.selectRow(2);
+	        softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
         });
