@@ -6,7 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="Test CLUE Simplification for CA DP3">
+    <test name="Test CLUE Simplification for CA DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
@@ -17,7 +17,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for CA HO3">
+    <test name="Test CLUE Simplification for CA HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
@@ -28,7 +28,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for CA HO4">
+    <test name="Test CLUE Simplification for CA HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
@@ -38,7 +38,7 @@
             </class>
         </classes>
     </test>
-    <test name="Test CLUE Simplification for CA HO6">
+    <test name="Test CLUE Simplification for CA HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
@@ -49,7 +49,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for SS DP3">
+    <test name="Test CLUE Simplification for SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
@@ -60,7 +60,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for SS HO3">
+    <test name="Test CLUE Simplification for SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">
@@ -71,7 +71,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for SS HO4">
+    <test name="Test CLUE Simplification for SS HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">
@@ -82,7 +82,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification for SS HO6">
+    <test name="Test CLUE Simplification for SS HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">
@@ -93,7 +93,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification Manually Entered Claims Renewal - CA">
+    <test name="Test CLUE Simplification Manually Entered Claims Renewal - CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
@@ -119,7 +119,7 @@
         </classes>
     </test>
 
-    <test name="Test CLUE Simplification Manually Entered Claims Renewal - SS">
+    <test name="Test CLUE Simplification Manually Entered Claims Renewal - SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
