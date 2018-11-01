@@ -224,7 +224,7 @@ HomeRenovation3: {
 }
 
 ClaimHistory1: {
-  Add a claim: 'Yes', 
+  Add: 'Click',
   Date of loss: $<today-2y>,
   Cause of loss: 'Liability', 
   Amount of loss: '100', 
@@ -260,7 +260,7 @@ ClaimHistory5: {
 }
 
 ClaimHistory6: {
-Add a claim: 'Yes', 
+Add: 'Click',
   Date of loss: $<today-1m>,
   Cause of loss: 'Hail', 
   Amount of loss: '26000', 
@@ -268,7 +268,7 @@ Add a claim: 'Yes',
 }
 
 ClaimHistory_No: {
-  Add a claim: 'No' 
+  Remove: 'Click'
 }
 
 # ------------ MortgageesTab --------------- 

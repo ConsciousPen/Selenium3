@@ -299,7 +299,7 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 		TestData claimData;
 		if (isFirstClaim) {
 			claimData = DataProviderFactory.dataOf(
-					HomeCaMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes"); 
+					HomeCaMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD.getLabel(), "Click");
 			claimData.adjust(getClaimData(openLPolicy, causeOfLoss, year1, year2, claimStatus, rentalClaim, isAaaClaim));
 		} else {
 			claimData = getClaimData(openLPolicy, causeOfLoss, year1, year2, claimStatus, rentalClaim, isAaaClaim);
