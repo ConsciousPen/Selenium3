@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
@@ -20,13 +21,20 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -57,6 +65,12 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
+
+
+    protected static DriverTab driverTab = new DriverTab();
+    protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+
 
     @BeforeTest
     public void prepare() {
@@ -118,6 +132,21 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+    }
+
+    /*
+    Method changes current date to policy expiration date and issues generated renewal image
+    */
+    protected void issueRenewal(){
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        buttonRenewals.click();
+        policy.dataGather().start();
+        premiumAndCoveragesTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab();
+        payTotalAmtDue(policyNumber);
     }
 
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
