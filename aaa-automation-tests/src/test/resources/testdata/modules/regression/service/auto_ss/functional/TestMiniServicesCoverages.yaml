@@ -270,6 +270,12 @@ TestData_OrderOfCoverages_KY: {
 
 TestData_OrderOfCoverages_SD: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
   DriverLevelCoverages: ["ADB", "TD"]
+}
+
+TestData_OrderOfCoverages_KS: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "REHABEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "SURVLOSS"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
+  DriverLevelCoverages: ["ADB"],
 }
