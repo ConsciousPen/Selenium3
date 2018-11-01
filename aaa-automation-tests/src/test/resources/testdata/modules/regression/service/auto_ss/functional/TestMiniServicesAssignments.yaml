@@ -203,6 +203,10 @@ AssignmentTabFourDriversThreeVehicles: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver3', '@AssignedDriver7' ]
 }
 
+AssignmentTabThreeDriversTwoVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver3' ]
+}
+
 AssignmentTabThreeDrivers: {
 DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver6' ]
  }

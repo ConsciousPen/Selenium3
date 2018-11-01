@@ -258,7 +258,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 
 	/**
 	 * @author Jovita Pukenaite
-	 * @name View driver assignment service after Remove/Add/Replace (Rule V > D)
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V < D)
 	 * @scenario 1. Create policy with 4D and 3V
 	 * D1-->V1, D2-->V2, D3-->V2, D4-->V3
 	 * 2. Remove D2
@@ -269,7 +269,33 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 7. Update D2-->V1 and rate.
 	 * 8. Delete old endorsement, create new one.
 	 * 9. Remove V2 after V3
-	 * 10. Check DA: V1-->All D, rate.
+	 * 10. Check DA: V1-->All D
+	 * 11. Bind and rate.
+	 *
+	 * @scenario Part2
+	 * 1. Create a policy with V2 and D3
+	 * 2. Remove D3 add V3
+	 * 3. Check DA: D1-->V1, D2-->V2, V3-->Unn
+	 * 4. Update D2-->V3 and rate.
+	 * Prepare for the next TC
+	 * 1. Policy with 2V and 5D
+	 * V1-->D1,D2,D3, V2-->D4,D5
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Remove D4 and D5
+	 * 4. Check DA: V1-->D2,D3 V2-->D5
+	 * 5. Bind and rate.
+	 *
+	 * @scenario Part3
+	 * 1. Create policy with 2D and 1V
+	 * D1-->V1, D2-->V1
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add D3, add D4, add  V2
+	 * 4. Check DA: D1-->V1, D2-->V1, D3-->V1, D4-->V1, V2-->Unn
+	 * 5. Update D2-->V2, rate.
+	 * 6. Delete old endorsement, create new one.
+	 * 7. Delete D2 and add V2
+	 * 8. Check DA: D1-->V1,V2
+	 * 9. Bind and rate.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -277,5 +303,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule2(@Optional("VA") String state) {
 
 		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body(getPolicyType());
 	}
 }
