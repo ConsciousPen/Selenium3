@@ -9,11 +9,6 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
 	)),
-	MEDEXP_KS(ImmutableList.of(
-			CoverageLimits.COV_4500,
-			CoverageLimits.COV_10000,
-			CoverageLimits.COV_25000
-	)),
 	ADDPIP_CL(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_20000,
@@ -30,6 +25,11 @@ public enum AvailableCoverageLimits {
 	GPIP_CL(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
+	)),
+	MEDEXP_KS(ImmutableList.of(
+			CoverageLimits.COV_4500,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_25000
 	));
 
 	private final List<CoverageLimits> availableLimits;
