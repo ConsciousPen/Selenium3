@@ -279,3 +279,15 @@ TestData_OrderOfCoverages_KS: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
   DriverLevelCoverages: ["ADB"],
 }
+
+TestData_OrderOfCoverages_CT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_WV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
