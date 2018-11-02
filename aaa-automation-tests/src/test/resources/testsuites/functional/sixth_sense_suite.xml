@@ -118,6 +118,19 @@
 
     <!--Tests for Property-->
 
+    <test name="Test Coverage C limit 70% within of Coverage A - CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
+        </classes>
+    </test>
+
+    <test name="Test Coverage C limit 70% within of Coverage A - SS">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
+        </classes>
+    </test>
 
     <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
         <parameter name="state" value="MD"/>
@@ -314,7 +327,8 @@
         <!--</classes>-->
     <!--</test>-->
 
-            <!--Tests for PUP-->
+
+    <!--Tests for PUP-->
 
 
     <test name="Test Pup Info Section View Rating Details">
@@ -459,13 +473,6 @@
         </classes>
     </test>
 
-    <!--<test name="Test CA Choice Vehicle Assignments After Rating">-->
-        <!--<parameter name="state" value="CA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestAssignmentTabAfterRating"/>-->
-        <!--</classes>-->
-    <!--</test>-->
-
     <test name="Test Accident Surcharge Waiver">
         <parameter name="state" value="AZ, PA, NY"/>
         <classes>
@@ -473,14 +480,14 @@
         </classes>
     </test>
 
-    <!--<test name="Test Endorsement Premium Database Entries">-->
-        <!--<parameter name="state" value="CA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Endorsement Premium Database Entries">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
 
 </suite>

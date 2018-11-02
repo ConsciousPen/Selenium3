@@ -164,4 +164,11 @@
             <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="PUP [DE] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="DETests-20150701.xls"/>
+        <parameter name="policyNumbers" value="16,37"/>
+        <classes>
+            <class name="aaa.modules.openl.PUPPremiumCalculationTest"/>
+        </classes>
+    </test>
 </suite>
