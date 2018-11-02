@@ -2,9 +2,6 @@ package aaa.modules.regression.billing_and_payments.auto_ss.functional.precondit
 
 public interface TestRefundProcessPreConditions {
 
-	String REFUND_CONFIG_CHECK = "select * from LOOKUPVALUE " +
-			" WHERE LOOKUPLIST_ID IN (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME LIKE '%Rollout%' and CODE='eRefunds' and DISPLAYVALUE='TRUE' )";
-
 	String LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK = "select value from PROPERTYCONFIGURERENTITY " +
 			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl'"
 			+ " and VALUE like '%%%s%%'";
