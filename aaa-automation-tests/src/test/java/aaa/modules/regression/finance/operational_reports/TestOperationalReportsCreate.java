@@ -27,7 +27,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER = "/home/autotest/Downloads";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
-	private static final String EXCEL_FILE_EXTENSION = "xls";
+	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 
 	/**
 	 * @author Jurij Kuznecov
@@ -64,7 +64,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteHelper.isPathExist(expectedFilePath));
-				//				remoteHelper.removeFile(expectedFilePath);
+				remoteHelper.removeFile(expectedFilePath);
 			} catch (ConditionTimeoutException e) {
 				assertThat(true).as("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress).isEqualTo(false);
 			}
