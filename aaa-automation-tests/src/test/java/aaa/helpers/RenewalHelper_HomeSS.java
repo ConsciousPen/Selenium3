@@ -134,16 +134,14 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
     private void moveToNB15() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage1Date);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(Jobs.membershipValidationJob);
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void moveToNB30() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage2Date);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        JobUtils.executeJob(Jobs.membershipValidationJob);
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
