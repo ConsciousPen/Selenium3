@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense Functional Test Suite" verbose="1">
+
+    <suite-files>
+        <suite-file path="sixth_sense_suite_timeshift.xml"/>
+        <suite-file path="sixth_sense_suite.xml"/>
+        <suite-file path="sixth_sense_mvr_predictor.xml"/>
+        <suite-file path="sixth_sense_clue.xml"/>
+    </suite-files>
+
+</suite>
