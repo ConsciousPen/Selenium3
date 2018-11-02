@@ -305,9 +305,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (!getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		}
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		
 	}
 
 	protected void customerDeclineRenewal() {
@@ -371,7 +370,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		if (!getPolicyType().isAutoPolicy()) {
+		if (!getPolicyType().isAutoPolicy() &&
+				!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))) { //PASBB-775
 			// TODO Possible problems with MD and MT state. See QC 35220 for details.
 			//if (!getState().equals(Constants.States.MD) && !getState().equals(Constants.States.MT)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(policyExpirationDate)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
