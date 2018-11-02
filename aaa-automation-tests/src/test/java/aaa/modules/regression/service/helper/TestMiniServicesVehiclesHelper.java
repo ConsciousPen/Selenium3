@@ -2970,8 +2970,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		VehicleUpdateResponseDto updateVehicleResponse4 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques4);
 		softly.assertThat(updateVehicleResponse4.garagingAddress.county).isEqualTo(null);
 
-		VehicleUpdateDto updateVehicleReques5 = DXPRequestFactory.createUpdateVehicleRequest("60319");
-		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques5);
+		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, DXPRequestFactory.createUpdateVehicleRequest("60319"));
 		softly.assertThat(updateVehicleResponse5.garagingAddress.county).isEqualTo("60319");
 	}
 

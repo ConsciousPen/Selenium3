@@ -788,7 +788,6 @@
             </class>
         </classes>
     </test>
-
     <test name="pas12942_GaragingAddressConsistencyDXP">
         <parameter name="state" value="CT"/>
         <classes>
