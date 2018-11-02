@@ -75,7 +75,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 				Assert.fail(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
 			}
 
-			remoteHelper.downloadFile(REMOTE_DOWNLOAD_FOLDER, downloadDir.getAbsolutePath());
+			remoteHelper.downloadFile(expectedFilePath, downloadDir.getAbsolutePath());
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
 			} catch (ConditionTimeoutException e) {
