@@ -71,12 +71,11 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteHelper.isPathExist(expectedFilePath));
-				remoteHelper.removeFile(expectedFilePath);
 			} catch (ConditionTimeoutException e) {
 				Assert.fail(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
 			}
 
-			remoteHelper.downloadFile(new File(REMOTE_DOWNLOAD_FOLDER).getAbsolutePath(), downloadDir.getAbsolutePath());
+			remoteHelper.downloadFile(REMOTE_DOWNLOAD_FOLDER, downloadDir.getAbsolutePath());
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
 			} catch (ConditionTimeoutException e) {
