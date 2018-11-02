@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.TestDataHelper;
@@ -9,6 +10,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,7 +19,7 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
 
-
+@StateList(states = Constants.States.CA)
 public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest {
 
     PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
@@ -47,10 +49,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         _tdHelper.adjustTD(_td, PremiumAndCoveragesTab.class, AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "$100,000/$300,000 (+$0.00)");
 
         // Open App, Create Customer, Initiate Quote, Fill Up To PNC Tab.
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(_td, PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(_td, PremiumAndCoveragesTab.class);
 
         // Capture Product Type. Verify it's 'Select'.
         String productDetermined = pncTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), ComboBox.class).getValue();
@@ -65,7 +64,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
 
         // Calculate Premium. Verify Product Hasn't Changed.
-        pncTab.btnCalculatePremium();
+        pncTab.calculatePremium();
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
 
         // Navigate to Driver Tab and Return to PNC Tab. For debugging later: Adding a BP after this line allows for simple verification of claim data gathered.
@@ -73,7 +72,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
 
         // Return to PNC Tab. Calculate Premium. Verify Product Hasn't Changed.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        pncTab.btnCalculatePremium();
+        pncTab.calculatePremium();
         CustomAssertions.assertThat(productDetermined).isEqualToIgnoringCase("CA Choice");
     }
 }
