@@ -18,19 +18,21 @@ import com.jayway.awaitility.core.ConditionTimeoutException;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.waiters.Waiter;
 
 public class TestOperationalReportsCreate extends PolicyBaseTest {
 
-	private static final String REMOTE_DOWNLOAD_FOLDER_PROP = "test.remotefile.location"; // location /root/Downloads
 	private static final String REMOTE_DOWNLOAD_FOLDER = "/home/autotest/Downloads";
-	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty("test.downloadfiles.location");
+	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
 	private static final String EXCEL_FILE_EXTENSION = "xlsx";
 
 	/**
@@ -46,7 +48,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
 	public void testOperationalReportsCreate() throws SftpException, JSchException {
 
-		String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
+		String remoteFileLocation = PropertyProvider.getProperty(CsaaTestProperties.REMOTE_DOWNLOAD_FOLDER_PROP);
 		String reportName = getTestSpecificTD("OperationalReport").getValue("ReportName");
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		String expectedFileName = String.format("%s_%s_%s_%s.%s", reportName, today.getYear(), today.getMonth().getDisplayName(TextStyle.SHORT, Locale.US), today.getDayOfMonth(), EXCEL_FILE_EXTENSION);
@@ -54,24 +56,23 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 		opReportApp().open();
 
 		if (StringUtils.isNotEmpty(remoteFileLocation)) {        // execute on remote monitor
-			File expectedFile = new File(REMOTE_DOWNLOAD_FOLDER + "/" + expectedFileName);
+			String expectedFilePath = new File(REMOTE_DOWNLOAD_FOLDER + "/" + expectedFileName).getAbsolutePath();
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor address: {}", monitorAddress);
-			SSHController sshControllerRemote = new SSHController(
-					monitorAddress,
-					PropertyProvider.getProperty("test.ssh.user"),
-					PropertyProvider.getProperty("test.ssh.password"));
-			if (sshControllerRemote.pathExists(expectedFile)) {
-				sshControllerRemote.deleteFile(expectedFile);
-				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> !sshControllerRemote.pathExists(expectedFile));
+			RemoteHelper remoteHelper = RemoteHelper.with().host(monitorAddress).get();
+			if (remoteHelper.isPathExist(expectedFilePath)) {
+				remoteHelper.removeFile(expectedFilePath);
+				log.info("File {} removed", expectedFileName);
+				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> !remoteHelper.isPathExist(expectedFilePath));
 			}
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
+
 			try {
-				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> sshControllerRemote.pathExists(expectedFile));
-				sshControllerRemote.deleteFile(expectedFile);
+				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteHelper.isPathExist(expectedFilePath));
+				//				remoteHelper.removeFile(expectedFilePath);
 			} catch (ConditionTimeoutException e) {
-				throw new IstfException(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
+				assertThat(true).as("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress).isEqualTo(false);
 			}
 		} else {        // execute locally
 			File downloadDir = new File(DOWNLOAD_DIR);
@@ -83,14 +84,13 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 					expectedFile.delete();
 				}
 			}
-
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
 			} catch (ConditionTimeoutException e) {
-				throw new IstfException(String.format("Report file %s is not created in folder %s within 120 seconds", expectedFileName, downloadDir));
+				assertThat(true).as("Report file %s is not created in folder %s within 120 seconds", expectedFileName, downloadDir).isEqualTo(false);
 			}
 		}
-		log.info("Operational Report {} is created", expectedFileName);
+		log.info("Operational Report {} created", expectedFileName);
 	}
 }
