@@ -1,11 +1,11 @@
 package aaa.modules.regression.finance.operational_reports;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
@@ -63,7 +63,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteHelper.isPathExist(expectedFilePath));
 				remoteHelper.removeFile(expectedFilePath);
 			} catch (ConditionTimeoutException e) {
-				assertThat(true).as("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress).isEqualTo(false);
+				Assert.fail(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
 			}
 		} else {        // execute locally
 			File downloadDir = new File(DOWNLOAD_DIR);
@@ -79,7 +79,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
 			} catch (ConditionTimeoutException e) {
-				assertThat(true).as("Report file %s is not created in folder %s within 120 seconds", expectedFileName, downloadDir).isEqualTo(false);
+				Assert.fail(String.format("Report file %s is not created in folder %s within 120 seconds", expectedFileName, downloadDir));
 			}
 		}
 		log.info("Operational Report {} was created", expectedFileName);
