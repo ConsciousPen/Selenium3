@@ -291,3 +291,9 @@ TestData_OrderOfCoverages_WV: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages: ["ADB"],
 }
+
+TestData_OrderOfCoverages_MD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
+  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+}

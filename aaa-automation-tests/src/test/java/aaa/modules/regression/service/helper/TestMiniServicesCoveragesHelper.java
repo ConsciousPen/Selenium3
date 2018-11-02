@@ -2731,25 +2731,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 
-		//Pas-18202 Order of coverage for MD
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(0).getCoverageCd()).isEqualTo("BI");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(1).getCoverageCd()).isEqualTo("PD");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(2).getCoverageCd()).isEqualTo("UMBI");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(3).getCoverageCd()).isEqualTo("EUIM");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(4).getCoverageCd()).isEqualTo("UMPD");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(5).getCoverageCd()).isEqualTo("MEDPM");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(6).getCoverageCd()).isEqualTo("PIP");
-
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).getCoverageCd()).isEqualTo("COMPDED");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).getCoverageCd()).isEqualTo("COLLDED");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).getCoverageCd()).isEqualTo("GLASS");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).getCoverageCd()).isEqualTo("LOAN");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).getCoverageCd()).isEqualTo("RREIM");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).getCoverageCd()).isEqualTo("TOWINGLABOR");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).getCoverageCd()).isEqualTo("SPECEQUIP");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).getCoverageCd()).isEqualTo("NEWCAR");
-		//softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).getCoverageCd()).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-
 		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
 		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
 
