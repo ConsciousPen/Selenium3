@@ -302,11 +302,8 @@ public class Scenario9 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); //PASBB-624/PAS-624
-		} else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		}
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 	}
 
 	protected void customerDeclineRenewal() {

@@ -493,6 +493,9 @@ public final class PolicyActions {
 
 			int rowsCount;
 			int columnsCount;
+			int maxRowsCount = 5;
+			String linkTriangleXPathPart1 = "//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_";
+			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]";
 
 			if (tableDifferences.isPresent()) {
 				rowsCount = tableDifferences.getRowsCount();
@@ -500,10 +503,21 @@ public final class PolicyActions {
 
 				//expand rows
 				for (int i = 0; i < rowsCount; i++) {
-					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+					Link linkTriangle = new Link(By.xpath(linkTriangleXPathPart1 + i + linkTriangleXPathPart2));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
+						for (int j = 0; j < maxRowsCount; j++) {
+							Link linkTriangle2 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + linkTriangleXPathPart2));
+							if (linkTriangle2.isPresent() && linkTriangle2.isVisible()) {
+								linkTriangle2.click();
+								for (int z = 0; z < maxRowsCount; z++) {
+									Link linkTriangle3 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + "_" + z + linkTriangleXPathPart2));
+									if (linkTriangle3.isPresent() && linkTriangle3.isVisible()) {
+										linkTriangle3.click();
+									}
+								}
+							}
+						}
 					}
 				}
 
