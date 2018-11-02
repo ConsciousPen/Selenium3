@@ -70,7 +70,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToNB15();
         }
         else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
         }
     }
 
@@ -79,7 +79,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToNB30();
         }
         else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
         }
     }
 
@@ -89,7 +89,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToMembershipTimepoint1();
         }
         else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
         }
     }
 
@@ -98,7 +98,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             moveToMembershipTimepoint2();
         }
         else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>", _policyExpiraitonDate.toString()));
+            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
         }
     }
 
@@ -107,6 +107,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
         JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
 
         mainApp().open();
         //DEBUGBREAKPOINT MANUALLY MAKE PAYMENT IN UI.
@@ -135,7 +136,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void moveToNB30() {
@@ -143,30 +144,55 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     private void generateRenewalImage() {
         TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
+    /**
+     * Moves to STG3 and handles STG3 Jobs. (E.g.= AZ HomeSS -> R-63, R-60, R-57 jobs.
+     */
     private void moveToMembershipTimepoint1() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage3Date);
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57));
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.aaaCreditDisclosureNoticeJob);
+        JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob); // Add to UI
+        JobUtils.executeJob(Jobs.aaaRenewalDataRefreshAsyncJob);
     }
 
     private void moveToMembershipTimepoint2() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage4Date);
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>", TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(45l));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Rating, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(35l));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
+
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(34l));
+        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
+        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
     }
 
     private void captureTimepoints(){

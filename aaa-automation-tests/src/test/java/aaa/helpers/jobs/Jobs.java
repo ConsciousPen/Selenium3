@@ -162,6 +162,10 @@ public class Jobs {
 
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 
+	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
+
+	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
