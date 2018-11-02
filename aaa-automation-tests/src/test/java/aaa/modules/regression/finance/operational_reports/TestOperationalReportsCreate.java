@@ -27,7 +27,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 
 	private static final String REMOTE_DOWNLOAD_FOLDER = "/home/autotest/Downloads";
 	private static final String DOWNLOAD_DIR = System.getProperty("user.dir") + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
-	private static final String EXCEL_FILE_EXTENSION = "xlsx";
+	private static final String EXCEL_FILE_EXTENSION = "xls";
 
 	/**
 	 * @author Jurij Kuznecov
