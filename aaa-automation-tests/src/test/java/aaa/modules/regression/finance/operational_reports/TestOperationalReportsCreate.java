@@ -34,15 +34,12 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 	 *
 	 * 1. Initiate Operational Report's creating
 	 * 2. Check Operational report file exists in corresponding folder
-	 *
-	 * for executing locally add to local.property file 'test.remotefile.location='
 	 */
 
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
 	public void testOperationalReportsCreate() {
 
-		String remoteFileLocation = PropertyProvider.getProperty(CsaaTestProperties.REMOTE_DOWNLOAD_FOLDER_PROP);
 		String reportName = getTestSpecificTD("OperationalReport").getValue("ReportName");
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		String expectedFileName = String.format("%s_%s_%s_%s.%s", reportName, today.getYear(), today.getMonth().getDisplayName(TextStyle.SHORT, Locale.US), today.getDayOfMonth(), EXCEL_FILE_EXTENSION);
@@ -59,7 +56,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 
 		opReportApp().open();
 
-		if (StringUtils.isNotEmpty(remoteFileLocation)) {        // execute on remote monitor
+		if (TimeSetterUtil.getInstance().isPEF()) {        // execute on remote monitor
 			String expectedFilePath = new File(REMOTE_DOWNLOAD_FOLDER + "/" + expectedFileName).getAbsolutePath();
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
