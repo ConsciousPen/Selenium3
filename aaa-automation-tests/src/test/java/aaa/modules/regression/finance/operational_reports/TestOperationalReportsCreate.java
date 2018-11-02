@@ -53,15 +53,12 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			String expectedFilePath = new File(REMOTE_DOWNLOAD_FOLDER + "/" + expectedFileName).getAbsolutePath();
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
-			log.info("Monitor address: {}", monitorAddress);
 			RemoteHelper remoteHelper = RemoteHelper.with().host(monitorAddress).user(PropertyProvider.getProperty("test.ssh.user"), PropertyProvider.getProperty("test.ssh.password")).get();
 			if (remoteHelper.isPathExist(expectedFilePath)) {
 				remoteHelper.removeFile(expectedFilePath);
-				log.info("File {} removed", expectedFileName);
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> !remoteHelper.isPathExist(expectedFilePath));
 			}
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
-
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(() -> remoteHelper.isPathExist(expectedFilePath));
 				remoteHelper.removeFile(expectedFilePath);
@@ -85,6 +82,6 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 				assertThat(true).as("Report file %s is not created in folder %s within 120 seconds", expectedFileName, downloadDir).isEqualTo(false);
 			}
 		}
-		log.info("Operational Report {} created", expectedFileName);
+		log.info("Operational Report {} was created", expectedFileName);
 	}
 }
