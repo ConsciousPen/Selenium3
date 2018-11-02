@@ -120,14 +120,14 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Coverage C limit 70% within of Coverage A">
+    <test name="Test Coverage C limit 70% within of Coverage A - CA">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
         </classes>
     </test>
 
-    <test name="Test Coverage C limit 70% within of Coverage A">
+    <test name="Test Coverage C limit 70% within of Coverage A - SS">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
@@ -329,26 +329,6 @@
         <!--</classes>-->
     <!--</test>-->
 
-    <test name="Test CLUE Simplification for CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification"/>
-        </classes>
-    </test>
-
-    <test name="Test CLUE Simplification for SS">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification"/>
-        </classes>
-    </test>
-
 
     <!--Tests for PUP-->
 
@@ -502,14 +482,14 @@
         </classes>
     </test>
 
-    <!--<test name="Test Endorsement Premium Database Entries">-->
-        <!--<parameter name="state" value="CA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test Endorsement Premium Database Entries">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
 
 </suite>
