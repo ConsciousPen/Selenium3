@@ -38,7 +38,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 	 * for executing locally add to local.property file 'test.remotefile.location='
 	 */
 
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
 	public void testOperationalReportsCreate() throws SftpException, JSchException {
 
