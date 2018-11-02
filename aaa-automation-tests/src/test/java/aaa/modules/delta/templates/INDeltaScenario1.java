@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,13 +15,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
@@ -35,7 +28,7 @@ public class INDeltaScenario1 extends BaseTest {
 	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
-	
+
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
 		
@@ -49,7 +42,7 @@ public class INDeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA IN SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
-	
+
 	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -57,7 +50,7 @@ public class INDeltaScenario1 extends BaseTest {
 		
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
-	
+
 	public void verifyEndorsementsTab() {
 		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
@@ -98,7 +91,7 @@ public class INDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyEndorsementHS2383() {	
 		TestData td_hs2383 = getTestSpecificTD("TestData_addHS2383"); 
 		
@@ -148,7 +141,7 @@ public class INDeltaScenario1 extends BaseTest {
 		//TODO add verification On-Demand Documents tab
 		GenerateOnDemandDocumentActionTab.buttonSaveAndExit.click();
 	}
-	
+
 	public void verifyHailResistanceRating() {
 		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
 		
@@ -168,7 +161,7 @@ public class INDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyIneligibleRoofType() {
 		TestData td_eligibleData = getTestSpecificTD("TestData");
 		TestData td_ineligibleRoofType = getTestSpecificTD("TestData_IneligibleRoofType");
@@ -184,7 +177,7 @@ public class INDeltaScenario1 extends BaseTest {
 			PropertyInfoTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	

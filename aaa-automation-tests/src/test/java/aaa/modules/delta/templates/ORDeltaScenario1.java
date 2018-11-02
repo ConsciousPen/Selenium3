@@ -2,7 +2,6 @@ package aaa.modules.delta.templates;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -15,12 +14,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
@@ -32,10 +26,10 @@ public class ORDeltaScenario1 extends BaseTest {
 	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
-	
+
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
-		
+
 		mainApp().open();		
         createCustomerIndividual();
         policy.initiate();
@@ -45,7 +39,7 @@ public class ORDeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA OR SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
-	
+
 	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -53,7 +47,7 @@ public class ORDeltaScenario1 extends BaseTest {
 		
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
-	
+
 	public void verifyUnderwritingApprovalTab() {
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
 		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
@@ -91,7 +85,7 @@ public class ORDeltaScenario1 extends BaseTest {
 			UnderwritingAndApprovalTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyClaims() {
 		TestData td_Claims1 = getTestSpecificTD("TestData_Claims1");
 		TestData td_Claims2 = getTestSpecificTD("TestData_Claims2");
@@ -127,7 +121,7 @@ public class ORDeltaScenario1 extends BaseTest {
 			PropertyInfoTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -146,10 +140,10 @@ public class ORDeltaScenario1 extends BaseTest {
         
         log.info("DELTA OR SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-	
+
 	public void verifyODDPolicy() {
 		//verify AHAUXX - Consumer Information Notice is on On-Demand Documents tab, verify AHAUXX generation
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		policy.policyDocGen().start();

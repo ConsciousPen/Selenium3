@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -17,14 +16,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
@@ -37,7 +29,7 @@ public class KSDeltaScenario1 extends BaseTest {
 	protected String quoteNumber;
 	protected String policyNumber;
 	protected String effectiveDate;
-	
+
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();	
 		
@@ -52,7 +44,7 @@ public class KSDeltaScenario1 extends BaseTest {
         
         effectiveDate = PolicySummaryPage.labelPolicyEffectiveDate.getValue(); 		
 	}
-	
+
 	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -60,7 +52,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
-	
+
 	public void verifyEndorsementsTab() {
 		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
@@ -101,7 +93,7 @@ public class KSDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyELC() {		
 		TestData td_None_with_Score740 = getTestSpecificTD("TestData_None_with_Score740"); 
 		TestData td_Declined_with_Score999 = getTestSpecificTD("TestData_Declined_with_Score999"); 
@@ -139,7 +131,7 @@ public class KSDeltaScenario1 extends BaseTest {
 			ReportsTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyHailResistanceRating() {
 		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
 		TestData td_eligibleData = getTestSpecificTD("TestData");
@@ -161,7 +153,7 @@ public class KSDeltaScenario1 extends BaseTest {
 		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td_eligibleData);
 		PropertyInfoTab.buttonSaveAndExit.click();
 	}
-	
+
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
@@ -180,9 +172,9 @@ public class KSDeltaScenario1 extends BaseTest {
         
         log.info("DELTA KS SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-	
+
 	public void verifyODDPolicy() {
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
 		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();

@@ -12,7 +12,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestDCDeltaScenario1 extends DCDeltaScenario1 {
-	
+
 	public String scenarioPolicyType = "DP3";
 	
 	@Override
@@ -22,7 +22,7 @@ public class TestDCDeltaScenario1 extends DCDeltaScenario1 {
 	
 	@Parameters({"state"})
 	@StateList(states = States.DC)
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public void DC_Delta_Scenario1(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());

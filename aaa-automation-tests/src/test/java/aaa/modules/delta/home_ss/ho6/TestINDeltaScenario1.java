@@ -11,7 +11,7 @@ import aaa.modules.delta.templates.INDeltaScenario1;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
-public class TestINDeltaScenario1 extends INDeltaScenario1{ 
+public class TestINDeltaScenario1 extends INDeltaScenario1 {
 	public String scenarioPolicyType = "HO6";
 	
 	@Override
@@ -21,7 +21,7 @@ public class TestINDeltaScenario1 extends INDeltaScenario1{
 	
 	@Parameters({"state"})
 	@StateList(states = States.IN)
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public void IN_Delta_Scenario1(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -35,7 +35,7 @@ public class TestINDeltaScenario1 extends INDeltaScenario1{
 			verifyHailResistanceRating();
 			verifyIneligibleRoofType();
 			purchasePolicy(td, scenarioPolicyType);
-			verifyPolicyODD();			
+			verifyPolicyODD();
 		});
 	}	
 }

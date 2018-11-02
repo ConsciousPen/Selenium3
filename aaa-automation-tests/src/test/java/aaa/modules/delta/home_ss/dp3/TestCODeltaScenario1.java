@@ -13,7 +13,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestCODeltaScenario1 extends CODeltaScenario1 { 
+public class TestCODeltaScenario1 extends CODeltaScenario1 {
 	public String scenarioPolicyType = "DP3";
 	
 	@Override

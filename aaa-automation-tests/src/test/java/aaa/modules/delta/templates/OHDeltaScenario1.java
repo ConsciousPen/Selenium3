@@ -3,7 +3,6 @@ package aaa.modules.delta.templates;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,12 +15,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
@@ -33,10 +27,10 @@ public class OHDeltaScenario1 extends BaseTest {
 	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
-	
+
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
-		
+
 		mainApp().open();		
         createCustomerIndividual();
         policy.initiate();
@@ -46,7 +40,7 @@ public class OHDeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA OH SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
-	
+
 	public void verifyImmediatePriorCarrier() {
 		mainApp().open(); 
 
@@ -68,7 +62,7 @@ public class OHDeltaScenario1 extends BaseTest {
 			GeneralTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyEndorsementsTab() {
 		TestData td_add_Forms = getTestSpecificTD("TestData_add_Forms");
 		
@@ -109,7 +103,7 @@ public class OHDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyHailResistanceRating() {
 		TestData td_hailResistanceRating = getTestSpecificTD("TestData_hailResistanceRating");
 		
@@ -128,7 +122,7 @@ public class OHDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void verifyIneligibleRoofType() {
 		TestData td_eligibleData = getTestSpecificTD("TestData");
 		TestData td_IneligibleRoofType = getTestSpecificTD("TestData_IneligibleRoofType");
@@ -145,7 +139,7 @@ public class OHDeltaScenario1 extends BaseTest {
 			PropertyInfoTab.buttonSaveAndExit.click();
 		});
 	}
-	
+
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);	
@@ -164,9 +158,9 @@ public class OHDeltaScenario1 extends BaseTest {
         
         log.info("DELTA OH SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);
 	}
-	
+
 	public void verifyODDPolicy() {
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
 		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();

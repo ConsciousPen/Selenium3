@@ -11,7 +11,7 @@ import aaa.modules.delta.templates.KSDeltaScenario1;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
-public class TestKSDeltaScenario1 extends KSDeltaScenario1 { 
+public class TestKSDeltaScenario1 extends KSDeltaScenario1 {
 	public String scenarioPolicyType = "HO4";
 	
 	@Override
@@ -21,7 +21,7 @@ public class TestKSDeltaScenario1 extends KSDeltaScenario1 {
 	
 	@Parameters({"state"})
 	@StateList(states = States.KS)
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public void KS_Delta_Scenario1(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -33,7 +33,7 @@ public class TestKSDeltaScenario1 extends KSDeltaScenario1 {
 			verifyELC();
 			verifyHailResistanceRating();
 			purchasePolicy(td, scenarioPolicyType);
-			verifyODDPolicy();			
+			verifyODDPolicy();
 		});
 	}
 }

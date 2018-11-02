@@ -18,7 +18,6 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -273,8 +272,8 @@ public class Scenario3 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		if (!getPolicyType().isAutoPolicy() && 
-			!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))  ) { //PASBB-775
+		if (!getPolicyType().isAutoPolicy() &&
+				!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))) { //PASBB-775
 			//TODO Possible problems with MD state, See QC 35220 for details.
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(lapsedRenewShort).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		}

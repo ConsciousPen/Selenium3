@@ -21,7 +21,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssertions;
 import toolkit.verification.CustomSoftAssertions;
 
 public class CODeltaScenario1 extends BaseTest {
@@ -66,11 +65,11 @@ public class CODeltaScenario1 extends BaseTest {
 		Map<String, String> HS_04_93 = new HashMap<>();
 		HS_04_93.put("Form ID", "HS 04 93");
 		HS_04_93.put("Name", "Actual Cash Value - Windstorm Or Hail Losses");
-		
+
 		Map<String, String> HS_04_36 = new HashMap<>();
 		HS_04_36.put("Form ID", "HS 04 36");
 		HS_04_36.put("Name", "Loss Assessment Coverage For Earthquake");
-		
+
 		Map<String, String> HS_04_52 = new HashMap<>();
 		HS_04_52.put("Form ID", "HS 04 52");
 		HS_04_52.put("Name", "Livestock Collision Coverage");
@@ -88,25 +87,25 @@ public class CODeltaScenario1 extends BaseTest {
 
 		switch (getPolicyType().getShortName()) {
 			case "HomeSS":
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent();
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
 				endorsementTab.fillTab(td_add_Forms);
-				CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
-				CustomAssertions.assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
-				CustomAssertions.assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
+				assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
+				assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
+				assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
 				break;
 			case "HomeSS_HO4":
 			case "HomeSS_HO6":
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent(false);
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent(false);
-				CustomAssertions.assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent(false);
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent(false);
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent(false);
+				assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent(false);
 				endorsementTab.fillTab(td_add_Forms);
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_36)).isPresent();
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_52)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_36)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_52)).isPresent();
 				break;
 			case "HomeSS_DP3":
 				endorsementTab.fillTab(td_add_Forms);
-				CustomAssertions.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(DS_04_68)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(DS_04_68)).isPresent();
 				break;
 			default:
 				break;

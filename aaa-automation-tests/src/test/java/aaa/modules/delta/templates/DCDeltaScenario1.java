@@ -2,7 +2,6 @@ package aaa.modules.delta.templates;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
-
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -25,12 +24,12 @@ public class DCDeltaScenario1 extends BaseTest {
 	protected TestData tdPolicy;
 	protected String quoteNumber;
 	protected String policyNumber;
-	
+
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
-		
-		mainApp().open();		
-        createCustomerIndividual();       
+
+		mainApp().open();
+		createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(td, BindTab.class, true); 
         BindTab.buttonSaveAndExit.click();
@@ -38,7 +37,7 @@ public class DCDeltaScenario1 extends BaseTest {
         quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         log.info("DELTA CT SC1: "+scenarioPolicyType+" Quote created with #" + quoteNumber); 		
 	}
-	
+
 	public void verifyLOVsOfImmediatePriorCarrier() {
 		mainApp().open(); 
 		SearchPage.openQuote(quoteNumber);	
@@ -46,8 +45,8 @@ public class DCDeltaScenario1 extends BaseTest {
 		
 		HssQuoteDataGatherHelper.verifyLOVsOfImmediatePriorCarrierThenSaveAndExit(immediatePriorCarrierLOVs);
 	}
-	
-	public void purchasePolicy(TestData td,  String scenarioPolicyType) {
+
+	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
@@ -65,13 +64,13 @@ public class DCDeltaScenario1 extends BaseTest {
         
         log.info("DELTA DC SC1: "+scenarioPolicyType+" Policy created with #" + policyNumber);	 
 	}
-	
+
 	public void verifyDeclarationDocumentsGenerated() {
 		 //TODO add verification that Declaration documents are generated at NB policy issue and in DB. 
 	}
-	
+
 	public void verifyPolicyODD() {
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		policy.policyDocGen().start();

@@ -161,7 +161,7 @@ public class CTDeltaScenario1 extends BaseTest {
 	}
 
 	public void verifyODDPolicy() {
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		policy.policyDocGen().start();

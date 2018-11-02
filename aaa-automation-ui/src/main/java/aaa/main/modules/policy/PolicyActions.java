@@ -706,7 +706,7 @@ public final class PolicyActions {
 		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
 		 */
 		public AbstractAction perform() {
-			return super.perform(new SimpleDataProvider());
+			return perform(new SimpleDataProvider());
 		}
 }
 

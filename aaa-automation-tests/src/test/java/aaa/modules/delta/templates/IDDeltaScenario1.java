@@ -28,7 +28,7 @@ public class IDDeltaScenario1 extends BaseTest {
 
 	public void createQuote(TestData td, String scenarioPolicyType) {
 		policy = getPolicyType().get();
-		
+
 		mainApp().open();		
         createCustomerIndividual();
         policy.initiate();
@@ -113,7 +113,7 @@ public class IDDeltaScenario1 extends BaseTest {
 	}
 
 	public void verifyODDPolicy() {
-		mainApp().open(); 		
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.policyDocGen().start();
 		GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
@@ -123,7 +123,7 @@ public class IDDeltaScenario1 extends BaseTest {
 				odd_tab.verify.documentsPresent(DocGenEnum.Documents.HS11.setState(getState()), DocGenEnum.Documents.AHAUXX);
 				odd_tab.generateDocuments(DocGenEnum.Documents.HS11.setState(getState()), DocGenEnum.Documents.AHAUXX);
 				WebDriverHelper.switchToDefault();
-				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11.setState(getState()), 
+				DocGenHelper.verifyDocumentsGenerated(policyNumber, DocGenEnum.Documents.HS11.setState(getState()),
 						DocGenEnum.Documents.AHAUXX);
 				break;
 			case "HomeSS_HO4":

@@ -12,7 +12,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 
 public class TestOHDeltaScenario1 extends OHDeltaScenario1 {
-	
+
 	public String scenarioPolicyType = "HO3-Heritage";
 	
 	@Override
@@ -22,7 +22,7 @@ public class TestOHDeltaScenario1 extends OHDeltaScenario1 {
 	
 	@Parameters({"state"})
 	@StateList(states = States.OH)
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public void OH_Delta_Scenario1(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -34,7 +34,7 @@ public class TestOHDeltaScenario1 extends OHDeltaScenario1 {
 			verifyHailResistanceRating();
 			verifyIneligibleRoofType();
 			purchasePolicy(td, scenarioPolicyType);
-			verifyODDPolicy();		
+			verifyODDPolicy();
 		});
 	}
 }

@@ -22,7 +22,7 @@ public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 	
 	@Parameters({"state"})
 	@StateList(states = States.OR)
-	@Test(groups = { Groups.DELTA, Groups.HIGH })
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
 	public void OR_Delta_Scenario1(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
@@ -33,7 +33,7 @@ public class TestORDeltaScenario1 extends ORDeltaScenario1 {
 			verifyUnderwritingApprovalTab();
 			verifyClaims();
 			purchasePolicy(td, scenarioPolicyType);
-			verifyODDPolicy();		
+			verifyODDPolicy();
 		});
 	}
 }
