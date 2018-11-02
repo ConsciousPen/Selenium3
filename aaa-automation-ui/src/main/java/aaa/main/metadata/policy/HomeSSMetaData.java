@@ -555,7 +555,6 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class ClaimHistory extends MetaData {
-			public static final AssetDescriptor<RadioGroup> ADD_A_CLAIM = declare("Add a claim", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
 					.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
 			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAAHOLossInfo"));

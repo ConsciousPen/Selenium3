@@ -273,7 +273,7 @@ PropertyInfoTab_Claims1: {
 }
 
 ClaimHistory1: {
-  Add a claim: 'Yes', 
+  Add: 'Click',
   Date of loss: '12/02/2014', 
   Cause of loss: 'Fire', 
   Amount of loss: '500', 
@@ -325,7 +325,7 @@ PropertyInfoTab_Claims2: {
 }
 
 ClaimHistory_No: {
-  Add a claim: 'No' 
+  Remove: 'Click'
 }
 
 
