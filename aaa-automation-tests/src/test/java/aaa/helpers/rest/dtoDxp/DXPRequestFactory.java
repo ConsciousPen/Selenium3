@@ -51,7 +51,7 @@ public class DXPRequestFactory {
 	}
 
 	public static Vehicle createAddVehicleRequest(String vin, String purchaseDate) {
-		Vehicle addVehicleRequest= new Vehicle();
+		Vehicle addVehicleRequest = new Vehicle();
 		addVehicleRequest.purchaseDate = purchaseDate;
 		addVehicleRequest.vehIdentificationNo = vin;
 		return addVehicleRequest;
@@ -80,18 +80,18 @@ public class DXPRequestFactory {
 		return updateCoverageRequest;
 	}
 
-	public static VehicleUpdateDto createUpdateVehicleRequest(String usage, Boolean garagingDifferent, String address1 , String city, String postalCode, String state) {
+	public static VehicleUpdateDto createUpdateVehicleRequest(String usage, Boolean garagingDifferent, String address1, String city, String postalCode, String state) {
 
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.usage=usage;
-		updateVehicleRequest.garagingDifferent=garagingDifferent;
+		updateVehicleRequest.usage = usage;
+		updateVehicleRequest.garagingDifferent = garagingDifferent;
 		updateVehicleRequest.garagingAddress = new Address();
 		updateVehicleRequest.garagingAddress.addressLine1 = address1;
 		updateVehicleRequest.garagingAddress.city = city;
 		updateVehicleRequest.garagingAddress.postalCode = postalCode;
 		updateVehicleRequest.garagingAddress.stateProvCd = state;
 		return updateVehicleRequest;
-		}
+	}
 
 	public static VehicleUpdateDto createUpdateVehicleRequest(String county) {
 		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
@@ -99,4 +99,5 @@ public class DXPRequestFactory {
 		updateVehicleRequest.garagingAddress.county = county;
 		return updateVehicleRequest;
 	}
+
 }
