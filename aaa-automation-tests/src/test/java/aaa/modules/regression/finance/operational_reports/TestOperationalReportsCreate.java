@@ -40,12 +40,22 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS)
-	public void testOperationalReportsCreate() throws SftpException, JSchException {
+	public void testOperationalReportsCreate() {
 
 		String remoteFileLocation = PropertyProvider.getProperty(CsaaTestProperties.REMOTE_DOWNLOAD_FOLDER_PROP);
 		String reportName = getTestSpecificTD("OperationalReport").getValue("ReportName");
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		String expectedFileName = String.format("%s_%s_%s_%s.%s", reportName, today.getYear(), today.getMonth().getDisplayName(TextStyle.SHORT, Locale.US), today.getDayOfMonth(), EXCEL_FILE_EXTENSION);
+
+		File downloadDir = new File(DOWNLOAD_DIR);
+		File expectedFile = new File(downloadDir, expectedFileName);
+		if (downloadDir.mkdirs()) {
+			log.info("\"{}\" folder was created", downloadDir.getAbsolutePath());
+		} else {
+			if (expectedFile.exists()) {
+				expectedFile.delete();
+			}
+		}
 
 		opReportApp().open();
 
@@ -65,16 +75,15 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			} catch (ConditionTimeoutException e) {
 				Assert.fail(String.format("Report file %s is not created in folder %s on %s monitor instance within 120 seconds", expectedFileName, REMOTE_DOWNLOAD_FOLDER, monitorAddress));
 			}
-		} else {        // execute locally
-			File downloadDir = new File(DOWNLOAD_DIR);
-			File expectedFile = new File(downloadDir, expectedFileName);
-			if (downloadDir.mkdirs()) {
-				log.info("\"{}\" folder was created", downloadDir.getAbsolutePath());
-			} else {
-				if (expectedFile.exists()) {
-					expectedFile.delete();
-				}
+
+			remoteHelper.downloadFile(new File(REMOTE_DOWNLOAD_FOLDER).getAbsolutePath(), downloadDir.getAbsolutePath());
+			try {
+				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
+			} catch (ConditionTimeoutException e) {
+				Assert.fail(String.format("Report file %s is not downloaded into folder %s within 120 seconds", expectedFileName, downloadDir));
 			}
+
+		} else {        // execute locally
 			new OperationalReport().create(getTestSpecificTD("TestData_CreateReport"));
 			try {
 				Awaitility.await().atMost(Duration.TWO_MINUTES).until(expectedFile::exists);
