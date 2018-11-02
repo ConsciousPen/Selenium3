@@ -698,17 +698,18 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
-	 * @author Dakota Berg
+	 * @author Megha Gubbala
 	 * @name Check garaging address on DXP
 	 * @scenario 1. Create a customer and policy
 	 * 2. Initiate an endorsement
 	 * 3. Update vehicle to have a different garaging address outside of PAS
 	 * 4. Hit Meta Data Service and verify that the garaging address is different
 	 * 5. Bind the endorsement and verify that the policy is active
+	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
 	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
 
 		pas12942_GaragingAddressConsistencyDXPBody(state);
@@ -757,9 +758,21 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
 	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name viewPolicyRenewalSummary - See if county is there
+	 * @scenario 1. Create policy CT.
+	 * 2. run viewPolicyRenewalSummary verify county is there
+	 * 3. Create endorsement outside of PAS (date = today)
+	 * 4. run viewEndorsementVehicles verify county
+	 * 5. createUpdateVehicleRequest update vehicle with garaging Address outside CT verify county is not there.
+	 * 6. createUpdateVehicleRequest update vehicle with garaging Address that has only 1 county verify county is there .
+	 * 7. createUpdateVehicleRequest update vehicle with garaging Address that has more than 1  county verify county is null .
+	 * 8. again update vehicle with county verify county in response.
+	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15269"})
 	public void pas15269_ViewVehicleServiceAddTownship(@Optional("CT") String state) {
 		assertSoftly(softly ->
 				pas15269_ViewVehicleServiceAddTownshipBody(softly)

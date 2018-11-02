@@ -2776,8 +2776,8 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	protected void pas12942_GaragingAddressConsistencyDXPBody( String state) {
 		mainApp().open();
-		String policyNumber = "CTSS952918541";
-		//String policyNumber = getCopiedPolicy();
+
+		String policyNumber = getCopiedPolicy();
 
 		//start an endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -2944,7 +2944,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	protected void pas15269_ViewVehicleServiceAddTownshipBody(ETCSCoreSoftAssertions softly) {
 		mainApp().open();
-		String policyNumber = "CTSS926232046";
+		String policyNumber = getCopiedPolicy();
 
 		PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 		softly.assertThat(responsePolicyPending.residentialAddress.county).isEqualTo("60319");
@@ -2961,16 +2961,18 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 
 		VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
-		HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest);
-		softly.assertThat(listOfVehicles.vehicleList.get(0).garagingAddress.county).isEqualTo("");
-		softly.assertThat(listOfVehicles.vehicleList.get(0).garagingAddress.addressLine1).isEqualTo("213 Regis Court");
-		softly.assertThat(listOfVehicles.vehicleList.get(0).garagingAddress.city).isEqualTo("Meriden");
+		VehicleUpdateResponseDto updateVehicleResponse3 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest);
+		softly.assertThat(updateVehicleResponse3.garagingAddress.county).isEqualTo("60232");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.addressLine1).isEqualTo("213 Regis Court");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.city).isEqualTo("Meriden");
 
-//get meta data county
+		VehicleUpdateDto updateVehicleReques4 = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "3978 SPANIEL CT", "NAUGATUCK", "06770", "CT");
+		VehicleUpdateResponseDto updateVehicleResponse4 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques4);
+		softly.assertThat(updateVehicleResponse4.garagingAddress.county).isEqualTo(null);
 
-		// transaction history service verify
-
-
+		VehicleUpdateDto updateVehicleReques5 = DXPRequestFactory.createUpdateVehicleRequest("60319");
+		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques5);
+		softly.assertThat(updateVehicleResponse5.garagingAddress.county).isEqualTo("60319");
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {

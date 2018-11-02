@@ -72,7 +72,6 @@ public class DXPRequestFactory {
 		return updateCoverageRequest;
 	}
 
-
 	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, List<String> driverOids) {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
@@ -80,7 +79,6 @@ public class DXPRequestFactory {
 		updateCoverageRequest.driverOids = driverOids;
 		return updateCoverageRequest;
 	}
-
 
 	public static VehicleUpdateDto createUpdateVehicleRequest(String usage, Boolean garagingDifferent, String address1 , String city, String postalCode, String state) {
 
@@ -92,8 +90,13 @@ public class DXPRequestFactory {
 		updateVehicleRequest.garagingAddress.city = city;
 		updateVehicleRequest.garagingAddress.postalCode = postalCode;
 		updateVehicleRequest.garagingAddress.stateProvCd = state;
+		return updateVehicleRequest;
+		}
 
-
+	public static VehicleUpdateDto createUpdateVehicleRequest(String county) {
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.garagingAddress = new Address();
+		updateVehicleRequest.garagingAddress.county = county;
 		return updateVehicleRequest;
 	}
 }
