@@ -54,7 +54,7 @@ public class TestOperationalReportsCreate extends PolicyBaseTest {
 			String monitorInfo = TimeShiftTestUtil.getContext().getBrowser().toString();
 			String monitorAddress = monitorInfo.substring(monitorInfo.indexOf(" ") + 1, monitorInfo.indexOf(":", monitorInfo.indexOf(" ")));
 			log.info("Monitor address: {}", monitorAddress);
-			RemoteHelper remoteHelper = RemoteHelper.with().host(monitorAddress).get();
+			RemoteHelper remoteHelper = RemoteHelper.with().host(monitorAddress).user(PropertyProvider.getProperty("test.ssh.user"), PropertyProvider.getProperty("test.ssh.password")).get();
 			if (remoteHelper.isPathExist(expectedFilePath)) {
 				remoteHelper.removeFile(expectedFilePath);
 				log.info("File {} removed", expectedFileName);
