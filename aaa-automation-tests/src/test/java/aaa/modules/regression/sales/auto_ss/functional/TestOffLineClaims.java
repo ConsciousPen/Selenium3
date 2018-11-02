@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -7,9 +8,12 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
@@ -115,6 +119,54 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         });
     }
 
+    ///////////////////////
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
+    public void PAS14679_DLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+	    // Create Customer and Policy with 4 drivers
+    	createPolicyMultiDrivers();
+
+	    // Create the claim response
+	    createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+
+	    // Retrieve policy and generate a manual renewal image
+	    createManualRenewal();
+
+	    //Run Claims receive batch job, to assign claims
+	    JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+
+	    //Clean Cache  - claims will not show on the policy until policy image is cleared from cache
+	    adminApp().open();
+	    new CacheManager().goClearCacheManagerTable();
+	    adminApp().close();
+
+	    // Enter renewal image and verify claim presence
+	    mainApp().open();
+	    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+	    buttonRenewals.click();
+	    policy.dataGather().start();
+	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+	    CustomSoftAssertions.assertSoftly(softly -> {
+		    DriverTab driverTab = new DriverTab();
+		    ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+		    softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+
+		    // Check 1st driver. No Claims
+		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
+
+		    // Check 2nd driver. 2 Claim.
+		    DriverTab.tableDriverList.selectRow(2);
+		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
+		    DriverTab.tableActivityInformationList.selectRow(2);
+		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
+	    });
+    }
+
+	///////////////////////
     /**
      * @author Kiruthika Rajendran
      * @author Chris Johns

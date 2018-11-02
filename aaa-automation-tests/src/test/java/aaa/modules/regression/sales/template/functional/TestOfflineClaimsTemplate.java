@@ -20,6 +20,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
@@ -27,6 +28,8 @@ import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
@@ -53,6 +56,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
     public static final String SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'MatchMoreClaims'";
 
+    public static final String CLAIMS_MICROSERICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
 
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
@@ -88,6 +92,16 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         mainApp().close();
         return policyNumber;
     }
+
+    // Retrieve policy, generate a manual renwal image, save and exit the app
+    public void createManualRenewal() {
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        policy.renew().start();
+        GeneralTab.buttonSaveAndExit.click();
+        mainApp().close();
+    }
+
 
     // Move to R-63, run batch job part 1 and offline claims batch job
     public void runRenewalClaimOrderJob() {

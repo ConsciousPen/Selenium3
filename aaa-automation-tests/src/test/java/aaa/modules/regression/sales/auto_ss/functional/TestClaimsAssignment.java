@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate.CLAIMS_MICROSERICE_ENDPOINT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -16,11 +17,14 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
+//	private static final String claimsUrl = String.valueOf(DBService.get().getValue(String.format(CLAIMS_MICROSERICE_ENDPOINT)));
+	//DBService.get().executeUpdate(String.format
 	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
