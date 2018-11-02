@@ -2,12 +2,9 @@ package aaa.modules.regression.finance.operational_reports;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Locale;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -24,10 +21,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.waiters.Waiter;
 
 public class TestOperationalReportsCreate extends PolicyBaseTest {
 
