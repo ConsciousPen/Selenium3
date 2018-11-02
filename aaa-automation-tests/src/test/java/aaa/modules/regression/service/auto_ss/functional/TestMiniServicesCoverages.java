@@ -618,19 +618,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2. run view coverage service  see the Enhanced UIM coverage selection :canChangeCoverage = true and customerView = true
 	 * 3. Update EUIM select coverage and verify response.
 	 * 4. Update EUIM remove coverage and verify response.
-	 * PAS:18202:
-	 * 1.Verify order of coverages
-	 * Bodily Injury
-	 *  Property Damage
-	 *  Uninsured/Underinsured Motorist Bodily Injury
-	 *  Enhanced UM
-	 *  Uninsured Motorist Property Damage
-	 *  Medical Payments
-	 *  Personal Injury Protection
 	 * 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654"})
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
