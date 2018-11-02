@@ -3,6 +3,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.Response;
 import org.testng.annotations.Optional;
@@ -10,6 +11,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.rest.dtoDxp.Coverage;
@@ -18,6 +20,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
@@ -28,6 +31,8 @@ import aaa.main.enums.CoverageInfo;
 import aaa.main.enums.CoverageLimits;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
+
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -489,9 +494,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD})
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -1014,6 +1019,76 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		});
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update KS PIP Coverages
+	 * @scenario
+	 * 1. Create KS Auto SS policy in PAS
+	 * 2. Run vieEndorsementCoverages service and validate response and compare it with PAS UI
+	 * 3. Update PIP by updating MEDEXP coverage to 10000 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 * 4. Update PIP by updating MEDEXP coverage to 25000 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 * 5. Update PIP by updating MEDEXP coverage to 4500 and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15358", "PAS-15359"})
+	public void pas15358_viewUpdatePIPCoverage_KS(@Optional("KS") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_KS_4500);
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_KS);
+		Coverage worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
+
+		assertSoftly(softly -> {
+			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode());
+			softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+
+			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+
+			//Update PIP (MEDPIP) coverage to 10000
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_10000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+
+			//Update PIP (MEDPIP) coverage to 25000
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_25000);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+
+			//Update PIP (MEDPIP) coverage to 4500
+			pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, CoverageLimits.COV_4500);
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+		});
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Let's Check for Wrong Values - Coverages
+	 * @scenario1
+	 * 1. Create a policy for a given state.
+	 * 2. Create an endorsement for the policy.
+	 * 3. Run the View Coverage service and retrieve the details for the coverages of that state.
+	 * 4. For each coverage that can be changed, attempt to update the coverage with a bogus coverage limit. Validate
+	 * that an error is returned.
+	 * 5. For each coverage that cannot be changed, attempt to update the coverage with a valid coverage limit.
+	 * Validate that an error is returned.
+	 * 6. Try to update a coverage that doesn't exist and validate that an error is returned.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16984"})
+	public void pas16984_validateCoverageConstraints(@Optional("VA") String state) {
+		pas16984_validateCoverageConstraints(getPolicyType());
+	}
 }
 
 

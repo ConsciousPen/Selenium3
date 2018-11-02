@@ -1,36 +1,6 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  EndorsementTab: '@EndorsementTab',
-  PremiumsAndCoveragesQuoteTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DocumentsTab',
-  BindTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@BindTab',
-  PurchaseTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@PurchaseTab'
-}
-
-GeneralTab: {
-  State: 'CT',
-  Policy type: 'DP3',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
-}
-
-ApplicantTab: {
-  NamedInsured: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@NamedInsured',
-  AAAMembership: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@AAAMembership',
-  DwellingAddress: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@DwellingAddress',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@NamedInsuredInformation',
-  OtherActiveAAAPolicies: ['@<delta_home_ss_ho3>@TestCTDeltaScenario1@OtherActiveAAAPolicies', '@OtherActiveAAAPolicies_2'], 
-  AgentInfo: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@AgentInfo'
 }
 
 PropertyInfoTab: {
@@ -55,31 +25,6 @@ PropertyInfoTab: {
 EndorsementTab: {
   DS 04 69: '@Endorsement_DS0469' 
 }
-
-UnderwritingAndApprovalTab: {
-  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": 'No',
-  "Do employees of any resident or applicant reside in the dwelling?": 'No',
-  "Is any business, home day care or farming activity conducted on the premises?": 'No'
-}
-
-# ----- Applicant Tab -----
-
-OtherActiveAAAPolicies_2: {
-  #Other active AAA policies: "Yes",
-  #Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {},
-  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2' 
-}
-
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual_2:  {
-  Policy type: HO3,
-  Policy number: '345345345',
-  Coverage E: '1000',
-  Deductible: '1000',
-  Dwelling usage: Primary,
-  Occupancy type: Owner occupied
-}
-
 
 # ----- PropertyInfo Tab -----
 DetachedStructures: {
@@ -145,5 +90,3 @@ TestData_Plus33Days: {
 TestData_Plus34Days: {
   CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestCTDeltaScenario1@CancelNoticeActionTab_Plus34Days'
 }
-
-

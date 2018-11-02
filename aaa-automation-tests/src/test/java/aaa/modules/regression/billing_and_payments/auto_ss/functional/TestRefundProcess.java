@@ -96,8 +96,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	}
 
 	public static void eRefundLastPaymentMethodConfigCheck() {
-		assertThat(DBService.get().getValue(REFUND_CONFIG_CHECK)).as("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT").isPresent();
-		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
+			assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
 		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
 				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);

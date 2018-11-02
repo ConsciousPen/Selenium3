@@ -200,6 +200,7 @@
                     <include name="pas14536_TransportationExpensePart2"/>
                     <include name="pas14536_TransportationExpensePart3"/>
                     <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
                 </methods>
             </class>
         </classes>
@@ -798,4 +799,15 @@
             </class>
         </classes>
     </test>
+    <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
+    <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
+        <!--<parameter name="state" value="KS"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">-->
+                <!--<methods>-->
+                    <!--<include name="pas15358_viewUpdatePIPCoverage_KS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>
