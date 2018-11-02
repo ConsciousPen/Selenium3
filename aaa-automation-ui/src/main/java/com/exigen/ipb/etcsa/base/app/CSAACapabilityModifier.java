@@ -22,7 +22,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		} else {
 			downloadPath = System.getProperty(CsaaTestProperties.USER_DIR_PROP) + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP));
 		}
-		options.addArguments("disable-infobars", "--no-sandbox");
+		options.addArguments("disable-infobars", "--no-sandbox", "--disable-dev-shm-usage");
 		options.setExperimentalOption("useAutomationExtension", false);
 		HashMap<String, Object> chromePrefs = new HashMap<>();
 		chromePrefs.put("profile.default_content_settings.popups", 0);
