@@ -18,7 +18,11 @@ public enum CoverageInfo {
 	REHABEXP_KS("REHABEXP", "Rehabilitation Expense", CoverageLimits.COV_4500, ImmutableList.of(), "Per Person"),
 	ESSENSERV_KS("ESSENSERV", "Essential Services", CoverageLimits.COV_25, ImmutableList.of(), "Per Day/Max 365 Days"),
 	FUNEXP_KS("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, ImmutableList.of(), "Per Person"),
-	SURVLOSS_KS("SURVLOSS", "Survivor's Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month");
+	SURVLOSS_KS("SURVLOSS", "Survivor's Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month"),
+
+	UIMCONV_CT("UIMCONV", "Underinsured Motorist Conversion Coverage", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.UIMCONV_CT.getAvailableLimits()),
+	UMBI_CT_NO("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100000_300000, ImmutableList.of()), //when UIMCONV  = No
+	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100000_300000, ImmutableList.of()); //when UIMCONV  = Yes
 
 	private final String code;
 	private final String description;

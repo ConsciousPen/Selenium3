@@ -1090,6 +1090,38 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16984_validateCoverageConstraints(@Optional("VA") String state) {
 		pas16984_validateCoverageConstraints(getPolicyType());
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario1
+	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = no
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsement coverages service
+	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'Uninsured/Underinsured Motorist Bodily Injury' (UIMB) coverage
+	 * @scenario2
+	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = yes
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsement coverages service
+	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'ninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage' (UIMB) coverage
+	 *
+	 * @NOTE: Probably should be able to update these tests with Update story when it will be in sprint. Probably both tests then could be consolidated in one.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
+	public void pas15265_WithOutUnderInsuredConversionCoverageCTBody(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageCTBody(false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
+	public void pas15265_WithUnderInsuredConversionCoverageCTBody(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageCTBody(true);
+	}
 }
 
 

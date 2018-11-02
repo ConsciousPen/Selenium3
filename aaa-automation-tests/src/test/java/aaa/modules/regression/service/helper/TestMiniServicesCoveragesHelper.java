@@ -3657,6 +3657,38 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(custEquipIndex).as("CUSTEQUIP should be displayed after COLLDED").isEqualTo(colldedIndex + 1);
 	}
 
+	protected void pas15265_UnderInsuredConversionCoverageCTBody(boolean testWithUimconv) {
+		TestData td = getPolicyDefaultTD();
+		String setUimconvValueUI;
+		if (testWithUimconv) {
+			setUimconvValueUI = "Yes";
+		} else {
+			setUimconvValueUI = "No";
+		}
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+				, AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE.getLabel()), setUimconvValueUI);
+
+		String policyNumber = openAppAndCreatePolicy(td);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage uimconvCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UIMCONV_CT.getCode());
+		Coverage uimbCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMBI_CT_NO.getCode()); //code is the same in all cases
+
+		Coverage uimbCoverageExpected;
+		Coverage uimconvCoverageExpected;
+		if (testWithUimconv) {
+			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_YES);
+			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange().changeLimit(CoverageLimits.COV_TRUE_YES);
+		} else {
+			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_NO);
+			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange();
+		}
+
+		assertThat(uimconvCoverageActual).isEqualToComparingFieldByField(uimconvCoverageExpected);
+		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription");
+	}
+
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
 			//make sure that no Policy Level coverages are missed
