@@ -18,7 +18,6 @@ import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
-import aaa.main.enums.ProductConstants.PolicyStatus;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -204,11 +203,8 @@ public class Scenario3 extends ScenarioBaseTest {
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); //PASBB-624/PAS-624
-		} else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		}
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 	}
 
 	public void customerDeclineRenewal() {
@@ -234,7 +230,7 @@ public class Scenario3 extends ScenarioBaseTest {
 		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
-		//commented according to PASBB-624/PAS-624
+		//commented according to PASBB-624/PAS-624, PPS-499
 		/*if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
@@ -276,7 +272,8 @@ public class Scenario3 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
-		if (!getPolicyType().isAutoPolicy()) {
+		if (!getPolicyType().isAutoPolicy() &&
+				!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))) { //PASBB-775
 			//TODO Possible problems with MD state, See QC 35220 for details.
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(lapsedRenewShort).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		}

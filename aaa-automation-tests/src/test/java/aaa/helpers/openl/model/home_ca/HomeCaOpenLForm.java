@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.home_ca;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLForm;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLFile;
@@ -12,7 +13,9 @@ public class HomeCaOpenLForm extends OpenLForm {
 	@ExcelColumnElement(name = "formLimit")
 	protected Double limit;
 
+	@RequiredField
 	protected Boolean applyDiscounts;
+
 	protected Boolean hasSupportingForm;
 
 	public Boolean getApplyDiscounts() {

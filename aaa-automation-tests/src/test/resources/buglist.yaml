@@ -387,7 +387,7 @@ PAS-20303:
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
   - tests: [aaa.modules.regression.conversions.home_ss.ho6.functional.TestSpecialNonRenewalLetterKY.*]
     messages: ["[Xml document \"HSSNRKYXX\" found. Document should not exist]"]
-PAS-20827:
+PT-2829:
   summary: "Renewal Bill is not generated for 2nd Renewal (1st was conversion policy)"
   reason: PROD
   failures:
@@ -399,6 +399,46 @@ PAS-20827:
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+PAS-21025:
+  summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
+    messages: ["PAS Driver should be 2nd Driver of Policy"]
+PAS-20880:
+  summary: "Cannot save and exit on property info tab"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
+    messages: ["AAA_HO_SS11260016", "Cannot set value of ComboBox"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
+    messages: ["Errors: AAA_HO_SS10141728", "Cannot set value of ComboBox"]
+PAS-20851:
+  summary: "Chargeable indicator disabled with more than 2 named insured (upcoming story)"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
+            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
+            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
+            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
+            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
+            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal]
+    messages: ["Cannot set value of TextBox {Reason claim is not chargeable"]
+  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
+            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
+            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
+            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
+            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
+            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
+    messages: ["Cannot set value of RadioGroup {Chargeable"]
+PAS-20919:
+  summary: "Regression BCT: Cancel Notice flag is present after accepting payment on total due amount"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.*]
+    messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
+
+
 PT-2687:
   summary: "Regression BCT: aaaRefundGenerationAsyncJob Info: Job execution failed with error: null"
   reason: PROD
