@@ -35,8 +35,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String CLAIM_NUMBER_3 = "1002-10-8704";
 	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
-	private static final String CLAIM_NUMBER_6 = "8FAZ88888OHS";
-    private static final String CLAIM_NUMBER_7 = "1002-10-8705";
+    private static final String CLAIM_NUMBER_6 = "1002-10-8705";
     private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE =
             ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
     private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
@@ -119,7 +118,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * @author Kiruthika Rajendran
      * @author Chris Johns
      * PAS-8310 - LASTNAME_FIRSTNAME_DOB & LASTNAME_FIRSTNAME_YOB matches
-     * PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB matches
+     * PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB matches
      * @name Test Match more claims to satisfy the Name and DOB match logic LASTNAME_FIRSTNAME_DOB,  LASTNAME_FIRSTNAME_YOB
      * @scenario Test Steps:
      * 1. Create a Policy with 4 drivers
@@ -157,25 +156,22 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
             // Check 3rd driver
 	        // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-	        // PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB matches
             DriverTab.tableDriverList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
+            // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
 	        DriverTab.tableActivityInformationList.selectRow(2);
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_4);
 	        DriverTab.tableActivityInformationList.selectRow(3);
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
 	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_5);
-	        DriverTab.tableActivityInformationList.selectRow(4);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_6);
 
             // Check 4th driver.
 	        // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
             DriverTab.tableDriverList.selectRow(4);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_7);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_6);
         });
     }
 }
