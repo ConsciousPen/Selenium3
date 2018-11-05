@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -25,9 +25,6 @@ import aaa.main.enums.CoverageLimits;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -330,6 +327,42 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
 			softly.assertThat(response.message).isEqualTo("Cannot find coverage with coverage code 'TEST'");
 		});
+	}
+
+	//jovita
+	protected void pas20818_ViewPdCoverageLimitsBody(String date) {
+		TestData td = getPolicyTD("DataGather", "TestData").adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), date);
+
+		mainApp().open();
+		//		createCustomerIndividual();
+		//		String policyNumber = createQuote(td);
+		SearchPage.openQuote("QINSS952919045");
+
+		NavigationPage.comboBoxListAction.setValue("Data Gathering");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		//Get values from 'PD coverage' dropdown PAS UI
+		List<String> pdLimitsPasQuote = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).getAllValues();
+		premiumAndCoveragesTab.saveAndExit();
+		testEValueDiscount.simplifiedQuoteIssue();
+
+		assertSoftly(softly -> {
+			softly.assertThat(pdLimitsPasQuote.get(0)).contains("$10,000");
+			softly.assertThat(pdLimitsPasQuote.get(1)).contains("$15,000");
+		});
+
+
+		Coverage toMatch = Coverage.create(CoverageInfo.PD);
+
+
+
+
+
+
+
+
 	}
 
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
