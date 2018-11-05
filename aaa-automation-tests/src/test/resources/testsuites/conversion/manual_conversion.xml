@@ -15,7 +15,7 @@
     <test name="Manual Hybrid Conversion verify AHMVXX2 not generated">
         <parameter name="state" value="OR"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.ManualHybridConversionAHMVXX2NotGeneratedTest"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.ManualHybridConversionDocsTest1"/>
         </classes>
     </test>
 

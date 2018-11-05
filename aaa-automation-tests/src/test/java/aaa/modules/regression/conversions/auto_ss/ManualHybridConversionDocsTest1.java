@@ -99,7 +99,7 @@ import toolkit.utils.datetime.DateTimeUtils;
  */
 
 @SuppressWarnings("ProblematicWhitespace")
-public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTest {
+public class ManualHybridConversionDocsTest1 extends PolicyBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 
 	@Override
@@ -111,11 +111,12 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 	@StateList(states = Constants.States.OR)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionTest(@Optional("OR") String state) {
+	public void manualHybridConversionDocsTest1(@Optional("OR") String state) {
 		LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getPhaseStartTime();
 		LocalDateTime renewalDate = effectiveDate.plusDays(40);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
-		TestData policyTd = getConversionPolicyDefaultTD().adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("TestData").getTestDataList("DriverTab"))
+		TestData policyTd = getConversionPolicyDefaultTD()
+				.adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("TestData").getTestDataList("DriverTab"))
 				.adjust(RatingDetailReportsTab.class.getSimpleName(), getTestSpecificTD("RatingDetailReportsTab"))
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "AAAProductOwned"), getTestSpecificTD("AAAProductOwned")).resolveLinks();
 		TestData renewalTd = getManualConversionInitiationTd();
