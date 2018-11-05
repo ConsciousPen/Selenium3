@@ -200,6 +200,7 @@
                     <include name="pas14536_TransportationExpensePart2"/>
                     <include name="pas14536_TransportationExpensePart3"/>
                     <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
                 </methods>
             </class>
         </classes>
@@ -267,6 +268,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="ViewPremiumService - Tax">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19742ViewPremiumServiceTaxInformation"/>
                 </methods>
             </class>
         </classes>
@@ -767,4 +778,35 @@
             </class>
         </classes>
     </test>
+    <test name="pas19195_viewUpdatePIPCoverage_KY">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12942_GaragingAddressConsistencyDXP">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
+    <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
+        <!--<parameter name="state" value="KS"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">-->
+                <!--<methods>-->
+                    <!--<include name="pas15358_viewUpdatePIPCoverage_KS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

@@ -1498,6 +1498,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertThat(response2.oid).isNotEmpty();
 		String newVehicleOid = response2.oid;
 
+
 		//View vehicles status
 		ViewVehicleResponse response3 = HelperCommon.viewEndorsementVehicles(policyNumber);
 
@@ -2021,15 +2022,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
-		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
-		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCoverageLimit()).isEqualTo("1");
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(true);
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("true");
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 		//PAS-13920 end
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -2089,15 +2090,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
-		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
-		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
-		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
+		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCoverageLimit()).isEqualTo("0");
+		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(false);
+		assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 
 		PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
-		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("false");
+		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 		//PAS-13920 end
 
 		//check common coverages of the vehicles
@@ -2168,15 +2169,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
-		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
-		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCoverageLimit()).isEqualTo("1");
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(true);
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("true");
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 		//PAS-13920 end
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -2220,15 +2221,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			//PAS-13920 start
 			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
-			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
+			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCoverageLimit()).isEqualTo("0");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(false);
+			softly.assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 
 			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 			//PAS-13920 end
 
 			//check common coverages of the vehicles
@@ -2300,15 +2301,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-13920 start
 		PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleLeasedOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseLeasedVeh, "LOAN");
-		assertThat(policyCoverageResponseLeasedVehFiltered.coverageLimit).isEqualTo("1");
-		assertThat(policyCoverageResponseLeasedVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseLeasedVehFiltered.canChangeCoverage).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCoverageLimit()).isEqualTo("1");
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(true);
 
 		PolicyCoverageInfo policyCoverageResponseNewCarCoverageVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 		Coverage policyCoverageResponseNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseNewCarCoverageVeh, "NEWCAR");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.coverageLimit).isEqualTo("true");
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("true");
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+		assertThat(policyCoverageResponseNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 		//PAS-13920 end
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -2366,15 +2367,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleLeasedOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCoverageLimit()).isEqualTo("0");
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 
 			PolicyCoverageInfo policyCoverageResponseReplacedNewCarCoverageVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleNewCarCoverageOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedNewCarCoverageVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedNewCarCoverageVeh, "NEWCAR");
-			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.coverageLimit).isEqualTo("false");
-			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.customerDisplayed).isEqualTo(true);
-			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.canChangeCoverage).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCoverageLimit()).isEqualTo("false");
+			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCustomerDisplayed()).isEqualTo(true);
+			assertThat(policyCoverageResponseReplacedNewCarCoverageVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 			//PAS-13920 end
 
 			//check common coverages of the vehicles
@@ -2393,15 +2394,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
 			//testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL"); //is a different whale, excluded from check
 
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("250");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("500");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull(); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("250");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("500");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("600");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0/0");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("1000");
+//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isNull(); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
 
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "BI");
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "PD");
@@ -2418,15 +2419,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "SPECEQUIP");
 			//testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseNewCarCoverageVeh, policyCoverageResponseReplacedNewCarCoverageVeh, "WL");//is a different whale, excluded from check
 
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("250");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("500");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-//			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
-			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("250");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("500");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("600");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0/0");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("1000");
+//			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0");
+			softly.assertThat(policyCoverageResponseReplacedNewCarCoverageVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2552,9 +2553,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
 			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCoverageLimit()).isEqualTo("0");
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
@@ -2626,9 +2627,9 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			PolicyCoverageInfo policyCoverageResponseLeasedVeh = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
 			PolicyCoverageInfo policyCoverageResponseReplacedLeasedVeh = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, replacedVehicleOid, PolicyCoverageInfo.class);
 			Coverage policyCoverageResponseReplacedLeasedVehFiltered = testMiniServicesCoveragesHelper.getVehicleCoverageDetails(policyCoverageResponseReplacedLeasedVeh, "LOAN");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.coverageLimit).isEqualTo("0");
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.customerDisplayed).isEqualTo(false);
-			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.canChangeCoverage).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCoverageLimit()).isEqualTo("0");
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCustomerDisplayed()).isEqualTo(false);
+			assertThat(policyCoverageResponseReplacedLeasedVehFiltered.getCanChangeCoverage()).isEqualTo(false);
 
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "BI");
 			testMiniServicesCoveragesHelper.policyCoverageComparisonByCoverageCd(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "PD");
@@ -2645,15 +2646,15 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "SPECEQUIP");
 			//testMiniServicesCoveragesHelper.vehicleCoverageComparisonByCoverageCdNotEqual(policyCoverageResponseLeasedVeh, policyCoverageResponseReplacedLeasedVeh, "WL"); //is a different whale, excluded from check
 
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("250");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("500");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("600");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0/0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("1000");
-//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("0");
-			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.coverageCd)).findFirst().orElse(null).coverageLimit).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COMPDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("250");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "COLLDED".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("500");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "GLASS".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "RREIM".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("600");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "TOWINGLABOR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0/0");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "SPECEQUIP".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("1000");
+//			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "WL".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isNull();//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "LOAN".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("0");
+			softly.assertThat(policyCoverageResponseReplacedLeasedVeh.vehicleLevelCoverages.get(0).coverages.stream().filter(attribute -> "NEWCAR".equals(attribute.getCoverageCd())).findFirst().orElse(null).getCoverageLimit()).isEqualTo("false");
 		});
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2773,52 +2774,49 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12942_GaragingAddressConsistencyDXPBody() {
+	protected void pas12942_GaragingAddressConsistencyDXPBody( String state) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
 
-		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
-		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
+		String policyNumber = getCopiedPolicy();
 
 		//start an endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		//Update vehicle on DXP with different garaging address
-		String address1 = "2011 CORAL AVE";
-		String city = "Chesapeake";
-		String zip = "23324";
-		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
-		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
-		updateVehicleRequest.usage = "Pleasure";
-		updateVehicleRequest.salvaged = false;
-		updateVehicleRequest.garagingDifferent = true;
-		updateVehicleRequest.garagingAddress = new Address();
-		updateVehicleRequest.garagingAddress.addressLine1 = address1;
-		updateVehicleRequest.garagingAddress.city = city;
-		updateVehicleRequest.garagingAddress.postalCode = zip;
-		updateVehicleRequest.garagingAddress.stateProvCd = "VA";
-		updateVehicleRequest.antiTheft = "STD";
-		updateVehicleRequest.registeredOwner = true;
+		String purchaseDate = "2005-02-22";
+		String vin = "3FAFP31341R200709";
+		Vehicle response1 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 
-		HelperCommon.updateVehicle(policyNumber, oldVehicleOid, updateVehicleRequest);
+		if ("VA".equals(state)) {
+			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "2011 CORAL AVE", "Chesapeake", "23324", "VA");
+			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		}else if ("CT".equals(state))
+		{
+			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
+			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		}
 
 		//hit Meta Data and verify that the garaging address is different
-		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oldVehicleOid);
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, response1.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, true, true, "40", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, true, true, "10", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, true, true, "30", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, true, true, null, "String");
+		if ("CT".equals(state))
+		{
+			testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.county", true, true, true, null, "String");
 
+		}
 		//check that the garaging address is different in PAS and bind the endorsement
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
+
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals(city)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("VA")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals(zip)).isTrue();
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals("213 Regis Court")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals("Meriden")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("CT")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals("06450")).isTrue();
 		vehicleTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -2942,6 +2940,38 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle responseAddVehicle2 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate3), Vehicle.class, 201);
 		softly.assertThat(responseAddVehicle2.oid).isNotEmpty();
 		});
+	}
+
+	protected void pas15269_ViewVehicleServiceAddTownshipBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
+		softly.assertThat(responsePolicyPending.residentialAddress.county).isEqualTo("60319");
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse listOfVehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
+		String oidVehicle = listOfVehicles.vehicleList.get(0).oid;
+		softly.assertThat(listOfVehicles.vehicleList.get(0).garagingAddress.county).isEqualTo("60319");
+
+		VehicleUpdateDto updateVehicleRequest1 = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "5168 w ross drive", "Chandler", "85226", "AZ");
+		VehicleUpdateResponseDto updateVehicleResponse2 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest1);
+		softly.assertThat(updateVehicleResponse2.garagingAddress.county).isEqualTo(null);
+
+
+		VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
+		VehicleUpdateResponseDto updateVehicleResponse3 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest);
+		softly.assertThat(updateVehicleResponse3.garagingAddress.county).isEqualTo("60232");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.addressLine1).isEqualTo("213 Regis Court");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.city).isEqualTo("Meriden");
+
+		VehicleUpdateDto updateVehicleReques4 = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "3978 SPANIEL CT", "NAUGATUCK", "06770", "CT");
+		VehicleUpdateResponseDto updateVehicleResponse4 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques4);
+		softly.assertThat(updateVehicleResponse4.garagingAddress.county).isEqualTo(null);
+
+		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, DXPRequestFactory.createUpdateVehicleRequest("60319"));
+		softly.assertThat(updateVehicleResponse5.garagingAddress.county).isEqualTo("60319");
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {

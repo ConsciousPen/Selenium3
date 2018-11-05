@@ -20,7 +20,7 @@ import toolkit.utils.TestInfo;
  * 2. Create Umbrella Quote
  * 3. Verify quote status is 'Premium Calculated'
  * @details
- */
+*/
 public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})

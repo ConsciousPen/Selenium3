@@ -195,6 +195,7 @@ public final class PersonalUmbrellaMetaData {
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> RECREATIONAL_EQUIPMENT_INFORMATION = declare("RecreationalEquipmentInformation", MultiInstanceAfterAssetList.class, RecreationalEquipmentInformation.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_PupRecreationalEquipmentComponent']"));
 
 		public static final class AdditionalResidencies extends MetaData {
+			public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addPupAdditionalDwelling"));
 			public static final AssetDescriptor<RadioGroup> ADD_RESIDENCE = declare("Add residence", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:addOptionalQuestionFormGrid_PupAdditionalDwelling']"));
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmOptionalNoSelected_PupAdditionalDwelling_Dialog_container"));
 			public static final AssetDescriptor<ComboBox> PREFILL_DATA_SOURCE = declare("Prefill/data source", ComboBox.class, Waiters.AJAX);
@@ -223,7 +224,6 @@ public final class PersonalUmbrellaMetaData {
 			public static final AssetDescriptor<Button> VALIDATE_ADDRESS_BTN = declare("Validate Address", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:validateAdditionalDwellingAddressButton"));
 			public static final AssetDescriptor<AddressValidationDialog> VALIDATE_ADDRESS_DIALOG = declare("Validate Address Dialog", AddressValidationDialog.class, DialogsMetaData.AddressValidationMetaData.class,
 					By.id(".//div[@id='addressValidationPopupAAAPupAdditionalDwellAddressValidation_container']"));
-			public static final AssetDescriptor<Button> ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addPupAdditionalDwelling"));
 			
 		}	
 		
