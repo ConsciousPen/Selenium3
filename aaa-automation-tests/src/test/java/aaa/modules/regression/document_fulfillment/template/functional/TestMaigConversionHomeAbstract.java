@@ -111,6 +111,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	private void expirationNoticeFormGeneration(TestData testData, DocGenEnum.Documents form) throws NoSuchFieldException {
 		String policyNumber = openAppAndCreateConversionPolicy(testData);
+
 		//Auto conversion policy does not have expiration date on PolicySummaryPage
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
 
@@ -119,16 +120,17 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, EXPIRATION_NOTICE);
 		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
 
+		String expectedPolicyTransCode;
+
 		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
 			switch (getState()) {
-				case Constants.States.DE:
-					assertThat(policyTransactionCode.equals("CANB")).isTrue();
-					break;
-				case Constants.States.NJ:
-					assertThat(policyTransactionCode.equals("CANC")).isTrue();
+				case Constants.States.AZ:
+				case Constants.States.NY:
+				case Constants.States.OH:
+					expectedPolicyTransCode = "CANC";
 					break;
 				default:
-					assertThat(policyTransactionCode.equals("STMT")).isTrue();
+					expectedPolicyTransCode = "STMT";
 					break;
 			}
 		} else {
@@ -137,13 +139,14 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				case Constants.States.AZ:
 				case Constants.States.NY:
 				case Constants.States.OH:
-					assertThat(policyTransactionCode.equals("CANB")).isTrue();
+					expectedPolicyTransCode = "CANB";
 					break;
 				default:
-					assertThat(policyTransactionCode.equals("STMT")).isTrue();
+					expectedPolicyTransCode = "STMT";
 					break;
 			}
 		}
+		assertThat(policyTransactionCode.equals(expectedPolicyTransCode)).as("PlcyTransCd is not correct for " + getState()).isTrue();
 	}
 
 	/**
