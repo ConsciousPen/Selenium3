@@ -1,16 +1,6 @@
 TestData: {
-  #GeneralTab: '@GeneralTab',
-  #ApplicantTab: '@ApplicantTab',
-  #ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
-  #ProductOfferingTab: '@ProductOfferingTab',
-  #EndorsementTab: {},
-  #PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@MortgageesTab',
-  #UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  #DocumentsTab: '@DocumentsTab',
-  #BindTab: '@BindTab',
-  #PurchaseTab: '@PurchaseTab'
+  MortgageesTab: '@MortgageesTab'
 }
 
 PropertyInfoTab: {
