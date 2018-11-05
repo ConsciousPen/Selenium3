@@ -1,6 +1,6 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.agency_transfer;
+package aaa.modules.regression.agency_transfer.home_ss;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs.AgencyTransferTab;
@@ -32,8 +32,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * @name Test Create Bort object
  * @scenario 1. Create Policy
  * 2. Create Bort Object
- * 3. Add second Customer to Account
- * 4. Update Account
+ * 3. Run Bort Job
+ * 4. Validate transfer Completed
  * @details
  */
 public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
@@ -42,9 +42,10 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
     private String policyNumber;
 
     @Parameters({"state"})
-    @StateList(statesExcept = {Constants.States.CA})
+    @StateList(states = Constants.States.AZ)
     @Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+
 
     public void testBortCreateObject(@Optional("AZ") String state) {
         policyNumber = createPolicyNumber();
@@ -55,7 +56,7 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         assertAndLogResults(sourceAgent, agentPostTransfer);
     }
 
-    private String createPolicyNumber() {
+    public String createPolicyNumber() {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createPolicy();
@@ -74,7 +75,6 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
         return aTab.getInquiryAssetList().getInquiryAssetList(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION).getStaticElement(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT).getValue();
-
     }
 
     private void createBortObject() {
@@ -85,7 +85,6 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         agencyTransferTab.getAssetList().fill(td);
         AgencyTransferTab.targetInsuranceAgent.setValue("House Agent AAA Az Ins Agcy Az");
         AgencyTransferTab.submit.click();
-
         AgencyTransferPage.buttonSearchTransfer.click();
         log.info("No of transfer ID's: " + Integer.toString(AgencyTransferPage.tableTransfers.getRowsCount()));
         log.info("*************** " + AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue());
@@ -114,5 +113,4 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         mainApp().close();
         return sourceAgent;
     }
-
 }

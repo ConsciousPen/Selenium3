@@ -1,10 +1,11 @@
 /* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package aaa.modules.regression.agency_transfer;
+package aaa.modules.regression.agency_transfer.auto_ss;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs.AgencyTransferTab;
 import aaa.admin.pages.agencyvendor.AgencyTransferPage;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -14,7 +15,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
-import org.testng.annotations.BeforeClass;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,20 +30,19 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * @name Test Create Bort object
  * @scenario 1. Create Policy
  * 2. Create Bort Object
- * 3. Add second Customer to Account
- * 4. Update Account
+ * 3. Run Bort Job
+ * 4. Validate transfer Completed
  * @details
  */
 public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
-
 
     GeneralTab gTab = new GeneralTab();
     private String policyNumber;
 
     @Parameters({"state"})
+    @StateList(states = Constants.States.AZ)
     @Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    @BeforeClass(alwaysRun = true)
 
 
     public void testBortCreateObject(@Optional("AZ") String state) {
