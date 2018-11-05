@@ -1,9 +1,17 @@
 package aaa.modules.docgen.home_ss.ho3;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.States;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -25,16 +33,8 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
-
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *

@@ -3,6 +3,7 @@ package aaa.main.enums;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
+import com.google.common.collect.ImmutableList;
 
 public enum CoverageInfo {
 

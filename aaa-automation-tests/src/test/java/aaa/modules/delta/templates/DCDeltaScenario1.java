@@ -1,5 +1,7 @@
 package aaa.modules.delta.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.ArrayList;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -16,10 +18,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
-
-import java.util.ArrayList;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class DCDeltaScenario1 extends BaseTest {
 	protected IPolicy policy;

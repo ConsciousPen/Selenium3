@@ -1,16 +1,14 @@
 package aaa.helpers.http;
 
-import aaa.common.enums.JobResultEnum;
-import aaa.helpers.http.impl.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import toolkit.config.PropertyProvider;
-import toolkit.exceptions.IstfException;
-
+import static aaa.common.enums.JobResultEnum.JobStatus;
 import java.io.IOException;
 import java.util.*;
-
-import static aaa.common.enums.JobResultEnum.JobStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import aaa.common.enums.JobResultEnum;
+import aaa.helpers.http.impl.*;
+import toolkit.config.PropertyProvider;
+import toolkit.exceptions.IstfException;
 
 public class HttpJob {
 	private static final String SCHEDULER_SUMMARY_FLOW = "/aaa-admin/admin/flow?_flowId=scheduler-summary-flow";

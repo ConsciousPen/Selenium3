@@ -4,11 +4,12 @@
  */
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import java.util.LinkedHashMap;
+import org.apache.commons.lang.StringUtils;
+import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
-import org.apache.commons.lang.StringUtils;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
@@ -16,8 +17,6 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.util.LinkedHashMap;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default

@@ -1,5 +1,8 @@
 package aaa.helpers;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 import aaa.common.Tab;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,9 +10,6 @@ import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class TestDataHelper {
 	protected static Logger log = LoggerFactory.getLogger(TestDataHelper.class);

@@ -1,5 +1,14 @@
 package aaa.modules.bct;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import org.testng.SkipException;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.JobResultEnum;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.http.HttpJob;
@@ -11,20 +20,9 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.SkipException;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.CustomSoftAssertions;
-
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();

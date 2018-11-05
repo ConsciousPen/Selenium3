@@ -1,5 +1,14 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.admin.modules.IAdmin.log;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import javax.ws.rs.core.Response;
+import org.apache.http.client.utils.URIBuilder;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.rest.JsonClient;
@@ -7,19 +16,8 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoAdmin.InstallmentFeesResponse;
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.helpers.rest.dtoDxp.*;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
-import org.apache.http.client.utils.URIBuilder;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
-
-import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";

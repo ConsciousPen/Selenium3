@@ -1,15 +1,15 @@
 package aaa.helpers.rest.dtoDxp;
 
-import aaa.main.enums.CoverageInfo;
-import aaa.main.enums.CoverageLimits;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.collect.ImmutableList;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.ImmutableList;
+import aaa.main.enums.AvailableCoverageLimits;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import aaa.main.enums.CoverageInfo;
+import aaa.main.enums.CoverageLimits;
 
 @ApiModel(description = "Coverage Information")
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -1,5 +1,14 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
+import java.util.List;
+
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -13,15 +22,7 @@ import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
-
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestScenario2 extends AutoCaChoiceBaseTest {
 	private IBillingAccount billing = new BillingAccount();

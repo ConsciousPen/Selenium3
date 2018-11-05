@@ -2,6 +2,7 @@ package aaa.helpers.rest.dtoDxp;
 
 import java.util.Collections;
 import java.util.List;
+import org.apache.xpath.operations.Bool;
 
 public class DXPRequestFactory {
 
