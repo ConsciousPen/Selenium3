@@ -185,18 +185,6 @@ public class BaseTest {
 		return getPolicyType() != null && getPolicyType().isCaProduct();
 	}
 
-	protected boolean isPupPolicy() {
-		return getPolicyType() != null && getPolicyType().equals(PolicyType.PUP);
-	}
-
-	protected boolean isAutoPolicy() {
-		return getPolicyType() != null && getPolicyType().isAutoPolicy();
-	}
-
-	protected boolean isPropertyPolicy() {
-		return getPolicyType() != null && !isAutoPolicy() && !isPupPolicy();
-	}
-
 	protected TestData getManualConversionInitiationTd() {
 		return getStateTestData(testDataManager.policy.get(getPolicyType()), CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
