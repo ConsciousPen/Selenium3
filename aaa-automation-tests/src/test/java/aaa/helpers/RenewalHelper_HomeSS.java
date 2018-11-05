@@ -1,6 +1,8 @@
 package aaa.helpers;
 
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -9,9 +11,16 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomAssertions;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+/**
+ * @author Tyrone Jemison
+ * TODO: Add State Variants to Each Timepoint Job Collection, to better account for State Deltas and make class more complete.
+ * TODO: Add query to verify 'aaaRenewaltimelineIndicator' >= 2 before attempting renewalImageratingAsynctaskjob.
+ */
 public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 {
     String _policyNumber;
@@ -48,6 +57,11 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         }
     }
 
+    /**
+     * This method houses the primary loop logic for traversing through multiple policies. <br>
+     * This loop was given a sanity limit of 10 renewals, expecting never to test beyond that threshold without manual edits.
+     * @param desiredTerm Quote/Initial Policy = 0. First Renewal = 1;
+     */
     public void moveToGivenTerm(Integer desiredTerm){
         Integer currentTerm = 0; //A value of zero represents New Business
         while(currentTerm < desiredTerm){
@@ -160,14 +174,25 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        JobUtils.executeJob(Jobs.isoRenewalBatchOrderJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+        JobUtils.executeJob(Jobs.aaaInsuranceScoreRenewBachOrder);
+        JobUtils.executeJob(Jobs.aaaClueRenewBatchOrderAsyncJob);
+        JobUtils.executeJob(Jobs.aaaInsuranceScoreRenewalBatchReceiveJob);
+        JobUtils.executeJob(Jobs.aaaClueRenewAsyncBatchReceiveJob);
         JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57));
+        String results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
+        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase("0");
+
+        // R-57
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaCreditDisclosureNoticeJob);
-        JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob); // Add to UI
+        JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob);
         JobUtils.executeJob(Jobs.aaaRenewalDataRefreshAsyncJob);
+
+        results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
+        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase("2");
     }
 
     private void moveToMembershipTimepoint2() {
@@ -185,12 +210,6 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
-
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(34l));
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyDoNotRenewAsyncJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
     }
 
     private void captureTimepoints(){

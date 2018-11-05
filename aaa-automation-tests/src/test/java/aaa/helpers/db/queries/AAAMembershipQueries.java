@@ -337,4 +337,18 @@ public class AAAMembershipQueries {
         String quoteOrPolicyColumnName = isQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
         return String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
     }
+
+    public static String getAaaRenewalTimelineIndicatorValue(String policyNumber) throws IllegalArgumentException {
+        String query = String.format(
+                "SELECT aaaRenewalTimelineInd " + "from PolicySummary where policynumber='" + policyNumber + "' " +
+                        "order by transactionDate DESC, revisionNo DESC ,pendingRevisionNo DESC");
+
+        Optional<String> dbResponse =  DBService.get().getValue(query);
+        String response = "No data found";
+        if(dbResponse.isPresent()){
+            response = dbResponse.get();
+
+        }
+        return response;
+    }
 }
