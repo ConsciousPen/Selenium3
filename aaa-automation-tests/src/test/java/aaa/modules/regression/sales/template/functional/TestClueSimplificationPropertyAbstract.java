@@ -477,7 +477,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         if (isStateCA()){
             assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
         } else {
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
         }
     }
 
