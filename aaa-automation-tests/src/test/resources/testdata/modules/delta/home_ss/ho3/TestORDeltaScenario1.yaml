@@ -1,50 +1,12 @@
 TestData: {
-  GeneralTab: '@GeneralTab',
-  ApplicantTab: '@ApplicantTab',
-  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab',
   ProductOfferingTab: '@ProductOfferingTab',
   EndorsementTab: {},
-  PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
-  MortgageesTab: '@MortgageesTab',
-  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab',
-  DocumentsTab: '@DocumentsTab',
-  BindTab: '@BindTab',
-  PurchaseTab: '@PurchaseTab'
+  MortgageesTab: '@MortgageesTab'
 }
 
 TestData_add_Forms: {
   EndorsementTab: '@EndorsementTab',
-}
-
-GeneralTab: {
-  State: 'OR',
-  Policy type: 'HO3',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Lead source: 'Book Roll',
-  Immediate prior carrier: 'index=2',
-  Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
-}
-
-ApplicantTab: {
-  NamedInsured: '@NamedInsured',
-  AAAMembership: '@AAAMembership',
-  DwellingAddress: '@DwellingAddress',
-  PreviousDwellingAddress: {},
-  MailingAddress: {},
-  NamedInsuredInformation: '@NamedInsuredInformation',
-  OtherActiveAAAPolicies: '@OtherActiveAAAPolicies',
-  AgentInfo: '@AgentInfo'
-}
-
-ReportsTab: {
-  Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
-  InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}], 
-  FirelineReport: [{Report: 'Order Report'}], 
-  PublicProtectionClass: [{Report: 'Order Report'}],
-  CLUEreport: [{Report: 'Order report'}]
 }
 
 PropertyInfoTab: {
@@ -73,12 +35,6 @@ EndorsementTab: {
   HS 24 73: '@Endorsement_HS2473'
 }
 
-PremiumsAndCoveragesQuoteTab: {
-  Payment plan: Pay in Full,
-  Coverage C - Personal Property limit: '70|Coverage A - Dwelling limit',
-  Coverage E - Personal Liability Each Occurrence: '$300,000'
-}
-
 MortgageesTab: {
   Mortgagee: 'Yes',
   MortgageeInformation: '@MortgageeInformation', 
@@ -86,73 +42,6 @@ MortgageesTab: {
   AdditionalInsured: '@AdditionalInsured', 
   "Is there an additional interest?": 'Yes', 
   AdditionalInterest: '@AdditionalInterest'
-}
-
-UnderwritingAndApprovalTab: {
-  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
-  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
-  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
-  "Do employees of any resident or applicant reside in the dwelling?": "No",
-  "Is any business, adult day care, pet day care or farming activity conducted on the premises?": "No" 
-}
-
-DocumentsTab: {
-  DocumentsToIssue: {
-  Signed policy application: Physically Signed
-  }
-}
-  
-BindTab: {}
-
-PurchaseTab: {
- PaymentAllocation: {
-  Cash: /rest
- },
-}
-
-# ----- Applicant Tab -----
-NamedInsured: {
-  Relationship to primary named insured:  Primary Insured,
-  Social security number: 1234567890,
-  Employer: '1234567890',
-}
-
-AAAMembership: {
-  Membership number: '4290023667710001'
-}
-
-DwellingAddress: {
- Zip code: '97017',
- Street address 1: 265 CHIPMAN AVE,
- Validate Address: true,
- Validate Address Dialog: {}
-}
-
-NamedInsuredInformation: {
-  Home Phone Number: '1234567890'
-}
-
-OtherActiveAAAPolicies: {
-  Other active AAA policies: "Yes",
-  Add: 'click',
-  ActiveUnderlyingPoliciesSearch: {},
-  ActiveUnderlyingPoliciesManual: '@OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual', 
-}
-
-OtherActiveAAAPolicies_ActiveUnderlyingPoliciesManual:  {
-  Policy type: Auto,
-  "Companion Auto Pending with Discount?": 'No',
-  Auto policy state: OR, 
-  Policy number: '345345345',
-  Effective date: '$<today:MM/dd/yyyy>',
-  Policy tier: 'index=1',
-  Auto policy BI limit: 'index=1',
-  Auto Insurance Persistency: '21'
-}
-
-AgentInfo: {
-  Channel Type: Independent Agent,
-  Agency: SMTestIA - 400001650
 }
 
 # ----- PropertyInfo Tab -----
@@ -274,42 +163,42 @@ PropertyInfoTab_Claims1: {
 
 ClaimHistory1: {
   Add: 'Click',
-  Date of loss: '12/02/2014', 
-  Cause of loss: 'Fire', 
+  Date of loss: '$<today-3y:MM/dd/yyyy>',
+  Cause of loss: 'Fire',
   Amount of loss: '500', 
   Claim status: 'Withdrawn'
 }
 
 ClaimHistory2: {
-  Date of loss: '01/01/2015', 
+  Date of loss: '$<today-2y:MM/dd/yyyy>',
   Cause of loss: 'Fire', 
   Amount of loss: '500', 
   Claim status: 'Closed'
 }
 
 ClaimHistory3: {
-  Date of loss: '01/02/2015', 
+  Date of loss: '$<today-2y:MM/dd/yyyy>',
   Cause of loss: 'Liability', 
   Amount of loss: '2500', 
   Claim status: 'Closed'
 }
 
 ClaimHistory4: {
-  Date of loss: '01/03/2015', 
+  Date of loss: '$<today-2y:MM/dd/yyyy>',
   Cause of loss: 'Water', 
   Amount of loss: '500', 
   Claim status: 'Closed'
 }
 
 ClaimHistory5: {
-  Date of loss: '01/03/2015', 
+  Date of loss: '$<today-2y:MM/dd/yyyy>',
   Cause of loss: 'Wind', 
   Amount of loss: '26000', 
   Claim status: 'Closed'
 }
 
 ClaimHistory6: {
-  Date of loss: '02/01/2015', 
+  Date of loss: '$<today-3y:MM/dd/yyyy>',
   Cause of loss: 'Hail', 
   Amount of loss: '300', 
   Claim status: 'Closed'
@@ -327,6 +216,3 @@ PropertyInfoTab_Claims2: {
 ClaimHistory_No: {
   Remove: 'Click'
 }
-
-
-

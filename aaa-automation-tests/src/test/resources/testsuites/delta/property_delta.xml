@@ -1,0 +1,82 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Delta Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Delta CO Scenarios" parallel="methods">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestCODeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho3.TestCODeltaScenario2"/>
+            <class name="aaa.modules.delta.home_ss.ho3.TestCODeltaScenario3"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestCODeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestCODeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestCODeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta CT Scenarios" parallel="methods">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestCTDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestCTDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestCTDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestCTDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta DC Scenarios" parallel="methods">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestDCDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestDCDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestDCDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestDCDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta ID Scenarios" parallel="methods">
+        <parameter name="state" value="ID"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestIDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestIDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestIDDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestIDDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta IN Scenarios" parallel="methods">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestINDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestINDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestINDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestINDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta KS Scenarios" parallel="methods">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestKSDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestKSDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestKSDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestKSDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta OH Scenarios" parallel="methods">
+        <parameter name="state" value="OH"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestOHDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestOHDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestOHDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestOHDeltaScenario1"/>
+        </classes>
+    </test>
+    <test name="Delta OR Scenarios" parallel="methods">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.delta.home_ss.ho3.TestORDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho4.TestORDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.ho6.TestORDeltaScenario1"/>
+            <class name="aaa.modules.delta.home_ss.dp3.TestORDeltaScenario1"/>
+        </classes>
+    </test>
+</suite>
