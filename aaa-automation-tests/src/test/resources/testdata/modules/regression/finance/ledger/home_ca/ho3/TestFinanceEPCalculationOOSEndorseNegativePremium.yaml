@@ -35,7 +35,7 @@ TestData_Endorsement3: {
   PropertyInfoTab: {},
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {
-    Coverage E - Personal Liability Each Occurrence: 'contains=$100,000',
+    Coverage E - Personal Liability Each Occurrence: 'contains=$1,000,000',
   },
   MortgageesTab: {},
   UnderwritingAndApprovalTab: {},
