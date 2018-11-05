@@ -393,7 +393,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         TestData errorTabOverride = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.ErrorTab.ERROR_OVERRIDE.getLabel(), errorsOverride);
 
         TestData td;
-        if (isStateCA()) {
+        if (getState().equals(Constants.States.CA)) {
             td = getEmptyTestDataCAPup();
         } else {
             td = getEmptyTestDataSSPup().adjust(PersonalUmbrellaMetaData.ErrorTab.class.getSimpleName(), errorTabOverride);
