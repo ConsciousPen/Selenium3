@@ -1,15 +1,16 @@
 package aaa.helpers.openl.testdata_generator;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class HomeSSClaimTestDataGenerator {
 
@@ -50,7 +51,7 @@ public class HomeSSClaimTestDataGenerator {
 		maxCode = Integer.parseInt(DBService.get().getValue(sqlMaxCode).get());
 		List<TestData> claimList = getClaimList(claimPoints, 1);
 		if (isFirstClaim) {
-			claimList.get(0).adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.ADD_A_CLAIM.getLabel(), "Yes"));
+			claimList.get(0).adjust(DataProviderFactory.dataOf(HomeSSMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD.getLabel(), "Click"));
 		}
 		return claimList;
 	}

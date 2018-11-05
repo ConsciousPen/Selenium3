@@ -179,6 +179,9 @@
                     <include name="pas14539_transactionInfoDriverAssignment"/>
                     <include name="pas14539_transactionInfoUpdateDriverAssignment"/>
                     <include name="pas14477_ViewDriverAssignment_NewDriver"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule1"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule3"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule2"/>
                 </methods>
             </class>
         </classes>
@@ -788,4 +791,25 @@
             </class>
         </classes>
     </test>
+    <test name="pas12942_GaragingAddressConsistencyDXP">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
+    <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
+        <!--<parameter name="state" value="KS"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">-->
+                <!--<methods>-->
+                    <!--<include name="pas15358_viewUpdatePIPCoverage_KS"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+        <!--</classes>-->
+    <!--</test>-->
 </suite>

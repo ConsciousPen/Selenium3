@@ -1,17 +1,18 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import java.util.Arrays;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.testng.annotations.Test;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.modules.BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreConditions {
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
@@ -127,9 +128,6 @@ public class EvalueInsertSetup extends BaseTest implements EvalueInsertSetupPreC
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void eValuePriorInsuranceBlueBoxConfigInsert() { DBService.get().executeUpdate(EVALUE_PRIOR_INSURANCE_CONFIG_BLUE_BOX_INSERT); }
-
-	@Test(description = "Precondition for eRefund configuration", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public static void refundConfigurationUpdate() { DBService.get().executeUpdate(REFUND_CONFIG_UPDATE); }
 
 	@Test(description = "Precondition updating last payment method stub end points", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void lastPaymentMethodStubPointUpdate() {

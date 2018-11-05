@@ -1,13 +1,5 @@
 package aaa.modules.regression.service.helper;
 
-import static aaa.admin.modules.IAdmin.log;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import javax.ws.rs.core.Response;
-import org.apache.http.client.utils.URIBuilder;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.rest.JsonClient;
@@ -15,8 +7,19 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoAdmin.InstallmentFeesResponse;
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.helpers.rest.dtoDxp.*;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
+import org.apache.http.client.utils.URIBuilder;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
+
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import static aaa.admin.modules.IAdmin.log;
 
 public class HelperCommon {
 	private static final String ADMIN_DOCUMENTS_RFI_DOCUMENTS_ENDPOINT = "/aaa-admin/services/aaa-policy-rs/v1/documents/rfi-documents/";
@@ -254,6 +257,27 @@ public class HelperCommon {
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
 		return JsonClient.sendPostRequest(requestUrl, request, ViewDriverAssignmentResponse.class, 200);
+	}
+
+	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
+	}
+
+	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, String driverOid) {
+		return updateDriverAssignment2(policyNumber, response, vehicleOid, Collections.singletonList(driverOid));
+	}
+
+	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentRequest assignmentDto = new DriverAssignmentRequest();
+		assignmentDto.driverOids = driverOids;
+		assignmentDto.vehicleOid = vehicleOid;
+		request.assignmentRequests.add(assignmentDto);
+		return JsonClient.sendPostRequest(requestUrl, request, response , 200);
 	}
 
 	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {

@@ -1,17 +1,19 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.util.Random;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import java.util.Random;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
@@ -694,6 +696,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {
 
 		pas12175_RemoveReplaceWaiveLiabilityBody();
+		pas12175_RemoveReplaceWaiveLiabilityBody();
 	}
 
 	/**
@@ -704,13 +707,15 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. Update vehicle to have a different garaging address outside of PAS
 	 * 4. Hit Meta Data Service and verify that the garaging address is different
 	 * 5. Bind the endorsement and verify that the policy is active
+	 * Pas-15269 : Megha Gubbala.
+	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942"})
-	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
+	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
 
-		pas12942_GaragingAddressConsistencyDXPBody();
+		pas12942_GaragingAddressConsistencyDXPBody(state);
 	}
 
 	/**
@@ -754,6 +759,27 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
 
 		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name viewPolicyRenewalSummary - See if county is there
+	 * @scenario 1. Create policy CT.
+	 * 2. run viewPolicyRenewalSummary verify county is there
+	 * 3. Create endorsement outside of PAS (date = today)
+	 * 4. run viewEndorsementVehicles verify county
+	 * 5. createUpdateVehicleRequest update vehicle with garaging Address outside CT verify county is not there.
+	 * 6. createUpdateVehicleRequest update vehicle with garaging Address that has only 1 county verify county is there .
+	 * 7. createUpdateVehicleRequest update vehicle with garaging Address that has more than 1  county verify county is null .
+	 * 8. again update vehicle with county verify county in response.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15269"})
+	public void pas15269_ViewVehicleServiceAddTownship(@Optional("CT") String state) {
+		assertSoftly(softly ->
+				pas15269_ViewVehicleServiceAddTownshipBody(softly)
+		);
 	}
 }
 

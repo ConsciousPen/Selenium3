@@ -1,11 +1,5 @@
 package aaa.modules.bct.service;
 
-import static aaa.common.enums.Constants.States.*;
-import static toolkit.verification.CustomAssertions.assertThat;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -26,10 +20,17 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+
+import static aaa.common.enums.Constants.States.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
 
@@ -376,8 +377,8 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {CA})
-	public void BCT_ONL_EmptyEndorsementHomeCAHo6(@Optional("") String state) {
-		mainApp().open();
+	public void BCT_ONL_EmptyEndorsementHomeCAHo6(@Optional("CA") String state) {
+//		mainApp().open();
 		String policyNumber = getPolicy("BCT_Empty_Endorsement_Ho6_CA", date1, date2);
 		IPolicy policy = PolicyType.HOME_CA_HO6.get();
 
@@ -404,11 +405,10 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	}
 
 	private String getPolicy(String testName, String date1, String date2) {
-		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty()) {
+		if (!PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1).isEmpty() && !PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2).isEmpty()) {
 			date1 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE1);
 			date2 = PropertyProvider.getProperty(CsaaTestProperties.CUSTOM_DATE2);
 		}
-		return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
+		return getEmptyEndorsementPolicies(testName, date1, date2).get(0);
 	}
-
 }

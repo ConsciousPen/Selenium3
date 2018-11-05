@@ -1,10 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
@@ -31,11 +26,17 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.List;
 
 //import toolkit.verification.CustomAssert;
 
@@ -381,8 +382,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		Dollar pligaOrMvleFee = getPligaOrMvleFee(policyNum, pligaOrMvleFeeLastTransactionDate, policyTerm, totalVehiclesNumber);
 		
 		// verify using installment amount in separate cases
-		if ((getState().equals(States.OK) && getPolicyType().equals(PolicyType.PUP)) ||
-			(getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS))) {
+		if (getState().equals(States.OK) && getPolicyType().equals(PolicyType.PUP) ||
+				getState().equals(States.KY) && getPolicyType().equals(PolicyType.AUTO_SS)) {
 			verifyRenewalOfferPaymentAmountByIntallmentAmount(policyExpirationDate, billDate);
 		} else if (getState().equals(States.NJ) && getPolicyType().equals(PolicyType.AUTO_SS)) {
 			 // PLIGA fee should be added. Now PLIGA Fee is $5.00 after last 'Renewal - Policy Renewal Proposal' ($913.00) - changeable accordingly to premium 
@@ -423,14 +424,8 @@ public class Scenario7 extends ScenarioBaseTest {
 
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate); //PASBB-624/PAS-624
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(expirePolicyDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
-			.verifyPresent();
-			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(expirePolicyDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).verifyPresent();
-		} else {
-			new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-		}
+		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 	}
 
 	protected void generateFirstRenewalBill() {
@@ -444,11 +439,8 @@ public class Scenario7 extends ScenarioBaseTest {
 		new BillingBillsAndStatementsVerifier().setType(BillsAndStatementsType.BILL).setDueDate(installmentDueDates.get(1).plusYears(1)).verifyPresent(false);
 		// No new transactions
 		new BillingPaymentsAndTransactionsVerifier().setType(PaymentsAndOtherTransactionType.FEE).setTransactionDate(billGenDate).verifyPresent(false);
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount+1);
-		} else {
-			CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount);
-		}
+		CustomAssertions.assertThat(BillingHelper.getPremiumTransactionsCount(policyNum)).isEqualTo(premiumTransuctionsCount);
+
 	}
 
 	protected void customerDeclineRenewal() {
@@ -462,13 +454,10 @@ public class Scenario7 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-	//	if (!getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-	//		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
-	//			.verifyPresent();
-	//	}
+
 		if (getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE).verifyPresent();
-		} else if (!getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+		} else {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL_REVERSAL)
 			.verifyPresent();
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(declineDate).setSubtypeReason(PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).verifyPresent();

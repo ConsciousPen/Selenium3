@@ -24,6 +24,9 @@ public class Address implements RestBodyRequest {
 	@ApiModelProperty(value = "Postal Code", example ="85020")
 	public String postalCode;
 
+	@ApiModelProperty(value = "County", example ="60319")
+	public String county;
+
 	public Address(){}
 
 	public Address(String postalCode, String addressLine1, String addressLine2, String city, String stateProvCd) {

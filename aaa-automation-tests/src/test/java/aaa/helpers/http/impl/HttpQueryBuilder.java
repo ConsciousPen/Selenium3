@@ -1,5 +1,9 @@
 package aaa.helpers.http.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import toolkit.utils.logging.CustomLogger;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import toolkit.utils.logging.CustomLogger;
 
 public class HttpQueryBuilder {
 
@@ -47,7 +48,7 @@ public class HttpQueryBuilder {
 		return params.size();
 	}
 
-	public String buildQueryString(int index, Map<String, String> mapping) throws IOException {
+	public String buildQueryString(int index, Map<String, String> mapping){
 		return buildQueryString(index, mapping, null);
 	}
 

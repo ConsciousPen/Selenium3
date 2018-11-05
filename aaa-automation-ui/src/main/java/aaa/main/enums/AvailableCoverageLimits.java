@@ -1,7 +1,8 @@
 package aaa.main.enums;
 
-import java.util.List;
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 
 public enum AvailableCoverageLimits {
 
@@ -25,6 +26,11 @@ public enum AvailableCoverageLimits {
 	GPIP_CL(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
+	)),
+	MEDEXP_KS(ImmutableList.of(
+			CoverageLimits.COV_4500,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_25000
 	));
 
 	private final List<CoverageLimits> availableLimits;

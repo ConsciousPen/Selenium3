@@ -79,7 +79,7 @@ TestData_SC2_3: {
 PropertyInfoTab_SC2_3: { 
   PropertyValue: '@PropertyValue_3', 
   Construction: '@Construction_3',
-  ClaimHistory: ['@ClaimHistory6']
+  ClaimHistory: ['@ClaimHistory7']
 }
 
 TestData_SC3_1: {
@@ -199,7 +199,7 @@ PetsOrAnimals_3: {
 }
 
 PetsOrAnimals_4: {
-  #"Are any insured-owned pets or animals kept on the property?": 'Yes', 
+  "Are any insured-owned pets or animals kept on the property?": 'Yes', 
   Animal type: 'Livestock - Cow', 
   Animal count: '5'
 }
@@ -224,7 +224,7 @@ HomeRenovation3: {
 }
 
 ClaimHistory1: {
-  Add a claim: 'Yes', 
+  Add: 'Click',
   Date of loss: $<today-2y>,
   Cause of loss: 'Liability', 
   Amount of loss: '100', 
@@ -260,7 +260,14 @@ ClaimHistory5: {
 }
 
 ClaimHistory6: {
-Add a claim: 'Yes', 
+  Date of loss: $<today-1m>,
+  Cause of loss: 'Hail', 
+  Amount of loss: '26000', 
+  Claim status: 'Closed'
+}
+
+ClaimHistory7: {
+Add: 'Click',
   Date of loss: $<today-1m>,
   Cause of loss: 'Hail', 
   Amount of loss: '26000', 
@@ -268,7 +275,8 @@ Add a claim: 'Yes',
 }
 
 ClaimHistory_No: {
-  Add a claim: 'No' 
+  Remove: 'Click',
+  Remove confirmation: 'Yes',
 }
 
 # ------------ MortgageesTab --------------- 
