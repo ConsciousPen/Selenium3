@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.*;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -209,12 +210,18 @@ public class JsonClient {
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
+		String token;
 		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CsaaTestProperties.OAUTH2_ENABLED))) {
-			String token = getBearerToken();
+			if (StringUtils.containsIgnoreCase(url,"claims-assignment")) {
+				//String token = "mQXVTWdbSDPFoJDw1wCOYqFyKRsq";
+				token = getClaimsBearerToken();
+			} else {
+				token = getBearerToken();
+			}
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-			}
-		} else{
+			}}
+		 else {
 			builder = builder.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()));
 		}
 		return builder.header(APPLICATION_CONTEXT_HEADER, createApplicationContext(sessionId));
@@ -256,5 +263,41 @@ public class JsonClient {
 			}
 		}
 	}
+
+	private static String getClaimsBearerToken() {
+		Client client = null;
+		Response response = null;
+		Form form = new Form();
+		form.param("client_id","cc_pas_microservices");
+		form.param("client_secret", "gQj0F6MMNQ3zklXk2atwF5bgPLsPdxwxOuszqpqcebFxTlacSZ1NKJgmyHPTgl8f");
+		form.param("grant_type", "client_credentials");
+		try {
+			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
+			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.CLAIMS_TOKEN_URL));
+			response = target
+					.request()
+					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
+					.post(Entity.form(form));
+
+			Map result = response.readEntity(HashMap.class);
+
+			return result.get("access_token").toString();
+		} finally {
+			if (response != null) {
+				response.close();
+			}
+			if (client != null) {
+				client.close();
+			}
+		}
+	}
+
+
+
+
+
+
+
+
 
 }

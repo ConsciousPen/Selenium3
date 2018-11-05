@@ -23,6 +23,7 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String USER_DIR_PROP = "user.dir";
 	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
 	public static final String WIRE_MOCK_STUB_URL_TEMPLATE = "wire.mock.stub.urltemplate";
+	public static final String CLAIMS_TOKEN_URL = "claims.token.url";
 	public static final String SCRUM_ENVS_SSH = "scrum.envs.ssh";
 	public static final String TEST_USSTATE = "test.usstate";
 	public static final String CUSTOM_DATE1 = "test.date1";
