@@ -78,7 +78,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
@@ -133,7 +133,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS8310_nameDOBYOBMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas8310_nameDOBYOBMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
         createPolicyMultiDrivers();        // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();        // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
