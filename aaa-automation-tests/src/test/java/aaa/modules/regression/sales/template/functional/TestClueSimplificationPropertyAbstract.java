@@ -99,7 +99,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         List<TestData> tdClaims = getClaimsTD();
         // Create Empty Testdata and Adjust it with list of claims
         TestData td = DataProviderFactory.dataOf(getPropertyInfoTab().getClass().getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), getClaimsTD());
+                .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), tdClaims);
 
         openAppAndCreatePolicy(getPolicyTD());
         String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -218,10 +218,24 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(renewEff);
+        // Open App and start renewal process with a privileged user because unprivileged user does not have a manual action for Home SS
+        mainApp().open();
+        searchForPolicy(policyNumber);
+        policy.renew().performAndExit();
+        mainApp().close();
+
         openAppNonPrivilegedUser("A30");
         searchForPolicy(policyNumber);
-        policy.renew().start();
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
+        // PAS-21609 Check that ClaimHistory section is visible
+        if (isStateCA()){
+            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        } else {
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        }
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -234,7 +248,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getPropertyInfoTab().saveAndExit();
 
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
-        policy.renew().start().submit();
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
