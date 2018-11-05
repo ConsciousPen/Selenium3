@@ -253,7 +253,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule1(@Optional("VA") String state) {
 
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body();
 	}
 
 	/**
@@ -311,9 +311,9 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule3(@Optional("VA") String state) {
 
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body(getPolicyType());
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body(getPolicyType());
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body();
 	}
 
 	/**
@@ -362,8 +362,8 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule2(@Optional("VA") String state) {
 
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(getPolicyType());
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body(getPolicyType());
-		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body(getPolicyType());
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body();
 	}
 }

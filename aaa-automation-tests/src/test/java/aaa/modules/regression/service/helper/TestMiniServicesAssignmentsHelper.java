@@ -1465,8 +1465,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(PolicyType policyType){
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(){
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1554,8 +1554,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_TwoDrivers", "TestData_FourVehicles", "AssignmentTabFourDriversTwoVehicles");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_FourVehicles", "AssignmentTabFourDriversTwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1652,8 +1652,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneVehicle(policyType, "TestData_TwoVehicles");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body() {
+		TestData td = createPolicyWithMoreThanOneVehicle(getPolicyType(), "TestData_TwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1702,8 +1702,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_ThreeDrivers", "TestData_FourVehicles", "AssignmentTabThreeDriversFourVehicles");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_FourVehicles", "AssignmentTabThreeDriversFourVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1786,8 +1786,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(PolicyType policyType){
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_FourDrivers", "TestData_ThreeVehicles", "AssignmentTabFourDriversThreeVehicles");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(){
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_FourDrivers", "TestData_ThreeVehicles", "AssignmentTabFourDriversThreeVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1857,8 +1857,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(policyType, "TestData_ThreeDrivers", "TestData_TwoVehicles", "AssignmentTabThreeDriversTwoVehicles");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_TwoVehicles", "AssignmentTabThreeDriversTwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1920,8 +1920,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneDriver(policyType, "TestData_TwoDrivers");
+	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body() {
+		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
