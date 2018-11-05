@@ -146,7 +146,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 					break;
 			}
 		}
-		assertThat(policyTransactionCode.equals(expectedPolicyTransCode)).as("PlcyTransCd is not correct for " + getState()).isTrue();
+		assertThat(policyTransactionCode).as("PlcyTransCd is not correct for " + getState()).isEqualTo(expectedPolicyTransCode);
 	}
 
 	/**

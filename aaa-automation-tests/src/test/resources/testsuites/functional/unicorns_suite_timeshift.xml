@@ -318,7 +318,7 @@
         </classes>
     </test>
     <test name="PAS-20836 Auto - Expiration Notice (AH64XX)" parallel="methods">
-        <parameter name="state" value="DE, NJ, AZ"/>
+        <parameter name="state" value="AZ, NY, OH, KY"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto"/>
         </classes>
