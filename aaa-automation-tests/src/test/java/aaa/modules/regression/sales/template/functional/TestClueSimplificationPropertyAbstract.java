@@ -109,6 +109,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         searchForPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         navigateToPropertyInfoTab();
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -157,6 +161,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Cancel Policy and Rewrite it
         cancelAndRewritePolicy();
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -218,6 +226,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(renewEff);
+
         // Open App and start renewal process with a privileged user because unprivileged user does not have a manual action for Home SS
         mainApp().open();
         searchForPolicy(policyNumber);
@@ -229,12 +238,9 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         navigateToPropertyInfoTab();
-        // PAS-21609 Check that ClaimHistory section is visible
-        if (isStateCA()){
-            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
-        } else {
-            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
-        }
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
 
         getPropertyInfoTab().fillTab(td);
 
@@ -467,6 +473,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         Page.dialogConfirmation.buttonYes.click();
     }
 
+    private void checkClaimHistorySectionActive(){
+        if (isStateCA()){
+            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        } else {
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        }
+    }
+
     private void checkRemoveButtonAvailable(Boolean expectedValue){
         // Check Remove Claims Button is unavailable for CA property or SS property
         if (isStateCA()){
@@ -565,5 +579,4 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
     }
-
 }
