@@ -3238,7 +3238,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 
 			mainApp().open();
-			String policyNumber = "MDSS952918543";
+			String policyNumber = getCopiedPolicy();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
