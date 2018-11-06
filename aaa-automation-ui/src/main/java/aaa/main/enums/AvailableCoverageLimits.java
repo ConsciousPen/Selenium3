@@ -27,6 +27,16 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
 	)),
+
+	PD_IN(ImmutableList.of(
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000
+	)),
+
 	MEDEXP_KS(ImmutableList.of(
 			CoverageLimits.COV_4500,
 			CoverageLimits.COV_10000,

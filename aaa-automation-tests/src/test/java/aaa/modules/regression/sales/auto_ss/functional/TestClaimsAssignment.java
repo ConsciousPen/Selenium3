@@ -53,7 +53,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14679,PAS-18391,PAS-14058,PAS-8310,PAS-17894")
 	@StateList(states = {Constants.States.AZ})
-	public void PAS14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
+	public void pas14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
 
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
