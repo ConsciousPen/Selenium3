@@ -156,7 +156,7 @@ public class ApplicationMocksManager {
 			mockObject = excelUnmarshaller.unmarshal(mockDataClass);
 		} finally {
 			if (!mockTempFile.delete()) {
-				log.error("Unable to delete temp mock file: %s", mockTempDestinationPath);
+				log.error("Unable to delete temp mock file: {}", mockTempDestinationPath);
 			}
 		}
 		return mockObject;
