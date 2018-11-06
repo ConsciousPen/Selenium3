@@ -1108,9 +1108,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.IN, Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20818", "PAS-20819"})
-	public void pas20818_ViewPdCoverageLimits(@Optional("IN") String state) {
-		pas20818_ViewPdCoverageLimitsBody("12/7/2018"); //this is the date when we had more PD limits
-		//pas20818_ViewPdCoverageLimitsBody("12/8/2018"); //that date or later, two PD limits should be not displaying anymore
+	public void pas20818_ViewPdCoverageLimits(@Optional("KS") String state) {
+
+		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
+		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
 	}
 }
 

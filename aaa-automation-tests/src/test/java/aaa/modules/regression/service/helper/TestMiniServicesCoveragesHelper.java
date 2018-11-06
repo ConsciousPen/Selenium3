@@ -329,16 +329,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
-	//jovita
-	protected void pas20818_ViewPdCoverageLimitsBody(String date) {
+	protected void pas20818_ViewPdCoverageLimitsBody(String date, boolean policyWithOldLimits) {
 		TestData td = getPolicyTD("DataGather", "TestData").adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
 				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), date);
 
 		mainApp().open();
-		//		createCustomerIndividual();
-		//		String policyNumber = createQuote(td);
-		SearchPage.openQuote("QINSS952919045");
+		createCustomerIndividual();
+		createQuote(td);
 
 		NavigationPage.comboBoxListAction.setValue("Data Gathering");
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -346,23 +344,47 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Get values from 'PD coverage' dropdown PAS UI
 		List<String> pdLimitsPasQuote = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).getAllValues();
 		premiumAndCoveragesTab.saveAndExit();
-		testEValueDiscount.simplifiedQuoteIssue();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 
-		assertSoftly(softly -> {
-			softly.assertThat(pdLimitsPasQuote.get(0)).contains("$10,000");
-			softly.assertThat(pdLimitsPasQuote.get(1)).contains("$15,000");
-		});
+		//Policy coverage service
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 
+		//Get PD cov from DXP response
+		Coverage filteredCoverageResponse1 = getCoverage(coverageResponse.policyCoverages, CoverageInfo.PD.getCode());
+		checkUiCoverageLimits(policyWithOldLimits, pdLimitsPasQuote, filteredCoverageResponse1);
 
+		String endorsementDate = "2018-12-08";
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+		//Policy endorsement coverage service
+		PolicyCoverageInfo coverageResponse2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage filteredCoverageResponse2 = getCoverage(coverageResponse2.policyCoverages, CoverageInfo.PD.getCode());
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		List<String> pdLimitsPasPolicy = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).getAllValues();
+		checkUiCoverageLimits(policyWithOldLimits, pdLimitsPasPolicy,filteredCoverageResponse2);
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void checkUiCoverageLimits(boolean policyWithOldLimits, List<String> pdLimits, Coverage filteredCoverageResponse) {
 		Coverage toMatch = Coverage.create(CoverageInfo.PD);
+		if (policyWithOldLimits) {
+			assertSoftly(softly -> {
+				softly.assertThat(pdLimits.get(0)).contains("$10,000");
+				softly.assertThat(pdLimits.get(1)).contains("$15,000");
+			});
 
-
-
-
-
-
-
-
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(pdLimits.get(0)).contains("$25,000");
+				softly.assertThat(pdLimits.get(1)).contains("$50,000");
+			});
+			toMatch = Coverage.create(CoverageInfo.PD).removeAvailableLimit(CoverageLimits.COV_10000).removeAvailableLimit(CoverageLimits.COV_15000);
+		}
+		assertThat(filteredCoverageResponse).isEqualToIgnoringGivenFields(toMatch, "coverageType");
 	}
 
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
