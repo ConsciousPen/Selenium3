@@ -58,11 +58,7 @@ public class Dialog {
 	}
 
 	public boolean isVisible() {
-		try{ return new StaticElement(locator).isVisible();}
-		catch(NoSuchElementException ex){
-			Log.warn("DIALOG.ISVISIBLE() !! NoSuchElementException !!");
-			return false;
-		}
+		return new StaticElement(locator).isVisible();
 	}
 
 	public By getLocator() {
