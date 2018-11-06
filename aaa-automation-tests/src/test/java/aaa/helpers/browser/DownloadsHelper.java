@@ -17,7 +17,7 @@ import toolkit.webdriver.Downloads;
  * */
 public final class DownloadsHelper {
 
-	public static final String DOWNLOAD_DIR = PropertyProvider.getProperty(CsaaTestProperties.USER_DIR_PROP) + PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP);
+	public static final String DOWNLOAD_DIR = PropertyProvider.getProperty(CsaaTestProperties.USER_DIR_PROP) + PropertyProvider.getProperty(CsaaTestProperties.DOWNLOADS_DESTINATION_FOLDER);
 	protected static Logger LOG = LoggerFactory.getLogger(DownloadsHelper.class);
 
 	private DownloadsHelper() { }

@@ -5,7 +5,7 @@ import toolkit.config.TestProperties;
 public class CsaaTestProperties extends TestProperties {
 
 	public static final String USER_DIR_PROP = "user.dir";
-	public static final String LOCAL_DOWNLOAD_FOLDER_PROP = "test.downloadfiles.location";
+	public static final String DOWNLOADS_DESTINATION_FOLDER = "test.downloads.destination";
 
 	public static final String AD_PORT = "app.ad.port";            //	e.g. "9082"
 	public static final String AD_PATH = "app.ad.path";            //	e.g. "/aaa-admin/admin/login.xhtml"
