@@ -92,9 +92,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesV1, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesV1, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
-//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
+			//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			//			softly.assertThat(coveragesV1.get(8).coverageDescription).isEqualTo("Waive Liability");
+			//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -204,9 +204,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesLoanVehicle, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesLoanVehicle, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-//			softly.assertThat(coveragesLoanVehicle.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			softly.assertThat(coveragesLoanVehicle.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
-//			softly.assertThat(coveragesLoanVehicle.get(8).customerDisplayed).isEqualTo(false);
+			//			softly.assertThat(coveragesLoanVehicle.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			//			softly.assertThat(coveragesLoanVehicle.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
+			//			softly.assertThat(coveragesLoanVehicle.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 
@@ -257,9 +257,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesV1, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipment1.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesV1, "NEWCAR", "New Car Added Protection", "true", "Yes", null, true, false);
 
-//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			softly.assertThat(coveragesV1.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
-//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
+			//			softly.assertThat(coveragesV1.get(8).coverageCd).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			//			softly.assertThat(coveragesV1.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
+			//			softly.assertThat(coveragesV1.get(8).customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -314,14 +314,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				});
 		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
 				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> !vehicleCoverage.getCanChangeCoverage())
-					.forEach(vehicleCoverage -> {
-						assertSoftly(softly -> {
-							ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
-									DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.getCoverageCd(), "0"), ErrorResponseDto.class, 422);
-							softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-							softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
-						});
-					}));
+						.forEach(vehicleCoverage -> {
+							assertSoftly(softly -> {
+								ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
+										DXPRequestFactory.createUpdateCoverageRequest(vehicleCoverage.getCoverageCd(), "0"), ErrorResponseDto.class, 422);
+								softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
+								softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
+							});
+						}));
 
 		/*
 		 * Test next tries to update a bogus coverage code and validates that the service returns an error.
@@ -429,10 +429,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage coverageNewcar = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(7);
 			coverageXproperties(softly, coverageNewcar, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-//			Coverage coverageWL = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			softly.assertThat(coverageWL.coverageCd).isEqualTo("WL");
-//			softly.assertThat(coverageWL.getCoverageDescription()).isEqualTo("Waive Liability");
-//			softly.assertThat(coverageWL.customerDisplayed).isEqualTo(false);
+			//			Coverage coverageWL = coverageResponse.vehicleLevelCoverages.get(0).coverages.get(8); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			//			softly.assertThat(coverageWL.coverageCd).isEqualTo("WL");
+			//			softly.assertThat(coverageWL.getCoverageDescription()).isEqualTo("Waive Liability");
+			//			softly.assertThat(coverageWL.customerDisplayed).isEqualTo(false);
 
 		});
 	}
@@ -683,9 +683,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 5, coveragesV1, "TOWINGLABOR", "Towing and Labor Coverage", availableLimits5, "$50/$300", "Per Disablement/Maximum", true, true);
 		});
 
-        updateVehicleLeasedFinanced.vehicleOwnership.ownership = "OWN";
-        VehicleUpdateResponseDto ownershipUpdateResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-        assertThat(ownershipUpdateResponse2.vehicleOwnership.ownership).isEqualTo("OWN");
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "OWN";
+		VehicleUpdateResponseDto ownershipUpdateResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		assertThat(ownershipUpdateResponse2.vehicleOwnership.ownership).isEqualTo("OWN");
 
 		String coverageCdRemove = "COMPDED";
 		String availableLimitsRemove = "-1";
@@ -715,9 +715,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 5, coveragesV1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 		});
 
-        updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
-        VehicleUpdateResponseDto ownershipUpdateResponse3 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-        assertThat(ownershipUpdateResponse3.vehicleOwnership.ownership).isEqualTo("LSD");
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
+		VehicleUpdateResponseDto ownershipUpdateResponse3 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		assertThat(ownershipUpdateResponse3.vehicleOwnership.ownership).isEqualTo("LSD");
 
 		String coverageCdChangeColl = "COLLDED";
 		String availableLimitsChangeColl = "500";
@@ -968,9 +968,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 5, coveragesV1, "TOWINGLABOR", "Towing and Labor Coverage", availableLimits5, "$50/$300", "Per Disablement/Maximum", true, true);
 		});
 
-        updateVehicleLeasedFinanced.vehicleOwnership.ownership = "OWN";
-        VehicleUpdateResponseDto ownershipUpdateResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-        assertThat(ownershipUpdateResponse2.vehicleOwnership.ownership).isEqualTo("OWN");
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "OWN";
+		VehicleUpdateResponseDto ownershipUpdateResponse2 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		assertThat(ownershipUpdateResponse2.vehicleOwnership.ownership).isEqualTo("OWN");
 
 		String coverageCdRemove = "COMPDED";
 		String availableLimitsRemove = "-1";
@@ -986,9 +986,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 5, coveragesV1, "TOWINGLABOR", "Towing and Labor Coverage", "0/0", "No Coverage", "Per Disablement/Maximum", true, false);
 		});
 
-        updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
-        VehicleUpdateResponseDto ownershipUpdateResponse3 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
-        assertThat(ownershipUpdateResponse3.vehicleOwnership.ownership).isEqualTo("LSD");
+		updateVehicleLeasedFinanced.vehicleOwnership.ownership = "LSD";
+		VehicleUpdateResponseDto ownershipUpdateResponse3 = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleLeasedFinanced);
+		assertThat(ownershipUpdateResponse3.vehicleOwnership.ownership).isEqualTo("LSD");
 
 		String coverageCdChange = "COMPDED";
 		String availableLimitsChange = "500";
@@ -1503,9 +1503,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas17646_OrderOfCoverageBody(ETCSCoreSoftAssertions softly) {
-		List <String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
-		List <String> orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("VehicleLevelCoverages");
-		List <String> orderOfDriverLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("DriverLevelCoverages");
+		List<String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
+		List<String> orderOfVehicleLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("VehicleLevelCoverages");
+		List<String> orderOfDriverLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("DriverLevelCoverages");
 
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
@@ -2179,9 +2179,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageXproperties(softly, 6, coveragesVehicle2, "SPECEQUIP", "Excess Electronic Equipment", excessElectronicEquipmentPendingV.toPlaingString(), "$1,000.00", null, true, false);
 			coverageXproperties(softly, 7, coveragesVehicle2, "NEWCAR", "New Car Added Protection", "false", "No", null, false, false);
 
-//			softly.assertThat(coveragesVehicle2.get(8).getCoverageCd()).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			softly.assertThat(coveragesVehicle2.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
-//			softly.assertThat(coveragesVehicle2.get(8).customerDisplayed).isEqualTo(false);
+			//			softly.assertThat(coveragesVehicle2.get(8).getCoverageCd()).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
+			//			softly.assertThat(coveragesVehicle2.get(8).getCoverageDescription()).isEqualTo("Waive Liability");
+			//			softly.assertThat(coveragesVehicle2.get(8).customerDisplayed).isEqualTo(false);
 		});
 
 		//Change coverages v1
@@ -2654,7 +2654,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 
 			Coverage umpdCoverage = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(coverage -> "UMPDDED".equals(coverage.getCoverageCd()))
-                    .findFirst().orElse(null);
+					.findFirst().orElse(null);
 			coverageXproperties(softly, umpdCoverage, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
 
 			softly.assertThat(viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).getAvailableLimits().get(0).coverageLimit).isEqualTo("0");
@@ -2981,13 +2981,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//TC2
 		//Prepare policy UM/UIM = no coverage
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonPendedEndorsement.click();
-        policy.dataGather().start();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
-        premiumAndCoveragesTab.saveAndExit();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+		premiumAndCoveragesTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM
 
 		//Remove COMP/COLL and check UMBI
@@ -3052,30 +3052,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		Coverage filteredCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
 		softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit().equals(newBILimits)).isEqualTo(true);
-		if(newBILimits.equals("25000/50000")) {
+		if (newBILimits.equals("25000/50000")) {
 			softly.assertThat(filteredCoverageResponseUMBI.getAvailableLimits().get(0).coverageLimit).isEqualTo("25000/50000");
 			softly.assertThat(filteredCoverageResponseUMBI.getAvailableLimits().get(1).coverageLimit).isEqualTo("0/0");
-		}
-		else if(newBILimits.equals("100000/300000"))
-		{
+		} else if (newBILimits.equals("100000/300000")) {
 			verifyAvailableLimitsForUMUIM(softly, filteredCoverageResponseUMBI);
-		}
-
-		else if(newBILimits.equals("1000000/1000000")) {
+		} else if (newBILimits.equals("1000000/1000000")) {
 			verifyAvailableLimitsForUMUIM1(softly, filteredCoverageResponseUMBI);
 		}
 
 		Coverage filteredCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
 		softly.assertThat(filteredCoverageResponseUIMBI.getCoverageLimit().equals(newBILimits)).isEqualTo(true);
-		if(newBILimits.equals("25000/50000")) {
+		if (newBILimits.equals("25000/50000")) {
 			softly.assertThat(filteredCoverageResponseUMBI.getAvailableLimits().get(0).coverageLimit).isEqualTo("25000/50000");
 			softly.assertThat(filteredCoverageResponseUMBI.getAvailableLimits().get(1).coverageLimit).isEqualTo("0/0");
-		}else if(newBILimits.equals("100000/300000"))
-		{
+		} else if (newBILimits.equals("100000/300000")) {
 			verifyAvailableLimitsForUMUIM(softly, filteredCoverageResponseUIMBI);
-		}
-
-		else if(newBILimits.equals("1000000/1000000")) {
+		} else if (newBILimits.equals("1000000/1000000")) {
 			verifyAvailableLimitsForUMUIM1(softly, filteredCoverageResponseUIMBI);
 		}
 	}
@@ -3103,17 +3096,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			String coverageCd = "BI";
 			String newBILimits = "25000/50000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd, newBILimits,false);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd, newBILimits, false);
 
 			String coverageCd1 = "BI";
 			String newBILimits1 = "100000/300000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd1, newBILimits1,false);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd1, newBILimits1, false);
 
 			String coverageCd2 = "BI";
 			String newBILimits2 = "1000000/1000000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd2, newBILimits2,true);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd2, newBILimits2, true);
 		});
 	}
 
@@ -3238,31 +3231,31 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 
 			mainApp().open();
-			String policyNumber = getCopiedPolicy();
+			String policyNumber =getCopiedPolicy(); ;
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage coverageUMBI = viewEndorsementCoverages.policyCoverages.get(2);
-			Coverage coverageUMPD = viewEndorsementCoverages.policyCoverages.get(4);
-
-		    Coverage cov1 = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange();
-			softly.assertThat(coverageUMBI).isEqualToComparingFieldByField(cov1);
-
+			Coverage covBI = Coverage.create(CoverageInfo.BI);
+			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange();
 			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_MD).disableCanChange();
-			softly.assertThat(coverageUMPD).isEqualToComparingFieldByField(covUMPD);
+			Coverage covEUIM = Coverage.create(CoverageInfo.EUIM_MD).disableCanChange();
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
-			String coverageCd = "BI";
-			String availableLimits = "250000/500000";
-			PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class);
-			Coverage coverageUMBIUpdate = coverageResponse.policyCoverages.get(2);
-			Coverage coverageUMPDUpdate = coverageResponse.policyCoverages.get(4);
-			softly.assertThat(coverageUMBIUpdate.getCoverageDescription()).isEqualTo("Standard Uninsured/Underinsured Motorist Bodily Injury");
-			softly.assertThat(coverageUMPDUpdate.getCoverageDescription()).isEqualTo("Standard Uninsured Motorist Property Damage");
+			softly.assertThat(findPolicyCoverage(viewEndorsementCoverages, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
+			softly.assertThat(findPolicyCoverage(viewEndorsementCoverages, covUMBI.getCoverageCd())).isEqualToComparingFieldByField(covUMBI);
+			softly.assertThat(findPolicyCoverage(viewEndorsementCoverages, covUMPD.getCoverageCd())).isEqualToComparingFieldByField(covUMPD);
+			softly.assertThat(findPolicyCoverage(viewEndorsementCoverages, covEUIM.getCoverageCd())).isEqualToComparingFieldByField(covEUIM);
 
-			String coverageCd1 = "BI";
-			String availableLimits1 = "100000/300000";
-			PolicyCoverageInfo coverageResponse3=HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, availableLimits1), PolicyCoverageInfo.class);
+			//update coverages
+			covBI = covBI.changeLimit(CoverageLimits.COV_250500);
+			covUMPD = covUMPD.changeLimit(CoverageLimits.COV_50000);
+			covUMBI = covUMBI.changeLimit(CoverageLimits.COV_250500);
+
+			PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber, covBI);
+
+			assertThat(findPolicyCoverage(coverageResponse, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
+			assertThat(findPolicyCoverage(coverageResponse, covUMPD.getCoverageCd())).isEqualToComparingFieldByField(covUMPD);
+			assertThat(findPolicyCoverage(coverageResponse, covUMBI.getCoverageCd())).isEqualToComparingFieldByField(covUMBI);
 
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.buttonPendedEndorsement.click();
@@ -3273,24 +3266,37 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			premiumAndCoveragesTab.saveAndExit();
 
 			PolicyCoverageInfo viewEndorsementCoverages1 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage coverageUMBI2 = viewEndorsementCoverages1.policyCoverages.get(2);
-			Coverage coverageUMPD2 = viewEndorsementCoverages1.policyCoverages.get(4);
-			Coverage cov2 = Coverage.create(CoverageInfo.UMBI_MD_ENHANCED_UIM_TRUE).disableCanChange();
-			softly.assertThat(coverageUMBI2).isEqualToComparingFieldByField(cov2);
+			Coverage covEUIM1 = Coverage.create(CoverageInfo.EUIM_MD_TRUE).disableCanChange();
+			Coverage enhancedUMBI = Coverage.create(CoverageInfo.UMBI_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_250500);
+			Coverage enhancedUMPD = Coverage.create(CoverageInfo.UMPD_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_50000);
+			assertThat(findPolicyCoverage(viewEndorsementCoverages1, enhancedUMBI.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMBI);
+			assertThat(findPolicyCoverage(viewEndorsementCoverages1, enhancedUMPD.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMPD);
+			assertThat(findPolicyCoverage(viewEndorsementCoverages1, covEUIM1.getCoverageCd())).isEqualToComparingFieldByField(covEUIM1);
+			//update coverages
+			covBI = covBI.changeLimit(CoverageLimits.COV_100300);
+			enhancedUMBI = enhancedUMBI.changeLimit(CoverageLimits.COV_100300);
+			enhancedUMPD = enhancedUMPD.changeLimit(CoverageLimits.COV_50000);
 
-			Coverage covUMPD1 = Coverage.create(CoverageInfo.UMPD_MD_ENHANCED_UIM_TRUE).disableCanChange();
-			softly.assertThat(coverageUMPD2).isEqualToComparingFieldByField(covUMPD1);
+			PolicyCoverageInfo coverageResponse2 = updateCoverage(policyNumber, covBI);
 
-			String coverageCd2 = "BI";
-			String availableLimits2 = "250000/500000";
-			PolicyCoverageInfo coverageResponse2= HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, availableLimits2), PolicyCoverageInfo.class);
-			Coverage coverageUMBIUpdate2 = coverageResponse2.policyCoverages.get(2);
-			Coverage coverageUMPDUpdate2 = coverageResponse2.policyCoverages.get(4);
-			softly.assertThat(coverageUMBIUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
-			softly.assertThat(coverageUMPDUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured Motorist Property Damage");
+			softly.assertThat(findPolicyCoverage(coverageResponse2, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
+			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMPD.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMPD);
+			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMBI.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMBI);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
+	}
+
+	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
+		return HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(updateData.getCoverageCd(),
+				updateData.getCoverageLimit()), PolicyCoverageInfo.class);
+	}
+
+	private Coverage findPolicyCoverage(PolicyCoverageInfo policyCoverageInfo, String coverageCd) {
+		return policyCoverageInfo.policyCoverages.stream()
+				.filter(cov -> coverageCd.equals(cov.getCoverageCd()))
+				.findFirst()
+				.orElse(null);
 	}
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
@@ -3349,15 +3355,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//TC3
 		//UM/UIM - No Coverage, Comp/Coll = no coverage
 
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
-        SearchPage.openPolicy(policyNumber);
-        PolicySummaryPage.buttonPendedEndorsement.click();
-        policy.dataGather().start();
-        NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
-        premiumAndCoveragesTab.saveAndExit();
-        helperMiniServices.endorsementRateAndBind(policyNumber);
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+		premiumAndCoveragesTab.saveAndExit();
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		//Hit viewPolicyCoverages, check UMBI
@@ -3901,9 +3907,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseNEWCAR.getCustomerDisplayed()).isFalse();
 
 			//do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-//			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.getCoverageCd())).findFirst().orElse(null);
-//			softly.assertThat(filteredPolicyCoverageResponseWL.getCanChangeCoverage()).isFalse();
-//			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
+			//			Coverage filteredPolicyCoverageResponseWL = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "WL".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			//			softly.assertThat(filteredPolicyCoverageResponseWL.getCanChangeCoverage()).isFalse();
+			//			softly.assertThat(filteredPolicyCoverageResponseWL.customerDisplayed).isFalse();
 
 			//UMPD is Vehicle level coverage for NV, OR, UT, OH //TODO-mstrazds:PAS-15496 View Coverages - UMPD Colorado, NV, Ohio, Utah // PAS-16112 View Coverages - UMPD - Oregon
 			if ("NV, OR, UT, OH".contains(getState())) {
