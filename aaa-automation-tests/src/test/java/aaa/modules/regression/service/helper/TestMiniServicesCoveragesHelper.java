@@ -3263,6 +3263,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			enhancedUIM.setValue(true);
 			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
+			
 
 			PolicyCoverageInfo viewEndorsementCoverages1 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 			Coverage covEUIM1 = Coverage.create(CoverageInfo.EUIM_MD_TRUE).disableCanChange();
