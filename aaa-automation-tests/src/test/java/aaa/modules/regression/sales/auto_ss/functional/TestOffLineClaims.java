@@ -117,7 +117,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         });
     }
 
-	///////////////////////
     ///////////////////////
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
