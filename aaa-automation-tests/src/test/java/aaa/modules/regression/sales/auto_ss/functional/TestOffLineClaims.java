@@ -127,8 +127,8 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     	createPolicyMultiDrivers();
 
 	    // Create the claim response
-//	    createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-	    createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
+	    createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+//	    createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
 
 	    // Retrieve policy and generate a manual renewal image
 	    createManualRenewal();
