@@ -577,7 +577,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 		int vinSum = IntStream.range(0, vinLength).map(i -> vinValues.get(i) * vinWeights.get(i)).sum();
 		int checkDigit = vinSum % 11;
-
-		return vin.replaceAll("&", String.valueOf(checkDigit));
+		return vin.replaceAll("&", checkDigit == 10 ? "X" : String.valueOf(checkDigit));
 	}
 }
