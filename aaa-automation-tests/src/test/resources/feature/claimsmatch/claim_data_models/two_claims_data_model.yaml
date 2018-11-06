@@ -13,7 +13,7 @@ claimLineItemList:
     claimDateOfLoss: '2017-05-26'
     claimDeductibleAmount: '0.000000000'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 1002-10-8702
+    claimNumber: 1002-10-8703
     claimPrefix: ''
     claimOpenDate: '2017-05-26'
     claimPolicyReferenceNumber: AZSS203552391
@@ -34,32 +34,34 @@ claimLineItemList:
     vehicleManufacturedYear: '2006'
     vehicleDescription: Big truck
     vehicleSerialNumber: 1FTNF20506ED96616
-  - accidentFault: ADVERSE_PARTY_AT_FAULT
-    claimCause: tur
-    claimCloseDate: '2018-03-12'
+  - accidentFault: NOT_AT_FAULT
+    claimCause: cause2
+    claimCloseDate: '2018-08-12'
     claimCoverageList:
-    - {claimCoverageAmount: '65.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
-       coverageName: COLL_GROUP}
-    - {claimCoverageAmount: '4293.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
-       coverageName: MEDICAL_PAYMENTS}
-    claimDateOfLoss: '2017-05-26'
-    claimDeductibleAmount: '0.000000000'
+    - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: RENTAL_REIMBURSEMENT}
+    - {claimCoverageAmount: '150', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: TOWING_N_LABOR}
+    - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_006,
+       coverageName: COMP_DED_400}
+    claimDateOfLoss: '2018-05-26'
+    claimDeductibleAmount: '0'
     claimDeductibleCurrencyCode: USD
-    claimNumber: 1002-10-8703
+    claimNumber: 1002-10-8702
     claimPrefix: ''
-    claimOpenDate: '2017-05-26'
+    claimOpenDate: '2018-05-26'
     claimPolicyReferenceNumber: AZSS203552391
-    claimStatusCode: CLOSED
-    claimType: B
+    claimStatusCode: OPEN
+    claimType: Comprehensive
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1996-05-05'
-    driverName: JOSHUA FUSSELL
+    driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
-    drivingLicenseNumber: D07963714
+    drivingLicenseNumber: A19191912
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
     subroFlag: Y
-    totalAmountPaid: '4358.250000000'
+    totalAmountPaid: '5000'
     totalAmountPaidCurrencyCode: USD
     vehicleBodyType: SRW SUPER DUTY
     vehicleMake: FORD

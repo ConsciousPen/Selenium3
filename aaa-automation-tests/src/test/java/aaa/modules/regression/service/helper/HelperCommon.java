@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import javax.ws.rs.core.Response;
@@ -254,6 +255,27 @@ public class HelperCommon {
 		assignmentDto.vehicleOid = vehicleOid;
 		request.assignmentRequests.add(assignmentDto);
 		return JsonClient.sendPostRequest(requestUrl, request, ViewDriverAssignmentResponse.class, 200);
+	}
+
+	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
+	}
+
+	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, String driverOid) {
+		return updateDriverAssignment2(policyNumber, response, vehicleOid, Collections.singletonList(driverOid));
+	}
+
+	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentRequest assignmentDto = new DriverAssignmentRequest();
+		assignmentDto.driverOids = driverOids;
+		assignmentDto.vehicleOid = vehicleOid;
+		request.assignmentRequests.add(assignmentDto);
+		return JsonClient.sendPostRequest(requestUrl, request, response , 200);
 	}
 
 	public static ViewDriversResponse viewPolicyDrivers(String policyNumber) {
