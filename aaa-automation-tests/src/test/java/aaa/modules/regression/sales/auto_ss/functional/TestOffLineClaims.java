@@ -82,7 +82,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS14679_DLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
         createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
@@ -104,15 +104,14 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
             softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-            // Check 1st driver. No Claims
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
+            // Check 1st driver: FNI, has the COMP match claim
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
 
-            // Check 2nd driver. 2 Claim.
+            // Check 2nd driver: Has DL match claim
             DriverTab.tableDriverList.selectRow(2);
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
-            DriverTab.tableActivityInformationList.selectRow(2);
+	        softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
         });
@@ -187,7 +186,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS8310_nameDOBYOBMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas8310_nameDOBYOBMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
         createPolicyMultiDrivers();        // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();        // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
