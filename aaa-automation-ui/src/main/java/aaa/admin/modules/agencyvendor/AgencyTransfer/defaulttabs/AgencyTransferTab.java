@@ -1,5 +1,3 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
@@ -13,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ListBox;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class AgencyTransferTab extends DefaultTab {
 
@@ -21,10 +18,9 @@ public class AgencyTransferTab extends DefaultTab {
 
 	public AgencyTransferTab() {
 		super(AgencyTransferMetaData.AgencyTransferTab.class);
-		assetList = new AssetList(By.xpath("//*"), metaDataClass);
-	}
-	public static Button Search = new Button(By.id("borManagementForm:searchButton"));
-	public static Button Clear = new Button(By.id("borManagementForm:clearButton"));
+			}
+	public static Button search = new Button(By.id("borManagementForm:searchButton"));
+	public static Button clear = new Button(By.id("borManagementForm:clearButton"));
 	public static Button addTransfer = new Button(By.id("borManagementForm:addButton"));
 	public static TextBox transferId = new TextBox(By.id("borManagementForm:searchCriteria_transferNumber"));
 	public static TextBox transferEffectiveDate = new TextBox(By.id("borTransferManagementForm:borTransferInfo_effectiveDateInputDate"));
