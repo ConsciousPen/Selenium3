@@ -33,6 +33,7 @@ import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.datax.DataProviderFactory;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.CheckBox;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
@@ -40,6 +41,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	public HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
 
 	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
@@ -3231,6 +3233,68 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 
 	}
+
+	protected void pas20835_mdAndEnhancedCoverageBody(PolicyType policyType) {
+		assertSoftly(softly -> {
+
+			mainApp().open();
+			String policyNumber = "MDSS952918543";
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+			Coverage coverageUMBI = viewEndorsementCoverages.policyCoverages.get(2);
+			Coverage coverageUMPD = viewEndorsementCoverages.policyCoverages.get(4);
+
+		    Coverage cov1 = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange();
+			softly.assertThat(coverageUMBI).isEqualToComparingFieldByField(cov1);
+
+			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_MD).disableCanChange();
+			softly.assertThat(coverageUMPD).isEqualToComparingFieldByField(covUMPD);
+
+			String coverageCd = "BI";
+			String availableLimits = "250000/500000";
+			PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, availableLimits), PolicyCoverageInfo.class);
+			Coverage coverageUMBIUpdate = coverageResponse.policyCoverages.get(2);
+			Coverage coverageUMPDUpdate = coverageResponse.policyCoverages.get(4);
+			softly.assertThat(coverageUMBIUpdate.getCoverageDescription()).isEqualTo("Standard Uninsured/Underinsured Motorist Bodily Injury");
+			softly.assertThat(coverageUMPDUpdate.getCoverageDescription()).isEqualTo("Standard Uninsured Motorist Property Damage");
+
+			String coverageCd1 = "BI";
+			String availableLimits1 = "100000/300000";
+			PolicyCoverageInfo coverageResponse3=HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, availableLimits1), PolicyCoverageInfo.class);
+
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			enhancedUIM.setValue(true);
+			premiumAndCoveragesTab.calculatePremium();
+			premiumAndCoveragesTab.saveAndExit();
+
+			PolicyCoverageInfo viewEndorsementCoverages1 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+			Coverage coverageUMBI2 = viewEndorsementCoverages1.policyCoverages.get(2);
+			Coverage coverageUMPD2 = viewEndorsementCoverages1.policyCoverages.get(4);
+			Coverage cov2 = Coverage.create(CoverageInfo.UMBI_MD_ENHANCED_UIM_TRUE).disableCanChange();
+			softly.assertThat(coverageUMBI2).isEqualToComparingFieldByField(cov2);
+
+			Coverage covUMPD1 = Coverage.create(CoverageInfo.UMPD_MD_ENHANCED_UIM_TRUE).disableCanChange();
+			softly.assertThat(coverageUMPD2).isEqualToComparingFieldByField(covUMPD1);
+
+			String coverageCd2 = "BI";
+			String availableLimits2 = "250000/500000";
+			PolicyCoverageInfo coverageResponse2= HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, availableLimits2), PolicyCoverageInfo.class);
+			Coverage coverageUMBIUpdate2 = coverageResponse2.policyCoverages.get(2);
+			Coverage coverageUMPDUpdate2 = coverageResponse2.policyCoverages.get(4);
+			softly.assertThat(coverageUMBIUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
+			softly.assertThat(coverageUMPDUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured Motorist Property Damage");
+
+			//helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+
+
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
 		mainApp().open();

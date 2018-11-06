@@ -1089,6 +1089,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16984_validateCoverageConstraints(@Optional("VA") String state) {
 		pas16984_validateCoverageConstraints(getPolicyType());
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
+	 * @scenario1
+	 * 1. Create a policy for MD.
+	 * 2. Create an endorsement for the policy.
+	 * 3. my policy has Enhanced UIM = False/No
+	 * 3. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury" and canChangeCoverage = false .
+	 * 4. Go to Pas change my policy Enhanced UIM = True/Yes.
+	 * 5. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury"and canChangeCoverage = false .
+	 * 6. and my label for UMPD is "Standard Uninsured Motorist Property Damage"
+	 * 7.Update any Coverage and verify if update showing same label
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835"})
+	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
+		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
+	}
 }
-
-
