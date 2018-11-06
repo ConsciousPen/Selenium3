@@ -309,4 +309,11 @@
             </class>
         </classes>
     </test>
+
+    <test name="PAS-17328 - Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInaccurateRatingFromOmittedPoints"> </class>
+        </classes>
+    </test>
 </suite>

@@ -1,16 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Batch Tests - renewalOfferAsyncTaskJob" verbose="1" parallel="tests" thread-count="1024">
+<suite name="BCT Batch Tests - groupaaacancellationNoticeGenerationJob" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <test name="BCT Batch Tests renewalOfferAsyncTaskJob" preserve-order="true">
-        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="BCT Batch Tests groupaaacancellationNoticeGenerationJob" preserve-order="true">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Proposed_Offer_009"/>
-                    <include name="BCT_BTCH_Automated_Renewal_Generate_Offer_Document_009"/>
+                    <include name="BCT_BTCH_Cancellation_Cancellation_Notice_Bill_023"/>
                 </methods>
             </class>
         </classes>
