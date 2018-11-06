@@ -3289,12 +3289,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverageUMBIUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured/Underinsured Motorist Bodily Injury");
 			softly.assertThat(coverageUMPDUpdate2.getCoverageDescription()).isEqualTo("Enhanced Uninsured Motorist Property Damage");
 
-			//helperMiniServices.endorsementRateAndBind(policyNumber);
+			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
-
-
-
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
 		mainApp().open();
