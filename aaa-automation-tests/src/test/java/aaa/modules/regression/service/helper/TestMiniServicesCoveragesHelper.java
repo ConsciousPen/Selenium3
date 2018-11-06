@@ -3174,7 +3174,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas17642_UpdateCoverageADBBody(PolicyType policyType) {
 		assertSoftly(softly -> {
-
 			TestData td = getPolicyTD("DataGather", "TestData_AZ");
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("FourDrivers").getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab1")).resolveLinks();
@@ -3187,7 +3186,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-
 			String driverFNI = viewDriversResponse.driverList.get(0).oid;
 			String driverAFR = viewDriversResponse.driverList.get(1).oid;
 
@@ -3195,7 +3193,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponse.driverList.get(1).availableCoverages.toString()).contains("ADB");
 
 			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getCoverageCd()).isEqualTo("ADB");
+			softly.assertThat(getCoverage(policyCoverageResponse.driverCoverages,"ADB").getCoverageCd()).isEqualTo("ADB");
+			softly.assertThat(getCoverage(policyCoverageResponse.driverCoverages,"ADB").getCoverageDescription()).isEqualTo("Automobile Death Benefit");
 
 			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getAvailableDrivers()).contains(driverFNI);
 			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getAvailableDrivers()).contains(driverAFR);
@@ -3225,11 +3224,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
+			premiumAndCoveragesTab.saveAndExit();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
-
 		});
-
 	}
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
