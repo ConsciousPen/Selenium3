@@ -10,6 +10,8 @@ public enum CoverageInfo {
 	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_CL.getAvailableLimits()),
 	GPIP("GPIP", "Guest Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.GPIP_CL.getAvailableLimits()),
 	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN.getAvailableLimits(), "Per Accident"),
+	UIMPD("UIMPD", "Underinsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UIMPD.getAvailableLimits()),
+	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD.getAvailableLimits(), "Per Accident"),
 
 	PIP_KS_4500("PIP", "Basic Personal Injury Protection", null, ImmutableList.of()),
 	PIP_KS_10000_25000("PIP", "Added Personal Injury Protection",  null, ImmutableList.of()),
