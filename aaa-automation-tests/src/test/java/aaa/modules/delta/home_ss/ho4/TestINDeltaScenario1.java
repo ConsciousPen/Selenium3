@@ -1,14 +1,18 @@
 package aaa.modules.delta.home_ss.ho4;
 
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import aaa.common.enums.Constants.States;
+import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.delta.templates.INDeltaScenario1;
+import aaa.utils.StateList;
+import toolkit.datax.TestData;
 
-public class TestINDeltaScenario1 extends INDeltaScenario1{ 
-public String scenarioPolicyType = "HO4";
+public class TestINDeltaScenario1 extends INDeltaScenario1 {
+	public String scenarioPolicyType = "HO4";
 	
 	@Override
 	protected PolicyType getPolicyType() {
@@ -16,48 +20,21 @@ public String scenarioPolicyType = "HO4";
 	}
 	
 	@Parameters({"state"})
-	@Test
-	public void TC01_createQuote(@Optional("") String state) {				
-		super.TC_createQuote(scenarioPolicyType);
-	}
+	@StateList(states = States.IN)
+	@Test(groups = {Groups.DELTA, Groups.HIGH})
+	public void IN_Delta_Scenario1(@Optional("") String state) {
+		tdPolicy = testDataManager.policy.get(getPolicyType());
+		TestData td = getStateTestData(tdPolicy, "DataGather", "TestData").adjust(getTestSpecificTD("TestData").resolveLinks());
+		createQuote(td, scenarioPolicyType);
 
-	@Parameters({"state"})
-	@Test
-	public void TC02_verifyLOVsOfImmediatePriorCarrier(@Optional("") String state) {
-		super.TC_verifyLOVsOfImmediatePriorCarrier();
-	}
-	
-	@Parameters({"state"})
-	@Test
-	public void TC03_verifyEndorsementsTab(@Optional("") String state) {
-		super.TC_verifyEndorsementsTab();
-	}
-	
-	@Parameters({"state"})
-	@Test
-	public void TC04_verifyQuoteODD(@Optional("") String state) {}
-	
-	
-	@Parameters({"state"})
-	@Test
-	public void TC05_verifyHailResistanceRating(@Optional("") String state) {
-		super.TC_verifyHailResistanceRating();
-	}
-	
-	@Parameters({"state"})
-	@Test
-	public void TC06_verifyIneligibleRoofType(@Optional("") String state) {	
-		super.TC_verifyIneligibleRoofType();
-	}	
-	
-	@Parameters({"state"})
-	@Test
-	public void TC07_purchasePolicy(@Optional("") String state) {
-		super.TC_purchasePolicy(scenarioPolicyType);		
-	}
-	
-	@Parameters({"state"})
-	@Test
-	public void TC08_verifyPolicyODD(@Optional("") String state) {}
-	
+		SoftAssertions.assertSoftly(softly -> {
+			verifyLOVsOfImmediatePriorCarrier();
+			verifyEndorsementsTab();
+			//verifyQuoteODD();
+			verifyHailResistanceRating();
+			//verifyIneligibleRoofType(); - not applicable for HO4
+			purchasePolicy(td, scenarioPolicyType);
+			verifyPolicyODD();
+		});
+	}		
 }

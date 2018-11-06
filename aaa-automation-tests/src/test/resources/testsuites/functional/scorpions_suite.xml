@@ -237,4 +237,10 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestChoiceStatCodeConversion"/>
         </classes>
     </test>
+    <test name="Offline Claims AUTO SS">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment"/>
+        </classes>
+    </test>
 </suite>

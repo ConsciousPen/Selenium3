@@ -1,16 +1,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="BCT Batch Tests - aaaMembershipRenewalBatchOrderAsyncJob" verbose="1" parallel="tests" thread-count="1024">
+<suite name="BCT Batch Tests - groupPolicyStatusUpdateJob" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="BCT Batch Tests aaaMembershipRenewalBatchOrderAsyncJob" preserve-order="true">
-        <parameter name="state" value="AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY"/>
+    <test name="BCT Batch Tests groupPolicyStatusUpdateJob" preserve-order="true">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.bct.batch.BatchTest">
                 <methods>
-                    <include name="BCT_BTCH_Automated_Renewal_Reports_Ordering_003"/>
+                    <include name="BCT_BTCH_POLICY_STATUS_UPDATE"/>
                 </methods>
             </class>
         </classes>

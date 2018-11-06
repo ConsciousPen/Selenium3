@@ -1,0 +1,41 @@
+TestDataSameDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+  }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+  }
+}
+
+TestDataFutureDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today+3d>,
+    Rewrite reason: index=1
+  }
+}
+
+# ---- TestData required for bind rewritten policy ---
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: { Calculate Premium: true},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@home_ca_ho3@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ca_ho3@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@home_ca_ho3@DataGather@PurchaseTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Order Report'}]
+}

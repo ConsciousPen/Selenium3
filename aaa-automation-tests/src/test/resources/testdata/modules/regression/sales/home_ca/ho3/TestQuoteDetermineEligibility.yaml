@@ -150,7 +150,7 @@ PropertyInfoTab: {
 ClaimHistory_LossClaim: {
   PropertyInfoTab: {
     ClaimHistory: {
-      "Add a claim": 'Yes',
+      "Add": 'Click',
       "Date of loss": $<today-2y>,
       "Cause of loss": 'Liability',
       "Amount of loss": 100,

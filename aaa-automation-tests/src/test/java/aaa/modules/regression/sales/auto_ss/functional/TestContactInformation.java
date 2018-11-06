@@ -3,6 +3,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
@@ -54,7 +56,7 @@ public class TestContactInformation extends AutoSSBaseTest {
 	@StateList(states = Constants.States.UT)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-270", "PAS-267"})
-	public void pas270_contactInformation(String state) {
+	public void pas270_contactInformation(@Optional("UT") String state) {
 		initiateQuote();
 
 		verifyContactInformationSection();

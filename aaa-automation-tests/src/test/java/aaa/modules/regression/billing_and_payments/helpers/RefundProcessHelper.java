@@ -3,7 +3,6 @@ package aaa.modules.regression.billing_and_payments.helpers;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
-import static aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions.REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL;
 import static org.assertj.core.api.Assertions.fail;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
@@ -649,11 +648,10 @@ public class RefundProcessHelper extends PolicyBilling {
 		String status = "Issued";
 		Map<String, String> refundIssued = new HashMap<>(refund);
 		refundIssued.put(STATUS, status);
-		String policyNumber = BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(1).getValue();
 		unprocessedSuccessfullyRefundVerification(billingAccountNumber, paymentMethodMessage, refundIssued, isCheck, transactionNumber);
 		if (isCheck) {
 			refundActions(refundIssued, status, "Void", "Clear");
-			checkRefundDocumentInDb(getState(), policyNumber);
+
 		} else {
 			refundActions(refundIssued, status);
 		}
@@ -827,22 +825,6 @@ public class RefundProcessHelper extends PolicyBilling {
 		assertThat(transactionType).isEqualTo(ledgerEntry.get("TRANSACTIONTYPE"));
 		assertThat(ledgerAccountNumber).isEqualTo(ledgerEntry.get("LEDGERACCOUNTNO"));
 		assertThat(billingPaymentMethod).isEqualTo(ledgerEntry.get("BILLINGPAYMENTMETHOD"));
-	}
-
-	private static void checkRefundDocumentInDb(String state, String policyNumber) {
-		//PAS-443 start
-		if ("VA".equals(state)) {
-			if (DbAwaitHelper.waitForQueryResult(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL, 5)) {
-				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-				assertThat(DbAwaitHelper.waitForQueryResult(query, 5)).isFalse();
-			}
-		} else {
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			assertThat(DbAwaitHelper.waitForQueryResult(query, 5)).isTrue();
-			String query2 = String.format(GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME, policyNumber, "55 3500", "REFUND");
-			assertThat(DBService.get().getValue(query2).map(Integer::parseInt)).hasValue(1);
-		}
-		//PAS-443 end
 	}
 
 	/**

@@ -78,8 +78,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Advance time and reinstate policy with lapse
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(effDate).plusDays(3));
+        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getReinstatementTD());
