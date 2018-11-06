@@ -431,18 +431,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				throw new NotImplementedException("Test data generation for enabled isHybrid is not implemented since there is no UI field for this attribute.");
 			}
 
-			//TODO-dchubkov: found such cases in "MDTests-WUIC-20181201_part1.xls", to be investigated how to fill different values for *LiabilitySymbol
-			/*if (vehicle.getBiLiabilitySymbol() != null) {
-				HashSet<String> liabilitySymbols = new HashSet<>();
-				liabilitySymbols.add(vehicle.getBiLiabilitySymbol());
-				liabilitySymbols.add(vehicle.getPdLiabilitySymbol());
-				liabilitySymbols.add(vehicle.getMpLiabilitySymbol());
-				liabilitySymbols.add(vehicle.getUmLiabilitySymbol());
-				if (liabilitySymbols.size() > 1) {
-					throw new NotImplementedException(String.format("Not all *LiabilitySymbol field values are the same: %s, test data generation for this case is not implemented", liabilitySymbols));
-				}
-			}*/
-
 			TestData vehicleData = getVehicleTabInformationData(vehicle);
 			if (Boolean.TRUE.equals(vehicle.isTelematic())) {
 				vehicleData.adjust(getVehicleTabVehicleDetailsData("No Score"));
@@ -627,13 +615,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
-		//String vin = getVinFromDb(vehicle);
-		String vin = null; //TODO-dchubkov: improve VIN search DB query to include all openl field values
+		String vin = getVinFromDb(vehicle);
 		Map<String, Object> vehicleInformation = new HashMap<>();
 		String statCode = vehicle.getBiLiabilitySymbol();
 		vehicleInformation.put(AutoSSMetaData.VehicleTab.TYPE.getLabel(), getVehicleTabType(statCode));
 
 		if (StringUtils.isNotBlank(vin)) {
+			//vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.VIN.getLabel(), covertToValidVin(vin));
 		} else {
 			vehicleInformation.put(AutoSSMetaData.VehicleTab.YEAR.getLabel(), vehicle.getModelYear());
@@ -755,19 +743,21 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		String vin = "";
 
 		// 85 is default value for PHYSICALDAMAGECOLLISION and PHYSICALDAMAGECOMPREHENSIVE if there are no vehicles in DB with valid parameters
-		// Search for trailer's VIN is useless since it cannot be used on UI to automatically fill vehicles fields
-		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85 && !isTrailerType(vehicle.getBiLiabilitySymbol())) {
-			//TODO-dchubkov: add argument for stat code
-			String getVinQuery = String.format("select VIN \n"
-							+ "from VEHICLEREFDATAVIN\n"
-							+ "inner join VEHICLEREFDATAMODEL\n"
+		if (vehicle.getCollSymbol() != 85 && vehicle.getCompSymbol() != 85) {
+			String getVinQuery = String.format("select VIN from VEHICLEREFDATAVIN inner join VEHICLEREFDATAMODEL \n"
 							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
-							+ "where PHYSICALDAMAGECOLLISION %1$s AND PHYSICALDAMAGECOMPREHENSIVE %2$s AND YEAR %3$s AND (RESTRAINTSCODE %4$s) AND ANTITHEFTCODE %5$s",
-					vehicle.getCollSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
-					vehicle.getCompSymbol() == null ? "IS NULL" : "= " + vehicle.getCollSymbol(),
-					vehicle.getModelYear() == null ? "IS NULL" : "= " + vehicle.getModelYear(),
+							+ "where PHYSICALDAMAGECOLLISION %1$s and PHYSICALDAMAGECOMPREHENSIVE %2$s and YEAR %3$s \n"
+							+ "and BI_SYMBOL %4$s and PD_SYMBOL %5$s and MP_SYMBOL %6$s and UM_SYMBOL %7$s \n"
+							+ "and (RESTRAINTSCODE %8$s) AND ANTITHEFTCODE %9$s",
+					vehicle.getCollSymbol() == null ? "is null" : "= " + vehicle.getCollSymbol(),
+					vehicle.getCompSymbol() == null ? "is null" : "= " + vehicle.getCompSymbol(),
+					vehicle.getModelYear() == null ? "is null" : "= " + vehicle.getModelYear(),
+					vehicle.getBiLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getBiLiabilitySymbol() + "'",
+					vehicle.getPdLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getPdLiabilitySymbol() + "'",
+					vehicle.getMpLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getMpLiabilitySymbol() + "'",
+					vehicle.getUmLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getUmLiabilitySymbol() + "'",
 					vehicle.getAirbagCode() == null || "N".equals(vehicle.getAirbagCode()) ? "IS NULL" : "= " + getDbRestraintsCode(vehicle.getAirbagCode()),
-					vehicle.getAntiTheftString() == null ? "IS NULL" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
+					vehicle.getAntiTheftString() == null ? "is null" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
 
 			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}
