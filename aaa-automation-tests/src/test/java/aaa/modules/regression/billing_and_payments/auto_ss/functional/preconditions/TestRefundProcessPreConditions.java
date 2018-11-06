@@ -13,3 +13,6 @@ public interface TestRefundProcessPreConditions {
 	String AUTHENTICATION_STUB_END_POINT_CHECK = "SELECT value FROM PROPERTYCONFIGURERENTITY" +
 			" WHERE PROPERTYNAME = 'oAuthClient.oAuthPingUri' and lower(value) = lower('http://%s%sws/local/authentication')";
 }
+
+
+
