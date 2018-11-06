@@ -1089,6 +1089,30 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas16984_validateCoverageConstraints(@Optional("VA") String state) {
 		pas16984_validateCoverageConstraints(getPolicyType());
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverages - PD Limits
+	 * @scenario
+	 * 1. Initiate quote creation. The effective date of the policy is
+	 * TC1: 12/8/18 or LATER;
+	 * TC2: 12/7/2018
+	 * 2. Check PD limits in P&C page.
+	 * 3. Bind the policy.
+	 * 4. Create endorsement outside of PAS. The effective is 12/8/18 or LATER
+	 * 5. Hit view coverages service, and check PD limits.
+	 * 6. Go to the PAS, open endorsement data gather mode, and check if the PD limits the same.
+	 * 7. Rate and Bind.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.IN, Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20818", "PAS-20819"})
+	public void pas20818_ViewPdCoverageLimits(@Optional("KS") String state) {
+
+		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
+		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
+	}
 }
 
 
