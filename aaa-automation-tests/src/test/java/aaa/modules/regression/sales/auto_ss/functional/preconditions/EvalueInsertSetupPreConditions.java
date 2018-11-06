@@ -183,9 +183,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
 			+ "Select * from dual";
 
-	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
-			+ "set DISPLAYVALUE='TRUE' where CODE='eRefunds'";
-
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
 			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"
 			+ "where propertyname = 'lastPaymentService.lastPaymentServiceUrl'";
