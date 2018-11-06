@@ -24,7 +24,7 @@ public enum CoverageInfo {
 	EUIM_MD("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_FALSE, AvailableCoverageLimits.EUIM_MD, null),
 	EUIM_MD_TRUE("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_TRUE, AvailableCoverageLimits.EUIM_MD, null),
 	BI("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI, "Per Person/Per Accident");
-
+	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN.getAvailableLimits(), "Per Accident"),
 	PIP_KS_4500("PIP", "Basic Personal Injury Protection", null, ImmutableList.of()),
 	PIP_KS_10000_25000("PIP", "Added Personal Injury Protection",  null, ImmutableList.of()),
 	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month/Max 1 Year"),
