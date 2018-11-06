@@ -90,4 +90,3 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 }
-
