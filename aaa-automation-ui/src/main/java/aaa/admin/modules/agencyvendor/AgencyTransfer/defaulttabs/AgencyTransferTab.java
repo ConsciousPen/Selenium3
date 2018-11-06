@@ -3,7 +3,10 @@
 package aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
+import aaa.admin.pages.agencyvendor.AgencyTransferPage;
 import aaa.common.DefaultTab;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,5 +38,15 @@ public class AgencyTransferTab extends DefaultTab {
 	public static ListBox reason = new ListBox(By.id("borTransferManagementForm:borTransferInfo_reasonCode"));
 	public static ListBox targetInsuranceAgent = new ListBox(By.id("borTransferManagementForm:borTransferTarget_targetSubproducerCd"));
 	public static Button submit = new Button(By.id("borTransferManagementForm:submit_footer"));
+
+	/**
+	 * Go to the admin -> Agency Transfer -> Add transfer
+	 */
+
+	public void createBortObject() {
+		NavigationPage.toMainTab(NavigationEnum.AdminAppMainTabs.AGENCY_VENDOR.get());
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.AGENCY_VENDOR_AGENCY_TRANSFER.get());
+		AgencyTransferPage.buttonAddNewTransfer.click();
+	}
 
 }
