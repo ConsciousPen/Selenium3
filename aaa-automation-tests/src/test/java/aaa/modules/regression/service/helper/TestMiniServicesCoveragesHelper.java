@@ -3229,7 +3229,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas20835_mdAndEnhancedCoverageBody(PolicyType policyType) {
 		assertSoftly(softly -> {
-
 			mainApp().open();
 			String policyNumber =getCopiedPolicy();
 
