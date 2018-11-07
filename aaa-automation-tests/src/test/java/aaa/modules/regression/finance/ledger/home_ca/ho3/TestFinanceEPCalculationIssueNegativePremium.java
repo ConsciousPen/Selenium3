@@ -1,6 +1,8 @@
 package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -71,6 +73,11 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
+
+		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRowContains(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
+				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
+		BigDecimal endorsementEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRowContains(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Endorsement")
+				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
 		assertThat(new Dollar(PolicySummaryPage.tableTransactionHistory.getRow(1)
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))

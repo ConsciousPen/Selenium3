@@ -69,7 +69,7 @@ public class LedgerHelper {
 				"left join Coverage c on pe.Coverage_ID = c.id "+
 				"left join RiskItem ri on c.RiskItem_ID = ri.id "+
 				"inner join PolicySummary p on (fo.POLICYDETAIL_ID = p.POLICYDETAIL_ID OR ri.POLICYDETAIL_ID = p.POLICYDETAIL_ID) "+
-				"where p.policyNumber = 'AZH3952415375' "+
+				"where p.policyNumber = '%s' "+
 				"and pe.premiumtype in ('NET_PREMIUM', 'ENDORSEMENT') "+
 				"and pe.PREMIUMCD='NWT') "+
 				"group by TRANSACTIONDATE, TRANSACTIONEFFECTIVEDATE, txtype "+
