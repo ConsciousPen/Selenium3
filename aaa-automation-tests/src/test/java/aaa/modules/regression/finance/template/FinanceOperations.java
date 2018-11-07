@@ -181,6 +181,11 @@ public abstract class FinanceOperations extends PolicyBaseTest {
     }
 
     protected void validateEPCalculations(String policyNumber, List<TxType> txTypes, LocalDateTime effectiveDate, LocalDateTime expirationDate) {
+        List<TxWithTermPremium> txsWithPremium = createTxsWithPremiums(policyNumber, txTypes);
+        validateEPCalculationsFromTransactions(policyNumber, txsWithPremium, effectiveDate.toLocalDate(), expirationDate.toLocalDate());
+    }
+
+    protected List<TxWithTermPremium> createTxsWithPremiums(String policyNumber, List<TxType> txTypes) {
         List<TxWithTermPremium> txsWithPremium = new ArrayList<>();
         List<Map<String, String>> termAndActualPremiums = LedgerHelper.getTermAndActualPremiums(policyNumber);
         assertThat(txTypes.size()).as("Provided transaction type list do not match actual transactions").isEqualTo(termAndActualPremiums.size());
@@ -194,10 +199,10 @@ public abstract class FinanceOperations extends PolicyBaseTest {
             LocalDate txEffectiveDate = LocalDate.parse(termAndActualPremium.get(LedgerHelper.TRANSACTION_EFFECTIVE_DATE), LedgerHelper.DATE_TIME_FORMATTER);
             txsWithPremium.add(new TxWithTermPremium(txType, termPremium, actualPremium, txDate, txEffectiveDate));
         }
-        validateEPCalculationsFromTransactions(policyNumber, txsWithPremium, effectiveDate.toLocalDate(), expirationDate.toLocalDate());
+        return txsWithPremium;
     }
 
-    private void validateEPCalculationsFromTransactions(String policyNumber, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
+    protected void validateEPCalculationsFromTransactions(String policyNumber, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
 
         List<LocalDate> monthlyTimePoints = new ArrayList<>(13);
         LocalDate monthlyTimePoint = effectiveDate;
@@ -558,6 +563,10 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
         public BigDecimal getActualPremium() {
             return actualPremium;
+        }
+
+        public void setActualPremium(BigDecimal actualPremium) {
+            this.actualPremium = actualPremium;
         }
 
         @Override

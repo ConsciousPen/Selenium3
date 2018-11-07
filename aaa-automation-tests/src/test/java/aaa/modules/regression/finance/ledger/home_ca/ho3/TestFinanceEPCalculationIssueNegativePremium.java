@@ -83,7 +83,10 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
-		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE);
+		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
+		txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
+		txsWithPremiums.get(1).setActualPremium(endorsementEndingPremium);
+		validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
 	}
 }

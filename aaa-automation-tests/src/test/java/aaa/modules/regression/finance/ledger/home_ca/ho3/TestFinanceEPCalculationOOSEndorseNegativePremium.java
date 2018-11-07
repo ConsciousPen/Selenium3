@@ -110,6 +110,13 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
 				TxType.OOS_ENDORSE, TxType.ROLL_ON);
-		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
+
+		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
+		txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
+		txsWithPremiums.get(1).setActualPremium(endorsementEndingPremium);
+		txsWithPremiums.get(2).setActualPremium(backedOffEndorsementEndingPremium);
+		txsWithPremiums.get(3).setActualPremium(oosEndorsementEndingPremium);
+		txsWithPremiums.get(4).setActualPremium(rolledOnEndorsementEndingPremium);
+		validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
 	}
 }
