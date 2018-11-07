@@ -6,7 +6,6 @@ public interface TestRefundProcessPreConditions {
 			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl'"
 			+ " and VALUE like '%%%s%%'";
 
-
 	String PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK = "select defaultrefundmethod from BILLINGREFUNDPAYMENTMETHOD\n"
 			+ "where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
