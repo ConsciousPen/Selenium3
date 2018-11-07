@@ -4,6 +4,10 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.IntStream;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
@@ -523,5 +527,56 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getDbAntitheftCode(String openlAntiTheftString) {
 		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
+	}
+
+	String covertToValidVin(String vin) {
+		if (StringUtils.isBlank(vin)) {
+			return null;
+		}
+
+		int vinLength = 17;
+		Map<String, Integer> transliterationMap = new HashMap<>(24);
+		transliterationMap.put("&", 0); // VIN"s check digit
+		transliterationMap.put("A", 1);
+		transliterationMap.put("B", 2);
+		transliterationMap.put("C", 3);
+		transliterationMap.put("D", 4);
+		transliterationMap.put("E", 5);
+		transliterationMap.put("F", 6);
+		transliterationMap.put("G", 7);
+		transliterationMap.put("H", 8);
+		transliterationMap.put("J", 1);
+		transliterationMap.put("K", 2);
+		transliterationMap.put("L", 3);
+		transliterationMap.put("M", 4);
+		transliterationMap.put("N", 5);
+		transliterationMap.put("P", 7);
+		transliterationMap.put("R", 9);
+		transliterationMap.put("S", 2);
+		transliterationMap.put("T", 3);
+		transliterationMap.put("U", 4);
+		transliterationMap.put("V", 5);
+		transliterationMap.put("W", 6);
+		transliterationMap.put("X", 7);
+		transliterationMap.put("Y", 8);
+		transliterationMap.put("Z", 9);
+
+		vin += RandomStringUtils.randomNumeric(7); // adding random plant digit and serial number
+		assertThat(vin).as("Invalid VIN size").hasSize(vinLength);
+
+		List<Integer> vinValues = new ArrayList<>(vinLength);
+		List<Integer> vinWeights = Arrays.asList(8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2);
+		for (String vinChar : vin.split("")) {
+			if (transliterationMap.containsKey(vinChar)) {
+				vinValues.add(transliterationMap.get(vinChar));
+			} else {
+				assertThat(NumberUtils.isCreatable(vinChar))
+						.as("Unknown transliteration for VIN char '%1$s', only digits and these chars are allowed: %s", vinChar, transliterationMap.keySet()).isTrue();
+				vinValues.add(Integer.valueOf(vinChar));
+			}
+		}
+		int vinSum = IntStream.range(0, vinLength).map(i -> vinValues.get(i) * vinWeights.get(i)).sum();
+		int checkDigit = vinSum % 11;
+		return vin.replaceAll("&", checkDigit == 10 ? "X" : String.valueOf(checkDigit));
 	}
 }

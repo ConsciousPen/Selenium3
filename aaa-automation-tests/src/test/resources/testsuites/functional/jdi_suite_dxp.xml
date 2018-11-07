@@ -179,6 +179,9 @@
                     <include name="pas14539_transactionInfoDriverAssignment"/>
                     <include name="pas14539_transactionInfoUpdateDriverAssignment"/>
                     <include name="pas14477_ViewDriverAssignment_NewDriver"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule1"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule3"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule2"/>
                 </methods>
             </class>
         </classes>
@@ -663,6 +666,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas18624_CustomisedEquipment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="View Coverages-PD Limits">
+        <parameter name="state" value="IN, KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20818_ViewPdCoverageLimits"/>
                 </methods>
             </class>
         </classes>

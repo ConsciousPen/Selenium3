@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -25,9 +25,6 @@ import aaa.main.enums.CoverageLimits;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -330,6 +327,64 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
 			softly.assertThat(response.message).isEqualTo("Cannot find coverage with coverage code 'TEST'");
 		});
+	}
+
+	protected void pas20818_ViewPdCoverageLimitsBody(String date, boolean policyWithOldLimits) {
+		TestData td = getPolicyTD("DataGather", "TestData").adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(),
+				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()), date);
+
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote(td);
+
+		NavigationPage.comboBoxListAction.setValue("Data Gathering");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+
+		//Get values from 'PD coverage' dropdown PAS UI
+		List<String> pdLimitsPasQuote = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).getAllValues();
+		premiumAndCoveragesTab.saveAndExit();
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+		//Policy coverage service
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		//Get PD cov from DXP response
+		Coverage filteredCoverageResponse1 = getCoverage(coverageResponse.policyCoverages, CoverageInfo.PD.getCode());
+		checkUiCoverageLimits(policyWithOldLimits, pdLimitsPasQuote, filteredCoverageResponse1);
+
+		String endorsementDate = "2018-12-08";
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);
+
+		//Policy endorsement coverage service
+		PolicyCoverageInfo coverageResponse2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage filteredCoverageResponse2 = getCoverage(coverageResponse2.policyCoverages, CoverageInfo.PD.getCode());
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		List<String> pdLimitsPasPolicy = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).getAllValues();
+		checkUiCoverageLimits(policyWithOldLimits, pdLimitsPasPolicy,filteredCoverageResponse2);
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void checkUiCoverageLimits(boolean policyWithOldLimits, List<String> pdLimits, Coverage filteredCoverageResponse) {
+		Coverage toMatch = Coverage.create(CoverageInfo.PD);
+		if (policyWithOldLimits) {
+			assertSoftly(softly -> {
+				softly.assertThat(pdLimits.get(0)).contains("$10,000");
+				softly.assertThat(pdLimits.get(1)).contains("$15,000");
+			});
+
+		} else {
+			assertSoftly(softly -> {
+				softly.assertThat(pdLimits.get(0)).contains("$25,000");
+				softly.assertThat(pdLimits.get(1)).contains("$50,000");
+			});
+			toMatch = Coverage.create(CoverageInfo.PD).removeAvailableLimit(CoverageLimits.COV_10000).removeAvailableLimit(CoverageLimits.COV_15000);
+		}
+		assertThat(filteredCoverageResponse).isEqualToIgnoringGivenFields(toMatch, "coverageType");
 	}
 
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
@@ -3174,7 +3229,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas17642_UpdateCoverageADBBody(PolicyType policyType) {
 		assertSoftly(softly -> {
-
 			TestData td = getPolicyTD("DataGather", "TestData_AZ");
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("FourDrivers").getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab1")).resolveLinks();
@@ -3187,7 +3241,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-
 			String driverFNI = viewDriversResponse.driverList.get(0).oid;
 			String driverAFR = viewDriversResponse.driverList.get(1).oid;
 
@@ -3195,7 +3248,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(viewDriversResponse.driverList.get(1).availableCoverages.toString()).contains("ADB");
 
 			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getCoverageCd()).isEqualTo("ADB");
+			softly.assertThat(getCoverage(policyCoverageResponse.driverCoverages,"ADB").getCoverageCd()).isEqualTo("ADB");
+			softly.assertThat(getCoverage(policyCoverageResponse.driverCoverages,"ADB").getCoverageDescription()).isEqualTo("Automobile Death Benefit");
 
 			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getAvailableDrivers()).contains(driverFNI);
 			softly.assertThat(policyCoverageResponse.driverCoverages.get(0).getAvailableDrivers()).contains(driverAFR);
@@ -3225,11 +3279,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			policy.dataGather().start();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			softly.assertThat(PremiumAndCoveragesTab.tableFormsSummary.getRowContains("Forms", "ADB").isPresent()).isTrue();
+			premiumAndCoveragesTab.saveAndExit();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
-
 		});
-
 	}
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {

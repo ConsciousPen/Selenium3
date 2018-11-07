@@ -98,7 +98,7 @@ public class TestKYCityAndCountyTaxesForEndorsementFormsTemplate extends TestEnd
                 .getRowContains(HomeSSConstants.StateAndLocalTaxesTable.DESCRIPTION, HomeSSConstants.StateAndLocalTaxesTable.COUNTY_TAX)
                 .getCell(HomeSSConstants.StateAndLocalTaxesTable.TERM_PREMIUM).getValue());
 
-        assertThat(cityTax).isEqualTo(dwellingPremium.getPercentage(TAX_RATE_VALUE));
+        assertThat(cityTax).isEqualTo(dwellingPremium.add(endorsementsPremium).getPercentage(TAX_RATE_VALUE));
         assertThat(countyTax).isEqualTo(endorsementsPremium.add(dwellingPremium).getPercentage(TAX_RATE_VALUE));
 
     }
