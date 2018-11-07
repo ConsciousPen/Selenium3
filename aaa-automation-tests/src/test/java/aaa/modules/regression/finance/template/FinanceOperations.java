@@ -31,7 +31,7 @@ import toolkit.utils.datetime.DateTimeUtils;
 public abstract class FinanceOperations extends PolicyBaseTest {
 
     private static final String CANCELLATION = "cancellation";
-    private static final BigDecimal TOLERANCE_AMOUNT = new BigDecimal(4);
+    private static final BigDecimal TOLERANCE_AMOUNT = new BigDecimal(7);
     private static final String ZERO = "0";
 
     BillingAccount billingAccount = new BillingAccount();
