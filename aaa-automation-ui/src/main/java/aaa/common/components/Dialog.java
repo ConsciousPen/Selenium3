@@ -2,7 +2,9 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.components;
 
+import org.mortbay.log.Log;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import aaa.common.metadata.SearchMetaData;
 import toolkit.datax.TestData;
