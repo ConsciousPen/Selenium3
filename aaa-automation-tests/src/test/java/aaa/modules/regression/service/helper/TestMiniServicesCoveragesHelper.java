@@ -3798,14 +3798,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage uimconvCoverageExpected;
 		if (testWithUimconv) {
 			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_YES);
-			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange().changeLimit(CoverageLimits.COV_TRUE_YES);
+			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange().changeLimit(CoverageLimits.COV_TRUE);
 		} else {
 			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_NO);
 			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange();
 		}
 
 		assertThat(uimconvCoverageActual).isEqualToComparingFieldByField(uimconvCoverageExpected);
-		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription");
+		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription", "availableLimits");
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {

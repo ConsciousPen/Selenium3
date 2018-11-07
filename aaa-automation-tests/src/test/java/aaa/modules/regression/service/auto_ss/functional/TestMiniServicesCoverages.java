@@ -1102,7 +1102,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
-	public void pas15265_WithOutUnderInsuredConversionCoverageCTBody(@Optional("CT") String state) {
+	public void pas15265_WithOutUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
 		pas15265_UnderInsuredConversionCoverageCTBody(false);
 	}
 
@@ -1110,7 +1110,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.CT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
-	public void pas15265_WithUnderInsuredConversionCoverageCTBody(@Optional("CT") String state) {
+	public void pas15265_WithUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
 		pas15265_UnderInsuredConversionCoverageCTBody(true);
 	}
 

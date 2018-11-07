@@ -76,23 +76,23 @@ public enum AvailableCoverageLimits {
 	)),
 	UIMCONV_CT(ImmutableList.of(
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
-			CoverageLimits.COV_TRUE_YES
+			CoverageLimits.COV_TRUE
 	)),
 	UMBI_CT(ImmutableList.of(
-			CoverageLimits.COV_25000_50000,
-			CoverageLimits.COV_40000_80000,
-			CoverageLimits.COV_50000_100000,
-			CoverageLimits.COV_100000_200000,
-			CoverageLimits.COV_100000_300000,
-			CoverageLimits.COV_200000_600000,
-			CoverageLimits.COV_250000_500000,
-			CoverageLimits.COV_300000_500000,
-			CoverageLimits.COV_250000_500000,
-			CoverageLimits.COV_500000_1000000,
-			CoverageLimits.COV_600000_1000000,
-			CoverageLimits.COV_1000000_1000000,
-			CoverageLimits.COV_1000000_2000000,
-			CoverageLimits.COV_2000000_2000000
+			CoverageLimits.COV_2550,
+			CoverageLimits.COV_4080,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100200,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_200600,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_6001000,
+			CoverageLimits.COV_10001000,
+			CoverageLimits.COV_10002000,
+			CoverageLimits.COV_20002000
 	));
 
 	private final List<CoverageLimits> availableLimits;
