@@ -1113,8 +1113,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
 		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
 	}
-}
-
 
 	/**
 	 * @author Megha Gubbala
