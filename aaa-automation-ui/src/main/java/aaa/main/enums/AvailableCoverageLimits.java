@@ -35,6 +35,25 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_300000
 	)),
 
+	UIMPD(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
+
+	UMPD(ImmutableList.of(
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
+
 	MEDEXP_KS(ImmutableList.of(
 			CoverageLimits.COV_4500,
 			CoverageLimits.COV_10000,

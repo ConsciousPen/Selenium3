@@ -389,6 +389,38 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(filteredCoverageResponse).isEqualToIgnoringGivenFields(toMatch, "coverageType");
 	}
 
+	protected void pas17083_ViewUmpdAndUimpdCoveragesBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		//Policy coverage service
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
+		checkUmpdAndUimpdCoverages(coverageResponse,  CoverageLimits.COV_50000);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		PolicyCoverageInfo coverageResponse2 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		checkUmpdAndUimpdCoverages(coverageResponse2, CoverageLimits.COV_50000);
+
+		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("PD", "100000"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		checkUmpdAndUimpdCoverages(updateCoverageResponse, CoverageLimits.COV_100000);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void checkUmpdAndUimpdCoverages(PolicyCoverageInfo coverageResponse, CoverageLimits limit) {
+		Coverage filteredCoverageUimpd = getCoverage(coverageResponse.policyCoverages, CoverageInfo.UIMPD.getCode());
+		Coverage filteredCoverageUmpd = getCoverage(coverageResponse.policyCoverages, CoverageInfo.UMPD.getCode());
+		assertSoftly(softly -> {
+			//To check the coverages limits
+			Coverage toMatchUimpd = Coverage.create(CoverageInfo.UIMPD).changeLimit(limit).disableCanChange();
+			softly.assertThat(filteredCoverageUimpd).isEqualToIgnoringGivenFields(toMatchUimpd, "coverageType");
+
+			Coverage toMatchUmpd = Coverage.create(CoverageInfo.UMPD).changeLimit(limit).disableCanChange();
+			softly.assertThat(filteredCoverageUmpd).isEqualToIgnoringGivenFields(toMatchUmpd);
+		});
+	}
+
 	protected void pas11741_ViewManageVehicleLevelCoveragesForAZ(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
