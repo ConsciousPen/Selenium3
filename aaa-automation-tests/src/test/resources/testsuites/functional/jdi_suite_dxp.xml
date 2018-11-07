@@ -811,6 +811,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas15499_RegisteredOwner">
+        <parameter name="state" value="CT, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas15499_RegisteredOwnerDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
     <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
         <!--<parameter name="state" value="KS"/>-->
