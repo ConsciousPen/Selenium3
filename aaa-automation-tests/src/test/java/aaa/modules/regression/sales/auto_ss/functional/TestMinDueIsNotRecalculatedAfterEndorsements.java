@@ -31,7 +31,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Dominykas Razgunas
- * @name Test Create Auto SS policy
+ * @name Test Min Due Is Not Recalculated After Endorsements
  * @scenario
  * 1. Create Customer
  * 2. Create Auto policy with Eleen Pay Standard plan
