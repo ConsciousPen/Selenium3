@@ -257,29 +257,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         navigateToPropertyInfoTab();
+
+        getPropertyInfoTab().fillTab(td);
         viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
-        checkTblClaimRowCount(2);
+        checkTblClaimRowCount(3);
         getPropertyInfoTab().saveAndExit();
-        mainApp().close();
-
-        // Bind Policy
-        mainApp().open();
-        searchForPolicy(policyNumber);
-        policy.renew().start().submit();
-        navigateToPropertyInfoTab();
-        checkRemoveButtonAvailable(true);
-        calculatePremiumAndOpenVRD();
-        PropertyQuoteTab.RatingDetailsView.close();
-        navigateToBindTab();
-        getBindTab().submitTab();
-        overrideAllErrorsAndBind();
-        payTotalAmtDue(policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
-
-        checkAfterTXWasBound(policyNumber);
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
@@ -326,7 +311,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
-
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
