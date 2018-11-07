@@ -433,8 +433,8 @@ PAS-21826:
   summary: "CA Property Products Not Showing Claims on VRD Page With Loss Amount < $2001"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage.pas17772_testClaimPointsVRDPage,
-            aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage.pas17772_testClaimPointsVRDPage,
-            aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage.pas17772_testClaimPointsVRDPage,
-            aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage.pas17772_testClaimPointsVRDPage]
+  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage]
     messages: ["expected:<[4]> but was:<[3]>"]
