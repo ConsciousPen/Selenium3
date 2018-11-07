@@ -1133,7 +1133,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 		pas17083_ViewUmpdAndUimpdCoveragesBody();
 	}
-}
 
 	/**
 	 * @author Megha Gubbala

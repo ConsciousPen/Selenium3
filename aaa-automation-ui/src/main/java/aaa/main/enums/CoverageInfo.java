@@ -4,23 +4,6 @@ import java.util.List;
 
 public enum CoverageInfo {
 
-	BPIP("BPIP", "Basic Personal Injury Protection Coverage", CoverageLimits.COV_10000, AvailableCoverageLimits.BPIP_CL.getAvailableLimits()),
-	ADDPIP("ADDPIP", "Additional Personal Injury Protection Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.ADDPIP_CL.getAvailableLimits()),
-	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_CL.getAvailableLimits()),
-	GPIP("GPIP", "Guest Personal Injury Protection", CoverageLimits.COV_0, AvailableCoverageLimits.GPIP_CL.getAvailableLimits()),
-	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN.getAvailableLimits(), "Per Accident"),
-	UIMPD("UIMPD", "Underinsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UIMPD.getAvailableLimits()),
-	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD.getAvailableLimits(), "Per Accident"),
-
-	PIP_KS_4500("PIP", "Basic Personal Injury Protection", null, ImmutableList.of()),
-	PIP_KS_10000_25000("PIP", "Added Personal Injury Protection",  null, ImmutableList.of()),
-	WORKLOSS_KS_4500("WORKLOSS", "Work Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month/Max 1 Year"),
-	WORKLOSS_KS_10000_25000("WORKLOSS", "Work Loss", CoverageLimits.COV_1500, ImmutableList.of(), "Per Month/Max 2 Year"),
-	MEDEXP_KS("MEDEXP", "Medical Expense", CoverageLimits.COV_4500, AvailableCoverageLimits.MEDEXP_KS.getAvailableLimits(), "Per Person"),
-	REHABEXP_KS("REHABEXP", "Rehabilitation Expense", CoverageLimits.COV_4500, ImmutableList.of(), "Per Person"),
-	ESSENSERV_KS("ESSENSERV", "Essential Services", CoverageLimits.COV_25, ImmutableList.of(), "Per Day/Max 365 Days"),
-	FUNEXP_KS("FUNEXP", "Funeral Expenses", CoverageLimits.COV_2000, ImmutableList.of(), "Per Person"),
-	SURVLOSS_KS("SURVLOSS", "Survivor's Loss", CoverageLimits.COV_900, ImmutableList.of(), "Per Month");
 	BPIP("BPIP", "Basic Personal Injury Protection Coverage", CoverageLimits.COV_10000, AvailableCoverageLimits.BPIP_CL),
 	ADDPIP("ADDPIP", "Additional Personal Injury Protection Coverage", CoverageLimits.COV_0, AvailableCoverageLimits.ADDPIP_CL),
 	PIPDED("PIPDED", "Personal Injury Protection Deductible", CoverageLimits.DED_0, AvailableCoverageLimits.PIPDED_CL),
@@ -41,7 +24,9 @@ public enum CoverageInfo {
 	EUIM_MD("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_FALSE, AvailableCoverageLimits.EUIM_MD, null),
 	EUIM_MD_TRUE("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_TRUE, AvailableCoverageLimits.EUIM_MD, null),
 	BI("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI, "Per Person/Per Accident"),
-	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN, "Per Accident");
+	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN, "Per Accident"),
+	UIMPD("UIMPD", "Underinsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UIMPD),
+	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Per Accident");
 
 	private final String code;
 	private final String description;
