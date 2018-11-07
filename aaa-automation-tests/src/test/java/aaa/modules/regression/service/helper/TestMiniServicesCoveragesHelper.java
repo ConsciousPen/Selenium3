@@ -2820,25 +2820,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 
-		//Pas-18202 Order of coverage for MD
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(0).getCoverageCd()).isEqualTo("BI");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(1).getCoverageCd()).isEqualTo("PD");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(2).getCoverageCd()).isEqualTo("UMBI");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(3).getCoverageCd()).isEqualTo("EUIM");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(4).getCoverageCd()).isEqualTo("UMPD");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(5).getCoverageCd()).isEqualTo("MEDPM");
-		softly.assertThat(policyCoverageResponse.policyCoverages.get(6).getCoverageCd()).isEqualTo("PIP");
-
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(0).getCoverageCd()).isEqualTo("COMPDED");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(1).getCoverageCd()).isEqualTo("COLLDED");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(2).getCoverageCd()).isEqualTo("GLASS");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(3).getCoverageCd()).isEqualTo("LOAN");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(4).getCoverageCd()).isEqualTo("RREIM");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(5).getCoverageCd()).isEqualTo("TOWINGLABOR");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(6).getCoverageCd()).isEqualTo("SPECEQUIP");
-		softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(7).getCoverageCd()).isEqualTo("NEWCAR");
-		//softly.assertThat(policyCoverageResponse.vehicleLevelCoverages.get(0).coverages.get(8).getCoverageCd()).isEqualTo("WL"); //do not have this coverage in response anymore. Karen Yifru doesn't care about it.
-
 		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
 		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
 
@@ -3825,6 +3806,38 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		int custEquipIndex = vehicleCoverageInfo.coverages.indexOf(custEquip);
 		int colldedIndex = vehicleCoverageInfo.coverages.indexOf(collded);
 		softly.assertThat(custEquipIndex).as("CUSTEQUIP should be displayed after COLLDED").isEqualTo(colldedIndex + 1);
+	}
+
+	protected void pas15265_UnderInsuredConversionCoverageCTBody(boolean testWithUimconv) {
+		TestData td = getPolicyDefaultTD();
+		String setUimconvValueUI;
+		if (testWithUimconv) {
+			setUimconvValueUI = "Yes";
+		} else {
+			setUimconvValueUI = "No";
+		}
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+				, AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE.getLabel()), setUimconvValueUI);
+
+		String policyNumber = openAppAndCreatePolicy(td);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage uimconvCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UIMCONV_CT.getCode());
+		Coverage uimbCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMBI_CT_NO.getCode()); //code is the same in all cases
+
+		Coverage uimbCoverageExpected;
+		Coverage uimconvCoverageExpected;
+		if (testWithUimconv) {
+			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_YES);
+			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange().changeLimit(CoverageLimits.COV_TRUE);
+		} else {
+			uimbCoverageExpected = Coverage.create(CoverageInfo.UMBI_CT_NO);
+			uimconvCoverageExpected = Coverage.create(CoverageInfo.UIMCONV_CT).disableCanChange();
+		}
+
+		assertThat(uimconvCoverageActual).isEqualToComparingFieldByField(uimconvCoverageExpected);
+		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription", "availableLimits");
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {

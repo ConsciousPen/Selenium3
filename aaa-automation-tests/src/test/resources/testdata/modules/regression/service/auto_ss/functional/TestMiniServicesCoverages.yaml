@@ -279,3 +279,21 @@ TestData_OrderOfCoverages_KS: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
   DriverLevelCoverages: ["ADB"],
 }
+
+TestData_OrderOfCoverages_CT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_WV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_MD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
+  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+}
