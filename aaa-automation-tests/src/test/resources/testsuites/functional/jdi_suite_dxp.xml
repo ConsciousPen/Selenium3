@@ -465,6 +465,7 @@
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
                     <include name="pas11654_MDEnhancedUIMBICoverage"/>
+                    <include name="pas20835_mdAndEnhancedCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -814,6 +815,7 @@
     <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
     <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
         <!--<parameter name="state" value="KS"/>-->
+        <!--<classes>-->
         <!--<classes>-->
             <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">-->
                 <!--<methods>-->

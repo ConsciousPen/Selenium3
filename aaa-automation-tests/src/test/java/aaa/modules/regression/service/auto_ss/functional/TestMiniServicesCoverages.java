@@ -1113,6 +1113,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
 		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
 	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
+	 * @scenario1
+	 * 1. Create a policy for MD.
+	 * 2. Create an endorsement for the policy.
+	 * 3. my policy has Enhanced UIM = False/No
+	 * 3. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury" and canChangeCoverage = false .
+	 * 4. Go to Pas change my policy Enhanced UIM = True/Yes.
+	 * 5. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury"and canChangeCoverage = false .
+	 * 6. and my label for UMPD is "Standard Uninsured Motorist Property Damage"
+	 * 7.Update any Coverage and verify if update showing same label
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835"})
+	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
+		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
+	}
 }
-
-
