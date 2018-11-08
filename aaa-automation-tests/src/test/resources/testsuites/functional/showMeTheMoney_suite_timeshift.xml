@@ -46,4 +46,10 @@
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueNegativePremium"/>
         </classes>
     </test>
+    <test name="PAS-21444 Earned Premium Calculation Changes - Cancellation - Flat" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
+        </classes>
+    </test>
 </suite>
