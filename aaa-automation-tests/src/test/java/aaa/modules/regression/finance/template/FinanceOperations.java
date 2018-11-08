@@ -172,12 +172,16 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         premiums.add(new TxWithTermPremium(TxType.REINSTATE, 329, 334.78, LocalDate.of(2019, 3, 2), LocalDate.of(2018, 9, 28)));
         validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
 
-        premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 7), LocalDate.of(2018, 11, 7)));
+        /*premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 7), LocalDate.of(2018, 11, 7)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1493, 1467, LocalDate.of(2019, 1, 8), LocalDate.of(2019, 1, 7)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1180, 1233, LocalDate.of(2019, 2, 8), LocalDate.of(2019, 2, 7)));
         premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1211, 1239, LocalDate.of(2019, 9, 8), LocalDate.of(2019, 9, 7)));
         premiums.add(new TxWithTermPremium(TxType.ROLL_BACK, 1344, 1344, LocalDate.of(2019, 9, 11), LocalDate.of(2018, 11, 7)));
-        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 7), LocalDate.of(2019, 11, 7));
+        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 7), LocalDate.of(2019, 11, 7));*/
+
+        premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
+        premiums.add(new TxWithTermPremium(TxType.OOS_CANCEL, 0, 18, LocalDate.of(2018, 12, 13), LocalDate.of(2018, 11, 13)));
+        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));
     }
 
     protected void validateEPCalculations(String policyNumber, List<TxType> txTypes, LocalDateTime effectiveDate, LocalDateTime expirationDate) {
@@ -237,9 +241,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
                     calculatedEarnedPremiums.put(txWithPremium, epForEndorsement);
                     break;
                 case CANCEL:
-                    Map<LocalDate, BigDecimal> epForCancel = calculateEpForEndorsement(
-                            txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom);
-                    calculatedEarnedPremiums.put(txWithPremium, epForCancel);
+                    calculateEpForOosCancel(
+                            txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom, calculatedEarnedPremiums);
                     break;
                 case REINSTATE:
                     calculateEpForReinstatement(
