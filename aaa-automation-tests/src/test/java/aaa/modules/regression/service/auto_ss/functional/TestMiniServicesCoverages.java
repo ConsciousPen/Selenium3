@@ -494,9 +494,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS})
+			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS,
+			Constants.States.CT, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -617,19 +618,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2. run view coverage service  see the Enhanced UIM coverage selection :canChangeCoverage = true and customerView = true
 	 * 3. Update EUIM select coverage and verify response.
 	 * 4. Update EUIM remove coverage and verify response.
-	 * PAS:18202:
-	 * 1.Verify order of coverages
-	 * Bodily Injury
-	 *  Property Damage
-	 *  Uninsured/Underinsured Motorist Bodily Injury
-	 *  Enhanced UM
-	 *  Uninsured Motorist Property Damage
-	 *  Medical Payments
-	 *  Personal Injury Protection
 	 * 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654"})
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
@@ -652,7 +644,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
 	public void pas20675_TortCoverage(@Optional("KY") String state) {
 		assertSoftly(softly ->
-
 				pas20675_TortCoverageBody(softly, getPolicyType())
 		);
 	}
@@ -745,7 +736,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
 
 		pas17642_UpdateCoverageADBBody(getPolicyType());
-
 	}
 
 	/**
@@ -754,7 +744,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario1
 	 * 1. Create policy for Ky
 	 * 2. Run view coverages service. check  UM and UIM coverages are separate
-	 * and UM Coverage has cusstomerDisplayed = true
+	 * and UM Coverage has customerDisplayed = true
 	 * and UIM Coverage has canChangeCoverage = false
 	 * 3. run update coverage service update BI limit to "25000/50000";
 	 * 4. verify UIM UMUIM is same.
@@ -776,7 +766,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas19627_UMAndUimCoverage(@Optional("KY") String state) {
 
 		pas19627_UMAndUimCoverageBody(getPolicyType());
-
 	}
 
 	/**
@@ -1091,6 +1080,38 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario1
+	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = no
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsement coverages service
+	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'Uninsured/Underinsured Motorist Bodily Injury' (UIMB) coverage
+	 * @scenario2
+	 * 1. Create CT Auto policy in PAS with 'Underinsured Motorist Conversion Coverage' (UIMCONV) = yes
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsement coverages service
+	 * 4. Validate 'Underinsured Motorist Conversion Coverage'(UIMCONV) and 'ninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage' (UIMB) coverage
+	 *
+	 * @NOTE: Probably should be able to update these tests with Update story when it will be in sprint. Probably both tests then could be consolidated in one.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
+	public void pas15265_WithOutUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageCTBody(false);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15265"})
+	public void pas15265_WithUnderInsuredConversionCoverageCT(@Optional("CT") String state) {
+		pas15265_UnderInsuredConversionCoverageCTBody(true);
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name View Coverages - PD Limits
 	 * @scenario
@@ -1113,6 +1134,47 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
 		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverage - UMPD and UIMPD (WV)
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Hit view policy coverages service.
+	 * 3. Check UMPD and UIMPD coverages
+	 * 4. Create endorsement outside of PAS
+	 * 5. Hit view endorsement coverages service
+	 * 6. Check the same coverages again.
+	 * 7. Update PD coverage.
+	 * 8. Check the response again.
+	 * 9. Rate and bind.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17083"})
+	public void pas17083_ViewUmpdAndUimpdCoverages(@Optional("WV") String state) {
+
+		pas17083_ViewUmpdAndUimpdCoveragesBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
+	 * @scenario1
+	 * 1. Create a policy for MD.
+	 * 2. Create an endorsement for the policy.
+	 * 3. my policy has Enhanced UIM = False/No
+	 * 3. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury" and canChangeCoverage = false .
+	 * 4. Go to Pas change my policy Enhanced UIM = True/Yes.
+	 * 5. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury"and canChangeCoverage = false .
+	 * 6. and my label for UMPD is "Standard Uninsured Motorist Property Damage"
+	 * 7.Update any Coverage and verify if update showing same label
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835"})
+	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
+		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
+	}
 }
-
-

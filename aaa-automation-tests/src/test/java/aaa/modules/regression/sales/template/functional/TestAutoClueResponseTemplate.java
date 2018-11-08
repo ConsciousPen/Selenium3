@@ -97,7 +97,7 @@ public abstract class TestAutoClueResponseTemplate extends PolicyBaseTest {
 			// Check That driver1 has 3 Claims returned
 			checkTblActivityRowCount(3);
 			// Switch to driver 2
-			new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab().tableDriverList.selectRow(1);
+			DriverTab.tableDriverList.selectRow(1);
 			// Check That driver2 has 3 Claims returned
 			checkTblActivityRowCount(3);
 		} else {
@@ -106,7 +106,7 @@ public abstract class TestAutoClueResponseTemplate extends PolicyBaseTest {
 			// Check That driver1 has 3 Claims returned
 			checkTblActivityRowCount(3);
 			// Switch to driver 2
-			new DriverTab().tableDriverList.selectRow(1);
+			DriverTab.tableDriverList.selectRow(1);
 			// Check That driver2 has 3 Claims returned
 			checkTblActivityRowCount(3);
 		}
@@ -114,9 +114,9 @@ public abstract class TestAutoClueResponseTemplate extends PolicyBaseTest {
 
 	private void checkTblActivityRowCount(Integer rowCount){
 		if (isStateCA()){
-			assertThat(new aaa.main.modules.policy.auto_ca.defaulttabs.DriverTab().tableActivityInformationList.getRowsCount()).isEqualTo(rowCount);
+			assertThat(DriverTab.tableActivityInformationList.getRowsCount()).isEqualTo(rowCount);
 		} else {
-			assertThat(new DriverTab().tableActivityInformationList.getRowsCount()).isEqualTo(rowCount);
+			assertThat(DriverTab.tableActivityInformationList.getRowsCount()).isEqualTo(rowCount);
 		}
 	}
 
