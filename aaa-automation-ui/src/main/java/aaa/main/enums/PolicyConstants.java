@@ -196,6 +196,8 @@ public final class PolicyConstants {
 
     public static final class PolicyEndorsementFormsTable {
         public static final String DESCRIPTION = "Description";
+        public static final String TERM_PREMIUM = "Term Premium ($)";
+        public static final String INCLUDED = "Included";
     }
 
     public static final class PolicyPupPropertyInformationTable {
@@ -257,7 +259,7 @@ public final class PolicyConstants {
         public static final String CAUSE_OF_LOSS = "Cause of loss";
         public static final String AMOUNT_OF_LOSS = "Amount of loss";
         public static final String CLAIM_STATUS = "Claim Status";
-        public static final String CHARGEABLE = "Chargeable";
+        public static final String INCLUDED_IN_RATING_AND_ELIGIBILITY = "Include in Rating and Eligibility";
         public static final String SOURCE = "Source";
         public static final String MODIFY = "Modify";
     }

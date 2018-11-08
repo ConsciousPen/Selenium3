@@ -9,7 +9,7 @@ public class GroupJobs {
 	public static Job groupaaaRefundDisbursementAsyncJob = new Job("groupaaaRefundDisbursementAsyncJob");
 	public static Job grouppolicyTransactionLedgerJob = new Job("grouppolicyTransactionLedgerJob");
 	public static Job groupautomatedProcessingStrategyStatusUpdateJob = new Job("groupautomatedProcessingStrategyStatusUpdateJob");
-	public static Job grouppolicyAutomatedRenewalAsyncTaskGenerationJob = new Job("grouppolicyAutomatedRenewalAsyncTaskGenerationJob");
+	public static Job groupaaapolicyAutomatedRenewalAsyncTaskGenerationJob = new Job("groupaaapolicyAutomatedRenewalAsyncTaskGenerationJob");
 	public static Job groupactivityHistoryJob = new Job("groupactivityHistoryJob");
 	public static Job groupaaaDocGenBatchJob = new Job("groupaaaDocGenBatchJob");
 	public static Job groupaaaBalanceTransferConversionAsyncJob = new Job("groupaaaBalanceTransferConversionAsyncJob");

@@ -1,0 +1,48 @@
+TestDataSameNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    'Use Original Policy Number?': 'Yes'
+  }
+}
+
+TestDataFutureSameNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today+3d>,
+    'Use Original Policy Number?': 'Yes'
+  }
+}
+
+TestDataNewNumber: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=1
+    #'Use Original Policy Number?': 'No'
+  }
+}
+
+TestDataSameDate: {
+  RewriteActionTab: {
+    Effective Date:  $<today>,
+    Rewrite reason: index=2
+  }
+}
+
+TestDataForBindRewrittenPolicy: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: '@ReportsTab',
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {},
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: '@home_ss_ho4@DataGather@UnderwritingAndApprovalTab',
+  DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
+  BindTab: {},
+  PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  PublicProtectionClass: [{Report: 'Order Report'}]
+}
