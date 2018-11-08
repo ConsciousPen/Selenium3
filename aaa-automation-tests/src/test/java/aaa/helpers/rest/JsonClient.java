@@ -213,7 +213,6 @@ public class JsonClient {
 		String token;
 		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CsaaTestProperties.OAUTH2_ENABLED))) {
 			if (StringUtils.containsIgnoreCase(url,"claims-assignment")) {
-				//String token = "mQXVTWdbSDPFoJDw1wCOYqFyKRsq";
 				token = getClaimsBearerToken();
 			} else {
 				token = getBearerToken();
