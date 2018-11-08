@@ -528,9 +528,9 @@ public class BaseTest {
 	}
 
 	private String getStateTestDataName(String tdName) {
-		String state = getState();
-		// if (!state.equals(States.UT) && !state.equals(States.CA))
-		tdName = tdName + "_" + state;
+		if (StringUtils.isNotBlank(getState())) {
+			tdName = tdName + "_" + getState();
+		}
 		return tdName;
 	}
 
