@@ -26,6 +26,7 @@ public final class BillingConstants {
 		public static final String MORTGAGEE_BILL = "Mortgagee Bill";
 		public static final String MORTGAGEE_BILL_RENEWAL = "Mortgagee Bill (Renewal)";
 		public static final String ELEVEN_PAY = "Eleven Pay Standard";
+		public static final String AUTO_ELEVEN_PAY = "Eleven Pay - Standard";
 		public static final String ELEVEN_PAY_RENEWAL = "Eleven Pay Standard (Renewal)";
 		public static final String ANNUAL = "Annual";
 		public static final String MONTHLY = "Monthly";
