@@ -5,6 +5,7 @@ import java.util.*;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -243,17 +244,24 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		}
 
 		if (numOfAddlResidences > 0) {
+			if (openLPolicy.getRentalUnitsCount() > 0) {
+				numOfAddlResidences = numOfAddlResidences + 1;
+			}
 			for (int i = 0; i < numOfAddlResidences; i++) {
 				Map<String, Object> residency = new HashMap<>();
-				if (residency.size() < 1) {
+				if (additionalResidenciesData.size() < 1) {
 					residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ADD.getLabel(), "Yes");
 				}
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.POLICY_TYPE.getLabel(), "HO6");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.ZIP_CODE.getLabel(), openLPolicy.getDwelling().getAddress().getZipCode());
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.STREET_ADDRESS_1.getLabel(), RandomUtils.nextInt(1001, 9999) + " S LAST CHANCE TRL");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.POLICY_NUMBER.getLabel(), RandomUtils.nextInt(100001, 999999));
-				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.LIMIT_OF_LIABILITY.getLabel(), "$100.000");
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.EFFECTIVE_DATE.getLabel(), TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.LIMIT_OF_LIABILITY.getLabel(), "$100,000");
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.NUMBER_OF_UNITS_ACRES.getLabel(), "2");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.OCCUPANCY_TYPE.getLabel(), "Secondary Residence");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.CURRENT_CARRIER.getLabel(), "regex=.*\\S.*");
+				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.DEDUCTIBLE.getLabel(), "100");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.VALIDATE_ADDRESS_BTN.getLabel(), "Yes");
 				residency.put(PersonalUmbrellaMetaData.UnderlyingRisksPropertyTab.AdditionalResidencies.VALIDATE_ADDRESS_DIALOG.getLabel(), new SimpleDataProvider());
 				additionalResidenciesData.add(new SimpleDataProvider(residency));
@@ -452,7 +460,10 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (tdAutomobiles.size() < 1) {
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
-				//addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
+				if ("DE".equals(getState())) {
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.POLICY_NUM.getLabel(), String.format("%sSS123456", getState()));
+				}
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 				if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));

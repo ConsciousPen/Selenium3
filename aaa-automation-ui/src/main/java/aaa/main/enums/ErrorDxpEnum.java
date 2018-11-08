@@ -123,7 +123,6 @@ public final class ErrorDxpEnum {
 			return code;
 		}
 
-
 		public String getMessage() {
 			return message;
 		}
