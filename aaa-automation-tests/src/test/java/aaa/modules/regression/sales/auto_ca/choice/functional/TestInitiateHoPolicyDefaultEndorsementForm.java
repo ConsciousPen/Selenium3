@@ -39,7 +39,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
-	public void pas21410_dataPrepAutoCASelectPolicyCreation(@Optional("CA") String state) {
+	public void pas21410_dataPrepAutoCAChoicePolicyCreation(@Optional("CA") String state) {
 		policyNumber = openAppAndCreatePolicy();
 	}
 
