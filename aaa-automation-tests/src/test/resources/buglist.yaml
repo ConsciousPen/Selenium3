@@ -438,3 +438,12 @@ PAS-21826:
             aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
             aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage]
     messages: ["expected:<[4]> but was:<[3]>"]
+PAS-20379:
+  summary: "At renewal when additional premium (AP) endorsement is followed by reduced premium (RP) endorsement, minimum due is getting recalculated. "
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage,
+            aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage.pas19183_testClaimPointsVRDPage]
+    messages: ["expected:"]
