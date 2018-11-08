@@ -12,10 +12,10 @@
             <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest"/>
         </classes>
     </test>
-    <test name="Manual Hybrid Conversion verify AHMVXX2 not generated">
+    <test name="Manual Hybrid Conversion Documents generation verification">
         <parameter name="state" value="OR"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.ManualHybridConversionDocsTest1"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario1"/>
         </classes>
     </test>
 

@@ -1,13 +1,13 @@
 TestData: {
-  DriverTab: ['@Driver', '@Driver_Mvr']
+  DriverTab: ['@Driver1', '@Driver_Mvr']
 }
 
-Driver: {
+Driver1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License State: 'OR',
-  License Number: 001234567
+  License Number: '001234567'
 }
 
 Driver_Mvr: {
@@ -24,7 +24,7 @@ Driver_Mvr: {
   License Type: 'Licensed (US)',
   Permit Before License: 'No',
   License State: 'OR',
-  License Number: 001234567
+  License Number: '001234568'
 }
 
 Driver_Mvr_Excluded: {
@@ -72,5 +72,5 @@ DocumentsAndBindTab: {
 }
 
 AAAProductOwned: {
-  Membership Number: 3111111111111121
+  Membership Number: '3111111111111121'
 }
