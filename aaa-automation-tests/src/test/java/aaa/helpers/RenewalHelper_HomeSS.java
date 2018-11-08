@@ -3,30 +3,30 @@ package aaa.helpers;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import toolkit.datax.TestData;
 import toolkit.verification.CustomAssertions;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 /**
+ * This class is used to simplify renewal testing. <br>
+ * Create a new class object while viewing the Policy Summary Page of a bound policy.
  * @author Tyrone Jemison
- * TODO: Add State Variants to Each Timepoint Job Collection, to better account for State Deltas and make class more complete.
- * TODO: Add query to verify 'aaaRenewaltimelineIndicator' >= 2 before attempting renewalImageratingAsynctaskjob.
+ * It should be okay for this class to extend from HO3BaseTest, as the delta should be the state and not HomeSS vs HomeCA.
+ * Policy creation happens outside of this class, so getTimepoints() should return similar data as HO4, DP3, etc.
+ * This means the class should workd for other Home product types.
  */
 public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 {
+    // Class-level variables to hold data between various methods/terms
     String _policyNumber;
+    String _policyState;
     LocalDateTime _policyExpiraitonDate;
     LocalDateTime _policyEffectiveDate;
     LocalDateTime _policyStage1Date;
@@ -37,13 +37,26 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
     LocalDateTime _renewalBillGenDate;
     Long _timeDifferenceInDays_Stage3ToExpiration;
     Long _timeDifferenceInDays_Stage4ToExpiration;
+    boolean _bPrintDebugInfo = false;
     final String AAARENEWALTIMELINEIND_VALUETOSET = "3";
 
-    public RenewalHelper_HomeSS(LocalDateTime in_policyExpiraitonDate, Long timePoint1_AsRMinus, Long timePoint2_AsRMinus, boolean outputDataToLogs){
+
+    /**
+     * This constructor is used to simplify renewal testing and to facilitate testing into future terms. <br>
+     * Create a new RenewalHelper type object upon creation of a new policy, while on/viewing the Policy Summary Page.
+     * @param state The state the policy was created for/in.
+     * @param outputDataToLogs Print debug statements to log.debug?
+     */
+    public RenewalHelper_HomeSS(String state, boolean outputDataToLogs){
+        //Upon construction initialize and calculate all timepoints for moving through term.
         _policyNumber = PolicySummaryPage.getPolicyNumber();
-        _policyExpiraitonDate = in_policyExpiraitonDate;
-        _timeDifferenceInDays_Stage3ToExpiration = timePoint1_AsRMinus;
-        _timeDifferenceInDays_Stage4ToExpiration = timePoint2_AsRMinus;
+        String _policyExpiraitonDateAsString = AAAMembershipQueries.getPolicyExpirationDateFromSQL(_policyNumber).orElse("NULL RESPONSE!");
+        _policyExpiraitonDate = LocalDateTime.parse(_policyExpiraitonDateAsString, AAAMembershipQueries.SQLDateTimeFormatter);
+        _policyState = state;
+
+        // Determine Membership Timepoints by State
+        resolveMembershipTimepointsFromState();
+
         _policyStage3Date = _policyExpiraitonDate.minusDays(_timeDifferenceInDays_Stage3ToExpiration);
         _policyStage4Date = _policyExpiraitonDate.minusDays(_timeDifferenceInDays_Stage4ToExpiration);
         _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(_policyExpiraitonDate);
@@ -51,7 +64,10 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         _policyStage1Date = PolicySummaryPage.getEffectiveDate().plusDays(15l);
         _policyStage2Date = PolicySummaryPage.getEffectiveDate().plusDays(30l);
 
-        if (outputDataToLogs){
+        //Output debug logs?
+        _bPrintDebugInfo = outputDataToLogs;
+
+        if (_bPrintDebugInfo){
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
@@ -64,17 +80,19 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
     /**
      * This method houses the primary loop logic for traversing through multiple policies. <br>
+     * CALL THIS METHOD TO DRIVE CLASS THROUGH DESIRED NUMBER OF TERMS! <br>
      * This loop was given a sanity limit of 10 renewals, expecting never to test beyond that threshold without manual edits.
      * @param desiredTerm Quote/Initial Policy = 0. First Renewal = 1;
      */
     public void moveToGivenTerm(Integer desiredTerm){
         Integer currentTerm = 0; //A value of zero represents New Business
+
         while(currentTerm < desiredTerm){
             moveThroughStage1();
             moveThroughStage2();
             moveThroughStage3();
             moveThroughStage4();
-            handleRenewBillPay();
+            handleBillGenerationAndPayment();
             moveToNewTermAndSetNewTimepoints();
 
             currentTerm++;
@@ -83,67 +101,82 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         }
     }
 
+    /**
+     * Handles all Stage 1 Jobs and Processes.
+     * This includes: New Business + 15 Membership Validations.
+     */
     public void moveThroughStage1() {
-        if(_policyExpiraitonDate != null) {
-            moveToNB15();
+
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 1 <QA-LOG-DEBUG>"));
         }
-        else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
-        }
+
+        nbPlus15_MembershipValidation();
     }
 
+    /**
+     * Handles all Stage 2 Jobs and Processes.
+     * This includes: New Business + 30 Membership Validations.
+     */
     public void moveThroughStage2() {
-        if(_policyExpiraitonDate != null) {
-            moveToNB30();
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 2 <QA-LOG-DEBUG>"));
         }
-        else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
-        }
+
+        nbPlus30_MembershipValidation();
     }
 
+    /**
+     * Handles all Stage 3 Jobs and Processes. <br>
+     * This includes: Renewal Image Generation, Membership Timepoint 1.
+     */
     public void moveThroughStage3() {
-        if(_policyExpiraitonDate != null) {
-            // R-73
-            generateRenewalImage();
-            // R-63
-            moveToMembershipTimepoint1();
-            // R-60
-            // R-57
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 3 <QA-LOG-DEBUG>"));
         }
-        else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
-        }
+        rMinus73_generateRenewalImage();
+        rMinus63_MembershipTimepoint1();
+        rMinus60_SendCreditDiscolsure();
+        rMinus57_RunUnderWriterRules();
     }
 
+    /**
+     * Handles all Stage 4 Jobs and Processes. <br>
+     * This includes: Membership Timepoint 2.
+     */
     public void moveThroughStage4() {
-        if(_policyExpiraitonDate != null) {
-            // R-48
-            moveToMembershipTimepoint2();
-            // R-45
-            // R-36
-            // R-35
-            // R-20
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 4 <QA-LOG-DEBUG>"));
         }
-        else {
-            log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
-        }
+        rMinus48_MembershipTimepoint2();
+        rMinus45_PremiumCalculation();
+        rMinus36_LastDayToNonRenew();
+        rMinus35_ProposePolicy();
     }
 
-    public void handleRenewBillPay() {
-        TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+    /**
+     * Handles generating the renewal bill and making its payment via UI. <br>
+     * This includes: aaaRenewalNoticeBillAsyncJob ran twice, to better ensure bill generation. <br>
+     * This also includes advancing +2 days after bill is paid and updating policy status. <br>
+     * aaaRenewalNoticeBillAsyncJob is run twice, to better ensure bill generation.
+     */
+    public void handleBillGenerationAndPayment() {
+        // Do below chunk if state is not California
+        if (!_policyState.equalsIgnoreCase("CA")){
+            TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
+            JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
-        mainApp().open();
-        //DEBUGBREAKPOINT MANUALLY MAKE PAYMENT IN UI.
-        SearchPage.openBilling(_policyNumber);
-        new BillingAccount().acceptPayment().start();
-        new AcceptPaymentActionTab().setCheckNumber(123);
-        Tab.buttonOk.click();
-        mainApp().close();
+            mainApp().open();
+            SearchPage.openBilling(_policyNumber);
+            new BillingAccount().acceptPayment().start();
+            new AcceptPaymentActionTab().setCheckNumber(123);
+            Tab.buttonOk.click();
+            mainApp().close();
+        }
 
-        // Move forward one day. Update status. Move forward another day.
+        // Move forward two days. Update status.
         TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate.plusDays(2));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
@@ -152,49 +185,153 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
     }
 
+    /**
+     * Handles moving from an old term to a new term after paying the previous bill. <br>
+     * This simply advances us to NB+10 and captures timepoint values from the DB. <br>
+     * Policy number is intentionally not updated to avoid opening the UI.
+     */
     public void moveToNewTermAndSetNewTimepoints() {
         TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.plusDays(10));
-
-        mainApp().open();
-        SearchPage.openPolicy(_policyNumber);
         captureTimepoints();
-        mainApp().close();
-    }
-
-
-    private void moveToNB15() {
-        TimeSetterUtil.getInstance().nextPhase(_policyStage1Date);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-    }
-
-    private void moveToNB30() {
-        TimeSetterUtil.getInstance().nextPhase(_policyStage2Date);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-    }
-
-    private void generateRenewalImage() {
-        TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
     }
 
     /**
-     * Moves to STG3 and handles STG3 Jobs. (E.g.= AZ HomeSS -> R-63, R-60, R-57 jobs.
+     * Handles NB+15 Jobs and Processes - Membership Validation. <br>
+     * This includes: membershipValidationJob.
      */
-    private void moveToMembershipTimepoint1() {
+    private void nbPlus15_MembershipValidation() {
+        TimeSetterUtil.getInstance().nextPhase(_policyStage1Date);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.membershipValidationJob);
+
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        }
+    }
+
+    /**
+     * Handles NB+30 Jobs and Processes - Membership Validation. <br>
+     * This includes: membershipValidationJob.
+     */
+    private void nbPlus30_MembershipValidation() {
+        TimeSetterUtil.getInstance().nextPhase(_policyStage2Date);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.membershipValidationJob);
+
+        if (_bPrintDebugInfo) {
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        }
+    }
+
+    /**
+     * Handles R-73 Jobs and Processes, generating a renewal image for the policy. <br>
+     * This includes: renewalImageRatingAsyncTaskJob. <br>
+     * This method accounts for State Deltas.
+     */
+    private void rMinus73_generateRenewalImage() {
+        switch (_policyState) {
+            case "MD":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(88l));
+                break;
+            case "CT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(101l));
+                break;
+            case "KY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(108l));
+                break;
+            case "MT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(85l));
+                break;
+            case "WY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(85l));
+                break;
+            case "NY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(88l));
+                break;
+            case "WA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(85l));
+                break;
+            case "CA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(83l));
+                break;
+            default:
+                TimeSetterUtil.getInstance().nextPhase(_renewalImageGenDate);
+                break;
+        }
+
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+
+        if (_bPrintDebugInfo) {
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        }
+     }
+
+    /**
+     * Handles R-63 Jobs and Processes - Timepoint 1 Membership Validation. <br>
+     * This includes: aaaMembershipRenewalBatchOrderAsyncJob, policyAutomatedRenewalAsyncTaskGenerationJob.
+     */
+    private void rMinus63_MembershipTimepoint1() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage3Date);
-        log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+
+        if (_bPrintDebugInfo) {
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        }
+
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
         JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+    }
 
-        // R-57
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
+    /**
+     * Handles R-60 Jobs and Processes. <br>
+     * This only seems to apply to State='WV' and runs aaaCreditDisclosureNoticeJob.
+     */
+    private void rMinus60_SendCreditDiscolsure(){
+        if (_policyState.equalsIgnoreCase("WV")) {
+            JobUtils.executeJob(Jobs.aaaCreditDisclosureNoticeJob);
+        }
+
+        if (_bPrintDebugInfo) {
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM Moves ro R-60, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
+        }
+    }
+
+    /**
+     * Handles R-57 Jobs and Processes. <br>
+     * This includes: RenewalValidationAsyncTaskJob, aaaRenewalDataRefreshAsyncJob. <br>
+     * This also includes a manual update query to Oracle DB, updating aaaRenewalTimelineInd. <br>
+     * This extra query prepares the policy for rating in Stage 4. <br>
+     * This method accounts for State Deltas.
+     */
+    private void rMinus57_RunUnderWriterRules(){
+        switch (_policyState) {
+            case "MD":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(72l));
+                break;
+            case "CT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(85l));
+                break;
+            case "KY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(92l));
+                break;
+            case "MT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(69l));
+                break;
+            case "WY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(69l));
+                break;
+            case "NY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(72l));
+                break;
+            case "CA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(67l));
+                break;
+            default:
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
+                break;
+        }
+
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob);
         JobUtils.executeJob(Jobs.aaaRenewalDataRefreshAsyncJob);
@@ -202,29 +339,102 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         // Manually set aaaRenewalTimelineInd
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, AAARENEWALTIMELINEIND_VALUETOSET);
 
+        // Verify the DB took our update with an assertion on a SELECT query.
         String results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
         CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase(AAARENEWALTIMELINEIND_VALUETOSET);
     }
 
-    private void moveToMembershipTimepoint2() {
+    /**
+     * Handles R-48 Jobs and Processes. <br>
+     * This includes: aaaMembershipRenewalBatchOrderAsyncJob. <br>
+     */
+    private void rMinus48_MembershipTimepoint2() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage4Date);
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+    }
 
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(45l));
+    /**
+     * Handles R-45 Jobs and Processes. <br>
+     * This includes: renewalImageRatingAsyncTaskJob. <br>
+     * This method accounts for State Deltas.
+     */
+    private void rMinus45_PremiumCalculation(){
+        switch (_policyState) {
+            case "MD":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(60l));
+                break;
+            case "CT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(73l));
+                break;
+            case "KY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(80l));
+                break;
+            case "MT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
+                break;
+            case "WY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
+                break;
+            case "NY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(60l));
+                break;
+            case "WA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
+                break;
+            case "CA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(58l));
+                break;
+            default:
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(45l));
+                break;
+        }
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Rating, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+    }
 
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(35l));
+    /**
+     * Handles R-36 Jobs and Processes. <br>
+     * THIS DOES NOTHING AT THE MOMENT. TO BE IMPLEMENTED IF REQUIRED.
+     */
+    private void rMinus36_LastDayToNonRenew(){
+
+    }
+
+    /**
+     * Handles R-45 Jobs and Processes. <br>
+     * This includes: renewalOfferAsyncTaskJob. <br>
+     */
+    private void rMinus35_ProposePolicy(){
+        switch (_policyState) {
+            case "MD":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(50l));
+                break;
+            case "MT":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(47l));
+                break;
+            case "WY":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(47l));
+                break;
+            case "CA":
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(48l));
+                break;
+            default:
+                TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(35l));
+                break;
+        }
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
     }
 
+    /**
+     * Handles capturing and calculating all the timepoints from a provided policy. <br>
+     * This method captures Effective Date and Expiration Date from Oracle DB, then calculates all timepoints using these two values.
+     */
     private void captureTimepoints(){
-        _policyNumber = PolicySummaryPage.getPolicyNumber();
         String _policyEffectiveDateAsString = AAAMembershipQueries.getPolicyEffectiveDateFromSQL(_policyNumber).orElse("NULL RESPONSE!");
         _policyEffectiveDate = LocalDateTime.parse(_policyEffectiveDateAsString, AAAMembershipQueries.SQLDateTimeFormatter);
         _policyStage1Date = _policyEffectiveDate.plusDays(15l);
@@ -239,5 +449,59 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(_policyExpiraitonDate);
         _renewalBillGenDate = getTimePoints().getBillGenerationDate(_policyExpiraitonDate);
 
+        if (_bPrintDebugInfo){
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: Membership Timepoint 1 (Stage3) = '%s' </QA-LOG-DEBUG>", _policyStage3Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: Membership Timepoint 2 (Stage4) = '%s' </QA-LOG-DEBUG>", _policyStage4Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: Renewal Image Generation Date = '%s' </QA-LOG-DEBUG>", _renewalImageGenDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper NEW TERM VALUES: Renewal Bill Generation Date = '%s' </QA-LOG-DEBUG>", _renewalBillGenDate.toString()));
+        }
+    }
+
+    /**
+     * This method will evaluate Membership Timepoint 1 and 2 values, using the _statePolicy class variable. <br>
+     * Once the appropriate STG3 and STG4 timepoints are determined, they are set as class variables.
+     */
+    private void resolveMembershipTimepointsFromState(){
+        switch(_policyState){
+            case "MD":
+                _timeDifferenceInDays_Stage3ToExpiration = 78l;
+                _timeDifferenceInDays_Stage4ToExpiration = 63l;
+                break;
+            case "CT":
+                _timeDifferenceInDays_Stage3ToExpiration = 91l;
+                _timeDifferenceInDays_Stage4ToExpiration = 76l;
+                break;
+            case "KY":
+                _timeDifferenceInDays_Stage3ToExpiration = 98l;
+                _timeDifferenceInDays_Stage4ToExpiration = 83l;
+                break;
+            case "MT":
+                _timeDifferenceInDays_Stage3ToExpiration = 75l;
+                _timeDifferenceInDays_Stage4ToExpiration = 60l;
+                break;
+            case "WY":
+                _timeDifferenceInDays_Stage3ToExpiration = 75l;
+                _timeDifferenceInDays_Stage4ToExpiration = 60l;
+                break;
+            case "NY":
+                _timeDifferenceInDays_Stage3ToExpiration = 78l;
+                _timeDifferenceInDays_Stage4ToExpiration = 63l;
+                break;
+            case "WA":
+                _timeDifferenceInDays_Stage3ToExpiration = 63l;
+                _timeDifferenceInDays_Stage4ToExpiration = 60l;
+                break;
+            case "CA":
+                _timeDifferenceInDays_Stage3ToExpiration = 73l;
+                _timeDifferenceInDays_Stage4ToExpiration = 59l;
+                break;
+            default:
+                _timeDifferenceInDays_Stage3ToExpiration = 63l; // <-- R-63 and R-48 being default timepoints for HomeSS policies.
+                _timeDifferenceInDays_Stage4ToExpiration = 48l;
+                break;
+        }
     }
 }
