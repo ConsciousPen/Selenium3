@@ -652,7 +652,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654, pas18202"})
 	public void pas20675_TortCoverage(@Optional("KY") String state) {
 		assertSoftly(softly ->
-
 				pas20675_TortCoverageBody(softly, getPolicyType())
 		);
 	}
@@ -745,7 +744,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
 
 		pas17642_UpdateCoverageADBBody(getPolicyType());
-
 	}
 
 	/**
@@ -754,7 +752,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario1
 	 * 1. Create policy for Ky
 	 * 2. Run view coverages service. check  UM and UIM coverages are separate
-	 * and UM Coverage has cusstomerDisplayed = true
+	 * and UM Coverage has customerDisplayed = true
 	 * and UIM Coverage has canChangeCoverage = false
 	 * 3. run update coverage service update BI limit to "25000/50000";
 	 * 4. verify UIM UMUIM is same.
@@ -776,7 +774,6 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas19627_UMAndUimCoverage(@Optional("KY") String state) {
 
 		pas19627_UMAndUimCoverageBody(getPolicyType());
-
 	}
 
 	/**
@@ -1113,6 +1110,47 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20818_ViewPdCoverageLimitsBody("12/7/2018", true); //this is the date when we had more PD limits
 		pas20818_ViewPdCoverageLimitsBody("12/8/2018", false); //that date or later, two PD limits should be not displaying anymore
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Coverage - UMPD and UIMPD (WV)
+	 * @scenario
+	 * 1. Create policy.
+	 * 2. Hit view policy coverages service.
+	 * 3. Check UMPD and UIMPD coverages
+	 * 4. Create endorsement outside of PAS
+	 * 5. Hit view endorsement coverages service
+	 * 6. Check the same coverages again.
+	 * 7. Update PD coverage.
+	 * 8. Check the response again.
+	 * 9. Rate and bind.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17083"})
+	public void pas17083_ViewUmpdAndUimpdCoverages(@Optional("WV") String state) {
+
+		pas17083_ViewUmpdAndUimpdCoveragesBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
+	 * @scenario1
+	 * 1. Create a policy for MD.
+	 * 2. Create an endorsement for the policy.
+	 * 3. my policy has Enhanced UIM = False/No
+	 * 3. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury" and canChangeCoverage = false .
+	 * 4. Go to Pas change my policy Enhanced UIM = True/Yes.
+	 * 5. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury"and canChangeCoverage = false .
+	 * 6. and my label for UMPD is "Standard Uninsured Motorist Property Damage"
+	 * 7.Update any Coverage and verify if update showing same label
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835"})
+	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
+		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
+	}
 }
-
-
