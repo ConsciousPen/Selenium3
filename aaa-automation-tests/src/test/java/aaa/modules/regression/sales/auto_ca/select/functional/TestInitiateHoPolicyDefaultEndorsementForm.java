@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -11,21 +12,26 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
-@StateList(states = States.CA)
+@StateList(states = Constants.States.CA)
 
 public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQuoteTemplate {
 
 	private String policyNumber = null;
+
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_SELECT;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test Initiate HO policies and check that Endorsement HO29 is included
 	 * @scenario
 	 * 1. Create Customer
-	 * 2. Create CA Choice Auto Policy
-	 * 3. Verify Policy status is '	 Policy Active'
+	 * 2. Create CA Select Auto Policy
+	 * 3. Verify Policy status is 'Policy Active'
 	 * 4. Initiate Property Policy from PolicySummary Page
-	 * 5. Check that Endorsement HO29 is included. not included for DP3
+	 * 5. Check that Endorsement HO29 is included for HO property. And is not included for DP3
 	 * @details
 	 */
 
@@ -34,7 +40,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_dataPrepAutoCASelectPolicyCreation(@Optional("CA") String state) {
-		policyNumber = openAppAndCreatePolicy(getStateTestData(testDataManager.policy.get(PolicyType.AUTO_CA_SELECT), "DataGather"));
+		policyNumber = openAppAndCreatePolicy();
 	}
 
 	@Parameters({"state"})
@@ -66,7 +72,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 
 	@Parameters({"state"})
 	@StateList(states = States.CA)
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO6")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is not included DP3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceDP3(@Optional("CA") String state) {
 		searchForPolicy(policyNumber);
