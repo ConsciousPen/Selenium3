@@ -9,7 +9,13 @@
     <test name="Auto SS Manual Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ, DE, VA, PA, MD" />
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest" />
+            <class name="aaa.modules.regression.conversions.auto_ss.ManualConversionTest"/>
+        </classes>
+    </test>
+    <test name="Manual Hybrid Conversion Documents generation verification">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario1"/>
         </classes>
     </test>
 

@@ -518,4 +518,9 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
         </classes>
     </test>
+	<test name="OR Regression Tests" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsCreate"/>
+        </classes>
+    </test>
 </suite>

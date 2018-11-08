@@ -132,9 +132,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		mainApp().open();
 
 		TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1");
-		TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2");
-		TestData td_sc2_3 = getTestSpecificTD("TestData_SC2_3");
-		TestData td_removeAllClaims = getTestSpecificTD("TestData_RmoveAllClaims");
 
 		//getCopiedQuote();
 		createCustomerIndividual();
@@ -197,68 +194,6 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		}
 		errorTab.cancel();
 
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.fillTab(td_removeAllClaims);
-		propertyInfoTab.fillTab(td_sc2_2);
-
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		bindTab.btnPurchase.click();
-
-		switch (getState()) {
-			case "NJ":
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
-				break;
-			case "OR":
-			case "SD":
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
-				break;
-			default:
-				//WM-0912: Coverage A greater than 120% of replacement cost requires underwriting approval
-				//errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000); //rule disabled according to PPS-371
-				//WM-0549: Dwellings built prior to 1940 must have all four major systems fully renovated.
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
-				//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
-				//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
-				//ER-1607: Applicants with any liability claims in the past 3 years are ineligible
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
-				break;
-		}
-		errorTab.cancel();
-
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		propertyInfoTab.fillTab(td_removeAllClaims);
-		propertyInfoTab.fillTab(td_sc2_3);
-
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		premiumsTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-		bindTab.btnPurchase.click();
-
-		if (!getState().equals("MD")) {
-			//For MD there is delta-rule AAA_HO_SS1162304_MD - Coverage A greater than $2,000,000 requires underwriting approval
-			//WM-0531: Coverage A greater than $1,000,000 requires underwriting approval
-			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1162304);
-		}
-
-		if (!getState().equals("OR")) {
-			//For OR this rule verifying in Delta tests: it's displaying when one more claim added older than this
-			//WM-0530: Applicants with any paid claims over $25,000 in the last 3 years are ineligible.
-			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
-		}
-		errorTab.cancel();
-
 		BindTab.buttonSaveAndExit.click();
 		log.info("TEST Determine Eligibility SC2: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
@@ -303,5 +238,82 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 		log.info("TEST Determine Eligibility SC3: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
 
 	}
+	
+	@Parameters({"state"})
+	@StateList(states = { States.AZ, States.UT })
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
+	public void testDetermineEligibility_SC4(@Optional("") String state) {
+		mainApp().open();
+
+		TestData td_sc2_1 = getTestSpecificTD("TestData_SC2_1");
+		TestData td_sc2_2 = getTestSpecificTD("TestData_SC2_2");
+		TestData td_sc2_3 = getTestSpecificTD("TestData_SC2_3");
+
+		//getCopiedQuote();
+		createCustomerIndividual();
+		createQuote();
+
+		policy.dataGather().start();
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+		ApplicantTab applicantTab = new ApplicantTab();
+		applicantTab.fillTab(td_sc2_1);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+			
+		propertyInfoTab.fillTab(td_sc2_2);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		PremiumsAndCoveragesQuoteTab premiumsTab = new PremiumsAndCoveragesQuoteTab();
+		premiumsTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		BindTab bindTab = new BindTab();
+		bindTab.btnPurchase.click();
+
+		ErrorTab errorTab = new ErrorTab();
+		
+		//WM-0912: Coverage A greater than 120% of replacement cost requires underwriting approval
+		//errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1160000); //rule disabled according to PPS-371
+	    //WM-0549: Dwellings built prior to 1940 must have all four major systems fully renovated.
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
+		//WM-0550: Risks with more than 3 horses or 4 livestock are unacceptable
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS3200008);
+		//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
+		//ER-1607: Applicants with any liability claims in the past 3 years are ineligible
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
+
+		errorTab.cancel();
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.fillTab(td_sc2_3);
+
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		premiumsTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		bindTab.btnPurchase.click();
+
+		if (!getState().equals("MD")) {
+			//For MD there is delta-rule AAA_HO_SS1162304_MD - Coverage A greater than $2,000,000 requires underwriting approval
+			//WM-0531: Coverage A greater than $1,000,000 requires underwriting approval
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1162304);
+		}
+
+		if (!getState().equals("OR")) {
+			//For OR this rule verifying in Delta tests: it's displaying when one more claim added older than this
+			//WM-0530: Applicants with any paid claims over $25,000 in the last 3 years are ineligible.
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
+		}
+		errorTab.cancel();
+
+		BindTab.buttonSaveAndExit.click();
+		log.info("TEST Determine Eligibility SC4: HSS Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+
+	}
+
 
 }

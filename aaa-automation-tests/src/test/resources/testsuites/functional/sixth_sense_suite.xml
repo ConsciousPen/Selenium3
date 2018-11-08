@@ -120,19 +120,6 @@
 
     <!--Tests for Property-->
 
-    <test name="Test Coverage C limit 70% within of Coverage A - CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
-        </classes>
-    </test>
-
-    <test name="Test Coverage C limit 70% within of Coverage A - SS">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA"/>
-        </classes>
-    </test>
 
     <test name="Test Increased Insurance Limit And Supplemental Loss Endorsements">
         <parameter name="state" value="MD"/>
@@ -319,16 +306,15 @@
         </classes>
     </test>
 
-    <!--<test name="Test KY City and Country Taxes Calculation for Endorsement forms">-->
-        <!--<parameter name="state" value="KY"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>-->
-            <!--<class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>-->
-        <!--</classes>-->
-    <!--</test>-->
-
+    <test name="Test KY City and Country Taxes Calculation for Endorsement forms">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
+        </classes>
+    </test>
 
     <!--Tests for PUP-->
 
