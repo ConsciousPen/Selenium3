@@ -8,6 +8,13 @@
 
     <!--Tests for Auto-->
 
+    <test name="Test Min Due Is Not Recalculated After Endorsements">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements"/>
+        </classes>
+    </test>
+
     <test name="Test Initiate HO policies and check that Endorsement HO29 is included">
         <parameter name="state" value="CA"/>
         <classes>
