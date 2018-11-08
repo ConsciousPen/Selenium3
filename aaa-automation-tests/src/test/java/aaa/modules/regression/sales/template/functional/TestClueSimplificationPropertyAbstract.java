@@ -99,7 +99,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         List<TestData> tdClaims = getClaimsTD();
         // Create Empty Testdata and Adjust it with list of claims
         TestData td = DataProviderFactory.dataOf(getPropertyInfoTab().getClass().getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), getClaimsTD());
+                .adjust(TestData.makeKeyPath(getPropertyInfoTab().getClass().getSimpleName(), getClaimHistoryLabel()), tdClaims);
 
         openAppAndCreatePolicy(getPolicyTD());
         String policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -109,6 +109,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         searchForPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         navigateToPropertyInfoTab();
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -157,6 +161,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Cancel Policy and Rewrite it
         cancelAndRewritePolicy();
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -218,10 +226,22 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(renewEff);
+
+        // Open App and start renewal process with a privileged user because unprivileged user does not have a manual action for Home SS
+        mainApp().open();
+        searchForPolicy(policyNumber);
+        policy.renew().performAndExit();
+        mainApp().close();
+
         openAppNonPrivilegedUser("A30");
         searchForPolicy(policyNumber);
-        policy.renew().start();
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
+
+        // PAS-21609 Check that ClaimHistory section is visible,  PAS-20984 AC2
+        checkClaimHistorySectionActive();
+
         getPropertyInfoTab().fillTab(td);
 
         // 4 Claims were added manually
@@ -234,31 +254,17 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getPropertyInfoTab().saveAndExit();
 
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
-        policy.renew().start().submit();
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
+
+        getPropertyInfoTab().fillTab(td);
         viewEditClaimByCauseOfLoss(Labels.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
-        checkTblClaimRowCount(2);
+        checkTblClaimRowCount(3);
         getPropertyInfoTab().saveAndExit();
-        mainApp().close();
-
-        // Bind Policy
-        mainApp().open();
-        searchForPolicy(policyNumber);
-        policy.renew().start().submit();
-        navigateToPropertyInfoTab();
-        checkRemoveButtonAvailable(true);
-        calculatePremiumAndOpenVRD();
-        PropertyQuoteTab.RatingDetailsView.close();
-        navigateToBindTab();
-        getBindTab().submitTab();
-        overrideAllErrorsAndBind();
-        payTotalAmtDue(policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
-
-        checkAfterTXWasBound(policyNumber);
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
@@ -305,7 +311,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validation for PAS-6742
         pas6742_CheckRemovedDependencyForCATAndChargeableFields();
-
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
@@ -452,6 +457,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         Page.dialogConfirmation.buttonYes.click();
     }
 
+    private void checkClaimHistorySectionActive(){
+        if (isStateCA()){
+            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        } else {
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.LABEL_CLAIM_HISTORY)).isPresent();
+        }
+    }
+
     private void checkRemoveButtonAvailable(Boolean expectedValue){
         // Check Remove Claims Button is unavailable for CA property or SS property
         if (isStateCA()){
@@ -550,5 +563,4 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
     }
-
 }

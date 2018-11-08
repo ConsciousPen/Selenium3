@@ -1,5 +1,9 @@
 package aaa.modules.docgen.home_ss.ho3;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -16,6 +20,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -45,6 +50,7 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
 	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
+	private String REFUND_GENERATION_FOLDER_PATH = "/home/mp2/pas/sit/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
 
 	/**
 	 * <pre>
@@ -696,13 +702,10 @@ public class TestDocgenScenarios extends HomeSSHO3BaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
-
-		BillingSummaryPage.openPolicy(1);
-		policy.policyDocGen().start();
-		documentActionTab.verify.documentsPresent(DocGenEnum.Documents._55_3500);
-
+		//refund check are now generated in csv files PASBB-795
+		List<String> documentsFilePaths = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNum);
+		assertThat(documentsFilePaths.size()).isGreaterThan(0);
+		
 		log.info("==========================================");
 		log.info(getState() + " HO3 Refund Check Document is checked, policy: " + policyNum);
 		log.info("==========================================");
