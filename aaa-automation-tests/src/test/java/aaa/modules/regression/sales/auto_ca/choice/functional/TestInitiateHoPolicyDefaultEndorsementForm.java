@@ -29,7 +29,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	 * 2. Create CA Choice Auto Policy
 	 * 3. Verify Policy status is '	 Policy Active'
 	 * 4. Initiate Property Policy from PolicySummary Page
-	 * 5. Check that Endorsement HO29 is included
+	 * 5. Check that Endorsement HO29 is included. not included for DP3
 	 * @details
 	 */
 
