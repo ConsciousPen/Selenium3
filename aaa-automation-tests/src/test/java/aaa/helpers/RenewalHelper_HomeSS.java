@@ -1,11 +1,14 @@
 package aaa.helpers;
 
+import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -25,6 +28,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 {
     String _policyNumber;
     LocalDateTime _policyExpiraitonDate;
+    LocalDateTime _policyEffectiveDate;
     LocalDateTime _policyStage1Date;
     LocalDateTime _policyStage2Date;
     LocalDateTime _policyStage3Date;
@@ -33,6 +37,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
     LocalDateTime _renewalBillGenDate;
     Long _timeDifferenceInDays_Stage3ToExpiration;
     Long _timeDifferenceInDays_Stage4ToExpiration;
+    final String AAARENEWALTIMELINEIND_VALUETOSET = "3";
 
     public RenewalHelper_HomeSS(LocalDateTime in_policyExpiraitonDate, Long timePoint1_AsRMinus, Long timePoint2_AsRMinus, boolean outputDataToLogs){
         _policyNumber = PolicySummaryPage.getPolicyNumber();
@@ -47,13 +52,13 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         _policyStage2Date = PolicySummaryPage.getEffectiveDate().plusDays(30l);
 
         if (outputDataToLogs){
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 1 (Stage3) = '%s' </QA-LOG-DEBUG>", _policyStage3Date.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Membership Timepoint 2 (Stage4) = '%s' </QA-LOG-DEBUG>", _policyStage4Date.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generation Date = '%s' </QA-LOG-DEBUG>", _renewalImageGenDate.toString()));
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Bill Generation Date = '%s' </QA-LOG-DEBUG>", _renewalBillGenDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Policy Expiration Date = '%s' </QA-LOG-DEBUG>", _policyExpiraitonDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: NB15(Stage1) = '%s' </QA-LOG-DEBUG>", _policyStage1Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: NB30(Stage2) = '%s' </QA-LOG-DEBUG>", _policyStage2Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Membership Timepoint 1 (Stage3) = '%s' </QA-LOG-DEBUG>", _policyStage3Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Membership Timepoint 2 (Stage4) = '%s' </QA-LOG-DEBUG>", _policyStage4Date.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Renewal Image Generation Date = '%s' </QA-LOG-DEBUG>", _renewalImageGenDate.toString()));
+            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper Constructor: Renewal Bill Generation Date = '%s' </QA-LOG-DEBUG>", _renewalBillGenDate.toString()));
         }
     }
 
@@ -72,7 +77,6 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             handleRenewBillPay();
             moveToNewTermAndSetNewTimepoints();
 
-            log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Term '%s' completed. </QA-LOG-DEBUG>", currentTerm));
             currentTerm++;
             if(currentTerm > 10) // <-- SANITY CHECK. LIMITS RENEWALS TO 10.
                 break;
@@ -99,8 +103,12 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
     public void moveThroughStage3() {
         if(_policyExpiraitonDate != null) {
+            // R-73
             generateRenewalImage();
+            // R-63
             moveToMembershipTimepoint1();
+            // R-60
+            // R-57
         }
         else {
             log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
@@ -109,7 +117,12 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
     public void moveThroughStage4() {
         if(_policyExpiraitonDate != null) {
+            // R-48
             moveToMembershipTimepoint2();
+            // R-45
+            // R-36
+            // R-35
+            // R-20
         }
         else {
             log.error(String.format(System.lineSeparator() + "<QA-LOG-ERROR> RenewalHelper: ERROR - No Expiration Date Set By Constructor! </QA-LOG-ERROR>" + System.lineSeparator(), _policyExpiraitonDate.toString()));
@@ -122,21 +135,25 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
         JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
 
-
         mainApp().open();
         //DEBUGBREAKPOINT MANUALLY MAKE PAYMENT IN UI.
         SearchPage.openBilling(_policyNumber);
-        new BillingAccount().generateFutureStatement().perform();
-        TestData check_payment = testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Check");
-        new BillingAccount().acceptPayment().perform(check_payment, new Dollar(200));
-
+        new BillingAccount().acceptPayment().start();
+        new AcceptPaymentActionTab().setCheckNumber(123);
+        Tab.buttonOk.click();
         mainApp().close();
+
+        // Move forward one day. Update status. Move forward another day.
+        TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate.plusDays(2));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
+
+        // Manually ZERO OUT aaaTimelineRenewalInd
+        AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
     }
 
     public void moveToNewTermAndSetNewTimepoints() {
-        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.plusDays(1l));
+        TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.plusDays(10));
 
         mainApp().open();
         SearchPage.openPolicy(_policyNumber);
@@ -173,17 +190,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         TimeSetterUtil.getInstance().nextPhase(_policyStage3Date);
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.isoRenewalBatchOrderJob);
         JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaInsuranceScoreRenewBachOrder);
-        JobUtils.executeJob(Jobs.aaaClueRenewBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaInsuranceScoreRenewalBatchReceiveJob);
-        JobUtils.executeJob(Jobs.aaaClueRenewAsyncBatchReceiveJob);
         JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
-
-        String results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
-        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase("0");
 
         // R-57
         TimeSetterUtil.getInstance().nextPhase(_policyExpiraitonDate.minusDays(57l));
@@ -191,8 +199,11 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob);
         JobUtils.executeJob(Jobs.aaaRenewalDataRefreshAsyncJob);
 
-        results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
-        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase("2");
+        // Manually set aaaRenewalTimelineInd
+        AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, AAARENEWALTIMELINEIND_VALUETOSET);
+
+        String results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
+        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase(AAARENEWALTIMELINEIND_VALUETOSET);
     }
 
     private void moveToMembershipTimepoint2() {
@@ -214,12 +225,19 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
     private void captureTimepoints(){
         _policyNumber = PolicySummaryPage.getPolicyNumber();
-        _policyExpiraitonDate = PolicySummaryPage.getExpirationDate();
+        String _policyEffectiveDateAsString = AAAMembershipQueries.getPolicyEffectiveDateFromSQL(_policyNumber).orElse("NULL RESPONSE!");
+        _policyEffectiveDate = LocalDateTime.parse(_policyEffectiveDateAsString, AAAMembershipQueries.SQLDateTimeFormatter);
+        _policyStage1Date = _policyEffectiveDate.plusDays(15l);
+        _policyStage2Date = _policyEffectiveDate.plusDays(30l);
+
+        String _policyExpiraitonDateAsString = AAAMembershipQueries.getPolicyExpirationDateFromSQL(_policyNumber).orElse("NULL RESPONSE!");
+        _policyExpiraitonDate = LocalDateTime.parse(_policyExpiraitonDateAsString, AAAMembershipQueries.SQLDateTimeFormatter);
+
         _policyStage3Date = _policyExpiraitonDate.minusDays(_timeDifferenceInDays_Stage3ToExpiration);
         _policyStage4Date = _policyExpiraitonDate.minusDays(_timeDifferenceInDays_Stage4ToExpiration);
+
         _renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(_policyExpiraitonDate);
         _renewalBillGenDate = getTimePoints().getBillGenerationDate(_policyExpiraitonDate);
-        _policyStage1Date = PolicySummaryPage.getEffectiveDate().plusDays(15l);
-        _policyStage2Date = PolicySummaryPage.getEffectiveDate().plusDays(30l);
+
     }
 }

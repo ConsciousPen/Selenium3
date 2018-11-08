@@ -351,4 +351,25 @@ public class AAAMembershipQueries {
         }
         return response;
     }
+
+    /**
+     * Modify the aaaRenewalTimelineInd so that Jobs.renewalImageRatingAsyncTaskJob can rate a policy pending renewal. <br>
+     * @param policyNumber is the policy number to update.
+     * @param value represents what value to update aaaRenewalTimelineInd with.
+     * @throws IllegalArgumentException When given a quote opposed to a bound policy.
+     */
+    public static void updateAaaRenewalTimelineIndicatorValue(String policyNumber, String value)
+            throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAABestMembershipStatusInSQL() does not support Quotes. " +
+                    "Arg policyNumber: " + policyNumber);
+        }
+
+        String query = String.format("UPDATE POLICYSUMMARY " +
+                "SET aaaRenewalTimelineInd = '" + value + "' " +
+                "WHERE policynumber='" + policyNumber + "' and TXTYPE='renewal'");
+
+        DBService.get().executeUpdate(query);
+    }
 }
