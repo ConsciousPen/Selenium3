@@ -46,4 +46,12 @@ public class CoverageLimit {
 	public int hashCode() {
 		return Objects.hash(coverageLimit, coverageLimitDisplay);
 	}
+
+	@Override
+	public String toString() {
+		return "CoverageLimit{" +
+				"coverageLimit='" + coverageLimit + '\'' +
+				", coverageLimitDisplay='" + coverageLimitDisplay + '\'' +
+				'}';
+	}
 }
