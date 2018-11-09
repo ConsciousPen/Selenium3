@@ -305,7 +305,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario 1. Create policy with one vehicle,
 	 * with Transportation Expense 1.200$
 	 * 2. Start endorsement outside of PAS.
-	 * 	 * 3. Add vehicle.
+	 * 3. Add vehicle.
 	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
 	 * 5. Hit View Coverage service.
 	 * 6. Check if Transportation Expense remains the limit I chose.

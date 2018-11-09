@@ -481,7 +481,7 @@
         </classes>
     </test>
     <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
+        <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>

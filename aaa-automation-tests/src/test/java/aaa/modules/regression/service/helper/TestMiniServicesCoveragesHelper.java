@@ -2739,7 +2739,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertSoftly(softly -> {
-
 			Coverage umpdCoverage = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(coverage -> "UMPDDED".equals(coverage.getCoverageCd()))
 					.findFirst().orElse(null);
 			coverageXproperties(softly, umpdCoverage, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
