@@ -6,6 +6,8 @@ FourDrivers: {
 DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
           }
 
+TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
+
 DriverTab2: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
