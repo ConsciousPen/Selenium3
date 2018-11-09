@@ -44,7 +44,6 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	}
 
 	@Parameters({"state"})
-	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO3(@Optional("CA") String state) {
@@ -53,7 +52,6 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	}
 
 	@Parameters({"state"})
-	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO4")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO4(@Optional("CA") String state) {
@@ -62,7 +60,6 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	}
 
 	@Parameters({"state"})
-	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO6")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO6(@Optional("CA") String state) {
@@ -71,7 +68,6 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	}
 
 	@Parameters({"state"})
-	@StateList(states = States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH}, priority = 1, description = "Test Initiate HO policies and check that Endorsement HO29 is not included DP3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceDP3(@Optional("CA") String state) {
