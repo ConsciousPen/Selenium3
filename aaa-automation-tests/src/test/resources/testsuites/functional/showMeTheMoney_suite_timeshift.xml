@@ -58,4 +58,10 @@
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
         </classes>
     </test>
+    <test name="PAS-21455 - Test Earned Premium Calculation Changes - Issue with Installment Plan and Payment" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
+        </classes>
+    </test>
 </suite>
