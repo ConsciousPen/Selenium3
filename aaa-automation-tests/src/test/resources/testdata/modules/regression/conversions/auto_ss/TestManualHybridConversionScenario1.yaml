@@ -1,0 +1,76 @@
+TestData: {
+  DriverTab: ['@Driver1', '@Driver_Mvr']
+}
+
+Driver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OR',
+  License Number: '001234567'
+}
+
+Driver_Mvr: {
+  DriverSearchDialog:{},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Other,
+  First Name: MvrChargeable,
+  Last Name: Activity,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'OR',
+  License Number: '001234568'
+}
+
+Driver_Mvr_Excluded: {
+  DriverTab: {
+    Driver Type: Excluded,
+    Reason: 'Financial Hardship'
+  }
+}
+
+RatingDetailReportsTab: {
+  Customer Agreement: Customer Agrees,
+  Sales Agent Agreement: I Agree,
+  Order Report: click,
+  AAAMembershipReport: [{}],
+  OrderInsuranceScoreReport: [{}],
+  InsuranceScoreOverride: {
+    Action: Override Score,
+    EditInsuranceScoreDialog: {
+      New Score: '651',
+      Reason for Override: 'Fair Credit Reporting Act Dispute',
+      Save: click
+    }
+  }
+}
+
+TestData_FinishPolicy: {
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: '@DocumentsAndBindTab'
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Quarterly (Renewal)',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  Comprehensive Deductible: 'contains=$750'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
+
+AAAProductOwned: {
+  Membership Number: '3111111111111121'
+}
