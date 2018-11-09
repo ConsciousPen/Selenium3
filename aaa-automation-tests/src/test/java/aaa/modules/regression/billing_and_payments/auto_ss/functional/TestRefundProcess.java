@@ -813,7 +813,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas5743_EnterTooMuchAndGetMessage(@org.testng.annotations.Optional("VA") String state) {
 		String policyNumber = policyCreation();

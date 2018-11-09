@@ -2808,7 +2808,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(coverages1.get(0).getCoverageLimit()).isEqualTo("250");
 			softly.assertThat(coverages2.get(0).getCoverageLimit()).isEqualTo("0");
 		});
-
 	}
 
 	protected void pas11654_MDEnhancedUIMBICoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
@@ -3012,7 +3011,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas15255_UpdateCompCollCoveragesCheckUmpdBody(String state) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		String oid = viewVehicleResponse.vehicleList.get(0).oid;
@@ -3070,7 +3070,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdChange, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
 		if (state.equals(Constants.States.CO)) {
-			Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPDED");
+			Coverage filteredCoverageResponseUmbi = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, "UMPDDED");
 			assertSoftly(softly -> {
 				softly.assertThat(filteredCoverageResponseUmbi.getCustomerDisplayed()).isEqualTo(customerDisplayed);
 				softly.assertThat(filteredCoverageResponseUmbi.getCanChangeCoverage()).isEqualTo(canChangeCoverage);
@@ -3448,7 +3448,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoveragesRegularVehicle = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		if (state.equals(Constants.States.CO)) {
-			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPDED");
+			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPDDED");
 			assertAvailableCoverageLimitsForUMBI(filteredCoverageResponseUmbi, customerDisplayed, canChangeCoverage, coverageLimitDisplay);
 		} else {
 			Coverage filteredCoverageResponseUmbi = getCoverage(policyCoveragesRegularVehicle.vehicleLevelCoverages.get(0).coverages, "UMPD");

@@ -276,7 +276,7 @@
         </classes>
     </test>
     <test name="ViewPremiumService - Tax">
-        <parameter name="state" value="KY"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
