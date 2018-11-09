@@ -32,6 +32,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract void navigateToApplicantTab();
     protected abstract RadioGroup getClaimChargeableAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
+    protected abstract TextBox getClaimCatastropheRemarksAsset();
     protected abstract ComboBox getClaimSourceAsset();
     protected abstract String getBtnAddInsuredLabel();
     protected abstract ComboBox getClaimLossForAsset();
@@ -282,7 +283,16 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+
+        // Validate PAS-20851 (already validated for other transactions in above method)
+        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("James", "Wajakowski")));
+        navigateToApplicantTab();
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        reorderClueReport();
+        navigateToPropertyInfoTab();
+        assertThat(getClaimChargeableAsset()).isEnabled();
 
     }
 
@@ -296,7 +306,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -310,7 +320,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
@@ -325,7 +335,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
 
     }
 
@@ -363,53 +373,82 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
-    private void pas6742_CheckRemovedDependencyForCATAndChargeableFields(){
+    private void pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields(){
 
         selectRentalClaimForCADP3();
 
-        // Select Hail Claim and set CAT = RADIO_YES chargeable = RADIO_NO
-        viewEditClaimByCauseOfLoss(Labels.HAIL);
+        // Select Hail Claim
+        viewEditClaimByLossAmount("10588");
         selectRentalClaimForCADP3();
-        // Set CAT no first so that chargeable is enabled
-        getClaimCatastropheAsset().setValue("No");
+
+        // Verify CAT = RADIO_NO chargeable = RADIO_YES
+        assertThat(getClaimCatastropheAsset()).hasValue("No");
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+
+        // Verify Chargeable text field and CAT code/remarks text field are both hidden
+        assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
+        assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
+
+        // Validate non-dependency between CAT and Chargeable indicator radio buttons
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
+        getClaimCatastropheRemarksAsset().setValue("CAT");
+
+        // Verify Chargeable text field and CAT code/remarks text field are both visible
+        //TODO changing CAT indicator should not hide the chargeable text field, uncomment below assert once resolved
+        //assertThat(getClaimNonChargeableReasonAsset()).isPresent();
+        assertThat(getClaimCatastropheRemarksAsset()).isPresent();
 
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("No");
         assertThat(getClaimChargeableAsset()).isEnabled();
-        // Check that Non Chargeable reason is not present because CAT is RADIO_YES
-        assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
 
         // Select Wind Claim and set CAT = RADIO_YES chargeable = RADIO_YES
-        viewEditClaimByCauseOfLoss(Labels.WIND);
+        viewEditClaimByLossAmount("2500");
         selectRentalClaimForCADP3();
+
         // Set CAT no first so that chargeable is enabled
-        getClaimCatastropheAsset().setValue("No");
-        getClaimChargeableAsset().setValue("Yes");
+        assertThat(getClaimCatastropheAsset()).hasValue("No");
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
         getClaimCatastropheAsset().setValue("Yes");
+        getClaimCatastropheRemarksAsset().setValue("CAT");
 
         // Check the chargeable Value is the same
         assertThat(getClaimChargeableAsset()).hasValue("Yes");
         assertThat(getClaimChargeableAsset()).isEnabled();
+
         // Check that Non Chargeable reason is not present because CAT is RADIO_YES
-        assertThat(getClaimNonChargeableReasonAsset()).isPresent(false);
+        assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
 
-        // Select Fire Claim and set CAT = RADIO_NO chargeable = RADIO_YES
-        viewEditClaimByCauseOfLoss(Labels.FIRE);
+        // Select Fire Claim
+        viewEditClaimByLossAmount("999");
         selectRentalClaimForCADP3();
-        // Set CAT no first so that chargeable is enabled
-        getClaimCatastropheAsset().setValue("No");
-        getClaimChargeableAsset().setValue("Yes");
 
-        // Select Water Claim and set CAT = RADIO_NO chargeable = RADIO_NO
-        viewEditClaimByCauseOfLoss(Labels.WATER);
-        selectRentalClaimForCADP3();
-        // Set CAT no first so that chargeable is enabled
+        // Verify CAT = RADIO_YES chargeable = RADIO_YES
+        assertThat(getClaimCatastropheAsset()).hasValue("Yes");
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+
+        // Set CAT no and verify non-dependency with Chargeable indicator
         getClaimCatastropheAsset().setValue("No");
+        assertThat(getClaimCatastropheAsset()).hasValue("No");
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+
+        // Select Water Claim
+        viewEditClaimByLossAmount("42500");
+        selectRentalClaimForCADP3();
+
+        // Verify CAT = RADIO_NO chargeable = RADIO_YES
+        assertThat(getClaimCatastropheAsset()).hasValue("No");
+        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+
+        // Set CAT no first so that chargeable is enabled
+        getClaimCatastropheAsset().setValue("Yes");
         getClaimChargeableAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something Else");
+        getClaimCatastropheRemarksAsset().setValue("CAT");
+        assertThat(getClaimCatastropheAsset()).hasValue("Yes");
+        assertThat(getClaimChargeableAsset()).hasValue("No");
     }
 
     private void addNamedInsuredWithClaims() {
@@ -546,6 +585,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("11000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
@@ -556,6 +596,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("1500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant' with catastrophe = 'No'
         viewEditClaimByLossAmount("2500");
