@@ -281,18 +281,22 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         CustomSoftAssertions.assertSoftly(softly -> {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
+			// Check that Policy Contains 3 Claims
             softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(3);
 
+			// PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
             DriverTab.tableActivityInformationList.selectRow(1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
 
+			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to two terms eff. date
             DriverTab.tableActivityInformationList.selectRow(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
 
+			// PAS14552 - Assert that Claim IS Included In Rating because Date of Loss is equal to current system date
             DriverTab.tableActivityInformationList.selectRow(3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
