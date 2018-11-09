@@ -254,7 +254,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, casResponseFileName);
 
-        // Make Changes to a file
+        // Make Changes to created CAS Response file
         File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
             setPolicyNumber(policyNumber, response);
             updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_DATEOFLOSS, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
