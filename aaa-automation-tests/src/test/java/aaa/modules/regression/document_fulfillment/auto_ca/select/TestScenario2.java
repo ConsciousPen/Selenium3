@@ -1,5 +1,9 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.select;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -10,10 +14,9 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.DocGenEnum;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -26,6 +29,7 @@ public class TestScenario2 extends AutoCaSelectBaseTest {
 	private TestData tdBilling = testDataManager.billingAccount;
 	private TestData check_payment = tdBilling.getTestData("AcceptPayment", "TestData_Check");
 	private TestData tdRefund = tdBilling.getTestData("Refund", "TestData_Check");
+	private String REFUND_GENERATION_FOLDER_PATH = "/home/mp2/pas/sit/DSB_E_PASSYS_DSBCTRL_7025_D/outbound/";
 	
 	@Parameters({"state"})
 	@StateList(states = States.CA)
@@ -49,7 +53,10 @@ public class TestScenario2 extends AutoCaSelectBaseTest {
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
+		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		//DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
+		//refund check are now generated throw csv files PASBB-795
+		List<String> documentsFilePaths = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNum);
+		assertThat(documentsFilePaths.size()).isGreaterThan(0);
 	}
 }

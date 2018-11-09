@@ -8,6 +8,17 @@
 
     <!--Tests for Auto-->
 
+    <test name="Test Min Due is not Recalculated After Endorsements" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements">
+                <methods>
+                    <include name="pas20379_testMinDueIsNotRecalculatedAfterEndorsements"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
@@ -81,6 +92,28 @@
     </test>
 
     <!--Tests for Property-->
+
+    <test name="Test Coverage C limit 70% within of Coverage A - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA">
+                <methods>
+                    <include name="pas20367_TestCoverageCRangeWithinCoverageATemplateCA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Coverage C limit 70% within of Coverage A - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA">
+                <methods>
+                    <include name="pas20367_TestCoverageCRangeWithinCoverageATemplate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>

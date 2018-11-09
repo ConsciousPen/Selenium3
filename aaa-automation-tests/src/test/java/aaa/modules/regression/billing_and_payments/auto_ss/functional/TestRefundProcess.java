@@ -96,8 +96,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	}
 
 	public static void eRefundLastPaymentMethodConfigCheck() {
-		assertThat(DBService.get().getValue(REFUND_CONFIG_CHECK)).as("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT").isPresent();
-		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
+			assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
 		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
 				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);
@@ -814,7 +813,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas5743_EnterTooMuchAndGetMessage(@org.testng.annotations.Optional("VA") String state) {
 		String policyNumber = policyCreation();
