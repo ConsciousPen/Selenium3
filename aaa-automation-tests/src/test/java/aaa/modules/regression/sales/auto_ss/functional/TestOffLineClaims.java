@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
@@ -8,12 +9,14 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.SearchEnum;
@@ -26,6 +29,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 @StateList(states = {Constants.States.AZ})
@@ -41,8 +45,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
             ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
     private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
     private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
-    private static final String INC_IN_RATING_1ST_RENEWAL_DATA_MODEL = "inc_in_rating_1st_renewal_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
+    private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
+    private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
+    private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
+
 
     /**
      * @author Andrii Syniagin
@@ -179,23 +186,23 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 
     /**
-     * @author Mantas Garsvinskas TODO:gunxgar update scenario
+     * @author Mantas Garsvinskas
      * PAS-14552 - INC IN RATING: Determine if Previously Unmatched but Now matched should be Included in Rating
      * @name Test Claims 'Include In Rating' determination according to Occurrence date
      * @scenario Test Steps:
-     * 1. Create a Policy with 1 driver
-     * 2. Move time to R-63
-     * 3. Run Renewal Part1 + "renewalClaimOrderAsyncJob"
-     * 5. Move Time to R-46
-     * 6. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
-     * 7. Retrieve policy and enter renewal image
-     * 8. Verify Claim Data for 1st Renewal (Policy has only one previous term):
-     * 8.1 Claim1: claimNumber1 - INCLUDED IN RATING
-     * 8.1 Claim2: claimNumber2 - INCLUDED IN RATING
-     * 8.1 Claim3: claimNumber3 - NOT INCLUDED IN RATING
-     * 8.1 Claim4: claimNumber4 - NOT INCLUDED IN RATING
+     * 1. Create a Policy with 1 driver ANNUAL TERM;
+     * 3. Repeat Steps below and get to the Third Renewal Image
+     * 3.1. Move time to R-63
+     * 3.2. Run Renewal Part1 + "renewalClaimOrderAsyncJob"
+     * 3.3. Move Time to R-46
+     * 3.4. Run Renewal Part2 + "claimsRenewBatchReceiveJob"
+     * 4 Retrieve policy and enter 3rd renewal image
+     * 5. Verify Claim Data:
+     * 5.1 Claim1: claimNumber1 - NOT INCLUDED IN RATING dateOfLoss = Two Policy Terms - 1 day (R1-1)
+     * 5.1 Claim2: claimNumber2 - INCLUDED IN RATING dateOfLoss = Two Policy Terms (R1)
+     * 5.1 Claim3: claimNumber3 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46)
      *
-     * TODO:gunxgar - continue scenario: issue 1st renewal, issue 2nd renewal, initiate 3rd renewal - validate results with new previously unmached, but now matched claims
+     * //TODO:gunxgar add one more claim on 1st Renewal for Existing match, will be implemented in other Story
      * @details
      */
     @Parameters({"state"})
@@ -206,6 +213,20 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         // Toggle ON MatchMoreClaims Logic
         DBService.get().executeUpdate(SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE);
 
+        // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
+        String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
+        String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
+        String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
+
+        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_DATEOFLOSS =
+                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
+
+        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_OPENDATE =
+                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
+
+        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_CLOSEDATE =
+                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
+
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
 
         // Create Customer and Policy
@@ -213,108 +234,69 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         createCustomerIndividual();
 
         policy.createPolicy(testData);
-
-        // Gather Policy details: Policy Number and expiration date
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         mainApp().close();
 
-        runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and renewalClaimOrderAsyncJob
+        //Run Jobs to create and issue 1st Renewal
+        runRenewalClaimOrderJob();
+        runRenewalClaimReceiveJob();
+        issueGeneratedRenewalImage(policyNumber);
 
-        // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, INC_IN_RATING_1ST_RENEWAL_DATA_MODEL, null);
-        runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob
+        //Run Jobs to create and issue 2nd Renewal
+        runRenewalClaimOrderJob();
+        runRenewalClaimReceiveJob();
+        issueGeneratedRenewalImage(policyNumber);
+
+        //Run Jobs to create 3rd required Renewal and validate the results
+        runRenewalClaimOrderJob();
+
+        // Create CAS response file
+        String casResponseFileName = getCasResponseFileName();
+        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, casResponseFileName);
+
+        // Make Changes to a file
+        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
+            setPolicyNumber(policyNumber, response);
+            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_DATEOFLOSS, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
+            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_OPENDATE, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
+            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_CLOSEDATE, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
+        });
+
+        uploadCasResponseFile(claimResponseFile, casResponseFileName);
+        runRenewalClaimReceiveJob();
 
         // Retrieve policy and verify claim presence on renewal image
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+        if (tableSearchResults.isPresent()) {
+            tableSearchResults.getRow("Eff. Date",
+                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+                    .getCell(1).controls.links.getFirst().click();
+        }
+
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         CustomSoftAssertions.assertSoftly(softly -> {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 
-            DriverTab.tableActivityInformationList.sortBy("Date"); //Sorted By Date know exact order of claims
-
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
+            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(3);
 
             DriverTab.tableActivityInformationList.selectRow(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_1);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
 
             DriverTab.tableActivityInformationList.selectRow(2);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
 
             DriverTab.tableActivityInformationList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("10");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-
-            DriverTab.tableActivityInformationList.selectRow(4);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("10");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-
-        });
-
-        //TODO:gunxgar whats the best way to go into 3rd Renewal image? manually / jobs? ! REFACTOR
-
-        issueRenewal();
-
-        //Run Jobs to create 2nd Renewal
-        runRenewalClaimOrderJob();
-        createCasClaimResponseAndUpload(policyNumber, INC_IN_RATING_1ST_RENEWAL_DATA_MODEL, null); //Same model, no new claims or maybe 1 new claim ? this is automation
-        runRenewalClaimReceiveJob();
-
-        issueRenewal();
-
-        //Run Jobs to create 3rd required Renewal and validate the results
-        runRenewalClaimOrderJob();
-        createCasClaimResponseAndUpload(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, null); // TODO:gunxgar add new several claims to check inside/outside range
-        runRenewalClaimReceiveJob();
-
-        // Retrieve policy and verify claim presence on renewal image
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        buttonRenewals.click();
-        policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        CustomSoftAssertions.assertSoftly(softly -> {
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-
-            DriverTab.tableActivityInformationList.sortBy("Date"); //Sorted By Date know exact order of claims
-
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(8);
-
-            DriverTab.tableActivityInformationList.selectRow(5);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_3);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-            DriverTab.tableActivityInformationList.selectRow(6);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
-
-            DriverTab.tableActivityInformationList.selectRow(7);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("10");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
-
-            DriverTab.tableActivityInformationList.selectRow(8);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE)).hasValue("07/01/2018");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("10");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("No");
 
         });
     }
