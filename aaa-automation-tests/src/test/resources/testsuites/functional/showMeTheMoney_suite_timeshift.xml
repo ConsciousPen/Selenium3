@@ -38,11 +38,12 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
         </classes>
     </test>
-    <test name="PAS-20308 Earned Premium Calculation Negative Premium" parallel="methods" thread-count="1024">
+    <test name="PAS-20308, PAS-21455: Earned Premium Calculation Negative Premium, Billing Fees" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueNegativePremium"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
         </classes>
     </test>
     <test name="PAS-21444 Earned Premium Calculation Changes - Cancellation - Flat" parallel="methods" thread-count="1024">
@@ -55,12 +56,6 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
-        </classes>
-    </test>
-    <test name="PAS-21455 - Test Earned Premium Calculation Changes - Issue with Installment Plan and Payment" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
         </classes>
     </test>
 </suite>
