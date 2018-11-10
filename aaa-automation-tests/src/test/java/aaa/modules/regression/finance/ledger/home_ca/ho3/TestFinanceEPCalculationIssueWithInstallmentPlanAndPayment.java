@@ -1,10 +1,13 @@
 package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import aaa.main.enums.PolicyConstants;
 import aaa.main.pages.summary.BillingSummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -79,10 +82,15 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
+        BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
+                .getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
+
+		assertThat(new Dollar(issueEndingPremium))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
-		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
+        List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
+        List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
+        txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
+        validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
 	}
 }

@@ -104,8 +104,7 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 		BigDecimal rolledOnEndorsementEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Rolled On Endorsement")
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
-		assertThat(new Dollar(PolicySummaryPage.tableTransactionHistory.getRow(1)
-				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue()))
+		assertThat(new Dollar(rolledOnEndorsementEndingPremium))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ENDORSE,
