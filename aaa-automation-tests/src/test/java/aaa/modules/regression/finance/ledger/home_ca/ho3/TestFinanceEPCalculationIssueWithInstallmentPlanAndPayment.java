@@ -4,6 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+
+import aaa.main.pages.summary.BillingSummaryPage;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -47,6 +49,8 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21455")
 	public void pas21455_testFinanceEPCalculationIssueWithInstallmentPlanAndPayment(@Optional("CA") String state) {
+        BillingAccount billingAccount = new BillingAccount();
+        TestData tdBilling = testDataManager.billingAccount;
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -61,13 +65,14 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		new BillingAccount().generateFutureStatement().perform();
 
+		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		new BillingAccount().generateFutureStatement().perform();
+        billingAccount.generateFutureStatement().perform();
+        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue());
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		mainApp().open();
