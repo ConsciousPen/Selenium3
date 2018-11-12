@@ -225,7 +225,6 @@
         "lastName":"Stark",
         "issuedState":"AZ",
         "dateOfBirth":"1990-05-09",
-        "licenseNumber":"A99999999",
         "claimDriverName":"Tony Stark"
       },
       "dateOpened":"2019-01-02",
@@ -315,7 +314,6 @@
         "lastName": "Stark",
         "issuedState": "AZ",
         "dateOfBirth": "1997-10-16",
-        "licenseNumber": "A99999999",
         "claimDriverName":"Trory Stark"
       },
       "dateOpened": "2019-01-02",

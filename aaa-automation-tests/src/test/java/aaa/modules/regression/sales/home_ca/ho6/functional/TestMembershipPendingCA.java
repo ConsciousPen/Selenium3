@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.home_ca.ho6.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestMembershipTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
@@ -27,7 +27,7 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-17784")
     public void pas17784_AC1_CA_HO6_Pending_Option(@Optional("") String state) {
         setKeyPathsAndGenerateQuote();
@@ -44,7 +44,7 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-17784")
     public void pas17784_AC4_AC5_CA_Pending_Removed_Endorsement_HO6(@Optional("") String state) {
         addEndorsementAndCheckForMSPending();

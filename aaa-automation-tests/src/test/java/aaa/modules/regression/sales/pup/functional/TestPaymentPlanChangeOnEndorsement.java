@@ -30,7 +30,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 	public void pas11785_AC1_monthlyLowDown(@Optional("") String state) {
 		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.JULY, 1, 0, 0));
@@ -62,7 +62,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 	public void pas11785_AC2_AC3_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
@@ -82,7 +82,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
 	public void pas11785_AC2_negative_monthlyLowDown(@Optional("") String state) {
@@ -178,7 +178,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 	public void pas11785_AC1_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
@@ -208,7 +208,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 	public void pas11785_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
@@ -228,7 +228,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
 	public void pas11785_AC2_negative_elevenPayLowDown(@Optional("") String state) {
@@ -327,7 +327,7 @@ public class TestPaymentPlanChangeOnEndorsement extends PersonalUmbrellaBaseTest
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-11338")
 
 	public void pas11338_AC2_randomLowDown(@Optional("") String state) {
