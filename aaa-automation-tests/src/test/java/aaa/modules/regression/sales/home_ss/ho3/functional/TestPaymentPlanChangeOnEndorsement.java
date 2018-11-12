@@ -28,7 +28,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC1_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
@@ -58,7 +58,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_monthlyLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
@@ -78,7 +78,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 
 	public void pas11338_AC2_negative_monthlyLowDown(@Optional("") String state) {
@@ -174,7 +174,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC1_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
@@ -204,7 +204,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 	public void pas11338_AC2_AC3_elevenPayLowDown(@Optional("") String state) {
 		String paymentPlan = BillingConstants.PaymentPlan.ELEVEN_PAY_LOW_DOWN;
@@ -224,7 +224,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 
 	public void pas11338_AC2_negative_elevenPayLowDown(@Optional("") String state) {
@@ -323,7 +323,7 @@ public class TestPaymentPlanChangeOnEndorsement extends HomeSSHO3BaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "2018 Production Defects Delivered via Stories")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-11338")
 
 	public void pas11338_AC2_randomLowDown(@Optional("") String state) {

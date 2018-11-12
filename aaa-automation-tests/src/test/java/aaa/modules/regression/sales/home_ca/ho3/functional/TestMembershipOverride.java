@@ -84,7 +84,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @runTime 4min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-9371")
     public void AC01AC03_testMembershipOverride_NB(@Optional("") String state) {
 
@@ -117,7 +117,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @runTime 1min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-9371")
     public void AC01_testMembershipOverride_NonPrivlidgedUser(@Optional("") String state) {
         // Create TD to Hold Adjustments. Create Default Policy TD.
@@ -150,7 +150,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @runTime 4min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-9635")
     public void AC1_testMembershipOverride_Endorse(@Optional("") String state) {
         // Create TD to Hold Adjustments. Create Default Policy TD.
@@ -184,7 +184,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @runTime 4min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-9634")
     public void AC2_testMembershipOverride_Endorse(@Optional("") String state) {
         // Create TD to Hold Adjustments. Create Default Policy TD.
@@ -207,7 +207,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @runTime 4min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-9634")
     public void AC3_testMembershipOverride_Endorse(@Optional("") String state) {
         // Create TD to Hold Adjustments. Create Default Policy TD.
@@ -244,7 +244,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 4min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6370")
     public void AC1_testMembershipOverride_NB15NB30Jobs(@Optional("") String state) {
         // Create TD to Hold Adjustments. Create Default Policy TD.
@@ -306,7 +306,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC1_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;
@@ -375,7 +375,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC2_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;
@@ -442,7 +442,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
      * @RunTime 8min
      */
     @Parameters({"state"})
-    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(enabled = false, groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-10154")
     public void AC3_testMembershipOverride_Renewal(@Optional("") String state) {
         Long membershipStage3TP = 73L;
