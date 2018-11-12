@@ -25,7 +25,7 @@ public class TestEndorsement extends EndorsementTemplate {
 	@StateList(states = {CA})
 	public void BCT_ONL_EmptyEndorsementAutoCASelect(String state, String policyNumber) {
 		TestData td = getTestSpecificTD("TestDataEndorseAutoCA");
-
+		mainApp().open();
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
 
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(), "TestDataInquiryAutoCA", new GeneralTab(), documentsAndBindTab);

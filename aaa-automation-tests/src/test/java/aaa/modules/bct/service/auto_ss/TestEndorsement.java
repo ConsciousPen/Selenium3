@@ -29,7 +29,7 @@ public class TestEndorsement extends EndorsementTemplate {
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementAutoSS(String state, String policyNumber) {
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
-
+		mainApp().open();
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(), "TestDataInquiryAutoSS", generalTab, documentsAndBindTab);
 		assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().isVisible()).isTrue();
 		documentsAndBindTab.cancel();

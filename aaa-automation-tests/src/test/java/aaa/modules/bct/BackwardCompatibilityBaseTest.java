@@ -127,6 +127,7 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	}
 
 	protected Dollar getPreEndorsementPremium(IPolicy ipolicy, String policyNumber) {
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		deletePendingTransaction(ipolicy);
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();

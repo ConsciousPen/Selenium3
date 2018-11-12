@@ -34,7 +34,6 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		log.info(" DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policyNumber -> new String[] {finalState, policyNumber}).collect(Collectors.toList());
-		mainApp().open();
 		return data.iterator();
 		/*List<Object[]> data = new ArrayList<>();
 		data.add(new String[]{"CA", "ja"});

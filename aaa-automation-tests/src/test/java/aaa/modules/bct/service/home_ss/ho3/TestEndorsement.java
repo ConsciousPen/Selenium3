@@ -27,7 +27,7 @@ public class TestEndorsement extends EndorsementTemplate {
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementHomeSSHo3(String state, String policyNumber) {
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
-
+		mainApp().open();
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(),"TestDataInquirySSHo3", generalTab, bindTab);
 
 		performNonBearingEndorsement("TestDataEndorseSSHo3");
