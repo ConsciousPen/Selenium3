@@ -6,6 +6,8 @@ FourDrivers: {
 DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
           }
 
+TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
+
 DriverTab2: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
@@ -278,4 +280,22 @@ TestData_OrderOfCoverages_KS: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "REHABEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "SURVLOSS"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
   DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_CT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_WV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"],
+}
+
+TestData_OrderOfCoverages_MD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
+  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
 }

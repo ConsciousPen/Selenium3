@@ -112,8 +112,8 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-17772")
-	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-19183")
+	public void pas19183_testClaimPointsVRDPage(@Optional("") String state) {
 
 		testClaimsPointsVRDPage();
 

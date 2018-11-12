@@ -1,12 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="CIO Functional Time Shift Test Suite" verbose="1" parallel="methods" thread-count="1024">
+<suite name="CIO Functional Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="TestMembershipValidation" thread-count="1024">
+    <test name="TestMembershipValidation" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
@@ -14,15 +14,10 @@
                     <include name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
                 </methods>
             </class>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
-                <methods>
-                    <include name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
-                </methods>
-            </class>
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
@@ -35,7 +30,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
@@ -49,7 +44,7 @@
         </classes>
     </test>
 
-    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" thread-count="1024">
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
@@ -62,7 +57,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" thread-count="1024">
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
@@ -77,7 +72,7 @@
     </test>
 
     <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA HO3)"
-          thread-count="1024">
+          parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFAIRPlanEndorsement">
@@ -95,7 +90,7 @@
     </test>
 
     <test name="PAS-13211 PAS-13242 PAS-13216 PAS-14193 PAS-14368 PAS-13216 PAS-14004 - FAIR Plan Endorsement (formerly known as Difference in Conditions) (CA DP3)"
-          thread-count="1024">
+          parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement">
@@ -112,7 +107,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -125,7 +120,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
@@ -138,7 +133,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
@@ -151,7 +146,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -164,7 +159,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" thread-count="1024">
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
@@ -177,8 +172,7 @@
         </classes>
     </test>
 
-    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
@@ -190,8 +184,7 @@
         </classes>
     </test>
 
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
@@ -202,8 +195,7 @@
         </classes>
     </test>
 
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">

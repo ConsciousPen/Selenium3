@@ -1688,7 +1688,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		eValueAcknowledgementConfigCheck();
@@ -1843,7 +1843,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();
