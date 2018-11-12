@@ -18,3 +18,9 @@ TestData_AddAutopay: {
     Autopay Selection: 'index=1'
   }
 }
+
+TestData_AddPaymentMetods: {
+  UpdateBillingAccountActionTab: {
+    PaymentMethods: ['@PaymentMethods@CC_Visa', '@PaymentMethods@EFT']
+  }
+}
