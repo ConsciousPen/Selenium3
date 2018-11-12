@@ -1,23 +1,24 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
+import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @StateList(states = Constants.States.CA)
@@ -38,7 +39,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "AC1 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "AC1 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
     @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-13215")
     public void testPolicyRateFairPlanEndorsement(@Optional("CA") String state) {
         testSetup();
@@ -60,7 +61,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = { Groups.FUNCTIONAL, Groups.HIGH }, description = "AC2 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "AC2 PAS-13215 18.5: CA FAIR Plan: Rating DP3")
     @TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "13215")
     public void testPolicyRateFairPlanEndorsementAC2(@Optional("CA") String state) {
         testSetup();
@@ -82,7 +83,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 
         //Verify the ENDo is not selected already
-        aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
+        EndorsementTab endorsementTab = new EndorsementTab();
         assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_FPCECADP).isPresent()).isTrue();
 
         //Scrape the total premium from the Prem summary asset list on PnC tab prior to Fair Plan Endo
@@ -111,7 +112,7 @@ public class TestCAFairPlanRating extends HomeCaDP3BaseTest {
         new HomeCaPolicyActions.DataGather().start();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         //Verify the ENDo is not selected already
-        aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab endorsementTab = new aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab();
+        EndorsementTab endorsementTab = new EndorsementTab();
 
         //Add the ENDO and verify presence
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
