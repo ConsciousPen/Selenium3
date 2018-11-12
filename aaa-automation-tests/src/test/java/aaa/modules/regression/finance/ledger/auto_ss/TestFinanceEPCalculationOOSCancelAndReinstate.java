@@ -73,7 +73,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		cancelPolicy(txEffectiveDate);
+		cancelPolicy(txEffectiveDate, getPolicyType());
 
 		jobDate = runEPJobUntil(jobDate, rDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(rDate);

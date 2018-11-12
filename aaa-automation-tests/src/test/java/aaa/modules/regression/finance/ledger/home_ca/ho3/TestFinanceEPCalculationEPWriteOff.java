@@ -13,6 +13,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.BillingConstants;
@@ -26,16 +27,18 @@ import aaa.modules.regression.finance.template.FinanceOperations;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends FinanceOperations {
+public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 
 	/**
 	 * @author Maksim Paitrouski
-	 * Objectives : Issue With Installment Plan And Payment
+	 * Objectives : EP Write-Off
 	 * Preconditions:
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
 	 * 1. Create Monthly Home CA Policy with Effective date today
 	 * 2. Issue first installment bill
 	 * 3. Receive/apply installment payment(today + 1 month - 20 days)
+	 * 4. Cancel (today + 3 months)
+	 * 5. Generate EP Write-Off
 	 * 4. Verify Calculations
 	 */
 
@@ -46,10 +49,10 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21455")
-	public void pas21455_testFinanceEPCalculationIssueWithInstallmentPlanAndPayment(@Optional("CA") String state) {
-        BillingAccount billingAccount = new BillingAccount();
-        TestData tdBilling = testDataManager.billingAccount;
+	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21457")
+	public void pas21457_testFinanceEPCalculationEPWriteOff(@Optional("CA") String state) {
+		BillingAccount billingAccount = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -58,6 +61,7 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		String policyNumber = createPolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(1).minusDays(20);
+		LocalDateTime cDate = today.plusMonths(4);
 
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
@@ -68,23 +72,32 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-        billingAccount.generateFutureStatement().perform();
-        billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue());
+		billingAccount.generateFutureStatement().perform();
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue());
+
+		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		TimeSetterUtil.getInstance().nextPhase(cDate);
+
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		cancelPolicy(cDate, getPolicyType());
+
+		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
-        BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
-                .getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
+		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
+				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
 		assertThat(new Dollar(issueEndingPremium))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-        List<TxType> txTypes = Arrays.asList(TxType.ISSUE);
-        List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
-        txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
-        validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.CANCEL);
+		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
+		txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
+		validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
 	}
 }
