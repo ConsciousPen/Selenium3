@@ -237,19 +237,19 @@ public abstract class FinanceOperations extends PolicyBaseTest {
     private void test() {
         List<TxWithTermPremium> premiums = new ArrayList<>();
 
-		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 1196, 1196, LocalDate.of(2018, 10, 22), LocalDate.of(2018, 10, 22)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1159, 1165, LocalDate.of(2018, 12, 23), LocalDate.of(2018, 12, 22)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1168, 1171, LocalDate.of(2019, 2, 22), LocalDate.of(2019, 2, 21)));
-		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1186, 1185, LocalDate.of(2019, 4, 27), LocalDate.of(2019, 1, 22)));
-		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 1168, 1173, LocalDate.of(2019, 4, 27), LocalDate.of(2019, 2, 21)));
-		validateEPCalculationsFromTransactions("asd" ,premiums, LocalDate.of(2018, 10, 22), LocalDate.of(2019, 10, 22));*/
+		premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
+		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1219, 1239, LocalDate.of(2019, 1, 9), LocalDate.of(2019, 1, 8)));
+		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1376, 1344, LocalDate.of(2019, 3, 11), LocalDate.of(2019, 3, 10)));
+		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1265, 1273, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 2, 8)));
+		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 1376, 1347, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 3, 10)));
+		validateEPCalculationsFromTransactions("asd" ,premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));
 
 		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, new BigDecimal(405), LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(333), LocalDate.of(2018, 10, 29), LocalDate.of(2018, 10, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(450), LocalDate.of(2018, 12, 29), LocalDate.of(2018, 12, 28)));
 		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, new BigDecimal(333), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 11, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, new BigDecimal(450), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 12, 28)));
-		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
+		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));
 
 		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 2565, 2565, LocalDate.of(2018, 10, 15), LocalDate.of(2018, 10, 15)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 3761, 2873, LocalDate.of(2019, 7, 15), LocalDate.of(2019, 7, 13)));
@@ -272,9 +272,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         premiums.add(new TxWithTermPremium(TxType.ROLL_BACK, 1344, 1344, LocalDate.of(2019, 9, 11), LocalDate.of(2018, 11, 7)));
         validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 7), LocalDate.of(2019, 11, 7));*/
 
-        premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
-        premiums.add(new TxWithTermPremium(TxType.OOS_CANCEL, 0, 18, LocalDate.of(2018, 12, 13), LocalDate.of(2018, 11, 13)));
-        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));
+
     }
 
     protected void validateEPCalculations(String policyNumber, List<TxType> txTypes, LocalDateTime effectiveDate, LocalDateTime expirationDate) {
@@ -398,6 +396,12 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         }
 
         Map<LocalDate, BigDecimal> epFromDb = LedgerHelper.getMonthlyEarnedPremiumAmounts(policyNumber);
+        for (PeriodFactor periodFactor : periodFactors) {
+            BigDecimal postedEP = epFromDb.get(periodFactor.getJobDate());
+            if (postedEP == null) {
+                epFromDb.put(periodFactor.getJobDate(), BigDecimal.ZERO);
+            }
+        }
 
         txsWithPremium.forEach(tx -> log.info(tx.toString()));
         log.info("Model calculations");
@@ -405,7 +409,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
         log.info("Actual posted EP");
         epFromDb.entrySet().forEach(entry -> log.info(entry.toString()));
 
-        for (LocalDate epDate : finalEp.keySet()) {
+        for (PeriodFactor factor : periodFactors) {
+            LocalDate epDate = factor.getJobDate();
             BigDecimal modelAmt = finalEp.get(epDate);
             BigDecimal postedAmt = epFromDb.get(epDate);
             assertThat(modelAmt.subtract(postedAmt).abs().compareTo(TOLERANCE_AMOUNT) < 1)
