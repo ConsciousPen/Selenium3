@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -186,7 +187,18 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         claims.forEach(c -> {
             String updatableFieldValue = updatableFieldValueMap.get(c.getClaimNumber());
             if (updatableFieldValue != null) {
-                switch (updatableField) {
+                try {
+                    Field field = Claim.class.getField(updatableField);
+                    field.setAccessible(true);
+                    field.set(c, updatableFieldValue);
+                    System.out.println(c);
+                } catch (NoSuchFieldException e) {
+                    throw new IllegalStateException(e);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+                /*switch (updatableField) {
                     case ClaimCASResponseTags.TagNames.CLAIM_POLICY_REFERENCE_NUMBER:
                         c.setClaimPolicyReferenceNumber(updatableFieldValue);
                         break;
@@ -271,7 +283,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                     default:
                         System.out.println("Invalid CAS Response value selected");
                         break;
-                }
+                }*/
             }
         });
     }
