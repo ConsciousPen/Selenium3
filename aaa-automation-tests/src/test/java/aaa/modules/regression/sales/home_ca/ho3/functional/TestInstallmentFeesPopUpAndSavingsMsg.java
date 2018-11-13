@@ -30,7 +30,7 @@ public class TestInstallmentFeesPopUpAndSavingsMsg extends TestInstallmentFeesPo
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = {"PAS-246", "PAS-237"})
 	public void pas246_InstallmentFeesPopUpAndSavingsMsg(@Optional("CA") String state) {
 		mainApp().open();

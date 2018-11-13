@@ -22,7 +22,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA20180517("AAA_HO_CA20180517", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA02122017("AAA_HO_CA02122017", "Dwellings located in PPC 10 are ineligible."),
 		ERROR_AAA_HO_CA10100616("AAA_HO_CA10100616", "Log homes must be in protection class 1-8 and assembled by a licensed buildin..."),
-		ERROR_AAA_HO_CSA25636985("AAA_CSA25636985", "Policy cannot be bound with Current AAA Member as Pending (AAA_CSA25636985) [..."),
+		ERROR_AAA_HO_CSA25636985("AAA_CSA25636985", "Policy cannot be bound with Current AAA Member as Pending"),
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
 		ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
@@ -142,9 +142,12 @@ public final class ErrorEnum {
 
 		// Auto Errors
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
+		ERROR_AAA_200008("200008", "Each driver must have a unique Driver's License Number."),
 		ERROR_AAA_200009("200009", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_200011("200011","Requested Effective Date not Available (200011) [for Policy.effective]"),
+		ERROR_AAA_200034("200034_OR", "A signed Named Driver Exclusion Endorsement must be received prior to issuing..."),
+		ERROR_AAA_200111("200111_OR", "Named Driver Exclusion requires Underwriting Approval"),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ", "Policies with unsuccessful membership validation results require prior approval."),
@@ -154,6 +157,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA1801266BZWW("AAA_CSA180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_SS1801266BZWW("AAA_SS180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_MES_PC_0017_CA_CHOICE("MES-PC-0017_CA_CHOICE", "Rating variables stat code or Value($) is required for rating (MES-PC-0017) [..."),
+		ERROR_AAA_MVR_order_validation_SS("AAA_MVR_order_validation_SS", "Current MVR for "),
         ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 
@@ -163,7 +167,8 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
-		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS.");
+		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
+		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");
 		private String code;
 		private String message;
 
