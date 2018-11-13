@@ -66,7 +66,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
-		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
+		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(cDate);
 
 		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
@@ -83,10 +83,12 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		cancelPolicy(cDate, getPolicyType());
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
+
+		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -94,8 +96,10 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 
 		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")
 				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
+		BigDecimal endorsementEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Endorsement")
+				.getCell(PolicyConstants.PolicyTransactionHistoryTable.ENDING_PREMIUM).getValue());
 
-		assertThat(new Dollar(issueEndingPremium))
+		assertThat(new Dollar(endorsementEndingPremium))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.CANCEL);
