@@ -36,7 +36,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
  */
 public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
 
-    ApplicantTab aTab = new ApplicantTab();
+    private ApplicantTab applicantTab = new ApplicantTab();
     private String policyNumber;
 
     @Parameters({"state"})
@@ -50,14 +50,12 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         String sourceAgent = getSourceAgentDetails();
         createBortObject();
         JobUtils.executeJob(Jobs.policyBORTransferJob);
-        String agentPostTransfer = gettargetAgentDetails(policyNumber);
+        String agentPostTransfer = getTargetAgentDetails(policyNumber);
         assertAndLogResults(sourceAgent, agentPostTransfer);
     }
 
     public String createPolicyNumber() {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+        String policyNumber = openAppAndCreatePolicy();
         log.info("policy created: " + policyNumber);
         return policyNumber;
     }
@@ -67,12 +65,12 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         log.info("Test Passed " + "Agent Prior Transfer : " + sourceAgent + "" + "Agent Post Transfer : " + agentPostTransfer);
     }
 
-    private String gettargetAgentDetails(String policyNumber) {
+    private String getTargetAgentDetails(String policyNumber) {
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        return aTab.getInquiryAssetList().getInquiryAssetList(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION).getStaticElement(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT).getValue();
+        return applicantTab.getInquiryAssetList().getInquiryAssetList(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION).getStaticElement(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT).getValue();
     }
 
     private void createBortObject() {
@@ -98,14 +96,14 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
                 log.info("Timed out after waiting for 10 minutes for status to become Submitted to Batch");
             }
         }
-        while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue().equalsIgnoreCase("Submitted to Batch") && counter < 200);
+        while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell("Status").getValue().equalsIgnoreCase("Submitted to Batch") && counter < 200);
         adminApp().close();
     }
 
     private String getSourceAgentDetails() {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
-        String sourceAgent = aTab.getInquiryAssetList().getInquiryAssetList(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION).getStaticElement(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT).getValue();
+        String sourceAgent = applicantTab.getInquiryAssetList().getInquiryAssetList(HomeSSMetaData.ApplicantTab.AGENT_INFORMATION).getStaticElement(HomeSSMetaData.ApplicantTab.AgentInfo.AGENT).getValue();
         assertThat(sourceAgent).contains("Foster Bottenberg");
         log.info("Source Agent: " + sourceAgent);
         mainApp().close();

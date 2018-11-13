@@ -34,7 +34,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
  */
 public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
 
-    GeneralTab gTab = new GeneralTab();
+    private GeneralTab generalTab = new GeneralTab();
     private String policyNumber;
 
     @Parameters({"state"})
@@ -48,14 +48,12 @@ public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
         String sourceAgent = getSourceAgentDetails();
         createBortObject();
         JobUtils.executeJob(Jobs.policyBORTransferJob);
-        String agentPostTransfer = gettargetAgentDetails(policyNumber);
+        String agentPostTransfer = getTargetAgentDetails(policyNumber);
         assertAndLogResults(sourceAgent, agentPostTransfer);
     }
 
     private String createPolicyNumber() {
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+        String policyNumber = openAppAndCreatePolicy();
         log.info("policy created: " + policyNumber);
         return policyNumber;
     }
@@ -65,11 +63,11 @@ public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
         log.info("Test Passed " + "Agent Prior Transfer : " + sourceAgent + "" + "Agent Post Transfer : " + agentPostTransfer);
     }
 
-    private String gettargetAgentDetails(String policyNumber) {
+    private String getTargetAgentDetails(String policyNumber) {
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.policyInquiry().start();
-        return gTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).getValue();
+        return generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).getValue();
     }
 
     private void createBortObject() {
@@ -96,13 +94,13 @@ public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
                 log.info("Timed out after waiting for 10 minutes for status to become Submitted to Batch");
             }
         }
-        while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue().equalsIgnoreCase("Submitted to Batch") && counter < 200);
+        while (!AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell("Status").getValue().equalsIgnoreCase("Submitted to Batch") && counter < 200);
         adminApp().close();
     }
 
     private String getSourceAgentDetails() {
         policy.policyInquiry().start();
-        String sourceAgent = gTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).getValue();
+        String sourceAgent = generalTab.getInquiryAssetList().getInquiryAssetList(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getStaticElement(AutoSSMetaData.GeneralTab.PolicyInformation.AGENT).getValue();
         assertThat(sourceAgent).contains("Foster Bottenberg");
         log.info("Source Agent: " + sourceAgent);
         mainApp().close();
