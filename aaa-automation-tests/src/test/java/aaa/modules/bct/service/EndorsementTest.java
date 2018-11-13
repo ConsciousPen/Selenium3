@@ -43,7 +43,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {NJ})
-	public void BCT_ONL_079_Endorsement(@Optional("NJ") String state) {
+	public void BCT_ONL_079_Endorsement(@Optional("") String state) {
 		mainApp().open();
 		IPolicy policy = PolicyType.HOME_SS_HO4.get();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_079_Endorsement", "SelectPolicy").get(0);
