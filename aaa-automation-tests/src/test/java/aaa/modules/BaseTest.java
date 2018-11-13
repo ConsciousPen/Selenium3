@@ -38,10 +38,8 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
-import toolkit.datax.impl.SimpleDataProvider;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -196,6 +194,14 @@ public class BaseTest {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 		}
 		return td;
+	}
+
+	protected String getLoginData() {
+		if (StringUtils.isNotBlank(loginData)) {
+			return loginData;
+		} else {
+			return Constants.LoginData.QA;
+		}
 	}
 
 	public static void printToLog(String message) {
@@ -474,18 +480,10 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		if (StringUtils.isNotBlank(loginData)) {
-			return testDataManager.loginUsers.getTestData(loginData).adjust(LoginPageMeta.STATES.getLabel(), getState());
-		} else {
-			Map<String, Object> td = new LinkedHashMap<>();
-			td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
-			td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
-			td.put(LoginPageMeta.STATES.getLabel(), getState());
-			return new SimpleDataProvider(td);
-		}
+		return testDataManager.loginUsers.getTestData(getLoginData()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-   private String openDefaultPolicy(PolicyType policyType, String state) {
+	private String openDefaultPolicy(PolicyType policyType, String state) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;

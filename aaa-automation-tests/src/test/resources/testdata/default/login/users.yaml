@@ -1,3 +1,8 @@
+QA: {
+ User: qa,
+ Password: qa
+}
+
 E34: {
   User: qa_security,
   Groups: E34,
