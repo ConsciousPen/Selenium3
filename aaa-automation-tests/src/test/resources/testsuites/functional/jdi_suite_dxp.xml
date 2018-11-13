@@ -788,6 +788,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                    <include name="pas22037_updateBiCoverage"/>
                 </methods>
             </class>
         </classes>

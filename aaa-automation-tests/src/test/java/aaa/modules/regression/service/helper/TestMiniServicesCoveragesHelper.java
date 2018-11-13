@@ -3354,8 +3354,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas22037_updateBiCoverageBody(){
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		verifyUMUIMAfterBIChange(policyNumber, "25000/50000", "50000/100000", "50000/100000", false, ImmutableList.of("50000/100000"));
