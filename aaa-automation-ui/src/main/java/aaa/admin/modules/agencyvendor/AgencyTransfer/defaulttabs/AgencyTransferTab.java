@@ -2,7 +2,7 @@ package aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs;
 
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.pages.agencyvendor.AgencyTransferPage;
-import aaa.common.DefaultTab;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import org.openqa.selenium.By;
@@ -12,10 +12,8 @@ import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ListBox;
 import toolkit.webdriver.controls.TextBox;
 
-public class AgencyTransferTab extends DefaultTab {
-
+public class AgencyTransferTab extends Tab {
 	protected Logger log = LoggerFactory.getLogger(AgencyTransferTab.class);
-
 	public AgencyTransferTab() {
 		super(AgencyTransferMetaData.AgencyTransferTab.class);
 			}
@@ -45,4 +43,13 @@ public class AgencyTransferTab extends DefaultTab {
 		AgencyTransferPage.buttonAddNewTransfer.click();
 	}
 
+	@Override
+	public Tab submitTab() {
+		return submitTab(false);
+	}
+
+	public Tab submitTab(boolean errorExpected) {
+		buttonSubmit.click();
+		return this;
+	}
 }

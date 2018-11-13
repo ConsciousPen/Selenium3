@@ -79,8 +79,9 @@ public class TestBortCreateObjectProperty extends HomeSSHO3BaseTest {
         agencyTransferTab.createBortObject();
         TestData td = getTestSpecificTD("TestData");
         agencyTransferTab.getAssetList().fill(td);
-        AgencyTransferTab.targetInsuranceAgent.setValue("House Agent AAA Az Ins Agcy Az");
-        AgencyTransferTab.submit.click();
+        agencyTransferTab.getAssetList().getAsset(AgencyTransferMetaData.AgencyTransferTab.TRANSFER_TARGET_SECTION)
+                .getAsset(AgencyTransferMetaData.AgencyTransferTab.TransferTargetSection.TARGET_INSURANCE_AGENT).setValue("House Agent AAA Az Ins Agcy Az");
+        agencyTransferTab.submitTab();
         AgencyTransferPage.buttonSearchTransfer.click();
         log.info("No of transfer ID's: " + Integer.toString(AgencyTransferPage.tableTransfers.getRowsCount()));
         log.info("*************** " + AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue());
