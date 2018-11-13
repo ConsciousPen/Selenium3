@@ -35,9 +35,7 @@ public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 	 */
 	public void testAddPaymentMethods() {		
 		mainApp().open();
-		//getCopiedPolicy();
-		createCustomerIndividual();  
-		createPolicy();
+		getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
 		BillingSummaryPage.open();

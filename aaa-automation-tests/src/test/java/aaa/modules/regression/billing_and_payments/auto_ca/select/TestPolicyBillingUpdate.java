@@ -43,4 +43,16 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 		super.testUpdate_addPaymentMethodAndEnableAutoPay();
 	}
 
+	
+	@Parameters({"state"})
+	@StateList(states =  States.CA)
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT)
+	public void testUpdate_disableAutoPay(@Optional("CA") String state) {
+		TestData td = getPolicyDefaultTD()
+				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("TestData_PaymentPlan"))
+				.adjust(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()), getTestSpecificTD("TestData_PurchaseTab_WithEnabledAutoPay"));
+		
+		super.testUpdate_disableAutoPay(td);
+	}
 }

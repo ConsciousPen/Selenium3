@@ -8,11 +8,13 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-import static toolkit.verification.CustomAssertions.assertThat;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import com.exigen.ipb.etcsa.utils.Dollar;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 

@@ -1,0 +1,30 @@
+QA: {
+ User: qa,
+ Password: qa
+}
+
+E34: {
+  User: qa_security,
+  Groups: E34,
+  UW_AuthLevel: '04',
+  Billing_AuthLevel: '01',
+  Password: qa_security
+}
+
+F35: {
+  User: qa_security,
+  Groups: F35,
+  Password: qa_security
+}
+
+G36: {
+  User: qa_security,
+  Groups: G36,
+  Password: qa_security
+}
+
+L41: {
+  User: qa_security,
+  Groups: L41,
+  Password: qa_security
+}

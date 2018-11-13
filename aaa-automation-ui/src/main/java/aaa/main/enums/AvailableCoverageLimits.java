@@ -1,7 +1,8 @@
 package aaa.main.enums;
 
-import java.util.List;
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 
 public enum AvailableCoverageLimits {
 

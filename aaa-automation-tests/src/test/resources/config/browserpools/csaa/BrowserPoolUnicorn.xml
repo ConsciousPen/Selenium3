@@ -12,8 +12,8 @@
 	
 	<hub>
 		<url>http://n01apl4364.tent.trt.csaa.pri:9999</url>
-		<min>4</min>
-		<max>4</max>
+		<min>32</min>
+		<max>32</max>
 		<keywords>
 			<keyword>Unicorns</keyword>
 		</keywords>
