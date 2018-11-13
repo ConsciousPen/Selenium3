@@ -34,6 +34,7 @@ public enum CoverageLimits {
 	COV_10002000("1000000/2000000", "$1,000,000/$2,000,000"),
 	COV_20002000("2000000/2000000", "$2,000,000/$2,000,000"),
 	COV_0("0", "No Coverage"),
+	COV_0_WV("0/0", "No Coverage"),
 	COV_TRUE("true", "Yes"),
 	COV_FALSE("false", "No"),
 	COV_FALSE_NO_COVERAGE("false", "No Coverage"),
