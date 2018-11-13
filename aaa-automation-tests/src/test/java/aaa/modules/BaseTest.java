@@ -59,6 +59,7 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	protected ITestContext context;
+	private String loginData;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
@@ -213,8 +214,9 @@ public class BaseTest {
 		log.debug(message);
 	}
 
+	@Parameters("login")
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Object[] parameters) {
+	public void beforeMethodStateConfiguration(@Optional("") String login, Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
 			setState(parameters[0].toString());
 		} else if (isStateCA()) {
@@ -224,6 +226,8 @@ public class BaseTest {
 		} else {
 			setState(Constants.States.UT);
 		}
+
+		this.loginData = login;
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -470,14 +474,18 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
-		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
-		td.put(LoginPageMeta.STATES.getLabel(), getState());
-		return new SimpleDataProvider(td);
+		if (StringUtils.isNotBlank(loginData)) {
+			return testDataManager.loginUsers.getTestData(loginData).adjust(LoginPageMeta.STATES.getLabel(), getState());
+		} else {
+			Map<String, Object> td = new LinkedHashMap<>();
+			td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
+			td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
+			td.put(LoginPageMeta.STATES.getLabel(), getState());
+			return new SimpleDataProvider(td);
+		}
 	}
 
-	private String openDefaultPolicy(PolicyType policyType, String state) {
+   private String openDefaultPolicy(PolicyType policyType, String state) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
 		String policyNumber;
