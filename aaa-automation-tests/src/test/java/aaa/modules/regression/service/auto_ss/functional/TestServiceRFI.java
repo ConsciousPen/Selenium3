@@ -70,7 +70,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-349", "PAS-341", "PAS-20333"})
-	public void pas349_rfiAuto(@Optional("NV") String state) {
+	public void pas349_rfiAuto(@Optional("WY") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 
 		TestData td;
