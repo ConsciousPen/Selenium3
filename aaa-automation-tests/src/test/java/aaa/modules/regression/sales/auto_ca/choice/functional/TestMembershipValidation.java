@@ -2,14 +2,12 @@ package aaa.modules.regression.sales.auto_ca.choice.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-
-import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
@@ -29,6 +27,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -53,7 +52,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
     private PurchaseTab purchaseTab = new PurchaseTab();
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
     public void pas3786_ScenarioAC1_Validate_Override(@Optional("CA") String state) {
 
@@ -97,7 +96,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
     public void pas6800_pas3786_ScenarioAC1_Validate_NoOverride(@Optional("CA") String state) {
 
@@ -157,7 +156,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
     public void pas3786_ScenarioAC1_Validate_Override_Endorsement(@Optional("CA") String state) {
 
@@ -201,7 +200,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786")
     public void pas3786_ScenarioAC1_Validate_Override_Renewal(@Optional("CA") String state) {
 
@@ -240,7 +239,7 @@ public class TestMembershipValidation extends AutoCaChoiceBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-3786 PAS-8815")
     public void pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Manual_Renewal(@Optional("CA") String state) {
 

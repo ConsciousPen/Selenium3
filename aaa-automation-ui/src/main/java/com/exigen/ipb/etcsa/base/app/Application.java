@@ -1,6 +1,7 @@
 package com.exigen.ipb.etcsa.base.app;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,14 +81,6 @@ public abstract class Application {
 		switchPanel();
 	}
 
-	public void open(String username, String password) {
-		if (!isApplicationOpened) {
-			openSession();
-			getLogin().login(username, password);
-		}
-		switchPanel();
-	}
-
 	public void open(TestData td) {
 		if (!isApplicationOpened) {
 			openSession();
@@ -99,11 +92,6 @@ public abstract class Application {
 	public void reopen() {
 		close();
 		open();
-	}
-
-	public void reopen(String username, String password) {
-		close();
-		open(username, password);
 	}
 
 	public void close() {
@@ -145,7 +133,7 @@ public abstract class Application {
 		}
 
 		BrowserController.get().open(url);
-		BrowserController.get().maximize();
+		BrowserController.get().driver().manage().window().setSize(new Dimension(1920, 1080));
 		setApplicationOpened(true);
 	}
 
