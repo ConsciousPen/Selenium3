@@ -31,8 +31,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
         }
 
-
-
         // NB validations
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1015", policyNumber)).get()));
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1021", policyNumber)).get()));
