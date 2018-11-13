@@ -1,0 +1,109 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Privileges Tests E34" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="UT Auto Regression Tests" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <parameter name="login" value="E34"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
+            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
+            <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyDoNotRenewAddRemove"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementDeclineByCompany"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementDeclineByCustomer"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementDeletePending"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementMidTerm"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementRollBack"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyOose"/>
+            <class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewDeletePending"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
+        </classes>
+    </test>
+    <test name="CA Select Auto Regression Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <parameter name="login" value="E34"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNano"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyRulesOverride"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementRollBack"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyOose"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
+        </classes>
+    </test>
+    <test name="UT Home Regression Tests" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <parameter name="login" value="E34"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyDoNotRenewAddRemove"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementOos"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementRollBack"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyManualRenewFlagAddRemove"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsementRollBack"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
+        </classes>
+    </test>
+    <test name="UT PUP Regression Tests" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <parameter name="login" value="E34"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyDoNotRenewAddRemove"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyEndorsementDeletePending"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyEndorsementMidTerm"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyEndorsementOos"/>
+            <class name="aaa.modules.regression.service.pup.TestPolicyEndorsementRollBack"/>
+        </classes>
+    </test>
+    <test name="CA HSS Regression Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <parameter name="login" value="E34"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestQuoteUnderwritingRules"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsementMidTerm"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsementOos"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsementRollBack"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyPayments"/>
+        </classes>
+    </test>
+</suite>
