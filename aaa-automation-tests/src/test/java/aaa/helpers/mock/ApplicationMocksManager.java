@@ -108,7 +108,7 @@ public class ApplicationMocksManager {
 		long retryDelay = 60;
 		while (results.getExitCode() == START_STUB_FAILURE_EXIT_CODE && results.getOutput().contains(START_STUB_KNOWN_EXCEPTION) && retry <= maxRetries) {
 			retry++;
-			log.warn("Retry #{} of {} max attempts to start stub server with be performed after {} seconds", START_STUB_FAILURE_EXIT_CODE, retry, maxRetries, retryDelay);
+			log.warn("Retry #{} of {} max attempts to start stub server will be performed after {} seconds", retry, maxRetries, retryDelay);
 			sleep(retryDelay);
 			results = startStubServer();
 		}
@@ -133,7 +133,7 @@ public class ApplicationMocksManager {
 		log.info("Starting stub server... it may take up to 10 minutes");
 		ExecutionParams params = ExecutionParams.with().timeout(Duration.ofMinutes(12)).failOnTimeout().failOnErrorIgnoring(START_STUB_FAILURE_EXIT_CODE);
 		CommandResults results = getRemoteHelper().executeCommand(startCommand, params);
-		if (results.getErrorOutput().contains(START_STUB_KNOWN_EXCEPTION)) {
+		if (results.getExitCode() == START_STUB_FAILURE_EXIT_CODE && results.getOutput().contains(START_STUB_KNOWN_EXCEPTION)) {
 			log.warn("Failed to start stub server because of known error");
 		} else {
 			log.info("Stub server has been started");
