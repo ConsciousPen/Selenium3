@@ -2,6 +2,7 @@ package aaa.modules.financials.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
@@ -10,6 +11,8 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
+import aaa.modules.financials.FinancialsSQL;
+import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
@@ -21,6 +24,20 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
 		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
+		Dollar premTotal;
+		if (!getPolicyType().isAutoPolicy()) {
+            premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
+        } else {
+            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
+        }
+
+
+
+        // NB validations
+        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1015", policyNumber)).get()));
+        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1021", policyNumber)).get()));
+        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1022", policyNumber)).get()));
+        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1044", policyNumber)).get()));
 
 		// Advance time one week and perform premium-bearing endorsement (additional premium)
 		mainApp().close();
