@@ -1,4 +1,4 @@
-package aaa.modules.regression.billing_and_payments.auto_ca.select;
+package aaa.modules.regression.billing_and_payments.auto_ca.choice;
 
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -19,13 +19,13 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 	
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.AUTO_CA_CHOICE;
 	}
 	
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
 	public void testUpdate_enableAutoPay(@Optional("CA") String state) {
 		TestData td = getPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("TestData_PaymentPlan"))
@@ -37,7 +37,7 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
 	public void testUpdate_addPaymentMetodAndEnableAutoPay(@Optional("CA") String state) {
 		
 		super.testUpdate_addPaymentMethodAndEnableAutoPay();
@@ -47,7 +47,7 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT)
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_CHOICE)
 	public void testUpdate_disableAutoPay(@Optional("CA") String state) {
 		TestData td = getPolicyDefaultTD()
 				.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName()), getTestSpecificTD("TestData_PaymentPlan"))
@@ -55,4 +55,5 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 		
 		super.testUpdate_disableAutoPay(td);
 	}
+
 }

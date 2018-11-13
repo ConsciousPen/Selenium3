@@ -5,10 +5,9 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-
     <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
-		<parameter name="login" value="E34"/>
+        <parameter name="login" value="E34"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
@@ -31,10 +30,9 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
         </classes>
     </test>
-
     <test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-		<parameter name="login" value="E34"/>
+        <parameter name="login" value="E34"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNano"/>
@@ -48,12 +46,11 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
         </classes>
     </test>
-
     <test name="UT Home Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
-		<parameter name="login" value="E34"/>
+        <parameter name="login" value="E34"/>
         <classes>
-		    <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyRemoveForm"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.home_ss.ho4.TestPolicyCreation"/>
@@ -72,10 +69,9 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
         </classes>
     </test>
-
     <test name="UT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
-		<parameter name="login" value="E34"/>
+        <parameter name="login" value="E34"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestPolicyCreation"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyCancellation"/>
@@ -89,10 +85,9 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyEndorsementRollBack"/>
         </classes>
     </test>
-
     <test name="CA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-		<parameter name="login" value="E34"/>
+        <parameter name="login" value="E34"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyRemoveForm"/>
@@ -111,5 +106,4 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyPayments"/>
         </classes>
     </test>
-
 </suite>
