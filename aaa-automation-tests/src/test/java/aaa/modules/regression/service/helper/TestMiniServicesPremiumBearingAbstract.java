@@ -234,11 +234,11 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
 		assertSoftly(softly -> {
-			softly.assertThat(response.allowedEndorsements.get(0)).isEqualTo("UpdateDriver");
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).isEqualTo("UBI Vehicle");
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
-			softly.assertThat(response.ruleSets.get(1).errors.get(0).message).isEqualTo("UBI Vehicle");
+			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
+			softly.assertThat(response.allowedEndorsements).isEmpty();
 		});
 	}
 
@@ -1627,11 +1627,10 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 	protected void pas19742ViewPremiumServiceTaxInformationBody() {
 		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = getCopiedPolicy();
 
 		PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
-		checkIfTaxInfoIsDisplaying(response);
+		checkIfTaxInfoIsDisplaying(response, getState());
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
@@ -1645,25 +1644,24 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 		PolicyPremiumInfo[] response2 = HelperCommon.viewEndorsementPremiums(policyNumber);
-		checkIfTaxInfoIsDisplaying(response2);
+		checkIfTaxInfoIsDisplaying(response2, getState());
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 
 		PolicyPremiumInfo[] response3 = HelperCommon.viewPolicyPremiums(policyNumber);
-		checkIfTaxInfoIsDisplaying(response3);
+		checkIfTaxInfoIsDisplaying(response3, getState());
 	}
 
-	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response){
+	private void checkIfTaxInfoIsDisplaying(PolicyPremiumInfo[] response, String state){
 
 		String premium = "GWT";
 		String countyTax = "PREMT_COUNTY";
 		String cityTax = "PREMT_CITY";
-		String kyTax = "PRMS_KY";
 
 		PolicyPremiumInfo grossPremium = Arrays.stream(response).filter(policyPremiumInfo -> premium.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
+		PolicyPremiumInfo stateTax = Arrays.stream(response).filter(policyPremiumInfo -> ("PRMS_" + state).equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
 		PolicyPremiumInfo county = Arrays.stream(response).filter(policyPremiumInfo -> countyTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
 		PolicyPremiumInfo city = Arrays.stream(response).filter(policyPremiumInfo -> cityTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
-		PolicyPremiumInfo kyStateTax = Arrays.stream(response).filter(policyPremiumInfo -> kyTax.equals(policyPremiumInfo.premiumCode)).findFirst().orElse(null);
 
 		assertSoftly(softly -> {
 			softly.assertThat(grossPremium.premiumType).isEqualTo("GROSS_PREMIUM");
@@ -1671,6 +1669,12 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(grossPremium.actualAmt).isNotEmpty();
 			softly.assertThat(grossPremium.termPremium).isNotEmpty();
 
+			softly.assertThat(stateTax.premiumType).isEqualTo("TAX");
+			softly.assertThat(stateTax.premiumCode).isEqualTo("PRMS_" + state);
+			softly.assertThat(stateTax.actualAmt).isNotEmpty();
+			softly.assertThat(stateTax.termPremium).isNotEmpty();
+
+		if ("KY".contains(state)) {
 			softly.assertThat(county.premiumType).isEqualTo("TAX");
 			softly.assertThat(county.premiumCode).isEqualTo(countyTax);
 			softly.assertThat(county.actualAmt).isNotEmpty();
@@ -1680,11 +1684,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(city.premiumCode).isEqualTo(cityTax);
 			softly.assertThat(city.actualAmt).isNotEmpty();
 			softly.assertThat(city.termPremium).isNotEmpty();
-
-			softly.assertThat(kyStateTax.premiumType).isEqualTo("TAX");
-			softly.assertThat(kyStateTax.premiumCode).isEqualTo(kyTax);
-			softly.assertThat(kyStateTax.actualAmt).isNotEmpty();
-			softly.assertThat(kyStateTax.termPremium).isNotEmpty();
+			}
 		});
 	}
 

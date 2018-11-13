@@ -131,8 +131,8 @@
         </classes>
     </test>-->
     <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="PATests-20180620_part1.xls"/>
-        <parameter name="policyNumbers" value="2, 3"/>
+        <parameter name="fileName" value="PATests-20180828.xls"/>
+        <parameter name="policyNumbers" value="228, 235"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

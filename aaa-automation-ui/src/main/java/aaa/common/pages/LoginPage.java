@@ -5,46 +5,34 @@ package aaa.common.pages;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.ILogin;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.LoginPageMeta;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.BrowserController;
-import toolkit.webdriver.controls.*;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.Link;
+import toolkit.webdriver.controls.ListBox;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class LoginPage extends Page implements ILogin {
 
-	public static StaticElement lblHeader = new StaticElement(By.xpath("//form[@id='loginForm']/table[1]/tbody/tr/td"));
 	public static Link closeSession = new Link(By.xpath("//form[@id='loginForm']//a[contains(.,'Close CAS Session')]"), Waiters.AJAX);
 	public static Link lnkLogout = new Link(By.xpath("//*[@id='logoutForm:logout_link']"), Waiters.AJAX);
 	public static Dialog logoutDialog = new Dialog("//div[@id='logoutConfirmDialogDialog']");
 	public static Link startPage = new Link(By.xpath("//form[@id='loginForm']//a[contains(.,'Start Page.')]"), Waiters.AJAX);
 	public static Link timeOutStartPage = new Link(By.xpath("//input[contains(.,'Start Page.')]"), Waiters.AJAX);
-	public static Link lnkSwitchToAdmin = new Link(By.xpath("//*[@id='logoutForm:switchToAdmin']"), Waiters.AJAX);
 	public static AssetList login = new AssetList(By.tagName("body"), LoginPageMeta.class);
 	private static Button btnLogin = new Button(By.xpath("//input[@id='submit']"), Waiters.AJAX.then(Waiters.AJAX));
-	public String user;
-	public String password;
-	public String state;
-
-	public LoginPage(String appUser, String appPw) {
-		user = appUser;
-		password = appPw;
-		state = null;
-	}
+	private TestData tdLogin;
 
 	public LoginPage(TestData td) {
-		user = td.getValue(LoginPageMeta.USER.getLabel());
-		password = td.getValue(LoginPageMeta.PASSWORD.getLabel());
-		state = td.getValue(LoginPageMeta.STATES.getLabel());
+		tdLogin = td;
 	}
 
 	public static boolean isPageDisplayed() {
@@ -88,47 +76,12 @@ public class LoginPage extends Page implements ILogin {
 	}
 
 	@Override
-	public void login(String username, String password, Boolean loginThroughURL) {
-		fillLogin(username, password);
-		// TODO Workaround: Sometimes system throws out with timeout
-		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
-			// Session time-out screen
-			if (startPage.isPresent()) {
-				startPage.click();
-			}
-			if (isPageDisplayed()) {
-				fillLogin(username, password);
-			}
-		}
-		//setApplicationLogFileName();
-	}
-
-	@Override
 	public void login() {
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), user);
-		td.put(LoginPageMeta.PASSWORD.getLabel(), password);
-		td.put(LoginPageMeta.STATES.getLabel(), state);
-		login(new SimpleDataProvider(td));
-	}
-
-	@Override
-	public void login(Boolean loginViaURL) {
-		login(user, password, true);
-	}
-
-	@Override
-	public void login(String username, String password) {
-		login(username, password, true);
+		login(tdLogin);
 	}
 
 	@Override
 	public void login(TestData td) {
-		login(td, true);
-	}
-
-	@Override
-	public void login(TestData td, Boolean loginViaURL) {
 		fillLogin(td);
 		// TODO Workaround: Sometimes system throws out with timeout
 		if (!(lnkLogout.isPresent() && lnkLogout.isVisible())) {
@@ -144,18 +97,7 @@ public class LoginPage extends Page implements ILogin {
 	}
 
 	public void verifyDisplayed() {
-		CustomAssertions.assertThat(isPageDisplayed()).as("LoginPanel is displayed").isTrue();
-	}
-
-	public void fillLogin(String user, String pw) {
-		startLogin();
-
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), user);
-		td.put(LoginPageMeta.PASSWORD.getLabel(), pw);
-		SimpleDataProvider dp = new SimpleDataProvider(td);
-		login.setValue(dp);
-		btnLogin.click();
+		Assertions.assertThat(isPageDisplayed()).as("LoginPanel is displayed").isTrue();
 	}
 
 	public TestData fillLogin(TestData td) {
@@ -169,10 +111,6 @@ public class LoginPage extends Page implements ILogin {
 		login.setValue(td);
 		btnLogin.click();
 		return td;
-	}
-
-	public void switchToAdmin() {
-		lnkSwitchToAdmin.click();
 	}
 
 	private void startLogin() {
@@ -189,8 +127,6 @@ public class LoginPage extends Page implements ILogin {
 		if (result != null) {
 			methodName = result.getClassName() + "." + result.getMethodName();
 		}
-		//BrowserController.get().open(BrowserController.get().driver().getCurrentUrl().replace("#noback", "") + "&scenarioName=" + methodName + "_" + state);
-
 		String url = BrowserController.get().driver().getCurrentUrl().replace("#noback", "");
 		BrowserController.get().open((url.contains("flow") || url.contains("windowId") ? url : url.concat("flow%3F_flowId%3Dipb-entry-flow")).concat("&scenarioName=").concat(methodName).concat("_").concat(state));
 	}
