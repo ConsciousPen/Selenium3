@@ -599,15 +599,15 @@ DriverInformation: {
   ADB Coverage: 'Yes',
   Financial Responsibility Filing Needed: 'Yes',
   Filing State: 'Utah',
-  #ActivityInformation: {
-  #  Activity Source: Company Input,
-  #  Type: 'At-Fault Accident',
-  #  Description: 'Accident (Property Damage Only)',
-  #  Occurrence Date: '05/25/2018',
-  #  Loss Payment Amount: 2000,
-  #  "Include in Points and/or Tier?": 'No',
-  #  Not Included in Points and/or Tier - Reason Codes: 'Report errors',
-  #}
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: '05/25/2018',
+    Loss Payment Amount: 2000,
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Report errors',
+  }
 }
 
 DriverInformation_Version1: {
@@ -626,14 +626,15 @@ DriverInformation_Version1: {
   ADB Coverage: 'Yes',
   Financial Responsibility Filing Needed: 'Yes',
   Filing State: 'Indiana',
-  #ActivityInformation: {
-  #  Activity Source: Customer Input,
-  #  Type: 'Major Violation',
-  #  Description: 'Hit and Run',
-  #  Occurrence Date: '07/20/2018',
-  #  "Include in Points and/or Tier?": 'No',
-  #  Not Included in Points and/or Tier - Reason Codes: 'Dismissed by DMV',
-  #}
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: '05/25/2018',
+    Loss Payment Amount: 2000,
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Dismissed by DMV',
+  }
 }
 
 DriverInformation_Version2: {
@@ -651,14 +652,15 @@ DriverInformation_Version2: {
   "Smart Driver Course Certificate Number": 33333,
   ADB Coverage: 'No',
   Financial Responsibility Filing Needed: 'No',
-  #ActivityInformation: {
-  #  Activity Sorce: Company Input,
-  #  Type: 'Comprehensive Claim',
-  #  Description: 'Comprehensive Claim',
-  #  Occurrence Date: '06/20/2018',
-  #  Loss Payment Amount: 3000,
-  #  "Include in Points and/or Tier?": 'Yes',
-  #}
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: '05/25/2018',
+    Loss Payment Amount: 2000,
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Dismissed with Report',
+  }
 }
 
 #Vehicle Tab - Vehicle Information section

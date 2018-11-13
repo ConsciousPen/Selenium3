@@ -187,7 +187,7 @@ public class VersionsConflictConstants {
 			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", "Loss Payment Amount")
 			//TODO should be returned after implementing story for Clean up for Activity Information
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", "Not Included in Points and/or YAF - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -416,15 +416,7 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Gender", AVAILABLE)
-					//TODO return when Activity section is done
-					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", AVAILABLE)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -435,12 +427,7 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
-					//TODO return when Activity section is done
-					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
@@ -455,6 +442,8 @@ public class VersionsConflictConstants {
 						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
 						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
 						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating)","Not Included in Points and/or YAF - Reason Codes")
+
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement

@@ -18,6 +18,10 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
+			.putAll("AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("AAA Membership report.Order Date", "","")
+			.putAll("AAA Membership report.Receipt Date", "", "")
+			.putAll("AAA Membership report.Status", "Active","")
 			//Policy Information
 			.putAll("Policy Information.Renewal Term Premium - Old Rater","","2532")
 			.putAll("Policy Information.Override ASD Level","true","false")
@@ -100,6 +104,7 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -158,6 +163,7 @@ public class VersionsConflictConstants {
 			//TODO should be returned after implementing story for Clean up for Activity Information
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
 			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -224,13 +230,7 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 					ImmutableListMultimap.<String, String>builder()
-							.put("AAA Membership Order.Last Name", CURRENT)
-							.put("AAA Membership Order.Membership Number", CURRENT)
-							.put("AAA Membership Order.Member Since", CURRENT)
-							.put("AAA Membership Order.Order Date", CURRENT)
-							.put("AAA Membership Order.Receipt Date", CURRENT)
-							.put("AAA Membership Order.Status", CURRENT)
-							.put("AAA Membership Order.Membership Total Years", CURRENT)
+							.put("AAA Membership report.Membership No.", CURRENT)
 							.put("AAA Products Owned.Current AAA Member", CURRENT)
 							.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 							.put("AAA Products Owned.Life Policy #", CURRENT)
@@ -270,6 +270,11 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
+			.put("AAA Membership report", "Membership No.")
+			.put("AAA Membership report", "Member Since Date")
+			.put("AAA Membership report", "Order Date")
+			.put("AAA Membership report", "Receipt Date")
+			.put("AAA Membership report", "Status")
 			.build();
 
 	/**
@@ -394,6 +399,7 @@ public class VersionsConflictConstants {
 					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?", AVAILABLE)
 					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -405,6 +411,7 @@ public class VersionsConflictConstants {
 					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
 					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -418,6 +425,7 @@ public class VersionsConflictConstants {
 			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
 			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
 			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","Not Included in Points and/or Tier - Reason Codes")
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement

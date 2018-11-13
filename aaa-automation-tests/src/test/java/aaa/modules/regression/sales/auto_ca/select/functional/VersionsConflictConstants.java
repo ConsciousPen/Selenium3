@@ -52,6 +52,7 @@ public class VersionsConflictConstants {
 			.putAll("Drivers.NBFirstName NB NBLastName.Good Driver Discount", "false","true")
 			.putAll("Drivers.NBFirstName NB NBLastName.Smoker: Cigarettes, cigars or pipes", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filling Needed", "false","true")
+			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Include in Points and/or YAF?", "true","false")
 			//TODO return when Activity section is done
 			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points","","0")
 			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points","0","")
@@ -193,6 +194,7 @@ public class VersionsConflictConstants {
 			//TODO should be returned after implementing story for Clean up for Activity Information
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
 			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", "Not Included in Points and/or YAF - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -426,6 +428,11 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Gender", AVAILABLE)
+					//TODO Needs to be deleted when Activity story will be merged to master, fields should be merged automatically
+					//start
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Included in Rating).Include in Points and/or YAF?", CURRENT)
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Included in Rating).Not Included in Points and/or YAF - Reason Codes", CURRENT)
+					//end
 					//TODO return when Activity section is done
 					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
 										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
@@ -445,12 +452,10 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
-					//TODO return when Activity section is done
-					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
+					//TODO Needs to be deleted when Activity story will be merged to master, fields should be merged automatically with No + reason
+					//start
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", CURRENT)
+					//end
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
@@ -494,6 +499,9 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName", "Smoker: Cigarettes, cigars or pipes")
 			.put("Drivers.NBFirstName NB NBLastName", "Financial Responsibility Filling Needed")
 			.put("Drivers.NBFirstName NB NBLastName", "Filling Type")
+			//TODO needs to be deleted when Activity section will be merged to master, and values should be added to DRIVER_INFORMATION_VERSION_2
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating)","Include in Points and/or YAF?")
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating)","Not Included in Points and/or YAF - Reason Codes")
 			.build();
 
 

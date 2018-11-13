@@ -254,7 +254,6 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAAMembership Order", "Last Name")
 			.put("AA59 Existing Damage Endorsement Form", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
