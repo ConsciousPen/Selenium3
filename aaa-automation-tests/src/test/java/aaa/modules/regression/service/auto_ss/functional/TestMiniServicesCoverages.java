@@ -1182,11 +1182,11 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
  * @author Megha Gubbala
  * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
  * @scenario1:
- * create WV policy and updated BI
- * verify  UM and UIM limits match my BI Limit
- * updated BI so that my current PD LImit now exceeds my BI per accident limit
- * Verify my PD Limit is updated to match my new BI per accident limit.
- * have updated BI verify  updated PD  UMPD and UIMPD limits match my PD limit
+ * 1.create WV policy and updated BI
+ * 2.verify  UM and UIM limits match my BI Limit
+ * 3.updated BI so that my current PD LImit now exceeds my BI per accident limit
+ * 4.Verify my PD Limit is updated to match my new BI per accident limit.
+ * 5.have updated BI verify  updated PD  UMPD and UIMPD limits match my PD limit
  */
 
 	@Parameters({"state"})
