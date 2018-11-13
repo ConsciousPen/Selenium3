@@ -34,13 +34,14 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 	}
 
 	/**
-	 * @author Reda Kazlauskiene
-	 * Objectives : Renewal
+	 * @author Maksim Paitrouski
+	 * Objectives : Small Balance Write-Off
 	 * Preconditions:
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
-	 * 1. Create Annual Auto SS Policy with Effective date today
-	 * 2. Create Renewal
-	 * 3. Verify Calculations
+	 * 1. Create Monthly Auto SS Policy with Effective date today
+	 * 2. Receive pay-in-full payment-$5 on date (today + 1 month - 20 days)
+	 * 3. Run Small Balance Write-Off
+	 * 4. Verify Calculations
 	 */
 
 	@Parameters({"state"})
@@ -58,13 +59,11 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		String policyNumber = createPolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(1).minusDays(20);
-		LocalDateTime renewalJobEndDate = PolicySummaryPage.getExpirationDate().plusYears(1).plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
-
+		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.generateFutureStatement().perform();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue().add(5));
 
 		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
@@ -74,7 +73,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		SearchPage.openBilling(policyNumber);
 		billingAccount.generateFutureStatement().perform();
 
-		runEPJobUntil(jobDate, renewalJobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber, "Policy Active");

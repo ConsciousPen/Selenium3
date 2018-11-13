@@ -39,7 +39,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 	 * 3. Receive/apply installment payment(today + 1 month - 20 days)
 	 * 4. Cancel (today + 3 months)
 	 * 5. Generate EP Write-Off
-	 * 4. Verify Calculations
+	 * 6. Verify Calculations
 	 */
 
 	@Override
@@ -66,6 +66,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
+		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(expirationDate);
 
 		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
@@ -82,9 +83,11 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		cancelPolicy(cDate, getPolicyType());
 
+		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+
+		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
