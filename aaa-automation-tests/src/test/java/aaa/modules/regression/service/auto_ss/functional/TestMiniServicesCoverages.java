@@ -1177,4 +1177,30 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
 		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update BI coverage (SD state only)
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update BI, check the response.
+	 * Note: All TC in the table:
+	 *
+	 * ||BI/UM/UIM  	||Update BI 	 || Expected UM/UIM||Av Limits UM/UIM||canChange UM/UIM
+	 * ||25000/50000	||50000/100000   || 50000/100000   ||50000/100000	 ||FALSE
+	 * ||50000/100000	||25000/50000    || 25000/50000    ||25000/50000 	 ||FALSE
+	 * ||100000/300000  ||25000/50000    || 25000/50000    ||25000/50000 	 ||FALSE
+	 * ||100000/300000	||300000/500000  || 100000/300000  ||100000/300000 + ||TRUE
+	 * ||300000/500000	||250000/500000  || 250000/500000  ||100000/300000 + ||TRUE
+	 * ||300000/500000	||1000000/1000000|| 300000/500000  ||100000/300000 + ||TRUE
+	 * ||1000000/1000000||25000/50000    || 25000/50000	   ||25000/50000	 ||FALSE
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22037"})
+	public void pas22037_updateBiCoverage(@Optional("SD") String state) {
+
+		pas22037_updateBiCoverageBody();
+	}
 }
