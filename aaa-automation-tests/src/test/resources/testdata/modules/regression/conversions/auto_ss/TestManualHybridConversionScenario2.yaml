@@ -1,0 +1,46 @@
+TestData_Drivers: {
+  DriverTab: ['@Driver1', '@Driver2']
+}
+
+Driver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OR',
+  License Number: '001234567'
+}
+
+Driver2: {
+  DriverSearchDialog:{},
+  Driver Type: Excluded,
+  Reason: 'Financial Hardship',
+  'Rel. to First Named Insured': Other,
+  First Name: '$<rx:Tim-[A-Z]{5}>',
+  Last Name: Smith,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'OR',
+  License Number: '83127880'
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: Quarterly (Renewal),
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  "Uninsured/Underinsured Motorist Bodily Injury": 'contains=$50,000/$100,000',
+  Comprehensive Deductible: 'contains=$750',
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Named Driver Exclusion Endorsement: Physically Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}

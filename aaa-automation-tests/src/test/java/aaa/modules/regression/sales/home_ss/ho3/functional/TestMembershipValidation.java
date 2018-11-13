@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.BillingConstants;
@@ -53,19 +54,46 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
 
+    //Test Data Helper
+    TestDataHelper _myTestDataHelper = new TestDataHelper();
+
     @Parameters({"state"})
-    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
     public void pas3786_validateMembership(@Optional("AZ") String state) {
-        //TODO: Refactor this entire test case using keypath adjustments instead of yaml adjustments
-        //UW rule
-        TestData tdPolicy = getTestSpecificTD("TestData_MembershipValidationHO3");
         TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Day");
         TestData tdRenewalStart = getPolicyTD("Renew", "TestData");
+
+//      TODO: Find a way to construct this TestData object.
         TestData tdMembershipOverride = getTestSpecificTD("TestData_MembershipValidationHO3_OverrideErrors");
-        TestData tdMembershipDummy = getTestSpecificTD("TestData_MembershipValidationHO3_Dummy");
-        TestData tdMembershipSecondMember = getTestSpecificTD("TestData_MembershipValidationHO3_SecondMember");
-        TestData tdMembershipThirdMember = getTestSpecificTD("TestData_MembershipValidationHO3_ThirdMember");
+
+        TestData _tdPolicy = getPolicyDefaultTD();
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Ronhald");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Ronaldjo");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/02/1960");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.SOCIAL_SECURITY_NUMBER.getLabel(), "1234567890");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "9436258506738011");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel(), "267 CHIPMAN AVE");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel(), "85003");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.CITY.getLabel(), "Phoenix");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.PREVIOUS_DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.PreviousDwellingAddress.HAS_PREVIOUS_DWELLING_ADDRESS.getLabel(), "No");
+        _myTestDataHelper.adjustTD(_tdPolicy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.MAILING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.MailingAddress.IS_DIFFERENT_MAILING_ADDRESS.getLabel(), "No");
+
+        TestData tdMembershipDummy = getPolicyTD();
+        _myTestDataHelper.adjustTD(tdMembershipDummy, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "9999999999999995");
+
+        TestData tdMembershipSecondMember = getPolicyTD();
+        _myTestDataHelper.adjustTD(tdMembershipSecondMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Honor");
+        _myTestDataHelper.adjustTD(tdMembershipSecondMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "McGrager");
+        _myTestDataHelper.adjustTD(tdMembershipSecondMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/04/1962");
+        _myTestDataHelper.adjustTD(tdMembershipSecondMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "9436258506738011");
+
+        TestData tdMembershipThirdMember = getPolicyTD();
+        _myTestDataHelper.adjustTD(tdMembershipThirdMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "Anthonio");
+        _myTestDataHelper.adjustTD(tdMembershipThirdMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "Bandero");
+        _myTestDataHelper.adjustTD(tdMembershipThirdMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/05/1966");
+        _myTestDataHelper.adjustTD(tdMembershipThirdMember, ApplicantTab.class, HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), "9436258506738011");
 
         mainApp().open();
 
@@ -74,29 +102,29 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // NB Quote Membership Validation
         policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, BindTab.class, true);
+        policy.getDefaultView().fillUpTo(_tdPolicy, BindTab.class, true);
         log.info("Membership Full Validation for NB Quote Started..");
-        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
+        fullMembershipMatchValidation(_tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for NB Quote Completed.");
         //BUG PAS-12369: Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal
         // Renewal Quote Membership Validation
         policy.renew().perform(tdRenewalStart);
         log.info("Membership Full Validation for Renewal Quote Started..");
-        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
+        fullMembershipMatchValidation(_tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for Renewal Quote Completed.");
 
         // Renewal Quote Membership Validation with Dummy Number
-        createPolicy(tdPolicy);
+        createPolicy(_tdPolicy);
         policy.renew().perform(tdRenewalStart);
         log.info("Membership Validation for Renewal Quote with Dummy Number Started..");
         verifyDummyNumber(tdMembershipDummy);
         log.info("Membership Validation for Renewal Quote with Dummy Number Completed..");
         //BUG PAS-12369: Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal
         // Endorsement Quote Membership Validation
-        createPolicy(tdPolicy);
+        createPolicy(_tdPolicy);
         policy.endorse().perform(tdEndorsementStart);
         log.info("Membership Full Validation for Endorsement Quote Started..");
-        fullMembershipMatchValidation(tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
+        fullMembershipMatchValidation(_tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
         log.info("Membership Full Validation for Endorsement Quote Completed.");
 
         mainApp().close();
@@ -171,7 +199,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
             errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
             log.info("Membership Error Validation Passed. Moving on to the next condition.");
             errorTab.cancel();
-        } else if (bindTab.confirmPurchase.isVisible() && bindTab.confirmPurchase.isPresent()){
+        } else if (bindTab.confirmPurchase.isPresent() && bindTab.confirmPurchase.isVisible()){
             log.info("[NB Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmPurchase.buttonNo.click(Waiters.AJAX);
         } else if (bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent()){
