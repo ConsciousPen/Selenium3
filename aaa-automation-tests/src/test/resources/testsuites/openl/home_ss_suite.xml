@@ -99,9 +99,9 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS DP3 [NV] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="NVTests-20170501.xls"/>
-        <parameter name="policyNumbers" value="6015,6026"/>
+    <test name="HomeSS HO3 [NV] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="NVTests-20181216.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
