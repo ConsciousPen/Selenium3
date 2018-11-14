@@ -21,7 +21,7 @@ public class PolicyMoratorium extends PolicyBaseTest {
 			+ "  if l_exst = 0\n"
 			+ "  then\n"
 			+ "    INSERT INTO lookupvalue (DTYPE, CODE, DISPLAYVALUE, countrycd, POSTALCODE, lookuplist_id, statecd, city) \n"
-			+ "        VALUES ('AAAMoratoriumGeographyLocationInfoLookupValue', 'US-%3$s-%2$s-%1$s', 'US-AZ-%2$s-%1$s', 'US', '%1$s', l_lookupId, '%3$s', '%2$s');\n"
+			+ "        VALUES ('AAAMoratoriumGeographyLocationInfoLookupValue', 'US-%3$s-%2$s-%1$s', 'US-%3$s-%2$s-%1$s', 'US', '%1$s', l_lookupId, '%3$s', '%2$s');\n"
 			+ "  end if;\n"
 			+ "end;";
 

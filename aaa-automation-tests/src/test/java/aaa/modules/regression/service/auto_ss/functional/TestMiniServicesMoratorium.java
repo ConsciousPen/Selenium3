@@ -8,6 +8,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.regression.sales.template.functional.PolicyMoratorium;
 import aaa.utils.StateList;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -35,7 +36,7 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
         try {
             //Step 1 -- Zip code entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
             log.info("Step 1: Add Zip Code entry in lookupvalue table if not exists.");
-            DBService.get().executeUpdate(insertLookupEntry(moratoriumRule.getZipCode(), moratoriumRule.getCity(), moratoriumRule.getState()));
+            DBService.get().executeUpdate(insertLookupEntry(moratoriumRule.getZipCode(), moratoriumRule.getCity(), parseState(moratoriumRule.getState())));
             //Step 2
             log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
             adminApp().open();
@@ -45,6 +46,10 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
         } finally {
             expireMoratorium(moratoriumRule.getName());
         }
+    }
+
+    private String parseState(String state) {
+        return StringUtils.split(state, "-")[1].trim();
     }
 
     private MoratoriumRule getMoratoriumRule(TestData td) {
