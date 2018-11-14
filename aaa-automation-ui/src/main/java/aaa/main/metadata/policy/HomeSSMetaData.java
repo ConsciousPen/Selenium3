@@ -309,6 +309,11 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
+			public static final AssetDescriptor<DialogAssetList> PPC_REPORT_DIALOG = declare("PPCReportDialog", DialogAssetList.class, PPCReportDialog.class, false, By.xpath("//div[@id='ppcPercentagePopup_container']"));
+		}
+
+		public static final class PPCReportDialog extends MetaData {
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.id("ppcPercentageForm:cmdBtnPublicProtectionClass"));
 		}
 
 		public static final class CLUEreportRow extends MetaData {
