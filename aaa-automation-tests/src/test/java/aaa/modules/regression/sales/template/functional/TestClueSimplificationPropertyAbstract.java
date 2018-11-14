@@ -10,6 +10,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
@@ -374,11 +375,16 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
+        TestData td = getPolicyTD();
+        if (getPolicyType().equals(PolicyType.HOME_CA_HO6)) {
+            td.adjust(TestData.makeKeyPath(HomeCaMetaData.DocumentsTab.class.getSimpleName(), HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
+                    HomeCaMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_OCCUPATION.getLabel()), "Yes");
+        }
 
         // Create customer with CLUE claims and initiate policy
         createSpecificCustomerIndividual("Silvia", "Kohli");
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
+        policy.getDefaultView().fillUpTo(td, getApplicantTab().getClass(), true);
 
         // Add 2 additional named insured (no claims)
         List<TestData> tdNamedInsured = new ArrayList<>();
@@ -389,10 +395,16 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
 
         // Validate 2 claims on Property info tab, finish and bind policy
-        policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass());
+        getReportsTab().fillTab(td);
+        if (!isStateCA()) {
+            new ReportsTab().tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().click();
+            new ReportsTab().tblInsuranceScoreReport.getRow(3).getCell("Report").controls.links.getFirst().click();
+        }
+        getReportsTab().submitTab();
+        getPropertyInfoTab().fillTab(td);
         checkTblClaimRowCount(2);
         selectRentalClaimForCADP3();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(td, getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
         getPurchaseTab().submitTab();
 
         // Initiate endorsement and add a named insured that returns additional Clue claims
@@ -506,7 +518,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
                     HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), lName,
                     HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
                     HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "Other");
         }
         return DataProviderFactory.dataOf(
                 HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
@@ -516,7 +528,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
                 HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
                 HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel(), "Married",
                 HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+                HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "Other");
     }
 
     private void removeClaim(){
