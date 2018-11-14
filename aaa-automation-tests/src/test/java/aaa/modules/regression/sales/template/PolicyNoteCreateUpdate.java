@@ -12,7 +12,20 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
-
+/**
+ * @author oreva
+ * @name Test - Create Note and update it
+ * @scenario
+ * 1. Find customer or create new if customer does not exist. 
+ * 2. Create a new policy.
+ * 3. Click on 'Notes/Alerts' button on Policy Consolidated page. 
+ * 4. Add a note. 
+ * 5. Verify that note is displaying on Activities & User Notes section. 
+ * 6. Click on 'Notes/Alerts' button on Policy Consolidated page.
+ * 7. Find added note and update it -change note description, save it. 
+ * 8. Verify that updated note is displaying on Activities & User Notes section.
+ *
+ */
 public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 	
 	public void testPolicyNoteCreateUpdate() {
