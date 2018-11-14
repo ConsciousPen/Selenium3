@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 
+import aaa.main.enums.AvailableCoverageLimits;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
@@ -262,6 +263,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16984_validateCoverageConstraints(PolicyType policyType) {
+		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog("UTSS952918553", Response.Status.OK.getStatusCode());
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 
@@ -3643,6 +3645,362 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas19195_viewUpdatePIPCoverage_KYBody() {
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		TestData td = getPolicyDefaultTD();
+		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FNI_AFR_Excluded_NAFR").getTestDataList("DriverTab"))
+				.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+				, AutoSSMetaData.PremiumAndCoveragesTab.BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$10,000")
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+						, AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel()), "contains=$30,000")
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+						, AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()), "contains=$500");
+
+		String policyNumber = openAppAndCreatePolicy(td);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		assertSoftly(softly -> {
+
+			Map<String, Coverage> mapPIPCoveragesActual = getPIPCoverages(viewEndorsementCoverages.policyCoverages);
+
+			Map<String, Coverage> mapPIPCoveragesExpected = new LinkedHashMap<>();
+			mapPIPCoveragesExpected.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP));
+			mapPIPCoveragesExpected.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_30000));
+			mapPIPCoveragesExpected.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_500));
+			mapPIPCoveragesExpected.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, null);
+
+			//get drivers with TORT coverage available
+			String driverWithTORTOid1 = getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").getAvailableDrivers().get(0);
+			String driverWithTORTOid2 = getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").getAvailableDrivers().get(1);
+			assertThat(getCoverage(viewEndorsementCoverages.driverCoverages, "TORT").getAvailableDrivers().size()).as("In this test only 2 drivers are expected to have TORT available.").isEqualTo(2);
+
+			//AC#1: update Basic PIP to No Coverage
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.BPIP.getCode(), CoverageLimits.COV_0.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> mapPipNoCoverage = new LinkedHashMap<>();
+			mapPipNoCoverage.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).changeLimit(CoverageLimits.COV_0));
+			mapPipNoCoverage.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).disableCanChange().disableCustomerDisplay());
+			mapPipNoCoverage.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).disableCanChange().disableCustomerDisplay());
+			mapPipNoCoverage.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).changeLimit(CoverageLimits.COV_10000).disableCanChange());
+
+			validatePIPCoverages_KY(softly, policyNumber, mapPipNoCoverage, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#2: update Basic PIP to $10,000
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.BPIP.getCode(), CoverageLimits.COV_10000.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> mapPipToTenThous = new LinkedHashMap<>();
+			mapPipToTenThous.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP));
+			mapPipToTenThous.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP));
+			mapPipToTenThous.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			mapPipToTenThous.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, mapPipToTenThous, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#5: update one or more drivers to be Reject Limit to Sue = No
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid2));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			//PIP doesn't change
+			Map<String, Coverage> pipDoesntChange = new LinkedHashMap<>();
+			pipDoesntChange.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			pipDoesntChange.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP));
+			pipDoesntChange.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			pipDoesntChange.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			validatePIPCoverages_KY(softly, policyNumber, pipDoesntChange, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#3: validate update endorsement coverages (ADDPIP) to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.ADDPIP.getCode(), CoverageLimits.COV_20000.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> addPipOtherThenZero = new LinkedHashMap<>();
+			addPipOtherThenZero.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			addPipOtherThenZero.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_20000));
+			addPipOtherThenZero.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			addPipOtherThenZero.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			validatePIPCoverages_KY(softly, policyNumber, addPipOtherThenZero, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.ADDPIP.getCode(), CoverageLimits.COV_0.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> addPipEqualToZero = new LinkedHashMap<>();
+			addPipEqualToZero.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			addPipEqualToZero.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP));
+			addPipEqualToZero.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			addPipEqualToZero.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+			validatePIPCoverages_KY(softly, policyNumber, addPipEqualToZero, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.ADDPIP.getCode(), CoverageLimits.COV_40000.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> pipFortyThous = new LinkedHashMap<>();
+			pipFortyThous.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			pipFortyThous.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_40000));
+			pipFortyThous.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			pipFortyThous.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+			validatePIPCoverages_KY(softly, policyNumber, pipFortyThous, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#3: validate update endorsement coverages (PIPDED) to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPDED.getCode(), CoverageLimits.DED_250.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> pipdedMoreZero = new LinkedHashMap<>();
+			pipdedMoreZero.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			pipdedMoreZero.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_40000));
+			pipdedMoreZero.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_250));
+			pipdedMoreZero.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, pipdedMoreZero, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPDED.getCode(), CoverageLimits.DED_0.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> pipdedBackToZero = new LinkedHashMap<>();
+			pipdedBackToZero.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			pipdedBackToZero.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_40000));
+			pipdedBackToZero.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			pipdedBackToZero.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, pipdedBackToZero, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//Update back to other than 0
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPDED.getCode(), CoverageLimits.DED_1000.getLimit());
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> pipdedMoreThenZero = new LinkedHashMap<>();
+			pipdedMoreThenZero.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			pipdedMoreThenZero.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_40000));
+			pipdedMoreThenZero.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_1000));
+			pipdedMoreThenZero.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, pipdedMoreThenZero, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#4: update all drivers to be Reject Limit to Sue = YES
+			validateTORTPrecondition_pas19195(policyNumber, false);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1, driverWithTORTOid2));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			//values stays the same as above
+			Map<String, Coverage> rejectLimitEqualYes = new LinkedHashMap<>();
+			rejectLimitEqualYes.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP));
+			rejectLimitEqualYes.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_40000));
+			rejectLimitEqualYes.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_1000));
+			rejectLimitEqualYes.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, rejectLimitEqualYes, mapPIPCoveragesActual, updateCoverageResponse);
+
+			//AC#6: update one or more drivers to be Reject Limit to Sue = No
+			//update BPIP to no coverage (this is AC#1 functionality again)
+			updateCoverage(policyNumber, CoverageInfo.BPIP.getCode(), CoverageLimits.COV_0.getLimit());
+
+			//update one or more drivers to be Reject Limit to Sue = No
+			validateTORTPrecondition_pas19195(policyNumber, true);
+			updateCoverageResponse = updateTORTCoverage(policyNumber, ImmutableList.of(driverWithTORTOid1));
+			mapPIPCoveragesActual = getPIPCoverages(updateCoverageResponse.policyCoverages);
+
+			Map<String, Coverage> bpipToNoCoverage = new LinkedHashMap<>();
+			bpipToNoCoverage.put(CoverageInfo.BPIP.getCode(), Coverage.create(CoverageInfo.BPIP).removeAvailableLimit(CoverageLimits.COV_0).disableCanChange());
+			bpipToNoCoverage.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP));
+			bpipToNoCoverage.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED));
+			bpipToNoCoverage.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
+
+			validatePIPCoverages_KY(softly, policyNumber, bpipToNoCoverage, mapPIPCoveragesActual, updateCoverageResponse);
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	protected void pas15358_viewUpdatePIPCoverage_KSBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_KS_4500);
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_KS);
+		Coverage worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_KS_4500).disableCanChange();
+
+		assertSoftly(softly -> {
+			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode());
+			softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+
+			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
+			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+
+			//Update PIP (MEDPIP) coverage to every available limit
+			List<CoverageLimits> reversedAvailableCoverageLimitList = AvailableCoverageLimits.MEDEXP_KS.getReversedAvailableLimits(); //reversing list so that first update is not to already selected limit
+			for (CoverageLimits coverageLimit : reversedAvailableCoverageLimitList) {
+				pipSubCoveragesActual = validateUpdatePIP_pas15359(softly, policyNumber, coverageLimit);
+				validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
+			}
+		});
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15365_viewUpdatePIPCoverage_ORBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage pipExpected = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_OR);
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_OR);
+		Coverage pipdedExpected = Coverage.create(CoverageInfo.PIPDED_OR);
+
+		assertSoftly(softly -> {
+			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_OR.getCode());
+			softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+			Coverage pipdedCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPDED_OR.getCode());
+			assertThat(pipdedCoverageActual).isEqualToIgnoringGivenFields(pipdedExpected);
+
+			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_OR.getCode()).getSubCoverages();
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			validatePIPSubCoveragesThatDoesntChange_pas15365(pipSubCoveragesActual);
+			validatePIPInUI_pas15365(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode()), pipdedCoverageActual);
+
+			//update PIP by updating MEDEXP
+			CoverageLimits medexpNewLimit = CoverageLimits.COV_100000;
+			PolicyCoverageInfo updateCoverageResponse1 = updateCoverage(policyNumber, CoverageInfo.MEDEXP_OR.getCode(), medexpNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual1 = getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_OR.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual1 = getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_OR.getCode());
+			Coverage medexpAfterUpdateExpected1 = Coverage.create(CoverageInfo.MEDEXP_OR).changeLimit(medexpNewLimit);
+
+			softly.assertThat(pipAfterUpdateActual1).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_OR.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected1);
+			softly.assertThat(getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIPDED_OR.getCode())).isEqualToComparingFieldByField(pipdedExpected);
+			validatePIPSubCoveragesThatDoesntChange_pas15365(pipSubCovAfterUpdateActual1);
+			validatePIPInUI_pas15365(softly, getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_OR.getCode()), getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIPDED_OR.getCode()));
+
+			//update PIPDED
+			CoverageLimits pipdedNewLimit = CoverageLimits.DED_0;
+			PolicyCoverageInfo updateCoverageResponse2 = updateCoverage(policyNumber, CoverageInfo.PIPDED_OR.getCode(), pipdedNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual2 = getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_OR.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual2 = getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_OR.getCode());
+			Coverage pipdedAfterUpdateExpected2 = Coverage.create(CoverageInfo.PIPDED_OR).changeLimit(pipdedNewLimit);
+
+			softly.assertThat(pipAfterUpdateActual2).isEqualToIgnoringGivenFields(pipExpected, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_OR.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected1);
+			softly.assertThat(getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIPDED_OR.getCode())).isEqualToComparingFieldByField(pipdedAfterUpdateExpected2);
+			validatePIPSubCoveragesThatDoesntChange_pas15365(pipSubCovAfterUpdateActual2);
+			validatePIPInUI_pas15365(softly, getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_OR.getCode()), getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIPDED_OR.getCode()));
+		});
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas15368_viewUpdatePIPCoverage_UTBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//validate view endorsement coverages
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+		Coverage rejectWorklossExpected = Coverage.create(CoverageInfo.WLB_UT);
+		Coverage pipExpectedBasic = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_NO_UT);
+		Coverage pipExpectedLimited = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_YES_UT);
+		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_UT);
+		Coverage worklossExpected = Coverage.create(CoverageInfo.WORKLOSS_UT).disableCanChange();
+
+		assertSoftly(softly -> {
+			Coverage pipCoverageActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_NO_UT.getCode());
+			softly.assertThat(pipCoverageActual).isEqualToIgnoringGivenFields(pipExpectedBasic, "subCoverages");
+
+			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_NO_UT.getCode()).getSubCoverages();
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode())).isEqualToComparingFieldByField(medexpExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_UT.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode())).isEqualToComparingFieldByField(rejectWorklossExpected);
+			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCoveragesActual);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()), getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
+
+			//update PIP by updating MEDEXP while WLB is false
+			CoverageLimits medexpNewLimit = CoverageLimits.COV_10000;
+			PolicyCoverageInfo updateCoverageResponse1 = updateCoverage(policyNumber, CoverageInfo.MEDEXP_UT.getCode(), medexpNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual1 = getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_NO_UT.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual1 = getCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_NO_UT.getCode());
+			Coverage medexpAfterUpdateExpected1 = Coverage.create(CoverageInfo.MEDEXP_UT).changeLimit(medexpNewLimit);
+			Coverage rejectWorkLossExpectedAfterUpdate1 = Coverage.create(CoverageInfo.WLB_UT);
+			Coverage rejectWorkLossActualAfterUpdate1 = getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode());
+
+			softly.assertThat(pipAfterUpdateActual1).isEqualToIgnoringGivenFields(pipExpectedBasic, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_UT.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected1);
+			softly.assertThat(rejectWorkLossActualAfterUpdate1).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate1);
+			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual1);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
+
+			//update WLB to true
+			CoverageLimits rejectWorklossNewLimit = CoverageLimits.COV_TRUE;
+			PolicyCoverageInfo updateCoverageResponse2 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual2 = getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_YES_UT.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual2 = getCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_YES_UT.getCode());
+			Coverage rejectWorkLossExpectedAfterUpdate2 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit);
+			Coverage rejectWorkLossActualAfterUpdate2 = getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode());
+
+			softly.assertThat(pipAfterUpdateActual2).isEqualToIgnoringGivenFields(pipExpectedLimited, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_UT.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected1);
+			softly.assertThat(rejectWorkLossActualAfterUpdate2).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
+			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual2);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_UT.getCode()));
+
+			//update PIP by updating MEDEXP while WLB is true
+			medexpNewLimit = CoverageLimits.COV_5000;
+			PolicyCoverageInfo updateCoverageResponse3 = updateCoverage(policyNumber, CoverageInfo.MEDEXP_UT.getCode(), medexpNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual3 = getCoverage(updateCoverageResponse3.policyCoverages, CoverageInfo.PIP_YES_UT.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual3 = getCoverage(updateCoverageResponse3.policyCoverages, CoverageInfo.PIP_YES_UT.getCode());
+			Coverage medexpAfterUpdateExpected3 = Coverage.create(CoverageInfo.MEDEXP_UT).changeLimit(medexpNewLimit);
+			Coverage rejectWorkLossActualAfterUpdate3 = getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.WLB_UT.getCode());
+
+			softly.assertThat(pipAfterUpdateActual3).isEqualToIgnoringGivenFields(pipExpectedLimited, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.MEDEXP_UT.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected3);
+			softly.assertThat(rejectWorkLossActualAfterUpdate3).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
+			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual3);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
+
+			//update WLB to false
+			rejectWorklossNewLimit = CoverageLimits.COV_FALSE;
+			PolicyCoverageInfo updateCoverageResponse4 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());
+			List<Coverage> pipSubCovAfterUpdateActual4 = getCoverage(updateCoverageResponse4.policyCoverages, CoverageInfo.PIP_NO_UT.getCode()).getSubCoverages();
+			Coverage pipAfterUpdateActual4 = getCoverage(updateCoverageResponse4.policyCoverages, CoverageInfo.PIP_NO_UT.getCode());
+			Coverage rejectWorkLossExpectedAfterUpdate4 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit);
+			Coverage rejectWorkLossActualAfterUpdate4 = getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode());
+
+			softly.assertThat(pipAfterUpdateActual4).isEqualToIgnoringGivenFields(pipExpectedBasic, "subCoverages");
+			softly.assertThat(getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.MEDEXP_UT.getCode())).isEqualToComparingFieldByField(medexpAfterUpdateExpected3);
+			softly.assertThat(rejectWorkLossActualAfterUpdate4).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate4);
+			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual4);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.MEDEXP_UT.getCode()));
+
+		});
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private Coverage updateBIAndGetPD_pas15788(String policyNumber, String coverageBILimit) {
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("BI", coverageBILimit);
 		HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
@@ -3761,7 +4119,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		return pipSubCoveragesActual;
 	}
 
-	protected void validatePIPSubCoveragesThatDoesntChange_pas15358(List<Coverage> pipSubCoveragesActual) {
+	private void validatePIPSubCoveragesThatDoesntChange_pas15358(List<Coverage> pipSubCoveragesActual) {
 		//these coverages are always the same
 		Coverage rehabexpExpected = Coverage.create(CoverageInfo.REHABEXP_KS).disableCanChange();
 		Coverage essenservExpected = Coverage.create(CoverageInfo.ESSENSERV_KS).disableCanChange();
@@ -3774,11 +4132,55 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.SURVLOSS_KS.getCode())).isEqualToComparingFieldByField(survlossExpected);
 	}
 
-	protected void validatePIPInUI_pas15358(ETCSCoreSoftAssertions softly, Coverage medexpCoverage) {
+	private void validatePIPSubCoveragesThatDoesntChange_pas15365(List<Coverage> pipSubCoveragesActual) {
+		//these coverages are always the same
+		Coverage incomelossExpected = Coverage.create(CoverageInfo.INCOMELOSS_OR).disableCanChange();
+		Coverage essenservExpected = Coverage.create(CoverageInfo.ESSENSERV_OR).disableCanChange();
+		Coverage funexpExpected = Coverage.create(CoverageInfo.FUNEXP_OR).disableCanChange();
+
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.INCOMELOSS_OR.getCode())).isEqualToComparingFieldByField(incomelossExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.ESSENSERV_OR.getCode())).isEqualToComparingFieldByField(essenservExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.FUNEXP_OR.getCode())).isEqualToComparingFieldByField(funexpExpected);
+	}
+
+	private void validatePIPSubCoveragesThatDoesntChange_pas15368(List<Coverage> pipSubCoveragesActual) {
+		//these coverages are always the same
+		Coverage housexpExpected = Coverage.create(CoverageInfo.HOUSEEXP_UT).disableCanChange();
+		Coverage funexpExpected = Coverage.create(CoverageInfo.FUNEXP_UT).disableCanChange();
+		Coverage survlossExpected = Coverage.create(CoverageInfo.SURVLOSS_UT).disableCanChange();
+
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.HOUSEEXP_UT.getCode())).isEqualToComparingFieldByField(housexpExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.FUNEXP_UT.getCode())).isEqualToComparingFieldByField(funexpExpected);
+		assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.SURVLOSS_UT.getCode())).isEqualToComparingFieldByField(survlossExpected);
+	}
+
+	private void validatePIPInUI_pas15358(ETCSCoreSoftAssertions softly, Coverage medexpCoverage) {
 		openPendedEndorsementInquiryAndNavigateToPC();
 
 		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
 				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
+
+		premiumAndCoveragesTab.cancel();
+	}
+
+	private void validatePIPInUI_pas15365(ETCSCoreSoftAssertions softly, Coverage medexpCoverage, Coverage pipdedCoverage) {
+		openPendedEndorsementInquiryAndNavigateToPC();
+
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
+				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel()))
+				.isEqualTo(pipdedCoverage.getCoverageLimitDisplay());
+
+		premiumAndCoveragesTab.cancel();
+	}
+
+	private void validatePIPInUI_15368(ETCSCoreSoftAssertions softly, Coverage rejectWorkLossCoverage, Coverage medexpCoverage) {
+		openPendedEndorsementInquiryAndNavigateToPC();
+
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
+				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
+		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel()))
+				.isEqualTo(rejectWorkLossCoverage.getCoverageLimitDisplay());//TODO-mstrazds:
 
 		premiumAndCoveragesTab.cancel();
 	}
