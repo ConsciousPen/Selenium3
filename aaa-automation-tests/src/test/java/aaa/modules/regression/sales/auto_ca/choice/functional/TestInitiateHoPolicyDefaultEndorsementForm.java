@@ -48,7 +48,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO3(@Optional("CA") String state) {
 		searchForPolicy(policyNumber);
-		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO3();
+		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO3);
 	}
 
 	@Parameters({"state"})
@@ -56,7 +56,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO4(@Optional("CA") String state) {
 		searchForPolicy(policyNumber);
-		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO4();
+		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO4);
 	}
 
 	@Parameters({"state"})
@@ -64,7 +64,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO6(@Optional("CA") String state) {
 		searchForPolicy(policyNumber);
-		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO6();
+		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO6);
 	}
 
 	@Parameters({"state"})
@@ -72,6 +72,6 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceDP3(@Optional("CA") String state) {
 		searchForPolicy(policyNumber);
-		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedDP3();
+		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_DP3);
 	}
 }

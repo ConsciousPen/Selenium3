@@ -25,53 +25,18 @@ public class TestInitiateHOQuoteTemplate extends TestEndorsementsTabAbstract {
         checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
     }
 
-    protected void pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO3() {
+    protected void pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType policyType) {
 
+        TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData_CA");
         policy.initiateHOQuote().start();
-        PolicyType.HOME_CA_HO3.get().getDefaultView().fillUpTo(getHO3TD(), EndorsementTab.class, false);
+        policyType.get().getDefaultView().fillUpTo(td, EndorsementTab.class, false);
 
-        // Assert that HO-29 is added by default.
-        checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
-    }
-
-    protected void pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO4() {
-
-        TestData tdHO4 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO4), "DataGather");
-        policy.initiateHOQuote().start();
-        new GeneralTab().fillTab(tdHO4).submitTab();
-        new ApplicantTab().fillTab(getHO3TD()).submitTab();
-        PolicyType.HOME_CA_HO4.get().getDefaultView().fillFromTo(tdHO4, ReportsTab.class, PropertyInfoTab.class, true);
-        new PropertyInfoTab().submitTab();
-
-        // Assert that HO-29 is added by default.
-        checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
-    }
-
-    protected void pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedHO6() {
-
-        TestData tdHO6 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO6), "DataGather");
-        policy.initiateHOQuote().start();
-        new GeneralTab().fillTab(tdHO6).submitTab();
-        PolicyType.HOME_CA_HO6.get().getDefaultView().fillFromTo(getHO3TD(), ApplicantTab.class, PropertyInfoTab.class, false);
-        new PropertyInfoTab().fillTab(tdHO6).submitTab();
-
-        // Assert that HO-29 is added by default.
-        checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
-    }
-
-    protected void pas21410_testInitiateHOQuoteFromAutoAndHO29IsAddedDP3() {
-
-        TestData tdDP3 = getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_DP3), "DataGather");
-        policy.initiateHOQuote().start();
-        new GeneralTab().fillTab(tdDP3).submitTab();
-        PolicyType.HOME_CA_DP3.get().getDefaultView().fillFromTo(getHO3TD(), ApplicantTab.class, PropertyInfoTab.class, false);
-        new PropertyInfoTab().fillTab(tdDP3).submitTab();
-
-        // Assert that HO-29 is not added by default.
-        checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
-    }
-
-    private TestData getHO3TD(){
-        return getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather");
+        if(policyType.equals(PolicyType.HOME_CA_DP3)){
+            // Assert that HO-29 is not added by default. For DP3
+            checkEndorsementIsNotAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
+        }else {
+            // Assert that HO-29 is added by default. For HO3 HO4 HO6
+            checkEndorsementIsAvailableInIncludedEndorsements(EndorsementForms.HomeCAEndorsementForms.HO_29.getFormId());
+        }
     }
 }
