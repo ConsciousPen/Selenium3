@@ -397,7 +397,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Initiate endorsement and add a named insured that returns additional Clue claims
         tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Sachin", "Kohli")));
+                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Bruce", "Kohli")));
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
