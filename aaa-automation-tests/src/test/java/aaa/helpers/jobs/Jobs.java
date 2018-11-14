@@ -176,6 +176,8 @@ public class Jobs {
 
 	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
 
+	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
+
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
