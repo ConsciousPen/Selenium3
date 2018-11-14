@@ -373,6 +373,40 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
+    protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
+
+        // Create customer with CLUE claims and initiate policy
+        createSpecificCustomerIndividual("Silvia", "Kohli");
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
+
+        // Add 2 additional named insured (no claims)
+        List<TestData> tdNamedInsured = new ArrayList<>();
+        tdNamedInsured.add(getNamedInsuredTd("Jim", "Smith"));
+        tdNamedInsured.add(getNamedInsuredTd("John", "Smith").mask(getBtnAddInsuredLabel()));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+
+        // Validate 2 claims on Property info tab, finish and bind policy
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass());
+        checkTblClaimRowCount(2);
+        selectRentalClaimForCADP3();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
+        getPurchaseTab().submitTab();
+
+        // Initiate endorsement and add a named insured that returns additional Clue claims
+        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Sachin", "Kohli")));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+        navigateToApplicantTab();
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        reorderClueReport();
+        navigateToPropertyInfoTab();
+        checkTblClaimRowCount(4);
+
+    }
+
     private void pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields(){
 
         selectRentalClaimForCADP3();
