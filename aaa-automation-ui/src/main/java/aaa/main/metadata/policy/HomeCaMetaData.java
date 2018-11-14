@@ -2,7 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
-import org.openqa.selenium.By;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
@@ -11,6 +10,7 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeCAEndorsementsMultiAssetList;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;

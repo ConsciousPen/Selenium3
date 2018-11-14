@@ -7,6 +7,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import aaa.common.enums.PrivilegeEnum;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
@@ -228,7 +230,7 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
         mainApp().close();
 
         // Log in with User with no privilege to edit policy tier
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
 
         // Search for the Quote and navigate to applicant tab
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNr);
@@ -294,7 +296,7 @@ public class RevisedHomeTierPATemplate extends PolicyBaseTest {
         mainApp().close();
 
         // Log in with User with no privilege to edit policy tier
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
 
         // Search for the Quote and navigate to applicant tab
         SearchPage.search(SearchEnum.SearchFor.QUOTE, SearchEnum.SearchBy.POLICY_QUOTE, quoteNr);

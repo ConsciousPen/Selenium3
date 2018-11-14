@@ -4,6 +4,7 @@ package aaa.modules.policy;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
@@ -227,10 +228,10 @@ public abstract class PolicyBaseTest extends BaseTest {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 
-	protected void openAppNonPrivilegedUser(String privilege) {
+	protected void openAppNonPrivilegedUser(PrivilegeEnum.Privilege privilege) {
 		mainApp().open(initiateLoginTD()
 				.adjust("User","qa_roles")
-				.adjust("Groups", privilege)
+				.adjust("Groups", privilege.getName())
 				.adjust("UW_AuthLevel", "01")
 				.adjust("Billing_AuthLevel", "01")
 		);

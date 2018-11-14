@@ -38,10 +38,8 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
-import toolkit.datax.impl.SimpleDataProvider;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -59,6 +57,8 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	protected ITestContext context;
+	private String loginData;
+	protected static TestData loginUsers;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
@@ -66,6 +66,7 @@ public class BaseTest {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
 		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
+		loginUsers = new TestDataManager().loginUsers;
 	}
 
 	public BaseTest() {
@@ -197,6 +198,14 @@ public class BaseTest {
 		return td;
 	}
 
+	protected String getLoginData() {
+		if (StringUtils.isNotBlank(loginData)) {
+			return loginData;
+		} else {
+			return Constants.LoginData.QA;
+		}
+	}
+
 	public static void printToLog(String message) {
 		log.info("----------------------------------------------------------------");
 		log.info(message);
@@ -213,8 +222,9 @@ public class BaseTest {
 		log.debug(message);
 	}
 
+	@Parameters("login")
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Object[] parameters) {
+	public void beforeMethodStateConfiguration(@Optional("") String login, Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
 			setState(parameters[0].toString());
 		} else if (isStateCA()) {
@@ -224,6 +234,8 @@ public class BaseTest {
 		} else {
 			setState(Constants.States.UT);
 		}
+
+		this.loginData = login;
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -470,11 +482,7 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
-		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
-		td.put(LoginPageMeta.STATES.getLabel(), getState());
-		return new SimpleDataProvider(td);
+		return loginUsers.getTestData(getLoginData()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
