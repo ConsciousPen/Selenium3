@@ -54,7 +54,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-				.adjust("PremiumAndCoveragesTab|Payment Plan", "Monthly - Zero Down").resolveLinks();
+				.adjust("PremiumAndCoveragesTab|Payment Plan", "Eleven Pay - Standard").resolveLinks();
 
 		String policyNumber = createPolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
@@ -64,7 +64,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue().add(5));
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getInstallmentAmount(1).add(3));
 
 		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
