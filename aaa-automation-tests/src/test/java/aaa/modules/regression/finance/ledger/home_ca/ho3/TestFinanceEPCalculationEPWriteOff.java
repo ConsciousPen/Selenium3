@@ -105,6 +105,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.CANCEL);
 		List<TxWithTermPremium> txsWithPremiums = createTxsWithPremiums(policyNumber, txTypes);
 		txsWithPremiums.get(0).setActualPremium(issueEndingPremium);
+		txsWithPremiums.get(1).setActualPremium(endorsementEndingPremium);
 		validateEPCalculationsFromTransactions(policyNumber, txsWithPremiums, today.toLocalDate(), expirationDate.toLocalDate());
 	}
 }
