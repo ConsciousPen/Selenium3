@@ -396,8 +396,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getClaimCatastropheRemarksAsset().setValue("CAT");
 
         // Verify Chargeable text field and CAT code/remarks text field are both visible
-        //TODO changing CAT indicator should not hide the chargeable text field, uncomment below assert once resolved
-        //assertThat(getClaimNonChargeableReasonAsset()).isPresent();
+        assertThat(getClaimNonChargeableReasonAsset()).isPresent();
         assertThat(getClaimCatastropheRemarksAsset()).isPresent();
 
         // Check the chargeable Value is the same
@@ -585,8 +584,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("11000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
-        //TODO CAT remarks field should not be visible if the claim was prefilled to 'Yes', uncomment once resolved
-        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
+        assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
@@ -597,8 +595,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("1500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
-        //TODO CAT remarks field should not be visible if the claim was prefilled to 'Yes', uncomment once resolved
-        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
+        assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant' with catastrophe = 'No'
         viewEditClaimByLossAmount("2500");
