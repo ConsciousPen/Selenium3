@@ -93,11 +93,11 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Safety Score Date", "08/15/2018","01/09/2015")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "true", "false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")

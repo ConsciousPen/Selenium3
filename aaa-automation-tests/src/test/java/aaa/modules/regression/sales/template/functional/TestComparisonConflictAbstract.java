@@ -79,7 +79,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes",
 			"Vehicles.1998, DODGE, CARAVAN.AAA UBI Device Status Date",
 			"Vehicles.1998, DODGE, CARAVAN.Safety Score Date",
-			"Vehicles.1998, DODGE, CARAVAN.Garaging Address"
+			"Vehicles.1998, DODGE, CARAVAN.Garaging Address",
+			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form"
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 

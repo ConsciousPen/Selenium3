@@ -62,13 +62,13 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle","true","false")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "false", "true")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003")
 			//Usage Based Insurance
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", "false","true")
 			//Ownership address
-/*			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
@@ -462,6 +462,8 @@ public class VersionsConflictConstants {
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Enroll in Usage Based Insurance?", CURRENT)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type",CURRENT)
+					.put("AALPXXEndorsement Form", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -509,9 +511,9 @@ public class VersionsConflictConstants {
 			//Usage Based Insurance section
 			.put("Vehicles.1998, DODGE, CARAVAN", "Enroll in Usage Based Insurance?")
 			//Ownership address
-/*			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")*/
+			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
 			.build();
 
 }
