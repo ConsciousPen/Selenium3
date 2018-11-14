@@ -9,7 +9,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
@@ -32,41 +31,36 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
         }
 
-        // DEMO ONLY, DELETE
-        if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-            DBService.get().executeUpdate("update ledgerentry set entryamt = '200' where ledgeraccountno = '1015' and productnumber = '" + policyNumber + "' and coveragecd = 'CovA'");
-        }
-
         // NB validations
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1015", policyNumber)).get()));
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1021", policyNumber)).get()));
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1022", policyNumber)).get()));
         assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1044", policyNumber)).get()));
 
-//		// Advance time one week and perform premium-bearing endorsement (additional premium)
-//		mainApp().close();
-//		TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(1));
-//		mainApp().open();
-//		SearchPage.openPolicy(policyNumber);
-//		policy.endorse().perform(getEndorsementTD());
-//		policy.getDefaultView().fill(getAddPremiumTD());
-//
-//		// Pay additional premium
-//		payAmountDue();
-//
-//		// Advance time another week and open policy
-//		mainApp().close();
-//		TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(2));
-//		mainApp().open();
-//		SearchPage.openPolicy(policyNumber);
-//
-//		// Cancel policy
-//		policy.cancel().perform(getCancellationTD());
-//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-//
-//		// Reinstate policy without lapse
-//		policy.reinstate().perform(getReinstatementTD());
-//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		// Advance time one week and perform premium-bearing endorsement (additional premium)
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(1));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getEndorsementTD());
+		policy.getDefaultView().fill(getAddPremiumTD());
+
+		// Pay additional premium
+		payAmountDue();
+
+		// Advance time another week and open policy
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(2));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+
+		// Cancel policy
+		policy.cancel().perform(getCancellationTD());
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+
+		// Reinstate policy without lapse
+		policy.reinstate().perform(getReinstatementTD());
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void testNewBusinessScenario_2() {
