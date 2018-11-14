@@ -376,10 +376,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
         TestData td = getPolicyTD();
-        if (getPolicyType().equals(PolicyType.HOME_CA_HO6)) {
-            td.adjust(TestData.makeKeyPath(HomeCaMetaData.DocumentsTab.class.getSimpleName(), HomeCaMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(),
-                    HomeCaMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_OCCUPATION.getLabel()), "Yes");
-        }
 
         // Create customer with CLUE claims and initiate policy
         createSpecificCustomerIndividual("Silvia", "Kohli");
@@ -401,7 +397,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
             new ReportsTab().tblInsuranceScoreReport.getRow(3).getCell("Report").controls.links.getFirst().click();
         }
         getReportsTab().submitTab();
-        getPropertyInfoTab().fillTab(td);
         checkTblClaimRowCount(2);
         selectRentalClaimForCADP3();
         policy.getDefaultView().fillFromTo(td, getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
