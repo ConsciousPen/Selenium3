@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.Tab;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.CustomerMetaData;
@@ -51,7 +52,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         mainApp().close();
 
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         SearchPage.openQuote(quoteNumber);
         policy.dataGather().start();
         navigateToPropertyInfoTab();
@@ -106,7 +107,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         mainApp().close();
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         searchForPolicy(policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         navigateToPropertyInfoTab();
@@ -234,7 +235,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         policy.renew().performAndExit();
         mainApp().close();
 
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         searchForPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
@@ -545,7 +546,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         mainApp().close();
 
         // Unprivileged User Check that Claim Cannot be removed
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         SearchPage.openPolicy(policyNumber);
         policy.endorse().start();
         navigateToPropertyInfoTab();
@@ -558,7 +559,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
         String quoteNumber = PolicySummaryPage.getPolicyNumber();
         mainApp().close();
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         SearchPage.openQuote(quoteNumber);
         policy.dataGather().start();
         navigateToPropertyInfoTab();
