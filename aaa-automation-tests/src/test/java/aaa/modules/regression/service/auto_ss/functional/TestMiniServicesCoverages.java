@@ -1,34 +1,16 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.util.*;
-import javax.ws.rs.core.Response;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.google.common.collect.ImmutableList;
 import aaa.common.enums.Constants;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.rest.dtoDxp.ComparablePolicy;
-import aaa.helpers.rest.dtoDxp.Coverage;
-import aaa.helpers.rest.dtoDxp.PolicyCoverageInfo;
-import aaa.main.enums.AvailableCoverageLimits;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
-import toolkit.datax.DataProviderFactory;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import aaa.main.enums.CoverageInfo;
-import aaa.main.enums.CoverageLimits;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
