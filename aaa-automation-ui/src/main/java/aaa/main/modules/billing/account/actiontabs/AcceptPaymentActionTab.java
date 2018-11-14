@@ -4,9 +4,6 @@ package aaa.main.modules.billing.account.actiontabs;
 
 import org.openqa.selenium.By;
 import toolkit.datax.TestData;
-import toolkit.selenium.controls.composite.assets.AssetList;
-import toolkit.verification.CustomAssert;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.TextBox;
 import aaa.common.ActionTab;
 import aaa.common.Tab;
@@ -16,10 +13,6 @@ public class AcceptPaymentActionTab extends ActionTab {
 
     public AcceptPaymentActionTab() {
         super(BillingAccountMetaData.AcceptPaymentActionTab.class);
-    }
-
-    public void setCheckNumber(int checkNumber ) {
-        getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).setValue(String.valueOf(checkNumber).toString());
     }
 
     @Override
