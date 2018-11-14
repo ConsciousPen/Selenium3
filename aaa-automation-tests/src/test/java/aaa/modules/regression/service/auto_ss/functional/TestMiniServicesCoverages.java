@@ -1190,6 +1190,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
  */
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20292"})
 	public void pas20292_updateCoverageBIPDWv(@Optional("WV") String state) {

@@ -124,7 +124,7 @@ public enum AvailableCoverageLimits {
 
 	)),
 	UIMBI(ImmutableList.of(
-			CoverageLimits.COV_0_WV,
+			CoverageLimits.COV_00,
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_50100,
 			CoverageLimits.COV_100300,
