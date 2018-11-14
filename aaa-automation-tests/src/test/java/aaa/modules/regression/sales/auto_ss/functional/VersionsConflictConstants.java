@@ -155,15 +155,6 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName.Defensive Driver Course Certificate Number", "Defensive Driver Course Certificate Number")
 			.put("Drivers.NBFirstName NB NBLastName.Filing State", "Filing State")
 			.put("Drivers.NBFirstName NB NBLastName.Date First Licensed", "Date First Licensed")
-			//TODO return when Activity section is done
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", "Type")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", "Description")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", "Occurrence Date")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", "Loss Payment Amount")
-			//TODO should be returned after implementing story for Clean up for Activity Information
-			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -389,43 +380,16 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
-					//TODO return when Activity section is done
-/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
-					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					//TODO return when Activity section is done
-/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
-					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			//TODO return when Activity section is done
-/*			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Type")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Description")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Occurrence Date")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Loss Payment Amount")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Claim Points")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","Not Included in Points and/or Tier - Reason Codes")
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement

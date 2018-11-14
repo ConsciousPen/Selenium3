@@ -52,10 +52,6 @@ public class VersionsConflictConstants {
 			.putAll("Drivers.NBFirstName NB NBLastName.Good Driver Discount", "false","true")
 			.putAll("Drivers.NBFirstName NB NBLastName.Smoker: Cigarettes, cigars or pipes", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filling Needed", "false","true")
-			//TODO return when Activity section is done
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points","","0")
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points","0","")
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?","false","true")
 			//Vehicle Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Year","1998","2003")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Make","DODG","MERZ")
@@ -79,10 +75,6 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, Hennepin, MN, 55440-0674","")
-			//Ownership address
-			/*			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", "Financed","Owned")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).First Name", "LI011","")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
@@ -180,14 +172,6 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName.New Driver Certification Number", "New Driver Certification Number")
 			.put("Drivers.NBFirstName NB NBLastName.Mature Driver Course Completion Date", "Mature Driver Course Completion Date")
 			.put("Drivers.NBFirstName NB NBLastName.Filling Type", "Filling Type")
-			//TODO return when Activity section is done
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", "Type")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", "Description")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", "Occurrence Date")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", "Loss Payment Amount")
-			//TODO should be returned after implementing story for Clean up for Activity Information
-			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", "Not Included in Points and/or YAF - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -416,7 +400,6 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Gender", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", AVAILABLE)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -427,23 +410,11 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			//TODO return when Activity section is done
-			/*			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Type")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Description")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Occurrence Date")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Loss Payment Amount")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Claim Points")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Driving under the influence of drugs, 08/13/2018, Not included in Rating)","Not Included in Points and/or YAF - Reason Codes")
-
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
