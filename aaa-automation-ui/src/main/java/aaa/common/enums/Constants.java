@@ -28,4 +28,12 @@ public class Constants {
 		public static final String WV = "WV";
 		public static final String WY = "WY";
 	}
+
+	public static final class LoginData {
+		public static final String QA = "QA";
+		public static final String E34 = "E34";
+		public static final String F35 = "F35";
+		public static final String G36 = "G36";
+		public static final String L41 = "L41";
+	}
 }
