@@ -120,13 +120,13 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [OK] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="fileName" value="OKTests-20170623.xls"/>-->
-    <!--<parameter name="policyNumbers" value="1"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [OK] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="OKTests-20180426.xls"/>
+        <parameter name="policyNumbers" value="73,74"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="HomeSS HO3 [OR] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="ORTests-20171023.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
