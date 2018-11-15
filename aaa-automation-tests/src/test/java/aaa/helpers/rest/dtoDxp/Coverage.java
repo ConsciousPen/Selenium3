@@ -1,5 +1,6 @@
 package aaa.helpers.rest.dtoDxp;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -77,8 +78,8 @@ public class Coverage {
 		return this;
 	}
 
-	public Coverage removeAvailableLimit(CoverageLimits coverageLimit) {
-		this.availableLimits.removeIf(p -> p.coverageLimit.equals(coverageLimit.getLimit()));
+	public Coverage removeAvailableLimit(CoverageLimits... coverageLimits) {
+		Arrays.stream(coverageLimits).forEach(cl -> this.availableLimits.removeIf(p -> p.coverageLimit.equals(cl.getLimit())));
 		return this;
 	}
 

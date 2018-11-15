@@ -129,7 +129,7 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
         defaultPolicyData.adjust("ApplicantTab", generalTabTestData);
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
-        mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
+		mainApp().open(getLoginTD().adjust("Groups", "I38"));
         // This is expected to fail- which would normally fail the test. When it does, we verify the positive failure AFTER the catch.
         createCustomerIndividual();
         policy.initiate();

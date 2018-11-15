@@ -160,7 +160,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
         defaultPolicyData.adjust("ApplicantTab", generalTabTestData);
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
-        mainApp().open(initiateLoginTD().adjust("Groups", "I38"));
+		mainApp().open(getLoginTD().adjust("Groups", "I38"));
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(defaultPolicyData, ApplicantTab.class, true);
