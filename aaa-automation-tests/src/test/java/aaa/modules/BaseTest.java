@@ -50,7 +50,7 @@ public class BaseTest {
 	protected static final String TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = Constants.STATE_PARAM;
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
-	protected static TestData loginUsers;
+	private static TestData loginUsers;
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
 	private static TestData tdOperationalReports;
@@ -81,7 +81,7 @@ public class BaseTest {
 		return state.get();
 	}
 
-	public static void setState(String newState) {
+	public void setState(String newState) {
 		state.set(newState);
 	}
 
@@ -196,9 +196,8 @@ public class BaseTest {
 	protected String getUserGroup() {
 		if (StringUtils.isNotBlank(userGroup)) {
 			return userGroup;
-		} else {
-			return Constants.UserGroups.QA.get();
 		}
+		return Constants.UserGroups.QA.get();
 	}
 
 	protected TestData getLoginTD() {
@@ -232,6 +231,7 @@ public class BaseTest {
 	@Parameters("login")
 	@BeforeMethod(alwaysRun = true)
 	public void stateConfiguration(@Optional("") String login, Method method, ITestContext context) {
+		this.context = context;
 		if (method.isAnnotationPresent(Test.class)) {
 			String state = new String();
 			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
@@ -268,12 +268,6 @@ public class BaseTest {
 		if (isCiModeEnabled) {
 			closeAllApps();
 		}
-	}
-
-	@BeforeSuite(alwaysRun = true)
-	public void beforeSuite(ITestContext context) {
-		Thread.currentThread().getId();
-		this.context = context;
 	}
 
 	/**
@@ -504,21 +498,6 @@ public class BaseTest {
 		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-	private void initTestDataForTest() {
-		try {
-			tdSpecific = testDataManager.getDefault(this.getClass());
-		} catch (TestDataException tde) {
-			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
-		}
-	}
-
-	private String getStateTestDataName(String tdName) {
-		String state = getState();
-		// if (!state.equals(States.UT) && !state.equals(States.CA))
-		tdName = tdName + "_" + state;
-		return tdName;
-	}
-
 	private String openDefaultPolicy(PolicyType policyType, String state) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
@@ -569,6 +548,8 @@ public class BaseTest {
 	}
 
 	private void closeAllApps() {
-		CSAAApplicationFactory.get().closeAllApps();
+		mainApp().close();
+		adminApp().close();
+		opReportApp().close();
 	}
 }
