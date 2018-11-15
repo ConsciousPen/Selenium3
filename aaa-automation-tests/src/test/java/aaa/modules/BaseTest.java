@@ -58,7 +58,7 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	protected ITestContext context;
-	private String loginData;
+	private String userGroup;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
@@ -190,16 +190,16 @@ public class BaseTest {
 		return td;
 	}
 
-	protected String getLoginRole() {
-		if (StringUtils.isNotBlank(loginData)) {
-			return loginData;
+	protected String getUserGroup() {
+		if (StringUtils.isNotBlank(userGroup)) {
+			return userGroup;
 		} else {
-			return Constants.LoginData.QA.get();
+			return Constants.UserGroups.QA.get();
 		}
 	}
 
 	protected TestData getLoginTD() {
-		return getLoginTD(Constants.LoginData.valueOf(getLoginRole()));
+		return getLoginTD(Constants.UserGroups.valueOf(getUserGroup()));
 	}
 
 	protected boolean isStateCA() {
@@ -239,7 +239,7 @@ public class BaseTest {
 			setState(Constants.States.UT);
 		}
 
-		this.loginData = login;
+		this.userGroup = login;
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -485,8 +485,8 @@ public class BaseTest {
 		return getStateTestData(tdSpecific, tdName);
 	}
 
-	protected TestData getLoginTD(Constants.LoginData loginData) {
-		return loginUsers.getTestData(loginData.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
+	protected TestData getLoginTD(Constants.UserGroups userGroups) {
+		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
 	private void initTestDataForTest() {
