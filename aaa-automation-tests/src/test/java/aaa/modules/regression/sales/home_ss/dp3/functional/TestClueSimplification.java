@@ -453,4 +453,22 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 
 	}
 
+	/**
+	 * @author Josh Carpenter
+	 * @name Test CLUE claim catastrophe indicator when 'Unknown' defaults to 'No'
+	 * @scenario
+	 * 1. Create policy with customer "Silvia Kohli" and 2 other named insured (returns 2 Clue claims)
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to Applicant tab and add new named insured "Sachin Kohli"
+	 * 4. Navigate to Reports tab and re-order clue reports
+	 * 5. Validate there are now 4 claims showing
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-22075")
+	public void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement(@Optional("") String state) {
+		pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement();
+
+	}
+
 }

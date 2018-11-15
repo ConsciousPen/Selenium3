@@ -1,10 +1,13 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.common.pages.SearchPage.tableSearchResults;
+import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static aaa.main.pages.summary.PolicySummaryPage.labelPolicyNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Files.contentOf;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,16 +23,26 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.ssh.RemoteHelper;
+import aaa.main.enums.SearchEnum;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * This template is used to test Batch Claim Logic.
@@ -52,11 +65,16 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
     public static final String SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'MatchMoreClaims'";
+    public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
 
 
     protected TestData adjusted;
     protected LocalDateTime policyExpirationDate;
     protected String policyNumber;
+
+    protected static DriverTab driverTab = new DriverTab();
+    protected static PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+    protected static DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 
     @BeforeTest
     public void prepare() {
@@ -70,6 +88,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                     + CAS_REQUEST_PATH, e);
         }
     }
+
     //TODO:gunxgar improve method to be able to pass specifc test data
     public String createPolicyMultiDrivers() {
         TestData testData = getPolicyTD();
@@ -116,8 +135,31 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     // Move to R-46 and run batch job part 2 and offline claims receive batch job
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
+        DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+    }
+
+    /*
+    Method changes current date to policy expiration date and issues generated renewal image
+    */
+    protected void issueGeneratedRenewalImage(String policyNumber) {
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        mainApp().open();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		if (tableSearchResults.isPresent()) {
+			tableSearchResults.getRow("Eff. Date",
+					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					.getCell(1).controls.links.getFirst().click();
+		}
+
+        buttonRenewals.click();
+        policy.dataGather().start();
+        premiumAndCoveragesTab.calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab();
+        payTotalAmtDue(policyNumber);
     }
 
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
@@ -128,6 +170,30 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             String driverLicense = claimToDriverLicenseMap.get(c.getClaimNumber());
             if (driverLicense != null) {
                 c.setDrivingLicenseNumber(driverLicense);
+            }
+        });
+    }
+
+    /**
+     * Method Updates CAS Response value by given XML Tag Name
+     * @param updatableFieldValueMap given value according to Claim Number
+     * @param response
+     * @param updatableField given XML Tag name
+     */
+    protected void updateFieldForClaim(Map<String, String> updatableFieldValueMap, CASClaimResponse response, String updatableField) {
+        List<Claim> claims = response.getClaimLineItemList().stream()
+                .flatMap(claimLineItem -> claimLineItem.getClaimList().stream())
+                .collect(Collectors.toList());
+        claims.forEach(c -> {
+            String updatableFieldValue = updatableFieldValueMap.get(c.getClaimNumber());
+            if (updatableFieldValue != null) {
+                try {
+                    Field field = Claim.class.getDeclaredField(updatableField);
+                    field.setAccessible(true);
+                    field.set(c, updatableFieldValue);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+	                throw new IllegalStateException("Can't update field " + updatableField + " by " + updatableFieldValue, e);
+                }
             }
         });
     }
@@ -186,30 +252,41 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @param policyNumber given policy number
      * @param key key of value which you want to get
      */
-    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key){
+    protected String retrieveClaimValueFromAnalytics(List<String> listOfClaims, String claimNumber, String policyNumber, String key) {
         String claimValue = null;
 
-        for (int i=0;i <= listOfClaims.size()-1; i++){
+        for (int i = 0; i <= listOfClaims.size() - 1; i++) {
             JSONObject specificClaimData = new JSONObject(listOfClaims.get(i)).getJSONObject("claims-assignment");
             if (specificClaimData.getString("claimNumber").equals(claimNumber) && specificClaimData.getString("policyNumber").equals(policyNumber)) {
                 claimValue = specificClaimData.getString(key);
             } else {
                 log.info("Moving to the next Claim List Item.. Required Claim in this Claim Analytics JSON Item couldn't be found. Claim Number: "
-                        +claimNumber);
+                        + claimNumber);
             }
         }
         return claimValue;
     }
 
+    //TODO:gunxgar refactor is needed following method and its uses. More info in PAS14552_includeClaimsInRatingDetermination, now duplicates
     protected void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-                                                   Map<String, String> claimToDriverLicence) {
+            Map<String, String> claimToDriverLicence) {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
         File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
             setPolicyNumber(policyNumber, response);
-            if (claimToDriverLicence != null) updateDriverLicence(claimToDriverLicence, response);
+            if (claimToDriverLicence != null)
+                updateDriverLicence(claimToDriverLicence, response);
         });
+        String content = contentOf(claimResponseFile, Charset.defaultCharset());
+        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
+
+        // Upload claim response
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
+                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+    }
+
+    protected void uploadCasResponseFile(File claimResponseFile, String casResponseFileName) {
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
 

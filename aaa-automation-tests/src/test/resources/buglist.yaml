@@ -441,3 +441,9 @@ PAS-21588:
   failures:
   - tests: [aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto.pas20836_expirationNoticeFormGeneration]
     messages: ["expected:<\"[CANC]\"> but was:<\"[STMT]\">"]
+PAS-22161:
+  summary: "ASW Reason is not being displayed after adding second accident"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
+    messages: ["Waived - Accident Surcharge Waiver"]
