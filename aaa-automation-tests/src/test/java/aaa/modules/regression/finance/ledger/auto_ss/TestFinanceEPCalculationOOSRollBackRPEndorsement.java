@@ -29,16 +29,13 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 
 	/**
 	 * @author Maksim Piatrouski
-	 * Objectives : OOS RollBack PR Endorsement
+	 * Objectives : OOS RollBack RP Endorsement
 	 * Preconditions:
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
 	 * 1. Create Annual Auto SS Policy with Effective date today (txEffectiveDate = today + 1 month)
-	 * 2. Create First Endorsement (Change some coverages) with date: Today +62 days (with txEffectiveDate -1)
-	 * 3. Create Second Endorsement(Add one coverage, remove one coverage and add one coverage) with date: first endorsement +1 month (with txEffectiveDate -1)
-	 * 4. Create Third Endorsement(Add one coverage, remove one coverage and add one coverage) with date: second endorsement +7 month (with txEffectiveDate -1)
-	 * 4. Roll Back Endorsement with date: third endorsement +3 days (with txEffectiveDate from step 1)
-	 * 5. Roll on Endorsement with available values (not current)
-	 * 6. Verify Calculations
+	 * 2. Create Endorsement (Remove/decrease coverage) with date: Today + 3 months (with txEffectiveDate -1)
+	 * 3. Roll Back Endorsement with date: endorsement date (with txEffectiveDate = today)
+	 * 5. Check Calculations
 	 */
 
 	@Parameters({"state"})

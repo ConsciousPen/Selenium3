@@ -58,4 +58,30 @@
             <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
         </classes>
     </test>
+    <test name="PAS-21446 - Test Earned Premium Calculation Changes - AP endorsement w subsequent Roll Back of the AP endorsement" parallel="methods"
+          thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackAPEndorsement"/>
+        </classes>
+    </test>
+    <test name="PAS-21454 - Test Earned Premium Calculation Changes - RP endorsement w subsequent Roll Back of the RP endorsement" parallel="methods"
+          thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackRPEndorsement"/>
+        </classes>
+    </test>
+    <test name="PAS-21458 - Test Earned Premium Calculation Changes - Small Balance Write-Off" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationSmallBalanceWriteOff"/>
+        </classes>
+    </test>
+    <test name="PAS-21457 - Test Earned Premium Calculation Changes - Earned Premium Write-Off" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
+        </classes>
+    </test>
 </suite>
