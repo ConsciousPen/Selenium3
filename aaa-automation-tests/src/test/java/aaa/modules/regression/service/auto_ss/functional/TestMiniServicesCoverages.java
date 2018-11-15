@@ -1177,4 +1177,31 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
 		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
 	}
+
+	/**
+	 * @author Bob Van
+	 * @name View Coverages - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy: UMBI/UIMBI, COMP, COLL other than no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: remove COLL
+	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed true, check availLimits
+	 * @scenario2
+	 * 1. Create policy: UMBI/UIMBI, COMP, COLL other than no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: remove COLL
+	 * 4. verify response: UMPD canChangeCoverage & customerDisplayed false, check availLimits
+	 * @scenario3
+	 * 1. Create policy: UMBI/UIMBI, COMP other than no coverage, COLL no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: COLL =  500
+	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed false, check availLimits
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306"})
+	public void pas20306_updateCoveragesUmpdCompColl(@Optional("UT") String state) {
+		pas20306_updateCoveragesUmpdCompCollBody(state, getPolicyType());
+	}
+
 }
