@@ -98,10 +98,10 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
     public void pas14738_testAccidentSurchargeWaiverEndorsement(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
-        createQuoteAndFillUpTo(td, DriverTab.class);
+        createQuoteAndFillUpTo(td, RatingDetailReportsTab.class);
         addActivityDriverTab(getAccidentInfoTd());
-        driverTab.submitTab();
-        policy.getDefaultView().fillFromTo(td, RatingDetailReportsTab.class, PurchaseTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+        policy.getDefaultView().fillFromTo(td, VehicleTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
