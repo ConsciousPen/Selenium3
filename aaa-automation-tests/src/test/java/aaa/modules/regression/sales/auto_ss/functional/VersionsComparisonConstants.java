@@ -30,6 +30,11 @@ public class VersionsComparisonConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			//AAA Product Owned
+			.putAll("AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("AAA Membership report.Order Date", "","")
+			.putAll("AAA Membership report.Receipt Date", "", "")
+			.putAll("AAA Membership report.Status", "Active","")
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
@@ -88,11 +93,11 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Safety Score Date", "08/15/2018","01/09/2015")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "true", "false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
@@ -129,6 +134,7 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -211,8 +217,7 @@ public class VersionsComparisonConstants {
 			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Loss Payment Amount", "Loss Payment Amount")
 			//TODO should be returned after implementing story for Clean up for Activity Information
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
-			//Vehicle Information
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
 			.put("Vehicles.1998, DODGE, CARAVAN.Existing Damage", "Existing Damage")
@@ -281,6 +286,11 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "Condo Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
+			.put("AAA Membership report", "Membership No.")
+			.put("AAA Membership report", "Member Since Date")
+			.put("AAA Membership report", "Order Date")
+			.put("AAA Membership report", "Receipt Date")
+			.put("AAA Membership report", "Status")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section

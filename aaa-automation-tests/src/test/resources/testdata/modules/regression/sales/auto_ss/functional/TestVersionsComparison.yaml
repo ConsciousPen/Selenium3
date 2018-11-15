@@ -730,10 +730,10 @@ VehicleInformation_Version2: {
  "Enroll in Usage Based Insurance?": 'No',
   #Garaging Address
  "Is Garaging different from Residential?": 'Yes',
- Zip Code: 85245,
+ Zip Code: 85003,
  Address Line 1: VII garaging address 1,
  Address Line 2: VII garaging address 2,
- City: Red Rock,
+ City: Phoenix,
  State: AZ,
  Validate Address: true,
  Validate Address Dialog: {
@@ -744,16 +744,8 @@ VehicleInformation_Version2: {
  Ownership: {
   Ownership Type: Financed,
   First Name: GMAC,
-  Zip: 55440-0674,
-  Address Line 1: PO BOX 674,
-  Address Line 2: VII ownership address 2,
-  City: Gold Canyon,
-  State: AZ,
   Validate Address: true,
-  Validate Address Dialog: {
-   Street number: PO BOX,
-   Street Name: 674,
-  },
+  Validate Address Dialog: {},
  },
   #Additinal interest
  "Are there any additional interest(s)?": 'Yes',
