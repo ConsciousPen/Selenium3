@@ -58,6 +58,7 @@ public class BaseTest {
 	protected TestDataManager testDataManager;
 	protected ITestContext context;
 	private String loginData;
+	protected static TestData loginUsers;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
@@ -65,6 +66,7 @@ public class BaseTest {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
 		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
+		loginUsers = new TestDataManager().loginUsers;
 	}
 
 	public BaseTest() {
@@ -480,7 +482,7 @@ public class BaseTest {
 	}
 
 	protected TestData initiateLoginTD() {
-		return testDataManager.loginUsers.getTestData(getLoginData()).adjust(LoginPageMeta.STATES.getLabel(), getState());
+		return loginUsers.getTestData(getLoginData()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
