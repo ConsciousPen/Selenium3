@@ -1,12 +1,5 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.helpers.constants.ComponentConstant;
@@ -16,7 +9,16 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
@@ -51,7 +53,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14679,PAS-18391,PAS-14058,PAS-8310,PAS-17894")
 	@StateList(states = {Constants.States.AZ})
-	public void PAS14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
+	public void pas14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
 
 		//Define which JSON request to use
 		//TODO - Consider using a JSON Request Builder for future tests
@@ -77,6 +79,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(4).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME_YOB");
 
 		//PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
+		//PAS-21436 - CAS Claims With Missing Drivers License Numbers
 		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
 	}

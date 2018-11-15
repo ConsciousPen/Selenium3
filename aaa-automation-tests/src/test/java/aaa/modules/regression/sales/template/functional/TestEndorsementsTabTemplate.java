@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -85,7 +86,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void newBusinessTx_NonPrivileged(String parentEndorsementFormId) {
 		//Open application as non privileged user - "F35" and Create Quote and fill up tp Endorsement tab
-		initiateNewBusinessTx_NonPrivileged("F35");
+		initiateNewBusinessTx_NonPrivileged(PrivilegeEnum.Privilege.F35);
 
 		//Check that Endorsements are not available in "Optional Endorsements" section
 		checkEndorsementIsNotAvailableInOptionalEndorsements(parentEndorsementFormId);
@@ -96,7 +97,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 	protected void newBusinessTx_NonPrivileged_AlreadyHadEndorsement(String parentEndorsementFormId, String subEndorsementFormId) {
 		//Create Quote and fill up tp Endorsement tab -> Add endorsements -> Save & Exit -> Open quote with user "F35"
-		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement("F35", parentEndorsementFormId, subEndorsementFormId);
+		initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(PrivilegeEnum.Privilege.F35, parentEndorsementFormId, subEndorsementFormId);
 
 		//Edit endorsements, Remove endorsements
 		checkEndorsementFunctionality(subEndorsementFormId, parentEndorsementFormId);
@@ -119,7 +120,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 		//Open application as non privileged user "F35"
 		mainApp().close();
-		openAppNonPrivilegedUser("F35");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
 
 		//Initiate Endorsement Transaction
 		SearchPage.openPolicy(policyNumber);
@@ -138,7 +139,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 		//Open application as non privileged user "F35"
 		mainApp().close();
-		openAppNonPrivilegedUser("F35");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
 
 		//Initiate Endorsement Transaction
 		SearchPage.openPolicy(policyNumber);
@@ -169,7 +170,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 		//Open application as non privileged user "F35"
 		mainApp().close();
-		openAppNonPrivilegedUser("F35");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
 
 		//Open Policy and navigate to 'Premium and Coverages' tab
 		SearchPage.openPolicy(policyNumber);
@@ -192,7 +193,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 
 		//Open application as non privileged user "F35"
 		mainApp().close();
-		openAppNonPrivilegedUser("F35");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.F35);
 
 		//Open Policy and navigate to 'Premium and Coverages' tab
 		SearchPage.openPolicy(policyNumber);
@@ -340,7 +341,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		checkEndorsementIsAvailableInOptionalEndorsements(parentEndorsementFormId);
 	}
 
-	private void initiateNewBusinessTx_NonPrivileged(String privilege) {
+	private void initiateNewBusinessTx_NonPrivileged(PrivilegeEnum.Privilege privilege) {
 		openAppNonPrivilegedUser(privilege);
 
 		createCustomerIndividual();
@@ -352,7 +353,7 @@ public class TestEndorsementsTabTemplate extends TestEndorsementsTabAbstract {
 		policy.getDefaultView().fillUpTo(quoteTd, EndorsementTab.class, false);
 	}
 
-	private void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(String privilege, String... endorsementFormIds) {
+	private void initiateNewBusinessTx_NonPrivileged_AlreadyHadEndorsement(PrivilegeEnum.Privilege privilege, String... endorsementFormIds) {
 		createQuoteAndFillUpTo(EndorsementTab.class);
 
 		for (String endorsementFormId : endorsementFormIds) {
