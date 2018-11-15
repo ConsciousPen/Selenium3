@@ -2,6 +2,8 @@ package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -14,6 +16,7 @@ import aaa.common.enums.Constants;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import toolkit.datax.TestData;
@@ -3954,9 +3957,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate1).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate1);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual1);
 			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
-
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
-			HelperCommon.viewEndorsementChangeLog(policyNumber,Response.Status.OK.getStatusCode());
+			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-false.json");
 
 			//update WLB to true
 			CoverageLimits rejectWorklossNewLimit = CoverageLimits.COV_TRUE;
@@ -3971,6 +3972,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate2).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual2);
 			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_UT.getCode()));
+			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-true.json");
 
 			//update PIP by updating MEDEXP while WLB is true
 			medexpNewLimit = CoverageLimits.COV_5000;
@@ -3985,6 +3987,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate3).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual3);
 			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
+			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-true.json");
 
 			//update WLB to false
 			rejectWorklossNewLimit = CoverageLimits.COV_FALSE;
@@ -3999,9 +4002,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate4).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate4);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual4);
 			validatePIPInUI_15368(softly, getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.MEDEXP_UT.getCode()));
-
+			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-false.json");
 		});
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void validateSubCoveragesChangeLog(String policyNumber, String expectedResponse) {
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		ComparablePolicy changeLogActual = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			ComparablePolicy changeLogExpected = objectMapper
+					.readValue(new File("../aaa-automation-tests/src/test/resources/feature/testMiniServicesCoverages/pipCoverageUTpas15367/" + expectedResponse), ComparablePolicy.class);
+			assertThat(changeLogActual).isEqualToComparingFieldByFieldRecursively(changeLogExpected);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new IllegalArgumentException("Error getting Expected Change Log response.");
+		}
 	}
 
 	private Coverage updateBIAndGetPD_pas15788(String policyNumber, String coverageBILimit) {
@@ -4605,12 +4622,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
 	}
 
-	protected PolicyCoverageInfo updateCoverage(String policyNumber, String coverageCd, String coverageLimit) {
+	private PolicyCoverageInfo updateCoverage(String policyNumber, String coverageCd, String coverageLimit) {
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(coverageCd, coverageLimit);
 		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 	}
 
-	protected PolicyCoverageInfo updateTORTCoverage(String policyNumber, List<String> driverOidList) {
+	private PolicyCoverageInfo updateTORTCoverage(String policyNumber, List<String> driverOidList) {
 		UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest("TORT", "true", driverOidList);
 		return HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 	}

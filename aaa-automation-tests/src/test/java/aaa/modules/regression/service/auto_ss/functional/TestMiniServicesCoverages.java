@@ -849,6 +849,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 4. Update "Rejection of Work Loss Benefit" to "true" and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
 	 * 5 Update PIP by updating MEDEXP coverage while "Rejection of Work Loss Benefit" is "true" and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
 	 * 6. Update "Rejection of Work Loss Benefit" to "false" and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
+	 * Note: validate subCoverages in changeLog after each update
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.UT})
