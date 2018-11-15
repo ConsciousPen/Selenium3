@@ -34,7 +34,7 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
 	 * 1. Create Annual Auto SS Policy with Effective date today (txEffectiveDate = today + 1 month)
 	 * 2. Create Endorsement (Remove/decrease coverage) with date: Today + 3 months (with txEffectiveDate -1)
-	 * 3. Roll Back Endorsement with date: endorsement date (with txEffectiveDate = today)
+	 * 3. Roll Back Endorsement with date: endorsement + 7 month (with txEffectiveDate = today)
 	 * 5. Check Calculations
 	 */
 
@@ -48,6 +48,7 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 		String policyNumber = createPolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusMonths(3);
+		LocalDateTime rbDate = eDate.plusMonths(7);
 
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
@@ -59,6 +60,8 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
+		jobDate = runEPJobUntil(jobDate, rbDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		TimeSetterUtil.getInstance().nextPhase(rbDate);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		rollBackEndorsement(today);
