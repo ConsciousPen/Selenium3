@@ -68,7 +68,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(cDate);
 
-		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
 
 		mainApp().open();
@@ -83,7 +83,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		cancelPolicy(cDate, getPolicyType());
 
-		runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, earnedPremiumWriteOff, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
 		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);

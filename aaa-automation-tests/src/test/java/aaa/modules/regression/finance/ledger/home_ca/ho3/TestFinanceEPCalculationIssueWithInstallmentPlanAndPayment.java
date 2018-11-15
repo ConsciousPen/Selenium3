@@ -63,7 +63,7 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-		runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
 
 		mainApp().open();
