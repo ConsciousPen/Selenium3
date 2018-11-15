@@ -5,6 +5,7 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
+
     <test name="UT Auto Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
@@ -48,6 +49,12 @@
     </test>
     <test name="AZ Auto Regression Tests" parallel="methods">
         <parameter name="state" value="AZ"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <exclude name="Timepoint"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyBackdated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
@@ -88,6 +95,17 @@
                 <methods>
                     <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
                     <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
+                    <exclude name="pas6313_Validate_Membership_Override_NB15NB30_Negative"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
                 </methods>
             </class>
         </classes>
@@ -462,6 +480,12 @@
     </test>
     <test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <exclude name="Timepoint"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyBackdated"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
@@ -493,10 +517,31 @@
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewFlatCancellation"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipValidation">
+                <methods>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="pas6314_Validate_Membership_Override_AC1"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC2"/>
+                    <exclude name="pas6314_Validate_Membership_Override_AC3"/>
+                    <exclude name="pas6313_Validate_Membership_Override_NB15NB30"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInaccurateRatingFromOmittedPoints"/>
         </classes>
     </test>
     <test name="CA Choice Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <exclude name="Timepoint"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyBackdated"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreation"/>
@@ -516,6 +561,11 @@
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.auto_ca.choice.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestContactInformation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
+                <methods>
+                    <exclude name="pas6668_pas8815_ScenarioAC2_Dummy_Numbers_Automatic_Renewal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 	<test name="OR Regression Tests" parallel="methods">

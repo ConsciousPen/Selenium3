@@ -1,17 +1,7 @@
 package aaa.modules.regression.sales.home_ca.ho3;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.TextBox;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
@@ -19,14 +9,19 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum.Errors;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.Button;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestQuoteDetermineEligibility extends HomeCaHO3BaseTest {
 

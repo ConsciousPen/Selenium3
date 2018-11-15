@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Unicorns Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
-        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+       <!-- <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
+     <!--   <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method" />
 
@@ -129,6 +129,14 @@
                     <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
                 </methods>
             </class>
+        </classes>
+    </test>
+    <test name="PAS-18302 Fire rule for roof type - wood shingle/wood shake for 3 and above - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline"/>
         </classes>
     </test>
 </suite>

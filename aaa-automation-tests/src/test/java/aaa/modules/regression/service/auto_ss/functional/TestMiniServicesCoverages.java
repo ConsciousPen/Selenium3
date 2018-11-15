@@ -977,4 +977,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
 		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
 	}
+
+/**
+ * @author Megha Gubbala
+ * @name Maryland and Enhanced Coverage - Give me a label, don't let me edit
+ * @scenario1:
+ * 1.create WV policy and updated BI
+ * 2.verify  UM and UIM limits match my BI Limit
+ * 3.updated BI so that my current PD LImit now exceeds my BI per accident limit
+ * 4.Verify my PD Limit is updated to match my new BI per accident limit.
+ * 5.have updated BI verify  updated PD  UMPD and UIMPD limits match my PD limit
+ */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20292"})
+	public void pas20292_updateCoverageBIPDWv(@Optional("WV") String state) {
+		pas20292_updateCoverageBIPDWvBody(getPolicyType());
+	}
 }

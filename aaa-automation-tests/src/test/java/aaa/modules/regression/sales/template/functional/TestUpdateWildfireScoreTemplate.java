@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.SearchEnum;
@@ -38,7 +39,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
                 .mask(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, PropertyInfoTab.class, true);
@@ -59,7 +60,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         mainApp().close();
 
         // Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
@@ -184,7 +185,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
                 .mask(TestData.makeKeyPath(aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.class.getSimpleName(), HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
 
         // Open App with unprivileged user. Create Customer. get Policy Type and initiate policy. Fill policy to PropertyInfo Tab.
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         createCustomerIndividual();
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class, true);
@@ -205,7 +206,7 @@ public class TestUpdateWildfireScoreTemplate extends PolicyBaseTest {
         mainApp().close();
 
         // Log in with unprivileged user. Endorse Policy. Assert that Wildfire Score is disabled. Save and Exit.
-        openAppNonPrivilegedUser("A30");
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
