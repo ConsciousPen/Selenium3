@@ -25,9 +25,9 @@ public class VersionsComparisonConstants {
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
 			//TODO should be deleted/updated when Report tab is fixed
-			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Culver City, Los Angeles, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
+			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Culver City, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, CA, 90255")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VII prior address 1, VII prior address 2, Culver City, CA, 90232", "VI prior address 1, VI prior address 2, HUNTINGTON PARK, CA, 90255")
-			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, Los Angeles, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
+			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, CA, 90255")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Culver City, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, CA, 90255")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//Current Currier Information
@@ -91,7 +91,7 @@ public class VersionsComparisonConstants {
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, VII ownership address 2, Bell, CA, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, Hennepin, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
@@ -254,7 +254,6 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAAMembership Order", "Last Name")
 			.put("AA59 Existing Damage Endorsement Form", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
