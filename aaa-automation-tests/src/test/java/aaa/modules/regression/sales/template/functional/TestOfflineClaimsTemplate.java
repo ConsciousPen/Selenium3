@@ -191,7 +191,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                     Field field = Claim.class.getDeclaredField(updatableField);
                     field.setAccessible(true);
                     field.set(c, updatableFieldValue);
-                    System.out.println(c);
                 } catch (NoSuchFieldException e) {
                     throw new IllegalStateException(e);
                 } catch (IllegalAccessException e) {
