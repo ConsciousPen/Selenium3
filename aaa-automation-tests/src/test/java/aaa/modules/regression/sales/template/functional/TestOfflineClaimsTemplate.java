@@ -188,7 +188,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             String updatableFieldValue = updatableFieldValueMap.get(c.getClaimNumber());
             if (updatableFieldValue != null) {
                 try {
-                    Field field = Claim.class.getField(updatableField);
+                    Field field = Claim.class.getDeclaredField(updatableField);
                     field.setAccessible(true);
                     field.set(c, updatableFieldValue);
                     System.out.println(c);
@@ -197,93 +197,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-
-                /*switch (updatableField) {
-                    case ClaimCASResponseTags.TagNames.CLAIM_POLICY_REFERENCE_NUMBER:
-                        c.setClaimPolicyReferenceNumber(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_NUMBER:
-                        c.setClaimNumber(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_PREFIX:
-                        c.setClaimPrefix(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_TYPE:
-                        c.setClaimType(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_CAUSE:
-                        c.setClaimCause(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE:
-                        c.setClaimOpenDate(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE:
-                        c.setClaimCloseDate(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS:
-                        c.setClaimDateOfLoss(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_STATUS_CODE:
-                        c.setClaimStatusCode(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.ACCIDENT_FAULT:
-                        c.setAccidentFault(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.LOSS_SUMMARY:
-                        c.setLossSummary(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_DEDUCTIBLE_AMOUNT:
-                        c.setClaimDeductibleAmount(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.CLAIM_DEDICTIBLE_CURRENCY_CODE:
-                        c.setClaimDeductibleCurrencyCode(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.SUBRO_FLAG:
-                        c.setSubroFlag(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.TOTAL_AMOUNT_PAID:
-                        c.setTotalAmountPaid(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.TOTAL_AMOUNT_PAID_CURRENCY_CODE:
-                        c.setTotalAmountPaidCurrencyCode(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVER_NAME:
-                        c.setDriverName(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVING_LICENSE_NUMBER:
-                        c.setDrivingLicenseNumber(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVING_LICENSE_STATE:
-                        c.setDrivingLicenseState(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVER_AGE_AS_OF_DATE_OF_LOSS:
-                        c.setDriverAgeAsOfDateOfLoss(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVER_DATE_OF_BIRTH:
-                        c.setDriverDateofBirth(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.DRIVER_RELATION_TO_INSURED:
-                        c.setDriverRelationToInsured(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.VEHICLE_SERIAL_NUMBER:
-                        c.setVehicleSerialNumber(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.VEHICLE_BODY_TYPE:
-                        c.setVehicleBodyType(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.VEHICLE_MAKE:
-                        c.setVehicleMake(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.VEHICLE_MANUFACTURER_YEAR:
-                        c.setVehicleManufacturedYear(updatableFieldValue);
-                        break;
-                    case ClaimCASResponseTags.TagNames.VEHICLE_DESCRIPTION:
-                        c.setVehicleDescription(updatableFieldValue);
-                        break;
-                    default:
-                        System.out.println("Invalid CAS Response value selected");
-                        break;
-                }*/
             }
         });
     }
