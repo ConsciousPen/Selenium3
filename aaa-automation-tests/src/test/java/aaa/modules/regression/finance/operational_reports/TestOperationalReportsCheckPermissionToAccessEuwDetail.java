@@ -29,7 +29,7 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
 	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_L41() {
-		TestData loginTD = initiateLoginTD()
+		TestData loginTD = getLoginTD()
 				.adjust("Groups", "L41")
 				.adjust("User", "g60land")
 				.adjust("Password", "g60land");
@@ -54,7 +54,7 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
 	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_C32() {
-		TestData loginTD = initiateLoginTD()
+		TestData loginTD = getLoginTD()
 				.adjust("Groups", "C32")
 				.adjust("User", "gac9syl")
 				.adjust("Password", "gac9syl");
@@ -79,7 +79,7 @@ public class TestOperationalReportsCheckPermissionToAccessEuwDetail extends Base
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Finance.OPERATIONAL_REPORTS, testCaseId = "PAS-17040")
 	public void pas17040_testOperationalReportsCheckPermissionToAccessEuwDetail_E34() {
-		TestData loginTD = initiateLoginTD()
+		TestData loginTD = getLoginTD()
 				.adjust("Groups", "E34")
 				.adjust("User", "gac9syl")
 				.adjust("Password", "gac9syl");

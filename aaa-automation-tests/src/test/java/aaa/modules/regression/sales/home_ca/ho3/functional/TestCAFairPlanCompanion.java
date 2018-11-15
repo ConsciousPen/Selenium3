@@ -1,27 +1,26 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.actiontabs.PolicyDocGenActionTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author Tyrone C Jemison
@@ -42,7 +41,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC1AC4_Quote_VisibleFPCECA(@Optional("") String state) {
         defaultPolicyData = getPolicyTD();
@@ -54,7 +53,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
@@ -76,7 +75,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13210")
     public void AC2AC5_Endorsement_VisibleFPCECA(@Optional("") String state) {
 
@@ -91,7 +90,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
 
         //verifies FPCECA availability in endorsements and that it can be added
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
         
     }
 
@@ -121,7 +120,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         myHelper.verifyFPCECAEndorsementAvailable("ho3");
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement("homeca_ho3");
+        HelperCommon.addFAIRPlanEndorsement("homeca_ho3");
         
     }
 
@@ -134,7 +133,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-14675")
     public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
 
@@ -148,8 +147,8 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Add FPCECA Endorsement and complete Policy
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -159,7 +158,7 @@ public class TestCAFairPlanCompanion extends HomeCaHO3BaseTest {
         documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
 
         // Pick Up File Generated
-        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+        HelperCommon.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
         
     }

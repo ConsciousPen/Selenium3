@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -11,15 +16,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 /**
  * @Author - Tyrone C Jemison
@@ -38,7 +37,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
      * @Description - Mixing and matching mutually exclusive endorsements. Should not be on same policy together.
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Mutually Exclusive Endorsements DP3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13445")
     public void TS1_AC1ToAC5_MutuallyExclusiveEndorsementCombos(@Optional("") String state) {
         // Verify Endorsements are not present.
@@ -96,8 +95,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         advanceJVM(policyExpirationDate, capturedPolicyNumber);
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_DP3"), EndorsementTab.class, false);
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
     }
 
     /**
@@ -129,7 +128,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         advanceJVM(policyExpirationDate, capturedPolicyNumber);
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_DP3"), EndorsementTab.class, false);
-        myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
+        HelperCommon.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
     }
 
     public void createHO3Policy(TestData inputHO3TestData) {
@@ -162,7 +161,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         if (addFAIRPlan) {
-            myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+            HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
         }
 
         policy.getDefaultView().fillFromTo(defaultPolicyData, EndorsementTab.class, PurchaseTab.class, true);
@@ -204,9 +203,9 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
             allExtraEndorsementsByLabel.add(label);
         }
         addMultipleEndorsements(allExtraEndorsementsByLabel);
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
-        myHelper.removeFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
+        HelperCommon.removeFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
     public void addEndorsementsRemoveWithFAIRPlan(String FORM_ID, Table INCLUDED_ENDORSEMENTS_TABLE, ArrayList<String> args) {
@@ -217,9 +216,9 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         }
         addMultipleEndorsements(allExtraEndorsementsByLabel);
         //TODO: Pick up here - i think its a bug
-        myHelper.addFAIRPlanEndorsement("homeca_dp3");
-        myHelper.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
-        myHelper.removeFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement("homeca_dp3");
+        HelperCommon.verifyEndorsementsNotVisible(INCLUDED_ENDORSEMENTS_TABLE, FORM_ID, allExtraEndorsementsByLabel);
+        HelperCommon.removeFAIRPlanEndorsement(getPolicyType().getShortName());
     }
 
     public void addEndorsementsCancelFAIRPlan(String FORM_ID, Table INCLUDED_ENDORSEMENTS_TABLE, String... args) {
@@ -229,7 +228,7 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
             allExtraEndorsementsByLabel.add(label);
         }
         addMultipleEndorsements(allExtraEndorsementsByLabel);
-        myHelper.addFAIRPlanThenCancelPopUp(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanThenCancelPopUp(getPolicyType().getShortName());
     }
 
     public void advanceJVM(LocalDateTime policyExpirationDate, String policyToRetrieve) {
@@ -239,8 +238,8 @@ public class TestCAFairPlanMutualExclusions extends HomeCaDP3BaseTest {
         LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 
         // Move JVM to TP1 (R-73) & run Renewal jobs
-        myHelper.moveJVMToDateAndRunRenewalJobs(renewImageGenDate, 2);
-        myHelper.moveJVMToDateAndRunRenewalJobs(renewPreviewGenDate, 1);
+        HelperCommon.moveJVMToDateAndRunRenewalJobs(renewImageGenDate, 2);
+        HelperCommon.moveJVMToDateAndRunRenewalJobs(renewPreviewGenDate, 1);
         mainApp().open();
 
         SearchPage.openPolicy(policyToRetrieve);

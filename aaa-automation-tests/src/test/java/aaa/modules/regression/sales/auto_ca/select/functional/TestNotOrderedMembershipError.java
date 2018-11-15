@@ -1,21 +1,21 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.enums.Constants;
-import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.PolicyConstants;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -40,7 +40,7 @@ public class TestNotOrderedMembershipError extends AutoCaSelectBaseTest {
     private VehicleTab vehicleTab = new VehicleTab();
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM}, description = "Membership Report order validation should be thrown on continue, Tab Out on Reports Tab as well as Premium Calc.")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6142")
     public void pas6142_checkNotOrderedMembershipErrors(@Optional("CA") String state) {
 

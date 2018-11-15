@@ -2,13 +2,11 @@ package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-
-import aaa.common.enums.Constants;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -22,6 +20,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.StaticElement;
@@ -56,7 +55,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6311")
 	public void pas6311_Validate_Membership_Override_NewBusiness(@Optional("") String state) {
 
@@ -106,7 +105,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6311 PAS-9626")
 	public void pas6311_pas9626_Validate_Membership_Override_Endorsement1(@Optional("") String state) {
 
@@ -156,7 +155,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-9626")
 	public void pas9626_Validate_Membership_Override_Endorsement2(@Optional("") String state) {
 
@@ -215,7 +214,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-9626")
 	public void pas9626_Validate_Membership_Override_Endorsement3(@Optional("") String state) {
 
@@ -271,11 +270,11 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_E34_AC1(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "E34");
+		TestData loginTD = getLoginTD().adjust("Groups", "E34");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 
@@ -294,11 +293,11 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_L41_AC1(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "L41");
+		TestData loginTD = getLoginTD().adjust("Groups", "L41");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 
@@ -317,11 +316,11 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "Feature 29838 - Newly Acquired AAA Membership, Validation Override")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_OtherThan_E34_L41_AC2(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
+		TestData loginTD = getLoginTD().adjust("Groups", "A30");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 

@@ -80,14 +80,6 @@ public abstract class Application {
 		switchPanel();
 	}
 
-	public void open(String username, String password) {
-		if (!isApplicationOpened) {
-			openSession();
-			getLogin().login(username, password);
-		}
-		switchPanel();
-	}
-
 	public void open(TestData td) {
 		if (!isApplicationOpened) {
 			openSession();
@@ -99,11 +91,6 @@ public abstract class Application {
 	public void reopen() {
 		close();
 		open();
-	}
-
-	public void reopen(String username, String password) {
-		close();
-		open(username, password);
 	}
 
 	public void close() {

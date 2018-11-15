@@ -669,6 +669,16 @@
             </class>
         </classes>
     </test>
+    <test name="View Coverages-PD Limits">
+        <parameter name="state" value="IN, KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20818_ViewPdCoverageLimits"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas16035ViewCoverageUpdateCoverage">
         <parameter name="state" value="IN"/>
         <classes>
