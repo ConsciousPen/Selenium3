@@ -5,12 +5,8 @@ TestData_EndorsementAddCoverage: {
   VehicleTab: {},
   FormsTab: {},
   PremiumAndCoveragesTab: {
-    Underinsured Motorists Bodily Injury: 'contains=No Coverage'
+    Bodily Injury Liability: 'contains=$500,000'
   },
   DriverActivityReportsTab: {},
-  DocumentsAndBindTab: {
-    RequiredToBind: {
-      Uninsured and Underinsured Motorist Coverage Selection: Physically Signed,
-    },
-  }
+  DocumentsAndBindTab: {}
 }
