@@ -301,7 +301,4 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
         });
     }
-
-
-
 }
