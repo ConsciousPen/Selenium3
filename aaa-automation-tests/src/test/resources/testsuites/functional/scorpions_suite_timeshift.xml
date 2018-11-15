@@ -1,4 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Scorpions Functional Test Suite Timeshift" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
@@ -174,6 +175,7 @@
                     <include name="pas11659_Renewal_VersionR25"/>
                     <include name="pas12872_VINRefreshNoMatchRenewalTimeline"/>
                     <include name="pas12872_VINRefreshPartialtoFullMatchRenewaltimeline"/>
+                    <include name="pas18969_testRestrictVehicleRefreshOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
@@ -216,6 +218,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
+                    <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
@@ -252,6 +255,7 @@
 
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
+                    <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
