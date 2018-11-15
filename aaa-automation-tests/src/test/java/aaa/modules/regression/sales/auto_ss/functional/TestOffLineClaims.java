@@ -230,10 +230,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
 
         // Create Customer and Policy
-        mainApp().open();
-        createCustomerIndividual();
-
-        policy.createPolicy(testData);
+	    openAppAndCreatePolicy(testData);
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
         mainApp().close();
 
