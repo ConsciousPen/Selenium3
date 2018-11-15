@@ -223,6 +223,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap));
 	}
 
+	public TestData getChangeCoverageCData(HomeSSOpenLPolicy openLPolicy) {
+		return DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(),
+				new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
+	}
+
 	public TestData getRemoveHS0490Data(HomeSSOpenLPolicy openLPolicy) {
 		TestData removeFormData = DataProviderFactory.dataOf(new EndorsementTab().getMetaKey(), DataProviderFactory.dataOf(
 				HomeSSMetaData.EndorsementTab.HS_04_90.getLabel(), DataProviderFactory.dataOf(
@@ -599,6 +604,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if (!HomeSSMetaData.ProductOfferingTab.HERITAGE.getLabel().equals(policyLevel)) {
 			productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.SELECT_VARIATION.getLabel(), "true");
 		}
+		productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.COVERAGE_C.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]);
 		productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.COVERAGE_E.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]);
 		return DataProviderFactory.dataOf(policyLevel, new SimpleDataProvider(productOfferingTabData));
 	}

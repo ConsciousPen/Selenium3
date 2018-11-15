@@ -277,7 +277,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		 * Test first cycles through the coverages that can be updated. The test first tries to update the limit
 		 * to some made up value and validates that the service returns back an error message.
 		 */
-		endorsementCoverageResponse.policyCoverages.stream().filter(coverage -> coverage.getCanChangeCoverage())
+		endorsementCoverageResponse.policyCoverages.stream().filter(Coverage::getCanChangeCoverage)
 				.forEach(coverage -> {
 					ErrorResponseDto response = HelperCommon.updateEndorsementCoverage(policyNumber,
 							DXPRequestFactory.createUpdateCoverageRequest(coverage.getCoverageCd(), "invalidLimit"), ErrorResponseDto.class, 422);
@@ -286,8 +286,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 						softly.assertThat(response.message).isEqualTo("Invalid coverage limit 'invalidLimit' provided for coverage code '" + coverage.getCoverageCd() + "'");
 					});
 				});
-		endorsementCoverageResponse.vehicleLevelCoverages.stream().forEach(vehicleCoverageInfo ->
-				vehicleCoverageInfo.coverages.stream().filter(vehicleCoverage -> vehicleCoverage.getCanChangeCoverage())
+		endorsementCoverageResponse.vehicleLevelCoverages.forEach(vehicleCoverageInfo ->
+				vehicleCoverageInfo.coverages.stream().filter(Coverage::getCanChangeCoverage)
 						.forEach(vehicleCoverage -> {
 							assertSoftly(softly -> {
 								ErrorResponseDto response = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleCoverageInfo.oid,
@@ -3348,6 +3348,58 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMPD.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMPD);
 			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMBI.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMBI);
 
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	protected void pas20292_updateCoverageBIPDWvBody(PolicyType policyType) {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber =getCopiedPolicy();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			Coverage covBI = Coverage.create(CoverageInfo.BIWV).changeLimit(CoverageLimits.COV_250500);
+			Coverage covUIMBI = Coverage.create(CoverageInfo.UIMBI).disableCanChange().changeLimit((CoverageLimits.COV_250500));
+			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI).disableCanChange().changeLimit((CoverageLimits.COV_250500));
+			Coverage covPD = Coverage.create(CoverageInfo.PDWV);
+			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_WV).disableCanChange();
+			Coverage covUIMPD = Coverage.create(CoverageInfo.UIMPD).disableCanChange();
+
+			PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber, covBI);
+			assertThat(findPolicyCoverage(coverageResponse, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
+			assertThat(findPolicyCoverage(coverageResponse, covUIMBI.getCoverageCd())).isEqualToComparingFieldByField(covUIMBI);
+			assertThat(findPolicyCoverage(coverageResponse, covUMBI.getCoverageCd())).isEqualToComparingFieldByField(covUMBI);
+			assertThat(findPolicyCoverage(coverageResponse, covUMPD.getCoverageCd())).isEqualToComparingFieldByField(covUMPD);
+			assertThat(findPolicyCoverage(coverageResponse, covUIMPD.getCoverageCd())).isEqualToComparingFieldByField(covUIMPD);
+
+			//AC2 update PD
+			Coverage covPDChange= Coverage.create(CoverageInfo.PDWV).changeLimit(CoverageLimits.COV_100000);
+			Coverage covUmpdChange = Coverage.create(CoverageInfo.UMPD_WV).changeLimit(CoverageLimits.COV_100000).disableCanChange();
+			Coverage covUimpdChange = Coverage.create(CoverageInfo.UIMPD).changeLimit(CoverageLimits.COV_100000).disableCanChange();
+			PolicyCoverageInfo coverageResponsePdUpdate = updateCoverage(policyNumber, covPDChange);
+			assertThat(findPolicyCoverage(coverageResponsePdUpdate, covPD.getCoverageCd())).isEqualToComparingFieldByField(covPDChange);
+			assertThat(findPolicyCoverage(coverageResponsePdUpdate, covUmpdChange.getCoverageCd())).isEqualToComparingFieldByField(covUmpdChange);
+			assertThat(findPolicyCoverage(coverageResponsePdUpdate, covUimpdChange.getCoverageCd())).isEqualToComparingFieldByField(covUimpdChange);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			covBI = covBI.changeLimit(CoverageLimits.COV_2550);
+			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550);
+			covUMBI =covUMBI.changeLimit(CoverageLimits.COV_2550);
+			covUIMPD =covUIMPD.changeLimit(CoverageLimits.COV_50000);
+			covUMPD =covUMPD.changeLimit(CoverageLimits.COV_50000);
+
+			Coverage covPDChange1 = Coverage.create(CoverageInfo.PDWV)
+					.changeLimit(CoverageLimits.COV_50000)
+					.removeAvailableLimit(CoverageLimits.COV_100000, CoverageLimits.COV_300000,CoverageLimits.COV_500000);
+
+			PolicyCoverageInfo coverageResponseUpdateBI = updateCoverage(policyNumber, covBI);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covUIMBI.getCoverageCd())).isEqualToComparingFieldByField(covUIMBI);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covUMBI.getCoverageCd())).isEqualToComparingFieldByField(covUMBI);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covPDChange1.getCoverageCd())).isEqualToComparingFieldByField(covPDChange1);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covUIMPD.getCoverageCd())).isEqualToComparingFieldByField(covUIMPD);
+			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covUMPD.getCoverageCd())).isEqualToComparingFieldByField(covUMPD);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
