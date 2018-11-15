@@ -3421,14 +3421,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void verifyUMUIMAfterBIChange(String policyNumber, String startingBILimit, String newBILimit,
 			String expectedUMUIMLimit, boolean expectedCanChange, List<String> expectedAvailableLimits) {
 		// Code starts by setting BI to the expected startingBILimit
-		PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber, startingBILimit, "BI");
+		PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber,"BI", startingBILimit);
 		Coverage filteredCoverageResponseBI = getCoverage(coverageResponse.policyCoverages,CoverageInfo.BI.getCode());
 		assertThat(filteredCoverageResponseBI.getCoverageLimit()).isEqualTo(startingBILimit);
 
 		// Code checks if UMBI is equal to the startingBILimit. If it's not, it updates UMBI.
 		Coverage startingUMBIResponse = getCoverage(coverageResponse.policyCoverages,CoverageInfo.UMBI.getCode());
 		if (BooleanUtils.isTrue(startingUMBIResponse.getCanChangeCoverage()) && !startingUMBIResponse.getCoverageLimit().equals(startingBILimit)) {
-			PolicyCoverageInfo umbiCoverageResponse = updateCoverage(policyNumber, startingBILimit, "UMBI");
+			PolicyCoverageInfo umbiCoverageResponse = updateCoverage(policyNumber, "UMBI", startingBILimit);
 			Coverage startingUMBIUpdatedResponse = getCoverage(umbiCoverageResponse.policyCoverages,CoverageInfo.UMBI.getCode());
 			assertThat(startingUMBIUpdatedResponse.getCoverageLimit()).isEqualTo(startingBILimit);
 		}
@@ -3436,13 +3436,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		// Code checks if UIMBI is equal to the startingBILimit. If it's not, it updates UIMBI.
 		Coverage startingUIMBIResponse = getCoverage(coverageResponse.policyCoverages,CoverageInfo.UIMBI.getCode());
 		if (BooleanUtils.isTrue(startingUIMBIResponse.getCanChangeCoverage()) && !startingUMBIResponse.getCoverageLimit().equals(startingBILimit)) {
-			PolicyCoverageInfo uimbiCoverageResponse = updateCoverage(policyNumber, startingBILimit, "UIMBI");
+			PolicyCoverageInfo uimbiCoverageResponse = updateCoverage(policyNumber, "UIMBI", startingBILimit);
 			Coverage startingUIMBIUpdatedResponse = getCoverage(uimbiCoverageResponse.policyCoverages,CoverageInfo.UIMBI.getCode());
 			assertThat(startingUIMBIUpdatedResponse.getCoverageLimit()).isEqualTo(startingBILimit);
 		}
 
 		// Code updates BI to be equal to the newBILimit
-		PolicyCoverageInfo coverageResponseUpdate = updateCoverage(policyNumber, newBILimit, "BI");
+		PolicyCoverageInfo coverageResponseUpdate = updateCoverage(policyNumber,"BI", newBILimit);
 		Coverage updateBIResponse = getCoverage(coverageResponseUpdate.policyCoverages,CoverageInfo.BI.getCode());
 		assertThat(updateBIResponse.getCoverageLimit()).isEqualTo(newBILimit);
 
