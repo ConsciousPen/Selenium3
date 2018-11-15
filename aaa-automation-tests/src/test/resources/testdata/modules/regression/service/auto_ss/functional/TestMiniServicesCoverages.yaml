@@ -299,3 +299,15 @@ TestData_OrderOfCoverages_MD: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
   DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
 }
+
+TestData_OrderOfCoverages_UT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_NV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
