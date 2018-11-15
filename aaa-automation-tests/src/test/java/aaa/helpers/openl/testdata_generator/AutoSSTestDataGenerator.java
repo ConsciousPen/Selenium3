@@ -745,7 +745,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
 							+ "where PHYSICALDAMAGECOLLISION %1$s and PHYSICALDAMAGECOMPREHENSIVE %2$s and YEAR %3$s \n"
 							+ "and BI_SYMBOL %4$s and PD_SYMBOL %5$s and MP_SYMBOL %6$s and UM_SYMBOL %7$s \n"
-							+ "and (RESTRAINTSCODE %8$s) AND ANTITHEFTCODE %9$s",
+							+ "and (RESTRAINTSCODE %8$s) AND (ANTITHEFTCODE %9$s)",
 					vehicle.getCollSymbol() == null ? "is null" : "= " + vehicle.getCollSymbol(),
 					vehicle.getCompSymbol() == null ? "is null" : "= " + vehicle.getCompSymbol(),
 					vehicle.getModelYear() == null ? "is null" : "= " + vehicle.getModelYear(),
@@ -753,8 +753,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					vehicle.getPdLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getPdLiabilitySymbol() + "'",
 					vehicle.getMpLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getMpLiabilitySymbol() + "'",
 					vehicle.getUmLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getUmLiabilitySymbol() + "'",
-					vehicle.getAirbagCode() == null || "N".equals(vehicle.getAirbagCode()) ? "IS NULL" : "= " + getDbRestraintsCode(vehicle.getAirbagCode()),
-					vehicle.getAntiTheftString() == null ? "is null" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
+					vehicle.getAirbagCode() == null ? "is null" : getDbRestraintsCode(vehicle.getAirbagCode()),
+					vehicle.getAntiTheftString() == null ? "is null" : "= 'NONE' OR ANTITHEFTCODE = 'STD'");
 
 			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}
