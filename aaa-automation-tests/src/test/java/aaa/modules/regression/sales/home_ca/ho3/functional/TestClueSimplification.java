@@ -417,7 +417,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6695")
-	public void pas6695_testClueReconciliationClaimantOnly(@Optional("") String state) {
+	public void pas6695_testClueReconciliationClaimantOnly(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationClaimantOnly();
 
 	}
@@ -433,7 +433,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6695")
-	public void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant(@Optional("") String state) {
+	public void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationInsuredAndNotClaimant();
 
 	}
@@ -450,8 +450,26 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-6703")
-	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("") String state) {
+	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("CA") String state) {
 		pas6703_testCatastropheIndicatorUnknownNB();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test CLUE claim catastrophe indicator when 'Unknown' defaults to 'No'
+	 * @scenario
+	 * 1. Create policy with customer "Silvia Kohli" and 2 other named insured (returns 2 Clue claims)
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to Applicant tab and add new named insured "Sachin Kohli"
+	 * 4. Navigate to Reports tab and re-order clue reports
+	 * 5. Validate there are now 4 claims showing
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-22075")
+	public void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement(@Optional("CA") String state) {
+		pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement();
 
 	}
 

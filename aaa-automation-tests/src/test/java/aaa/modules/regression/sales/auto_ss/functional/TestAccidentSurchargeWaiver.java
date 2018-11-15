@@ -158,9 +158,9 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
         TestData tdActivityInfo = getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>");
         new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo));
-        validateIncludedInPoints("Yes", "Yes");
+        validateIncludedInPoints("No", "Yes");
 
-        // Remove second claim and validate AFW is given
+        // Remove second claim and validate AFW is still given
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab.tableActivityInformationList.removeRow(2);
         validateIncludedInPoints("No");
