@@ -2,7 +2,7 @@ package aaa.common.enums;
 
 public class Constants {
 
-	public enum LoginData {
+	public enum UserGroups {
 		QA("QA"),
 		E34("E34"),
 		F35("F35"),
@@ -10,7 +10,7 @@ public class Constants {
 		L41("L41");
 		String data;
 
-		LoginData(String data) {
+		UserGroups(String data) {
 			this.data = data;
 		}
 
