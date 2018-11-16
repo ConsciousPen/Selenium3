@@ -11,6 +11,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
@@ -374,6 +375,46 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
+    protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
+        TestData td = getPolicyTD();
+
+        // Create customer with CLUE claims and initiate policy
+        createSpecificCustomerIndividual("Silvia", "Kohli");
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(td, getApplicantTab().getClass(), true);
+
+        // Add 2 additional named insured (no claims)
+        List<TestData> tdNamedInsured = new ArrayList<>();
+        tdNamedInsured.add(getNamedInsuredTd("Jim", "Smith"));
+        tdNamedInsured.add(getNamedInsuredTd("John", "Smith").mask(getBtnAddInsuredLabel()));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+
+        // Validate 2 claims on Property info tab, finish and bind policy
+        getReportsTab().fillTab(td);
+        if (!isStateCA()) {
+            new ReportsTab().tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().click();
+            new ReportsTab().tblInsuranceScoreReport.getRow(3).getCell("Report").controls.links.getFirst().click();
+        }
+        getReportsTab().submitTab();
+        checkTblClaimRowCount(2);
+        selectRentalClaimForCADP3();
+        policy.getDefaultView().fillFromTo(td, getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
+        getPurchaseTab().submitTab();
+
+        // Initiate endorsement and add a named insured that returns additional Clue claims
+        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Bruce", "Kohli")));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
+        navigateToApplicantTab();
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        reorderClueReport();
+        navigateToPropertyInfoTab();
+        checkTblClaimRowCount(4);
+
+    }
+
     private void pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields(){
 
         selectRentalClaimForCADP3();
@@ -397,8 +438,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getClaimCatastropheRemarksAsset().setValue("CAT");
 
         // Verify Chargeable text field and CAT code/remarks text field are both visible
-        //TODO changing CAT indicator should not hide the chargeable text field, uncomment below assert once resolved
-        //assertThat(getClaimNonChargeableReasonAsset()).isPresent();
+        assertThat(getClaimNonChargeableReasonAsset()).isPresent();
         assertThat(getClaimCatastropheRemarksAsset()).isPresent();
 
         // Check the chargeable Value is the same
@@ -474,7 +514,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
                     HomeCaMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), lName,
                     HomeCaMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
                     HomeCaMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+                    HomeCaMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "Other");
         }
         return DataProviderFactory.dataOf(
                 HomeSSMetaData.ApplicantTab.NamedInsured.BTN_ADD_INSURED.getLabel(), "Click",
@@ -484,7 +524,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
                 HomeSSMetaData.ApplicantTab.NamedInsured.RELATIONSHIP_TO_PRIMARY_NAMED_INSURED.getLabel(), "Parent",
                 HomeSSMetaData.ApplicantTab.NamedInsured.MARITAL_STATUS.getLabel(), "Married",
                 HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "12/12/1985",
-                HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "index=1");
+                HomeSSMetaData.ApplicantTab.NamedInsured.OCCUPATION.getLabel(), "Other");
     }
 
     private void removeClaim(){
@@ -586,8 +626,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("11000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
-        //TODO CAT remarks field should not be visible if the claim was prefilled to 'Yes', uncomment once resolved
-        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
@@ -598,8 +636,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("1500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
-        //TODO CAT remarks field should not be visible if the claim was prefilled to 'Yes', uncomment once resolved
-        //assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validates 'Applicant' with catastrophe = 'No'
         viewEditClaimByLossAmount("2500");

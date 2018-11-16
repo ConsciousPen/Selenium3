@@ -127,7 +127,7 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 				.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab"))
 				.adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab"));
 		//2. (R-45) Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above -> Renewal entry is initiated
-		TestData loginTD = initiateLoginTD().adjust("Groups", "E34");
+		TestData loginTD = getLoginTD().adjust("Groups", "E34");
 		mainApp().open(loginTD);
 		//1. Create a new customer in PAS
 		createCustomerIndividual();
