@@ -618,7 +618,6 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE = declare("Additional Personal Injury Protection Coverage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PIP = declare("Additional PIP", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> GUEST_PIP = declare("Guest PIP", ComboBox.class);
-		public static final AssetDescriptor<RadioGroup> REJECTION_OF_WORK_LOSS_BENEFIT = declare("Rejection of Work Loss Benefit", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE_ELIMINATION = declare("Medical Expense Elimination", ComboBox.class);
 		public static final AssetDescriptor<AdvancedComboBox> OPTIONAL_BASIC_ECONOMIC_LOSS = declare("Optional Basic Economic Loss", AdvancedComboBox.class);
 		// public static final AssetDescriptor<StaticElement>
