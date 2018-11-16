@@ -190,7 +190,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
                 <methods>
-                    <include name="pas17144_ooseConflictAutomaticDriverInformation"/>>
+                    <include name="pas17144_ooseConflictAutomaticDriverInformation"/>
                 </methods>
             </class>
         </classes>
