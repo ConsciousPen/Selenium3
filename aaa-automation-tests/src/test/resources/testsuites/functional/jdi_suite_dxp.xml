@@ -798,6 +798,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
+                    <include name="pas20292_updateCoverageBIPDWv"/>
                 </methods>
             </class>
         </classes>
@@ -832,6 +833,7 @@
             </class>
         </classes>
     </test>
+
     <test name="Underinsured Conversion Coverage - CT">
         <parameter name="state" value="KS"/>
         <classes>

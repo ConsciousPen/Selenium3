@@ -627,12 +627,13 @@ DriverInformation_Version1: {
   Financial Responsibility Filing Needed: 'Yes',
   Filing State: 'Indiana',
   #ActivityInformation: {
-  #  Activity Source: Customer Input,
-  #  Type: 'Major Violation',
-  #  Description: 'Hit and Run',
-  #  Occurrence Date: '07/20/2018',
+  #  Activity Source: Company Input,
+  #  Type: 'At-Fault Accident',
+  #  Description: 'Accident (Property Damage Only)',
+  #  Occurrence Date: '05/25/2018',
+  #  Loss Payment Amount: 2000,
   #  "Include in Points and/or Tier?": 'No',
-  #  Not Included in Points and/or Tier - Reason Codes: 'Dismissed by DMV',
+  #  Not Included in Points and/or Tier - Reason Codes: 'Dismissed with Report',
   #}
 }
 
@@ -652,12 +653,13 @@ DriverInformation_Version2: {
   ADB Coverage: 'No',
   Financial Responsibility Filing Needed: 'No',
   #ActivityInformation: {
-  #  Activity Sorce: Company Input,
-  #  Type: 'Comprehensive Claim',
-  #  Description: 'Comprehensive Claim',
-  #  Occurrence Date: '06/20/2018',
-  #  Loss Payment Amount: 3000,
-  #  "Include in Points and/or Tier?": 'Yes',
+  #  Activity Source: Company Input,
+  #  Type: 'At-Fault Accident',
+  #  Description: 'Accident (Property Damage Only)',
+  #  Occurrence Date: '05/25/2018',
+  #  Loss Payment Amount: 2000,
+  #  "Include in Points and/or Tier?": 'No',
+  #  Not Included in Points and/or Tier - Reason Codes: 'Dismissed by DMV',
   #}
 }
 
@@ -720,9 +722,9 @@ VehicleInformation: {
     Street Name: garaging address 1,
   },
   #Ownership Information
-  #Ownership: {
-  #  Ownership Type: Owned,
-  #},
+  Ownership: {
+    Ownership Type: Owned,
+  },
   "Are there any additional interest(s)?": 'No',
 }
 
@@ -743,9 +745,9 @@ VehicleInformation_Version1: {
   #Garaging Address
   "Is Garaging different from Residential?": 'No',
   #Ownership Information
-  #Ownership: {
-  #  Ownership Type: Owned,
-  #},
+  Ownership: {
+    Ownership Type: Owned,
+  },
   #Additinal interest
   "Are there any additional interest(s)?": 'Yes',
   AdditionalInterestInformation: {
@@ -777,10 +779,10 @@ VehicleInformation_Version2: {
   "Enroll in Usage Based Insurance?": 'No',
   #Garaging Address
   "Is Garaging different from Residential?": 'Yes',
-  Zip Code: 85245,
+  Zip Code: 85003,
   Address Line 1: VII garaging address 1,
   Address Line 2: VII garaging address 2,
-  City: Red Rock,
+  City: Phoenix,
   State: AZ,
   Validate Address: true,
   Validate Address Dialog: {
@@ -788,20 +790,12 @@ VehicleInformation_Version2: {
     Street Name: garaging address 1,
   },
   #Ownership Information
-  #Ownership: {
-  #  Ownership Type: Financed,
-  #  First Name: GMAC,
-  #  Zip: 55440-0674,
-  #  Address Line 1: PO BOX 674,
-  #  Address Line 2: VII ownership address 2,
-  #  City: Gold Canyon,
-  #  State: AZ,
-  #  Validate Address: true,
-  #  Validate Address Dialog: {
-  #    Street number: PO BOX,
-  #    Street Name: 674,
-  #  },
-  #},
+  Ownership: {
+    Ownership Type: Financed,
+    First Name: GMAC,
+    Validate Address: true,
+    Validate Address Dialog: {},
+  },
   #Additinal interest
   "Are there any additional interest(s)?": 'Yes',
   AdditionalInterestInformation: {
