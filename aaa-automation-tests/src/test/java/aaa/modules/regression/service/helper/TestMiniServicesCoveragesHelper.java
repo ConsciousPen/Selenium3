@@ -3785,7 +3785,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			mapPIPCoveragesExpected.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_30000));
 			mapPIPCoveragesExpected.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_500));
 			mapPIPCoveragesExpected.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
-
+			SearchPage.openPolicy(policyNumber);
 			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, null);
 
 			//get drivers with TORT coverage available
@@ -3963,6 +3963,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_KS_4500.getCode()).getSubCoverages();
 			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode())).isEqualToComparingFieldByField(medexpExpected);
 			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_KS_4500.getCode())).isEqualToComparingFieldByField(worklossExpected);
+			SearchPage.openPolicy(policyNumber);
 			validatePIPInUI_pas15358(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_KS.getCode()));
 			validatePIPSubCoveragesThatDoesntChange_pas15358(pipSubCoveragesActual);
 
@@ -3997,6 +3998,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> pipSubCoveragesActual = getCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_OR.getCode()).getSubCoverages();
 			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode())).isEqualToComparingFieldByField(medexpExpected);
 			validatePIPSubCoveragesThatDoesntChange_pas15365(pipSubCoveragesActual);
+			SearchPage.openPolicy(policyNumber);
 			validatePIPInUI_pas15365(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode()), pipdedCoverageActual);
 
 			//update PIP by updating MEDEXP
@@ -4050,7 +4052,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_UT.getCode())).isEqualToComparingFieldByField(worklossExpected);
 			softly.assertThat(getCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode())).isEqualToComparingFieldByField(rejectWorklossExpected);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCoveragesActual);
-			validatePIPInUI_15368(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()), getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
+			SearchPage.openPolicy(policyNumber);
+			validatePIPInUI_15368(softly, getCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode()), getCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
 
 			//update PIP by updating MEDEXP while WLB is false
 			CoverageLimits medexpNewLimit = CoverageLimits.COV_10000;
@@ -4304,14 +4307,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void validatePIPInUI_15368(ETCSCoreSoftAssertions softly, Coverage rejectWorkLossCoverage, Coverage medexpCoverage) {
-		openPendedEndorsementInquiryAndNavigateToPC();
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start(); //can not get value of WLB in Inquiry, hence checking in data gather
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
-				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
-//		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel()))
-//				.isEqualTo(rejectWorkLossCoverage.getCoverageLimitDisplay());//TODO-mstrazds:
+				.contains(medexpCoverage.getCoverageLimitDisplay());
+		softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel()).getValue())
+				.isEqualTo(rejectWorkLossCoverage.getCoverageLimitDisplay());
 
-		premiumAndCoveragesTab.cancel();
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	private void openPendedEndorsementInquiryAndNavigateToPC() {
