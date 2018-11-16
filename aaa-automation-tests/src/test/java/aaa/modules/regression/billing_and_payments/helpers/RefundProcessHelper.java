@@ -680,7 +680,7 @@ public class RefundProcessHelper extends PolicyBilling {
 
 	private void unprocessedSuccessfullyRefundVerification(String billingAccountNumber, String paymentMethodMessage, Map<String, String> refund, boolean isCheck, int transactionNumber) {
 		Dollar amount = new Dollar(refund.get(AMOUNT));
-		Waiters.SLEEP(6000).go();
+		Waiters.SLEEP(10000).go();
 		BillingSummaryPage.tablePaymentsOtherTransactions.getRow(refund).getCell(TYPE).controls.links.get(1).click();
 		if (isCheck) {
 			refundDetailsPresence(true, true, true, true);
