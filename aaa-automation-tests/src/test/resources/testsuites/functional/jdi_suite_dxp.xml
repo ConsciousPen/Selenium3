@@ -824,6 +824,26 @@
             </class>
         </classes>
     </test>
+    <test name="pas15365_viewUpdatePIPCoverage_OR">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15368_viewUpdatePIPCoverage_UT">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas12942_GaragingAddressConsistencyDXP">
         <parameter name="state" value="CT"/>
         <classes>
