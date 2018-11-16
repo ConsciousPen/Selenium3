@@ -3983,7 +3983,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
             softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
 			Coverage umpd = getCoverage(coverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
-            Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_NO).disableCanChange().disableCustomerDisplay();
+            Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
             softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
             HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
