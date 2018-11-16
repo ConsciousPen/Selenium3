@@ -139,4 +139,12 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline"/>
         </classes>
     </test>
+    <test name="PAS-18914 Fire rule for roof type - wood shingle/wood shake for 3 and above - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline"/>
+        </classes>
+    </test>
 </suite>
