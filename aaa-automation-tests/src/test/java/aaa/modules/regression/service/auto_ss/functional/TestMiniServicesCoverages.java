@@ -198,7 +198,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.SD, Constants.States.UT, Constants.States.WV, Constants.States.MT, //applicable states for PAS-15254
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA, Constants.States.UT, Constants.States.WV, Constants.States.MT, //applicable states for PAS-15254
 			Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS, Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR}) //applicable states for PAS-14733
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15254", "PAS-14733"})
 	public void pas15254_14733_UpdateCoveragesBI_UM_UIM(@Optional("VA") String state) {
@@ -305,7 +305,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario 1. Create policy with one vehicle,
 	 * with Transportation Expense 1.200$
 	 * 2. Start endorsement outside of PAS.
-	 * 	 * 3. Add vehicle.
+	 * 3. Add vehicle.
 	 * 4. Remove "COMPDED" coverage from my newly added vehicle.
 	 * 5. Hit View Coverage service.
 	 * 6. Check if Transportation Expense remains the limit I chose.
@@ -1195,5 +1195,31 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20292"})
 	public void pas20292_updateCoverageBIPDWv(@Optional("WV") String state) {
 		pas20292_updateCoverageBIPDWvBody(getPolicyType());
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update BI coverage (SD state only)
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update BI, check the response.
+	 * Note: All TC in the table:
+	 *
+	 * ||BI/UM/UIM  	||Update BI 	 || Expected UM/UIM||Av Limits UM/UIM||canChange UM/UIM
+	 * ||25000/50000	||50000/100000   || 50000/100000   ||50000/100000	 ||FALSE
+	 * ||50000/100000	||25000/50000    || 25000/50000    ||25000/50000 	 ||FALSE
+	 * ||100000/300000  ||25000/50000    || 25000/50000    ||25000/50000 	 ||FALSE
+	 * ||100000/300000	||300000/500000  || 100000/300000  ||100000/300000 + ||TRUE
+	 * ||300000/500000	||250000/500000  || 250000/500000  ||100000/300000 + ||TRUE
+	 * ||300000/500000	||1000000/1000000|| 300000/500000  ||100000/300000 + ||TRUE
+	 * ||1000000/1000000||25000/50000    || 25000/50000	   ||25000/50000	 ||FALSE
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22037"})
+	public void pas22037_updateBiCoverage(@Optional("SD") String state) {
+
+		pas22037_updateBiCoverageBody();
 	}
 }

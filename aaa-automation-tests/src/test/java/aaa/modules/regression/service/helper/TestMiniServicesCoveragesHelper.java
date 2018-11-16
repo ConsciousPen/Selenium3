@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.common.enums.Constants;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -2739,7 +2740,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertSoftly(softly -> {
-
 			Coverage umpdCoverage = viewCoverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(coverage -> "UMPDDED".equals(coverage.getCoverageCd()))
 					.findFirst().orElse(null);
 			coverageXproperties(softly, umpdCoverage, "UMPDDED", "Uninsured Motorist Property Damage Deductible", "250", "$250", null, true, true);
@@ -3402,6 +3402,63 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			assertThat(findPolicyCoverage(coverageResponseUpdateBI, covUMPD.getCoverageCd())).isEqualToComparingFieldByField(covUMPD);
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
+	}
+
+	protected void pas22037_updateBiCoverageBody(){
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		verifyUMUIMAfterBIChange(policyNumber, "25000/50000", "50000/100000", "50000/100000", false, ImmutableList.of("50000/100000"));
+		verifyUMUIMAfterBIChange(policyNumber, "50000/100000", "25000/50000", "25000/50000", false, ImmutableList.of("25000/50000"));
+		verifyUMUIMAfterBIChange(policyNumber, "100000/300000", "25000/50000", "25000/50000", false, ImmutableList.of("25000/50000"));
+		verifyUMUIMAfterBIChange(policyNumber, "100000/300000", "300000/500000", "100000/300000", true, ImmutableList.of("100000/300000", "250000/500000", "300000/500000"));
+		verifyUMUIMAfterBIChange(policyNumber, "300000/500000", "250000/500000", "250000/500000", true, ImmutableList.of("100000/300000", "250000/500000"));
+		verifyUMUIMAfterBIChange(policyNumber, "300000/500000", "1000000/1000000", "300000/500000", true, ImmutableList.of("100000/300000", "250000/500000", "300000/500000", "500000/500000", "500000/1000000", "1000000/1000000"));
+		verifyUMUIMAfterBIChange(policyNumber, "1000000/1000000", "25000/50000", "25000/50000", false, ImmutableList.of("25000/50000"));
+	}
+
+	private void verifyUMUIMAfterBIChange(String policyNumber, String startingBILimit, String newBILimit,
+			String expectedUMUIMLimit, boolean expectedCanChange, List<String> expectedAvailableLimits) {
+		// Code starts by setting BI to the expected startingBILimit
+		PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber,"BI", startingBILimit);
+		Coverage filteredCoverageResponseBI = getCoverage(coverageResponse.policyCoverages,CoverageInfo.BI.getCode());
+		assertThat(filteredCoverageResponseBI.getCoverageLimit()).isEqualTo(startingBILimit);
+
+		// Code checks if UMBI is equal to the startingBILimit. If it's not, it updates UMBI.
+		Coverage startingUMBIResponse = getCoverage(coverageResponse.policyCoverages,CoverageInfo.UMBI.getCode());
+		if (BooleanUtils.isTrue(startingUMBIResponse.getCanChangeCoverage()) && !startingUMBIResponse.getCoverageLimit().equals(startingBILimit)) {
+			PolicyCoverageInfo umbiCoverageResponse = updateCoverage(policyNumber, "UMBI", startingBILimit);
+			Coverage startingUMBIUpdatedResponse = getCoverage(umbiCoverageResponse.policyCoverages,CoverageInfo.UMBI.getCode());
+			assertThat(startingUMBIUpdatedResponse.getCoverageLimit()).isEqualTo(startingBILimit);
+		}
+
+		// Code checks if UIMBI is equal to the startingBILimit. If it's not, it updates UIMBI.
+		Coverage startingUIMBIResponse = getCoverage(coverageResponse.policyCoverages,CoverageInfo.UIMBI.getCode());
+		if (BooleanUtils.isTrue(startingUIMBIResponse.getCanChangeCoverage()) && !startingUMBIResponse.getCoverageLimit().equals(startingBILimit)) {
+			PolicyCoverageInfo uimbiCoverageResponse = updateCoverage(policyNumber, "UIMBI", startingBILimit);
+			Coverage startingUIMBIUpdatedResponse = getCoverage(uimbiCoverageResponse.policyCoverages,CoverageInfo.UIMBI.getCode());
+			assertThat(startingUIMBIUpdatedResponse.getCoverageLimit()).isEqualTo(startingBILimit);
+		}
+
+		// Code updates BI to be equal to the newBILimit
+		PolicyCoverageInfo coverageResponseUpdate = updateCoverage(policyNumber,"BI", newBILimit);
+		Coverage updateBIResponse = getCoverage(coverageResponseUpdate.policyCoverages,CoverageInfo.BI.getCode());
+		assertThat(updateBIResponse.getCoverageLimit()).isEqualTo(newBILimit);
+
+		// Code checks that UMBI limit is equal to expectedUMUIMLimit, that canChangeCoverage is equal to expectedCanChange and that the availableLimits returned are equal to the expectedAvailableLimits
+		Coverage updatedUMBIResponse = getCoverage(coverageResponseUpdate.policyCoverages,CoverageInfo.UMBI.getCode());
+		assertThat(updatedUMBIResponse.getCoverageLimit()).isEqualTo(expectedUMUIMLimit);
+		assertThat(updatedUMBIResponse.getCanChangeCoverage().equals(expectedCanChange));
+		assertThat(expectedAvailableLimits.size()).isEqualTo(updatedUMBIResponse.getAvailableLimits().size());
+		updatedUMBIResponse.getAvailableLimits().forEach(coverageLimit -> expectedAvailableLimits.contains(coverageLimit.getCoverageLimit()));
+
+		// Code checks that UIMBI limit is equal to expectedUMUIMLimit, that canChangeCoverage is equal to expectedCanChange and that the availableLimits returned are equal to the expectedAvailableLimits
+		Coverage updatedUIMBIResponse = getCoverage(coverageResponseUpdate.policyCoverages,CoverageInfo.UIMBI.getCode());
+		assertThat(updatedUIMBIResponse.getCoverageLimit()).isEqualTo(expectedUMUIMLimit);
+		assertThat(updatedUIMBIResponse.getCanChangeCoverage().equals(expectedCanChange));
+		assertThat(expectedAvailableLimits.size()).isEqualTo(updatedUIMBIResponse.getAvailableLimits().size());
+		updatedUIMBIResponse.getAvailableLimits().forEach(coverageLimit -> expectedAvailableLimits.contains(coverageLimit.getCoverageLimit()));
 	}
 
 	private PolicyCoverageInfo updateCoverage(String policyNumber, Coverage updateData) {
