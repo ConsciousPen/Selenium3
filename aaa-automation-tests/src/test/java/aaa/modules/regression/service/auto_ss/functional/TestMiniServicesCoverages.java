@@ -1031,22 +1031,29 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2. Create endorsement outside of PAS.
 	 * 3. DXP Update Coverage: remove COLL
 	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed true, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
 	 * @scenario2
 	 * 1. Create policy: UMBI/UIMBI, COMP, COLL other than no coverage
 	 * 2. Create endorsement outside of PAS.
 	 * 3. DXP Update Coverage: remove COLL
 	 * 4. verify response: UMPD canChangeCoverage & customerDisplayed false, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
 	 * @scenario3
 	 * 1. Create policy: UMBI/UIMBI, COMP other than no coverage, COLL no coverage
 	 * 2. Create endorsement outside of PAS.
 	 * 3. DXP Update Coverage: COLL =  500
 	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed false, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.UT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306"})
-	public void pas20306_updateCoveragesUmpdCompColl(@Optional("UT") String state) {
-		pas20306_updateCoveragesUmpdCompCollBody(state, getPolicyType());
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306", "PAS-20305"})
+	public void pas20306_viewUpdateCoveragesUmpdCompColl(@Optional("UT") String state) {
+		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
 }
