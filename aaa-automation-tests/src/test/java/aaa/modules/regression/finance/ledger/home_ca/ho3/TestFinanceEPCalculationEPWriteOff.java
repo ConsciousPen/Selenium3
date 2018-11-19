@@ -52,8 +52,8 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@StateList(states = {Constants.States.CA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21457")
 	public void pas21457_testFinanceEPCalculationEPWriteOff(@Optional("CA") String state) {
 		BillingAccount billingAccount = new BillingAccount();

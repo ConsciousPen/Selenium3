@@ -43,8 +43,8 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 	 */
 
 	@Parameters({"state"})
+    @StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@StateList(states = {Constants.States.AZ})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21454")
 	public void pas21454_testFinanceEPCalculationOOSRollBackRPEndorsement(@Optional("AZ") String state) {
 
