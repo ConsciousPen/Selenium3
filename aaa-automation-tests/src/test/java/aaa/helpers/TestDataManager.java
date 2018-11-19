@@ -65,6 +65,7 @@ public final class TestDataManager {
 	public EnumMap<BctType, TestData> bct = new EnumMap<>(BctType.class);
 	protected DataProviderFactory dataProvider = new DataProviderFactory().applyConfiguration(DataFormat.YAML.name());
 	public TestData loginUsers = new SimpleDataProvider();
+	public TestData notesAndAlerts = new SimpleDataProvider();
 
 	public TestDataManager() {
 		loginUsers = dataProvider.get("default/login").getTestData("users");
@@ -141,6 +142,8 @@ public final class TestDataManager {
 		templates.put(TemplateType.TEMPLATE, dataProvider.get("default/platform/admin/reports/templates"));
 		bct.put(BctType.BATCH_TEST, dataProvider.get("default/bct").getTestData(BctType.BATCH_TEST.getName()));
 		bct.put(BctType.ONLINE_TEST, dataProvider.get("default/bct").getTestData(BctType.ONLINE_TEST.getName()));
+		
+		notesAndAlerts = dataProvider.get("default/notesandalerts");
 	}
 
 	public TestData getCompatibilityTestData() {
