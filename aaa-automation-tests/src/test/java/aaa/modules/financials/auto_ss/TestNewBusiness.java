@@ -19,7 +19,6 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 		return PolicyType.AUTO_SS;
 	}
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
@@ -27,12 +26,25 @@ public class TestNewBusiness extends TestNewBusinessTemplate {
 		testNewBusinessScenario_1();
 	}
 
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testNewBusinessScenario_2(@Optional("") String state) {
 		testNewBusinessScenario_2();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testNewBusinessScenario_3(@Optional("") String state) {
+		testNewBusinessScenario_3();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.TIMEPOINT, Groups.CFT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testNewBusinessScenario_4(@Optional("") String state) {
+		testNewBusinessScenario_4();
 	}
 
 }
