@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,9 +11,6 @@ import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -28,7 +28,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC1_Quote_HighFL_FPCECA_Bind(@Optional("") String state) {
         myHelper = new HelperCommon();
@@ -41,7 +41,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC2_Quote_FL3_WoodRoof_Bind(@Optional("") String state) {
         myHelper = new HelperCommon();
@@ -54,7 +54,7 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement HO3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-13214")
     public void AC3_Quote_ZipMatch_FPCECA_Bind(@Optional("") String state) {
 
@@ -70,9 +70,9 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
-        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
+        HelperCommon.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
     }
 
     private void performTest(String applicantTabTD, String reportsTabTD, String propInfoTD, TestData defaultPolicyData, Class<? extends Tab> tabClassTo1, Class<? extends Tab> tabClassTo2) {
@@ -84,9 +84,9 @@ public class TestCAFairPlanCanItBind extends HomeCaHO3BaseTest {
         initiateHO3Quote(defaultPolicyData, tabClassTo1);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
-        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
+        HelperCommon.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, tabClassTo1, tabClassTo2, getPolicyType().getShortName());
     }
 
     public void initiateHO3Quote(TestData defaultPolicyData, Class<? extends Tab> tabClassTo1) {

@@ -32,6 +32,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA12240080("AAA_HO_CA12240080", "A detached structure greater than 50% of Coverage A is ineligible."),
 		ERROR_AAA_HO_CA12260015("AAA_HO_CA12260015", "Dwellings with more than 2 detached building structures rented to others on t..."),
 		ERROR_AAA_HO_CA12261856("AAA_HO_CA12261856", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_CA1302295("AAA_HO_CA1302295", "Dwellings with FireLine score greater than 2 with wood shingle/wood shake roo..."),
 		ERROR_AAA_HO_CA3230672("AAA_HO_CA3230672", "Policy effective date cannot be backdated more than three days from today's d..."),
 		ERROR_AAA_HO_CA338657_3("AAA_HO_CA338657_3", "Dwellings or applicants that perform a home day care, including child day car..."),
 		ERROR_AAA_HO_CA338657_6("AAA_HO_CA338657_6", "Farming/Ranching on premises is unacceptable unless it is incidental and not ..."),
@@ -54,6 +55,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."),
 		ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
 		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
+		ERROR_AAA_HO_SS2240042("AAA_HO_SS2240042", "Dwellings with FireLine score greater than 2 with wood shingle/wood shake roo..."),
 		ERROR_AAA_HO_SS7230342("AAA_HO_SS7230342", "Underwriting approval is required for the option you have selected."),
 		ERROR_AAA_HO_SS4260842("AAA_HO_SS4260842", "Wind/hail endorsement is required when roof type is wood shingle/wood shake."),
 		ERROR_AAA_HO_SS14061993("AAA_HO_SS14061993", "	Dwellings with a Zip Code Level Match returned for Fireline require further u..."),
@@ -142,9 +144,12 @@ public final class ErrorEnum {
 
 		// Auto Errors
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
+		ERROR_AAA_200008("200008", "Each driver must have a unique Driver's License Number."),
 		ERROR_AAA_200009("200009", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_200011("200011","Requested Effective Date not Available (200011) [for Policy.effective]"),
+		ERROR_AAA_200034("200034_OR", "A signed Named Driver Exclusion Endorsement must be received prior to issuing..."),
+		ERROR_AAA_200111("200111_OR", "Named Driver Exclusion requires Underwriting Approval"),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ", "Policies with unsuccessful membership validation results require prior approval."),
@@ -154,6 +159,7 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA1801266BZWW("AAA_CSA180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_SS1801266BZWW("AAA_SS180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_MES_PC_0017_CA_CHOICE("MES-PC-0017_CA_CHOICE", "Rating variables stat code or Value($) is required for rating (MES-PC-0017) [..."),
+		ERROR_AAA_MVR_order_validation_SS("AAA_MVR_order_validation_SS", "Current MVR for "),
         ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 
@@ -163,7 +169,8 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
-		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS.");
+		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
+		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");
 		private String code;
 		private String message;
 
