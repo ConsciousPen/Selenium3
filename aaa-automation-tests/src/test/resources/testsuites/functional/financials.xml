@@ -20,30 +20,40 @@
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
@@ -61,36 +71,48 @@
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
                     <include name="testNewBusinessScenario_2"/>
+                    <include name="testNewBusinessScenario_3"/>
+                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
