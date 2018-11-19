@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import aaa.main.enums.ProductConstants;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
@@ -39,6 +41,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
@@ -360,6 +363,51 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		vehicleTab.saveAndExit();
 	}
+
+
+	/**
+	 * @author Kiruthika Rajendran
+	 *
+	 * PAS-18969 Restrict VIN Refresh by Vehicle Type
+	 * @name Restrict VIN Refresh by Vehicle Type.
+	 * @scenario
+	 * 0. Create customer and bind the policy
+	 * 1. Go to the vehicle tab, enter vehicle info vin Stat Code with which vehicle should not be refreshed and bind the policy
+	 * 2. On Administration tab in Admin upload Excel files to update this VIN in the system
+	 * 4. Open application and quote
+	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
+	 * @details
+	 */
+  	  @Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18969")
+	public void pas18969_testRestrictVehicleRefreshOnRenewal(@Optional("UT") String state) {
+
+		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
+		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.STATCODE_VIN_REFERSH_RENEWAL.get());
+
+		TestData testData = getPolicyTD()
+		        .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()),"Limited Production/Antique")
+		        .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.USAGE.getLabel()),"Pleasure")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()),"1J2WW12P25S124567")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), "2018")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), "OTHER")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel()), "Other Make")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_MODEL.getLabel()), "Other Model")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_SERIES.getLabel()), "Other Series")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel()), "Sedan")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel()), "30000").resolveLinks();
+
+		  pas18969_restrictVehicleRefreshOnRenewal(testData, vinTableFile);
+
+		  //Check for vehicle information in View Rating Details
+		  ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
+		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("Other Make");
+		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("Other Model");
+		  PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+  	 }
+
 
 	/**
 	 * @author Lev Kazarnovskiy/Chris Johns
@@ -925,5 +973,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1G1ZJ5SU%G", "CHEVROLET AUTO");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE%H", "SYMBOL_2000", "FORD");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE%H", "FORD MOTOR");
+		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1J2WW12P&5", "MDX");
 	}
 }
