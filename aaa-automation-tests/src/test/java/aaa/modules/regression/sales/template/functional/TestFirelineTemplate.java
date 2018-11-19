@@ -70,10 +70,10 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-				assertThat(errorTab.buttonOverride.isEnabled()).isTrue();
+				assertThat(errorTab.buttonOverride).isEnabled();
 			} else {
-				assertThat(errorTab.buttonOverride.isEnabled()).isFalse();
-				assertThat(errorTab.buttonApproval.isEnabled()).isTrue();
+				assertThat(errorTab.buttonOverride).isDisabled();
+				assertThat(errorTab.buttonApproval).isEnabled();
 			}
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
@@ -122,10 +122,10 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-				assertThat(errorTab.buttonOverride.isEnabled()).isTrue();
+				assertThat(errorTab.buttonOverride).isEnabled();
 			} else {
-				assertThat(errorTab.buttonOverride.isEnabled()).isFalse();
-				assertThat(errorTab.buttonApproval.isEnabled()).isTrue();
+				assertThat(errorTab.buttonOverride).isDisabled();
+				assertThat(errorTab.buttonApproval).isEnabled();
 			}
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
