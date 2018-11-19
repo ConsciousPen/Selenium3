@@ -1,0 +1,100 @@
+{
+  "policyCoverages": {
+    "PIP": {
+      "changeType": "MODIFIED",
+      "data": {
+        "coverageCd": "PIP",
+        "coverageDescription": "Basic Personal Injury Protection",
+        "coverageLimit": null,
+        "coverageLimitDisplay": null,
+        "coverageType": null,
+        "customerDisplayed": null,
+        "canChangeCoverage": null
+      },
+      "subCoverages": {
+        "WLB": {
+          "changeType": "NO_CHANGES",
+          "data": {
+            "coverageCd": "WLB",
+            "coverageDescription": "Rejection of Work Loss Benefit",
+            "coverageLimit": "false",
+            "coverageLimitDisplay": "No",
+            "coverageType": null,
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          }
+        },
+        "MEDEXP": {
+          "changeType": "MODIFIED",
+          "data": {
+            "coverageCd": "MEDEXP",
+            "coverageDescription": "Medical Expense",
+            "coverageLimit": "10000",
+            "coverageLimitDisplay": "$10,000",
+            "coverageType": "Per Person",
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          },
+          "modifiedAttributes": {
+            "coverageLimit": {
+              "newValue": "10000",
+              "oldValue": "3000"
+            },
+            "coverageLimitDisplay": {
+              "newValue": "$10,000",
+              "oldValue": "$3,000"
+            }
+          }
+        },
+        "WORKLOSS": {
+          "changeType": "NO_CHANGES",
+          "data": {
+            "coverageCd": "WORKLOSS",
+            "coverageDescription": "Work Loss",
+            "coverageLimit": "250",
+            "coverageLimitDisplay": "$250",
+            "coverageType": "Per Week",
+            "customerDisplayed": true,
+            "canChangeCoverage": false
+          }
+        },
+        "HOUSEEXP": {
+          "changeType": "NO_CHANGES",
+          "data": {
+            "coverageCd": "HOUSEEXP",
+            "coverageDescription": "Household Services",
+            "coverageLimit": "20",
+            "coverageLimitDisplay": "$20",
+            "coverageType": "Per Day",
+            "customerDisplayed": true,
+            "canChangeCoverage": false
+          }
+        },
+        "FUNEXP": {
+          "changeType": "NO_CHANGES",
+          "data": {
+            "coverageCd": "FUNEXP",
+            "coverageDescription": "Funeral Expenses",
+            "coverageLimit": "1500",
+            "coverageLimitDisplay": "$1,500",
+            "coverageType": "Per Person",
+            "customerDisplayed": true,
+            "canChangeCoverage": false
+          }
+        },
+        "SURVLOSS": {
+          "changeType": "NO_CHANGES",
+          "data": {
+            "coverageCd": "SURVLOSS",
+            "coverageDescription": "Survivor's Loss",
+            "coverageLimit": "3000",
+            "coverageLimitDisplay": "$3,000",
+            "coverageType": null,
+            "customerDisplayed": true,
+            "canChangeCoverage": false
+          }
+        }
+      }
+    }
+  }
+}

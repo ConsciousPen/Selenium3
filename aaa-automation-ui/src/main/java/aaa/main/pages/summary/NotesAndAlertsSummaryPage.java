@@ -50,7 +50,7 @@ public class NotesAndAlertsSummaryPage extends SummaryPage {
     }
 
     public static void updateNoteByRow(TestData td, int row) {
-        activitiesAndUserNotes.getRow(row).getCell(1).controls.links.getFirst().click();
+    	tableFilterResults.getRow(row).getCell("Title").controls.links.getFirst().click();
         assetListUpdateNote.fill(td);
         Tab.buttonSave.click();
     }
