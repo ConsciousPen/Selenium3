@@ -1829,7 +1829,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas14539_transactionInfoAddVehicleCoveragesUpdateBody() {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD());
+		String policyNumber = createPolicy();
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1854,12 +1854,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd3, availableLimits3), PolicyCoverageInfo.class);
 
 		String coverageCd4 = "GLASS";
-		String availableLimits4 = "Yes";
+		String availableLimits4 = "true";
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd4, availableLimits4), PolicyCoverageInfo.class);
-
-		String coverageCd5 = "SPECEQUIP";
-		String availableLimits5 = "2000";
-		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCd5, availableLimits5), PolicyCoverageInfo.class);
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		ComparableVehicle veh1 = policyResponse.vehicles.get(vOid);
@@ -1884,10 +1880,6 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(veh1.coverages.get("COMPDED").changeType).isEqualTo("MODIFIED");
 			softly.assertThat(veh1.coverages.get("COMPDED").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits);
 			softly.assertThat(veh1.coverages.get("COMPDED").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("750");
-
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").changeType).isEqualTo("MODIFIED");
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").modifiedAttributes.get("coverageLimit").newValue).isEqualTo(availableLimits5);
-			softly.assertThat(veh1.coverages.get("SPECEQUIP").modifiedAttributes.get("coverageLimit").oldValue).isEqualTo("1000");
 		});
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
