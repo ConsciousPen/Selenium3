@@ -1,15 +1,6 @@
 package aaa.modules.regression.finance.ledger.home_ca.ho3;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -24,8 +15,21 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 
@@ -49,6 +53,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@StateList(states = {Constants.States.CA})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21457")
 	public void pas21457_testFinanceEPCalculationEPWriteOff(@Optional("CA") String state) {
 		BillingAccount billingAccount = new BillingAccount();

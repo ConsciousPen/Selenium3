@@ -1,15 +1,6 @@
 package aaa.modules.regression.finance.ledger.auto_ss;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -23,8 +14,21 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
+import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperations {
 
@@ -45,6 +49,7 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21458")
 	public void pas21458_testFinanceEPCalculationSmallBalanceWriteOff(@Optional("AZ") String state) {
