@@ -4411,7 +4411,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
 	        //Check transactionHistory
-	        validateUMPDTransactionHistory_pas20306(policyNumber, vehicleOid, umpdExpected);
+	        validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
 
 	        SearchPage.openPolicy(policyNumber);
 	        openPendedEndorsementInquiryAndNavigateToPC();
@@ -4444,7 +4444,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
 			//Check transactionHistory
-			validateUMPDTransactionHistory_pas20306(policyNumber, vehicleOid, umpdExpected);
+			validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
 
 			SearchPage.openPolicy(policyNumber);
 			openPendedEndorsementInquiryAndNavigateToPC();
@@ -4517,7 +4517,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
 	        //Check transactionHistory
-	        validateUMPDTransactionHistory_pas20306(policyNumber, vehicleOid, umpdExpected);
+	        validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
 
 			SearchPage.openPolicy(policyNumber);
 			openPendedEndorsementInquiryAndNavigateToPC();
@@ -4555,7 +4555,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
 			//Check transactionHistory
-			validateUMPDTransactionHistory_pas20306(policyNumber, vehicleOid, umpdExpected);
+			validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
 
 			SearchPage.openPolicy(policyNumber);
 			openPendedEndorsementInquiryAndNavigateToPC();
@@ -4565,12 +4565,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 
     }
-
-	private void validateUMPDTransactionHistory_pas20306(String policyNumber, String vehicleOid, Coverage umpdExpected) {
-		HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
-		assertThat(changeLogResponse.vehicles.get(vehicleOid).coverages.get(umpdExpected.getCoverageCd()).data).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits");
-	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
@@ -4930,6 +4924,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+	}
+
+	private void validateVehicleLevelCoverageChangeLog(String policyNumber, String vehicleOid, Coverage coverageExpected) {
+		HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(changeLogResponse.vehicles.get(vehicleOid).coverages.get(coverageExpected.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverageExpected, "availableLimits");
 	}
 
 	private PolicyCoverageInfo updateCoverage(String policyNumber, String coverageCd, String coverageLimit) {
