@@ -337,7 +337,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144")
     public void pas6695_testClueReconciliationNB(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationNB();
 
@@ -357,7 +357,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144")
     public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -377,7 +377,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144")
     public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRenewal();
 
@@ -398,7 +398,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144")
     public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRewrite();
 
