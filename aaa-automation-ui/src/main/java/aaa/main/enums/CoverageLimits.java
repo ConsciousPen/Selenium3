@@ -1,7 +1,6 @@
 package aaa.main.enums;
 
 public enum CoverageLimits {
-
 	COV_20("20", "$20"),
 	COV_25("25", "$25"),
 	COV_30("30", "$30"),
