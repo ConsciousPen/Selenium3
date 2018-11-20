@@ -6,8 +6,14 @@ import aaa.admin.modules.product.ProductType;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.enums.ErrorDxpEnum;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.PolicyMoratorium;
+import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.HelperMiniServices;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -16,36 +22,200 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
+import javax.ws.rs.core.Response;
+import java.time.format.DateTimeFormatter;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 public class TestMiniServicesMoratorium extends PolicyMoratorium {
 
+    @Override
+    protected PolicyType getPolicyType() {
+        return PolicyType.AUTO_SS;
+    }
+
     private final IProduct moratorium = ProductType.MORATORIUM.get();
+    public HelperMiniServices helperMiniServices = new HelperMiniServices();
+
+    String purchaseDate1 = "2005-02-22";
+    String vin1 = "3FAFP31341R200709";
+
+    String purchaseDate2 = "2010-02-11";
+    String vin2 = "1FTYR14U32PA42653";
+
+    String purchaseDate3 = "2014-01-01";
+    String vin3 = "1HGCD5603VA139404";
+
+    String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    String endorsementDateBack = TimeSetterUtil.getInstance().getCurrentTime().minusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+    VehicleUpdateDto updateVehReqUnderTheMoratorium_VA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "Valhalla Square", "Ashburn", "20147", "VA");
+    VehicleUpdateDto updateVehReqNotUnderTheMoratorium_VA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "501 E Broad St", "Richmond", "23219", "VA");
+    VehicleUpdateDto updateVehReqNotUnderTheMoratorium_AZ = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "805 N 4rd Ave", "Phoenix", "85003", "AZ");
+    VehicleUpdateDto updateVehReqUnderTheMoratorium_CA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "992 Silverado Rd", "Hayward", "94541", "CA");
+    VehicleUpdateDto updateVehReqNotUnderTheMoratorium_CA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "2999 W 6th St", "Los Angeles", "90020", "CA");
+
+    /**
+     * @author Jovita Pukenaite
+     * @name Moratoriums - Garaging Address on the Policy/Adding/Updating a Vehicle
+     * @scenario1 1. Create backdate policy (-30d).
+     * 2. Hit start endorsement info service. Check the response.
+     * 3. Create endorsement outside of PAS.
+     * 4. Add and update vehicle with different garage address (20147 zip)
+     * 5. Add another vehicle, but zip code should be under the moratorium. Check the response.
+     * 6. Rate.
+     * 7. Create new endorsement, add vehicle with CA Garage address that is under the moratorium.
+     * 8. Check response after update and rate services.
+     * 9. Update vehicle Garage address to the CA but not under the moratorium.
+     * 10. Check the response after update and after rate service
+     * 11. Delete endorsement.
+     *
+     * @scenario2 1. Create new endorsement (Backdate -2d)
+     * 2. Add vehicle, garage address not different.
+     * 3. Add another vehicle, garage address which gonna be under the moratorium after two days.
+     * 4. Check the response, if error is not displaying.
+     * 5. Rate and bind endorsement.
+     * 6. Hit start endorsement info service (today). Check the response.
+     */
 
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PST-352: Soft Stop Moratorium set on New Business Premium Calculation and Hard Stop moratorium on New Business Bind")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PST-352")
-    @StateList(states = Constants.States.AZ)
-    public void test(@Optional("AZ") String state) {
-        TestData td = getTestSpecificTD("TestData_Moratorium_DXP_Config_1");
-        MoratoriumRule moratoriumRule = getMoratoriumRule(td);
-        mockMoratoriumRuleAndRunTest(td, moratoriumRule, () -> {
-            // write your test here
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21466"})
+    @StateList(states = {Constants.States.VA, Constants.States.AZ})
+    public void pas21466_GarageAddressUnderTheMoratorium(@Optional("VA") String state) {
+        TestData td_CA = getTestSpecificTD("TestData_Moratorium_DXP_Config_1");
+        MoratoriumRule moratoriumRule = getMoratoriumRule(td_CA);
+        mockMoratoriumRuleAndRunTest(td_CA, moratoriumRule);
+        TestData td_VA = getTestSpecificTD("TestData_Moratorium_DXP_Config_2");
+        MoratoriumRule moratoriumRule2 = getMoratoriumRule(td_VA);
+        mockMoratoriumRuleAndRunTest(td_VA, moratoriumRule2);
+
+        mainApp().open();
+        createCustomerIndividual();
+        String policyNumber = createPolicy(getBackDatedPolicyTD());
+
+        checkMoratoriumInfoInStartEndorsementInfo(policyNumber, endorsementDate, false);
+        helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+        //Vehicle 1
+        Vehicle responseAddVehicle = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate1), Vehicle.class, 201);
+        VehicleUpdateResponseDto updateResponseVehicle1 = HelperCommon.updateVehicle(policyNumber, responseAddVehicle.oid, updateVehReqNotUnderTheMoratorium_VA);
+        checkTheErrorAfterGarageAddressWasUpdated(updateResponseVehicle1, false);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, false, false);
+
+        //Vehicle 2
+        Vehicle responseAddVehicle2 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate2), Vehicle.class, 201);
+        VehicleUpdateResponseDto updateResponseVehicle2 = HelperCommon.updateVehicle(policyNumber, responseAddVehicle2.oid, updateVehReqUnderTheMoratorium_VA);
+        checkTheErrorAfterGarageAddressWasUpdated(updateResponseVehicle2, true);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, true, false);
+        //update address again
+        HelperCommon.updateVehicle(policyNumber, responseAddVehicle2.oid, updateVehReqNotUnderTheMoratorium_VA);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, false, false);
+
+        //Vehicle 3
+        Vehicle responseAddVehicle3 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate3), Vehicle.class, 201);
+        VehicleUpdateResponseDto updateResponseVehicle3 = HelperCommon.updateVehicle(policyNumber, responseAddVehicle3.oid, updateVehReqUnderTheMoratorium_CA);
+        checkTheErrorAfterGarageAddressWasUpdated(updateResponseVehicle3, true);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, true, false);
+
+        //update address again
+        VehicleUpdateResponseDto updateResponseVehicle4 = HelperCommon.updateVehicle(policyNumber, responseAddVehicle3.oid, updateVehReqNotUnderTheMoratorium_CA);
+        checkTheErrorAfterGarageAddressWasUpdated(updateResponseVehicle4, false);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, false, true);
+
+        HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+        //TC2
+        HelperCommon.createEndorsement(policyNumber, endorsementDateBack);
+        //Add vehicle: different Garage address = true
+        Vehicle responseAddVehicle5 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin1, purchaseDate1), Vehicle.class, 201);
+        VehicleUpdateResponseDto updateResponseVehicle5 = HelperCommon.updateVehicle(policyNumber, responseAddVehicle5.oid, updateVehReqUnderTheMoratorium_VA);
+        checkTheErrorAfterGarageAddressWasUpdated(updateResponseVehicle5, false);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, false, false);
+
+        //Add another vehicle, garage address different = false
+        VehicleUpdateResponseDto secondVehicleUpdateResponse = addVehicle(policyNumber, purchaseDate2, vin2);
+        checkTheErrorAfterGarageAddressWasUpdated(secondVehicleUpdateResponse, false);
+        checkRateServiceIfMoratoriumErrorExist(policyNumber, false, false);
+
+        helperMiniServices.endorsementRateAndBind(policyNumber);
+
+        //Hit start endorsement info service (today)
+        checkMoratoriumInfoInStartEndorsementInfo(policyNumber, endorsementDate, true);
+
+        expireMoratorium(moratoriumRule.getName());
+        expireMoratorium(moratoriumRule2.getName());
+    }
+
+    private void checkTheErrorAfterGarageAddressWasUpdated(VehicleUpdateResponseDto updateResponse, boolean isErrorShouldExist) {
+        assertSoftly(softly -> {
+            if (isErrorShouldExist) {
+                softly.assertThat(updateResponse.validations.get(0).errorCode).startsWith(ErrorDxpEnum.Errors.MORATORIUM_EXIST.getCode());
+                softly.assertThat(updateResponse.validations.get(0).message).isEqualTo(ErrorDxpEnum.Errors.MORATORIUM_EXIST.getMessage());
+            } else {
+                softly.assertThat(updateResponse.validations).isEmpty();
+            }
         });
     }
 
-    private void mockMoratoriumRuleAndRunTest(TestData td, MoratoriumRule moratoriumRule, Runnable testBody) {
-        try {
-            //Step 1 -- Zip code entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
-            log.info("Step 1: Add Zip Code entry in lookupvalue table if not exists.");
-            DBService.get().executeUpdate(insertLookupEntry(moratoriumRule.getZipCode(), moratoriumRule.getCity(), parseState(moratoriumRule.getState())));
-            //Step 2
-            log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
-            adminApp().open();
-            moratorium.create(td.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumRule.getName())
-                    .adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumRule.getDisplayMessage()));
-            testBody.run();
-        } finally {
-            expireMoratorium(moratoriumRule.getName());
+    private void checkMoratoriumInfoInStartEndorsementInfo(String policyNumber, String endorsementDate, boolean isErrorShouldExist) {
+        if (isErrorShouldExist) {
+            ValidateEndorsementResponse endorsementInfoResponse = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+            assertSoftly(softly -> {
+                softly.assertThat(endorsementInfoResponse.allowedEndorsements).isEmpty();
+                softly.assertThat(endorsementInfoResponse.ruleSets.get(0).name).isEqualTo("PolicyRules");
+                softly.assertThat(endorsementInfoResponse.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.equals(ErrorDxpEnum.Errors.MORATORIUM_EXIST.getMessage()))).isTrue();
+            });
+        } else {
+            ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);
+            assertSoftly(softly -> {
+                softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
+                softly.assertThat(response.ruleSets.get(0).errors).isEmpty();
+            });
         }
+    }
+
+    private void checkRateServiceIfMoratoriumErrorExist(String policyNumber, boolean isMoratoriumErrorShouldExist, boolean isOtherErrorShouldExist) {
+        if (isMoratoriumErrorShouldExist) {
+            ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+            assertSoftly(softly -> {
+                softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+                softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+                softly.assertThat(hasError(rateResponse, "attributeForRules", ErrorDxpEnum.Errors.MORATORIUM_EXIST)).isTrue();
+            });
+        } else if (isOtherErrorShouldExist) {
+            ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
+            assertSoftly(softly -> {
+                softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
+                softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+                softly.assertThat(rateResponse.errors).isNotEmpty();
+            });
+        } else {
+            helperMiniServices.rateEndorsementWithCheck(policyNumber);
+        }
+    }
+
+    private VehicleUpdateResponseDto addVehicle(String policyNumber, String purchaseDate, String vin) {
+        Vehicle responseAddVehicle =
+                HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
+        return helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, responseAddVehicle.oid);
+
+    }
+
+    private boolean hasError(ErrorResponseDto errorResponseDto, String expectedField, ErrorDxpEnum.Errors expectedError) {
+        return errorResponseDto.errors.stream().anyMatch(error -> expectedField.equals(error.field)
+                && org.apache.commons.lang.StringUtils.startsWith(error.message, expectedError.getMessage()));
+    }
+
+    private void mockMoratoriumRuleAndRunTest(TestData td, MoratoriumRule moratoriumRule) {
+       //Step 1 -- Zip code entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
+       log.info("Step 1: Add Zip Code entry in lookupvalue table if not exists.");
+       DBService.get().executeUpdate(insertLookupEntry(moratoriumRule.getZipCode(), moratoriumRule.getCity(), parseState(moratoriumRule.getState())));
+       //Step 2
+       log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
+       adminApp().open();
+       moratorium.create(td.adjust(TestData.makeKeyPath("AddMoratoriumTab", MoratoriumMetaData.AddMoratoriumTab.MORATORIUM_NAME.getLabel()), moratoriumRule.getName())
+            .adjust(TestData.makeKeyPath("AddMoratoriumTab", "AddRuleSection", MoratoriumMetaData.AddMoratoriumTab.AddRuleSection.DISPLAY_MESSAGE.getLabel()), moratoriumRule.getDisplayMessage()));
     }
 
     private String parseState(String state) {

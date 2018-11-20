@@ -20,3 +20,26 @@ TestData_Moratorium_DXP_Config_1: {
     }
   }
 }
+
+TestData_Moratorium_DXP_Config_2: {
+  AddMoratoriumTab: {
+    Moratorium Type: Non-catastrophe,
+    Moratorium Name: '$<rx:Test Moratorium Automated 2 \d{5}>',
+    Moratorium Reason: Testing,
+    Effective Date: '$<today>',
+    Expiration Date: '$<today+1d>',
+    Countries: United States,
+    States: United States - VA,
+    Cities: Ashburn,
+    Zip Codes: 20147,
+    Products: Auto Signature Series,
+    AddRuleSection: {
+      New Business Premium Calculation: Soft Stop,
+      New Business Bind: Hard Stop,
+      Endorsement Issue: Hard Stop,
+      Endorsement Bind: Hard Stop,
+      Endorsement Initiation: Soft Stop,
+      Display Message: '$<rx:Test Moratorium Message 1 \d{5}>'
+    }
+  }
+}
