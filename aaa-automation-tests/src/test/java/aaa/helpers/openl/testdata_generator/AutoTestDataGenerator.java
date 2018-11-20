@@ -456,6 +456,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
 		}
 
+		if ("RENTAL".equals(coverageCd)) {
+			return "1".equals(coverage.getLimit().toString()) ? "starts=Yes" : "starts=No";
+		}
+
 		StringBuilder returnLimit = new StringBuilder();
 		String formattedLimit = getFormattedCoverageLimit(limitRange[0], coverageCd);
 		if (!formattedLimit.startsWith(AdvancedComboBox.RANDOM_MARK) && !formattedLimit.startsWith("starts=")) {
