@@ -297,12 +297,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimChargeableAsset()).isEnabled();
 
         // Validation for PAS-22144
-        String policyQuoteNum = getPropertyInfoTab().getPolicyNumber();
-        getPropertyInfoTab().saveAndExit();
-        mainApp().close();
-        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
-        SearchPage.openQuote(policyQuoteNum);
-        policy.dataGather().start();
+        openPolicyQuoteAsAgentUser();
         validateLossForFieldAsAgent();
 
     }
@@ -320,6 +315,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
 
         // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        PolicySummaryPage.buttonPendedEndorsement.click();
         validateLossForFieldAsAgent();
 
     }
@@ -337,6 +334,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
 
         // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        PolicySummaryPage.buttonRenewals.click();
         validateLossForFieldAsAgent();
 
     }
@@ -356,6 +355,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
 
         // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
         validateLossForFieldAsAgent();
 
     }
@@ -675,7 +675,21 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
+    private void openPolicyQuoteAsAgentUser() {
+        String policyQuoteNum = getPropertyInfoTab().getPolicyNumber();
+        getPropertyInfoTab().saveAndExit();
+        mainApp().close();
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
+        if (policyQuoteNum.startsWith("Q")) {
+            SearchPage.openQuote(policyQuoteNum);
+        } else {
+            SearchPage.openPolicy(policyQuoteNum);
+        }
+
+    }
+
     private void validateLossForFieldAsAgent() {
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaimByLossAmount("42500");
         assertThat(getClaimLossForAsset()).isDisabled();
