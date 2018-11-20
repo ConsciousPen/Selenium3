@@ -9,6 +9,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -18,6 +19,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestFinanceEPCalculationAPEndorsement extends FinanceOperations {
@@ -38,6 +40,7 @@ public class TestFinanceEPCalculationAPEndorsement extends FinanceOperations {
 	 */
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21446")
 	public void pas21446_testFinanceEPCalculationAPEndorsement(@Optional("AZ") String state) {
