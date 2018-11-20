@@ -325,7 +325,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 								softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
 							});
 						}));
-
 		/*
 		 * Test next tries to update a bogus coverage code and validates that the service returns an error.
 		 */
