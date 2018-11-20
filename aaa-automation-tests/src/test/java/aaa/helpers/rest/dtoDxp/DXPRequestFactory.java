@@ -1,8 +1,8 @@
 package aaa.helpers.rest.dtoDxp;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import org.apache.xpath.operations.Bool;
 
 public class DXPRequestFactory {
 
@@ -72,11 +72,11 @@ public class DXPRequestFactory {
 		return updateCoverageRequest;
 	}
 
-	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, List<String> driverOids) {
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, Collection<String> driverOids) {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
 		updateCoverageRequest.limit = limit;
-		updateCoverageRequest.driverOids = driverOids;
+		updateCoverageRequest.driverOids = new ArrayList<>(driverOids);
 		return updateCoverageRequest;
 	}
 

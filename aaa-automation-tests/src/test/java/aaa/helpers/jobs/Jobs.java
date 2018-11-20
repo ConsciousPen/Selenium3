@@ -162,6 +162,20 @@ public class Jobs {
 
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 
+	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
+
+	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");
+
+	public static Job aaaInsuranceScoreRenewBachOrder = new Job("aaaInsuranceScoreRenewBachOrder");
+
+	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
+
+	public static Job aaaInsuranceScoreRenewalBatchReceiveJob = new Job("aaaInsuranceScoreRenewalBatchReceiveJob");
+
+	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
+
+	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
+
 	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
 
 	public enum JobState {

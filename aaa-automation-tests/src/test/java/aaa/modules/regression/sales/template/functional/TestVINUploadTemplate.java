@@ -655,6 +655,29 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		if ("false".equalsIgnoreCase(isVinRefreshEnabled)) {
 			log.info("Vin will be enabled");
 			ScorpionsPreconditions.enableVinRefresh();
+
 		}
+	}
+
+	protected void pas18969_restrictVehicleRefreshCAOnRenewal(TestData testData, String vinTableFile){
+		testData.getTestData(new AssignmentTab().getMetaKey()).getTestDataList("DriverVehicleRelationshipTable").get(0).mask("Vehicle").resolveLinks();
+
+		String policyNumber = openAppAndCreatePolicy(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		// Upload new vin data
+		adminApp().open();
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+
+		// Generate automated renewal image according to renewal timeline
+		// Move time to renewal time point
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		// Retrieve the policy
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		// Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	}
 }
