@@ -9,7 +9,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,10 +18,9 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
-import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
-public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOperations {
+public class TestFinanceEPCalculationRPEndorsement extends FinanceOperations {
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -36,22 +34,19 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 	 * Every month earnedPremiumPostingAsyncTaskGenerationJob job is running
 	 * 1. Create Annual Auto SS Policy with Effective date today (txEffectiveDate = today + 1 month)
 	 * 2. Create Endorsement (Remove/decrease coverage) with date: Today + 3 months (with txEffectiveDate -1)
-	 * 3. Roll Back Endorsement with date: endorsement + 7 month (with txEffectiveDate = today)
-	 * 4. Check Calculations
+	 * 3. Check Calculations
 	 */
 
 	@Parameters({"state"})
-    @StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21454")
-	public void pas21454_testFinanceEPCalculationOOSRollBackRPEndorsement(@Optional("AZ") String state) {
+	public void pas21454_testFinanceEPCalculationRPEndorsement(@Optional("AZ") String state) {
 
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusMonths(3);
-		LocalDateTime rbDate = eDate.plusMonths(7);
 
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
@@ -63,12 +58,6 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
-		jobDate = runEPJobUntil(jobDate, rbDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		TimeSetterUtil.getInstance().nextPhase(rbDate);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		rollBackEndorsement(today);
-
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -77,7 +66,7 @@ public class TestFinanceEPCalculationOOSRollBackRPEndorsement extends FinanceOpe
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.ROLL_BACK);
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
 	}
 }
