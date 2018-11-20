@@ -4371,6 +4371,201 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription", "availableLimits");
 	}
 
+    protected void pas20306_viewUpdateCoveragesUmpdCompCollBody(String state, PolicyType policyType) {
+        TestData td = getPolicyDefaultTD();
+
+		openAppAndCreatePolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+        ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+        String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN"); //PPA
+		Vehicle veh1 = getVehicleByVin(viewVehicles.vehicleList, vin1);
+        String vehicleOid = veh1.oid;
+
+        String coverageCdComp = "COMPDED";
+        String coverageCdColl = "COLLDED";
+        String limitDisplayNoCov = "No Coverage";
+        String availableLimitsChange1 = "-1";
+        String availableLimitsChange2 = "500";
+
+        //TC1
+        assertSoftly(softly -> {
+            helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+            // DXP COLL to -1
+            PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+            Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
+            softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
+
+			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+            Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
+            softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
+
+            // UMPD present at 3500
+			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_3500);
+            softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
+
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+	        //Check transactionHistory
+	        validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
+
+	        SearchPage.openPolicy(policyNumber);
+	        openPendedEndorsementInquiryAndNavigateToPC();
+			softly.assertThat(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel())).isEqualTo("");
+
+			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+        });
+
+        // TC1b
+		assertSoftly(softly -> {
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			// DXP COMP to -1
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
+			softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
+
+			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
+			softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
+
+			// UMPD present at 3500
+			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_3500);
+			softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
+
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+			//Check transactionHistory
+			validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
+
+			SearchPage.openPolicy(policyNumber);
+			openPendedEndorsementInquiryAndNavigateToPC();
+			softly.assertThat(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel())).isEqualTo("");
+
+			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+
+		});
+
+        // TC3
+        assertSoftly(softly -> {
+            helperMiniServices.createEndorsementWithCheck(policyNumber);
+            SearchPage.openPolicy(policyNumber);
+            PolicySummaryPage.buttonPendedEndorsement.click();
+            policy.dataGather().start();
+            NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+            premiumAndCoveragesTab.setVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel(), limitDisplayNoCov);
+            premiumAndCoveragesTab.saveAndExit();
+
+            // DXP COLL to 500
+            PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+            Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
+            softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
+
+			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+            Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
+            softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
+
+			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+            Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
+            softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
+
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+			SearchPage.openPolicy(policyNumber);
+			openPendedEndorsementInquiryAndNavigateToPC();
+			softly.assertThat(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel())).isEqualTo("500");
+
+			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+        });
+
+        //TC2
+        assertSoftly(softly -> {
+            helperMiniServices.createEndorsementWithCheck(policyNumber);
+            SearchPage.openPolicy(policyNumber);
+            PolicySummaryPage.buttonPendedEndorsement.click();
+            policy.dataGather().start();
+            NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+            premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel(), limitDisplayNoCov);
+            premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), limitDisplayNoCov);
+            premiumAndCoveragesTab.saveAndExit();
+
+            // DXP COLL to -1
+            PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+            Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_00).disableCanChange();
+            softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
+
+			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+            Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_00).disableCanChange();
+            softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
+
+			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+            Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
+            softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
+
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+	        //Check transactionHistory
+	        validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
+
+			SearchPage.openPolicy(policyNumber);
+			openPendedEndorsementInquiryAndNavigateToPC();
+			softly.assertThat(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COLLISION_DEDUCTIBLE.getLabel())).isEqualTo("");
+
+            HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+        });
+
+		//TC2b
+		assertSoftly(softly -> {
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel(), limitDisplayNoCov);
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), limitDisplayNoCov);
+			premiumAndCoveragesTab.saveAndExit();
+
+			// DXP COMP to -1
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_00).disableCanChange();
+			softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
+
+			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_00).disableCanChange();
+			softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
+
+			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
+			softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
+
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+			//Check transactionHistory
+			validateVehicleLevelCoverageChangeLog(policyNumber, vehicleOid, umpdExpected);
+
+			SearchPage.openPolicy(policyNumber);
+			openPendedEndorsementInquiryAndNavigateToPC();
+			softly.assertThat(premiumAndCoveragesTab.getVehicleCoverageDetailsValueByVehicle(1, AutoSSMetaData.PremiumAndCoveragesTab.COMPREGENSIVE_DEDUCTIBLE.getLabel())).isEqualTo("");
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+
+    }
+
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
 			//make sure that no Policy Level coverages are missed
@@ -4729,6 +4924,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
+	}
+
+	private void validateVehicleLevelCoverageChangeLog(String policyNumber, String vehicleOid, Coverage coverageExpected) {
+		HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
+		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		assertThat(changeLogResponse.vehicles.get(vehicleOid).coverages.get(coverageExpected.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverageExpected, "availableLimits");
 	}
 
 	private PolicyCoverageInfo updateCoverage(String policyNumber, String coverageCd, String coverageLimit) {

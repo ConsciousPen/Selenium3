@@ -834,12 +834,13 @@
             </class>
         </classes>
     </test>
-    <test name="pas15368_viewUpdatePIPCoverage_UT">
+    <test name="viewUpdateCoverages_UT">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
                 </methods>
             </class>
         </classes>
