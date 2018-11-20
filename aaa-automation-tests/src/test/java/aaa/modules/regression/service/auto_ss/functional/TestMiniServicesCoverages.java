@@ -1213,6 +1213,5 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
-		);}
-	}
+		);	}	}
 
