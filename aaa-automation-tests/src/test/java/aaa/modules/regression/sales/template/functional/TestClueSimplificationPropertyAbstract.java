@@ -282,7 +282,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         //Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
-        validateCatastropheAndLossForFields(PrivilegeEnum.Privilege.L41);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
@@ -308,7 +308,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
-        validateCatastropheAndLossForFields(PrivilegeEnum.Privilege.L41);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
@@ -325,7 +325,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
-        validateCatastropheAndLossForFields(PrivilegeEnum.Privilege.L41);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
@@ -344,7 +344,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validation for PAS-6695 and PAS-6703
         checkTblClaimRowCount(9);
-        validateCatastropheAndLossForFields(PrivilegeEnum.Privilege.L41);
+        validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
@@ -633,40 +633,40 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         createCustomerIndividual(td);
     }
 
-    private void validateCatastropheAndLossForFields(PrivilegeEnum.Privilege privilege) {
+    private void validateCatastropheAndLossForFields() {
 
         // Validates 'Applicant & Property' with catastrophe = 'Yes'
         viewEditClaimByLossAmount("11000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
-        validateLossForFieldState(privilege);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
-        validateLossForFieldState(privilege);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
         // Validates 'Applicant' with catastrophe = 'Yes'
         viewEditClaimByLossAmount("1500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        validateLossForFieldState(privilege);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
         // Validates 'Applicant' with catastrophe = 'No'
         viewEditClaimByLossAmount("2500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        validateLossForFieldState(privilege);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
-    }
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
-    private void validateLossForFieldState(PrivilegeEnum.Privilege privilege) {
-        if (privilege.equals(PrivilegeEnum.Privilege.L41)) {
-            assertThat(getClaimLossForAsset()).isEnabled();
-        } else {
-            assertThat(getClaimLossForAsset()).isDisabled();
-        }
     }
 
     private void validateLossForFieldAsAgent() {
@@ -680,7 +680,15 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
             SearchPage.openPolicy(policyQuoteNum);
         }
         navigateToPropertyInfoTab();
-        validateCatastropheAndLossForFields(PrivilegeEnum.Privilege.A30);
+        viewEditClaimByLossAmount("42500");
+        assertThat(getClaimLossForAsset()).isDisabled();
+        viewEditClaimByLossAmount("11000");
+        assertThat(getClaimLossForAsset()).isDisabled();
+        viewEditClaimByLossAmount("1500");
+        assertThat(getClaimLossForAsset()).isDisabled();
+        viewEditClaimByLossAmount("2500");
+        assertThat(getClaimLossForAsset()).isDisabled();
+
     }
 
 }
