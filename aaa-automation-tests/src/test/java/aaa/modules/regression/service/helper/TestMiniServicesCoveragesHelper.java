@@ -4412,16 +4412,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
             // DXP COLL to -1
             PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
             Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
             softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
 
-			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
             Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
             softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
             // UMPD present at 3500
-			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpd = findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
 			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_3500);
             softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
@@ -4445,16 +4445,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			// DXP COMP to -1
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
 			Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
 			softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
 
-			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
 			Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
 			softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
 			// UMPD present at 3500
-			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpd = findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
 			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_3500);
 			softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
@@ -4484,15 +4484,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
             // DXP COLL to 500
             PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
             Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_100_300).disableCanChange();
             softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
 
-			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
             Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_100_300).disableCanChange();
             softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
-			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpd = findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
             Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
             softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
@@ -4519,15 +4519,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
             // DXP COLL to -1
             PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdColl, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
             Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_00).disableCanChange();
             softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
 
-			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
             Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_00).disableCanChange();
             softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
-			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpd = findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
             Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
             softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
@@ -4557,15 +4557,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			// DXP COMP to -1
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 
-			Coverage umbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+			Coverage umbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
 			Coverage umbiExpected = Coverage.create(CoverageInfo.UMBI_UT_00).disableCanChange();
 			softly.assertThat(umbi).isEqualToComparingFieldByField(umbiExpected);
 
-			Coverage uimbi = getCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+			Coverage uimbi = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
 			Coverage uimbiExpected = Coverage.create(CoverageInfo.UIMBI_UT_00).disableCanChange();
 			softly.assertThat(uimbi).isEqualToComparingFieldByField(uimbiExpected);
 
-			Coverage umpd = getCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
+			Coverage umpd = findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode());
 			Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_UT_0).disableCanChange().disableCustomerDisplay();
 			softly.assertThat(umpd).isEqualToComparingFieldByField(umpdExpected);
 
