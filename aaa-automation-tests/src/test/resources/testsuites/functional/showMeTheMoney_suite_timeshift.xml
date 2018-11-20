@@ -84,4 +84,18 @@
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
         </classes>
     </test>
+    <test name="PAS-21446 - Test Earned Premium Calculation Changes - AP endorsement" parallel="methods"
+          thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationAPEndorsement"/>
+        </classes>
+    </test>
+    <test name="PAS-21454 - Test Earned Premium Calculation Changes - RP endorsement" parallel="methods"
+          thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRPEndorsement"/>
+        </classes>
+    </test>
 </suite>
