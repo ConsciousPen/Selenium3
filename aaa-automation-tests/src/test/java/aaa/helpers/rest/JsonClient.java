@@ -268,7 +268,8 @@ public class JsonClient {
 		Response response = null;
 		Form form = new Form();
 		form.param("client_id","cc_pas_microservices");
-		form.param("client_secret", "gQj0F6MMNQ3zklXk2atwF5bgPLsPdxwxOuszqpqcebFxTlacSZ1NKJgmyHPTgl8f");
+		form.param("client_secret", "gQj0F6MMNQ3zklXk2atwF5bgPLsPdxwxOuszqpqcebFxTlacSZ1NKJgmyHPTgl8f"); //QA + CERT
+//		form.param("client_secret", "zQW44TG5wgTxIlF1gpxnnAI2KScCiN9I8RD5VQH7e8iys45iv2DmG9EEx12Kf0SC"); //PERF
 		form.param("grant_type", "client_credentials");
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
