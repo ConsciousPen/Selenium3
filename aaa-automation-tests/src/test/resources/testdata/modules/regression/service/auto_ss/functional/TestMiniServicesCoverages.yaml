@@ -228,6 +228,10 @@ TestData_FNI_AFR_Excluded_NAFR: {
   DriverTab: ['@Driver_FNI', '@DriverTab_AFR', '@TestMiniServicesDriver@DriverTab6', '@TestMiniServicesDriver@DriverTab7'], #DriverTab6 = Excluded, DriverTab7 = NAFR
 }
 
+TestData_PPAandTrailerMotorHome: {
+     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home','@VehicleTab_GolfCart'],
+ }
+
 Driver_FNI: {
   DriverSearchDialog: {},
   'Driver Rejects Limitation on Right to Sue?': 'Yes', #important!
@@ -299,3 +303,25 @@ TestData_OrderOfCoverages_MD: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
   DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
 }
+VehicleTab_Motor_Home: {
+         Add Vehicle: Click,
+         Type: Motor Home,
+         Motor Home Type: Mini Motor Home (Class C),
+         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+         VIN: 5B4MP67G123353230,
+         Other Make: 'Motor',
+         Other Model: 'Motor',
+        Stated Amount: '50000',
+ }
+
+VehicleTab_GolfCart: {
+   Add Vehicle: click,
+   Type: Golf Cart,
+   Primary operator: index=0,
+   Usage: index=3,
+   VIN: KNDJT2A2XA7038383,
+   Year: 2010,
+   Other Make: Geer,
+   Other Model: GRX100,
+   Stated Amount: 1500
+ }

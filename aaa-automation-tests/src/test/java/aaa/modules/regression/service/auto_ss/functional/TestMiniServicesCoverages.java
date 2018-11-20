@@ -1196,4 +1196,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20292_updateCoverageBIPDWv(@Optional("WV") String state) {
 		pas20292_updateCoverageBIPDWvBody(getPolicyType());
 	}
-}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages
+	 * @scenario for AZ
+	 * * @details
+	 * 1. Create a AZ policy with trailer, Motorhome,golfcart
+	 * 2. run view coverage service.
+	 * 3. Verify can change coverage and customer display is false for coverage other than Comp and Coll
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20344"})
+	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
+		);}
+	}
+
