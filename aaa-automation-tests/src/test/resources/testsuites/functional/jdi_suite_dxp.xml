@@ -466,6 +466,7 @@
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
                     <include name="pas11654_MDEnhancedUIMBICoverage"/>
                     <include name="pas20835_mdAndEnhancedCoverage"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
                 </methods>
             </class>
         </classes>

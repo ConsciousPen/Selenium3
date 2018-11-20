@@ -3237,15 +3237,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(filteredCoverageResponseUMBI1.getAvailableLimits().get(8).coverageLimit).isEqualTo("0/0");
 	}
 
-	protected void pas17642_UpdateCoverageADBBody(PolicyType policyType) {
+	protected void pas17642_UpdateCoverageADBBody() {
 		assertSoftly(softly -> {
-			TestData td = getPolicyTD("DataGather", "TestData_AZ");
-			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("FourDrivers").getTestDataList("DriverTab")).resolveLinks();
-			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab1")).resolveLinks();
-
+			TestData td = getPolicyTD("DataGather", "TestData");
+			TestData drivers = getTestSpecificTD("FourDrivers");
+			td.adjust(new DriverTab().getMetaKey(), drivers.getTestDataList("DriverTab")).resolveLinks();
+			td.adjust(new DocumentsAndBindTab().getMetaKey(), getTestSpecificTD("DocumentsAndBindTab")).resolveLinks();
 			mainApp().open();
 			createCustomerIndividual();
-			policyType.get().createPolicy(td);
+			createPolicy(td);
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -3253,8 +3253,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 			String driverFNI = viewDriversResponse.driverList.get(0).oid;
 			String driverAFR = viewDriversResponse.driverList.get(1).oid;
+			String driver3 = viewDriversResponse.driverList.get(2).oid;
+			String driver4 = viewDriversResponse.driverList.get(3).oid;
 			softly.assertThat(viewDriversResponse.driverList.get(0).availableCoverages.toString()).contains("ADB");
 			softly.assertThat(viewDriversResponse.driverList.get(1).availableCoverages.toString()).contains("ADB");
+			softly.assertThat(viewDriversResponse.driverList.get(2).availableCoverages.toString()).doesNotContain("ADB");
+			softly.assertThat(viewDriversResponse.driverList.get(3).availableCoverages.toString()).doesNotContain("ADB");
 
 			//Validate view coverages that 0 drivers have ADB added
 			Coverage adbCoverageToMatch = Coverage.create(CoverageInfo.ADB)
