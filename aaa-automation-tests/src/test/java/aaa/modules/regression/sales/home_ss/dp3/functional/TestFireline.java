@@ -100,4 +100,25 @@ public class TestFireline extends TestFirelineTemplate {
 	public void pas18302_firelineRuleForWoodShingleRoofs_noTrigger_NOTprivileged(@Optional("AZ") String state) {
 		pas18302_SS_firelineRuleForWoodShingleRoof("85601", "586 EAGLE RD.", 2, PrivilegeEnum.Privilege.A30);
 	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test: Fire rule for roof type - wood shingle/wood shake for 3 and above - SS
+	 * @scenario
+	 * 1. Open application with L41
+	 * 2. Create Customer
+	 * 3. Initiate Policy creation
+	 * 4. In Applicant tab fill specific address to get fireline score of 5 (found in a RetrievePropertyClassificationMockData)
+	 * 5. Check that fireline score from report is 5 in Reports tab
+	 * 6. Try Purchase policy
+	 * 7. Check that Error tab appeared
+	 * 8. Check that L41 user can override the error
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fire rule for roof type - wood shingle/wood shake for fireline score 5, L41 user- SS")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18302")
+	public void pas18302_firelineRuleForWoodShingleRoof_trigger_NON_privileged(@Optional("AZ") String state) {
+		pas18302_SS_firelineRuleForWoodShingleRoof("85257", "30 BETH MANOR DR ", 5, PrivilegeEnum.Privilege.L41);
+	}
 }
