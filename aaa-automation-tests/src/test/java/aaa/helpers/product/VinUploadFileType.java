@@ -21,7 +21,8 @@ public enum VinUploadFileType {
 	NO_MATCH_NEW_QUOTE("NoMatchNewQuote"),
 	NO_MATCH_ON_RENEWAL("NoMatchORenewal"),
 	NO_MATCH_ON_NEW_BUSINESS_FULL_MATCH_ON_RENEWAL("NoMatchOnNewBusinessFullMatchOnRenewal"),
-	PARTIAL_MATCH_NEW_QUOTE("PartialMatchNewQuote");
+	PARTIAL_MATCH_NEW_QUOTE("PartialMatchNewQuote"),
+	STATCODE_VIN_REFERSH_RENEWAL("StatcodeVINrefreshOnRenewal");
 
 	private String type;
 

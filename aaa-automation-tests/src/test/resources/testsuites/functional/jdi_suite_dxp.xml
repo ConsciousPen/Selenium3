@@ -481,7 +481,7 @@
         </classes>
     </test>
     <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
+        <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -788,6 +788,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                    <include name="pas22037_updateBiCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -798,6 +799,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
+                    <include name="pas20292_updateCoverageBIPDWv"/>
                 </methods>
             </class>
         </classes>
@@ -822,6 +824,27 @@
             </class>
         </classes>
     </test>
+    <test name="pas15365_viewUpdatePIPCoverage_OR">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="viewUpdateCoverages_UT">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas12942_GaragingAddressConsistencyDXP">
         <parameter name="state" value="CT"/>
         <classes>
@@ -832,6 +855,7 @@
             </class>
         </classes>
     </test>
+
     <test name="Underinsured Conversion Coverage - CT">
         <parameter name="state" value="KS"/>
         <classes>

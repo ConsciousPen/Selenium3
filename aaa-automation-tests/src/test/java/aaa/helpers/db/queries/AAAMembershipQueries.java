@@ -337,4 +337,39 @@ public class AAAMembershipQueries {
         String quoteOrPolicyColumnName = isQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
         return String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
     }
+
+    public static String getAaaRenewalTimelineIndicatorValue(String policyNumber) throws IllegalArgumentException {
+        String query = String.format(
+                "SELECT aaaRenewalTimelineInd " + "from PolicySummary where policynumber='" + policyNumber + "' " +
+                        "order by transactionDate DESC, revisionNo DESC ,pendingRevisionNo DESC");
+
+        Optional<String> dbResponse =  DBService.get().getValue(query);
+        String response = "No data found";
+        if(dbResponse.isPresent()){
+            response = dbResponse.get();
+
+        }
+        return response;
+    }
+
+    /**
+     * Modify the aaaRenewalTimelineInd so that Jobs.renewalImageRatingAsyncTaskJob can rate a policy pending renewal. <br>
+     * @param policyNumber is the policy number to update.
+     * @param value represents what value to update aaaRenewalTimelineInd with.
+     * @throws IllegalArgumentException When given a quote opposed to a bound policy.
+     */
+    public static void updateAaaRenewalTimelineIndicatorValue(String policyNumber, String value)
+            throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAABestMembershipStatusInSQL() does not support Quotes. " +
+                    "Arg policyNumber: " + policyNumber);
+        }
+
+        String query = String.format("UPDATE POLICYSUMMARY " +
+                "SET aaaRenewalTimelineInd = '" + value + "' " +
+                "WHERE policynumber='" + policyNumber + "' and TXTYPE='renewal'");
+
+        DBService.get().executeUpdate(query);
+    }
 }
