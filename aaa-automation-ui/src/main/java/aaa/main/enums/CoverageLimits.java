@@ -66,7 +66,6 @@ public enum CoverageLimits {
 	COV_No_Cov("-1", "No Coverage"),
 	SP_EQ_0("0", "$0.00");
 
-
 	private final String limit;
 	private final String display;
 
@@ -77,6 +76,7 @@ public enum CoverageLimits {
 
 	public String getLimit() {
 		return limit;
+
 	}
 
 	public String getDisplay() {
