@@ -676,16 +676,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     private void validateLossForFieldAsAgent() {
-        String policyQuoteNum = getPropertyInfoTab().getPolicyNumber();
-        getPropertyInfoTab().saveAndExit();
-        mainApp().close();
-        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
-        if (policyQuoteNum.startsWith("Q")) {
-            SearchPage.openQuote(policyQuoteNum);
-        } else {
-            SearchPage.openPolicy(policyQuoteNum);
-        }
-        policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaimByLossAmount("42500");
         assertThat(getClaimLossForAsset()).isDisabled();
