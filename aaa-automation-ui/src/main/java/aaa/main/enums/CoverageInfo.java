@@ -3,7 +3,6 @@ package aaa.main.enums;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
-import com.google.common.collect.ImmutableList;
 
 public enum CoverageInfo {
 
@@ -53,8 +52,9 @@ public enum CoverageInfo {
 	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Per Accident"),
 	UIMCONV_CT("UIMCONV", "Underinsured Motorist Conversion Coverage", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.UIMCONV_CT),
 	UMBI_CT_NO("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = No
-	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = Yes
+	ADB("ADB", "Automobile Death Benefit", null, null, null),
+	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	BIWV("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BIWV, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
@@ -71,7 +71,6 @@ public enum CoverageInfo {
 	COMPDED_AZ_PPA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_250, AvailableCoverageLimits.COMPDEDNONPPA, "Deductible"),
 	COLLDED_AZ_PPA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDEDNONPPA, "Deductible"),
 	SPECEQUIP_NONPPA("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.SP_EQ_0, null,null);
-
 
 	private final String code;
 	private final String description;
