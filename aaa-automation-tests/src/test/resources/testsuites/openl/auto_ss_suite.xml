@@ -66,8 +66,8 @@
         </classes>
     </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
-        <parameter name="policyNumbers" value="234, 235"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
