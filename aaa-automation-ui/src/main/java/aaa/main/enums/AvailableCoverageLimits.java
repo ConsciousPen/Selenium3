@@ -97,6 +97,33 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500000,
 			CoverageLimits.COV_1000000
 	)),
+	UMBI_UT(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_2565,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	UIMBI_UT(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_1020,
+			CoverageLimits.COV_2565,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	UMPD_UT(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.DED_3500
+	)),
 	EUIM_MD(ImmutableList.of(
 			CoverageLimits.COV_TRUE,
 			CoverageLimits.COV_FALSE

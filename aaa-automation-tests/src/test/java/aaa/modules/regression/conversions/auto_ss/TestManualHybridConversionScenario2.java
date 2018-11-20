@@ -10,6 +10,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
+import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
@@ -23,6 +24,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
@@ -107,14 +109,13 @@ import toolkit.utils.TestInfo;
  */
 
 public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
-	private ErrorTab errorTab = new ErrorTab();
-
 	@Parameters({"state"})
 	@StateList(states = Constants.States.OR)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void manualHybridConversionDocsScenario2(@Optional("OR") String state) {
 		List<LocalDateTime> installmentDueDates;
+		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime billGenDate;
 		LocalDateTime renewalDate = getTimePoints().getConversionEffectiveDate();
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
@@ -127,10 +128,10 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 				.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab"))
 				.adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab"));
 		//2. (R-45) Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above -> Renewal entry is initiated
-		TestData loginTD = getLoginTD().adjust("Groups", "E34");
-		mainApp().open(loginTD);
+		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
 		//1. Create a new customer in PAS
-		createCustomerIndividual();
+		//createCustomerIndividual();
+		SearchPage.openCustomer("700032274");
 		//3. Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		//4. Enter the value for the Previous Policy Number/Source System and provide valid values for the other mandatory fields and click on the OK button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
@@ -138,8 +139,9 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		//6. Rate the policy.
 		//7. Navigate to the Bind tab and 'Save and Exit'
 		policy.getDefaultView().fill(policyTd);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200111);
+		errorTab.override();
+		policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
 		//8. Navigate to policy consolidated view
 		Tab.buttonBack.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
@@ -245,8 +247,6 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		//JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 		//25. (2R-45) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);

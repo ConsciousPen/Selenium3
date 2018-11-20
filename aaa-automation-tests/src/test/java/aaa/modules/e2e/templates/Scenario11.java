@@ -341,11 +341,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	}
 	
 	protected void payRenewalOfferInFullAmount(Dollar toleranceAmount) {
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1)); //PASBB-624/PAS-624, PPS-499
-		} else {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
-		}
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
 
 		//TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(20));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
