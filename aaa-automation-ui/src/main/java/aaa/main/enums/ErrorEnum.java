@@ -149,6 +149,7 @@ public final class ErrorEnum {
 		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_200011("200011","Requested Effective Date not Available (200011) [for Policy.effective]"),
 		ERROR_AAA_200034("200034_OR", "A signed Named Driver Exclusion Endorsement must be received prior to issuing..."),
+		ERROR_AAA_200037("200037", "A signed Uninsured And Underinsured Motorist Coverage Selection Form must be..."),
 		ERROR_AAA_200111("200111_OR", "Named Driver Exclusion requires Underwriting Approval"),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
