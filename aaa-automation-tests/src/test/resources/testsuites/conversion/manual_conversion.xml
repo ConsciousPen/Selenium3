@@ -24,6 +24,12 @@
             <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario2"/>
         </classes>
     </test>
+    <test name="Manual Hybrid Conversion Documents generation verification Scenario3">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario3"/>
+        </classes>
+    </test>
 
     <test name="Home SS HO3 Manual Conversion Test" parallel="methods" thread-count="200">
         <parameter name="state" value="NJ, DE, VA, PA, MD" />

@@ -745,7 +745,10 @@ VehicleInformation_Version2: {
   Ownership Type: Financed,
   First Name: GMAC,
   Validate Address: true,
-  Validate Address Dialog: {},
+  Validate Address Dialog: {
+    Street number: PO BOX,
+    Street Name: 674,
+  },
  },
   #Additinal interest
  "Are there any additional interest(s)?": 'Yes',

@@ -12,9 +12,9 @@ public class VersionsConflictConstants {
 	//Values that are not in Test Data, but are used in comparison
 	static final Multimap<String, String> PREDEFINED_EXPECTED_VALUES = ImmutableListMultimap.<String, String>builder()
 			//Named Insured Information
-			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Culver City, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, CA, 90255")
+			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Culver City, Los Angeles, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VI prior address 1, VI prior address 2, HUNTINGTON PARK, CA, 90255", "VII prior address 1, VII prior address 2, Culver City, CA, 90232")
-			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, CA, 90255")
+			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, Los Angeles, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
 			.putAll("AAA Membership report.Order Date", "","")
@@ -81,11 +81,7 @@ public class VersionsConflictConstants {
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, Hennepin, MN, 55440-0674","")
-			//Ownership address
-			/*			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", "Financed","Owned")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).First Name", "LI011","")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, MINNEAPOLIS, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")

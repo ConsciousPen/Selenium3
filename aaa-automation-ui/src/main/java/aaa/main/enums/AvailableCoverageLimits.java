@@ -1,7 +1,8 @@
 package aaa.main.enums;
 
 import com.google.common.collect.ImmutableList;
-
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public enum AvailableCoverageLimits {
@@ -22,6 +23,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.DED_250,
 			CoverageLimits.DED_500,
 			CoverageLimits.DED_1000
+	)),
+	PIPDED_OR(ImmutableList.of(
+			CoverageLimits.DED_0,
+			CoverageLimits.DED_250
 	)),
 	GPIP_CL(ImmutableList.of(
 			CoverageLimits.COV_10000,
@@ -57,6 +62,21 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000
 	)),
+	MEDEXP_OR(ImmutableList.of(
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000
+	)),
+	MEDEXP_UT(ImmutableList.of(
+			CoverageLimits.COV_3000,
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000
+	)),
+	WLB_UT(ImmutableList.of(
+			CoverageLimits.COV_FALSE,
+			CoverageLimits.COV_TRUE
+	)),
 	UMBI_MD(ImmutableList.of(
 			CoverageLimits.COV_3060,
 			CoverageLimits.COV_50100,
@@ -77,6 +97,33 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500000,
 			CoverageLimits.COV_1000000
 	)),
+	UMBI_UT(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_2565,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	UIMBI_UT(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_1020,
+			CoverageLimits.COV_2565,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	UMPD_UT(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.DED_3500
+	)),
 	EUIM_MD(ImmutableList.of(
 			CoverageLimits.COV_TRUE,
 			CoverageLimits.COV_FALSE
@@ -95,7 +142,6 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE
 	)),
-
 	UMBI_CT(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_4080,
@@ -218,6 +264,12 @@ public enum AvailableCoverageLimits {
 
 	public List<CoverageLimits> getAvailableLimits() {
 		return availableLimits;
+	}
+
+	public List<CoverageLimits> getReversedAvailableLimits() {
+		List<CoverageLimits> reversedAvailableCoverageLimitList = new ArrayList<>(availableLimits);
+		Collections.reverse(reversedAvailableCoverageLimitList);
+		return reversedAvailableCoverageLimitList;
 	}
 
 }
