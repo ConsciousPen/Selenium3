@@ -297,6 +297,12 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimChargeableAsset()).isEnabled();
 
         // Validation for PAS-22144
+        String policyQuoteNum = getPropertyInfoTab().getPolicyNumber();
+        getPropertyInfoTab().saveAndExit();
+        mainApp().close();
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
+        SearchPage.openQuote(policyQuoteNum);
+        policy.dataGather().start();
         validateLossForFieldAsAgent();
 
     }
