@@ -679,6 +679,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         } else {
             SearchPage.openPolicy(policyQuoteNum);
         }
+        policy.dataGather().start();
         navigateToPropertyInfoTab();
         viewEditClaimByLossAmount("42500");
         assertThat(getClaimLossForAsset()).isDisabled();
