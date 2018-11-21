@@ -2,9 +2,7 @@ TestData_NewVehicle: {
 VehicleTab: ['@VehicleTab_2018'],
 }
 
-TestData3: {
-'@TestMiniServicesDriver@TestData3'
-}
+TestData3: '@TestMiniServicesDriver@TestData3'
 
 FourDrivers: {
   DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
