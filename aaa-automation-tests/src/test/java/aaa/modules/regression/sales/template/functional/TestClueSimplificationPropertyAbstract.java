@@ -422,8 +422,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         List<TestData> tdNamedInsured = new ArrayList<>();
         tdNamedInsured.add(getNamedInsuredTd("Jim", "Smith"));
         tdNamedInsured.add(getNamedInsuredTd("John", "Smith").mask(getBtnAddInsuredLabel()));
-        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
 
         // Validate 2 claims on Property info tab, finish and bind policy (except SS DP3:  PAS-22188)
