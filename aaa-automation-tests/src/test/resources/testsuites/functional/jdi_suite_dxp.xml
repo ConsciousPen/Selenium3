@@ -601,6 +601,16 @@
             </class>
         </classes>
     </test>
+    <test name="Total Disability SD">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19625_TotalDisabilitySD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas17629_Umuim_Update_coverage">
         <parameter name="state" value="IN"/>
         <classes>

@@ -44,6 +44,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	public HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
+	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private DriverTab driverTab = new DriverTab();
 
 	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
@@ -4586,6 +4588,54 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 
     }
+
+	protected void pas19625_TotalDisabilitySDBody() {
+		TestData testData = getTestSpecificTD("TestData3");
+		openAppAndCreatePolicy(testData);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		SearchPage.openPolicy(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "407378541").oid;
+		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "400069173").oid;
+		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "447585215").oid;
+		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "454353443").oid;
+
+		Coverage coverageTDExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(fni, otherNI, notNISpouse).addCurrentlyAddedDrivers();
+		Coverage coverageADBExpected = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(fni, otherNI, notNISpouse, otherNotNI).addCurrentlyAddedDrivers();
+
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage coverageTDActual = findCoverage(policyCoverageInfo.driverCoverages, CoverageInfo.TD.getCode());
+		Coverage coverageADBActual = findCoverage(policyCoverageInfo.driverCoverages, CoverageInfo.ADB.getCode());
+
+		assertSoftly(softly -> {
+			softly.assertThat(coverageTDActual).isEqualToIgnoringGivenFields(coverageTDExpected, "availableLimits");
+			softly.assertThat(coverageADBActual).isEqualToIgnoringGivenFields(coverageADBExpected, "availableLimits");
+			printToLog("Hei!");
+
+			//Update TD
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(CoverageInfo.TD.getCode(), "true", ImmutableList.of(fni, otherNI, notNISpouse));
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
+			Coverage coverageTDAfterUpdateActual = findCoverage(updateCoverageResponse.driverCoverages, CoverageInfo.TD.getCode());
+			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(fni, notNISpouse).addCurrentlyAddedDrivers(fni, notNISpouse);
+			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+			//Validate in PAS UI that TD is updated
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.quoteInquiry().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(3);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(4);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+
+		});
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {

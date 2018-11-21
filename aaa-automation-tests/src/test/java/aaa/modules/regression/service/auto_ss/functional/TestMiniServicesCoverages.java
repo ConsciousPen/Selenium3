@@ -1056,4 +1056,21 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
+	/**
+	 * @author Maris Strazds
+	 * @name Total Disability - South Dakota
+	 * @scenario
+	 * 1. Create policy with FNI, NI, NAFR Driver, Spouse (not NI), other driver than Spouse (not NI)
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service
+	 * 4. Assert that Total Disability (TD) is available for all NIs and Spouse
+	 * 5. Update TD for all available drivers and assert that it is updated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19625"})
+	public void pas19625_TotalDisabilitySD(@Optional("SD") String state) {
+		pas19625_TotalDisabilitySDBody();
+	}
 }
