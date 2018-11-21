@@ -142,6 +142,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE
 	)),
+	GLASS_AZ(ImmutableList.of(
+			CoverageLimits.COV_FALSE_NO_COVERAGE,
+			CoverageLimits.COV_TRUE
+	)),
 	UMBI_CT(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_4080,

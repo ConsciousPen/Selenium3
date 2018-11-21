@@ -59,7 +59,19 @@ public enum CoverageInfo {
 	BIWV("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BIWV, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
 	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),
-	UMPD_OR("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_0, AvailableCoverageLimits.UMPD_OR, "Per Accident");
+	UMPD_OR("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_0, AvailableCoverageLimits.UMPD_OR, "Per Accident"),
+	LOAN("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_0, AvailableCoverageLimits.LOAN,"None"),
+	RREIM("RREIM", "Rental Reimbursement", CoverageLimits.COV_00, AvailableCoverageLimits.PREIM,"Per Day/Maximum"),
+	TOWINGLABOR("TOWINGLABOR", "Towing and Labor Coverage", CoverageLimits.COV_00, AvailableCoverageLimits.TOWINGLABOR,"Per Disablement/Maximum"),
+	SPECEQUIP("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.COV_SP_1000, null,null),
+	NEWCAR("NEWCAR", "New Car Added Protection", CoverageLimits.COV_FALSE, null),
+	COMPDED_AZ_PPA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_250, AvailableCoverageLimits.COMPDEDNONPPA, "Deductible"),
+	COLLDED_AZ_PPA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDEDNONPPA, "Deductible"),
+	SPECEQUIP_NONPPA("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.SP_EQ_0, null,null),
+	BI_AZ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ, "Per Person/Per Accident"),
+	COMPDED_AZ("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_750, AvailableCoverageLimits.COMPDED, "Deductible"),
+	COLLDED_AZ("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED, "Deductible"),
+	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None")	;
 
 	private final String code;
 	private final String description;

@@ -325,6 +325,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 								softly.assertThat(response.message).isEqualTo("Update actions is not allowed for coverage code '" + vehicleCoverage.getCoverageCd() + "'");
 							});
 						}));
+
 		/*
 		 * Test next tries to update a bogus coverage code and validates that the service returns an error.
 		 */
@@ -3523,21 +3524,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			towinglabor.disableCustomerDisplay();
 			specequip.disableCustomerDisplay();
 
-			softly.assertThat(coverages.get(0)).isEqualToComparingFieldByField(compdedNonPpa);
-			softly.assertThat(coverages.get(1)).isEqualToComparingFieldByField(colldedNonPpa);
-			softly.assertThat(coverages.get(2)).isEqualToComparingFieldByField(glass);
-			softly.assertThat(coverages.get(3)).isEqualToComparingFieldByField(loan);
-			softly.assertThat(coverages.get(4)).isEqualToComparingFieldByField(rreim);
-			softly.assertThat(coverages.get(5)).isEqualToComparingFieldByField(towinglabor);
-			softly.assertThat(coverages.get(6)).isEqualToComparingFieldByField(specialEquipment);
+			softly.assertThat(findCoverage(coverages, "COMPDED")).isEqualToComparingFieldByField(compdedNonPpa);
+			softly.assertThat(findCoverage(coverages, "COLLDED")).isEqualToComparingFieldByField(colldedNonPpa);
+			softly.assertThat(findCoverage(coverages, "GLASS")).isEqualToComparingFieldByField(glass);
+			softly.assertThat(findCoverage(coverages, "LOAN")).isEqualToComparingFieldByField(loan);
+			softly.assertThat(findCoverage(coverages, "RREIM")).isEqualToComparingFieldByField(rreim);
+			softly.assertThat(findCoverage(coverages, "TOWINGLABOR")).isEqualToComparingFieldByField(towinglabor);
+			softly.assertThat(findCoverage(coverages, "SPECEQUIP")).isEqualToComparingFieldByField(specialEquipment);
 		} else {
-			softly.assertThat(coverages.get(0)).isEqualToComparingFieldByField(compded);
-			softly.assertThat(coverages.get(1)).isEqualToComparingFieldByField(collded);
-			softly.assertThat(coverages.get(2)).isEqualToComparingFieldByField(glass);
-			softly.assertThat(coverages.get(3)).isEqualToComparingFieldByField(loan);
-			softly.assertThat(coverages.get(4)).isEqualToComparingFieldByField(rreim);
-			softly.assertThat(coverages.get(5)).isEqualToComparingFieldByField(towinglabor);
-			softly.assertThat(coverages.get(6)).isEqualToComparingFieldByField(specequip);
+			softly.assertThat(findCoverage(coverages, "COMPDED")).isEqualToComparingFieldByField(compded);
+			softly.assertThat(findCoverage(coverages, "COLLDED")).isEqualToComparingFieldByField(collded);
+			softly.assertThat(findCoverage(coverages, "GLASS")).isEqualToComparingFieldByField(glass);
+			softly.assertThat(findCoverage(coverages, "LOAN")).isEqualToComparingFieldByField(loan);
+			softly.assertThat(findCoverage(coverages, "RREIM")).isEqualToComparingFieldByField(rreim);
+			softly.assertThat(findCoverage(coverages, "TOWINGLABOR")).isEqualToComparingFieldByField(towinglabor);
+			softly.assertThat(findCoverage(coverages, "SPECEQUIP")).isEqualToComparingFieldByField(specequip);
 		}
 	}
 
@@ -3561,6 +3562,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				.findFirst()
 				.orElse(null);
 	}
+
 
 	protected void pas15496_viewCoveragesUmpdWhenYouDontHaveCompCollBody(String state, PolicyType policyType, boolean runOnMotorHome) {
 		mainApp().open();
