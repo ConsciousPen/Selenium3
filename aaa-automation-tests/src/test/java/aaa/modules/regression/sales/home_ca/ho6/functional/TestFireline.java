@@ -101,7 +101,7 @@ public class TestFireline extends TestFirelineTemplate {
 	}
 
 	/**
-	 * @author Rokas Lazdauskas
+	 * @author Parth Varmora
 	 * @name test: Fire rule for roof type - wood shingle/wood shake for 3 and above - CA
 	 * @scenario
 	 * 1. Open application with L41
