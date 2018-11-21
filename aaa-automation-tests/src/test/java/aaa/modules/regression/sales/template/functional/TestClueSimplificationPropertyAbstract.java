@@ -271,10 +271,17 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
+        TestData tdSilviaKohli;
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("ViratDP", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("SilviaDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Virat", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("Silvia", "Kohli");
+        }
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("Silvia", "Kohli")));
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdSilviaKohli));
 
-        createSpecificCustomerIndividual("Virat", "Kohli");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
@@ -397,12 +404,19 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
-        TestData td = getPolicyTD();
+        TestData tdBruceKohli;
 
         // Create customer with CLUE claims and initiate policy
-        createSpecificCustomerIndividual("Silvia", "Kohli");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("SilviaDP", "Kohli");
+            tdBruceKohli = getNamedInsuredTd("BruceDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Silvia", "Kohli");
+            tdBruceKohli = getNamedInsuredTd("Bruce", "Kohli");
+        }
+
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td, getApplicantTab().getClass(), true);
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
 
         // Add 2 additional named insured (no claims)
         List<TestData> tdNamedInsured = new ArrayList<>();
@@ -413,7 +427,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
 
         // Validate 2 claims on Property info tab, finish and bind policy (except SS DP3:  PAS-22188)
-        getReportsTab().fillTab(td);
+        getReportsTab().fillTab(getPolicyTD());
         if (!isStateCA()) {
             new ReportsTab().tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().click();
             new ReportsTab().tblInsuranceScoreReport.getRow(3).getCell("Report").controls.links.getFirst().click();
@@ -427,12 +441,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         }
 
         selectRentalClaimForCADP3();
-        policy.getDefaultView().fillFromTo(td, getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
         getPurchaseTab().submitTab();
 
         // Initiate endorsement and add a named insured that returns additional Clue claims
-        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Bruce", "Kohli")));
+        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdBruceKohli));
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
@@ -530,8 +543,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     private void addNamedInsuredWithClaims() {
         List<TestData> tdNamedInsured = new ArrayList<>();
-        tdNamedInsured.add(getNamedInsuredTd("Virat", "Kohli"));
-        tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli").mask(getBtnAddInsuredLabel()));
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            tdNamedInsured.add(getNamedInsuredTd("ViratDP", "Kohli"));
+            tdNamedInsured.add(getNamedInsuredTd("SilviaDP", "Kohli").mask(getBtnAddInsuredLabel()));
+        } else {
+            tdNamedInsured.add(getNamedInsuredTd("Virat", "Kohli"));
+            tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli").mask(getBtnAddInsuredLabel()));
+        }
+
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
 
