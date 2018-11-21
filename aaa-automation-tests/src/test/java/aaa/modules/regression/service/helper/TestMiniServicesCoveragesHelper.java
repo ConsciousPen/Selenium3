@@ -4590,10 +4590,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas16112_umpdOregonViewCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		mainApp().open();
 		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
+		TestData td = getPolicyDefaultTD();
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailerMotorHomeOR").getTestDataList("VehicleTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber =createPolicy(testData);
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
