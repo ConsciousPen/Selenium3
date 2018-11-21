@@ -7,7 +7,10 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+
 import aaa.common.enums.Constants.States;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.JobUtils;
@@ -36,9 +39,12 @@ public class TestScenarioManualReinstate extends AutoCaSelectBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusDays(1));
+		
+		mainApp().reopen();
+		SearchPage.openPolicy(policyNumber);
+		
 		log.info("TEST: Reinstate Policy #" + policyNumber);
-
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
