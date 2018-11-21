@@ -4598,13 +4598,22 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+		//Add another spouse
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Sposia", "Jovita", "Second", "1968-05-03", "");
+		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+
+		String addedSpouseOid = addDriver.oid;
 		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "407378541").oid;
 		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "400069173").oid;
 		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "447585215").oid;
 		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "454353443").oid;
 
-		Coverage coverageTDExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(fni, otherNI, notNISpouse).addCurrentlyAddedDrivers();
-		Coverage coverageADBExpected = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(fni, otherNI, notNISpouse, otherNotNI).addCurrentlyAddedDrivers();
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "999852325", 28, "SD", "SP", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedSpouseOid, updateDriverRequest);
+
+		Coverage coverageTDExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse).addCurrentlyAddedDrivers();
+		Coverage coverageADBExpected = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse, otherNotNI).addCurrentlyAddedDrivers();
 
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		Coverage coverageTDActual = findCoverage(policyCoverageInfo.driverCoverages, CoverageInfo.TD.getCode());
@@ -4613,13 +4622,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(coverageTDActual).isEqualToIgnoringGivenFields(coverageTDExpected, "availableLimits");
 			softly.assertThat(coverageADBActual).isEqualToIgnoringGivenFields(coverageADBExpected, "availableLimits");
-			printToLog("Hei!");
 
 			//Update TD
-			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(CoverageInfo.TD.getCode(), "true", ImmutableList.of(fni, otherNI, notNISpouse));
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(CoverageInfo.TD.getCode(), "true", ImmutableList.of(addedSpouseOid, fni, otherNI, notNISpouse));
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 			Coverage coverageTDAfterUpdateActual = findCoverage(updateCoverageResponse.driverCoverages, CoverageInfo.TD.getCode());
-			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(fni, notNISpouse).addCurrentlyAddedDrivers(fni, notNISpouse);
+			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, notNISpouse).addCurrentlyAddedDrivers(addedSpouseOid, fni, otherNI, notNISpouse);
 			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
@@ -4635,7 +4643,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			driverTab.cancel();
 
 		});
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		//helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {

@@ -1062,9 +1062,10 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario
 	 * 1. Create policy with FNI, NI, NAFR Driver, Spouse (not NI), other driver than Spouse (not NI)
 	 * 2. Create endorsement through service
-	 * 3. Run viewEndorsementCoverages service
-	 * 4. Assert that Total Disability (TD) is available for all NIs and Spouse
-	 * 5. Update TD for all available drivers and assert that it is updated
+	 * 3. Add another spouse through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Assert that Total Disability (TD) is available for all NIs and Spouse
+	 * 6. Update TD for all available drivers and assert that it is updated
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.SD})
