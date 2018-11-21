@@ -150,7 +150,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	boolean isPolicyLevelCoverageCd(String coverageCd) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCd);
+		return Arrays.asList("BI", "PD", "UMBI", "MP", "UM").contains(coverageCd);
 	}
 
 	@Override
