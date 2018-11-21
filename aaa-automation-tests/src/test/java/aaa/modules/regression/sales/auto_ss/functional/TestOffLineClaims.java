@@ -4,12 +4,12 @@ import static aaa.common.pages.SearchPage.tableSearchResults;
 import static aaa.main.pages.summary.PolicySummaryPage.buttonRenewals;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
@@ -23,6 +23,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
@@ -54,6 +55,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
 
+	private static String adminLog;
+	private static List<String> listOfClaims;
+	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
+	private static final String pasDriverNameKey = "pasDriverName";
+	private static final String matchCodeKey = "matchCode";
 
     /**
      * @author Andrii Syniagin
@@ -145,13 +151,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	    //Run Claims receive batch job, to assign claims
 	    JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
 
-	    //Clean Cache  - claims will not show on the policy until policy image is cleared from cache
-	    adminApp().open();
-	    new CacheManager().goClearCacheManagerTable();
-//	    adminApp().close();
+		//Move time by one day to get claims to show in the UI
+	    TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 
 	    // Enter renewal image and verify claim presence
-	    mainApp().open();
+	    mainApp().reopen();
 	    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	    buttonRenewals.click();
 	    policy.dataGather().start();
