@@ -1,0 +1,20 @@
+TestData_PaymentPlan: {
+  Payment Plan: Standard Monthly
+}
+
+TestData_PurchaseTab: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: false,
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}
+
+TestData_PurchaseTab_WithEnabledAutoPay: {
+  PaymentMethods: ['@<billing>@PaymentMethods@CC_Visa'],
+  Activate Autopay: true,
+  Autopay Selection: 'index=1',
+  PaymentAllocation: {
+    Visa: /rest
+  }
+}

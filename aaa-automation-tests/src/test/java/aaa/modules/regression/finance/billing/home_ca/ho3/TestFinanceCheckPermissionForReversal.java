@@ -1,5 +1,6 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -45,7 +46,7 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 
 		String policyNumber = createEscheatmentTransaction();
 
-		openAppNonPrivilegedUser("L41");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.L41);
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
@@ -75,7 +76,7 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 
 		String policyNumber = createEscheatmentTransaction();
 
-		openAppNonPrivilegedUser("C32");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.C32);
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions

@@ -1,19 +1,20 @@
 package aaa.helpers.rest.dtoDxp;
 
+import aaa.main.enums.CoverageInfo;
+import aaa.main.enums.CoverageLimits;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.google.common.collect.ImmutableList;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.google.common.collect.ImmutableList;
-import aaa.main.enums.AvailableCoverageLimits;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import aaa.main.enums.CoverageInfo;
-import aaa.main.enums.CoverageLimits;
 
 @ApiModel(description = "Coverage Information")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 public class Coverage {
 
 	@ApiModelProperty(value = "Coverage Code", example = "BI")
@@ -40,10 +41,10 @@ public class Coverage {
 	private List<CoverageLimit> availableLimits;
 
 	@ApiModelProperty(value = "List of drivers the coverage can be applied to")
-	private List<String> availableDrivers;
+	private LinkedHashSet<String> availableDrivers;
 
 	@ApiModelProperty(value = "List of drivers that the coverage is applied to")
-	private List<String> currentlyAddedDrivers;
+	private LinkedHashSet<String> currentlyAddedDrivers;
 
 	@ApiModelProperty(value = "List of sub coverages associated to the coverage")
 	private List<Coverage> subCoverages;
@@ -52,8 +53,10 @@ public class Coverage {
 		Coverage coverage = new Coverage();
 		coverage.coverageCd = coverageInfo.getCode();
 		coverage.coverageDescription = coverageInfo.getDescription();
-		coverage.coverageLimit = coverageInfo.getDefaultLimit().getLimit();
-		coverage.coverageLimitDisplay = coverageInfo.getDefaultLimit().getDisplay();
+		if(coverageInfo.getDefaultLimit() != null) {
+			coverage.coverageLimit = coverageInfo.getDefaultLimit().getLimit();
+			coverage.coverageLimitDisplay = coverageInfo.getDefaultLimit().getDisplay();
+		}
 		coverage.availableLimits = coverageInfo.getAvailableLimits().stream()
 				.map(al -> new CoverageLimit().setCoverageLimit(al.getLimit()).setCoverageLimitDisplay(al.getDisplay()))
 				.collect(Collectors.toList());
@@ -77,8 +80,8 @@ public class Coverage {
 		return this;
 	}
 
-	public Coverage removeAvailableLimit(CoverageLimits coverageLimit) {
-		this.availableLimits.removeIf(p -> p.coverageLimit.equals(coverageLimit.getLimit()));
+	public Coverage removeAvailableLimit(CoverageLimits... coverageLimits) {
+		Arrays.stream(coverageLimits).forEach(cl -> this.availableLimits.removeIf(p -> p.coverageLimit.equals(cl.getLimit())));
 		return this;
 	}
 
@@ -95,6 +98,22 @@ public class Coverage {
 
 	public Coverage disableCanChange() {
 		this.canChangeCoverage = false;
+		return this;
+	}
+
+	public Coverage addAvailableDrivers(String... driverOids) {
+		if(this.availableDrivers == null) {
+			this.availableDrivers = new LinkedHashSet<>();
+		}
+		this.availableDrivers.addAll(Arrays.asList(driverOids));
+		return this;
+	}
+
+	public Coverage addCurrentlyAddedDrivers(String... driverOids) {
+		if(this.currentlyAddedDrivers == null) {
+			this.currentlyAddedDrivers = new LinkedHashSet<>();
+		}
+		this.currentlyAddedDrivers.addAll(Arrays.asList(driverOids));
 		return this;
 	}
 
@@ -130,11 +149,11 @@ public class Coverage {
 		return availableLimits;
 	}
 
-	public List<String> getAvailableDrivers() {
+	public LinkedHashSet<String> getAvailableDrivers() {
 		return availableDrivers;
 	}
 
-	public List<String> getCurrentlyAddedDrivers() {
+	public LinkedHashSet<String> getCurrentlyAddedDrivers() {
 		return currentlyAddedDrivers;
 	}
 
@@ -166,7 +185,25 @@ public class Coverage {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(), getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(), getAvailableDrivers(), getCurrentlyAddedDrivers(), getSubCoverages());
+		return Objects.hash(getCoverageCd(), getCoverageDescription(), getCoverageLimit(), getCoverageLimitDisplay(),
+				getCoverageType(), getCustomerDisplayed(), getCanChangeCoverage(), getAvailableLimits(),
+				getAvailableLimits(), getCurrentlyAddedDrivers(), getSubCoverages());
 	}
 
+	@Override
+	public String toString() {
+		return "Coverage{" +
+				"coverageCd='" + coverageCd + '\'' +
+				", coverageDescription='" + coverageDescription + '\'' +
+				", coverageLimit='" + coverageLimit + '\'' +
+				", coverageLimitDisplay='" + coverageLimitDisplay + '\'' +
+				", coverageType='" + coverageType + '\'' +
+				", customerDisplayed=" + customerDisplayed +
+				", canChangeCoverage=" + canChangeCoverage +
+				", availableLimits=" + availableLimits +
+				", availableDrivers=" + availableDrivers +
+				", currentlyAddedDrivers=" + currentlyAddedDrivers +
+				", subCoverages=" + subCoverages +
+				'}';
+	}
 }

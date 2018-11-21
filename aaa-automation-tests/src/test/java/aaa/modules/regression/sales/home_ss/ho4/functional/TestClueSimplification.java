@@ -24,6 +24,11 @@ import toolkit.webdriver.controls.composite.table.Table;
 public class TestClueSimplification extends TestClueSimplificationPropertyAbstract {
 
 	@Override
+	protected TextBox getClaimCatastropheRemarksAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS_CODE_REMARKS);
+	}
+
+	@Override
 	protected String getNamedInsuredLabel() {
 		return HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel();
 	}
@@ -121,7 +126,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 
 	@Override
 	protected RadioGroup getClaimChargeableAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 
 	@Override
@@ -332,7 +337,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
     public void pas6695_testClueReconciliationNB(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationNB();
 
@@ -352,7 +357,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
     public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -372,7 +377,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
     public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRenewal();
 
@@ -393,7 +398,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
     public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
         pas6695_testClueClaimsReconciliationRewrite();
 
@@ -445,6 +450,24 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-6703")
 	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("") String state) {
 		pas6703_testCatastropheIndicatorUnknownNB();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test CLUE claim catastrophe indicator when 'Unknown' defaults to 'No'
+	 * @scenario
+	 * 1. Create policy with customer "Silvia Kohli" and 2 other named insured (returns 2 Clue claims)
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to Applicant tab and add new named insured "Sachin Kohli"
+	 * 4. Navigate to Reports tab and re-order clue reports
+	 * 5. Validate there are now 4 claims showing
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-22075")
+	public void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement(@Optional("") String state) {
+		pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement();
 
 	}
 

@@ -301,12 +301,6 @@ PAS-18111:
               aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
       messages: ["is not present as expected"]
-PAS-15144:
-  summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
-      messages: ['Total premium for quote/policy number QCOSS']
 PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD
@@ -429,4 +423,21 @@ PAS-20919:
   failures:
   - tests: [aaa.modules.bct.*]
     messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
-
+PAS-20379:
+  summary: "Test Min Due Is Not Recalculated After Endorsements"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas20379_testMinDueIsNotRecalculatedAfterEndorsements]
+    messages: ["expected:"]
+PAS-21588:
+  summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto.pas20836_expirationNoticeFormGeneration]
+    messages: ["expected:<\"[CANC]\"> but was:<\"[STMT]\">"]
+PAS-22161:
+  summary: "ASW Reason is not being displayed after adding second accident"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
+    messages: ["Waived - Accident Surcharge Waiver"]

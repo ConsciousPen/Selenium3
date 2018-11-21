@@ -6,10 +6,12 @@ public interface TestRefundProcessPreConditions {
 			" where propertyname = 'lastPaymentService.lastPaymentServiceUrl'"
 			+ " and VALUE like '%%%s%%'";
 
-
 	String PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK = "select defaultrefundmethod from BILLINGREFUNDPAYMENTMETHOD\n"
 			+ "where id = (select id from BILLINGREFUNDPAYMENTMETHOD)";
 
 	String AUTHENTICATION_STUB_END_POINT_CHECK = "SELECT value FROM PROPERTYCONFIGURERENTITY" +
 			" WHERE PROPERTYNAME = 'oAuthClient.oAuthPingUri' and lower(value) = lower('http://%s%sws/local/authentication')";
 }
+
+
+

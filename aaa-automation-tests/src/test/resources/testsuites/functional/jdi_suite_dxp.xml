@@ -276,7 +276,7 @@
         </classes>
     </test>
     <test name="ViewPremiumService - Tax">
-        <parameter name="state" value="KY"/>
+        <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -465,6 +465,8 @@
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
                     <include name="pas11654_MDEnhancedUIMBICoverage"/>
+                    <include name="pas20835_mdAndEnhancedCoverage"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
                 </methods>
             </class>
         </classes>
@@ -480,7 +482,7 @@
         </classes>
     </test>
     <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
+        <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -787,6 +789,18 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                    <include name="pas22037_updateBiCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="View Coverage - UMPD and UIMPD">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
+                    <include name="pas20292_updateCoverageBIPDWv"/>
                 </methods>
             </class>
         </classes>
@@ -797,6 +811,38 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas19195_viewUpdatePIPCoverage_KY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15358_viewUpdatePIPCoverage_KS">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15358_viewUpdatePIPCoverage_KS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15365_viewUpdatePIPCoverage_OR">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                    <include name="pas16112_umpdOregonViewCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="viewUpdateCoverages_UT">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
                 </methods>
             </class>
         </classes>
@@ -821,15 +867,16 @@
             </class>
         </classes>
     </test>
-    <!--TODO: UNCOMENT WHEN FEATURE BRANCH IS MERGED TO MASTER-->
-    <!--<test name="pas15358_viewUpdatePIPCoverage_KS">-->
-        <!--<parameter name="state" value="KS"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">-->
-                <!--<methods>-->
-                    <!--<include name="pas15358_viewUpdatePIPCoverage_KS"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
+
+    <test name="Underinsured Conversion Coverage - CT">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
