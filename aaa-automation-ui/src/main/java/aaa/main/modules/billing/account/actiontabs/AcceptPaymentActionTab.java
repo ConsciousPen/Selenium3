@@ -44,4 +44,12 @@ public class AcceptPaymentActionTab extends ActionTab {
         buttonOk.click();
         return this;
     }
+
+    /**
+     * Use to access the Check Number element and set it to a desired value.
+     * @param checkNumber
+     */
+    public void setCheckNumber(int checkNumber) {
+        getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.CHECK_NUMBER.getLabel(), TextBox.class).setValue(String.valueOf(checkNumber).toString());
+    }
 }

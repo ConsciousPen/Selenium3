@@ -1,16 +1,17 @@
 package aaa.helpers.http;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import aaa.helpers.http.impl.*;
+import aaa.modules.BaseTest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.helpers.http.impl.*;
-import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpLogin {
 

@@ -2,6 +2,23 @@ package aaa.common.enums;
 
 public class Constants {
 
+	public enum UserGroups {
+		QA("QA"),
+		E34("E34"),
+		F35("F35"),
+		G36("G36"),
+		L41("L41");
+		String data;
+
+		UserGroups(String data) {
+			this.data = data;
+		}
+
+		public String get() {
+			return data;
+		}
+	}
+
 	public static final class States {
 		public static final String AZ = "AZ";
 		public static final String CA = "CA";

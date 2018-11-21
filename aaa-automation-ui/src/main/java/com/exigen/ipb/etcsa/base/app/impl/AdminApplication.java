@@ -3,7 +3,6 @@ package com.exigen.ipb.etcsa.base.app.impl;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.ILogin;
-import aaa.common.pages.LoginPage;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
@@ -17,7 +16,6 @@ public class AdminApplication extends Application {
 		this.path = PropertyProvider.getProperty(CsaaTestProperties.AD_PATH, "aaa-admin/admin/login.xhtml");
 		this.port = PropertyProvider.getProperty(CsaaTestProperties.AD_PORT, 0000);
 		this.protocol = PropertyProvider.getProperty(TestProperties.APP_PROTOCOL, "http");
-		this.login = new LoginPage(PropertyProvider.getProperty(TestProperties.APP_USER), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
 		this.url = formatUrl();
 	}
 

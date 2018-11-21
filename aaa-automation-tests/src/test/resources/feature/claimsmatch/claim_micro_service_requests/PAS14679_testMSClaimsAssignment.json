@@ -505,7 +505,7 @@
         "isDriverFNI": false,
         "relationshipToFNI":"SI",
         "licenseNumber":"A12345222",
-        "oid": "qVAPkDfv5ImzqeDzVuBNRA",
+        "oid": "hvwnBuC3FFSTZzIeR7VE9w",
         "middleName":"A12345222",
         "driverType":"afr",
         "dob": "1997-08-30",
@@ -513,7 +513,7 @@
           {
             "description":"AAF",
             "source":"CSAAClaims",
-            "oid":"hvwnBuC3FFSTZzIeR7VE9w",
+            "driverOid":"hvwnBuC3FFSTZzIeR7VE9w",
             "type":"afa",
             "claimNumber":"7TZ02222OHS",
             "LossPaymentAmout":2200
