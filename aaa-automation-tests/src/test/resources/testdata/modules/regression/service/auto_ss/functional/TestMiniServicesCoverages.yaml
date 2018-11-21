@@ -322,6 +322,7 @@ TestData_PPAandTrailerMotorHomeOR: {
 TestData_FNI_AFR_Excluded_NAFR: {
   DriverTab: ['@Driver_FNI', '@DriverTab_AFR', '@TestMiniServicesDriver@DriverTab6', '@TestMiniServicesDriver@DriverTab7'], #DriverTab6 = Excluded, DriverTab7 = NAFR
 }
+
 Driver_FNI: {
   DriverSearchDialog: {},
   'Driver Rejects Limitation on Right to Sue?': 'Yes', #important!
