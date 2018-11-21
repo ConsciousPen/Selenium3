@@ -58,7 +58,10 @@ public enum CoverageInfo {
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	BIWV("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BIWV, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
-	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage");
+	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),
+	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
+	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
+	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident");
 
 	private final String code;
 	private final String description;
@@ -67,15 +70,7 @@ public enum CoverageInfo {
 	private final List<CoverageLimits> availableLimits;
 
 	CoverageInfo(String code, String description, CoverageLimits defaultLimit, AvailableCoverageLimits availableLimits) {
-		this.code = code;
-		this.description = description;
-		this.coverageType = null;
-		this.defaultLimit = defaultLimit;
-		if(availableLimits != null) {
-			this.availableLimits = availableLimits.getAvailableLimits();
-		} else {
-			this.availableLimits = ImmutableList.of();
-		}
+		this(code, description, defaultLimit, availableLimits, null);
 	}
 
 	CoverageInfo(String code, String description, CoverageLimits defaultLimit, AvailableCoverageLimits availableLimits, String coverageType) {

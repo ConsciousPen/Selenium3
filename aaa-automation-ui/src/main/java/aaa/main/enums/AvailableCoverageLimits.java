@@ -197,6 +197,19 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_100000,
 			CoverageLimits.COV_300000,
 			CoverageLimits.COV_500000
+	)),
+	UMPD_NV_NOCOLL(ImmutableList.of(
+			CoverageLimits.LIMIT_NO_COVERAGE,
+			CoverageLimits.LIMIT_3500
+	)),
+	UMPD_NV_WITHCOLL(ImmutableList.of(
+			CoverageLimits.LIMIT_NO_COVERAGE,
+			CoverageLimits.LIMIT_CDW
+	)),
+	UMPD_NV_WOUM(ImmutableList.of(
+			CoverageLimits.LIMIT_NO_COVERAGE,
+			CoverageLimits.LIMIT_3500,
+			CoverageLimits.LIMIT_CDW
 	));
 
 	private final List<CoverageLimits> availableLimits;

@@ -596,6 +596,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_STACKED_UNSTACKED = declare("Uninsured Motorist Stacked/Unstacked", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Underinsured Motorists Bodily Injury", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORIST_BODILY_INJURY = declare("Underinsured Motorist Bodily Injury", ComboBox.class); // MT state
+		public static final AssetDescriptor<ComboBox> UNINSURED_AND_UNDERINSURED_MOTORIST_BI = declare("Uninsured and Underinsured Motorist Bodily Injury", ComboBox.class); // NV state
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORIST_STACKED_UNSTACKED = declare("Underinsured Motorist Stacked/Unstacked", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> FIRST_PARTY_BENEFITS = declare("First Party Benefits", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSES = declare("Medical Expenses", ComboBox.class);

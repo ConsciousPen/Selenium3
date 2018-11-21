@@ -46,7 +46,10 @@ public enum CoverageLimits {
 	COV_TRUE("true", "Yes"),
 	COV_FALSE("false", "No"),
 	COV_FALSE_NO_COVERAGE("false", "No Coverage"),
-
+	LIMIT_NO_COVERAGE("0", "No Coverage"),
+	COMBINEDLIMIT_NO_COVERAGE("0/0", "No Coverage"),
+	LIMIT_CDW("1", "Collision Deductible Waiver"),
+	LIMIT_3500("3500", "$3,500"),
 	DED_0("0", "$0"),
 	DED_250("250", "$250"),
 	DED_500("500", "$500"),
