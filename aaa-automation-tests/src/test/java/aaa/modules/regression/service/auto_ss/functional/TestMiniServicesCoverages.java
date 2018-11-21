@@ -1056,4 +1056,23 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
+/**
+ * @author Megha Gubbala
+ * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+ * @scenario1
+ * 1. Create policy with trailer Motor home and ppa vehicle
+ * 2. Create endorsement outside of PAS.
+ * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
+ * 4. And Trailer customerDisplayed canChangeCoverage false
+ * */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.OR})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
+	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
+		assertSoftly(softly ->
+				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
+		);	}
 }
+
