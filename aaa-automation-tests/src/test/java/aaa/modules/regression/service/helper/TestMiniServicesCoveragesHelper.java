@@ -4593,10 +4593,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		TestData testData = getTestSpecificTD("TestData3");
 		openAppAndCreatePolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		SearchPage.openPolicy(policyNumber);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
-
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		//Add another spouse
