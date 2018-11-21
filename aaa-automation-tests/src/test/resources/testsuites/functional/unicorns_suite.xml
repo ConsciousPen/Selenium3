@@ -50,8 +50,8 @@
         </classes>
     </test>
     <test name="PAS-15836 Add 'CSAA Fire and Casualty Insurance Company' to prior carrier name list of values on General screen" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CT,NY,PA,MD"/>
-        <classes>
+        <parameter name="state value="CT,NY,PA,MD"/>
+        <classes>"
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestImmediatePriorCarrierDropdown"/>
@@ -129,6 +129,22 @@
                     <exclude name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
                 </methods>
             </class>
+        </classes>
+    </test>
+    <test name="PAS-18302 Fire rule for roof type - wood shingle/wood shake for 3 and above - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline"/>
+        </classes>
+    </test>
+    <test name="PAS-18914 Fire rule for roof type - wood shingle/wood shake for 3 and above - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline"/>
         </classes>
     </test>
 </suite>

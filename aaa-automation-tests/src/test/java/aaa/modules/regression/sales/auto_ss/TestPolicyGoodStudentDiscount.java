@@ -2,6 +2,8 @@ package aaa.modules.regression.sales.auto_ss;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
@@ -64,7 +66,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 	@StateList(statesExcept = {Constants.States.CA})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testValidationGoodStudentDiscount(String state) {
+	public void testValidationGoodStudentDiscount(@Optional("") String state) {
 		tdPolicy = testDataManager.policy.get(getPolicyType());
 		
 		TestData td_quote1 = getTestSpecificTD("TestData_1");

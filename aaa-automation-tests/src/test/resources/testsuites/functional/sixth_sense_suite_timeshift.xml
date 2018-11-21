@@ -6,6 +6,17 @@
     </listeners>
     <!--Tests for Auto-->
 
+    <test name="Test Min Due is not Recalculated After Endorsements" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements">
+                <methods>
+                    <include name="pas20379_testMinDueIsNotRecalculatedAfterEndorsements"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>

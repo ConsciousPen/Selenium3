@@ -376,7 +376,7 @@ public class HelperCommon {
 		return JsonClient.sendGetRequest(requestUrl, ErrorResponseDto.class, status);
 	}
 
-	static ComparablePolicy viewEndorsementChangeLog(String policyNumber, int status) {
+	public static ComparablePolicy viewEndorsementChangeLog(String policyNumber, int status) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_TRANSACTION_INFORMATION, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, ComparablePolicy.class);
 	}

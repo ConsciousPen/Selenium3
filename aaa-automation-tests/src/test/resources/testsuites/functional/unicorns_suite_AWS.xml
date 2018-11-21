@@ -5,7 +5,6 @@
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test" />
-
     <test name="PAS-6831 PAS-6951 PAS-6838 PAS-6663 - PUP and HO RME policies fields verification Property Product" parallel="methods" thread-count="1024">
         <parameter name="state" value="VA, DE, NJ"/>
         <classes>
@@ -57,6 +56,13 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.pup.functional.TestImmediatePriorCarrierDropdown"/>
+        </classes>
+    </test>
+    <test name="General Bort Test" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.agency_transfer.home_ss.TestBortCreateObjectProperty"/>
+            <class name="aaa.modules.regression.agency_transfer.auto_ss.TestBortCreateObjectAutoSS"/>
         </classes>
     </test>
 </suite>

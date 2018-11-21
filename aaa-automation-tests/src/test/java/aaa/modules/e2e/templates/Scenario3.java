@@ -1,11 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -27,9 +21,17 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class Scenario3 extends ScenarioBaseTest {
 
@@ -230,14 +232,14 @@ public class Scenario3 extends ScenarioBaseTest {
 		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
-		//commented according to PASBB-624/PAS-624, PPS-499
-		/*if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
+
+		if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 					.verifyPresent();
-		} else { */
+		} else {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-		//}
+		}
 	}
 
 	public void bindRenew() {

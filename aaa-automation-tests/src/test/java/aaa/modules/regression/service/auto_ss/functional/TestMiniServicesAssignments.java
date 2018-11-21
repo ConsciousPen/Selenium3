@@ -1,14 +1,15 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelper {
 
