@@ -4645,7 +4645,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			driverTab.cancel();
 
 		});
-		//helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
