@@ -3869,7 +3869,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			mapPIPCoveragesExpected.put(CoverageInfo.ADDPIP.getCode(), Coverage.create(CoverageInfo.ADDPIP).changeLimit(CoverageLimits.COV_30000));
 			mapPIPCoveragesExpected.put(CoverageInfo.PIPDED.getCode(), Coverage.create(CoverageInfo.PIPDED).changeLimit(CoverageLimits.DED_500));
 			mapPIPCoveragesExpected.put(CoverageInfo.GPIP.getCode(), Coverage.create(CoverageInfo.GPIP).disableCanChange().disableCustomerDisplay());
-
+			SearchPage.openPolicy(policyNumber);
 			validatePIPCoverages_KY(softly, policyNumber, mapPIPCoveragesExpected, mapPIPCoveragesActual, null);
 
 			//get drivers with TORT coverage available
@@ -4083,6 +4083,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> pipSubCoveragesActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIP_OR.getCode()).getSubCoverages();
 			softly.assertThat(findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode())).isEqualToComparingFieldByField(medexpExpected);
 			validatePIPSubCoveragesThatDoesntChange_pas15365(pipSubCoveragesActual);
+			SearchPage.openPolicy(policyNumber);
 			validatePIPInUI_pas15365(softly, findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_OR.getCode()), pipdedCoverageActual);
 
 			//update PIP by updating MEDEXP
@@ -4136,6 +4137,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(findCoverage(pipSubCoveragesActual, CoverageInfo.WORKLOSS_UT.getCode())).isEqualToComparingFieldByField(worklossExpected);
 			softly.assertThat(findCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode())).isEqualToComparingFieldByField(rejectWorklossExpected);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCoveragesActual);
+			SearchPage.openPolicy(policyNumber);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()), findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
 
 			//update PIP by updating MEDEXP while WLB is false
@@ -4390,14 +4392,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void validatePIPInUI_15368(ETCSCoreSoftAssertions softly, Coverage rejectWorkLossCoverage, Coverage medexpCoverage) {
-		openPendedEndorsementInquiryAndNavigateToPC();
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start(); //can not get value of WLB in Inquiry, hence checking in data gather
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
 		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION.getLabel()))
-				.isEqualTo(medexpCoverage.getCoverageLimitDisplay());
-//		softly.assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel()))
-//				.isEqualTo(rejectWorkLossCoverage.getCoverageLimitDisplay());//TODO-mstrazds:
+				.contains(medexpCoverage.getCoverageLimitDisplay());
+		softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel()).getValue())
+				.isEqualTo(rejectWorkLossCoverage.getCoverageLimitDisplay());
 
-		premiumAndCoveragesTab.cancel();
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	private void openPendedEndorsementInquiryAndNavigateToPC() {
@@ -4654,6 +4658,58 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 
     }
+
+	protected void pas16112_umpdOregonViewCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+		mainApp().open();
+		createCustomerIndividual();
+		TestData td = getPolicyDefaultTD();
+		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_PPAandTrailerMotorHomeOR").getTestDataList("VehicleTab")).resolveLinks();
+		String policyNumber =createPolicy(testData);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo endorsementCoverageResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+
+		ViewVehicleResponse viewVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+		String oidPPA= viewVehicles.vehicleList.get(0).oid;
+		String oidMototrHome=  viewVehicles.vehicleList.get(2).oid;
+
+		List<Coverage> coveragesV1 = endorsementCoverageResponse.vehicleLevelCoverages.get(0).coverages;
+		validatePPA_UMPD(softly, coveragesV1, true, policyNumber);
+
+		List<Coverage> coveragesV2 = endorsementCoverageResponse.vehicleLevelCoverages.get(1).coverages;
+		validatePPA_UMPD(softly, coveragesV2, false, policyNumber);
+
+		List<Coverage> coveragesV3 = endorsementCoverageResponse.vehicleLevelCoverages.get(2).coverages;
+		validatePPA_UMPD(softly, coveragesV3, true,policyNumber);
+
+		updateUmpdAndVerify(softly, policyNumber, oidPPA, "50000", CoverageLimits.COV_50000,"UMPD");
+
+		updateUmpdAndVerify(softly, policyNumber, oidPPA, "0", CoverageLimits.COV_0,"UMPD");
+
+		updateUmpdAndVerify(softly, policyNumber, oidMototrHome, "50000", CoverageLimits.COV_50000,"UMPD");
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void updateUmpdAndVerify(ETCSCoreSoftAssertions softly, String policyNumber, String oidPPA, String s, CoverageLimits cov50000,String coverageCdUmpd) {
+		String availableLimitsChange1 = s;
+		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oidPPA, DXPRequestFactory.createUpdateCoverageRequest(coverageCdUmpd, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_OR).changeLimit(cov50000);
+		softly.assertThat(findCoverage(updateCoverageResponse.vehicleLevelCoverages.get(0).coverages, CoverageInfo.UMPD.getCode())).isEqualToComparingFieldByField(umpdExpected);
+	}
+
+	private void validatePPA_UMPD(ETCSCoreSoftAssertions softly, List<Coverage> coverages, boolean isPPA, String policyNumber) {
+		if (!isPPA) {
+
+			Coverage UMPD_trailer = Coverage.create(CoverageInfo.UMPD_OR).disableCustomerDisplay();
+			softly.assertThat(findCoverage(coverages, CoverageInfo.UMPD.getCode())).isEqualToComparingFieldByField(UMPD_trailer);
+		}else {
+			Coverage UMPD = Coverage.create(CoverageInfo.UMPD_OR);
+			softly.assertThat(findCoverage(coverages, CoverageInfo.UMPD.getCode())).isEqualToComparingFieldByField(UMPD);
+
+		}
+
+	}
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {

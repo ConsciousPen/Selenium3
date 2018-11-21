@@ -476,9 +476,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS,
-			Constants.States.CT, Constants.States.WV})
+			Constants.States.CT, Constants.States.WV, Constants.States.UT, Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -1056,6 +1056,25 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
+/**
+ * @author Megha Gubbala
+ * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+ * @scenario1
+ * 1. Create policy with trailer Motor home and ppa vehicle
+ * 2. Create endorsement outside of PAS.
+ * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
+ * 4. And Trailer customerDisplayed canChangeCoverage false
+ * */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.OR})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
+	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
+		assertSoftly(softly ->
+				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
+		);	}
+
 	/**
 	 * @author Megha Gubbala
 	 * @name View Coverages
@@ -1073,4 +1092,3 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		assertSoftly(softly ->
 		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
 		);	}	}
-

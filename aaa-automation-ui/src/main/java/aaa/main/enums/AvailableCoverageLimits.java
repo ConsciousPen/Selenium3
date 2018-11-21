@@ -254,7 +254,15 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500,
 			CoverageLimits.COV_750,
 			CoverageLimits.COV_1000
-	));
+
+	)),
+
+	UMPD_OR(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_20000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000
+			));
 
 	private final List<CoverageLimits> availableLimits;
 
