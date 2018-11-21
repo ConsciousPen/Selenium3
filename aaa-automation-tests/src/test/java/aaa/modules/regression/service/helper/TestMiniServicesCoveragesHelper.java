@@ -4604,10 +4604,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
 
 		String addedSpouseOid = addDriver.oid;
-		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "407378541").oid;
-		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "400069173").oid;
-		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "447585215").oid;
-		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, "454353443").oid;
+		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(0).getValue("License Number")).oid;
+		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(2).getValue("License Number")).oid;
+		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(3).getValue("License Number")).oid;
+		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(4).getValue("License Number")).oid;
 
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "999852325", 28, "SD", "SP", "MSS");
 		HelperCommon.updateDriver(policyNumber, addedSpouseOid, updateDriverRequest);
@@ -4639,6 +4639,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			DriverTab.tableDriverList.selectRow(3);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			DriverTab.tableDriverList.selectRow(4);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(6);
 			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
 			driverTab.cancel();
 
