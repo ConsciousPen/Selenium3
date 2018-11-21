@@ -9,6 +9,7 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
@@ -147,7 +148,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	    //Clean Cache  - claims will not show on the policy until policy image is cleared from cache
 	    adminApp().open();
 	    new CacheManager().goClearCacheManagerTable();
-	    adminApp().close();
+//	    adminApp().close();
 
 	    // Enter renewal image and verify claim presence
 	    mainApp().open();
@@ -160,15 +161,14 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		    ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
 		    softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-		    // Check 1st driver. No Claims
-		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(0);
-
-		    // Check 2nd driver. 2 Claim.
-		    DriverTab.tableDriverList.selectRow(2);
-		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+		    // Check 1st driver: FNI, has the COMP match claim
+		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
 		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
 		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
-		    DriverTab.tableActivityInformationList.selectRow(2);
+
+		    // Check 2nd driver: Has DL match claim
+		    DriverTab.tableDriverList.selectRow(2);
+		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
 		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
 		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
 	    });
