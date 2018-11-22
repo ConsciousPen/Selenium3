@@ -32,27 +32,18 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 
 		TestData policyTd = getPolicyTD();
 		//Override address and ZIP code. This address should return Fireline score 3 or more.
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
-				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), zipCode);
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
-				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
+		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), zipCode);
+		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(), HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
+
 
 		//Then you order PUBLIC_PROTECTION_CLASS new popup shows up if Address returns something, this method clicks popup OK.
-		TestData ppcReportDialog = new SimpleDataProvider()
-				.adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.BTN_OK.getLabel(), "click");
-		TestData ppcReports = new SimpleDataProvider()
-				.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.REPORT.getLabel(), "Report")
-				.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.PPC_REPORT_DIALOG.getLabel(), ppcReportDialog);
-		TestData reportTab = policyTd.getTestData(HomeSSMetaData.ReportsTab.class.getSimpleName())
-				.adjust(HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcReports);
+		TestData ppcReportDialog = new SimpleDataProvider().adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.BTN_OK.getLabel(), "click");
+		TestData ppcReports = new SimpleDataProvider().adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.REPORT.getLabel(), "Report").adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.PPC_REPORT_DIALOG.getLabel(), ppcReportDialog);
+		TestData reportTab = policyTd.getTestData(HomeSSMetaData.ReportsTab.class.getSimpleName()).adjust(HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcReports);
 		policyTd.adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), reportTab).resolveLinks();
 
 		//Override Roof Type to 'Wood shingle/Wood shake'
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Wood shingle/Wood shake");
+		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(), HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Wood shingle/Wood shake");
 
 		if (!userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 			policyTd.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
@@ -60,25 +51,34 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 
 		getPolicyType().get().getDefaultView().fillUpTo(policyTd, ReportsTab.class, true);
 
-		assertThat(reportsTab.tblFirelineReport.getRow(1)
-				.getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
+		assertThat(reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
 
 		reportsTab.submitTab();
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class, false);
 
-		if (expectedFirelineScore > 2) {
+
+		if (expectedFirelineScore >= 5) {
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
-			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-				assertThat(errorTab.buttonOverride).isEnabled();
-			} else {
-				assertThat(errorTab.buttonOverride).isDisabled();
-				assertThat(errorTab.buttonApproval).isEnabled();
-			}
-		} else {
-			assertThat(errorTab.isVisible()).isFalse();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline);
 		}
-	}
+
+		else if (expectedFirelineScore > 2 && expectedFirelineScore < 5) {
+				assertThat(errorTab.isVisible()).isTrue();
+				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
+				errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_Fireline);
+
+				if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
+					assertThat(errorTab.buttonOverride).isEnabled();
+				} else {
+					assertThat(errorTab.buttonOverride).isDisabled();
+					assertThat(errorTab.buttonApproval).isEnabled();
+				}
+			} else {
+				assertThat(errorTab.isVisible()).isFalse();
+			}
+		}
+
 
 	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
@@ -118,9 +118,17 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
 				aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
 
-		if (expectedFirelineScore > 2) {
+		if (expectedFirelineScore >= 5) {
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
+		}
+
+		else if (expectedFirelineScore > 2 && expectedFirelineScore < 5) {
+			assertThat(errorTab.isVisible()).isTrue();
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
+			errorTab.verify.errorsPresent(false, ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
+
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 				assertThat(errorTab.buttonOverride).isEnabled();
 			} else {
