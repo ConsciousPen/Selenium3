@@ -290,9 +290,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 					calculatedEarnedPremiums.put(txWithPremium, ep);
 					break;
 				case ENDORSE:
-					Map<LocalDate, BigDecimal> epForEndorsement = calculateEpForEndorsement(
-							txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom);
-					calculatedEarnedPremiums.put(txWithPremium, epForEndorsement);
+                    calculateEpForRollOn(
+                            txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom, calculatedEarnedPremiums);
 					break;
 				case CANCEL:
 					calculateEpForOosCancel(
@@ -341,7 +340,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 
 			if (i + 1 == txsWithPremium.size()) {
 				for (LocalDate jobDate : jobDates) {
-					if (jobDate.isBefore(currentTx.getTxDate())) {
+					if (!jobDate.isAfter(currentTx.getTxDate())) {
 						continue;
 					}
 					finalEp.put(jobDate, ep.get(jobDate));
@@ -389,12 +388,15 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	private void test() {
 		List<TxWithTermPremium> premiums = new ArrayList<>();
 
-		premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
+        premiums.add(new TxWithTermPremium(TxType.ISSUE, 1490, 1490, LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 1)));
+        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1301, 1348, LocalDate.of(2023, 11, 1), LocalDate.of(2023, 11, 1)));
+        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2023, 8, 1), LocalDate.of(2024, 8, 1));
+		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1219, 1239, LocalDate.of(2019, 1, 9), LocalDate.of(2019, 1, 8)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1376, 1344, LocalDate.of(2019, 3, 11), LocalDate.of(2019, 3, 10)));
 		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1265, 1273, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 2, 8)));
 		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 1376, 1347, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 3, 10)));
-		validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));
+		validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));*/
 
 		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, new BigDecimal(405), LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
 		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(333), LocalDate.of(2018, 10, 29), LocalDate.of(2018, 10, 28)));
