@@ -18,6 +18,10 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
+			.putAll("AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("AAA Membership report.Order Date", "","")
+			.putAll("AAA Membership report.Receipt Date", "", "")
+			.putAll("AAA Membership report.Status", "Active","")
 			//Policy Information
 			.putAll("Policy Information.Renewal Term Premium - Old Rater","","2532")
 			.putAll("Policy Information.Override ASD Level","true","false")
@@ -58,13 +62,13 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle","true","false")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "false", "true")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Gold Canyon, AZ, 85118","VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003")
 			//Usage Based Insurance
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", "false","true")
 			//Ownership address
-/*			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO Box 674, Minneapolis, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
@@ -100,6 +104,7 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -150,14 +155,6 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName.Defensive Driver Course Certificate Number", "Defensive Driver Course Certificate Number")
 			.put("Drivers.NBFirstName NB NBLastName.Filing State", "Filing State")
 			.put("Drivers.NBFirstName NB NBLastName.Date First Licensed", "Date First Licensed")
-			//TODO return when Activity section is done
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", "Type")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", "Description")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", "Occurrence Date")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", "Loss Payment Amount")
-			//TODO should be returned after implementing story for Clean up for Activity Information
-			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -224,13 +221,7 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 					ImmutableListMultimap.<String, String>builder()
-							.put("AAA Membership Order.Last Name", CURRENT)
-							.put("AAA Membership Order.Membership Number", CURRENT)
-							.put("AAA Membership Order.Member Since", CURRENT)
-							.put("AAA Membership Order.Order Date", CURRENT)
-							.put("AAA Membership Order.Receipt Date", CURRENT)
-							.put("AAA Membership Order.Status", CURRENT)
-							.put("AAA Membership Order.Membership Total Years", CURRENT)
+							.put("AAA Membership report.Membership No.", CURRENT)
 							.put("AAA Products Owned.Current AAA Member", CURRENT)
 							.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 							.put("AAA Products Owned.Life Policy #", CURRENT)
@@ -270,6 +261,11 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
+			.put("AAA Membership report", "Membership No.")
+			.put("AAA Membership report", "Member Since Date")
+			.put("AAA Membership report", "Order Date")
+			.put("AAA Membership report", "Receipt Date")
+			.put("AAA Membership report", "Status")
 			.build();
 
 	/**
@@ -384,40 +380,16 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
-					//TODO return when Activity section is done
-/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					//TODO return when Activity section is done
-/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			//TODO return when Activity section is done
-/*			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Type")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Description")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Occurrence Date")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Loss Payment Amount")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Claim Points")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
-			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
@@ -454,6 +426,8 @@ public class VersionsConflictConstants {
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Enroll in Usage Based Insurance?", CURRENT)
 					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type",CURRENT)
+					.put("AALPXXEndorsement Form", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -501,9 +475,9 @@ public class VersionsConflictConstants {
 			//Usage Based Insurance section
 			.put("Vehicles.1998, DODGE, CARAVAN", "Enroll in Usage Based Insurance?")
 			//Ownership address
-/*			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Ownership Type")
 			.put("Vehicles.1998, DODGE, CARAVAN", "First Name")
-			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")*/
+			.put("Vehicles.1998, DODGE, CARAVAN", "Vehicle Ownership Address")
 			.build();
 
 }

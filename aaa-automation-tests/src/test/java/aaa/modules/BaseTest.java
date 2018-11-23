@@ -38,10 +38,8 @@ import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.utils.EntityLogger;
 import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.datax.TestData;
 import toolkit.datax.TestDataException;
-import toolkit.datax.impl.SimpleDataProvider;
 
 @Listeners({AaaTestListener.class})
 public class BaseTest {
@@ -49,6 +47,7 @@ public class BaseTest {
 	protected static final String TEST_DATA_KEY = "TestData";
 	protected static final String STATE_PARAM = "state";
 	protected static Logger log = LoggerFactory.getLogger(BaseTest.class);
+	protected static TestData loginUsers;
 	private static TestData tdCustomerIndividual;
 	private static TestData tdCustomerNonIndividual;
 	private static TestData tdOperationalReports;
@@ -59,6 +58,7 @@ public class BaseTest {
 	protected Customer customer = new Customer();
 	protected TestDataManager testDataManager;
 	protected ITestContext context;
+	private String userGroup;
 	private TestData tdSpecific;
 	private boolean isCiModeEnabled = Boolean.parseBoolean(PropertyProvider.getProperty(CsaaTestProperties.IS_CI_MODE, "true"));
 
@@ -66,6 +66,7 @@ public class BaseTest {
 		tdCustomerIndividual = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		tdCustomerNonIndividual = new TestDataManager().customer.get(CustomerType.NON_INDIVIDUAL);
 		tdOperationalReports = new TestDataManager().operationalReports.get(OperationalReportType.OPERATIONAL_REPORT);
+		loginUsers = new TestDataManager().loginUsers;
 	}
 
 	public BaseTest() {
@@ -132,12 +133,12 @@ public class BaseTest {
 		}
 	}
 
-	protected PolicyType getPolicyType() {
-		return null;
-	}
-
 	protected TimePoints getTimePoints() {
 		return new TimePoints(testDataManager.timepoint.get(getPolicyType()).getTestData(getStateTestDataName("TestData")), getPolicyType(), getState());
+	}
+
+	protected PolicyType getPolicyType() {
+		return null;
 	}
 
 	/**
@@ -181,20 +182,32 @@ public class BaseTest {
 		return td;
 	}
 
-	protected boolean isStateCA() {
-		return getPolicyType() != null && getPolicyType().isCaProduct();
-	}
-
-	protected TestData getManualConversionInitiationTd() {
-		return getStateTestData(testDataManager.policy.get(getPolicyType()), CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
-	}
-
 	protected TestData getConversionPolicyDefaultTD() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData");
 		if (getPolicyType().equals(PolicyType.PUP)) {
 			td = new PrefillTab().adjustWithRealPolicies(td, getPrimaryPoliciesForPup());
 		}
 		return td;
+	}
+
+	protected String getUserGroup() {
+		if (StringUtils.isNotBlank(userGroup)) {
+			return userGroup;
+		} else {
+			return Constants.UserGroups.QA.get();
+		}
+	}
+
+	protected TestData getLoginTD() {
+		return getLoginTD(Constants.UserGroups.valueOf(getUserGroup()));
+	}
+
+	protected boolean isStateCA() {
+		return getPolicyType() != null && getPolicyType().isCaProduct();
+	}
+
+	protected TestData getManualConversionInitiationTd() {
+		return getStateTestData(testDataManager.policy.get(getPolicyType()), CustomerActions.InitiateRenewalEntry.class.getSimpleName(), "TestData");
 	}
 
 	public static void printToLog(String message) {
@@ -213,8 +226,9 @@ public class BaseTest {
 		log.debug(message);
 	}
 
+	@Parameters("login")
 	@BeforeMethod(alwaysRun = true)
-	public void beforeMethodStateConfiguration(Object[] parameters) {
+	public void beforeMethodStateConfiguration(@Optional("") String login, Object[] parameters) {
 		if (parameters != null && parameters.length != 0 && StringUtils.isNotBlank(parameters[0].toString())) {
 			setState(parameters[0].toString());
 		} else if (isStateCA()) {
@@ -224,6 +238,8 @@ public class BaseTest {
 		} else {
 			setState(Constants.States.UT);
 		}
+
+		this.userGroup = login;
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -249,7 +265,7 @@ public class BaseTest {
 	 * Login to the application
 	 */
 	public MainApplication mainApp() {
-		CSAAApplicationFactory.get().mainApp().setLogin(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().mainApp().setLogin(new LoginPage(getLoginTD()));
 		return CSAAApplicationFactory.get().mainApp();
 	}
 
@@ -257,7 +273,7 @@ public class BaseTest {
 	 * Login to the application and open admin page
 	 */
 	public AdminApplication adminApp() {
-		CSAAApplicationFactory.get().adminApp().setLogin(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().adminApp().setLogin(new LoginPage(getLoginTD()));
 		return CSAAApplicationFactory.get().adminApp();
 	}
 
@@ -265,7 +281,7 @@ public class BaseTest {
 	 * Login to the application and open reports app
 	 */
 	protected OperationalReportApplication opReportApp() {
-		CSAAApplicationFactory.get().opReportApp().setLogin(new LoginPage(initiateLoginTD()));
+		CSAAApplicationFactory.get().opReportApp().setLogin(new LoginPage(getLoginTD()));
 		return CSAAApplicationFactory.get().opReportApp();
 	}
 
@@ -299,6 +315,31 @@ public class BaseTest {
 		customer.create(td);
 		customerNumber = CustomerSummaryPage.labelCustomerNumber.getValue();
 		return customerNumber;
+	}
+
+	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
+		if (!td.containsKey(fileName)) {
+			throw new TestDataException("Can't get test data file " + fileName);
+		}
+		return getStateTestData(td.getTestData(fileName), tdName);
+	}
+
+	protected TestData getStateTestData(TestData td, String tdName) {
+		if (td == null) {
+			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+		}
+		if (td.containsKey(getStateTestDataName(tdName))) {
+			td = td.getTestData(getStateTestDataName(tdName));
+			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
+		} else {
+			td = td.getTestData(tdName);
+			if (getState().equals(Constants.States.CA)) {
+				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
+			} else {
+				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
+			}
+		}
+		return td;
 	}
 
 	/**
@@ -390,6 +431,16 @@ public class BaseTest {
 	}
 
 	/**
+	 * Create Conversion Policy using default TestData
+	 *
+	 * @param tdPolicy - policy testdata
+	 * @return policy number
+	 */
+	protected String createConversionPolicy(TestData tdPolicy) {
+		return createConversionPolicy(getManualConversionInitiationTd(), tdPolicy);
+	}
+
+	/**
 	 * Create Conversion Policy
 	 *
 	 * @param tdManualConversionInitiation - 'Initiate Manual Renewal Entry' action testdata
@@ -407,16 +458,6 @@ public class BaseTest {
 		String policyNumber = PolicySummaryPage.labellinkPolicy.getValue();
 		log.info("CONVERSION POLICY CREATED: " + EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 		return policyNumber;
-	}
-
-	/**
-	 * Create Conversion Policy using default TestData
-	 *
-	 * @param tdPolicy - policy testdata
-	 * @return policy number
-	 */
-	protected String createConversionPolicy(TestData tdPolicy) {
-		return createConversionPolicy(getManualConversionInitiationTd(), tdPolicy);
 	}
 
 	/**
@@ -444,37 +485,23 @@ public class BaseTest {
 		return getStateTestData(tdSpecific, tdName);
 	}
 
-	protected TestData getStateTestData(TestData td, String fileName, String tdName) {
-		if (!td.containsKey(fileName)) {
-			throw new TestDataException("Can't get test data file " + fileName);
-		}
-		return getStateTestData(td.getTestData(fileName), tdName);
+	protected TestData getLoginTD(Constants.UserGroups userGroups) {
+		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-	protected TestData getStateTestData(TestData td, String tdName) {
-		if (td == null) {
-			throw new RuntimeException(String.format("Can't get TestData '%s', parrent TestData is null", tdName));
+	private void initTestDataForTest() {
+		try {
+			tdSpecific = testDataManager.getDefault(this.getClass());
+		} catch (TestDataException tde) {
+			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
 		}
-		if (td.containsKey(getStateTestDataName(tdName))) {
-			td = td.getTestData(getStateTestDataName(tdName));
-			log.info(String.format("==== %s Test Data is used: %s ====", getState(), getStateTestDataName(tdName)));
-		} else {
-			td = td.getTestData(tdName);
-			if (getState().equals(Constants.States.CA)) {
-				log.info(String.format("==== CA Test Data is used: %s ====", getStateTestDataName(tdName)));
-			} else {
-				log.info(String.format("==== Default state UT Test Data is used. Requested Test Data: %s is missing ====", getStateTestDataName(tdName)));
-			}
-		}
-		return td;
 	}
 
-	protected TestData initiateLoginTD() {
-		Map<String, Object> td = new LinkedHashMap<>();
-		td.put(LoginPageMeta.USER.getLabel(), PropertyProvider.getProperty(TestProperties.APP_USER));
-		td.put(LoginPageMeta.PASSWORD.getLabel(), PropertyProvider.getProperty(TestProperties.APP_PASSWORD));
-		td.put(LoginPageMeta.STATES.getLabel(), getState());
-		return new SimpleDataProvider(td);
+	private String getStateTestDataName(String tdName) {
+		String state = getState();
+		// if (!state.equals(States.UT) && !state.equals(States.CA))
+		tdName = tdName + "_" + state;
+		return tdName;
 	}
 
 	private String openDefaultPolicy(PolicyType policyType, String state) {
@@ -509,21 +536,6 @@ public class BaseTest {
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(key, policyNumber);
 		return policyNumber;
-	}
-
-	private String getStateTestDataName(String tdName) {
-		String state = getState();
-		// if (!state.equals(States.UT) && !state.equals(States.CA))
-		tdName = tdName + "_" + state;
-		return tdName;
-	}
-
-	private void initTestDataForTest() {
-		try {
-			tdSpecific = testDataManager.getDefault(this.getClass());
-		} catch (TestDataException tde) {
-			log.debug(String.format("Specified TestData for test is absent: %s", tde.getMessage()));
-		}
 	}
 
 	private void closeAllApps() {

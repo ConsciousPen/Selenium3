@@ -833,11 +833,6 @@ VehicleInformation_Version2: {
   Ownership: {
     Ownership Type: Financed,
     First Name: GMAC,
-    Zip: 55440-0674,
-    Address Line 1: PO BOX 674,
-    Address Line 2: VII ownership address 2,
-    City: Bell,
-    State: CA,
     Validate Address: true,
     Validate Address Dialog: {},
   },

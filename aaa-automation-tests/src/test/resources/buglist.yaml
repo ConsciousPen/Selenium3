@@ -301,12 +301,6 @@ PAS-18111:
               aaa.modules.regression.sales.home_ss.ho4.functional.TestEarthquakeEndorsements.*,
               aaa.modules.regression.sales.home_ss.ho6.functional.TestEarthquakeEndorsements.*]
       messages: ["is not present as expected"]
-PAS-15144:
-  summary: "Positive delta limits appears in policy level coverages if add more than 1 vehicle for Auto CA Select or AutoSS CO state quote"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.openl.AutoSSPremiumCalculationTest.totalPremiumVerificationTest]
-      messages: ['Total premium for quote/policy number QCOSS']
 PASBB-818:
   summary: "Regression BCT: Reinstatement Fee amount can't applied as total amount"
   reason: PROD

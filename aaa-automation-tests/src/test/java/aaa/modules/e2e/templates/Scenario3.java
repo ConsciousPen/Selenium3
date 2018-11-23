@@ -230,14 +230,14 @@ public class Scenario3 extends ScenarioBaseTest {
 		Dollar sum = BillingHelper.getBillMinDueAmount(policyExpirationDate, billType);
 
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
-		//commented according to PASBB-624/PAS-624, PPS-499
-		/*if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
+
+		if (PolicyType.AUTO_CA_SELECT.equals(getPolicyType())) {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewShort(policyExpirationDate)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 					.verifyPresent();
-		} else { */
+		} else {
 			new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.CUSTOMER_DECLINED).verifyRowWithEffectiveDate(policyExpirationDate);
-		//}
+		}
 	}
 
 	public void bindRenew() {

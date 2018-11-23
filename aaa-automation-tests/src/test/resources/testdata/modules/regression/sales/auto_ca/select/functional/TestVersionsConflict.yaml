@@ -637,9 +637,9 @@ DriverInformation: {
   #ActivityInformation: {
   #  Activity Source: Company Input,
   #  Type: '10-yr Major Violation',
-  #  Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+  #  Occurrence Date: '06/06/2017',
   #  Description: 'Driving under the influence of drugs',
-  #  Conviction Date: '$<today-3M:MM/dd/yyyy>',
+  #  Conviction Date: '06/06/2017',
   #  "Include in Points and/or YAF?": 'No',
   #  Not Included in Points and/or YAF - Reason Codes: 'Report errors',
   #}
@@ -666,13 +666,13 @@ DriverInformation_Version1: {
   Filling Type: SR-22,
   Ridesharing Coverage: 'No',
   #ActivityInformation: {
-  #  Activity Source: Customer Input,
-  #  Type: 'Major Violation',
-  #  Description: 'Hit and run',
-  #  Occurrence Date: '07/20/2018',
-  #  Conviction Date: '07/20/2018',
-  #  'Include in Points and/or YAF?': 'No',
-  #  'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
+  #  Activity Source: Company Input,
+  #  Type: '10-yr Major Violation',
+  #  Occurrence Date: '06/06/2017',
+  #  Description: 'Driving under the influence of drugs',
+  #  Conviction Date: '06/06/2017',
+  #  "Include in Points and/or YAF?": 'No',
+  #  Not Included in Points and/or YAF - Reason Codes: 'Dismissed with Report',
   #}
 }
 
@@ -699,12 +699,13 @@ DriverInformation_Version2: {
   Ridesharing Coverage: 'Yes',
   "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
   #ActivityInformation: {
-  #  Activity Sorce: Company Input,
-  #  Type: 'Minor Violation',
-  #  Occurrence Date: '06/20/2018',
-  #  Conviction Date: '06/20/2018',
-  #  Description: 'Child seat belt violation',
-  #  "Include in Points and/or YAF?": 'Yes',
+  #  Activity Source: Company Input,
+  #  Type: '10-yr Major Violation',
+  #  Occurrence Date: '06/06/2017',
+  #  Description: 'Driving under the influence of drugs',
+  #  Conviction Date: '06/06/2017',
+  #  "Include in Points and/or YAF?": 'No',
+  #  Not Included in Points and/or YAF - Reason Codes: 'Dismissed by DMV',
   #}
 }
 
@@ -865,11 +866,6 @@ VehicleInformation_Version2: {
   Ownership: {
     Ownership Type: Financed,
     First Name: GMAC,
-    Zip: 55440-0674,
-    Address Line 1: PO BOX 674,
-    Address Line 2: VII ownership address 2,
-    City: Bell,
-    State: CA,
     Validate Address: true,
     Validate Address Dialog: {},
   },

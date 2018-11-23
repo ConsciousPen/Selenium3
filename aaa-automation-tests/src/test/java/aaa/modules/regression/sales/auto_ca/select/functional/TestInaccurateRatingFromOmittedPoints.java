@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -7,13 +10,11 @@ import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.modules.policy.auto_ca.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ca.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
@@ -34,7 +35,7 @@ public class TestInaccurateRatingFromOmittedPoints extends AutoCaSelectBaseTest 
      *     @author Tyrone Jemison
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17328: Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17328: Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating")
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-17328")
     public void pas17328_Scenario1_SelectToChoice(@Optional("") String state) {
         // Build Test Data
