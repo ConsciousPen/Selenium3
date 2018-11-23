@@ -1,6 +1,6 @@
 package aaa.helpers.conversion;
 
-import aaa.helpers.jobs.Job;
+import com.exigen.ipb.etcsa.utils.batchjob.Job;
 import aaa.helpers.jobs.Jobs;
 
 public enum ConversionType {

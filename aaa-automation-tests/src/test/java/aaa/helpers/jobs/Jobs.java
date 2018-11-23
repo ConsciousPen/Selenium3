@@ -1,16 +1,14 @@
 package aaa.helpers.jobs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import com.exigen.ipb.etcsa.utils.batchjob.Job;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static final String CLAIM_ORDER_JOB_FOLDER_TEMPLATE = "%SPAS_B_EXGPAS_PASHUB_4001_D/outbound";
 	private static final String CLAIM_RECEIVE_JOB_FOLDER_TEMPLATE = "%SPAS_B_PASHUB_EXGPAS_4001_D/inbound";
-	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
+	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", new HashMap<>(), getJobFoldersPath());
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 	public static Job renewalJob = new Job("Renewal job");
 	public static Job renewalOfferAsyncTaskJob = new Job("renewalOfferAsyncTaskJob");
@@ -70,7 +68,7 @@ public class Jobs {
 	public static Job membershipValidationJob = new Job("membershipValidationJob");
 	public static Job aaaPaymentCentralRejectFeedAsyncJob = new Job("aaaPaymentCentralRejectFeedAsyncJob");
 	public static Job aaaRecurringPaymentsResponseProcessAsyncJob = new Job("aaaRecurringPaymentsResponseProcessAsyncJob");
-	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob", getClaimOrderJobFolders());
+	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob", new HashMap<>(), getClaimOrderJobFolders());
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
 	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
 	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");

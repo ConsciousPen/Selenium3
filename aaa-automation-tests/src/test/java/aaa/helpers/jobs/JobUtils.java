@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.etcsa.utils.batchjob.Job;
 import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import com.exigen.istf.exec.core.TimedTestContext;
@@ -23,7 +23,7 @@ import toolkit.exceptions.IstfException;
 public class JobUtils {
 
 	private static Logger log = LoggerFactory.getLogger(JobUtils.class);
-	private static String jobRunMode = PropertyProvider.getProperty(CsaaTestProperties.BATCHJOB_RUN_MODE, "http");
+	private static String jobRunMode = PropertyProvider.getProperty(CsaaTestProperties.BATCHJOB_RUN_MODE, "soap");
 	private static LocalDateTime currentPhase;
 
 	public static void executeJob(Job job, Boolean forceExecution) {
@@ -37,20 +37,6 @@ public class JobUtils {
 
 	public static void executeJob(Job job) {
 		executeJob(job, false);
-	}
-
-	public static void executeJob(Job job, long pauseBefore) {
-		try {
-			log.info("Pause before " + job.getJobName() + " job execution is called");
-			Thread.sleep(pauseBefore);
-		} catch (InterruptedException e) {
-			log.info("Pause before job execution is failed: ", e);
-		}
-		executeJob(job, false);
-	}
-
-	public static Boolean isPefManager() {
-		return StringUtils.isNotBlank(PropertyProvider.getProperty("timeshift.controller.class"));
 	}
 
 	private static void executeJob(String jobName) {
