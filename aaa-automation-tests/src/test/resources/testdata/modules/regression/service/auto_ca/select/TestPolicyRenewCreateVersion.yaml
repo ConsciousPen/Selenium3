@@ -1,0 +1,16 @@
+TestData: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+}
+
+TestData_version2: {
+  PremiumAndCoveragesTab: {
+    Medical Payments: 'contains=$5,000'
+  }
+}
