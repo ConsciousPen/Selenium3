@@ -4593,7 +4593,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		TestData testData = getTestSpecificTD("TestData3");
 		openAppAndCreatePolicy(testData);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);//Future dated, otherwise not possible to bind endorsement with new Driver
 		SearchPage.openPolicy(policyNumber);
 		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
 
@@ -4625,7 +4626,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(CoverageInfo.TD.getCode(), "true", ImmutableList.of(addedSpouseOid, fni, otherNI, notNISpouse));
 			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
 			Coverage coverageTDAfterUpdateActual = findCoverage(updateCoverageResponse.driverCoverages, CoverageInfo.TD.getCode());
-			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, notNISpouse).addCurrentlyAddedDrivers(addedSpouseOid, fni, otherNI, notNISpouse);
+			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse).addCurrentlyAddedDrivers(addedSpouseOid, fni, otherNI, notNISpouse);
 			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
 			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
 
@@ -4643,6 +4644,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			driverTab.cancel();
 
 		});
+		HelperCommon.orderReports(policyNumber,addedSpouseOid, OrderReportsResponse.class, Response.Status.OK.getStatusCode());
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
