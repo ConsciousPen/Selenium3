@@ -1,10 +1,10 @@
-package aaa.modules.regression.service.auto_ca.select;
+package aaa.modules.regression.service.home_ss.ho3;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,16 +12,16 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
-import aaa.common.enums.NavigationEnum.AutoCaTab;
+import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.auto_ca.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
@@ -30,7 +30,7 @@ import toolkit.utils.TestInfo;
  * @name Renewal - Create Version
  * @scenario
  * 1. Create new or retrieve a customer.
- * 2. Create an Auto CA Select policy. 
+ * 2. Create a Home SS policy. 
  * 3. Create a renewal, it should be in Premium Calculated status.
  * 4. Navigate to Inquiry mode of renewal version 1 and get renewal premium amount.
  * 5. Create renewal version 2. 
@@ -38,18 +38,17 @@ import toolkit.utils.TestInfo;
  * 7. Navigate to transaction history page by clicking on 'Renewal Quote Version' button.
  * 8. Verify that renewal version 1 and version 2 and appropriate premium amounts are displaying in Transaction History table.
  */
-
-public class TestPolicyRenewCreateVersion extends AutoCaSelectBaseTest {
+public class TestPolicyRenewCreateVersion extends HomeSSHO3BaseTest {
 	
 	@Parameters({"state"})
-	@StateList(states =  States.CA)
+	@StateList(statesExcept = { States.CA })
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
-	public void testPolicyRenewCreateVersion(@Optional("CA") String state) {
+	@TestInfo(component = ComponentConstant.Service.HOME_SS_HO3)
+	public void testPolicyRenewCreateVersion(@Optional("") String state) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy();
-
+		
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		policy.renew().performAndFill(getTestSpecificTD("TestData"));
@@ -61,19 +60,20 @@ public class TestPolicyRenewCreateVersion extends AutoCaSelectBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 		assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
 		
-		policy.policyInquiry().start();	
-		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		String premium_version1 = PremiumAndCoveragesTab.totalTermPremium.getValue();
+		policy.policyInquiry().start();
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		String premium_version1 = PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue();
 		
-		new PremiumAndCoveragesTab().createVersion();
-		log.info("Create Version action is initiated");		
-		new PremiumAndCoveragesTab().fillTab(getTestSpecificTD("TestData_version2"));		
-		String premium_version2 = PremiumAndCoveragesTab.totalTermPremium.getValue();
+		new PremiumsAndCoveragesQuoteTab().createVersion();
+		log.info("Create Version action is initiated");	
+		new PremiumsAndCoveragesQuoteTab().fillTab(getTestSpecificTD("TestData_version2"), true);
+		String premium_version2 = PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue();
 		
 		assertThat(new Dollar(premium_version1)).isNotEqualTo(new Dollar(premium_version2));
 		
-		NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
+		new BindTab().submitTab();
 		
 		assertThat(PolicySummaryPage.buttonRenewalQuoteVersion).isEnabled();
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
