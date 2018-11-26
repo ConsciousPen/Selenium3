@@ -271,17 +271,24 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationNB() {
+        TestData tdSilviaKohli;
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("ViratDP", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("SilviaDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Virat", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("Silvia", "Kohli");
+        }
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), getNamedInsuredTd("Silvia", "Kohli")));
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdSilviaKohli));
 
-        createSpecificCustomerIndividual("Virat", "Kohli");
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
 
         //Validation for PAS-6695 and PAS-6703
-        checkTblClaimRowCount(9);
+        validateNumberOfClaims();
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
@@ -296,6 +303,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         navigateToPropertyInfoTab();
         assertThat(getClaimChargeableAsset()).isEnabled();
 
+        // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        validateLossForFieldAsAgent();
+
     }
 
     protected void pas6695_testClueClaimsReconciliationEndorsement() {
@@ -304,11 +315,16 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695 and PAS-6703
-        checkTblClaimRowCount(9);
+        validateNumberOfClaims();
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+
+        // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        PolicySummaryPage.buttonPendedEndorsement.click();
+        validateLossForFieldAsAgent();
 
     }
 
@@ -318,11 +334,17 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695 and PAS-6703
-        checkTblClaimRowCount(9);
+        validateNumberOfClaims();
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+
+        // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        PolicySummaryPage.buttonRenewals.click();
+        validateLossForFieldAsAgent();
+
     }
 
     protected void pas6695_testClueClaimsReconciliationRewrite() {
@@ -333,11 +355,15 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         addNamedInsuredWithClaims();
 
         // Validation for PAS-6695 and PAS-6703
-        checkTblClaimRowCount(9);
+        validateNumberOfClaims();
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
         pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+
+        // Validation for PAS-22144
+        openPolicyQuoteAsAgentUser();
+        validateLossForFieldAsAgent();
 
     }
 
@@ -368,50 +394,69 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
-        // Validates 'Applicant' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("13000");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+        if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            // Validates 'Applicant' with catastrophe = 'Unknown'
+            viewEditClaimByLossAmount("13000");
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+        }
 
     }
 
     protected void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement() {
-        TestData td = getPolicyTD();
+        TestData tdBruceKohli;
 
         // Create customer with CLUE claims and initiate policy
-        createSpecificCustomerIndividual("Silvia", "Kohli");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("SilviaDP", "Kohli");
+            tdBruceKohli = getNamedInsuredTd("BruceDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Silvia", "Kohli");
+            tdBruceKohli = getNamedInsuredTd("Bruce", "Kohli");
+        }
+
         policy.initiate();
-        policy.getDefaultView().fillUpTo(td, getApplicantTab().getClass(), true);
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
 
         // Add 2 additional named insured (no claims)
         List<TestData> tdNamedInsured = new ArrayList<>();
         tdNamedInsured.add(getNamedInsuredTd("Jim", "Smith"));
         tdNamedInsured.add(getNamedInsuredTd("John", "Smith").mask(getBtnAddInsuredLabel()));
-        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
 
-        // Validate 2 claims on Property info tab, finish and bind policy
-        getReportsTab().fillTab(td);
+        // Validate 2 claims on Property info tab, finish and bind policy (except SS DP3:  PAS-22188)
+        getReportsTab().fillTab(getPolicyTD());
         if (!isStateCA()) {
             new ReportsTab().tblInsuranceScoreReport.getRow(2).getCell("Report").controls.links.getFirst().click();
             new ReportsTab().tblInsuranceScoreReport.getRow(3).getCell("Report").controls.links.getFirst().click();
         }
+
         getReportsTab().submitTab();
-        checkTblClaimRowCount(2);
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            checkTblClaimRowCount(1);
+        } else {
+            checkTblClaimRowCount(2);
+        }
+
         selectRentalClaimForCADP3();
-        policy.getDefaultView().fillFromTo(td, getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getPropertyInfoTab().getClass(), getPurchaseTab().getClass(), true);
         getPurchaseTab().submitTab();
 
         // Initiate endorsement and add a named insured that returns additional Clue claims
-        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
-                DataProviderFactory.dataOf(getNamedInsuredLabel(), getNamedInsuredTd("Bruce", "Kohli")));
+        tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdBruceKohli));
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus3Days"));
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         reorderClueReport();
         navigateToPropertyInfoTab();
-        checkTblClaimRowCount(4);
+
+        // Validate 4 claims on Property info tab (except SS DP3:  PAS-22188)
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            checkTblClaimRowCount(3);
+        } else {
+            checkTblClaimRowCount(4);
+        }
 
     }
 
@@ -445,23 +490,6 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimChargeableAsset()).hasValue("No");
         assertThat(getClaimChargeableAsset()).isEnabled();
 
-        // Select Wind Claim and set CAT = RADIO_YES chargeable = RADIO_YES
-        viewEditClaimByLossAmount("2500");
-        selectRentalClaimForCADP3();
-
-        // Set CAT no first so that chargeable is enabled
-        assertThat(getClaimCatastropheAsset()).hasValue("No");
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
-        getClaimCatastropheAsset().setValue("Yes");
-        getClaimCatastropheRemarksAsset().setValue("CAT");
-
-        // Check the chargeable Value is the same
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
-        assertThat(getClaimChargeableAsset()).isEnabled();
-
-        // Check that Non Chargeable reason is not present because CAT is RADIO_YES
-        assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
-
         // Select Fire Claim
         viewEditClaimByLossAmount("999");
         selectRentalClaimForCADP3();
@@ -490,12 +518,38 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getClaimCatastropheRemarksAsset().setValue("CAT");
         assertThat(getClaimCatastropheAsset()).hasValue("Yes");
         assertThat(getClaimChargeableAsset()).hasValue("No");
+
+        // Select Wind Claim and set CAT = RADIO_YES chargeable = RADIO_YES (all except SS DP3)
+        if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            viewEditClaimByLossAmount("2500");
+            selectRentalClaimForCADP3();
+
+            // Set CAT no first so that chargeable is enabled
+            assertThat(getClaimCatastropheAsset()).hasValue("No");
+            assertThat(getClaimChargeableAsset()).hasValue("Yes");
+            getClaimCatastropheAsset().setValue("Yes");
+            getClaimCatastropheRemarksAsset().setValue("CAT");
+
+            // Check the chargeable Value is the same
+            assertThat(getClaimChargeableAsset()).hasValue("Yes");
+            assertThat(getClaimChargeableAsset()).isEnabled();
+
+            // Check that Non Chargeable reason is not present because CAT is RADIO_YES
+            assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
+        }
+
     }
 
     private void addNamedInsuredWithClaims() {
         List<TestData> tdNamedInsured = new ArrayList<>();
-        tdNamedInsured.add(getNamedInsuredTd("Virat", "Kohli"));
-        tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli").mask(getBtnAddInsuredLabel()));
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            tdNamedInsured.add(getNamedInsuredTd("ViratDP", "Kohli"));
+            tdNamedInsured.add(getNamedInsuredTd("SilviaDP", "Kohli").mask(getBtnAddInsuredLabel()));
+        } else {
+            tdNamedInsured.add(getNamedInsuredTd("Virat", "Kohli"));
+            tdNamedInsured.add(getNamedInsuredTd("Silvia", "Kohli").mask(getBtnAddInsuredLabel()));
+        }
+
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
 
@@ -626,21 +680,70 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         viewEditClaimByLossAmount("11000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+        // Validate Loss For Field is enabled for L41 (PAS-22144)
+        assertThat(getClaimLossForAsset()).isEnabled();
 
-        // Validates 'Applicant' with catastrophe = 'Yes'
-        viewEditClaimByLossAmount("1500");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+        if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            // Validates 'Applicant' with catastrophe = 'Yes'
+            viewEditClaimByLossAmount("1500");
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
+            // Validate Loss For Field is enabled for L41 (PAS-22144)
+            assertThat(getClaimLossForAsset()).isEnabled();
 
-        // Validates 'Applicant' with catastrophe = 'No'
-        viewEditClaimByLossAmount("2500");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
-        assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+            // Validates 'Applicant' with catastrophe = 'No'
+            viewEditClaimByLossAmount("2500");
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
+            // Validate Loss For Field is enabled for L41 (PAS-22144)
+            assertThat(getClaimLossForAsset()).isEnabled();
+        }
 
     }
+
+    private void openPolicyQuoteAsAgentUser() {
+        String policyQuoteNum = getPropertyInfoTab().getPolicyNumber();
+        getPropertyInfoTab().saveAndExit();
+        mainApp().close();
+        openAppNonPrivilegedUser(PrivilegeEnum.Privilege.A30);
+        if (policyQuoteNum.startsWith("Q")) {
+            SearchPage.openQuote(policyQuoteNum);
+        } else {
+            SearchPage.openPolicy(policyQuoteNum);
+        }
+
+    }
+
+    private void validateLossForFieldAsAgent() {
+        policy.dataGather().start();
+        navigateToPropertyInfoTab();
+        viewEditClaimByLossAmount("42500");
+        assertThat(getClaimLossForAsset()).isDisabled();
+        viewEditClaimByLossAmount("11000");
+        assertThat(getClaimLossForAsset()).isDisabled();
+
+        if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            viewEditClaimByLossAmount("1500");
+            assertThat(getClaimLossForAsset()).isDisabled();
+            viewEditClaimByLossAmount("2500");
+            assertThat(getClaimLossForAsset()).isDisabled();
+        }
+
+    }
+
+    private void validateNumberOfClaims() {
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            checkTblClaimRowCount(5);
+        } else {
+            checkTblClaimRowCount(9);
+        }
+    }
+
 }
