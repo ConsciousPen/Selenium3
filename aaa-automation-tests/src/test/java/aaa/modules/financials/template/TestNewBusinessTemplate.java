@@ -45,11 +45,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
         // NB validations
-        //TODO implement DB validation, below was for testing
-//        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1015", policyNumber)).get()));
-//        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1021", policyNumber)).get()));
-//        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1022", policyNumber)).get()));
-//        assertThat(premTotal).isEqualTo(new Dollar(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcctByPolicy("1044", policyNumber)).get()));
+        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1022")));
+        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1044")));
+        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1015")));
+        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1021")));
 
         performAPEndorsement(effDate, policyNumber);
         // TODO implement DB validation

@@ -1,5 +1,7 @@
 package aaa.modules.financials;
 
+import toolkit.db.DBService;
+
 public final class FinancialsSQL {
 
 	private FinancialsSQL() {}
@@ -16,8 +18,14 @@ public final class FinancialsSQL {
 		return String.format("select SUM(ENTRYAMT) from LEDGERENTRY where LEDGERACCOUNTNO = '%s'", account);
 	}
 
-	public static String getTotalEntryAmtForAcctByPolicy(String account, String policyNumber) {
-		return String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s')", policyNumber, account);
+    public static String getTotalDebitAmtForAccountByPolicy(String policyNumber, String account) {
+        String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
+        return DBService.get().getValue(query).get();
+    }
+
+	public static String getTotalCreditAmtForAccountByPolicy(String policyNumber, String account) {
+	    String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
+        return DBService.get().getValue(query).get();
 	}
 
 }
