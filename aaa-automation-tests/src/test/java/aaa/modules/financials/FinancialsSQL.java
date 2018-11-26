@@ -1,5 +1,6 @@
 package aaa.modules.financials;
 
+import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.db.DBService;
 
 public final class FinancialsSQL {
@@ -18,14 +19,20 @@ public final class FinancialsSQL {
 		return String.format("select SUM(ENTRYAMT) from LEDGERENTRY where LEDGERACCOUNTNO = '%s'", account);
 	}
 
-    public static String getTotalDebitAmtForAccountByPolicy(String policyNumber, String account) {
+    public static Dollar getTotalDebitAmtForAccountByPolicy(String policyNumber, String account) {
         String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
-        return DBService.get().getValue(query).get();
+        if (DBService.get().getValue(query).isPresent()) {
+            return new Dollar(DBService.get().getValue(query).get());
+        }
+        return new Dollar("0.00");
     }
 
-	public static String getTotalCreditAmtForAccountByPolicy(String policyNumber, String account) {
+	public static Dollar getTotalCreditAmtForAccountByPolicy(String policyNumber, String account) {
 	    String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
-        return DBService.get().getValue(query).get();
+        if (DBService.get().getValue(query).isPresent()) {
+            return new Dollar(DBService.get().getValue(query).get());
+        }
+        return new Dollar("0.00");
 	}
 
 }
