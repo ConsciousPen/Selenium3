@@ -12,6 +12,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
+import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -37,8 +38,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		Dollar premTotal;
 		if (!getPolicyType().isAutoPolicy()) {
             premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        } else {
+        } else if (!isStateCA()){
             premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
+        } else {
+		    premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(1).getCell(2).getValue());
         }
 
         // NB validations
