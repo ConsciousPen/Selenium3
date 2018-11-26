@@ -34,7 +34,7 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "")
-	public void pas12465_TestAAASSPolicyRate(@Optional("AZ") String state) throws DatatypeConfigurationException {
+	public void pas12465_TestAAASSPolicyRate(@Optional("") String state) throws DatatypeConfigurationException {
 		SSPolicyRateWSClient ssPolicyRateWSClient = new SSPolicyRateWSClient();
 		RatePolicyRequest actualResponse = ssPolicyRateWSClient.getSSPolicyRateServiceResponse(pas12465_SSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
