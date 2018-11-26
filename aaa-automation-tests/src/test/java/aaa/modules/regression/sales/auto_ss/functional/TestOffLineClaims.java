@@ -12,7 +12,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
-import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -133,53 +132,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         });
     }
 
-    ///////////////////////
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void PAS14679_DLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
-	    // Create Customer and Policy with 4 drivers
-    	createPolicyMultiDrivers();
-
-	    // Create the claim response
-	    createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
-//	    createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
-
-	    // Retrieve policy and generate a manual renewal image
-	    createManualRenewal();
-
-	    //Run Claims receive batch job, to assign claims
-	    JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
-
-		//Move time by one day to get claims to show in the UI
-	    TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
-
-	    // Enter renewal image and verify claim presence
-	    mainApp().reopen();
-	    SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-	    buttonRenewals.click();
-	    policy.dataGather().start();
-	    NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-	    CustomSoftAssertions.assertSoftly(softly -> {
-		    DriverTab driverTab = new DriverTab();
-		    ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-		    softly.assertThat(DriverTab.tableDriverList).hasRows(4);
-
-		    // Check 1st driver: FNI, has the COMP match claim
-		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
-		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
-
-		    // Check 2nd driver: Has DL match claim
-		    DriverTab.tableDriverList.selectRow(2);
-		    softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
-		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-		    softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
-	    });
-    }
-	///////////////////////
-	///////////////////////
-
     /**
      * @author Kiruthika Rajendran
      * @author Chris Johns
@@ -215,32 +167,58 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        CustomSoftAssertions.assertSoftly(softly -> {
-            DriverTab driverTab = new DriverTab();
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-            // Check 3rd driver
-	        // PAS-8310 - LASTNAME_FIRSTNAME_DOB Match
-            DriverTab.tableDriverList.selectRow(3);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_3);
-            // PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB //PAS-21435 - Removed LASTNAME_YOB match logic. Claim 8FAZ88888OHS is now unmatched
-	        DriverTab.tableActivityInformationList.selectRow(2);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_4);
-	        DriverTab.tableActivityInformationList.selectRow(3);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_5);
-
-            // Check 4th driver.
-	        // PAS-8310 - LASTNAME_FIRSTNAME_YOB Match
-            DriverTab.tableDriverList.selectRow(4);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_6);
-        });
+        //Verify LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, LASTNAME_FIRSTNAME_YOB matches
+        //Verify  LASTNAME_YOB claim does NOT match
+        nameDobYobAssertions(CLAIM_NUMBER_3, CLAIM_NUMBER_4, CLAIM_NUMBER_5, CLAIM_NUMBER_6 );
     }
 
+    /**
+     * @author Kiruthika Rajendran
+     * @author Chris Johns
+     * PAS-21821 - PAS/Microservice Security Token
+     * PAS-8310 - LASTNAME_FIRSTNAME_DOB & LASTNAME_FIRSTNAME_YOB matches
+     * PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB matches
+     * @name Test NAME and DOB Match logic Via Manual Renewal To Support Security Token Validation
+     * @scenario Test Steps:
+     * 1. Create a Policy with 4 drivers
+     * 2. Initiate Manual Renewal
+     * 3. Place the CAS Claim Response for PAS consumption
+     * 4. Run Claims "claimsRenewBatchReceiveJob" Batch Job
+     * 5. Retrieve policy and enter renewal image
+     * 6. Verify Claim Data is applied to the driver3 and driver4
+     * @details Clean Path. Expected Result is that claims data is applied to the correct driver
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
+    public void pas14679_nameDobYobMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+        // Create Customer and Policy with 4 drivers
+        createPolicyMultiDrivers();
+
+        // Create the claim response
+        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
+
+        // Retrieve policy and generate a manual renewal image
+        createManualRenewal();
+
+        //Run Claims receive batch job, to assign claims
+        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+
+        //Move time by one day to get claims to show in the UI
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+
+        // Enter renewal image and verify claim presence
+        mainApp().reopen();
+        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+        //Verify LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, LASTNAME_FIRSTNAME_YOB matches
+        //Verify  LASTNAME_YOB claim does NOT match
+        nameDobYobAssertions(CLAIM_NUMBER_3, CLAIM_NUMBER_4, CLAIM_NUMBER_5, CLAIM_NUMBER_6 );
+    }
 
     /**
      * @author Mantas Garsvinskas
@@ -265,7 +243,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
-    public void PAS14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
         // Toggle ON MatchMoreClaims Logic
         DBService.get().executeUpdate(SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE);
