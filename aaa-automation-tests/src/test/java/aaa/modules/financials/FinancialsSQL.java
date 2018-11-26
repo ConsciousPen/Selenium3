@@ -1,5 +1,6 @@
 package aaa.modules.financials;
 
+import java.util.Optional;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.db.DBService;
 
@@ -21,18 +22,14 @@ public final class FinancialsSQL {
 
     public static Dollar getTotalDebitAmtForAccountByPolicy(String policyNumber, String account) {
         String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
-        if (DBService.get().getValue(query).isPresent()) {
-            return new Dollar(DBService.get().getValue(query).get());
-        }
-        return new Dollar("0.00");
+        Optional<String> value = DBService.get().getValue(query);
+        return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
     }
 
 	public static Dollar getTotalCreditAmtForAccountByPolicy(String policyNumber, String account) {
 	    String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
-        if (DBService.get().getValue(query).isPresent()) {
-            return new Dollar(DBService.get().getValue(query).get());
-        }
-        return new Dollar("0.00");
+        Optional<String> value = DBService.get().getValue(query);
+        return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
 	}
 
 }
