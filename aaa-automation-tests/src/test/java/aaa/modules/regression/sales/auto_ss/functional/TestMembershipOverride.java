@@ -310,7 +310,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_E34_AC1(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "E34");
+		TestData loginTD = getLoginTD().adjust("Groups", "E34");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 
@@ -333,7 +333,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_L41_AC1(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "L41");
+		TestData loginTD = getLoginTD().adjust("Groups", "L41");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 		testMembershipOverridePrivilege(true);
@@ -355,7 +355,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-6316")
 	public void pas6316_Validate_Membership_Override_NewBusiness_OtherThan_E34_L41_AC2(@Optional("") String state) {
 
-		TestData loginTD = initiateLoginTD().adjust("Groups", "A30");
+		TestData loginTD = getLoginTD().adjust("Groups", "A30");
 		loginTD.adjust("User", "qa_roles");
 		mainApp().open(loginTD);
 

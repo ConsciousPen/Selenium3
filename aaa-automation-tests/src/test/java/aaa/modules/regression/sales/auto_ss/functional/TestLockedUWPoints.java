@@ -120,6 +120,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
 		documentsAndBindTab.submitTab();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change system date
 		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
@@ -129,6 +130,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 
@@ -179,6 +181,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Create Policy
 		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime renewalEff = PolicySummaryPage.getExpirationDate();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change Time to renew policy and have and issued renewal
 		mainApp().close();
@@ -187,6 +190,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Issue Renewal
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -319,6 +323,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
+        setDoNotRenewFlag(policyNum);
 
 		// Change system date
 		LocalDateTime renewalEff = effDate.plusYears(1);
@@ -328,6 +333,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNum);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 
