@@ -3524,21 +3524,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			towinglabor.disableCustomerDisplay();
 			specequip.disableCustomerDisplay();
 
-			softly.assertThat(findCoverage(coverages, "COMPDED")).isEqualToComparingFieldByField(compdedNonPpa);
-			softly.assertThat(findCoverage(coverages, "COLLDED")).isEqualToComparingFieldByField(colldedNonPpa);
-			softly.assertThat(findCoverage(coverages, "GLASS")).isEqualToComparingFieldByField(glass);
-			softly.assertThat(findCoverage(coverages, "LOAN")).isEqualToComparingFieldByField(loan);
-			softly.assertThat(findCoverage(coverages, "RREIM")).isEqualToComparingFieldByField(rreim);
-			softly.assertThat(findCoverage(coverages, "TOWINGLABOR")).isEqualToComparingFieldByField(towinglabor);
-			softly.assertThat(findCoverage(coverages, "SPECEQUIP")).isEqualToComparingFieldByField(specialEquipment);
+			softly.assertThat(findCoverage(coverages,compded.getCoverageCd())).isEqualToComparingFieldByField(compdedNonPpa);
+				softly.assertThat(findCoverage(coverages, collded.getCoverageCd())).isEqualToComparingFieldByField(colldedNonPpa);
+			softly.assertThat(findCoverage(coverages, glass.getCoverageCd())).isEqualToComparingFieldByField(glass);
+			softly.assertThat(findCoverage(coverages, loan.getCoverageCd())).isEqualToComparingFieldByField(loan);
+			softly.assertThat(findCoverage(coverages, rreim.getCoverageCd())).isEqualToComparingFieldByField(rreim);
+			softly.assertThat(findCoverage(coverages, towinglabor.getCoverageCd())).isEqualToComparingFieldByField(towinglabor);
+			softly.assertThat(findCoverage(coverages, specequip.getCoverageCd())).isEqualToComparingFieldByField(specialEquipment);
 		} else {
-			softly.assertThat(findCoverage(coverages, "COMPDED")).isEqualToComparingFieldByField(compded);
-			softly.assertThat(findCoverage(coverages, "COLLDED")).isEqualToComparingFieldByField(collded);
-			softly.assertThat(findCoverage(coverages, "GLASS")).isEqualToComparingFieldByField(glass);
-			softly.assertThat(findCoverage(coverages, "LOAN")).isEqualToComparingFieldByField(loan);
-			softly.assertThat(findCoverage(coverages, "RREIM")).isEqualToComparingFieldByField(rreim);
-			softly.assertThat(findCoverage(coverages, "TOWINGLABOR")).isEqualToComparingFieldByField(towinglabor);
-			softly.assertThat(findCoverage(coverages, "SPECEQUIP")).isEqualToComparingFieldByField(specequip);
+			softly.assertThat(findCoverage(coverages, compded.getCoverageCd())).isEqualToComparingFieldByField(compded);
+			softly.assertThat(findCoverage(coverages,  collded.getCoverageCd())).isEqualToComparingFieldByField(collded);
+			softly.assertThat(findCoverage(coverages, glass.getCoverageCd())).isEqualToComparingFieldByField(glass);
+			softly.assertThat(findCoverage(coverages, loan.getCoverageCd())).isEqualToComparingFieldByField(loan);
+			softly.assertThat(findCoverage(coverages,  rreim.getCoverageCd())).isEqualToComparingFieldByField(rreim);
+			softly.assertThat(findCoverage(coverages, towinglabor.getCoverageCd())).isEqualToComparingFieldByField(towinglabor);
+			softly.assertThat(findCoverage(coverages,  specequip.getCoverageCd())).isEqualToComparingFieldByField(specequip);
 		}
 	}
 
