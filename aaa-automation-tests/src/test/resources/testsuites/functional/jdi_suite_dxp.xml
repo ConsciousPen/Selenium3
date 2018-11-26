@@ -831,6 +831,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                    <include name="pas16112_umpdOregonViewCoverage"/>
                 </methods>
             </class>
         </classes>
