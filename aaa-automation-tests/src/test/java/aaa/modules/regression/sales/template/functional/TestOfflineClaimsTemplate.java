@@ -121,7 +121,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         mainApp().close();
     }
 
-
     // Move to R-63, run batch job part 1 and offline claims batch job
     public void runRenewalClaimOrderJob() {
         policyExpirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
