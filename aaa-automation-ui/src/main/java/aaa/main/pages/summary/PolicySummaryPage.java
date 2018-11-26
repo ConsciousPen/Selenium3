@@ -89,7 +89,7 @@ public class PolicySummaryPage extends SummaryPage {
 	public static Table tableInsuredInformation = new Table(By.xpath("//div[@id='productConsolidatedViewForm:consolidatedInfoPanelPreconfigInsured_body' "
 		+ "or @id='productConsolidatedViewForm:scolumn_InsuredInformation' " + "or @id='scolumn_AAAHONamedInsured'" + "or @id='scolumn_AAAHONamedInsuredInformation'"
 		+ "or @id='scolumn_InsuredInformationMVO'" + "or @id='productConsolidatedViewForm:consolidatedInfoPanelAAAPupNamedInsuredInfo_body']//table"));
-	public static Table tableCoveragePremiumSummary = new Table(By.id("policyDataGatherForm:policySummary_ListCLGLPremOpsProdCoveragePremiumSummary"));
+	public static Table tableCoveragePremiumSummary = new Table(By.xpath("//table[@id='productConsolidatedViewForm:coveragesPremiumsTable']"));
 	public static Table tableCompare = new Table(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']/table[@role='treegrid']"));
 	public static Table tableOtherUnderlyingRisks = new Table(By.xpath("//div[@id='productConsolidatedViewForm:pupUnderlyingRiskPanel_body'//table"));
 	public static Table tableTotalPremiumSummaryProperty = new Table(By.xpath("//table[@id='productConsolidatedViewForm:totalSummaryTable' "

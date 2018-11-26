@@ -1,16 +1,17 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
@@ -475,9 +476,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS,
-			Constants.States.CT, Constants.States.WV})
+			Constants.States.CT, Constants.States.WV, Constants.States.UT, Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -714,8 +715,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
 	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
-
-		pas17642_UpdateCoverageADBBody(getPolicyType());
+		pas17642_UpdateCoverageADBBody();
 	}
 
 	/**
@@ -1022,4 +1022,57 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 		pas22037_updateBiCoverageBody();
 	}
+
+	/**
+	 * @author Bob Van
+	 * @name View Coverages - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy: UMBI/UIMBI, COMP, COLL other than no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: remove COLL
+	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed true, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
+	 * @scenario2
+	 * 1. Create policy: UMBI/UIMBI, COMP, COLL other than no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: remove COLL
+	 * 4. verify response: UMPD canChangeCoverage & customerDisplayed false, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
+	 * @scenario3
+	 * 1. Create policy: UMBI/UIMBI, COMP other than no coverage, COLL no coverage
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP Update Coverage: COLL =  500
+	 * 4. verify response: has UMPD, canChangeCoverage & customerDisplayed false, check availLimits
+	 * 5. Run viewEndorsementCoverages service and validate that response is the same as updateCoverage response
+	 * 6. Run viewChangeLog service and validate that response contains updated UMPD
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.UT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306", "PAS-20305"})
+	public void pas20306_viewUpdateCoveragesUmpdCompColl(@Optional("UT") String state) {
+		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
+	}
+
+/**
+ * @author Megha Gubbala
+ * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+ * @scenario1
+ * 1. Create policy with trailer Motor home and ppa vehicle
+ * 2. Create endorsement outside of PAS.
+ * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
+ * 4. And Trailer customerDisplayed canChangeCoverage false
+ * */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.OR})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
+	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
+		assertSoftly(softly ->
+				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
+		);	}
 }
+
