@@ -228,7 +228,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         if (!getPolicyType().isAutoPolicy()) {
             return PolicySummaryPage.getTotalPremiumSummaryForProperty();
         } else if (isStateCA()){
-            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(2).getCell(2).getValue());
+            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
         } else {
             return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
         }
