@@ -34,12 +34,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
 		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
-//		Dollar premTotal;
-//		if (!getPolicyType().isAutoPolicy()) {
-//            premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
-//        } else {
-//            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
-//        }
+		Dollar premTotal;
+		if (!getPolicyType().isAutoPolicy()) {
+            premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
+        } else {
+            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
+        }
 
         // NB validations
         //TODO implement DB validation, below was for testing
