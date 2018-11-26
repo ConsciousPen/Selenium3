@@ -20,16 +20,28 @@ public final class FinancialsSQL {
 		return String.format("select SUM(ENTRYAMT) from LEDGERENTRY where LEDGERACCOUNTNO = '%s'", account);
 	}
 
-    public static Dollar getTotalDebitAmtForAccountByPolicy(String policyNumber, String account) {
-        String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
+    public static Dollar getDebitsForAccountByPolicyNB(String policyNumber, String account) {
+        String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and TRANSACTIONTYPE = 'policy' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
         Optional<String> value = DBService.get().getValue(query);
         return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
     }
 
-	public static Dollar getTotalCreditAmtForAccountByPolicy(String policyNumber, String account) {
-	    String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
+	public static Dollar getCreditsForAccountByPolicyNB(String policyNumber, String account) {
+	    String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and TRANSACTIONTYPE = 'policy' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
         Optional<String> value = DBService.get().getValue(query);
         return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
+	}
+
+	public static Dollar getDebitsForAccountByPolicyEndorsement(String policyNumber, String account) {
+		String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and TRANSACTIONTYPE = 'endorsement' and LEDGERACCOUNTNO = '%s' and entrytype = 'DEBIT')", policyNumber, account);
+		Optional<String> value = DBService.get().getValue(query);
+		return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
+	}
+
+	public static Dollar getCreditsForAccountByPolicyEndorsement(String policyNumber, String account) {
+		String query = String.format("select SUM(ENTRYAMT) from (select ENTRYAMT from LEDGERENTRY WHERE PRODUCTNUMBER = '%s' and TRANSACTIONTYPE = 'endorsement' and LEDGERACCOUNTNO = '%s' and entrytype = 'CREDIT')", policyNumber, account);
+		Optional<String> value = DBService.get().getValue(query);
+		return value.map(Dollar::new).orElseGet(() -> new Dollar("0.00"));
 	}
 
 }

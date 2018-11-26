@@ -27,14 +27,15 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return policyNum;
 	}
 
-	protected void payAmountDue(){
+	protected Dollar payAmountDue(){
 		// Open Billing account and Pay min due for the renewal
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		Dollar due = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), due);
 
 		// Open Policy Summary Page
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
+		return due;
 	}
 
 	public static void validateAccounts() {

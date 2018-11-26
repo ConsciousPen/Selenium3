@@ -12,8 +12,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
-import aaa.soap.aaaCSPolicyRate.com.exigenservices.Policy;
-import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
@@ -39,19 +37,25 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		if (!getPolicyType().isAutoPolicy()) {
             premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
         } else if (isStateCA()){
-            premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(1).getCell(2).getValue());
+            premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(2).getCell(2).getValue());
         } else {
-            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
+            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
         }
 
         // NB validations
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1022")
-                .subtract(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1022")));
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyNB(policyNumber, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyNB(policyNumber, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicyNB(policyNumber, "1022")));
 
-//        performAPEndorsement(effDate, policyNumber);
-//        // TODO implement DB validation
-//
+        Dollar addedPrem = performAPEndorsement(effDate, policyNumber);
+
+        // AP endorsement validations
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1001"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")));
+
 //		// Cancel policy
 //		policy.cancel().perform(getCancellationTD());
 //		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
@@ -107,7 +111,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 4. Advance time one week
      * 5. Cancel policy
      * 6. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
-     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19
+     * @details NBZ-02, PMT-01, END-03, CNL-02, RST-03, PMT-06, PMT-19
      */
 	protected void testNewBusinessScenario_3() {
 
@@ -141,6 +145,18 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
     }
 
+    /**
+     * @scenario
+     * 1. Create new policy with effective date three weeks from now, WITH employee benefit
+     * 2. Advance time 3 days
+     * 3. Perform endorsement resulting in reduction (return) of premium (add vehicle for for CA Auto)
+     * 4. Advance time 4 days
+     * 5. Cancel policy
+     * 6. Advance time one week
+     * 6. Reinstate policy with lapse
+     * 7. Remove reinstatement lapse
+     * @details NBZ-04, PMT-04, END-04, CNL-07, PMT-05, RST-04, RST-08, RST-10
+     */
     protected void testNewBusinessScenario_4() {
 
         // Create policy WITH employee benefit, effective date three weeks from today
@@ -164,7 +180,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
     }
 
-    private void performAPEndorsement(LocalDateTime effDate, String policyNumber) {
+    private Dollar performAPEndorsement(LocalDateTime effDate, String policyNumber) {
         // Advance time one week and perform premium-bearing endorsement (additional premium)
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(1));
@@ -174,13 +190,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         policy.getDefaultView().fill(getAddPremiumTD());
 
         // Pay additional premium
-        payAmountDue();
+        Dollar addedPrem = payAmountDue();
 
         // Advance time another week and open policy
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(2));
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
+        return addedPrem;
     }
 
     private void performRPEndorsement(LocalDateTime today, String policyNumber) {
