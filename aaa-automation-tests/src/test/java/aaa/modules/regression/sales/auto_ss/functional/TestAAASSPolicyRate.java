@@ -38,7 +38,6 @@ public class TestAAASSPolicyRate extends AutoCaChoiceBaseTest {
 		SSPolicyRateWSClient ssPolicyRateWSClient = new SSPolicyRateWSClient();
 		RatePolicyRequest actualResponse = ssPolicyRateWSClient.getSSPolicyRateServiceResponse(pas12465_SSRatePolicyRequest());
 		assertThat(actualResponse.getPolicy().getMessageStatus().getMsgStatus()).isEqualTo(MessageStatusEnum.SUCCESS);
-
 	}
 
 	private String addressLine1 = "123 St";
