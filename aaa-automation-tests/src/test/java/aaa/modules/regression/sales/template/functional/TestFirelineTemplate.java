@@ -73,8 +73,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
-		if(expectedFirelineScore>5){
-			assertThat(errorTab.isVisible()).isTrue();
+		if(expectedFirelineScore>4){
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline);
 		}
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
@@ -136,8 +135,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
-			if(expectedFirelineScore>5){
-				assertThat(errorTab.isVisible()).isTrue();
+			if(expectedFirelineScore>4){
 				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
 			}
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
