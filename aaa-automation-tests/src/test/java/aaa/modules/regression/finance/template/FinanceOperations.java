@@ -121,11 +121,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 						effectiveDate.format(DateTimeUtils.MM_DD_YYYY)));
 	}
 
-	public static void main(String[] args) {
-		FinanceOperations financeOperations = new FinanceOperations() {};
-		financeOperations.test();
-	}
-
 	/**
 	 * @author Maksim Piatrouski
 	 * @name Cancel Policy with specific Effective date
@@ -238,11 +233,30 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
+	/**
+	 * @author Mantas Kazlauskas
+	 *
+	 * @name Calculates monthly earned premium posting amounts based on model calculations and compares with values that were actually posted to database
+	 *
+	 * @param policyNumber policy number for which to calculate
+	 * @param txTypes transaction types for which premium data will be loaded. Must be filled from {@link TxType}
+	 * @param effectiveDate policy effective date
+	 * @param expirationDate policy expiration date
+	 */
 	protected void validateEPCalculations(String policyNumber, List<TxType> txTypes, LocalDateTime effectiveDate, LocalDateTime expirationDate) {
 		List<TxWithTermPremium> txsWithPremium = createTxsWithPremiums(policyNumber, txTypes);
 		validateEPCalculationsFromTransactions(policyNumber, txsWithPremium, effectiveDate.toLocalDate(), expirationDate.toLocalDate());
 	}
 
+	/**
+	 * @author Mantas Kazlauskas
+	 *
+	 * @name extracts transactions with premiums based on policy number and maps to provided txTypes
+	 *
+	 * @param policyNumber policy number for which to calculate
+	 * @param txTypes transaction types for which premium data will be loaded. Must be filled from {@link TxType}
+	 * @return transactions with their premiums and transaction and effective dates
+	 */
 	protected List<TxWithTermPremium> createTxsWithPremiums(String policyNumber, List<TxType> txTypes) {
 		List<TxWithTermPremium> txsWithPremium = new ArrayList<>();
 		List<Map<String, String>> termAndActualPremiums = LedgerHelper.getTermAndActualPremiums(policyNumber);
@@ -260,6 +274,16 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		return txsWithPremium;
 	}
 
+	/**
+	 * @author Mantas Kazlauskas
+	 *
+	 * @name Calculates monthly earned premium posting amounts based on model calculations and compares with values that were actually posted to database
+	 *
+	 * @param policyNumber policy number for which to calculate
+	 * @param txsWithPremium transactions on which calculations are based
+	 * @param effectiveDate policy effective date
+	 * @param expirationDate policy expiration date
+	 */
 	protected void validateEPCalculationsFromTransactions(String policyNumber, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate) {
 
 		List<LocalDate> monthlyTimePoints = new ArrayList<>(13);
@@ -383,49 +407,6 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 							epDate, modelAmt, postedAmt, TOLERANCE_AMOUNT))
 					.isTrue();
 		}
-	}
-
-	private void test() {
-		List<TxWithTermPremium> premiums = new ArrayList<>();
-
-        premiums.add(new TxWithTermPremium(TxType.ISSUE, 1490, 1490, LocalDate.of(2023, 8, 1), LocalDate.of(2023, 8, 1)));
-        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1301, 1348, LocalDate.of(2023, 11, 1), LocalDate.of(2023, 11, 1)));
-        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2023, 8, 1), LocalDate.of(2024, 8, 1));
-		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 8), LocalDate.of(2018, 11, 8)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1219, 1239, LocalDate.of(2019, 1, 9), LocalDate.of(2019, 1, 8)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1376, 1344, LocalDate.of(2019, 3, 11), LocalDate.of(2019, 3, 10)));
-		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1265, 1273, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 2, 8)));
-		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 1376, 1347, LocalDate.of(2019, 5, 14), LocalDate.of(2019, 3, 10)));
-		validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 8), LocalDate.of(2019, 11, 8));*/
-
-		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, new BigDecimal(405), LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(333), LocalDate.of(2018, 10, 29), LocalDate.of(2018, 10, 28)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, new BigDecimal(450), LocalDate.of(2018, 12, 29), LocalDate.of(2018, 12, 28)));
-		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, new BigDecimal(333), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 11, 28)));
-		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, new BigDecimal(450), LocalDate.of(2019, 3, 2), LocalDate.of(2018, 12, 28)));
-		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));
-
-		/*premiums.add(new TxWithTermPremium(TxType.ISSUE, 2565, 2565, LocalDate.of(2018, 10, 15), LocalDate.of(2018, 10, 15)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 3761, 2873, LocalDate.of(2019, 7, 15), LocalDate.of(2019, 7, 13)));
-		premiums.add(new TxWithTermPremium(TxType.ENDORSE, 3761, 2873, LocalDate.of(2019, 7, 15), LocalDate.of(2019, 7, 13)));
-		premiums.add(new TxWithTermPremium(TxType.OOS_ENDORSE, 1448, 2242, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 1)));
-		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 2434, 2496, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 13)));
-		premiums.add(new TxWithTermPremium(TxType.ROLL_ON, 2434, 2496, LocalDate.of(2019, 8, 15), LocalDate.of(2019, 7, 13)));
-		validateEPCalculationsFromTransactions(premiums, LocalDate.of(2018, 10, 15), LocalDate.of(2019, 10, 15));*/
-
-        /*premiums.add(new TxWithTermPremium(TxType.ISSUE, 397, 397, LocalDate.of(2018, 8, 28), LocalDate.of(2018, 8, 28)));
-        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 401, 399.67, LocalDate.of(2018, 12, 29), LocalDate.of(2018, 12, 28)));
-        premiums.add(new TxWithTermPremium(TxType.OOS_CANCEL, 0, 33.72, LocalDate.of(2019, 2, 2), LocalDate.of(2018, 9, 28)));
-        premiums.add(new TxWithTermPremium(TxType.REINSTATE, 329, 334.78, LocalDate.of(2019, 3, 2), LocalDate.of(2018, 9, 28)));
-        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 8, 28), LocalDate.of(2019, 8, 28));*/
-
-        /*premiums.add(new TxWithTermPremium(TxType.ISSUE, 1344, 1344, LocalDate.of(2018, 11, 7), LocalDate.of(2018, 11, 7)));
-        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1493, 1467, LocalDate.of(2019, 1, 8), LocalDate.of(2019, 1, 7)));
-        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1180, 1233, LocalDate.of(2019, 2, 8), LocalDate.of(2019, 2, 7)));
-        premiums.add(new TxWithTermPremium(TxType.ENDORSE, 1211, 1239, LocalDate.of(2019, 9, 8), LocalDate.of(2019, 9, 7)));
-        premiums.add(new TxWithTermPremium(TxType.ROLL_BACK, 1344, 1344, LocalDate.of(2019, 9, 11), LocalDate.of(2018, 11, 7)));
-        validateEPCalculationsFromTransactions("asd", premiums, LocalDate.of(2018, 11, 7), LocalDate.of(2019, 11, 7));*/
-
 	}
 
 	private void calculateEPForRollBack(TxWithTermPremium currentTx, List<TxWithTermPremium> txsWithPremium, LocalDate effectiveDate, LocalDate expirationDate, List<PeriodFactor> periodFactorsFrom, Map<TxWithTermPremium, Map<LocalDate, BigDecimal>> calculatedEarnedPremiums) {
