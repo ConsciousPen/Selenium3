@@ -264,9 +264,9 @@ TestData_MD: {
 
 TestData_MT: {
   Renew generate image: [-96, NONE],
-  Renew reports: [-63, NONE],
+  Renew reports: [-57, NONE],
   Renew check uw rules: [-75, NONE],
-  Renew generate preview: [-57, NONE],
+  Renew generate preview: [-55, NONE],
   Pre-renewal letter: [-50, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
@@ -459,7 +459,7 @@ TestData_SD: {
   Renew generate image: [-96, NONE],
   Renew reports: [-63, NONE],
   Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-69, NONE],
+  Renew generate preview: [-45, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
