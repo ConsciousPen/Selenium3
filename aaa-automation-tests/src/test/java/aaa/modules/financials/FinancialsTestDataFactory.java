@@ -17,7 +17,7 @@ import toolkit.exceptions.IstfException;
 
 public class FinancialsTestDataFactory extends PolicyBaseTest {
 
-    static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
+    protected static final List<String> ALL_POLICIES = Collections.synchronizedList(new ArrayList<>());
 
     private static final String CA_SELECT = "AutoCA";
     private static final String CA_CHOICE = "AutoCAC";

@@ -49,18 +49,18 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 .subtract(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1022")));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1044"));
 
-        performAPEndorsement(effDate, policyNumber);
-        // TODO implement DB validation
-
-		// Cancel policy
-		policy.cancel().perform(getCancellationTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		// TODO implement DB validation
-
-		// Reinstate policy without lapse
-		policy.reinstate().perform(getReinstatementTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        // TODO implement DB validation
+//        performAPEndorsement(effDate, policyNumber);
+//        // TODO implement DB validation
+//
+//		// Cancel policy
+//		policy.cancel().perform(getCancellationTD());
+//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+//		// TODO implement DB validation
+//
+//		// Reinstate policy without lapse
+//		policy.reinstate().perform(getReinstatementTD());
+//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+//        // TODO implement DB validation
 	}
 
     /**
