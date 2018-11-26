@@ -50,7 +50,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")
                 .subtract(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")));
 
-//		// Cancel policy
+		// Cancel policy
 		policy.cancel().perform(getCancellationTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 		// TODO implement DB validation
