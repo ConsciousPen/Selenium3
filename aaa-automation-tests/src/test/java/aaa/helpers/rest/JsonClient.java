@@ -267,7 +267,6 @@ public class JsonClient {
 		Client client = null;
 		Response response = null;
 		Form form = new Form();
-//		form.param("client_id","cc_pas_microservices");
 		form.param("client_id","cc_PAS");
 		form.param("client_secret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"); //PAS: QA + CERT Environments
 		form.param("grant_type", "client_credentials");
