@@ -4,6 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
@@ -33,14 +34,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
 		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
-		Dollar premTotal;
-		if (!getPolicyType().isAutoPolicy()) {
-            premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        } else if (isStateCA()){
-            premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(2).getCell(2).getValue());
-        } else {
-            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
-        }
+		Dollar premTotal = getTotalTermPremium();
 
         // NB validations
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyNB(policyNumber, "1044"));
@@ -57,14 +51,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 .subtract(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")));
 
 //		// Cancel policy
-//		policy.cancel().perform(getCancellationTD());
-//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-//		// TODO implement DB validation
-//
-//		// Reinstate policy without lapse
-//		policy.reinstate().perform(getReinstatementTD());
-//		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-//        // TODO implement DB validation
+		policy.cancel().perform(getCancellationTD());
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		// TODO implement DB validation
+
+		// Reinstate policy without lapse
+		policy.reinstate().perform(getReinstatementTD());
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        // TODO implement DB validation
 	}
 
     /**
@@ -228,6 +222,16 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             Page.dialogConfirmation.buttonYes.click();
         }
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+    }
+
+    private Dollar getTotalTermPremium() {
+        if (!getPolicyType().isAutoPolicy()) {
+            return PolicySummaryPage.getTotalPremiumSummaryForProperty();
+        } else if (isStateCA()){
+            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(2).getCell(2).getValue());
+        } else {
+            return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
+        }
     }
 
 }
