@@ -115,8 +115,8 @@
         </classes>
     </test>
     <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="OKTests-20170617.xls"/>
-        <parameter name="policyNumbers" value="25, 26"/>
+        <parameter name="fileName" value="OKTests-20180617.xls"/>
+        <parameter name="policyNumbers" value="283, 287"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
