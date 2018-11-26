@@ -54,9 +54,6 @@ public class TestPolicyRenewCreateVersion extends AutoCaChoiceBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		policy.renew().performAndFill(getTestSpecificTD("TestData"));
-		//--- workaround
-		new DocumentsAndBindTab().submitTab();
-		//--------------
 		
 		assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
@@ -94,5 +91,4 @@ public class TestPolicyRenewCreateVersion extends AutoCaChoiceBaseTest {
 		assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(renewal_row2)).isPresent();
 		Tab.buttonCancel.click();
 	}
-
 }
