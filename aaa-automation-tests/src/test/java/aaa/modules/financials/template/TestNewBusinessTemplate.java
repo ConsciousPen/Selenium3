@@ -38,10 +38,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		Dollar premTotal;
 		if (!getPolicyType().isAutoPolicy()) {
             premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        } else if (!isStateCA()){
-            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
+        } else if (isStateCA()){
+            premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(1).getCell(2).getValue());
         } else {
-		    premTotal = new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(1).getCell(2).getValue());
+            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
         }
 
         // NB validations
