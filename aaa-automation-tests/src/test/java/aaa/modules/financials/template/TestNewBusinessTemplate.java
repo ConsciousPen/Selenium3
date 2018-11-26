@@ -45,7 +45,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         }
 
         // NB validations
-        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1022")));
+        assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1022"))
+                .subtract(new Dollar(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1022"))));
         assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1044")));
         assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalCreditAmtForAccountByPolicy(policyNumber, "1015")));
         assertThat(premTotal).isEqualTo(new Dollar(FinancialsSQL.getTotalDebitAmtForAccountByPolicy(policyNumber, "1021")));
