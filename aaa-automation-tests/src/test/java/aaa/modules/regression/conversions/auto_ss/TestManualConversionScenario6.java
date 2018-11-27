@@ -28,21 +28,23 @@ import toolkit.verification.CustomAssertions;
 /**
  * @author Tatsiana Saltsevich
  * @name Manual Hybrid Conversion Docs Verification ("D-T-AU-SS-MT-957-CNV")
+ * Hybrid CONVERSION
+ * Do not generate pre-renewal notice (AAPRN1MT) for those policies in Customer/Company Declined status
  **/
 
-public class TestManualHybridConversionScenario6 extends AutoSSBaseTest {
+public class TestManualConversionScenario6 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = Constants.States.MT)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionDocsScenario1(@Optional("MT") String state) {
+	public void manualConversionDocsScenario6(@Optional("MT") String state) {
 		ErrorTab errorTab = new ErrorTab();
-		LocalDateTime renewalDate = getTimePoints().getConversionEffectiveDate();
+		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(55);
 		TestData policyTd = getConversionPolicyDefaultTD();
 		//1. Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above.
 		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
 		createCustomerIndividual();
-		//2. Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
+		//2. (R-55) Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
 		//3. Open the renewal image in Data Gathering mode. Enter mandatory data on all pages.
 		policy.getDefaultView().fill(policyTd);

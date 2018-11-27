@@ -24,6 +24,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -35,19 +36,24 @@ import toolkit.utils.TestInfo;
 
 /**
  * @author Tatsiana Saltsevich
- * @name Manual Hybrid Conversion Docs Verification ("D-T-AU-SS-SD-960-CNV")
- **/
+ * @name Manual Hybrid Conversion Docs Verification ("D-T-AU-SS-CT-986-CNV")
+ *
+ * 1. Hybrid Conversion Named Driver Exclusion (AA43CT) Endorsement -
+ * Renewal 2nd renewal term PAS and for all subsequent renewal terms triggers
+ * 2. Hybrid Conversion Informed Consent Form-Uninsured Motorists Coverage (AA52CT)-
+ * Renewal 2nd renewal term PAS and for all subsequent renewal terms triggers
+ */
 
-public class TestManualHybridConversionScenario5 extends AutoSSBaseTest {
-
+public class TestManualConversionScenario3 extends AutoSSBaseTest {
 	@Parameters({"state"})
-	@StateList(states = Constants.States.SD)
+	@StateList(states = Constants.States.CT)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionDocsScenario5(@Optional("SD") String state) {
+	public void manualConversionDocsScenario3(@Optional("CT") String state) {
 		List<LocalDateTime> installmentDueDates;
+		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime billGenDate;
-		LocalDateTime renewalDate = getTimePoints().getConversionEffectiveDate();
+		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
 		//Pre-conditions:-
 		//	> Create a customer in PAS.
@@ -71,6 +77,9 @@ public class TestManualHybridConversionScenario5 extends AutoSSBaseTest {
 		//Open the renewal image in Data Gathering mode. Enter mandatory data on all pages
 		//Rate the policy. Navigate to the Bind tab and 'Save and Exit'
 		policy.getDefaultView().fill(policyTd);
+		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200037);
+		errorTab.override();
+		policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
 		//Navigate to policy consolidated view
 		Tab.buttonBack.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
@@ -164,10 +173,12 @@ public class TestManualHybridConversionScenario5 extends AutoSSBaseTest {
 
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//Navigate to Policy Consolidated View
-		//#V1 Renewal declaration (AA02) will be generated in renewal E-folder.
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA02SD);
-		//#V2 Form number AA43SD will be printed on the Renewal DEC page in the FORMS & ENDORSEMENT section
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA43SD);
+		//#V1 - Renewal declaration (AA02) will be generated in renewal E-folder.
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA02CT);
+		//#V2 - Form number AA43CT will be printed on the Renewal DEC page in the FORMS & ENDORSEMENT section
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA43CT);
+		//#V3 - Form number AA52CT will be printed on the Renewal DEC page in the FORMS & ENDORSEMENT section
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA52CT);
 		//13. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob ->
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
