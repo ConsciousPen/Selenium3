@@ -1307,16 +1307,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	private void checkAssignButtonInUiRateAndBind(String policyNumber) {
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
-		AssignmentTab assignmentTab = new AssignmentTab();
-		assertThat(assignmentTab.btnAssign.isEnabled()).isEqualTo(false);
-		assignmentTab.saveAndExit();
-		helperMiniServices.bindEndorsementWithCheck(policyNumber);
-	}
+
 
 	protected void pas14539_transactionInfoUpdateDriverAssignmentBody(PolicyType policyType) {
 		TestData td = getPolicyTD("DataGather", "TestData_VA");
@@ -1433,14 +1424,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType) {
-		TestData td = getPolicyDefaultTD();
-		//adjust Driver Tab to have 1 driver from policy default TD and one driver from custom TD
-		List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 2 drivers
-		testDataDriverData.add(td.getTestData("DriverTab"));
-		testDataDriverData.addAll(getTestSpecificTD("TestData_oneAdditionalDriver").resolveLinks().getTestDataList("DriverTab"));
-		td = td.adjust("DriverTab", testDataDriverData);
-		//Adjust Vehicle Tab
-		td = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_VehicleTrailer").getTestDataList("VehicleTab")).resolveLinks();
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_VehicleTrailer", null);
 		//adjust test data to override errors for NJ and NY
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		if (Constants.States.NJ.contains(getState()) || Constants.States.NY.contains(getState())) {
@@ -1449,8 +1433,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyType.get().createPolicy(td);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = createPolicy(td);
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1459,8 +1442,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		//Validate that Trailer, Motor Home, Golf Cart are not assigned to FNI before removal of driver (precondition)
 		validateVehicleTab_pas15540(driverFNI, false);
 
-		removeDriverRequest.removalReasonCode = "RD1001";
-		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, removeDriverRequest);
+		HelperCommon.removeDriver(policyNumber, driverNotFNI.oid, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
 		SearchPage.openPolicy(policyNumber);
 		validateVehicleTab_pas15540(driverFNI, true);
 		vehicleTab.cancel();
@@ -1975,6 +1957,17 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 	}
 
+	private void checkAssignButtonInUiRateAndBind(String policyNumber) {
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
+		AssignmentTab assignmentTab = new AssignmentTab();
+		assertThat(assignmentTab.btnAssign.isEnabled()).isEqualTo(false);
+		assignmentTab.saveAndExit();
+		helperMiniServices.bindEndorsementWithCheck(policyNumber);
+	}
+
 	private DriversDto findDriver(TestData testData, ViewDriversResponse dResponse, int driverIndex, String tabName) {
 		return findDriver(testData, dResponse, driverIndex, tabName, false);
 	}
@@ -2045,7 +2038,9 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD(driverTestData).getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(vehicleTestData).getTestDataList("VehicleTab")).resolveLinks();
-			td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD(assignmentTestData)).resolveLinks();
+			if (assignmentTestData != null) {
+				td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD(assignmentTestData)).resolveLinks();
+			}
 			return td;
 		}
 
