@@ -843,4 +843,24 @@
             </class>
         </classes>
     </test>
+    <test name="Moratoriums - VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Moratoriums - AZ">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
