@@ -14,9 +14,6 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class FinancialsBaseTest extends FinancialsTestDataFactory {
 
-    private static final String UNEARNED_INCOME_1015 = "1015";
-    private static final String CHANGE_IN_UNEARNED_INCOME_1021 = "1021";
-
 	protected String createFinancialPolicy() {
 		return createFinancialPolicy(getPolicyTD());
 	}
@@ -36,15 +33,6 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		// Open Policy Summary Page
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		return due;
-	}
-
-	public static void validateAccounts() {
-		if (TimeSetterUtil.getInstance().getCurrentTime().getDayOfMonth() != 1) {
-			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().withDayOfMonth(1).plusMonths(1));
-		}
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		assertSoftly(softly -> softly.assertThat(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(UNEARNED_INCOME_1015)).get())
-				.isEqualTo(DBService.get().getValue(FinancialsSQL.getTotalEntryAmtForAcct(CHANGE_IN_UNEARNED_INCOME_1021)).get()));
 	}
 
 }
