@@ -124,7 +124,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS);
 	}
 	@Override
-	protected RadioGroup getClaimChargeableAsset() {
+	protected RadioGroup getClaimIncludedInRatingAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 

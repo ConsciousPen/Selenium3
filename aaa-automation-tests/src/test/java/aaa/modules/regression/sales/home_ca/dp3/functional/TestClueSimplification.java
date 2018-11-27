@@ -125,7 +125,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
 	@Override
-	protected RadioGroup getClaimChargeableAsset() {
+	protected RadioGroup getClaimIncludedInRatingAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 
