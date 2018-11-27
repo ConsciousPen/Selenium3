@@ -44,6 +44,8 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar addedPrem = performAPEndorsement(effDate, policyNumber);
 
         // AP endorsement validations
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyManualPayment(policyNumber, "1001"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyManualPayment(policyNumber, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1022")));
