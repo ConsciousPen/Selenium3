@@ -1,14 +1,17 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestBillingTabPaymentPlanBehaviorTemplate;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
+@StateList(statesExcept = Constants.States.CA)
 public class TestBillingTabPayPlanDisabled extends TestBillingTabPaymentPlanBehaviorTemplate {
 
     @Override
