@@ -476,12 +476,29 @@
         </classes>
     </test>
 
-    <test name="Test Endorsement Premium Database Entries">
+    <test name="Test Endorsement Premium Database Entries DP3">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+
+    <test name="Test Endorsement Premium Database Entries HO3">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+    <test name="Test Endorsement Premium Database Entries HO4">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+
+    <test name="Test Endorsement Premium Database Entries HO6">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>

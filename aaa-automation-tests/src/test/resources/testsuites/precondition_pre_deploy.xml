@@ -1,12 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Evalue Preconditions" verbose="1" parallel="false">
+<suite name="Pre Deploy Preconditions" verbose="1" parallel="false">
     <test name="Evalue Preconditions" preserve-order="true">
         <classes>
-            <!-- <class name="aaa.modules.preconditions.SetTodayDate"/>-->
-            <class name="aaa.modules.preconditions.CleanAsyncTasks"/>
-            <class name="aaa.modules.preconditions.CleanCache"/>
-            <class name="aaa.modules.preconditions.AddJob"/>
-            <!--  <class name="aaa.modules.preconditions.CleanCacheAdmin"/>-->
             <class name="aaa.modules.regression.sales.auto_ss.functional.EvalueInsertSetup">
                 <methods>
                     <include name="paperlessPreferencesStubEndpointUpdate"/>
