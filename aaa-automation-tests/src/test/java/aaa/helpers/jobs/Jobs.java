@@ -8,6 +8,7 @@ import toolkit.config.PropertyProvider;
 public class Jobs {
 	private static final String CLAIM_ORDER_JOB_FOLDER_TEMPLATE = "%SPAS_B_EXGPAS_PASHUB_4001_D/outbound";
 	private static final String CLAIM_RECEIVE_JOB_FOLDER_TEMPLATE = "%SPAS_B_PASHUB_EXGPAS_4001_D/inbound";
+
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", new HashMap<>(), getJobFoldersPath());
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
 	public static Job renewalJob = new Job("Renewal job");
@@ -111,10 +112,6 @@ public class Jobs {
 
 	private static String getFormattedFolderPath(String template) {
 		return String.format(template, jobFolderPrefix);
-	}
-
-	public enum JobState {
-		TRUE, FALSE, FAILED
 	}
 
 }
