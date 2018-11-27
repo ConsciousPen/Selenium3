@@ -1309,113 +1309,53 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 
 
-	protected void pas14539_transactionInfoUpdateDriverAssignmentBody(PolicyType policyType) {
-		TestData td = getPolicyTD("DataGather", "TestData_VA");
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_TwoVehicles").getTestDataList("VehicleTab")).resolveLinks();
-		td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTab_Two_Driver")).resolveLinks();
-
+	protected void pas14539_transactionInfoUpdateDriverAssignmentBody() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_TwoVehicles", "AssignmentTab_Two_Driver");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(td);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-		String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
-		String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
-
-		String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
-		String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
-
-		String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
-
-		//Perform Endorsement
+		String policyNumber = openAppAndCreatePolicy(td);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//get vehicles oid's
-		ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
-
-		Vehicle vehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-		Vehicle vehicle2 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-
-		assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
-		String vehicleOid1 = vehicle1.oid;
-		assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
-		String vehicleOid2 = vehicle2.oid;
+		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+		Vehicle vehicle1 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+		Vehicle vehicle2 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(1).getValue("VIN"));
 
 		//get drivers oid's
 		ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-		DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-		DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-
-		String driverOid1 = driver1.oid;
-
-		String driverOid2 = driver2.oid;
+		DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
+		DriversDto driver2 = findDriver(td, dResponse, 1, "DriverTab");
 
 		//Update: V2-->D1 ,Check V2-->D1, V1-->D2
-		HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Collections.singletonList(driverOid1));
-
-		HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Collections.singletonList(driverOid2));
+		HelperCommon.updateDriverAssignment(policyNumber, vehicle2.oid, Collections.singletonList(driver1.oid));
+		HelperCommon.updateDriverAssignment(policyNumber, vehicle1.oid, Collections.singletonList(driver2.oid));
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
-		ComparableVehicle veh1 = policyResponse.vehicles.get(vehicleOid1);
-		ComparableVehicle veh2 = policyResponse.vehicles.get(vehicleOid2);
-		assertSoftly(softly -> {
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).changeType).isEqualTo("REMOVED");
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.driverOid).isEqualTo(driverOid1);
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.driverDisplayValue.contains(firstName1)).isTrue();
-			softly.assertThat(veh1.driverAssignments.get(driverOid1).data.relationshipType).isEqualTo("primary");
+		ComparableVehicle veh1 = policyResponse.vehicles.get(vehicle1.oid);
+		ComparableVehicle veh2 = policyResponse.vehicles.get(vehicle2.oid);
 
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.driverOid).isEqualTo(driverOid2);
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.driverDisplayValue).isEqualTo("John Smith");
-			softly.assertThat(veh1.driverAssignments.get(driverOid2).data.relationshipType).isEqualTo("primary");
-
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.driverOid).isEqualTo(driverOid1);
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.driverDisplayValue.contains(firstName1)).isTrue();
-			softly.assertThat(veh2.driverAssignments.get(driverOid1).data.relationshipType).isEqualTo("primary");
-
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).changeType).isEqualTo("REMOVED");
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.driverOid).isEqualTo(driverOid2);
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.driverDisplayValue).isEqualTo("John Smith");
-			softly.assertThat(veh2.driverAssignments.get(driverOid2).data.relationshipType).isEqualTo("primary");
-		});
+		checkEndorsementChangeLogForVehicle(veh1, driver1.oid, "REMOVED", "primary", driver1.firstName);
+		checkEndorsementChangeLogForVehicle(veh1, driver2.oid, "ADDED", "primary", driver2.firstName);
+		checkEndorsementChangeLogForVehicle(veh2, driver1.oid, "ADDED", "primary", driver1.firstName);
+		checkEndorsementChangeLogForVehicle(veh2, driver2.oid, "REMOVED", "primary", driver2.firstName);
 	}
 
 	protected void pas14539_transactionInfoDriverAssignmentBody() {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(getPolicyTD());
+		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+		String policyNumber = openAppAndCreatePolicy();
 
 		//Perform Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//add vehicle
-		String purchaseDate = "2012-02-21";
-		String vin = "4S2CK58W8X4307498";
+		String vehicleOid1 = addVehicle(policyNumber, "2012-02-21", "4S2CK58W8X4307498" );
 
-		Vehicle addVehicle =
-				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
-
-		String newVehicleOid = addVehicle.oid;
-		assertThat(addVehicle.oid).isNotEmpty();
-
-		//Update Vehicle with proper Usage and Registered Owner
-		helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
-		ViewDriversResponse response = HelperCommon.viewPolicyDrivers(policyNumber);
-		String dOid = response.driverList.get(0).oid;
+		ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+		DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
 
 		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
-		ComparableVehicle veh1 = policyResponse.vehicles.get(newVehicleOid);
-		assertSoftly(softly -> {
-			softly.assertThat(veh1.driverAssignments.get(dOid).changeType).isEqualTo("ADDED");
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverOid).isEqualTo(dOid);
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.driverDisplayValue.contains("Ben")).isTrue();
-			softly.assertThat(veh1.driverAssignments.get(dOid).data.relationshipType).isEqualTo("occasional");
-		});
+		ComparableVehicle veh1 = policyResponse.vehicles.get(vehicleOid1);
+		checkEndorsementChangeLogForVehicle(veh1, driver1.oid, "ADDED", "occasional", driver1.firstName);
 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
@@ -1430,10 +1370,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		if (Constants.States.NJ.contains(getState()) || Constants.States.NY.contains(getState())) {
 			td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 		}
-
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy(td);
+		String policyNumber = openAppAndCreatePolicy(td);
 
 		//Create pended endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1986,6 +1923,15 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			firstName = firstName.substring(0, firstName.length() - 5);
 		}
 		return firstName;
+	}
+
+	private void checkEndorsementChangeLogForVehicle (ComparableVehicle vehicleResponse, String driverOid, String changeType, String relationshipType, String firstName){
+		assertSoftly(softly -> {
+			softly.assertThat(vehicleResponse.driverAssignments.get(driverOid).changeType).isEqualTo(changeType);
+			softly.assertThat(vehicleResponse.driverAssignments.get(driverOid).data.driverOid).isEqualTo(driverOid);
+			softly.assertThat(vehicleResponse.driverAssignments.get(driverOid).data.driverDisplayValue.contains(firstName)).isTrue();
+			softly.assertThat(vehicleResponse.driverAssignments.get(driverOid).data.relationshipType).isEqualTo(relationshipType);
+		});
 	}
 
 	private Vehicle findVehicle(ViewVehicleResponse viewVehicleResponse, String vin) {
