@@ -781,6 +781,29 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 				pas15269_ViewVehicleServiceAddTownshipBody(softly)
 		);
 	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Registered Owner -
+	 * @scenario
+	 * 1. Create policy CT.
+	 * 2. Create new endorsement in DXP
+	 * 3. Add a new vehicle.
+	 * 4. Update the vehicle and registered owner to false.
+	 * 5. Validate that an error is returned.
+	 * 6. Navigate to the PAS UI. Validate that Registered Owner Different is set to Yes in the UI.
+	 * 7. Attempt to rate in DXP. Validate that an error is returned.
+	 * 8. Update the vehicle to registered owner to true.
+	 * 9. Rate in DXP. Validate than no error is returned.
+	 * 10. Bind in DXP. Validate that no error is returned.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT, Constants.States.NY, Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15269"})
+	public void pas15499_RegisteredOwnerDifferent(@Optional("CT") String state) {
+		assertSoftly(softly -> pas15499_RegisteredOwners(softly));
+	}
 }
 
 

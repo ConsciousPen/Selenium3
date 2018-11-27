@@ -1,5 +1,19 @@
 package aaa.modules.regression.service.helper;
 
+import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import javax.ws.rs.core.Response;
+
+import org.apache.commons.lang.StringUtils;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -26,6 +40,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
 
 import javax.ws.rs.core.Response;
 import java.time.format.DateTimeFormatter;
@@ -1141,10 +1156,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		if ("LSD".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Leased");
 		}
 		if ("FNC".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Financed");
 		}
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME)).hasValue("Other");
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
@@ -1219,7 +1234,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		//BUG PAS-14395 Update Vehicle service failed to update ownership
-		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
+		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
 		mainApp().close();
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -2972,6 +2987,41 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, DXPRequestFactory.createUpdateVehicleRequest("60319"));
 		softly.assertThat(updateVehicleResponse5.garagingAddress.county).isEqualTo("60319");
+	}
+
+	protected void pas15499_RegisteredOwners(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String vehicleOid = addVehicleWithChecks(policyNumber, "2013-01-20", "1C4BJWDG0JL847133", true);
+		VehicleUpdateDto updateVehicleRequest1 = new VehicleUpdateDto();
+		updateVehicleRequest1.registeredOwner = false;
+		VehicleUpdateResponseDto updateVehicleResponse1 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest1);
+		assertThat(updateVehicleResponse1.validations.size()).isGreaterThan(0);
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_SS1007148"))).isTrue();
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED)).hasValue("Yes");
+		vehicleTab.saveAndExit();
+
+		VehicleUpdateDto updateVehicleRequest2 = new VehicleUpdateDto();
+		updateVehicleRequest2.registeredOwner = true;
+		VehicleUpdateResponseDto updateVehicleResponse2 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest2);
+		assertThat(updateVehicleResponse2.validations.size()).isEqualTo(0);
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED)).hasValue("No");
+		vehicleTab.saveAndExit();
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
