@@ -214,8 +214,8 @@ public class JsonClient {
 			String token = getBearerToken();
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-			}}
-		 else {
+			}
+		} else {
 			builder = builder.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()));
 		}
 		return builder.header(APPLICATION_CONTEXT_HEADER, createApplicationContext(sessionId));
