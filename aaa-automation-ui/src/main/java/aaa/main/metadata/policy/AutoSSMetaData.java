@@ -612,6 +612,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<RadioGroup> UNDERINSURED_MOTORIST_CONVERSION_COVERAGE = declare("Underinsured Motorist Conversion Coverage", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> MEDICAL_PAYMENTS = declare("Medical Payments", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> PERSONAL_INJURY_PROTECTION = declare("Personal Injury Protection", ComboBox.class);
+		public static final AssetDescriptor<RadioGroup> REJECTION_OF_WORK_LOSS_BENEFIT = declare("Rejection of Work Loss Benefit", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:rejectionOfWorkLossBenefit:0:rejectionOfWorkLossBenefit']"));
 		public static final AssetDescriptor<ComboBox> PERSONAL_INJURY_PROTECTION_DEDUCTIBLE = declare("Personal Injury Protection Deductible", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> BASIC_PERSONAL_INJURY_PROTECTION_COVERAGE = declare("Basic Personal Injury Protection Coverage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE = declare("Additional Personal Injury Protection Coverage", ComboBox.class);
@@ -722,7 +723,7 @@ public final class AutoSSMetaData {
 				declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));*/
 			public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE = declare("Transportation Expense", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> UMPD_CDW = declare("UMPD/CDW", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> UMPD_CDW = declare("Uninsured Motorist Property Damage or Collision Deductible Waived", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);

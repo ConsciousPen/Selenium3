@@ -51,14 +51,13 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!-- AutoSS [IN] is excluded from suite since policy effective date is too old and there are no newer generated files for IN state -->
-    <!--<test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="INTests-20170806_part1.xls"/>
-        <parameter name="policyNumbers" value="1, 2"/>
+    <test name="AutoSS [IN] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="INTests-20180508_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 7"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="AutoSS [KS] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="KSTests-20181001.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
@@ -67,8 +66,8 @@
         </classes>
     </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MDTests-ACAIC-20170922.xls"/>
-        <parameter name="policyNumbers" value="234, 235"/>
+        <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
@@ -116,23 +115,22 @@
         </classes>
     </test>
     <test name="AutoSS [OK] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="OKTests-20170617.xls"/>
-        <parameter name="policyNumbers" value="25, 26"/>
+        <parameter name="fileName" value="OKTests-20180617.xls"/>
+        <parameter name="policyNumbers" value="283, 287"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!-- AutoSS [OR] is excluded from suite since policy effective date is too old and there are no newer generated files for OR state -->
-    <!--<test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="ORTests-20170915.xls"/>
+    <test name="AutoSS [OR] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="ORTests-20180601.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
-    </test>-->
+    </test>
     <test name="AutoSS [PA] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="PATests-20180620_part1.xls"/>
-        <parameter name="policyNumbers" value="2, 3"/>
+        <parameter name="fileName" value="PATests-20180828.xls"/>
+        <parameter name="policyNumbers" value="228, 235"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>

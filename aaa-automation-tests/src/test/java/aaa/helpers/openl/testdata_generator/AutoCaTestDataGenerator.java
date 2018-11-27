@@ -12,6 +12,7 @@ import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -159,11 +160,15 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 					}
 				}
 			}
+			if (vehicle.getCoverages().stream().noneMatch(c -> "COMP".equals(c.getCoverageCd()))) {
+				detailedCoveragesData.put(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel(), getFormattedCoverageLimit("N", "COMP"));
+			}
 			detailedVehicleCoveragesList.add(new SimpleDataProvider(detailedCoveragesData));
 			detailedCoveragesData.clear();
 		}
 
 		return DataProviderFactory.dataOf(
+				AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), openLPolicy.getTestPolicyType().equals(PolicyType.AUTO_CA_SELECT) ? "CA Select" : "CA Choice",
 				AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getTerm()),
 				AutoCaMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
 				AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),

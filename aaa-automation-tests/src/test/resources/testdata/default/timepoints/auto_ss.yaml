@@ -46,30 +46,6 @@ TestData_AZ: {
   Earned premium write off: [60, NEXT]
 }
 
-TestData_CA: {
-  Renew generate image: [-96, NONE],
-  Renew reports: [-63, NONE],
-  Renew check uw rules: [-57, NONE],
-  Renew generate preview: [-45, NONE],
-  Pre-renewal letter: [-40, PREVIOUS],
-  Renew generate offer: [-35, PREVIOUS],
-  Bill generation: [-20, PREVIOUS],
-  Offcycle bill generation: [-20, NEXT],
-  Bill payment: [0, NEXT],
-  Update policy status: [1, NEXT],
-  Refund: [3, NONE],
-  Cancellation notice: [5, PREVIOUS],
-  Insurance renewal reminder: [10, NEXT],
-  Cancellation: [13, NEXT],
-  Renew customer decline: [15, NONE],
-  Pay Lapsed Renew short: [2, NEXT],
-  Pay Lapsed Renew long: [16, NONE],
-  Earned premium bill first: [15, NONE],
-  Earned premium bill second: [30, NONE],
-  Earned premium bill third: [45, NONE],
-  Earned premium write off: [60, NEXT]
-}
-
 TestData_CO: {
   Renew generate image: [-96, NONE],
   Renew reports: [-63, NONE],
@@ -96,9 +72,9 @@ TestData_CO: {
 
 TestData_CT: {
   Renew generate image: [-96, NONE],
-  Renew reports: [-63, NONE],
+  Renew reports: [-69, NONE],
   Renew check uw rules: [-85, NONE],
-  Renew generate preview: [-73, NONE],
+  Renew generate preview: [-69, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
   Renew generate offer: [-35, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
@@ -288,11 +264,11 @@ TestData_MD: {
 
 TestData_MT: {
   Renew generate image: [-96, NONE],
-  Renew reports: [-63, NONE],
+  Renew reports: [-57, NONE],
   Renew check uw rules: [-75, NONE],
   Renew generate preview: [-57, NONE],
   Pre-renewal letter: [-50, PREVIOUS],
-  Renew generate offer: [-35, PREVIOUS],
+  Renew generate offer: [-45, PREVIOUS],
   Bill generation: [-20, PREVIOUS],
   Offcycle bill generation: [-20, NEXT],
   Bill payment: [0, NEXT],
@@ -481,7 +457,7 @@ TestData_PA: {
 
 TestData_SD: {
   Renew generate image: [-96, NONE],
-  Renew reports: [-63, NONE],
+  Renew reports: [-69, NONE],
   Renew check uw rules: [-57, NONE],
   Renew generate preview: [-69, NONE],
   Pre-renewal letter: [-40, PREVIOUS],
