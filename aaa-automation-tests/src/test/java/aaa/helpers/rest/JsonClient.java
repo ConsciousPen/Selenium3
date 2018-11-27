@@ -210,13 +210,8 @@ public class JsonClient {
 
 	private static Invocation.Builder createJsonRequest(Client client, String url, String sessionId) {
 		Invocation.Builder builder = client.target(url).request().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON);
-		String token;
+		String token = getBearerToken();
 		if (BooleanUtils.toBoolean(PropertyProvider.getProperty(CsaaTestProperties.OAUTH2_ENABLED))) {
-			if (StringUtils.containsIgnoreCase(url,"claims-assignment")) {
-				token = getClaimsBearerToken();
-			} else {
-				token = getBearerToken();
-			}
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}}
@@ -242,37 +237,13 @@ public class JsonClient {
 	private static String getBearerToken() {
 		Client client = null;
 		Response response = null;
-		try {
-			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + PropertyProvider.getProperty(CsaaTestProperties.PING_HOST));
-			response = target
-					.request()
-					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
-					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
-
-			Map result = response.readEntity(HashMap.class);
-
-			return result.get("access_token").toString();
-		} finally {
-			if (response != null) {
-				response.close();
-			}
-			if (client != null) {
-				client.close();
-			}
-		}
-	}
-
-	private static String getClaimsBearerToken() {
-		Client client = null;
-		Response response = null;
 		Form form = new Form();
 		form.param("client_id","cc_PAS");
 		form.param("client_secret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"); //PAS: QA + CERT Environments
 		form.param("grant_type", "client_credentials");
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
-			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.CLAIMS_TOKEN_URL));
+			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + PropertyProvider.getProperty(CsaaTestProperties.PING_HOST));
 			response = target
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
