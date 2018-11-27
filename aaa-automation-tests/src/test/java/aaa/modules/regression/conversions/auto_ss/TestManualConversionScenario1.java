@@ -3,6 +3,7 @@ package aaa.modules.regression.conversions.auto_ss;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -13,10 +14,13 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
 import aaa.helpers.billing.BillingHelper;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
@@ -27,14 +31,12 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -43,6 +45,17 @@ import toolkit.utils.datetime.DateTimeUtils;
 /**
  * @author Tatsiana Saltsevich
  * @name Manual Hybrid Conversion verify AHMVXX2 not generated ("D-T-AU-SS-CL-956-CNV")
+ * 1. Initiate Renewal Entry - Initiate the conversion searching for a Customer in PAS - Customer is found  in PAS
+ * 2. Initiate Renewal Entry - Minimal fields UI field validations for the fields required to create the Stub version and non-editable
+ * renewal quote version 1 - Legacy Policy Number duplicate check.
+ * 3. Initiate Renewal Entry - Generate and display PAS policy number format for Initiate Renewal Entry converted policies.
+ * 4. Initiate Renewal Entry - Create policy stub data and Renewal quote version 1 in PAS when user clicks on OK button.
+ * 5. Hybrid CONVERSION
+ * Do not generate pre-renewal notice for those policies converted on or after R-39
+ * 6. Hybrid Conversion- Membership validation fails- Membership validation letter (AHMVXX2) - do Not generate for 1st Hybrid conversion renewal term in PAS
+ * 7. Hybrid Conversion- CIN (AHAUXX) do not generate trigger- Excluded Driver with new incidents in current term."
+ * 8.  Hybrid Conversion- Membership validation fails;  Membership Validation letter (AHMVXX2) is generated-
+ * 2nd and all subsequent renewals in PAS for the converted policies
  * @scenario
  * 1. (DD0 (R-40)) Create OR account
  * 2. Initiate renewal entry in Customer 'Take action' dropdown, for example, policy number is 123456789, source system SIS, policy effective date today + 40
@@ -95,29 +108,25 @@ import toolkit.utils.datetime.DateTimeUtils;
  * 39. Retrieve the policy and validate the Renewal Image Status for converted policy -> Status of renewal image is premium calculated
  * 40. (2R-35) Run the following jobs: Renewal_Offer_Generation_Part2, Run aaaDocGen Job -> Job run is successful
  * 41. Retrieve the policy and validate the Renewal Image Status for converted policy -> Status of renewal image is Proposed
- *
  */
 
-@SuppressWarnings("ProblematicWhitespace")
-public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTest {
+public class TestManualConversionScenario1 extends AutoSSBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
-
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_SS;
-	}
 
 	@Parameters({"state"})
 	@StateList(states = Constants.States.OR)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionTest(@Optional("OR") String state) {
-		LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getPhaseStartTime();
-		LocalDateTime renewalDate = effectiveDate.plusDays(40);
+	public void manualConversionDocsScenario1(@Optional("OR") String state) {
+		List<LocalDateTime> installmentDueDates;
+		LocalDateTime billGenDate;
+		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(40);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
-		TestData policyTd = getConversionPolicyDefaultTD().adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("TestData").getTestDataList("DriverTab"))
+		TestData policyTd = getConversionPolicyDefaultTD()
+				.adjust(DriverTab.class.getSimpleName(), getTestSpecificTD("TestData").getTestDataList("DriverTab"))
 				.adjust(RatingDetailReportsTab.class.getSimpleName(), getTestSpecificTD("RatingDetailReportsTab"))
-				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "AAAProductOwned"), getTestSpecificTD("AAAProductOwned")).resolveLinks();
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), "AAAProductOwned"),
+						getTestSpecificTD("AAAProductOwned")).resolveLinks();
 		TestData renewalTd = getManualConversionInitiationTd();
 		String previousPolicyNum = renewalTd.getValue(CustomerMetaData
 				.InitiateRenewalEntryActionTab.class.getSimpleName(), CustomerMetaData
@@ -135,8 +144,6 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		SearchPage.openCustomer(customerNum);
 		initiateRenewal(renewalTd, renewalDate);
 		//5. Error MES-IRE-08 is shown
-		ErrorTab errorTab = new ErrorTab();
-
 		assertThat(errorTab.tableTabFormErrors.getRow(1).getCell("Description")
 				.getValue()).contains(ErrorEnum.Errors.ERROR_AAA_MES_IRE_08.getMessage());
 		//6. Open conversion renewal image in Data gathering mode
@@ -161,9 +168,9 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		Tab.buttonBack.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 		//17. Run the batch jobs (AAAPreRenewalNoticeAsyncJob, Run aaaDocGen Job) -> Check AAADOCGENENTITY table for PRE RENEWAL eventname/package
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPreRenewalLetterGenerationDate(renewalDate));
 		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-
 		assertThat(DocGenHelper.getDocumentsList(policyNum, PRE_RENEWAL).size()).isEqualTo(1);
 		//18 (DD0+5 (R-35)) Run the batch job (Renewal_Offer_Generation_Part2, Run aaaDocGen Job)
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
@@ -172,7 +179,6 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		//19 Renewal Image Status should be "Proposed"
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//21 V11 - Pre-Renewal notice form # AAPRN1OR (for Oregon) is NOT generated and NOT found in e-folder
 		DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AAPRN1OR);
@@ -198,56 +204,62 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		SearchPage.openPolicy(policyNum);
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		SearchPage.openBilling(policyNum);
+		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		//27. (2DD3-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill - Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate.plusMonths(3)));
+		//renewalDate.plusMonths(3)
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
+		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE,
-				BillingHelper.getInstallmentDueDates().get(0).format(DateTimeUtils.MM_DD_YYYY))
-				.getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue()).isEqualTo("Bill");
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(1), billGenDate, renewalDate, BillingHelper.DZERO);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		//28. (2DD3) Make Payment for the generated bill - Payment is towards the installment is made successfully.
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate.plusMonths(3)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(1)));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(1), billGenDate, renewalDate, BillingHelper.DZERO);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		//29. (2DD6-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill.
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate.plusMonths(6)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE,
-				BillingHelper.getInstallmentDueDates().get(0).format(DateTimeUtils.MM_DD_YYYY))
-				.getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue()).isEqualTo("Bill");
+		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(2), billGenDate, renewalDate, BillingHelper.DZERO);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		//30. (2DD6) Make Payment for the generated bill
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate.plusMonths(6)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(2)));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//31. (2DD9-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill.
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate.plusMonths(9)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
 		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
-		assertThat(BillingSummaryPage.tableBillsStatements.getRow(BillingConstants.BillingBillsAndStatmentsTable.DUE_DATE,
-				BillingHelper.getInstallmentDueDates().get(0).format(DateTimeUtils.MM_DD_YYYY))
-				.getCell(BillingConstants.BillingBillsAndStatmentsTable.TYPE).getValue()).isEqualTo("Bill");
+		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
+		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(3), billGenDate, renewalDate, BillingHelper.DZERO);
+		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		//32. (2R-96) Renewal_Offer_Generation_Part2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		//33. (2DD9) Make Payment for the generated bill
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(renewalDate.plusMonths(9)));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		//34, 35. (2R-63)  Run the following jobs: Renewal_Offer_Generation_Part1, aaaMembershipRenewalBatchOrderAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		HttpStub.executeAllBatches();
 		//36. Open active Policy. Click Renewal link and in Inquiry mode Navigate to Rating Details Reports tab. Validate membership report
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -255,7 +267,6 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
 		RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
-
 		//-> Membership is in Cancelled  status and report is reordered (Order Date = 2R-63)
 		assertThat(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT)
 				.getTable().getRow(1).getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel())
@@ -271,7 +282,6 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 		PolicySummaryPage.buttonRenewals.click();
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());
-
 		//-> Membership is in Cancelled  status and report is reordered (Order Date = 2R-63)
 		assertThat(ratingDetailReportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT)
 				.getTable().getRow(1).getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.STATUS.getLabel())
@@ -312,21 +322,11 @@ public class ManualHybridConversionAHMVXX2NotGeneratedTest extends PolicyBaseTes
 	}
 
 	private void overrideErrors() {
-		Tab documentsAndBindTab = policy.getDefaultView().getTab(DocumentsAndBindTab.class);
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200008);
-		errorTab.override();
-		documentsAndBindTab.submitTab();
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200008);
-		errorTab.override();
-		documentsAndBindTab.submitTab();
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200034);
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200111);
-		errorTab.override();
-		documentsAndBindTab.submitTab();
+		errorTab.overrideAllErrors();
+		errorTab.submitTab();
 		if (errorTab.tableErrors.isPresent()) {
-			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_MVR_order_validation_SS);
-			errorTab.override();
-			documentsAndBindTab.submitTab();
+			errorTab.overrideAllErrors();
+			errorTab.submitTab();
 		}
 	}
 }
