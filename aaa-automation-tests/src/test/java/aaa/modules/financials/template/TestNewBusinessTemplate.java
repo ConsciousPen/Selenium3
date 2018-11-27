@@ -4,7 +4,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.enums.Constants;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
@@ -37,28 +36,32 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		Dollar premTotal = getTotalTermPremium();
 
         // NB validations
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyNB(policyNumber, "1044"));
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyNB(policyNumber, "1022")
-                .subtract(FinancialsSQL.getDebitsForAccountByPolicyNB(policyNumber, "1022")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
         Dollar addedPrem = performAPEndorsement(effDate, policyNumber);
 
         // AP endorsement validations
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyManualPayment(policyNumber, "1001"));
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyManualPayment(policyNumber, "1044"));
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1044"));
-        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicyEndorsement(policyNumber, "1022")
-                .subtract(FinancialsSQL.getDebitsForAccountByPolicyEndorsement(policyNumber, "1022")));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
 
 		// Cancel policy
 		policy.cancel().perform(getCancellationTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
-		// TODO implement DB validation
 
 		// Reinstate policy without lapse
 		policy.reinstate().perform(getReinstatementTD());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        // TODO implement DB validation
+
+		// Cancellation & reinstatement validations
+        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022"))
+                .isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"));
 	}
 
     /**
