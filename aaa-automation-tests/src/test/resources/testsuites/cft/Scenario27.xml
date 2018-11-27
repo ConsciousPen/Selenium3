@@ -11,12 +11,12 @@
             <class name="aaa.modules.cft.auto_ss.TestCFTScenario27"/>
         </classes>
     </test>
-    <test name="HomeSS Scenario 27 CFT" parallel="none">
+    <!--<test name="HomeSS Scenario 27 CFT" parallel="none">
         <parameter name="state" value="DE, NJ, OK, UT"/>
         <classes>
             <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario27"/>
         </classes>
-    </test>
+    </test>-->
     <test name="AutoCA Select Scenario 27 CFT" parallel="none">
         <parameter name="state" value="CA"/>
         <classes>
