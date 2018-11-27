@@ -376,7 +376,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
-        createSpecificCustomerIndividual("MARSHA", "LACKEY");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("MARSHADP", "LACKEYDP");
+        } else {
+            createSpecificCustomerIndividual("MARSHA", "LACKEY");
+        }
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
