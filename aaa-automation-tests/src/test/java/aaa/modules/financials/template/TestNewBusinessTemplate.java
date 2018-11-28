@@ -19,12 +19,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     /**
      * @scenario
      * 1. Create new policy bound on or after effective date WITHOUT employee benefit
-     * 2. Advance time one week
+     * 2. Validate NB sub-ledger entries
      * 3. Perform endorsement resulting in additional premium
-     * 4. Advance time one week
+     * 4. Validate Endorsement sub-ledger entries
      * 5. Cancel policy
-     * 6. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
-     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19 (Auto CA only: FEE-01, FEE-15, FEE-06, CA HO only: FEE-04)
+     * 6. Validate Cancellation sub-ledger entries
+     * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
+     * 8. Validate Reinstatement sub-ledger entries
+     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01
      */
 	protected void testNewBusinessScenario_1() {
 
@@ -32,17 +34,23 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
-		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 		Dollar premTotal = getTotalTermPremium();
 
         // NB validations
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015"));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
-        Dollar addedPrem = performAPEndorsement(effDate, policyNumber);
+        policy.endorse().perform(getEndorsementTD());
+        policy.getDefaultView().fill(getAddPremiumTD());
+        Dollar addedPrem = payAmountDue();
+        SearchPage.openPolicy(policyNumber);
 
         // AP endorsement validations
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
@@ -58,9 +66,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		// Cancellation & reinstatement validations
+        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021"));
+
         assertThat(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"))
                 .isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+
+        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"));
 
         assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"))
                 .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
