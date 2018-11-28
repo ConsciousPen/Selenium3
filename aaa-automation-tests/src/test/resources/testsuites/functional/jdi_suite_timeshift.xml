@@ -311,7 +311,7 @@
                     <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    </methods>
+                </methods>
             </class>
         </classes>
     </test>
