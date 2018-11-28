@@ -138,6 +138,16 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_5001000,
 			CoverageLimits.COV_10001000
 	)),
+	BI_VA_IN(ImmutableList.of(
+			CoverageLimits.COV_2550,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
 	UIMCONV_CT(ImmutableList.of(
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE

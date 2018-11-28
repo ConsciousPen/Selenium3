@@ -2,6 +2,8 @@ package aaa.main.enums;
 
 import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public enum CoverageInfo {
@@ -47,6 +49,7 @@ public enum CoverageInfo {
 	EUIM_MD("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_FALSE, AvailableCoverageLimits.EUIM_MD, null),
 	EUIM_MD_TRUE("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_TRUE, AvailableCoverageLimits.EUIM_MD, null),
 	BI("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI, "Per Person/Per Accident"),
+	BI_VA_IN("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_VA_IN, "Per Person/Per Accident"),
 	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN, "Per Accident"),
 	UIMPD("UIMPD", "Underinsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UIMPD,"Property Damage"),
 	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Per Accident"),
@@ -55,6 +58,7 @@ public enum CoverageInfo {
 	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = Yes
 	ADB("ADB", "Automobile Death Benefit", null, null, null),
 	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
+	UMBI_VA_IN("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	BIWV("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BIWV, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
@@ -109,5 +113,11 @@ public enum CoverageInfo {
 
 	public List<CoverageLimits> getAvailableLimits() {
 		return availableLimits;
+	}
+
+	public List<CoverageLimits> getReversedAvailableLimits() {
+		List<CoverageLimits> reversedAvailableCoverageLimitList = new ArrayList<>(availableLimits);
+		Collections.reverse(reversedAvailableCoverageLimitList);
+		return reversedAvailableCoverageLimitList;
 	}
 }
