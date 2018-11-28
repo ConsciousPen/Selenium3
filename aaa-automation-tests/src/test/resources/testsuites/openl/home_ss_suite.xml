@@ -15,7 +15,7 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS [CO] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="COTests-20181006.xls"/>
         <parameter name="policyNumbers" value="2,8"/>
         <classes>
@@ -99,7 +99,7 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS HO3 [NY] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS [NY] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="NYTests-20170915.xls"/>
         <parameter name="policyNumbers" value="1,2"/>
         <classes>
