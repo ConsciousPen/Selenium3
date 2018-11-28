@@ -138,7 +138,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_5001000,
 			CoverageLimits.COV_10001000
 	)),
-	BI_VA_IN(ImmutableList.of(
+	BI_VA_KS(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_50100,
 			CoverageLimits.COV_100300,
