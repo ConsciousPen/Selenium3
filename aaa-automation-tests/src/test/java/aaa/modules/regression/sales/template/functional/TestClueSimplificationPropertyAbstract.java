@@ -368,7 +368,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
-        createSpecificCustomerIndividual("Agustin", "Miras");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("AgustinDP", "Miras");
+        } else {
+            createSpecificCustomerIndividual("Agustin", "Miras");
+        }
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         checkTblClaimRowCount(0);
@@ -388,13 +392,24 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6703_testCatastropheIndicatorUnknownNB() {
-        createSpecificCustomerIndividual("Sachin", "Kohli");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("SachinDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Sachin", "Kohli");
+        }
+
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
-        checkTblClaimRowCount(2);
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
+            assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
+        } else {
+            checkTblClaimRowCount(2);
+            viewEditClaimByLossAmount("14000");
+        }
 
         // Validates 'Applicant & Property' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("14000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
@@ -438,7 +453,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         getReportsTab().submitTab();
         if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-            checkTblClaimRowCount(1);
+            // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
+            assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         } else {
             checkTblClaimRowCount(2);
         }
