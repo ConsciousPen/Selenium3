@@ -857,6 +857,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas15499_RegisteredOwner">
+        <parameter name="state" value="CT, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas15499_RegisteredOwnerDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <test name="Underinsured Conversion Coverage - CT">
         <parameter name="state" value="KS"/>
