@@ -39,6 +39,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
 				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
 
+
 		//Then you order PUBLIC_PROTECTION_CLASS new popup shows up if Address returns something, this method clicks popup OK.
 		TestData ppcReportDialog = new SimpleDataProvider()
 				.adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.BTN_OK.getLabel(), "click");
@@ -55,30 +56,39 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Wood shingle/Wood shake");
 
 		if (!userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-			policyTd.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
+			policyTd.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
+					HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
 		}
 
 		getPolicyType().get().getDefaultView().fillUpTo(policyTd, ReportsTab.class, true);
 
 		assertThat(reportsTab.tblFirelineReport.getRow(1)
-				.getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
+				.getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
+				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
 
 		reportsTab.submitTab();
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class, false);
 
-		if (expectedFirelineScore > 2) {
+
+		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
+		if(expectedFirelineScore>4){
+			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline);
+		}
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 				assertThat(errorTab.buttonOverride).isEnabled();
 			} else {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
+
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
-	}
+
+		}
+
 
 	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
@@ -109,26 +119,36 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 					HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel()));
 		}
 
-		getPolicyType().get().getDefaultView().fillUpTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
+		getPolicyType().get().getDefaultView()
+				.fillUpTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
 
 		assertThat(reportsTab.tblFirelineReport.getRow(1)
-				.getCell(HomeCaMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel()).getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
+				.getCell(HomeCaMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
+				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
 
 		reportsTab.submitTab();
-		getPolicyType().get().getDefaultView().fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
+		getPolicyType().get().getDefaultView()
+				.fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
 				aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
 
-		if (expectedFirelineScore > 2) {
+
+		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
+			if(expectedFirelineScore>4){
+				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
+			}
 			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 				assertThat(errorTab.buttonOverride).isEnabled();
 			} else {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
+
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
+
 	}
+
 }
