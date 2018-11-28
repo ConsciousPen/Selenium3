@@ -95,7 +95,7 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             case CA_SELECT:
             case CA_CHOICE:
                 td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
-                        AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+                        AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=2");
                 td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
                         AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
