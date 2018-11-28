@@ -26,7 +26,7 @@ public class TestEndorsement extends EndorsementTemplate {
 	@StateList(states = {AZ, CA, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
 	public void BCT_ONL_EmptyEndorsementPUP(String state, String policyNumber) {
 		TestData td = getTestSpecificTD("TestDataEndorsePUP");
-		mainApp().open();
+
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
 
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(),"TestDataInquiryPUP", prefillTab, bindTab);

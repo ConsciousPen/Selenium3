@@ -28,7 +28,7 @@ public class TestEndorsement extends EndorsementTemplate {
 	@StateList(states = {Constants.States.CA})
 	public void BCT_ONL_EmptyEndorsementHomeCAHo4(String state, String policyNumber) {
 		Dollar policyPremium = getPreEndorsementPremium(getPolicyType().get(), policyNumber);
-		mainApp().open();
+
 		checkAbilityToOpenAllTabsInInquiryMode(getPolicyType(), TESTDATA_INQUIRY_HOME_CA, generalTab,bindTab);
 		assertThat(bindTab.btnPurchase.isPresent()).isTrue();
 		bindTab.cancel();
