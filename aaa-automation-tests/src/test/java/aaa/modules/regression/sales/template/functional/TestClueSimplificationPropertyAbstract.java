@@ -400,10 +400,16 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
-        checkTblClaimRowCount(2);
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
+            assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
+        } else {
+            checkTblClaimRowCount(2);
+            viewEditClaimByLossAmount("14000");
+        }
 
         // Validates 'Applicant & Property' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("14000");
         assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
@@ -448,6 +454,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getReportsTab().submitTab();
         if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
             assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
             assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
         } else {
