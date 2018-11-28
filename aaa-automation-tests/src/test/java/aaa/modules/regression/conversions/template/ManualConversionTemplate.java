@@ -21,7 +21,7 @@ import toolkit.datax.TestData;
 public class ManualConversionTemplate extends PolicyBaseTest{
 
 	protected void manualRenewalEntryToActivePolicy() {
-//		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW);
+		// This date is specific for Manual Review and not equal to RENEW_GENERATE_DATE
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
 		mainApp().open();
 		createCustomerIndividual();
