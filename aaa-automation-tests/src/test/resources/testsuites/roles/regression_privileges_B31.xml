@@ -5,15 +5,15 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-        <test name="CA Select Auto Regression Tests" parallel="methods">
+
+	<test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <parameter name="login" value="B31"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNoteCreateUpdate"/>
         </classes>
-    </test>
-    
+    </test>    
     <test name="CA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
         <parameter name="login" value="B31"/>
