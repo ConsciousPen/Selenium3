@@ -45,6 +45,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
+        // Perform AP endorsement and pay total amount due
         policy.endorse().perform(getEndorsementTD());
         policy.getDefaultView().fill(getAddPremiumTD());
         Dollar addedPrem = payAmountDue();
