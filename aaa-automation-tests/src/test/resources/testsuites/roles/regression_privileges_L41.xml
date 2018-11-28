@@ -1,13 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Privileges Tests E34" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Privileges Tests L41" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-	<parameter name="timeshift-scenario-mode" value="method"/>
-        <test name="CA Select Auto Regression Tests" parallel="methods">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+	<test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-        <parameter name="login" value="E34"/>
+        <parameter name="login" value="L41"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
@@ -27,7 +28,7 @@
     </test>    
     <test name="CA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-        <parameter name="login" value="E34"/>
+        <parameter name="login" value="L41"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyInquiry"/>

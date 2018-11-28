@@ -38,11 +38,9 @@ public abstract class PolicyBilling extends PolicyBaseTest {
 	private TestData cc_payment = tdBilling.getTestData("AcceptPayment", "TestData_CC");
 	private TestData eft_payment = tdBilling.getTestData("AcceptPayment", "TestData_EFT");
 	//private TestData refund = tdBilling.getTestData("Refund", "TestData_Cash");
-	private TestData refund = tdBilling.getTestData("Refund", "TestData_Check");
-	
+	private TestData refund = tdBilling.getTestData("Refund", "TestData_Check");  
     
-    
-    public void testBilling() {
+    public void testBillingPayments() {
     	
         mainApp().open();
         getCopiedPolicy();
@@ -69,7 +67,18 @@ public abstract class PolicyBilling extends PolicyBaseTest {
 		    //EFT payment
 		    billing.acceptPayment().perform(eft_payment, new Dollar(350));
 		    checkPaymentIsGenerated(new Dollar(350), softly);
+	    });
+    }
+    
+    public void testBillingRefund() {
+    	mainApp().open();
+        getCopiedPolicy();
 
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        BillingSummaryPage.open();
+        CustomSoftAssertions.assertSoftly(softly -> {
+		    IBillingAccount billing = new BillingAccount();
 		    //Refund
 		    Dollar refundAmount = new Dollar(150);
 		    billing.refund().perform(refund, refundAmount);
@@ -77,7 +86,7 @@ public abstract class PolicyBilling extends PolicyBaseTest {
 		    new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
 				    .setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
 				    .setAmount(refundAmount).verifyPresent();
-	    });
+	    });        
     }
     
     private void checkPaymentIsGenerated(Dollar amount, ETCSCoreSoftAssertions softly){

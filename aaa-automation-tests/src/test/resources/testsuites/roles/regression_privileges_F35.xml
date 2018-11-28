@@ -1,13 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Privileges Tests G36" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Privileges Tests F35" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-        <test name="CA Select Auto Regression Tests" parallel="methods">
+
+	<test name="CA Select Auto Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-        <parameter name="login" value="G36"/>
+        <parameter name="login" value="F35"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
@@ -18,7 +19,11 @@
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
+            	<methods>
+            		<include name="testBillingPayments"/>
+            	</methods>
+            </class>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
         </classes>
@@ -26,7 +31,7 @@
     
     <test name="CA HSS Regression Tests" parallel="methods">
         <parameter name="state" value="CA"/>
-        <parameter name="login" value="G36"/>
+        <parameter name="login" value="F35"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyInquiry"/>
@@ -37,7 +42,11 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
+            	<methods>
+            		<include name="testBillingPayments"/>
+            	</methods>
+            </class>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
@@ -45,7 +54,7 @@
     
     <test name="UT Auto Regression Tests" parallel="methods">
     	<parameter name="state" value="UT"/>
-    	<parameter name="login" value="G36"/>
+    	<parameter name="login" value="F35"/>
     	<classes>
     		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
     		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyInquiry"/>
@@ -59,7 +68,7 @@
     </test>
     <test name="UT HSS Regression Tests" parallel="methods">
     	<parameter name="state" value="UT"/>
-    	<parameter name="login" value="G36"/>
+    	<parameter name="login" value="F35"/>
     	<classes>
     		<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
     		<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyInquiry"/>
