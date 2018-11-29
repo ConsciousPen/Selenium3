@@ -4,6 +4,7 @@ public class Constants {
 
 	public enum UserGroups {
 		QA("QA"),
+		B31("B31"),
 		E34("E34"),
 		F35("F35"),
 		G36("G36"),
