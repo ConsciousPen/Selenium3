@@ -37,6 +37,19 @@ TestData2: {
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
+TestData3: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab7','@DriverTab5', '@DriverTab_notNI_Spouse', '@Driver_two1'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
 GeneralTab1: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2','@NamedInsuredInformation3'],
   AAAProductOwned: '@AAAProductOwned',
@@ -278,6 +291,25 @@ DriverTab7: {
     Age First Licensed: '18',
     License Number: '603557779',
     License Status: 'Licensed (US)'
+}
+
+DriverTab_notNI_Spouse: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Spouse,
+  First Name: 'Rebeka',
+  Middle Name: 'not',
+  Last Name: 'Spouser',
+  Suffix: 'III',
+  Date of Birth: '12/12/1992',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '447585215',
+  License Status: 'Licensed (US)',
+  Most Recent GPA: None
 }
 
 VehicleTab1: {
