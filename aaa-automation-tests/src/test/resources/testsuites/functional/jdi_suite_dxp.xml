@@ -901,12 +901,14 @@
         </classes>
     </test>
     <test name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage">
-        <parameter name="state" value="VA, KS"/>
+        <parameter name="state" value="VA, KS, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas21363_BIandUMBIandCanChangeTrue"/>
                     <include name="pas21363_BIandUMBIandCanChangeFalse"/>
+                    <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
+                    <include name="pas21364_PDAndUMPDAndCanChangeFalse"/>
                 </methods>
             </class>
         </classes>

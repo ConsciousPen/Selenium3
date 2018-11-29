@@ -1104,15 +1104,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2.Create endorsement through service
 	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
-	 * 5. Update UMBD limit ---> UMPD is updated, BI limit is not updated
+	 * 5. Update UMBI limit ---> UMBI is updated, BI limit is not updated
 	 * 6. Check in PAS UI that limits are updated
 	 * 7. Check transaction change log
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306"})
-	public void pas21363_BIandUMBIandCanChangeTrue(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
+	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("VA") String state) {
 		pas21363_BIAndUMBIAndCanChangeTrueBody();
 	}
 
@@ -1126,15 +1126,61 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2.Create endorsement through service
 	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
-	 * 5. Update UMBD limit ---> UMPD is not updated, BI limit is not updated
+	 * 5. Update UMBI limit ---> UMBI is not updated, BI limit is not updated
 	 * 6. Check in PAS UI that limits are/are not updated
 	 * 7. Check transaction change log
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.KS})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20306"})
-	public void pas21363_BIandUMBIandCanChangeFalse(@Optional("KS") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
+	public void pas21363_BIAndUMBIAndCanChangeFalse(@Optional("KS") String state) {
 		pas21363_BIAndUMBIAndCanChangeFalseBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 5. Update UMPD limit ---> UMPD is updated, PD limit is not updated
+	 * 6. Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
+	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
+	 * 8. Check in PAS UI that limits are updated
+	 * 9. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	public void pas21364_PDAndUMPDandCanChangeTrue(@Optional("VA") String state) {
+		pas21364_PDAndUMPDAndCanChangeTrueBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = FALSE for UMPD
+	 * @scenario
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 5. Update UMPD limit ---> UMPD is not updated, PD limit is not updated
+	 * 6. Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
+	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
+	 * 8. Check in PAS UI that limits are updated
+	 * 9. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	public void pas21364_PDAndUMPDAndCanChangeFalse(@Optional("WV") String state) {
+		pas21364_PDAndUMPDAndCanChangeFalseBody();
 	}
 }
