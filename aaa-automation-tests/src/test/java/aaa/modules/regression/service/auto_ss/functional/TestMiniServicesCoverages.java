@@ -1074,5 +1074,41 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		assertSoftly(softly ->
 				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
 		);	}
-}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages
+	 * @scenario for AZ
+	 * * @details
+	 * 1. Create a AZ policy with trailer, Motorhome,golfcart
+	 * 2. run view coverage service.
+	 * 3. Verify can change coverage and customer display is false for coverage other than Comp and Coll
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20344"})
+	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
+		assertSoftly(softly ->
+		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
+		);	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Total Disability - South Dakota
+	 * @scenario
+	 * 1. Create policy with FNI, NI, NAFR Driver, Spouse (not NI), other driver than Spouse (not NI)
+	 * 2. Create endorsement through service
+	 * 3. Add another spouse through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Assert that Total Disability (TD) is available for all NIs and Spouse
+	 * 6. Update TD for all available drivers and assert that it is updated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19625"})
+	public void pas19625_TotalDisabilitySD(@Optional("SD") String state) {
+		pas19625_TotalDisabilitySDBody();
+	}
+}

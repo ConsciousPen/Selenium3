@@ -28,6 +28,7 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
+		MORATORIUM_EXIST("AAA_SS181109", "Moratorium Exists"),
 
 		//Mvr and Clue Errors
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
