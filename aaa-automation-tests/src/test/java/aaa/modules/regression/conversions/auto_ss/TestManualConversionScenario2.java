@@ -40,6 +40,13 @@ import toolkit.utils.TestInfo;
 /**
  * @author Tatsiana Saltsevich
  * @name Manual Hybrid Conversion Docs Verification ("D-T-AU-SS-OR-958-CNV")
+ * 1.Hybrid CONVERSION  - Do not generate pre-renewal notice during 2nd or subsequent renewals regardless of the policy term
+ * 2.Hybrid Conversion - Renewal Dec Page - Fields and Attributes - 2nd and all subsequent renewals in PAS.
+ * 3.Hybrid Conversion Named Driver Exclusion (AA43OR) Endorsement - Renewal 2nd renewal term PAS and for all subsequent renewal terms triggers
+ * 4.Hybrid Conversion - "ELECTION OF LOWER LIMITS FOR UNINSURED MOTORISTS COVERAGE" (AA52OR)  form UMBI lower thant BI limits-
+ * 2nd renewal term PAS and for all subsequent renewal terms triggers"
+ * 5.Hybrid Conversion- AH64XX - form content -2nd renewal in PAS"
+ *
  * @scenario
  * 1. Pre-conditions:- Create a new customer in PAS
  * Ensure policy meets following conditions:-
@@ -108,16 +115,16 @@ import toolkit.utils.TestInfo;
  * Note:- Refer to the Mapping Document for static, variable and dynamic text on AH64XX for OR for document content validation
  */
 
-public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
+public class TestManualConversionScenario2 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = Constants.States.OR)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionDocsScenario2(@Optional("OR") String state) {
+	public void manualConversionDocsScenario2(@Optional("OR") String state) {
 		List<LocalDateTime> installmentDueDates;
 		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime billGenDate;
-		LocalDateTime renewalDate = getTimePoints().getConversionEffectiveDate();
+		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
 		// Ensure policy meets following conditions:-
 		// i. 1 or more Named Insured and 1 or more vehicles and drivers where the age of the Named Insured -
@@ -130,8 +137,7 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		//2. (R-45) Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above -> Renewal entry is initiated
 		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
 		//1. Create a new customer in PAS
-		//createCustomerIndividual();
-		SearchPage.openCustomer("700032274");
+		createCustomerIndividual();
 		//3. Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		//4. Enter the value for the Previous Policy Number/Source System and provide valid values for the other mandatory fields and click on the OK button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);

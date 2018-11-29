@@ -68,7 +68,8 @@ public final class ConnectionParams {
 				"host='" + host + '\'' +
 				", port=" + port +
 				", user='" + user + '\'' +
-				", privateKeyPath='" + privateKeyPath + '\'' +
+				", pass='" + (password != null ? "*****" : "<NOT USED>") + '\'' +
+				", privateKeyPath='" + (privateKeyPath != null ? privateKeyPath : "<NOT USED>") + '\'' +
 				'}';
 	}
 

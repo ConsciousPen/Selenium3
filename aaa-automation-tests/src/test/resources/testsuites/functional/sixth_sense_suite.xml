@@ -52,44 +52,6 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
-                <methods>
-                    <exclude name="pas11302_testEUIMMDFormRenewal"/>
-                    <exclude name="pas12466_AC1_NB"/>
-                    <exclude name="pas12466_AC3_Renewal"/>
-                    <exclude name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
-                    <exclude name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Enhanced UIM Coverage Behavior">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMCoverageBehavior">
-                <methods>
-                    <exclude name="pas11620_PremiumChangeBetweenEnhancedAndStandardUIM"/>
-                    <exclude name="pas11620_testEUIMCoverageBehaviorRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Nano Enhanced UIM Coverage Behavior">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMDNanoPolicyEUIMBehavior">
-                <methods>
-                    <exclude name="pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="Test Locked BI Limits And UW Points">
         <parameter name="state" value="PA"/>
         <classes>
@@ -476,12 +438,29 @@
         </classes>
     </test>
 
-    <test name="Test Endorsement Premium Database Entries">
+    <test name="Test Endorsement Premium Database Entries DP3">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+
+    <test name="Test Endorsement Premium Database Entries HO3">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+    <test name="Test Endorsement Premium Database Entries HO4">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
+        </classes>
+    </test>
+
+    <test name="Test Endorsement Premium Database Entries HO6">
+        <parameter name="state" value="CA"/>
+        <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
         </classes>
     </test>

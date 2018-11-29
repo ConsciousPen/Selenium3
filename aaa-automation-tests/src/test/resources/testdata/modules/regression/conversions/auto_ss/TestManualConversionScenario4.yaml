@@ -1,0 +1,81 @@
+TestData_NamedInsured: {
+  NII: ['@NamedInsuredInformation1', '@NamedInsuredInformation2']
+}
+
+NamedInsuredInformation1: {
+  Social Security Number: '123456789',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: '$<rx:Tim-[A-Z]{5}>',
+  Last Name: Smith,
+  Base Date: $<today>,
+  Social Security Number: '123456789',
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+TestData_Drivers: {
+  Drivers: ['@Driver1', '@Driver2']
+}
+
+Driver1: {
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'OR',
+  License Number: '001234567'
+}
+
+Driver2: {
+  DriverSearchDialog:{},
+  'Rel. to First Named Insured': Other,
+  First Name: '$<rx:Tim-[A-Z]{5}>',
+  Last Name: Smith,
+  Date of Birth: 03/11/1974,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  Permit Before License: 'No',
+  License State: 'KS',
+  License Number: 'B54673421'
+}
+
+TestData_Vehicles: {
+  Vehicles: ['@Vehicle1', '@Vehicle2']
+}
+
+Vehicle1: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 1GNWGPFG8B6548273,
+}
+
+Vehicle2: {
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: JT8UF22E3S0028445,
+}
+
+PremiumAndCoveragesTab: {
+  Payment Plan: 'Annual (Renewal)',
+  Bodily Injury Liability: 'contains=$100,000/$300,000',
+  "Uninsured/Underinsured Motorist Bodily Injury": 'contains=$50,000/$100,000'
+}
+
+DocumentsAndBindTab: {
+  RequiredToBind: {
+    Personal Auto Application: Physically Signed,
+    Coverage Acceptance Statement: Physically Signed,
+    'Statement Electing Lower Limits for Uninsured/Underinsured Motorists Coverage': Not Signed
+  },
+  RequiredToIssue: {
+    Proof of Prior Insurance: 'Yes'
+  }
+}
