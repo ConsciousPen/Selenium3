@@ -41,8 +41,8 @@ public abstract class PolicyBillingGenerateFutureStatement extends PolicyBaseTes
 		BillingSummaryPage.open();
 		
 		if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
-			log.info("Verifying 'Generate Fututre Statement' action");
-			assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Fututre Statement' is available").doesNotContainOption("Generate Future Statement");
+			log.info("Verifying 'Generate Future Statement' action");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Future Statement' is available").doesNotContainOption("Generate Future Statement");
 		}
 		else {
 			generateFutureStatement();
