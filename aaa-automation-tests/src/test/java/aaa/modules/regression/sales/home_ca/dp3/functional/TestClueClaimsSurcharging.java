@@ -25,6 +25,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 @StateList(states = Constants.States.CA)
 public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 
+	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
+	private PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
+
 	/**
  	* @author Dominykas Razgunas
  	* @name Test Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property
@@ -62,8 +65,8 @@ public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(tdPolicy, PropertyInfoTab.class, true);
 
-		new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
+		premiumsAndCoveragesQuoteTab.calculatePremium();
 		PropertyQuoteTab.RatingDetailsView.open();
 
 
@@ -76,12 +79,12 @@ public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 
 		PropertyQuoteTab.RatingDetailsView.close();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
-		new PropertyInfoTab().tblClaimsList.getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.CAUSE_OF_LOSS, ClaimConstants.CauseOfLoss.WATER)
+		propertyInfoTab.tblClaimsList.getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.CAUSE_OF_LOSS, ClaimConstants.CauseOfLoss.WATER)
 				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
-		new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
-		new PropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LOSS_FOR).setValue(ClaimConstants.LossFor.APPLICANT);
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.LOSS_FOR).setValue(ClaimConstants.LossFor.APPLICANT);
 
-		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+		premiumsAndCoveragesQuoteTab.calculatePremium();
 		PremiumsAndCoveragesQuoteTab.linkViewRatingDetails.click();
 
 		TestData claimsVRD1 = PropertyQuoteTab.RatingDetailsView.getClaims();
