@@ -44,6 +44,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	public HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private CheckBox enhancedUIM = new PremiumAndCoveragesTab().getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.ENHANCED_UIM);
+	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
+	private DriverTab driverTab = new DriverTab();
 
 	protected void pas11741_ViewManageVehicleLevelCoverages(PolicyType policyType) {
 		mainApp().open();
@@ -4586,6 +4588,64 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 
     }
+
+	protected void pas19625_TotalDisabilitySDBody() {
+		TestData testData = getTestSpecificTD("TestData3");
+		String policyNumber = openAppAndCreatePolicy(testData);
+		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		HelperCommon.createEndorsement(policyNumber, endorsementDate);//Future dated, otherwise not possible to bind endorsement with new Driver
+		SearchPage.openPolicy(policyNumber);
+		ViewDriversResponse viewDriversResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+
+		//Add another spouse
+		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Sposia", "Jovita", "Second", "1968-05-03", "");
+		DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
+
+		String addedSpouseOid = addDriver.oid;
+		String fni = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(0).getValue("License Number")).oid;
+		String otherNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(2).getValue("License Number")).oid;
+		String notNISpouse = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(3).getValue("License Number")).oid;
+		String otherNotNI = testMiniServicesDriversHelper.getDriverByLicenseNumber(viewDriversResponse, testData.getTestDataList("DriverTab").get(4).getValue("License Number")).oid;
+
+		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "999852325", 28, "SD", "SP", "MSS");
+		HelperCommon.updateDriver(policyNumber, addedSpouseOid, updateDriverRequest);
+
+		Coverage coverageTDExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse).addCurrentlyAddedDrivers();
+		Coverage coverageADBExpected = Coverage.create(CoverageInfo.ADB).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse, otherNotNI).addCurrentlyAddedDrivers();
+
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage coverageTDActual = findCoverage(policyCoverageInfo.driverCoverages, CoverageInfo.TD.getCode());
+		Coverage coverageADBActual = findCoverage(policyCoverageInfo.driverCoverages, CoverageInfo.ADB.getCode());
+
+		assertSoftly(softly -> {
+			softly.assertThat(coverageTDActual).isEqualToIgnoringGivenFields(coverageTDExpected, "availableLimits");
+			softly.assertThat(coverageADBActual).isEqualToIgnoringGivenFields(coverageADBExpected, "availableLimits");
+
+			//Update TD
+			UpdateCoverageRequest updateCoverageRequest = DXPRequestFactory.createUpdateCoverageRequest(CoverageInfo.TD.getCode(), "true", ImmutableList.of(addedSpouseOid, fni, otherNI, notNISpouse));
+			PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, updateCoverageRequest, PolicyCoverageInfo.class);
+			Coverage coverageTDAfterUpdateActual = findCoverage(updateCoverageResponse.driverCoverages, CoverageInfo.TD.getCode());
+			Coverage coverageTDAfterUpdateExpected = Coverage.create(CoverageInfo.TD).addAvailableDrivers(addedSpouseOid, fni, otherNI, notNISpouse).addCurrentlyAddedDrivers(addedSpouseOid, fni, otherNI, notNISpouse);
+			softly.assertThat(coverageTDAfterUpdateActual).isEqualToIgnoringGivenFields(coverageTDAfterUpdateExpected, "availableLimits");
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+
+			//Validate in PAS UI that TD is updated
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.quoteInquiry().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(3);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(4);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			DriverTab.tableDriverList.selectRow(6);
+			softly.assertThat(driverTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.DriverTab.TOTAL_DISABILITY).getValue()).isEqualTo("Yes");
+			driverTab.cancel();
+
+		});
+		HelperCommon.orderReports(policyNumber,addedSpouseOid, OrderReportsResponse.class, Response.Status.OK.getStatusCode());
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
 
 	protected void pas16112_umpdOregonViewCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
 		mainApp().open();

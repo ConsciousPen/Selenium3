@@ -790,6 +790,7 @@
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
                     <include name="pas22037_updateBiCoverage"/>
+                    <include name="pas19625_TotalDisabilitySD"/>
                 </methods>
             </class>
         </classes>
