@@ -7,6 +7,8 @@ package aaa.main.modules.policy.abstract_tabs;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import aaa.main.enums.ClaimConstants;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
@@ -174,10 +176,10 @@ public abstract class PropertyQuoteTab extends Tab {
 		 */
 		public static TestData getClaims() {
 			Map<String, Object> claimsInfo = new LinkedHashMap<>();
-			Map<String, Object> priorClaimsInfo = getClaimInfoByType(claims.getRowContains(1, "Prior claims"), claims.getRowContains(1, "Prior claims points"));
-			Map<String, Object> aaaClaimsInfo = getClaimInfoByType(claims.getRowContains(1, "AAA claims"), claims.getRowContains(1, "AAA claims points"));
-			claimsInfo.put("Prior claims", priorClaimsInfo);
-			claimsInfo.put("AAA claims", aaaClaimsInfo);
+			Map<String, Object> priorClaimsInfo = getClaimInfoByType(claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS), claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS_POINTS));
+			Map<String, Object> aaaClaimsInfo = getClaimInfoByType(claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS), claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS_POINTS));
+			claimsInfo.put(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS, priorClaimsInfo);
+			claimsInfo.put(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS, aaaClaimsInfo);
 			return new SimpleDataProvider(claimsInfo);
 		}
 
@@ -189,9 +191,9 @@ public abstract class PropertyQuoteTab extends Tab {
 				String thisDate = claimDateRow.getCell(i).getValue();
 				String thisPts = claimPtsRow.getCell(i).getValue();
 				if (!thisDate.isEmpty()) {
-					thisClaim.put("Date", thisDate);
-					thisClaim.put("Points", thisPts);
-					claimsInfo.put("Claim " + c, thisClaim);
+					thisClaim.put(ClaimConstants.ClaimsRatingDetails.DATE, thisDate);
+					thisClaim.put(ClaimConstants.ClaimsRatingDetails.POINTS, thisPts);
+					claimsInfo.put(ClaimConstants.ClaimsRatingDetails.CLAIM + " " + c, thisClaim);
 					c++;
 				}
 			}
