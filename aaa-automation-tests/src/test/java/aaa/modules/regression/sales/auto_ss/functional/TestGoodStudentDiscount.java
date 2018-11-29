@@ -10,11 +10,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -42,7 +38,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount NB")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount NB")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("") String state) {
 
@@ -75,7 +71,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorEndorsement(@Optional("") String state) {
 
@@ -113,7 +109,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("") String state) {
 
