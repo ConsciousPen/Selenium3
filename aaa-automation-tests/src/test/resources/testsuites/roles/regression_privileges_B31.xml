@@ -22,4 +22,5 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyNoteCreateUpdate"/>
         </classes>
     </test>
+    
 </suite>

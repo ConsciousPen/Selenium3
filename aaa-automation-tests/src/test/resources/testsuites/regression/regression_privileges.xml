@@ -57,14 +57,14 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
     </test>
     
-	<test name="CA Select Auto Regression Tests" parallel="methods">
+	<test name="CA Select Auto Regression Tests L41" parallel="methods">
         <parameter name="state" value="CA"/>
         <parameter name="login" value="L41"/>
         <classes>
@@ -84,7 +84,7 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
         </classes>
     </test>    
-    <test name="CA HSS Regression Tests" parallel="methods">
+    <test name="CA HSS Regression Tests L41" parallel="methods">
         <parameter name="state" value="CA"/>
         <parameter name="login" value="L41"/>
         <classes>
@@ -98,9 +98,9 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
     </test> 
@@ -118,12 +118,10 @@
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
-            	<methods>
-            		<include name="testBillingPayments"/>
-            	</methods>
-            </class>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
         </classes>
     </test>    
@@ -140,12 +138,10 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
-            	<methods>
-            		<include name="testBillingPayments"/>
-            	</methods>
-            </class>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
     </test>    
@@ -191,12 +187,10 @@
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
-            	<methods>
-            		<include name="testBillingPayments"/>
-            	</methods>
-            </class>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
         </classes>
     </test>    
@@ -213,12 +207,10 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling">
-            	<methods>
-            		<include name="testBillingPayments"/>
-            	</methods>
-            </class>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
     </test>    

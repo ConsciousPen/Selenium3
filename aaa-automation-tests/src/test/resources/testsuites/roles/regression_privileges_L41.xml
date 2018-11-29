@@ -40,9 +40,9 @@
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
             <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
         </classes>
     </test>

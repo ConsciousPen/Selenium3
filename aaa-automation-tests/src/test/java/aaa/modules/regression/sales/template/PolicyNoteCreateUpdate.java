@@ -4,8 +4,11 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 import java.util.HashMap;
 
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.metadata.NotesAndAlertsMetaData;
 import aaa.common.metadata.NotesAndAlertsMetaData.NotesAndAlertsTab;
+import aaa.common.pages.MainPage;
+import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -29,11 +32,43 @@ import toolkit.datax.TestData;
 public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 	
 	public void testPolicyNoteCreateUpdate() {
-		mainApp().open();
-		getCopiedPolicy();
 		
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
+		if (getUserGroup().equals(UserGroups.B31.get())) {
+			//Login with QA user and create a policy
+			mainApp().open(getLoginTD(UserGroups.QA));
+			//getCopiedPolicy();
+			createCustomerIndividual();
+			createPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			mainApp().close();
+			//Login with B31 user
+			mainApp().open(getLoginTD(UserGroups.B31));
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			SearchPage.openPolicy(policyNumber);
+			createNote();			
+		}
+		else {
+			mainApp().open();
+			getCopiedPolicy();			
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);		
+			createAndUpdateNote();
+		}		
+	}
+	
+	public void createNote() {
+		//Add note
+		TestData tdNotes = testDataManager.notesAndAlerts;
+		NotesAndAlertsSummaryPage.add(tdNotes.getTestData("CreateNote", "TestData_B31"));
+		
+		String noteDescription = tdNotes.getTestData("CreateNote", "TestData").getValue(NotesAndAlertsTab.class.getSimpleName(), 
+				NotesAndAlertsMetaData.NotesAndAlertsTab.NOTE.getLabel());
+		
+		NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", noteDescription)).isPresent();				
+	}
+	
+	public void createAndUpdateNote() {
 		//Add note
 		TestData tdNotes = testDataManager.notesAndAlerts;
 		NotesAndAlertsSummaryPage.add(tdNotes.getTestData("CreateNote", "TestData"));
@@ -61,8 +96,7 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(noteUpdated)).isPresent();
 		
 		String newNoteDescription = "Update Note " + noteDateTime + " for Policy " + PolicySummaryPage.getPolicyNumber();
-		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow("Description", newNoteDescription)).isPresent();	
-		
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow("Description", newNoteDescription)).isPresent();			
 	}
 
 }
