@@ -4591,8 +4591,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	protected void pas19625_TotalDisabilitySDBody() {
 		TestData testData = getTestSpecificTD("TestData3");
-		openAppAndCreatePolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = openAppAndCreatePolicy(testData);
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		HelperCommon.createEndorsement(policyNumber, endorsementDate);//Future dated, otherwise not possible to bind endorsement with new Driver
 		SearchPage.openPolicy(policyNumber);
