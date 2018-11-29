@@ -111,6 +111,7 @@
                     <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
                     <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
                 </methods>
             </class>
         </classes>
