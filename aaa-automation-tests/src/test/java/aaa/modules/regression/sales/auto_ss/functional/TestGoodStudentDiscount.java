@@ -115,7 +115,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for Good Student Discount Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
-	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("CT") String state) {
+	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("") String state) {
 
 		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
 
