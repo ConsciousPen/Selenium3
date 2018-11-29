@@ -51,7 +51,7 @@ public class TestPolicyInquiry extends AutoCaChoiceBaseTest {
 		assertThat(new MembershipTab().getAssetList().getAsset(AutoCaMetaData.MembershipTab.ORDER_REPORT)).isDisabled();
 		
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Choice");
+		assertThat(PremiumAndCoveragesTab.labelProductMessageInquiry).valueContains("CA Choice");
 		assertThat(PremiumAndCoveragesTab.totalTermPremium).hasValue(totalTermPremium);		
 		assertThat(new PremiumAndCoveragesTab().getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.CALCULATE_PREMIUM)).isDisabled();
 		

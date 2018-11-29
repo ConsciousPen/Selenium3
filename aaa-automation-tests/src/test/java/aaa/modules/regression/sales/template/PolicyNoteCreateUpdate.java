@@ -36,7 +36,6 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 		if (getUserGroup().equals(UserGroups.B31.get())) {
 			//Login with QA user and create a policy
 			mainApp().open(getLoginTD(UserGroups.QA));
-			//getCopiedPolicy();
 			createCustomerIndividual();
 			createPolicy();
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -47,6 +46,12 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 			MainPage.QuickSearch.buttonSearchPlus.click();
 			SearchPage.openPolicy(policyNumber);
 			createNote();			
+		}
+		else if (getUserGroup().equals(UserGroups.F35.get())) {
+			mainApp().open();
+			getCopiedPolicy();			
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			createNote();
 		}
 		else {
 			mainApp().open();
@@ -59,7 +64,8 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 	public void createNote() {
 		//Add note
 		TestData tdNotes = testDataManager.notesAndAlerts;
-		NotesAndAlertsSummaryPage.add(tdNotes.getTestData("CreateNote", "TestData_B31"));
+		log.info("Note creation started");
+		NotesAndAlertsSummaryPage.add(tdNotes.getTestData("CreateNote", "TestData"));
 		
 		String noteDescription = tdNotes.getTestData("CreateNote", "TestData").getValue(NotesAndAlertsTab.class.getSimpleName(), 
 				NotesAndAlertsMetaData.NotesAndAlertsTab.NOTE.getLabel());
@@ -71,6 +77,7 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 	public void createAndUpdateNote() {
 		//Add note
 		TestData tdNotes = testDataManager.notesAndAlerts;
+		log.info("Note creation started");
 		NotesAndAlertsSummaryPage.add(tdNotes.getTestData("CreateNote", "TestData"));
 		
 		String noteDescription = tdNotes.getTestData("CreateNote", "TestData").getValue(NotesAndAlertsTab.class.getSimpleName(), 
@@ -81,6 +88,7 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 		
 		//Update note
 		String noteDateTime = NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRow(1).getCell("Date/Time").getValue();
+		log.info("Note update started");
 		NotesAndAlertsSummaryPage.open();
 		NotesAndAlertsSummaryPage.updateNoteByRow(tdNotes.getTestData("UpdateNote", "TestData"), 1);
 		
