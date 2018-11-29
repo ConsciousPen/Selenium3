@@ -80,13 +80,6 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
-        </classes>
-    </test>
-
 
     <!--Tests for Property-->
 
@@ -287,18 +280,6 @@
     </test>
 
     <!--Tests for PUP-->
-
-
-    <test name="Test Pup Info Section View Rating Details">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
-                <methods>
-                    <exclude name="pas14037_testNYMarketTierLockVRD"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
 
     <test name="Test NY Pup Locked Tier">
         <parameter name="state" value="NY"/>

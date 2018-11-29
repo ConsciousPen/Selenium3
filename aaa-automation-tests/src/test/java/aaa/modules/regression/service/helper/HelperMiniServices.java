@@ -44,14 +44,15 @@ public class HelperMiniServices extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
-	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
+	public VehicleUpdateResponseDto updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 		updateVehicleUsageRequest.usage = "Pleasure";
 		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		return updateVehicleUsageResponse;
 	}
 
 	void pas14952_checkEndorsementStatusWasReset(String policyNumber, String endorsementStatus) {
@@ -77,7 +78,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		});
 	}
 
-	void rateEndorsementWithCheck(String policyNumber) {
+	public void rateEndorsementWithCheck(String policyNumber) {
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 		assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");

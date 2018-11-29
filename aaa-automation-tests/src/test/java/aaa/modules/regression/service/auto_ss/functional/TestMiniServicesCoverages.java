@@ -1077,6 +1077,25 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
+	 * @name Total Disability - South Dakota
+	 * @scenario
+	 * 1. Create policy with FNI, NI, NAFR Driver, Spouse (not NI), other driver than Spouse (not NI)
+	 * 2. Create endorsement through service
+	 * 3. Add another spouse through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Assert that Total Disability (TD) is available for all NIs and Spouse
+	 * 6. Update TD for all available drivers and assert that it is updated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19625"})
+	public void pas19625_TotalDisabilitySD(@Optional("SD") String state) {
+		pas19625_TotalDisabilitySDBody();
+	}
+
+	/**
+	 * @author Maris Strazds
 	 * @name Test BI and UMBI update when canChangeCoverage = TRUE for UMBI
 	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = TRUE for UMBI COULD BE USED. Test can be adapted to any state where UMBI is single coverage (not 2 separate)
 	 *  ans state must have BI available limits be the same as UMBI available limits.
@@ -1119,4 +1138,3 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas21363_BIAndUMBIAndCanChangeFalseBody();
 	}
 }
-
