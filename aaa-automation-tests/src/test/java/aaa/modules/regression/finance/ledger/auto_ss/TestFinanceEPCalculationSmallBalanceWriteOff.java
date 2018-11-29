@@ -6,6 +6,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
@@ -63,7 +64,6 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 
 		String policyNumber = createPolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
-		LocalDateTime pDate = today.plusMonths(10).minusDays(20);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime jobEndDate = PolicySummaryPage.getExpirationDate().plusMonths(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
@@ -71,13 +71,9 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getTotalDue().add(-5));
 
-		jobDate = runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		TimeSetterUtil.getInstance().nextPhase(pDate);
-
+		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		billingAccount.generateFutureStatement().perform();
-
 		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1)
 				.getCell("Subtype/Reason").getValue()).isEqualTo("Small Balance Write-off");
 

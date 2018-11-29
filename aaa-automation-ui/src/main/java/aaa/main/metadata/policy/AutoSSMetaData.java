@@ -607,6 +607,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AdvancedRadioGroup> EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS = declare("Extraordinary Medical Expense Benefits", AdvancedRadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> UNINSURED_AND_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured and Underinsured Motorist Bodily Injury", ComboBox.class); //NV state
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Underinsured Motorist Property Damage", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> UNDERINSURED_MOTORIST_CONVERSION_COVERAGE = declare("Underinsured Motorist Conversion Coverage", RadioGroup.class, Waiters.AJAX);
