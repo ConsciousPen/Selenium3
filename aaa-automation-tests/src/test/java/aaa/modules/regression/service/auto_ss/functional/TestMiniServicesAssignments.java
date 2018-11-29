@@ -142,7 +142,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
+		//pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
 		pas13994_UpdateDriverAssignmentServiceRule2Body2(getPolicyType());
 	}
 
@@ -165,7 +165,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529", "PAS-15253"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule3Body();
 	}
 
 	@Parameters({"state"})
