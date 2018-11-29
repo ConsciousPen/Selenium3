@@ -1,13 +1,11 @@
 QA: {
  User: qa,
- #States: CA,
  Password: qa
 }
 
 B31: {
   User: qa_security,
   Groups: B31,
-  #States: CA,
   UW_AuthLevel: '00',
   Billing_AuthLevel: '01',
   Password: qa_security

@@ -35,8 +35,7 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 		
 		if (getUserGroup().equals(UserGroups.B31.get())) {
 			//Login with QA user and create a policy
-			TestData tdUser = testDataManager.loginUsers;
-			mainApp().open(tdUser.getTestData("QA"));
+			mainApp().open(getLoginTD(UserGroups.QA));
 			//getCopiedPolicy();
 			createCustomerIndividual();
 			createPolicy();
@@ -44,7 +43,7 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 			String policyNumber = PolicySummaryPage.getPolicyNumber();
 			mainApp().close();
 			//Login with B31 user
-			mainApp().open(tdUser.getTestData("B31"));
+			mainApp().open(getLoginTD(UserGroups.B31));
 			MainPage.QuickSearch.buttonSearchPlus.click();
 			SearchPage.openPolicy(policyNumber);
 			createNote();			
