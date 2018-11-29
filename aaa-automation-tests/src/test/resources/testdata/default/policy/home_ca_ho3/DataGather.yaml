@@ -82,7 +82,7 @@ AgentInfo: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: "report"}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   #AAAMembershipReport: [{Report: 'Re-order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -135,7 +135,7 @@ PropertyInfoTab: {
 
 EndorsementTab: {}
 PremiumsAndCoveragesQuoteTab: {
-  Payment Plan: Annual,
+  Payment plan: Annual,
   Coverage C - Personal Property limit: '75|Coverage A - Dwelling limit',
   Coverage D - Loss of Use limit: '45|Coverage A - Dwelling limit',
 }
