@@ -44,6 +44,7 @@ public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 	@TestInfo(component = ComponentConstant.Service.HOME_CA_DP3, testCaseId = "PAS-18337")
 	public void pas18337_testClueClaimsSurcharging(@Optional("CA") String state) {
 
+		// Testdata for Customer
 		TestData tdCustomer = getCustomerIndividualTD("DataGather", "TestData")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "BruceDP")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "Kohli")
@@ -52,6 +53,7 @@ public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.CITY.getLabel()), "BELL GARDENS")
 				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.ZIP_CODE.getLabel()), "90201");
 
+		// TestData For Policy
 		TestData tdPolicy = getPolicyTD()
 				.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
 						HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), "90201")
@@ -60,24 +62,25 @@ public class TestClueClaimsSurcharging extends HomeCaDP3BaseTest {
 				.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
 						HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), "132 Test street");
 
+		// Open App Initiate Policy
 		mainApp().open();
 		createCustomerIndividual(tdCustomer);
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(tdPolicy, PropertyInfoTab.class, true);
 
+		// Calculate Premium and Check open VRD
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.RENTAL_CLAIM).setValue("Yes");
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		PropertyQuoteTab.RatingDetailsView.open();
-
 
 		TestData claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys().size()).isEqualTo(2);
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys()).isEmpty();
 		// Assert that Applicant and Property Claim2 is giving points
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isNotEmpty();
-
-
 		PropertyQuoteTab.RatingDetailsView.close();
+
+		// Change Claim to Applicant Calculate Premium and Open App
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		propertyInfoTab.tblClaimsList.getRowContains(PolicyConstants.PropertyInfoClaimHistoryTable.CAUSE_OF_LOSS, ClaimConstants.CauseOfLoss.WATER)
 				.getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
