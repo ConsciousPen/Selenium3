@@ -38,7 +38,7 @@ ApplicantTab: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order Report'}],
+  AAAMembershipReport: [{Report: 'Order report'}],
   #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
