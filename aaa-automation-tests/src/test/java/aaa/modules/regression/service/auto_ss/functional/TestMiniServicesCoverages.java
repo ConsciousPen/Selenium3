@@ -1091,4 +1091,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
 		assertSoftly(softly ->
 		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
-		);	}	}
+		);	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Total Disability - South Dakota
+	 * @scenario
+	 * 1. Create policy with FNI, NI, NAFR Driver, Spouse (not NI), other driver than Spouse (not NI)
+	 * 2. Create endorsement through service
+	 * 3. Add another spouse through service
+	 * 4. Run viewEndorsementCoverages service
+	 * 5. Assert that Total Disability (TD) is available for all NIs and Spouse
+	 * 6. Update TD for all available drivers and assert that it is updated
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.SD})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19625"})
+	public void pas19625_TotalDisabilitySD(@Optional("SD") String state) {
+		pas19625_TotalDisabilitySDBody();
+	}
+}

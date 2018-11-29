@@ -15,19 +15,37 @@
     <test name="Manual Hybrid Conversion Documents generation verification Scenario1">
         <parameter name="state" value="OR"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario1"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario1"/>
         </classes>
     </test>
     <test name="Manual Hybrid Conversion Documents generation verification Scenario2">
         <parameter name="state" value="OR"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario2"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario2"/>
         </classes>
     </test>
     <test name="Manual Hybrid Conversion Documents generation verification Scenario3">
         <parameter name="state" value="CT"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.auto_ss.TestManualHybridConversionScenario3"/>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario3"/>
+        </classes>
+    </test>
+    <test name="Manual Hybrid Conversion Documents generation verification Scenario4">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario4"/>
+        </classes>
+    </test>
+    <test name="Manual Hybrid Conversion Documents generation verification Scenario5">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario5"/>
+        </classes>
+    </test>
+    <test name="Manual Hybrid Conversion Documents generation verification Scenario6">
+        <parameter name="state" value="MT"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario6"/>
         </classes>
     </test>
 
