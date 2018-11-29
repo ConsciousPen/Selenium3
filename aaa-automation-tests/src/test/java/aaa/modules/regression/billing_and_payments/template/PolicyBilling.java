@@ -3,6 +3,9 @@
 package aaa.modules.regression.billing_and_payments.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.UserGroups;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
@@ -77,16 +80,24 @@ public abstract class PolicyBilling extends PolicyBaseTest {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         BillingSummaryPage.open();
-        CustomSoftAssertions.assertSoftly(softly -> {
-		    IBillingAccount billing = new BillingAccount();
-		    //Refund
-		    Dollar refundAmount = new Dollar(150);
-		    billing.refund().perform(refund, refundAmount);
+        IBillingAccount billing = new BillingAccount();
+        billing.acceptPayment().perform(cash_payment, new Dollar(150));
+        
+        if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+        	log.info("Verifying 'Refund' action");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Refund' is available").doesNotContainOption("Refund");
+		}
+        else {
+        	CustomSoftAssertions.assertSoftly(softly -> {    		    
+    		    //Refund
+    		    Dollar refundAmount = new Dollar(150);
+    		    billing.refund().perform(refund, refundAmount);
 
-		    new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
-				    .setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
-				    .setAmount(refundAmount).verifyPresent();
-	    });        
+    		    new BillingPaymentsAndTransactionsVerifier(softly).setType(BillingConstants.PaymentsAndOtherTransactionType.REFUND)
+    				    .setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.MANUAL_REFUND)
+    				    .setAmount(refundAmount).verifyPresent();
+    	    });  
+        }       
     }
     
     private void checkPaymentIsGenerated(Dollar amount, ETCSCoreSoftAssertions softly){

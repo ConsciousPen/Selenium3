@@ -1,6 +1,9 @@
 package aaa.modules.regression.billing_and_payments.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.UserGroups;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -36,6 +39,18 @@ public abstract class PolicyBillingGenerateFutureStatement extends PolicyBaseTes
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		BillingSummaryPage.open();
+		
+		if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+			log.info("Verifying 'Generate Fututre Statement' action");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Fututre Statement' is available").doesNotContainOption("Generate Future Statement");
+		}
+		else {
+			generateFutureStatement();
+		}
+
+	}
+	
+	public void generateFutureStatement() {
 		IBillingAccount billing = new BillingAccount();
 		String billDueDate = BillingSummaryPage.tableInstallmentSchedule.getColumn(BillingConstants.BillingInstallmentScheduleTable.INSTALLMENT_DUE_DATE).getCell(2).getValue();
 		

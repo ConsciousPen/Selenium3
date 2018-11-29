@@ -7,3 +7,12 @@ TestData: {
     Note: Description of Note
   }
 }
+
+TestData_B31: {
+  NotesAndAlertsTab: {
+    'Note/Alert': Note, 
+    Category: General Info,  
+    Title: Test Test, 
+    Note: Description of Note
+  }
+}
