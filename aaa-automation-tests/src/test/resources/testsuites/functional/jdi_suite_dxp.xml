@@ -905,8 +905,8 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
-                    <include name="pas21363_BIandUMBIandCanChangeTrue"/>
-                    <include name="pas21363_BIandUMBIandCanChangeFalse"/>
+                    <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas21363_BIAndUMBIAndCanChangeFalse"/>
                     <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
                     <include name="pas21364_PDAndUMPDAndCanChangeFalse"/>
                 </methods>
