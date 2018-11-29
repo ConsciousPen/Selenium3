@@ -4068,7 +4068,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(findCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode())).isEqualToComparingFieldByField(rejectWorklossExpected);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCoveragesActual);
 			SearchPage.openPolicy(policyNumber);
-			validatePIPInUI_15368(softly, findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()), findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
+			validatePIPInUI_15368(softly, findCoverage(pipSubCoveragesActual, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCoveragesActual, CoverageInfo.MEDEXP_UT.getCode()));
 
 			//update PIP by updating MEDEXP while WLB is false
 			CoverageLimits medexpNewLimit = CoverageLimits.COV_10000;
