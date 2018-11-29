@@ -4,12 +4,16 @@ import aaa.common.enums.PrivilegeEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
@@ -19,6 +23,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 
 	private ErrorTab errorTab = new ErrorTab();
 	private ReportsTab reportsTab = new ReportsTab();
+	private EndorsementTab endorsementTab = new EndorsementTab();
 
 	protected void pas18302_SS_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
@@ -69,7 +74,6 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		reportsTab.submitTab();
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class, false);
 
-
 		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
@@ -82,15 +86,13 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
-
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
+	}
 
-		}
 
-
-	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
+	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege, Boolean isFAIRplanAdded) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 			mainApp().open();
 		} else {
@@ -127,12 +129,29 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
 
 		reportsTab.submitTab();
+
 		getPolicyType().get().getDefaultView()
 				.fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
+						EndorsementTab.class, false);
+
+		if (isFAIRplanAdded) {
+			if (getPolicyType() == PolicyType.HOME_CA_DP3) {
+				//Add FPCECADP endorsement
+				endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+			} else if (getPolicyType() == PolicyType.HOME_CA_HO3) {
+				//Add FPCECA endorsement
+				endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+			}
+			endorsementTab.btnSaveEndo.click();
+
+			policyTd.adjust(DocumentsTab.class.getSimpleName(), testDataManager.getDefault(TestFAIRPlanEndorsement.class).getTestData("DocumentsTab_SignFairPlanEndorsement"));
+		}
+
+		getPolicyType().get().getDefaultView()
+				.fillFromTo(policyTd, EndorsementTab.class,
 				aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
 
-
-		if(expectedFirelineScore>2){
+		if(expectedFirelineScore>2 && !isFAIRplanAdded){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
 			if(expectedFirelineScore>4){
@@ -144,11 +163,8 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
-
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
-
 	}
-
 }
