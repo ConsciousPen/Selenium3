@@ -196,19 +196,18 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
-                td.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-                        HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()), "Yes");
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(),
+                        HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
-                td.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
-                        HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()), "Yes");
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(),
+                        HomeCaMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
                         PersonalUmbrellaMetaData.PrefillTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             default:
