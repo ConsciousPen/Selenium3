@@ -1726,12 +1726,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			Coverage filteredPolicyCoverageResponseUMPD = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
 			//BUG: PAS-15829 UMPD not returned from viewPolicyCoverages for NJ (for Policy and Endorsement)
 			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
-			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCanChangeCoverage()).isFalse();
+
+			//cancHangeCoverage = true for VA, false for other states
+			boolean canChangeCOverageUMPD = false;
+			if (Constants.States.VA.equals(getState())) {
+				canChangeCOverageUMPD = true;
+			}
+			softly.assertThat(filteredPolicyCoverageResponseUMPD.getCanChangeCoverage()).isEqualTo(canChangeCOverageUMPD);
 
 			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 			Coverage filteredEndorsementCoverageResponseUMPD = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).findFirst().orElse(null);
 			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCoverageType()).isEqualTo("Per Accident");
-			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCanChangeCoverage()).isFalse();
+			softly.assertThat(filteredEndorsementCoverageResponseUMPD.getCanChangeCoverage()).isEqualTo(canChangeCOverageUMPD);
 		});
 	}
 
@@ -3380,9 +3386,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			Coverage covBI = Coverage.create(CoverageInfo.BI_WV_VA_KS).changeLimit(CoverageLimits.COV_250500);
 			Coverage covUIMBI = Coverage.create(CoverageInfo.UIMBI).disableCanChange().changeLimit((CoverageLimits.COV_250500));
-			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI).disableCanChange().changeLimit((CoverageLimits.COV_250500));
+			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI).disableCanChange().changeLimit((CoverageLimits.COV_250500)).removeAvailableLimitsAbove(CoverageLimits.COV_250500);
 			Coverage covPD = Coverage.create(CoverageInfo.PDWV);
-			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_WV).disableCanChange();
+			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_WV).disableCanChange().removeAvailableLimitsAbove(CoverageLimits.COV_50000);
 			Coverage covUIMPD = Coverage.create(CoverageInfo.UIMPD).disableCanChange();
 
 			PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber, covBI);
@@ -3394,7 +3400,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			//AC2 update PD
 			Coverage covPDChange= Coverage.create(CoverageInfo.PDWV).changeLimit(CoverageLimits.COV_100000);
-			Coverage covUmpdChange = Coverage.create(CoverageInfo.UMPD_WV).changeLimit(CoverageLimits.COV_100000).disableCanChange();
+			Coverage covUmpdChange = Coverage.create(CoverageInfo.UMPD_WV).changeLimit(CoverageLimits.COV_100000).disableCanChange().removeAvailableLimitsAbove(CoverageLimits.COV_100000);
 			Coverage covUimpdChange = Coverage.create(CoverageInfo.UIMPD).changeLimit(CoverageLimits.COV_100000).disableCanChange();
 			PolicyCoverageInfo coverageResponsePdUpdate = updateCoverage(policyNumber, covPDChange);
 			assertThat(findPolicyCoverage(coverageResponsePdUpdate, covPD.getCoverageCd())).isEqualToComparingFieldByField(covPDChange);
@@ -3404,7 +3410,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			covBI = covBI.changeLimit(CoverageLimits.COV_2550);
 			covUIMBI = covUIMBI.changeLimit(CoverageLimits.COV_2550);
-			covUMBI =covUMBI.changeLimit(CoverageLimits.COV_2550);
+			covUMBI =covUMBI.changeLimit(CoverageLimits.COV_2550).removeAvailableLimitsAbove(CoverageLimits.COV_2550);
 			covUIMPD =covUIMPD.changeLimit(CoverageLimits.COV_50000);
 			covUMPD =covUMPD.changeLimit(CoverageLimits.COV_50000);
 

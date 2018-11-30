@@ -1152,6 +1152,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
 	 * 8. Check in PAS UI that limits are updated
 	 * 9. Check transaction change log
+	 * @NOTE: functionality related with pas15824_UmpdDelimiter (needed to update)
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA})
@@ -1175,6 +1176,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
 	 * 8. Check in PAS UI that limits are updated
 	 * 9. Check transaction change log
+	 * @NOTE: functionality related with pas20292_updateCoverageBIPDWv (needed to update)
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.WV})
