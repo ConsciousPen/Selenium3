@@ -428,5 +428,12 @@ PAS-21992:
   reason: PROD
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario6.TC01_createPolicy]
-      messages: ["\standardDocumentRequest\DocumentPackage\Document\TemplateId" -> "AHRBXX"]
-
+      messages: ["AHRBXX"]
+PT-3048:
+  summary: "Regression: Exception on CLUE report ordering due to stub file inconsistency"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3.*]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
