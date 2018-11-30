@@ -183,6 +183,9 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
 
+        // NB validations
+        //TODO implement DB validation
+
         performRPEndorsement(effDate);
         // TODO implement DB validation
 
