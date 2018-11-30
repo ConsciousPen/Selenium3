@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;
@@ -97,7 +98,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	public TestData getAutoPolicyData(TestData td, HomeSSOpenLPolicy openLPolicy) {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel()),
-				openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+				TimeSetterUtil.getInstance().getStartTime().format(DateTimeUtils.MM_DD_YYYY));
 		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
 				AutoSSMetaData.RatingDetailReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
@@ -605,7 +606,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.SELECT_VARIATION.getLabel(), "true");
 		}
 		productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.COVERAGE_C.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]);
-		productOfferingTabData.put(HomeSSMetaData.ProductOfferingTab.VariationControls.COVERAGE_E.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]);
 		return DataProviderFactory.dataOf(policyLevel, new SimpleDataProvider(productOfferingTabData));
 	}
 
