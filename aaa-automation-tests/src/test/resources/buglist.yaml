@@ -116,12 +116,12 @@ INC0655981:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Miscellaneous"]
-PAS-11538:
-  summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35"
+PAS-15463:
+  summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35 on low value policies"
   reason: PROD
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
-      messages: ["Column Status was not found in the table"]
+      messages: ["Button {<unnamed>: By.id: productContextInfoForm:lnkRenewals} is not enabled as expected"]
 PAS-11467:
   summary: "HO When setting Insured to Deceased, clue report needs to be reordered, cant issue an endorsement"
   reason: PROD
@@ -423,6 +423,20 @@ PAS-20919:
   failures:
   - tests: [aaa.modules.bct.*]
     messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
+PAS-21992:
+  summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario6.TC01_createPolicy]
+      messages: ["AHRBXX"]
+PT-3048:
+  summary: "Regression: Exception on CLUE report ordering due to stub file inconsistency"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3.*]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
 PAS-20379:
   summary: "Test Min Due Is Not Recalculated After Endorsements"
   reason: PROD

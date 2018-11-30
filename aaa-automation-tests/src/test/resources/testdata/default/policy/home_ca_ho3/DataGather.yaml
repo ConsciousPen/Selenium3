@@ -37,7 +37,7 @@ GeneralTab: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '$<today:MM/dd/yyyy>'
+    #Base date with AAA: '$<today:MM/dd/yyyy>'
     }
 }
 

@@ -12,7 +12,7 @@ public class PolicyCopy extends PolicyBaseTest {
 		createPolicy();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
-		policy.calculatePremiumAndPurchase(getPolicyTD("DataGather", "TestData").mask("ReportsTab"));
+		policy.calculatePremiumAndPurchase(getPolicyTD("CopyFromPolicy", "TestData"));
 		assertThat(PolicySummaryPage.labelPolicyNumber).as("Copied policy number is the same as initial policy number").doesNotHaveValue(policyNumber);
 	}
 }
