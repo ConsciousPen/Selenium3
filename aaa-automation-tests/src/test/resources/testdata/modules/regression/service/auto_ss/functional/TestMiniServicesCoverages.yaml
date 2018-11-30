@@ -2,6 +2,8 @@ TestData_NewVehicle: {
 VehicleTab: ['@VehicleTab_2018'],
 }
 
+TestData3: '@TestMiniServicesDriver@TestData3'
+
 FourDrivers: {
   DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
 }
@@ -394,6 +396,28 @@ TestData_OrderOfCoverages_MD: {
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
   DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
 }
+VehicleTab_Motor_Home: {
+         Add Vehicle: Click,
+         Type: Motor Home,
+         Motor Home Type: Mini Motor Home (Class C),
+         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+         VIN: 5B4MP67G123353230,
+         Other Make: 'Motor',
+         Other Model: 'Motor',
+        Stated Amount: '50000',
+ }
+
+VehicleTab_GolfCart: {
+   Add Vehicle: click,
+   Type: Golf Cart,
+   Primary operator: index=0,
+   Usage: index=3,
+   VIN: KNDJT2A2XA7038383,
+   Year: 2010,
+   Other Make: Geer,
+   Other Model: GRX100,
+   Stated Amount: 1500
+ }
 
 TestData_OrderOfCoverages_UT: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],

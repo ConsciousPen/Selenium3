@@ -72,7 +72,7 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		try {
 			//Step 1 -- Zip code entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
 			log.info("Step 1: Add Zip Code entry in lookupvalue table if not exists.");
-			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity));
+			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
 
 			//Step 2
 			log.info("Step 2: Set Soft Stop moratorium on Premium Calculation and Hard Stop moratorium on Bind.");
@@ -155,7 +155,7 @@ public class TestPolicyMoratorium extends PolicyMoratorium {
 		try {
 			//Step 1 -- entry needs to be added to the AAAMoratoriumGeographyLocationInfo lookup in order to be able to select it when creating moratorium in Step 2.
 			log.info("Step 1: Add Zip Code entry in lookupvalue table if not exists.");
-			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity));
+			DBService.get().executeUpdate(insertLookupEntry(moratoriumZipCode, moratoriumCity, "AZ"));
 
 			//Step 2
 			log.info("Step 2: Set Hard Stop (Overridable) level 4 moratorium on Bind action.");

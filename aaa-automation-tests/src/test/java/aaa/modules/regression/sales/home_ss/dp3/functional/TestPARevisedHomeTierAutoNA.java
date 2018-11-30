@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -35,7 +35,7 @@ public class TestPARevisedHomeTierAutoNA extends RevisedHomeTierPATemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("PA") String state) {
 
@@ -58,7 +58,7 @@ public class TestPARevisedHomeTierAutoNA extends RevisedHomeTierPATemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 

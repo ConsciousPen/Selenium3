@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestKYCityAndCountyTaxesForEndorsementFormsTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.KY)
@@ -37,7 +37,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesNBTx(@Optional("KY") String state) {
 
@@ -62,7 +62,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesEndorsementsTx(@Optional("KY") String state) {
 
@@ -87,7 +87,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesRenewalTx(@Optional("KY") String state) {
 

@@ -12,15 +12,19 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 
-public class ManualConversionTemplate extends PolicyBaseTest{
+public class ManualConversionTemplate extends PolicyBaseTest {
 
 	protected void manualRenewalEntryToActivePolicy() {
+		ErrorTab errorTab = new ErrorTab();
 		// This date is specific for Manual Review and not equal to RENEW_GENERATE_DATE
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(45);
 		mainApp().open();
@@ -28,6 +32,11 @@ public class ManualConversionTemplate extends PolicyBaseTest{
 		TestData policyTd = getConversionPolicyDefaultTD();
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), effDate);
 		getPolicyType().get().getDefaultView().fill(policyTd);
+		if (errorTab.isVisible()) {
+			errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200205);
+			errorTab.override();
+			policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
+		}
 		Tab.buttonBack.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
