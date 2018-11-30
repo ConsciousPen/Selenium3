@@ -1056,6 +1056,16 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
+	/**
+	 * @author Sabra Domeika
+	 * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+	 * @scenario1 Create policy in PAS
+	 * 1. Create endorsement through service
+	 * 2. Update UMPD through service and check response
+	 * 3. Open PAS UI and validate Coverage tab
+	 * 4. Update BI to 100000/300000 and COLLDED to -1 through service and check response
+	 * 5. Update UMPD to 3500 and check response
+	 * */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

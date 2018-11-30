@@ -2622,12 +2622,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 		String vehicleOid = viewVehicleResponse.vehicleList.get(0).oid;
 		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
-		Coverage umpdWithColl = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.LIMIT_CDW);
+		Coverage umpdWithColl = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.COV_CDW);
 		Coverage returnedUmpd = findCoverage(getVehicleCoverages(viewCoverageResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdWithColl).isEqualTo(returnedUmpd);
 
 		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "0"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage umpdNoCoverage = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.LIMIT_NO_COVERAGE);
+		Coverage umpdNoCoverage = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.COV_0);
 		Coverage returnedUmpdNoCov = findCoverage(getVehicleCoverages(updateCoverageResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoCoverage).isEqualTo(returnedUmpdNoCov);
 
@@ -2640,19 +2640,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		premiumAndCoveragesTab.saveAndExit();
 
 		PolicyCoverageInfo viewCoverageNoUMResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
-		Coverage umpdNoUM = Coverage.create(CoverageInfo.UMPD_NV_WOUM).changeLimit(CoverageLimits.LIMIT_NO_COVERAGE).disableCanChange().disableCustomerDisplay();
+		Coverage umpdNoUM = Coverage.create(CoverageInfo.UMPD_NV_WOUM).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
 		Coverage returnedUmpdNoUM = findCoverage(getVehicleCoverages(viewCoverageNoUMResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoUM).isEqualTo(returnedUmpdNoUM);
 
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("BI", "100000/300000"), PolicyCoverageInfo.class);
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COLLDED", "-1"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		PolicyCoverageInfo viewCoverageNoCollResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
-		Coverage umpdNoColl = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.LIMIT_NO_COVERAGE);
+		Coverage umpdNoColl = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_0);
 		Coverage returnedUmpdNoColl = findCoverage(getVehicleCoverages(viewCoverageNoCollResponse, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoColl).isEqualTo(returnedUmpdNoColl);
 
 		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "3500"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage umpdNoCoverage2 = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.LIMIT_3500);
+		Coverage umpdNoCoverage2 = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_3500);
 		Coverage returnedUmpdNoCov2 = findCoverage(getVehicleCoverages(updateCoverageResponse2, vehicleOid).coverages, "UMPD");
 		assertThat(umpdNoCoverage2).isEqualTo(returnedUmpdNoCov2);
 	}

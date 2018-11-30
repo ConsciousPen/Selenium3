@@ -73,7 +73,6 @@ public enum CoverageInfo {
 	COMPDED_AZ("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_750, AvailableCoverageLimits.COMPDED, "Deductible"),
 	COLLDED_AZ("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED, "Deductible"),
 	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None"),
-	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),
 	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
 	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
 	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident");
