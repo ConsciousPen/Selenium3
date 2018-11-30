@@ -2,6 +2,8 @@ package aaa.modules.regression.billing_and_payments.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+import aaa.common.enums.Constants.UserGroups;
+import aaa.common.pages.NavigationPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -34,22 +36,29 @@ public abstract class PolicyBillingHoldPolicies extends PolicyBaseTest {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         BillingSummaryPage.open();
-        IBillingAccount billing = new BillingAccount();
-        TestData tdBilling = testDataManager.billingAccount;
         
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
-        		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.ACTIVE);
-        
-        //Perform 'Hold Policies' action to add hold and verify billing status changes to 'On Hold'
-        billing.addHold().perform(tdBilling.getTestData("AddHold", "TestData"));
-        
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
-        		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.HOLD);
-        
-        //Remove hold from billing account and verify billing status changed to 'Active'
-        billing.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
-        
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
-        		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.ACTIVE);
+        if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+        	log.info("Verifying 'Hold Policies' action");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Hold Policies' is available").doesNotContainOption("Hold Policies");
+		}
+        else {
+        	IBillingAccount billing = new BillingAccount();
+            TestData tdBilling = testDataManager.billingAccount;
+            
+            assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
+            		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.ACTIVE);
+            
+            //Perform 'Hold Policies' action to add hold and verify billing status changes to 'On Hold'
+            billing.addHold().perform(tdBilling.getTestData("AddHold", "TestData"));
+            
+            assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
+            		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.HOLD);
+            
+            //Remove hold from billing account and verify billing status changed to 'Active'
+            billing.removeHold().perform(tdBilling.getTestData("RemoveHold", "TestData"));
+            
+            assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(
+            		BillingConstants.BillingAccountPoliciesTable.BILLING_STATUS).getValue()).isEqualTo(BillingConstants.BillingAccountPoliciesBillingStatus.ACTIVE);
+        }
 	}
 }

@@ -7,6 +7,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -45,6 +46,11 @@ public class TestPolicyCreation extends AutoCaSelectBaseTest {
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
 
-		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Select");
+		if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+			assertThat(PremiumAndCoveragesTab.labelProductMessageInquiry).valueContains("CA Select");
+		}
+		else {
+			assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Select");
+		}
 	}
 }

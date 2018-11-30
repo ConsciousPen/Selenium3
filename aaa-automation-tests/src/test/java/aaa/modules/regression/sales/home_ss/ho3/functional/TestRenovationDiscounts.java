@@ -12,11 +12,7 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -39,7 +35,7 @@ public class TestRenovationDiscounts extends HomeSSHO3BaseTest {
 	 */
 	@StateList(states = Constants.States.KS)
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-4317")
 	public void pas4317_RenovationDiscounts(@Optional("KS") String state) {
 		String expectedValue = "Safe Home";

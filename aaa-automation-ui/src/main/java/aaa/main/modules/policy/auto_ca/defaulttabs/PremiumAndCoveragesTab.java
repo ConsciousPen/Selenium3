@@ -37,6 +37,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class PremiumAndCoveragesTab extends Tab {
 
 	public static StaticElement labelProductInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:sedit_AAAProductOverride_policyFormCd']"));
+	public static StaticElement labelProductMessageInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentRegion_AAAProductOverride']"));
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
 	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
