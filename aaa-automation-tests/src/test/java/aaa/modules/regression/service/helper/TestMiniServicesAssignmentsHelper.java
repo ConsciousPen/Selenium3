@@ -8,7 +8,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.CustomerType;
@@ -19,18 +18,14 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.PRIMARY_OPERATOR;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -40,20 +35,14 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	private AssignmentTab assignmentTab = new AssignmentTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-	private RemoveDriverRequest removeDriverRequest = new RemoveDriverRequest();
 	private VehicleTab vehicleTab = new VehicleTab();
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper= new TestMiniServicesDriversHelper();
-	protected void pas10484_ViewDriverAssignmentService(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-		policyType.get().createPolicy(testData);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+	protected void pas10484_ViewDriverAssignmentService() {
+		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		String policyNumber = openAppAndCreatePolicy(td);
 
 		//Create a pended Endorsement
-		PolicySummary endorsementResponse = HelperCommon.createEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		assertThat(endorsementResponse.policyNumber).isEqualTo(policyNumber);
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -94,16 +83,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assignmentTab.saveAndExit();
 
 		//add vehicle
-		String purchaseDate = "2012-02-21";
 		String newVin = "4S2CK58W8X4307498";
-
-		Vehicle addVehicle =
-				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(newVin, purchaseDate), Vehicle.class, 201);
-
-		assertSoftly(softly ->
-				softly.assertThat(addVehicle.oid).isNotEmpty()
-		);
-		String newVehOid = addVehicle.oid;
+		String newVehOid = addVehicle(policyNumber, "2012-02-21", newVin);
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -112,6 +93,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		String driverAssignment4 = assignmentsPrimary.get(1).toString();
 		String driverNameFromAssignment3 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(0).getValue("Driver");
 		String driverNameFromAssignment4 = assignmentTab.getAssetList().getAsset(AutoSSMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP).getValue().get(1).getValue("Driver");
+
 		ViewDriversResponse responseViewDriver2 = HelperCommon.viewPolicyDrivers(policyNumber);
 		String driverOid3 = responseViewDriver2.driverList.stream().filter(driver -> driverNameFromAssignment3.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
 		String driverOid4 = responseViewDriver2.driverList.stream().filter(driver -> driverNameFromAssignment4.equals(driver.firstName + " " + driver.lastName)).findFirst().orElse(null).oid;
@@ -192,27 +174,16 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(newVehicle1.vehIdentificationNo).isEqualTo(newVin);
 	}
 
-	protected void pas14477_ViewDriverAssignment_NewDriver_Body(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-		String policyNumber = createPolicy(testData);
+	protected void pas14477_ViewDriverAssignment_NewDriver_Body() {
+		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		String policyNumber = openAppAndCreatePolicy(td);
 		SearchPage.openPolicy(policyNumber);
 
 		//Create a pended Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//Add new driver for PAS-14477
-		AddDriverRequest addDriverRequest = new AddDriverRequest();
-		addDriverRequest.firstName = "Justinio";
-		addDriverRequest.middleName = "Doc";
-		addDriverRequest.lastName = "Jill";
-		addDriverRequest.birthDate = "1960-02-08";
-		addDriverRequest.suffix = "III";
-		DriversDto addDriverResponse = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
-
-		String newDriverOid = addDriverResponse.oid;
+		String newDriverOid = addRegularDriver(policyNumber, "Justinio", "888963147");
 
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -260,17 +231,9 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		});
 		assignmentTab.saveAndExit();
 
-		//add vehicle
-		String purchaseDate = "2012-02-21";
 		String newVin = "4S2CK58W8X4307498";
-
-		Vehicle addVehicle =
-				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(newVin, purchaseDate), Vehicle.class, 201);
-
-		assertSoftly(softly ->
-				softly.assertThat(addVehicle.oid).isNotEmpty()
-		);
-		String newVehOid = addVehicle.oid;
+		//add vehicle
+		String newVehOid = addVehicle(policyNumber, "2012-02-21", "4S2CK58W8X4307498");
 
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -378,29 +341,15 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(newVehicle1.vehIdentificationNo).isEqualTo(newVin);
 	}
 
-	protected void pas11633_ViewDriverAssignmentAutoAssignService(PolicyType policyType) {
-		mainApp().open();
-		createCustomerIndividual();
-		policyType.get().createPolicy(getPolicyTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
-		mainApp().close();
+	protected void pas11633_ViewDriverAssignmentAutoAssignService() {
+		String policyNumber = openAppAndCreatePolicy();
 
 		//Create a pended Endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//add vehicle
-		String purchaseDate = "2012-02-21";
-		String vin2 = "4S2CK58W8X4307498";
+		String vehicleOid2 = addVehicle(policyNumber, "2012-02-21", "4S2CK58W8X4307498");
 
-		Vehicle addVehicle =
-				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
-
-		assertSoftly(softly ->
-				softly.assertThat(addVehicle.oid).isNotEmpty()
-		);
-
-		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
@@ -418,7 +367,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse2.vehicleList;
 		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
 		String vehicleOid1 = viewEndorsementVehicleResponse2.vehicleList.get(0).oid;
-		String vehicleOid2 = viewEndorsementVehicleResponse2.vehicleList.get(1).oid;
 
 		ViewDriverAssignmentResponse response = HelperCommon.viewEndorsementAssignments(policyNumber);
 		assertSoftly(softly -> {
@@ -435,7 +383,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			assertThat(response.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
 
 			softly.assertThat(response.assignableDrivers.size()).isEqualTo(1);
-
 			softly.assertThat(response.assignableVehicles.size()).isEqualTo(2);
 			softly.assertThat(response.unassignedDrivers.isEmpty()).isTrue();
 			softly.assertThat(response.unassignedVehicles.isEmpty()).isTrue();
@@ -445,124 +392,82 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas13994_UpdateDriverAssignmentServiceRule1Body1(PolicyType policyType) {
-		TestData td = getPolicyTD("DataGather", "TestData");
-		TestData testData = td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_TwoDrivers").getTestDataList("DriverTab")).resolveLinks();
-
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
+		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+
 		assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-
-			policyType.get().createPolicy(testData);
-			String policyNumber = PolicySummaryPage.getPolicyNumber();
-
-			//Create a pended Endorsement
+			String policyNumber = openAppAndCreatePolicy(td);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			//V1 vin from testData
-			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
+			ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+			Vehicle vehicle1 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+
+			//Get Drivers oid
+			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
+			DriversDto driver2 = findDriver(td, dResponse, 1, "DriverTab");
 
 			//add V2
-			String purchaseDate = "2012-02-21";
-			String vin2 = "1HGEM21504L055795";
-
-			Vehicle addVehicle =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
-
-			assertThat(addVehicle.oid).isNotEmpty();
-			String newVehicleOid = addVehicle.oid;
-			printToLog("newVehicleOid: " + newVehicleOid);
-
-			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-
-			//Drivers info from testData
-			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
-			String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
-			String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
-
-			String firstName2 = testData.getTestDataList("DriverTab").get(1).getValue("First Name");
-			String lastName2 = testData.getTestDataList("DriverTab").get(1).getValue("Last Name");
-
-			//get drivers oid's
-			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-			DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-
-			softly.assertThat(driver1.lastName).isEqualTo(lastName1);
-			String driverOid1 = driver1.oid;
-			softly.assertThat(driver2.lastName).isEqualTo(lastName2);
-			String driverOid2 = driver2.oid;
-
-			//get vehicles oid's
-			ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			Vehicle vehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle2 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-
-			softly.assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
-			String vehicleOid1 = vehicle1.oid;
-			softly.assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
-			String vehicleOid2 = vehicle2.oid;
+			String vehicleOid2 = addVehicle(policyNumber, "2012-02-21", "1HGEM21504L055795");
 
 			//Update: V2-->D1 ,Check V2-->D1, V1-->D2
-			ViewDriverAssignmentResponse updDriverAssignee1 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid1));
-			List<DriverAssignment> v1ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v2ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee1 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid2, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse1 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch = new DriverAssignments()
+					.addAssignment(driver2.oid, vehicle1.oid)
+					.addAssignment(driver1.oid, vehicleOid2);
+			softly.assertThat(updDriverAssignee1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableDrivers.contains(driverOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
-			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update: V1-->D1, D2, Check V1-->D1,D2, V2-->Unn
-			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid1, driverOid2));
-			v1ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle1.oid, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch2 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicle1.oid)
+					.addUnassignedVehicles(vehicleOid2);
+			softly.assertThat(updDriverAssignee2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
+			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee2.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee2.assignableDrivers.contains(driverOid2)).isTrue();
-			softly.assertThat(updDriverAssignee2.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee2.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee2.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee2.unassignedVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee2.vehiclesWithTooManyDrivers.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee2.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().contains(vehicleOid2)).isTrue();
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().contains(vehicle1.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V2-->D2, V1-->D1, V2-->D2
-			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid2));
-			v1ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v2ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee3 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid2, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse3 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch3 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicleOid2);
+			softly.assertThat(updDriverAssignee3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee3.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableDrivers.contains(driverOid2)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee3.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			checkAssignButtonInUiRateAndBind(policyNumber);
@@ -570,197 +475,141 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas15529_UpdateDriverAssignmentServiceRule1Body2(PolicyType policyType) {
-		TestData td = getPolicyTD("DataGather", "TestData_VA");
-		td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_FourDrivers").getTestDataList("DriverTab")).resolveLinks();
-		td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_TwoVehicles").getTestDataList("VehicleTab")).resolveLinks();
-		td.adjust(new AssignmentTab().getMetaKey(), getTestSpecificTD("AssignmentTabFourDrivers")).resolveLinks();
-
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-			policyType.get().createPolicy(td);
-			String policyNumber = PolicySummaryPage.getPolicyNumber();
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_FourDrivers", "TestData_TwoVehicles", "AssignmentTabFourDrivers");
 
-			//Create a pended Endorsement
+		assertSoftly(softly -> {
+			String policyNumber = openAppAndCreatePolicy(td);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
-			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
-
-			//add V3
-			String purchaseDate = "2012-02-21";
-			String vin3 = "1NXBR32E53Z168489";
-
-			Vehicle addVehicle =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin3, purchaseDate), Vehicle.class, 201);
-
-			assertThat(addVehicle.oid).isNotEmpty();
-			String newVehicleOid = addVehicle.oid;
-			printToLog("newVehicleOid: " + newVehicleOid);
-
-			//add V4
-			String vin4 = "1G2NE52T9XM924276";
-
-			Vehicle addVehicle2
-					= HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin4, purchaseDate), Vehicle.class, 201);
-
-			assertThat(addVehicle2.oid).isNotEmpty();
-			String newVehicleOid2 = addVehicle2.oid;
-
-			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
-			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);
-
-			//Drivers info from testData
-			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
-			String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
-			String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
-			String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
-			String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
-			String firstName3 = td.getTestDataList("DriverTab").get(2).getValue("First Name");
-			String lastName3 = td.getTestDataList("DriverTab").get(2).getValue("Last Name");
-			String firstName4 = td.getTestDataList("DriverTab").get(3).getValue("First Name");
-			String lastName4 = td.getTestDataList("DriverTab").get(3).getValue("Last Name");
-
-			//get drivers oid's
-			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-			DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-			DriversDto driver3 = dResponse.driverList.stream().filter(driver -> firstName3.equals(driver.firstName)).findFirst().orElse(null);
-			DriversDto driver4 = dResponse.driverList.stream().filter(driver -> firstName4.equals(driver.firstName)).findFirst().orElse(null);
-
-			softly.assertThat(driver1.lastName).isEqualTo(lastName1).isEqualTo(lastName1);
-			String driverOid1 = driver1.oid;
-			softly.assertThat(driver2.lastName).isEqualTo(lastName2).isEqualTo(lastName2);
-			String driverOid2 = driver2.oid;
-			softly.assertThat(driver3.lastName).isEqualTo(lastName3).isEqualTo(lastName3);
-			String driverOid3 = driver3.oid;
-			softly.assertThat(driver4.lastName).isEqualTo(lastName4).isEqualTo(lastName4);
-			String driverOid4 = driver4.oid;
-
-			//get vehicles oid's
+			//Vehicle Oid's
 			ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
-			Vehicle vehicle1 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle2 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle3 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin3.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle4 = viewEndorsementVehicleResponse.vehicleList.stream().filter(veh -> vin4.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
+			Vehicle vehicle1 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+			Vehicle vehicle2 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(1).getValue("VIN"));
 
-			softly.assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
-			String vehicleOid1 = vehicle1.oid;
-			softly.assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
-			String vehicleOid2 = vehicle2.oid;
-			softly.assertThat(vehicle3.vehIdentificationNo).isEqualTo(vin3);
-			String vehicleOid3 = vehicle3.oid;
-			softly.assertThat(vehicle4.vehIdentificationNo).isEqualTo(vin4);
-			String vehicleOid4 = vehicle4.oid;
+			//add V3 and V4
+			String vehicleOid3 = addVehicle(policyNumber, "2012-02-21", "1NXBR32E53Z168489");
+			String vehicleOid4 = addVehicle(policyNumber, "2012-02-21", "1G2NE52T9XM924276");
+
+			//Get Drivers oid
+			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
+			DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
+			DriversDto driver2 = findDriver(td, dResponse, 1, "DriverTab");
+			DriversDto driver3 = findDriver(td, dResponse, 2, "DriverTab");
+			DriversDto driver4 = findDriver(td, dResponse, 3, "DriverTab");
 
 			//Update: V3-->D1, Check V1-->D2 V2-->D3,D4, V3-->D1, V4-->Unn
-			ViewDriverAssignmentResponse updDriverAssignee1 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid3, Arrays.asList(driverOid1));
-			List<DriverAssignment> v1ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v2ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v3ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee1 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid3, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse1 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch = new DriverAssignments()
+					.addAssignment(driver2.oid, vehicle1.oid)
+					.addAssignment(driver3.oid, vehicle2.oid)
+					.addAssignment(driver4.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicleOid3)
+					.addUnassignedVehicles(vehicleOid4);
+			softly.assertThat(updDriverAssignee1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments", "unassignedVehicles");
+			softly.assertThat(driverAssignmentResponse1).isEqualToComparingOnlyGivenFields(toMatch, "driverVehicleAssignments", "unassignedVehicles");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid4))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.assignableDrivers.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.unassignedVehicles.contains(vehicleOid4)).isTrue();
-			softly.assertThat(updDriverAssignee1.vehiclesWithTooManyDrivers.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().contains(vehicle2.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V4-->D2, Check V1-->Unn, V2-->D4,D3 V3-->D1, V4-->D2
-			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid4, Arrays.asList(driverOid2));
-			v2ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v4ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid4, Arrays.asList(driver2.oid));
+			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch2 = new DriverAssignments()
+					.addAssignment(driver2.oid, vehicle2.oid)
+					.addAssignment(driver2.oid, vehicle2.oid)
+					.addAssignment(driver3.oid, vehicleOid3)
+					.addAssignment(driver4.oid, vehicleOid4)
+					.addUnassignedVehicles(vehicle1.oid);
+			softly.assertThat(updDriverAssignee2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
+			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
 
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid4))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee2.assignableDrivers.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee2.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee2.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee2.unassignedVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee2.vehiclesWithTooManyDrivers.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee2.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().contains(vehicle2.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V2-->D3, Check V1-->Unn, V2-->D3, V3-->D1, V4-->D2, D4-->Unn
-			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid3));
-			v2ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v4ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee3 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle2.oid, Arrays.asList(driver3.oid));
+			DriverAssignments driverAssignmentResponse3 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch3 = new DriverAssignments()
+					.addAssignment(driver3.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicleOid3)
+					.addAssignment(driver2.oid, vehicleOid4)
+					.addUnassignedDrivers(driver4.oid)
+					.addUnassignedVehicles(vehicle1.oid);
+			softly.assertThat(updDriverAssignee3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
+			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
 
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee3.assignableDrivers.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee3.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee3.unassignedDrivers.contains(driverOid4)).isTrue();
-			softly.assertThat(updDriverAssignee3.unassignedVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee3.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update: V1-->D3, Check V1-->D3, V2-->Unn, V3-->D1, V4-->D2, D4-->Unn
-			ViewDriverAssignmentResponse updDriverAssignee4 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid1, Arrays.asList(driverOid3));
-			v1ByOid = updDriverAssignee4.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee4.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v4ByOid = updDriverAssignee4.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee4 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle1.oid, Arrays.asList(driver3.oid));
+			DriverAssignments driverAssignmentResponse4 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch4 = new DriverAssignments()
+					.addAssignment(driver3.oid, vehicle1.oid)
+					.addAssignment(driver1.oid, vehicleOid3)
+					.addAssignment(driver2.oid, vehicleOid4)
+					.addUnassignedDrivers(driver4.oid)
+					.addUnassignedVehicles(vehicle2.oid);
+			softly.assertThat(updDriverAssignee4).isEqualToComparingOnlyGivenFields(toMatch4, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
+			softly.assertThat(driverAssignmentResponse4).isEqualToComparingOnlyGivenFields(toMatch4, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee4.assignableDrivers.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee4.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee4.unassignedDrivers.contains(driverOid4)).isTrue();
-			softly.assertThat(updDriverAssignee4.unassignedVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee4.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee4.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update: V2-->D4, Check V1-->D3, V2-->D4, V3-->D1, V4-->D2
-			ViewDriverAssignmentResponse updDriverAssignee5 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid4));
-			v1ByOid = updDriverAssignee5.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v2ByOid = updDriverAssignee5.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee5.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v4ByOid = updDriverAssignee5.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
+			DriverAssignments updDriverAssignee5 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle2.oid, Arrays.asList(driver4.oid));
+			DriverAssignments driverAssignmentResponse5 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch5 = new DriverAssignments()
+					.addAssignment(driver3.oid, vehicle1.oid)
+					.addAssignment(driver4.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicleOid3)
+					.addAssignment(driver2.oid, vehicleOid4);
+			softly.assertThat(updDriverAssignee5).isEqualToComparingOnlyGivenFields(toMatch5, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse5).isEqualToComparingOnlyGivenFields(toMatch5, "driverVehicleAssignments");
 
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid3))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid4))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-
-			//Check the second part of the response
-			softly.assertThat(updDriverAssignee5.assignableDrivers.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee5.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee5.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee5.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee5.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee5.maxOneDriverPerVehicle).isEqualTo(true);
+			//check the last part of the response
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -773,149 +622,92 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_ThreeVehicles", "AssignmentTab");
 
 		assertSoftly(softly -> {
-			mainApp().open();
-			createCustomerIndividual();
-			policyType.get().createPolicy(td);
-			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			String policyNumber = openAppAndCreatePolicy(td);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-			String vin1 = td.getTestDataList("VehicleTab").get(0).getValue("VIN");
-			String vin2 = td.getTestDataList("VehicleTab").get(1).getValue("VIN");
-			String vin3 = td.getTestDataList("VehicleTab").get(2).getValue("VIN");
+			//Vehicle Oid's
+			ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);
+			Vehicle vehicle1 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(0).getValue("VIN"));
+			Vehicle vehicle2 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(1).getValue("VIN"));
+			Vehicle vehicle3 = findVehicle(viewEndorsementVehicleResponse, td.getTestDataList("VehicleTab").get(2).getValue("VIN"));
 
 			//add V4
-			String purchaseDate = "2012-02-21";
-			String vin4 = "1NXBR32E53Z168489";
-
-			Vehicle addVehicle =
-					HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin4, purchaseDate), Vehicle.class, 201);
-
-			assertThat(addVehicle.oid).isNotEmpty();
-			String newVehicleOid = addVehicle.oid;
-			printToLog("newVehicleOid: " + newVehicleOid);
-
-			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid);
+			String vehicleOid4 = addVehicle(policyNumber, "2012-05-11", "1NXBR32E53Z168489");
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA.getMessage(), "attributeForRules");
 
-			//Drivers info from testData
-			String firstNameFull = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("First Name");
-			String firstName1 = firstNameFull.substring(0, firstNameFull.length() - 5);
-			String lastName1 = getStateTestData(customerData, "DataGather", "TestData").getTestDataList("GeneralTab").get(0).getValue("Last Name");
-
-			String firstName2 = td.getTestDataList("DriverTab").get(1).getValue("First Name");
-			String lastName2 = td.getTestDataList("DriverTab").get(1).getValue("Last Name");
-
-			//get drivers oid's
+			//Get Drivers oid
 			ViewDriversResponse dResponse = HelperCommon.viewEndorsementDrivers(policyNumber);
-			DriversDto driver1 = dResponse.driverList.stream().filter(driver -> driver.firstName.startsWith(firstName1)).findFirst().orElse(null);
-			DriversDto driver2 = dResponse.driverList.stream().filter(driver -> firstName2.equals(driver.firstName)).findFirst().orElse(null);
-
-			softly.assertThat(driver1.lastName).isEqualTo(lastName1);
-			String driverOid1 = driver1.oid;
-			softly.assertThat(driver2.lastName).isEqualTo(lastName2);
-			String driverOid2 = driver2.oid;
-
-			//get vehicles oid's
-			ViewVehicleResponse viewEndorsementVehicleResponse2 = HelperCommon.viewEndorsementVehicles(policyNumber);
-			Vehicle vehicle1 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin1.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle2 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin2.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle3 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin3.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-			Vehicle vehicle4 = viewEndorsementVehicleResponse2.vehicleList.stream().filter(veh -> vin4.equals(veh.vehIdentificationNo)).findFirst().orElse(null);
-
-			softly.assertThat(vehicle1.vehIdentificationNo).isEqualTo(vin1);
-			String vehicleOid1 = vehicle1.oid;
-			softly.assertThat(vehicle2.vehIdentificationNo).isEqualTo(vin2);
-			String vehicleOid2 = vehicle2.oid;
-			softly.assertThat(vehicle3.vehIdentificationNo).isEqualTo(vin3);
-			String vehicleOid3 = vehicle3.oid;
-			softly.assertThat(vehicle4.vehIdentificationNo).isEqualTo(vin4);
-			String vehicleOid4 = vehicle4.oid;
+			DriversDto driver1 = findDriver(getStateTestData(customerData, "DataGather", "TestData"), dResponse, 0, "GeneralTab", true);
+			DriversDto driver2 = findDriver(td, dResponse, 1, "DriverTab");
 
 			//Update: V4-->D1, Check V1-->D1, V2-->D2, V3-->D1, V4-->D1
-			ViewDriverAssignmentResponse updDriverAssignee1 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid4, Arrays.asList(driverOid1));
-			List<DriverAssignment> v1ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v2ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v3ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			List<DriverAssignment> v4ByOid = updDriverAssignee1.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
-
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
+			DriverAssignments updDriverAssignee1 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid4, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse1 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch1 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicle3.oid)
+					.addAssignment(driver1.oid, vehicleOid4);
+			softly.assertThat(updDriverAssignee1).isEqualToComparingOnlyGivenFields(toMatch1, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse1).isEqualToComparingOnlyGivenFields(toMatch1, "driverVehicleAssignments");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableDrivers.contains(driverOid2)).isTrue();
-
-			softly.assertThat(updDriverAssignee1.assignableVehicles.size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid3)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid4)).isTrue();
-
-			softly.assertThat(updDriverAssignee1.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.maxOneDriverPerVehicle).isEqualTo(true);
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().contains(driver1.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableDrivers().contains(driver2.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().contains(vehicle1.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().contains(vehicle2.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().contains(vehicle3.oid)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().contains(vehicleOid4)).isTrue();
+			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			//Update V2-->D1 Check V1-->D1, V2-->D1, V3-->D1, V4-->D1
-			ViewDriverAssignmentResponse updDriverAssignee2 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid1));
-			v1ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v2ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v4ByOid = updDriverAssignee2.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
-
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
+			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle2.oid, Arrays.asList(driver1.oid));
+			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch2 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver1.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicle3.oid)
+					.addAssignment(driver1.oid, vehicleOid4)
+					.addUnassignedDrivers(driver2.oid);
+			softly.assertThat(updDriverAssignee2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
+			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee2.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee2.assignableDrivers.contains(driverOid2)).isTrue();
-
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid3)).isTrue();
-			softly.assertThat(updDriverAssignee1.assignableVehicles.contains(vehicleOid4)).isTrue();
-
-			softly.assertThat(updDriverAssignee2.unassignedDrivers.contains(driverOid2)).isTrue();
-			softly.assertThat(updDriverAssignee2.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee2.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee2.maxOneDriverPerVehicle).isEqualTo(true);
+			softly.assertThat(updDriverAssignee2.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee2.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee2.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee2.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
-
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
 			//Update V2-->D2, Check V1-->D1, V2-->D2, V3-->D1, V4-->D1
-			ViewDriverAssignmentResponse updDriverAssignee3 = HelperCommon.updateDriverAssignment(policyNumber, vehicleOid2, Arrays.asList(driverOid2));
-			v1ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid1.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v2ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid2.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v3ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid3.equals(veh.vehicleOid)).collect(Collectors.toList());
-			v4ByOid = updDriverAssignee3.driverVehicleAssignments.stream().filter(veh -> vehicleOid4.equals(veh.vehicleOid)).collect(Collectors.toList());
-
-			softly.assertThat(v1ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v2ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid2))).isEqualTo(true);
-			softly.assertThat(v3ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
-			softly.assertThat(v4ByOid.stream().anyMatch(veh -> veh.driverOid.equals(driverOid1))).isEqualTo(true);
+			DriverAssignments updDriverAssignee3 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle2.oid, Arrays.asList(driver2.oid));
+			DriverAssignments driverAssignmentResponse3 = HelperCommon.viewEndorsementAssignments2(policyNumber);
+			DriverAssignments toMatch3 = new DriverAssignments()
+					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicle2.oid)
+					.addAssignment(driver1.oid, vehicle3.oid)
+					.addAssignment(driver1.oid, vehicleOid4);
+			softly.assertThat(updDriverAssignee3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
+			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee3.assignableDrivers.contains(driverOid1)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableDrivers.contains(driverOid2)).isTrue();
-
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid1)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid3)).isTrue();
-			softly.assertThat(updDriverAssignee3.assignableVehicles.contains(vehicleOid4)).isTrue();
-
-			softly.assertThat(updDriverAssignee3.unassignedDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.unassignedVehicles.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.vehiclesWithTooManyDrivers.isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.maxOneDriverPerVehicle).isEqualTo(true);
+			softly.assertThat(updDriverAssignee3.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee3.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee3.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			checkAssignButtonInUiRateAndBind(policyNumber);
@@ -947,6 +739,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			DriversDto driver3 = findDriver(td, dResponse, 2, "DriverTab");
 
 			//Update V4-->D1 AND V5-->D2 (V1-->D1, V2-->D2, V3-->D3, V4-->D1, V5-->D2)
+			HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid5, Arrays.asList(driver2.oid));
 			DriverAssignments updDriverAssignee1 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid4, Arrays.asList(driver1.oid));
 			DriverAssignments driverAssignmentResponse1 = HelperCommon.viewEndorsementAssignments2(policyNumber);
 			DriverAssignments toMatch = new DriverAssignments()
@@ -969,7 +762,6 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update D1-->All V, (V1-->D1, V2-->D1,  V3-->D1, V4-->D1, V5-->D1, D2,D3-->Unn)
-			HelperCommon.updateDriverAssignment2(policyNumber, vehicle1.oid, Arrays.asList(driver1.oid));
 			HelperCommon.updateDriverAssignment2(policyNumber, vehicle2.oid, Arrays.asList(driver1.oid));
 			HelperCommon.updateDriverAssignment2(policyNumber, vehicle3.oid, Arrays.asList(driver1.oid));
 			HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid4, Arrays.asList(driver1.oid));
@@ -986,12 +778,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedDrivers");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(3);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(5);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(2);
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee2.getAssignableDrivers().size()).isEqualTo(3);
+			softly.assertThat(updDriverAssignee2.getAssignableVehicles().size()).isEqualTo(5);
+			softly.assertThat(updDriverAssignee2.getUnassignedDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee2.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
@@ -1006,7 +798,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			DriverAssignments toMatch3 = new DriverAssignments()
 					.addAssignment(driver2.oid, vehicle1.oid)
 					.addAssignment(driver2.oid, vehicle2.oid)
-					.addAssignment(driver2.oid, vehicle3.oid)
+					.addAssignment(driver3.oid, vehicle3.oid)
 					.addAssignment(driver3.oid, vehicleOid4)
 					.addAssignment(driver3.oid, vehicleOid5)
 					.addUnassignedDrivers(driver1.oid);
@@ -1014,12 +806,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedDrivers");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(3);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(5);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee3.getAssignableDrivers().size()).isEqualTo(3);
+			softly.assertThat(updDriverAssignee3.getAssignableVehicles().size()).isEqualTo(5);
+			softly.assertThat(updDriverAssignee3.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee3.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
 
@@ -1027,7 +819,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			DriverAssignments updDriverAssignee4 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid5, Arrays.asList(driver1.oid));
 			DriverAssignments driverAssignmentResponse4 = HelperCommon.viewEndorsementAssignments2(policyNumber);
 			DriverAssignments toMatch4 = new DriverAssignments()
-					.addAssignment(driver1.oid, vehicle1.oid)
+					.addAssignment(driver2.oid, vehicle1.oid)
 					.addAssignment(driver2.oid, vehicle2.oid)
 					.addAssignment(driver3.oid, vehicle3.oid)
 					.addAssignment(driver3.oid, vehicleOid4)
@@ -1036,12 +828,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse4).isEqualToComparingOnlyGivenFields(toMatch4, "driverVehicleAssignments");
 
 			//Check the second part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(3);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(5);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee4.getAssignableDrivers().size()).isEqualTo(3);
+			softly.assertThat(updDriverAssignee4.getAssignableVehicles().size()).isEqualTo(5);
+			softly.assertThat(updDriverAssignee4.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee4.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee4.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee4.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			checkAssignButtonInUiRateAndBind(policyNumber);

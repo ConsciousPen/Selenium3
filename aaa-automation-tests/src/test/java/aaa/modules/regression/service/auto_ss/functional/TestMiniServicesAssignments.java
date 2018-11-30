@@ -34,7 +34,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
-		pas10484_ViewDriverAssignmentService(getPolicyType());
+		pas10484_ViewDriverAssignmentService();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14477, PAS-10484"})
 	public void pas14477_ViewDriverAssignment_NewDriver(@Optional("VA") String state) {
 
-		pas14477_ViewDriverAssignment_NewDriver_Body(getPolicyType());
+		pas14477_ViewDriverAssignment_NewDriver_Body();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
 	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
 
-		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
+		pas11633_ViewDriverAssignmentAutoAssignService();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
 
-		//pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule2Body1(getPolicyType());
 		pas13994_UpdateDriverAssignmentServiceRule2Body2(getPolicyType());
 	}
 
