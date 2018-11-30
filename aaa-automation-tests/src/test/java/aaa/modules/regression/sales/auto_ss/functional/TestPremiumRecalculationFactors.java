@@ -43,7 +43,7 @@ public class TestPremiumRecalculationFactors extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-16430")
 	public void pas16430_testMaritalStatusNB(@Optional("") String state) {
 
@@ -77,7 +77,7 @@ public class TestPremiumRecalculationFactors extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-16430")
 	public void pas16430_testMaritalStatusEndorsement(@Optional("") String state) {
 
@@ -107,7 +107,7 @@ public class TestPremiumRecalculationFactors extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-16430")
 	public void pas16430_testMaritalStatusRenewal(@Optional("") String state) {
 

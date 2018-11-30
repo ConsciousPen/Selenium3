@@ -1,5 +1,8 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,9 +20,6 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -46,7 +46,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
      * 7. Bind policy and confirm active
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
     public void pas6971_TestOverrideBindLimitsNB(@Optional("NJ") String state) {
 
@@ -91,7 +91,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
      * 6. Attempt to bind and verify rules are fired and can be overridden
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
     public void pas6971_TestOverrideBindLimitsConversion(@Optional("NJ") String state) {
 
@@ -134,7 +134,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
      * 5. Bind policy and confirm active
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
     public void pas6971_TestOverrideBindAutoCombinedSingleLimitNB(@Optional("NJ") String state) {
 
@@ -163,7 +163,7 @@ public class TestOverrideBindRelaxedCoverageLimits extends ConvPUPBaseTest {
      * 4. Attempt to bind and verify rules are fired and can be overridden
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6971")
     public void pas6971_TestOverrideBindAutoCombinedSingleLimitConversion(@Optional("NJ") String state) {
 

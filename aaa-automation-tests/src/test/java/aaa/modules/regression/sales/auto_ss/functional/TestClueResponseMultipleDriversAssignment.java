@@ -1,23 +1,18 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.regression.sales.template.functional.TestAutoClueResponseTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestClueResponseMultipleDriversAssignment extends TestAutoClueResponseTemplate {
@@ -66,7 +61,7 @@ public class TestClueResponseMultipleDriversAssignment extends TestAutoClueRespo
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-20371")
 	public void pas20371_testClueActivityMappingToDriver(@Optional("AZ") String state) {
 
