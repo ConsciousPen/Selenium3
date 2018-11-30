@@ -22,7 +22,7 @@ GeneralTab: {
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+  #Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab: {

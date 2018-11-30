@@ -40,7 +40,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithAlcoholRelatedViolationNB(@Optional("NJ") String state) {
 
@@ -75,7 +75,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithMajorViolationNB(@Optional("NJ") String state) {
 
@@ -110,7 +110,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithAlcoholRelatedViolationConversion(@Optional("NJ") String state) {
 
@@ -145,7 +145,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithMajorViolationConversion(@Optional("NJ") String state) {
 
@@ -180,7 +180,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithMajorViolationEndorsement(@Optional("NJ") String state) {
 
@@ -215,7 +215,7 @@ public class TestOverrideBindDriversWithMajorViolations extends ConvPUPBaseTest 
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6974")
     public void pas6974_TestOverrideBindWithAlcoholRelatedViolationEndorsement(@Optional("NJ") String state) {
 

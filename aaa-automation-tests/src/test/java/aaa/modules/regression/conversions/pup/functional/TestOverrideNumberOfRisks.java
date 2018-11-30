@@ -1,5 +1,8 @@
 package aaa.modules.regression.conversions.pup.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,9 +11,6 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -46,7 +46,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
     public void pas7003_TestOverrideNumberOfRisksNB(@Optional("NJ") String state) {
 
@@ -105,7 +105,7 @@ public class TestOverrideNumberOfRisks extends ConvPUPBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7003")
     public void pas7003_TestOverrideNumberOfRisksConversion(@Optional("NJ") String state) {
 
