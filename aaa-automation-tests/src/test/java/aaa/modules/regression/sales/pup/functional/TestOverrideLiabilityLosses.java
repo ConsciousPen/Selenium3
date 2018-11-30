@@ -38,7 +38,7 @@ public class TestOverrideLiabilityLosses extends PersonalUmbrellaBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6963")
 	public void pas6963_OverrideLiabilityLosses(@Optional("NJ") String state) {
 

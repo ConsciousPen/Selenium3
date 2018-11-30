@@ -2,22 +2,18 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
 import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE;
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.modules.policy.HomeSSDP3BaseTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -39,7 +35,7 @@ public class TestRenovationDiscounts extends HomeSSDP3BaseTest {
 	 */
 	@StateList(states = Constants.States.KS)
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-4317")
 	public void pas4317_RenovationDiscounts(@Optional("KS") String state) {
 		String expectedValue = "Safe Home";
