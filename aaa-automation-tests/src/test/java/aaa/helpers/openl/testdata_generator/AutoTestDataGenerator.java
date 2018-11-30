@@ -30,7 +30,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
+		List<String> policyLevelCoverage = Arrays.asList("BI", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
 		if (!getState().equals(Constants.States.OR)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
@@ -241,9 +241,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.OH:
 			case Constants.States.VA:
 			case Constants.States.KS:
-			case Constants.States.NV:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.NV:
+				coveragesMap.put("UMBI", "Uninsured and Underinsured Motorist Bodily Injury");
 				break;
 			case Constants.States.MT:
 			case Constants.States.WV:
@@ -285,18 +287,28 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		} else {
 			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
 		}
-
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
-		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.WV)) {
-			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
-			coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
-		} else {
-			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
-			coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+
+		switch (getState()) {
+			case Constants.States.MT:
+			case Constants.States.WV:
+				coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.MD:
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			default:
+				coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
 		}
-		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
-		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
-		coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+
+		if (getState().equals(Constants.States.MD)) {
+			coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		} else {
+			coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		}
 
 		switch (getState()) {
 			case Constants.States.NJ:
@@ -310,6 +322,8 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
+		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
 		coveragesMap.put("IL", AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel());
 		coveragesMap.put("FUNERAL", AutoSSMetaData.PremiumAndCoveragesTab.FUNERAL_BENEFITS.getLabel());
@@ -331,6 +345,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		coveragesMap.put("CDW", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE_WAIVER.getLabel());
 
 		//AutoCa Select
 		coveragesMap.put("ETEC", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel());
@@ -507,26 +522,22 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	String getDbRestraintsCode(String openlAirbagCode) {
 		switch (openlAirbagCode) {
 			case "N":
-				return null;
+				return "is null OR RESTRAINTSCODE = '000A'";
 			case "0":
-				return "'0002' OR RESTRAINTSCODE = 'AUTOSB'";
+				return "= '0002' OR RESTRAINTSCODE = 'AUTOSB'";
 			case "1":
-				return "'000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
+				return "= '000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
 			case "2":
-				return "'0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
+				return "= '0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
 			case "3":
-				return "'0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
+				return "= '0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
 						+ "OR RESTRAINTSCODE = '000R' OR RESTRAINTSCODE = '000S'";
 			case "4":
-				return "'0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
+				return "= '0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
 						+ "OR RESTRAINTSCODE = '0007' OR RESTRAINTSCODE = '0006' OR RESTRAINTSCODE = '000T'";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + openlAirbagCode);
 		}
-	}
-
-	String getDbAntitheftCode(String openlAntiTheftString) {
-		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
 	}
 
 	String covertToValidVin(String vin) {

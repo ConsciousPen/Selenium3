@@ -37,7 +37,7 @@ public class TestEnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4247, PPS-346")
     public void pas4247_testVehicleWithoutUBI(@Optional("") String state) {
 
@@ -64,7 +64,7 @@ public class TestEnrollUsageBasedEndorsementCheck extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-4247, PPS-346")
     public void pas4247_testVehicleWithUBI(@Optional("") String state) {
 

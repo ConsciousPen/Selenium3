@@ -529,9 +529,12 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-					if ("PIP".equals(coverage.getCoverageCd()) && getState().equals(Constants.States.OR)) {
+					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY))) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
 								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
+						if (getState().equals(Constants.States.KY)) {
+							policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel(), "starts=No Coverage");
+						}
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -660,10 +663,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.AIR_BAGS.getLabel(), getVehicleTabAirBags(vehicle.getAirbagCode()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.ANTI_THEFT.getLabel(), getVehicleTabAntiTheft(vehicle.getAntiTheftString()));
 				vehicleInformation.put(AutoSSMetaData.VehicleTab.STAT_CODE.getLabel(), "contains=" + getVehicleTabStatCode(statCode));
-				if (!isConversionVanType(statCode) || Constants.States.CO.equals(getState()) || Constants.States.DE.equals(getState())
-						|| Constants.States.WY.equals(getState()) || Constants.States.OR.equals(getState())) {
-					vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), AdvancedComboBox.RANDOM_MARK);
-				}
+				vehicleInformation.put(AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel(), getOtherBodyStyle(statCode));
 			}
 		}
 
@@ -748,7 +748,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 							+ "on VEHICLEREFDATAVIN.VEHICLEREFDATAMODELID = VEHICLEREFDATAMODEL.ID \n"
 							+ "where PHYSICALDAMAGECOLLISION %1$s and PHYSICALDAMAGECOMPREHENSIVE %2$s and YEAR %3$s \n"
 							+ "and BI_SYMBOL %4$s and PD_SYMBOL %5$s and MP_SYMBOL %6$s and UM_SYMBOL %7$s \n"
-							+ "and (RESTRAINTSCODE %8$s) AND ANTITHEFTCODE %9$s",
+							+ "and (RESTRAINTSCODE %8$s) AND (ANTITHEFTCODE %9$s)",
 					vehicle.getCollSymbol() == null ? "is null" : "= " + vehicle.getCollSymbol(),
 					vehicle.getCompSymbol() == null ? "is null" : "= " + vehicle.getCompSymbol(),
 					vehicle.getModelYear() == null ? "is null" : "= " + vehicle.getModelYear(),
@@ -756,8 +756,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					vehicle.getPdLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getPdLiabilitySymbol() + "'",
 					vehicle.getMpLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getMpLiabilitySymbol() + "'",
 					vehicle.getUmLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getUmLiabilitySymbol() + "'",
-					vehicle.getAirbagCode() == null || "N".equals(vehicle.getAirbagCode()) ? "IS NULL" : "= " + getDbRestraintsCode(vehicle.getAirbagCode()),
-					vehicle.getAntiTheftString() == null ? "is null" : "= " + getDbAntitheftCode(vehicle.getAntiTheftString()));
+					vehicle.getAirbagCode() == null ? "is null" : getDbRestraintsCode(vehicle.getAirbagCode()),
+					vehicle.getAntiTheftString() == null ? "is null" : "= 'NONE' OR ANTITHEFTCODE = 'STD' OR ANTITHEFTCODE = 'UNK'");
 
 			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}
@@ -823,6 +823,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(), new SimpleDataProvider(td));
+	}
+
+	private String getOtherBodyStyle(String statCode) {
+		List<String> otherBodyStyleStates = Arrays.asList(Constants.States.CO, Constants.States.DE, Constants.States.WY, Constants.States.OR, Constants.States.IN);
+		return !isConversionVanType(statCode) || otherBodyStyleStates.contains(getState()) ? AdvancedComboBox.RANDOM_MARK : null;
 	}
 
 	static class ActivityInformation {

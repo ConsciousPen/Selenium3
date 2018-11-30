@@ -142,6 +142,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_FALSE_NO_COVERAGE,
 			CoverageLimits.COV_TRUE
 	)),
+	GLASS_AZ(ImmutableList.of(
+			CoverageLimits.COV_FALSE_NO_COVERAGE,
+			CoverageLimits.COV_TRUE
+	)),
 	UMBI_CT(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_4080,
@@ -197,6 +201,71 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_100000,
 			CoverageLimits.COV_300000,
 			CoverageLimits.COV_500000
+	)),
+	BI_AZ(ImmutableList.of(
+			CoverageLimits.COV_1530,
+			CoverageLimits.COV_2550,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	COMPDED(ImmutableList.of(
+			CoverageLimits.COV_50,
+			CoverageLimits.COV_100,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+			)),
+	COLLDED(ImmutableList.of(
+			CoverageLimits.COV_100,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+	)),
+	LOAN(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1
+	)),
+	PREIM(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_30_900,
+			CoverageLimits.COV_40_1200,
+			CoverageLimits.COV_50_1500
+	)),
+	TOWINGLABOR(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_50_300
+	)),
+	COLLDEDNONPPA(ImmutableList.of(
+			CoverageLimits.COV_No_Cov,
+			CoverageLimits.COV_100,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+	)),
+	COMPDEDNONPPA(ImmutableList.of(
+			CoverageLimits.COV_No_Cov,
+			CoverageLimits.COV_50,
+			CoverageLimits.COV_100,
+			CoverageLimits.COV_250,
+			CoverageLimits.COV_500,
+			CoverageLimits.COV_750,
+			CoverageLimits.COV_1000
+
+	)),
+
+	UMPD_OR(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_20000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000
 	)),
 	UMPD_NV_NOCOLL(ImmutableList.of(
 			CoverageLimits.LIMIT_NO_COVERAGE,

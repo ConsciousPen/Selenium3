@@ -724,7 +724,7 @@ public final class AutoSSMetaData {
 				declare("Special Equipment Coverage", TextBox.class, By.xpath(".//span[normalize-space(.)='Special Equipment Coverage']/ancestor::tr[1]//input"));*/
 			public static final AssetDescriptor<ComboBox> TRANSPORTATION_EXPENSE = declare("Transportation Expense", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> TOWING_AND_LABOR_COVERAGE = declare("Towing and Labor Coverage", ComboBox.class);
-			public static final AssetDescriptor<ComboBox> UMPD_CDW = declare("UMPD/CDW", ComboBox.class);
+			public static final AssetDescriptor<ComboBox> UMPD_CDW = declare("Uninsured Motorist Property Damage or Collision Deductible Waived", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> NEW_CAR_ADDED_PROTECTION = declare("New Car Added Protection", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 			public static final AssetDescriptor<TextBox> PURCHASE_DATE = declare("Purchase Date", TextBox.class);

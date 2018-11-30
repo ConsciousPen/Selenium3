@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.home_ca.ho6.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestUpdateWildfireScoreTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
@@ -32,7 +32,7 @@ public class TestOverrideWildfireScore extends TestUpdateWildfireScoreTemplate {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update CA Wildfire Score HO6 - No privilege, NB")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Update CA Wildfire Score HO6 - No privilege, NB")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-12922")
 	public void pas12922_UpdateCAWildfireScoreNoPrivilegeNB(@Optional("CA") String state) {
 
@@ -53,7 +53,7 @@ public class TestOverrideWildfireScore extends TestUpdateWildfireScoreTemplate {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update CA Wildfire Score HO6 - No Privilege, Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Update CA Wildfire Score HO6 - No Privilege, Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-12922")
 	public void pas12922_UpdateCAWildfireScoreNoPrivilegeEndorsement(@Optional("CA") String state) {
 
@@ -79,7 +79,7 @@ public class TestOverrideWildfireScore extends TestUpdateWildfireScoreTemplate {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - NB")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - NB")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-12922")
 	public void pas12922_UpdateCAWildfireScoreNB(@Optional("CA") String state) {
 
@@ -105,7 +105,7 @@ public class TestOverrideWildfireScore extends TestUpdateWildfireScoreTemplate {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-12922")
 	public void pas12922_UpdateCAWildfireScoreEndorsement(@Optional("CA") String state) {
 
@@ -131,7 +131,7 @@ public class TestOverrideWildfireScore extends TestUpdateWildfireScoreTemplate {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Update Wildfire Score HO6 CA - Renewal")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-12922")
 	public void pas12922_UpdateCAWildfireScoreRenewal(@Optional("CA") String state) {
 
