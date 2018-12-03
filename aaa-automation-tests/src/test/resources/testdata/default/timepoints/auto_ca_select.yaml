@@ -10,9 +10,9 @@ TestData_CA: {
   Refund: [3, NONE],
   Cancellation notice: [+1M, PREVIOUS],
   Cancellation: [13, NEXT],
-  Renew customer decline: [15, NONE],
+  Renew customer decline: [10, NONE], #[15, NONE], #PASBB-624/PAS-624 , PPS-499
   Pay Lapsed Renew short: [2, NEXT],
-  Pay Lapsed Renew long: [16, NONE],
+  Pay Lapsed Renew long: [21, NONE], #[16, NONE], #due to Renew customer decline is changed
   Earned premium bill first: [15, NONE],
   Earned premium bill second: [30, NONE],
   Earned premium bill third: [45, NONE],

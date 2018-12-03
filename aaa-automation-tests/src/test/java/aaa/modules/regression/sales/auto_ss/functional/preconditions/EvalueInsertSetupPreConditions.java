@@ -1,11 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional.preconditions;
 
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public interface EvalueInsertSetupPreConditions {
 
-	String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	String APP_STUB_URL = PropertyProvider.getProperty("app.stub.urltemplate");
 
 	String DELETE_OLD_TASKS1 = "delete from ACT_RU_identitylink";
@@ -91,11 +91,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "values\n"
 			+ "('BaseProductLookupValue', 'priorBILimits', '25000/50000', 'AAA_SS', '%s', TO_DATE('1-MAY-2017'), TO_DATE('1-MAY-2018'),\n"
 			+ "(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))";
-
-	String REFUND_DOCUMENT_GENERATION_CONFIGURATION_INSERT_SQL = "INSERT INTO LOOKUPVALUE\n"
-			+ "(dtype, code, displayValue, productCd, riskStateCd, lookuplist_id)\n"
-			+ "values\n"
-			+ "('AAARolloutEligibilityLookupValue', 'pcDisbursementEngine', 'TRUE', null, 'VA', (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAARolloutEligibilityLookup'))";
 
 	String PAYMENT_CENTRAL_STUB_ENDPOINT_UPDATE = "update PROPERTYCONFIGURERENTITY\n"
 			+ "set value ='http://%s%srecordFinancialAccount.do'\n"
@@ -187,9 +182,6 @@ public interface EvalueInsertSetupPreConditions {
 			+ "	INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
 			+ "		values ('BaseProductLookupValue', 'priorInsurance', 'FALSE', 'AAA_SS', 'OR',(select SYSDATE-5 from dual), (select SYSDATE-1 from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAAeValueQualifications'))\n"
 			+ "Select * from dual";
-
-	String REFUND_CONFIG_UPDATE = "update LOOKUPVALUE\n"
-			+ "set DISPLAYVALUE='TRUE' where CODE='eRefunds'";
 
 	String LAST_PAYMENT_METHOD_STUB_POINT_UPDATE_WIREMOCK = "update propertyconfigurerentity\n"
 			+ "set value = '%s/%s/payments/lastTransactionInfo/retrieveByPolicyInfo'\n"

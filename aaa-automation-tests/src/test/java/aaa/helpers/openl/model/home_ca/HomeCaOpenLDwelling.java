@@ -1,14 +1,17 @@
 package aaa.helpers.openl.model.home_ca;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class HomeCaOpenLDwelling {
+	@RequiredField
 	protected HomeCaOpenLAddress address;
 
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
 	protected Integer ppcValue;
@@ -35,14 +38,5 @@ public class HomeCaOpenLDwelling {
 
 	public void setPpcValue(Integer ppcValue) {
 		this.ppcValue = ppcValue;
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaOpenLDwelling{" +
-				"number=" + number +
-				", address=" + address +
-				", ppcValue=" + ppcValue +
-				'}';
 	}
 }

@@ -8,10 +8,25 @@
 
     <!--Tests for Auto-->
 
-    <test name="Test Propose Renewal Version after it was created with batch jobs">
+    <test name="Test Min Due is not Recalculated After Endorsements" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements">
+                <methods>
+                    <include name="pas20379_testMinDueIsNotRecalculatedAfterEndorsements"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Propose Renewal Version after it was created with batch jobs" parallel="methods" thread-count="1024">
         <parameter name="state" value="MT"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMTRenewalVersionProposal">
+                <methods>
+                    <include name="pas17788_MTManualRenewalVersionProposal"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
@@ -38,50 +53,93 @@
         </classes>
     </test>
 
-    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
-        <parameter name="state" value="MD"/>
+    <!--Tests for Property-->
+
+    <test name="Test Coverage C limit 70% within of Coverage A - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms">
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCoverageCRangeWithinCoverageA">
                 <methods>
-                    <include name="pas11302_testEUIMMDFormNB"/>
-                    <include name="pas11302_testEUIMMDFormConversion"/>
-                    <include name="pas11302_testEUIMMDFormEndorsement"/>
-                    <include name="pas11302_testEUIMMDFormRenewal"/>
-                    <include name="pas12466_AC1_NB"/>
-                    <include name="pas12466_AC2_Endorsement"/>
-                    <include name="pas12466_AC3_Conversion"/>
-                    <include name="pas12466_AC3_Renewal"/>
-                    <include name="pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change"/>
-                    <include name="pas12466_AC3_Revised_Renewal_After_Current_Term_Change"/>
-                    <include name="pas12466_do_not_generate_AAEUIMMD_if_coverage_removed"/>
+                    <include name="pas20367_TestCoverageCRangeWithinCoverageATemplateCA"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <!--Tests for Property-->
+    <test name="Test Coverage C limit 70% within of Coverage A - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA">
+                <methods>
+                    <include name="pas20367_TestCoverageCRangeWithinCoverageATemplate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-    <test name="Test Tier And UW Points Lock NY"  parallel="methods" thread-count="1024">
+    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
                 <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement"/>
+                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Replacement Cost Value for Endorsed Renewal SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Replacement Cost Value for Endorsed Renewal CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement">
+                <methods>
+                    <include name="pas15831_TestReplacementCostReasonEndorsementOnRenewal"/>
                 </methods>
             </class>
         </classes>
@@ -187,6 +245,32 @@
         </classes>
     </test>
 
+    <test name="Test PPC Report ReOrder Rule" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestPPCReportReOrderRule">
+                <methods>
+                    <include name="pas19737_testPPCReportReOrderRule_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Test View Rating Details Link" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -221,6 +305,32 @@
                     <include name="pas10099_testLexisNexisMVROrderingWA"/>
                     <include name="pas10099_testLexisNexisMVROrderingCA"/>
                     <include name="pas10099_testLexisNexisMVROrderingFL"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test Renewal Status change" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalStatusChange">
+                <methods>
+                    <include name="pas17736_TestRenewalStatusChangeCA_HO6"/>
                 </methods>
             </class>
         </classes>

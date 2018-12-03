@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang.RandomStringUtils;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.ssh.RemoteHelper;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
@@ -18,7 +18,7 @@ import toolkit.utils.logging.CustomLogger;
 public class AAARecurringPaymentResponseHelper {
 
 	private static final String FILE_LAST_PART = "PMT_E_PMTCTRL_PASSYS_7002_D";
-	private static final String PAYMENT_CENTRAL_FILE_PATH = PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + FILE_LAST_PART + "/inbound/%1$s";
+	private static final String PAYMENT_CENTRAL_FILE_PATH = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + FILE_LAST_PART + "/inbound/%1$s";
 	private static final DateTimeFormatter DATE_TIME_PATTERN = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 	private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("MMddyyyy");
 	private static final DateTimeFormatter TIME_PATTERN = DateTimeFormatter.ofPattern("HHmmss");

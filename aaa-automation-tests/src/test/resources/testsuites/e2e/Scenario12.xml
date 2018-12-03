@@ -1,82 +1,71 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="E2E Scenario 12" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-    <test name="Auto SS Scenario 12" parallel="none">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Auto SS Scenario 12" parallel="methods">
         <parameter name="state" value="UT, AZ, NY, NJ" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Auto CA Scenario 12" parallel="none">
+    <test name="Auto CA Scenario 12" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.auto_ca.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home SS Scenario 12 with HO3" parallel="none">
+    <test name="Home SS Scenario 12 with HO3" parallel="methods">
         <parameter name="state" value="UT, AZ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home SS Scenario 12 with HO4" parallel="none">
+    <test name="Home SS Scenario 12 with HO4" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho4.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home SS Scenario 12 with HO6" parallel="none">
+    <test name="Home SS Scenario 12 with HO6" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho6.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home SS Scenario 12 with DP3" parallel="none">
+    <test name="Home SS Scenario 12 with DP3" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.e2e.home_ss.dp3.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home CA Scenario 12 with HO3" parallel="none">
+    <test name="Home CA Scenario 12 with HO3" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario12"/>
         </classes>
     </test>
-    
-    <test name="Home CA Scenario 12 with HO4" parallel="none">
+    <test name="Home CA Scenario 12 with HO4" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho4.TestScenario12"/>
         </classes>
     </test>
-
-	<test name="Home CA Scenario 12 with HO6" parallel="none">
+    <test name="Home CA Scenario 12 with HO6" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho6.TestScenario12"/>
         </classes>
     </test>
-        
-    <test name="Home CA Scenario 12 with DP3" parallel="none">
+    <test name="Home CA Scenario 12 with DP3" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.e2e.home_ca.dp3.TestScenario12"/>
         </classes>
     </test>
- 
-	<test name="PUP Scenario 12" parallel="none">
+    <test name="PUP Scenario 12" parallel="methods">
         <parameter name="state" value="UT, CA" />
         <classes>
             <class name="aaa.modules.e2e.pup.TestScenario12"/>

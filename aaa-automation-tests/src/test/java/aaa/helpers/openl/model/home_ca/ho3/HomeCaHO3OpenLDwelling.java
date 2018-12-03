@@ -1,15 +1,21 @@
 package aaa.helpers.openl.model.home_ca.ho3;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLDwelling;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.DWELLING_SHEET_NAME, headerRowIndex = OpenLFile.DWELLING_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLDwelling extends HomeCaOpenLDwelling {
+	@RequiredField
 	private Integer ageOfHome;
 	private String burglarAlarmType;
 	private String constructionType;
+
+	@RequiredField
 	private Integer firelineScore;
+
+	@RequiredField
 	private Integer numOfFamilies;
 
 	public Integer getAgeOfHome() {
@@ -50,18 +56,5 @@ public class HomeCaHO3OpenLDwelling extends HomeCaOpenLDwelling {
 
 	public void setNumOfFamilies(Integer numOfFamilies) {
 		this.numOfFamilies = numOfFamilies;
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLDwelling{" +
-				"ageOfHome=" + ageOfHome +
-				", burglarAlarmType='" + burglarAlarmType + '\'' +
-				", constructionType='" + constructionType + '\'' +
-				", firelineScore=" + firelineScore +
-				", numOfFamilies=" + numOfFamilies +
-				", number=" + number +
-				", address=" + address +
-				'}';
 	}
 }

@@ -26,12 +26,12 @@ import toolkit.verification.CustomSoftAssertions;
  * @name Test Policy Membership and Loyalty discounts
  * @scenario
  * 1. Find customer or create new if customer does not exist.
- * 2. Create new HSS policy 'Policy#1' with Current AAA Member = 'Membership Pending'. 
- * 		2a. During Policy#1 creation verify Membership discount is applied, Loyalty discount isn't applied on Discounts section and in Rating Details. 
+ * 2. Create new HSS policy 'Policy#1' with Current AAA Member = 'Yes'.
+ * 		2a. During Policy#1 creation verify Membership and Loyalty discount discounts are applied on Discounts section and in Rating Details. 
  * 		2b. Verify status of Policy#1 is Active and term premium on Consolidated view equals of term premium calculated on Premiums&Coverages Quote tab. 
  * 3. Copy Policy#1 3 times to get Policy#2, Policy#3, Policy#4.
  * 4. Retrieve Policy#1 and initiate endorsement with effective date as 'Today'. 
- * 		4a. Navigate to Applicant tab and change Current AAA Member to 'Yes', enter membership# and Last Name. 
+ * 		4a. Initiate endorsement
  * 		4b. Order membership report. 
  * 		4c. Navigate to Premiums&Coverages Quote Tab, calculate premium and verify that Membership and Loyalty discounts are applied both on Discounts section and in Rating Details. 
  * 		4d. Bind endorsement. 
@@ -99,24 +99,28 @@ public class TestPolicyDiscountMembership extends HomeSSHO3BaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 
-			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
-				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
-			} else {
+			if (getState().equals("NY")) {
 				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+			} else {
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipAndLoyaltyDiscounts_dataRow)).exists();
 			}
 
 			//Policy#1: Rating Details verification
-			PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
-			softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Creation: Membership discount is not applied")
-					.isNotEqualTo("0.0");
-
-			if (getState().equals("CO") | getState().equals("IN") | getState().equals("KS") | getState().equals("KY") | getState().equals("OH") | getState().equals("OK")) {
-				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Creation: Loyalty discount is not applied").isNotEqualTo("0.0");
+			if (getState().equals("NY")) {
+					softly.assertThat(PremiumsAndCoveragesQuoteTab.tableDiscounts.getRow(membershipDiscount_dataRow)).exists();
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+					softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Endorsement: Membership discount is not applied")
+							.isNotEqualTo("0.0");
+					softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Endorsement: Loyalty discount is applied").isEqualTo("0.0");
+					PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 			} else {
-				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 creation: Loyalty discount is applied").isEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("AAA Membership Discount")).as("Policy#1 Creation: Membership discount is not applied")
+						.isNotEqualTo("0.0");
+				softly.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts.getValueByKey("Loyality discount")).as("Policy#1 Creation: Loyalty discount is not applied").isNotEqualTo("0.0");
+				PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
 			}
-			PremiumsAndCoveragesQuoteTab.RatingDetailsView.close();
-
+		
 			new PremiumsAndCoveragesQuoteTab().submitTab();
 
 			policy.getDefaultView().fillFromTo(td_MembershipPending, MortgageesTab.class, PurchaseTab.class, true);

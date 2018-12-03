@@ -276,7 +276,7 @@ ApplicantTab_IN: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_IN'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_IN'
 }
 
@@ -556,7 +556,7 @@ ApplicantTab_OH: {
   PreviousDwellingAddress: {},
   MailingAddress: {},
   NamedInsuredInformation: '@<home_ss_ho3>@DataGather@NamedInsuredInformation',
-  OtherActiveAAAPolicies: {},
+  OtherActiveAAAPolicies: ['@<home_ss_ho3>@DataGather@OtherActiveAAAPolicies_OH'],
   AgentInfo: '@<home_ss_ho3>@DataGather@AgentInfo_OH'
 }
 

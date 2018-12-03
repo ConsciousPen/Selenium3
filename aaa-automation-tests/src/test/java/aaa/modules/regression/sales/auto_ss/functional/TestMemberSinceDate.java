@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.helpers.db.queries.LookupQueries;
+import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.utils.StateList;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -63,7 +63,7 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
         // Click save to store the quote in the db so can be accessed.
         Tab.buttonTopSave.click();
 
-        Assertions.assertThat(LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
+        assertThat(AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber)).isNotPresent();
 
 
         /*--Step 4--*/
@@ -77,19 +77,19 @@ public class TestMemberSinceDate extends AutoSSBaseTest {
         /*--Step 5--*/
         log.info("Step 5: Validate that the Member Since Date in the DB now matches the Stub response.");
 
-        String dbMemberSinceDate = LookupQueries.GetAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
+        String dbMemberSinceDate = AAAMembershipQueries.getAAAMemberSinceDateFromSQL(quoteNumber).orElse("Null Value");
 
         LocalDateTime DateTime = LocalDateTime.parse(dbMemberSinceDate, formatSQL);
 
         String sqlExpected = DateTime.format(formatSQL);
 
-        Assertions.assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
+        assertThat(sqlExpected).isEqualTo("2010-07-27 00:00:00");
 
         String uiMemberSinceDate = policy.getDefaultView().getTab(RatingDetailReportsTab.class).getAssetList().
                 getAsset(AutoSSMetaData.RatingDetailReportsTab.AAA_MEMBERSHIP_REPORT).getTable().getRow(1).
                 getCell(AutoSSMetaData.RatingDetailReportsTab.AaaMembershipReportRow.MEMBER_SINCE_DATE.getLabel()).getValue();
 
         String uiExpected = DateTime.format(formatUI);
-        Assertions.assertThat(uiExpected).isEqualTo(uiMemberSinceDate);
+        assertThat(uiExpected).isEqualTo(uiMemberSinceDate);
     }
 }

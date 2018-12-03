@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -21,21 +20,19 @@ import toolkit.utils.TestInfo;
  * 2. Create Umbrella Quote
  * 3. Verify quote status is 'Premium Calculated'
  * @details
- */
+*/
 public class TestPolicyCreation extends PersonalUmbrellaBaseTest {
 
 	@Parameters({"state"})
 	//@StateList("All")
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
-	@TestInfo(component = ComponentConstant.Sales.PUP )
-    public void testPolicyCreation(@Optional("") String state) {
-    	
-    	mainApp().open();
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.PUP)
+	public void testPolicyCreation(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
 
-        createCustomerIndividual();
-       
-        createPolicy();
-
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
+	}
 }

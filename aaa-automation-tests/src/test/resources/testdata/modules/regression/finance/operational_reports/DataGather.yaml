@@ -9,7 +9,7 @@ TestData_EUW_Detail: {
   OperationalReportsTab: {
       Category : 'Policy',
       Type: 'Policy Balancing and Reconciliation',
-      Name: 'View Earn, Unearned, Written Premium (EUW) - Detail'
+      Name: 'PAS Earned / Unearned / Written (EUW) - Detail'
   }
 }
 
@@ -17,7 +17,7 @@ TestData_EUW_Summary: {
   OperationalReportsTab: {
       Category : 'Policy',
       Type: 'Policy Balancing and Reconciliation',
-      Name: 'Earned/Unearned/Written (EUW) Report – Summary'
+      Name: 'PAS Earned / Unearned / Written (EUW) - Summary'
   }
 }
 

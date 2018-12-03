@@ -1,29 +1,24 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
-* CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -43,8 +38,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private ErrorTab errorTab = new ErrorTab();
 
-	private List<String> pas9063FieldsRow1 = Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free");
-	private List<String> pas9063FieldsRow2 = Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity");
+	private List<String> pas9063FieldsRow1 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Insurance Score","Years At Fault Accident Free","Years Conviction Free")));
+	private List<String> pas9063FieldsRow2 = Collections.synchronizedList(new ArrayList<>(Arrays.asList("Number of Comprehensive Claims","Number of Not-At-Fault Accidents","Emergency Roadside Usage (ERS) Activity")));
 
 	/**
 	*@author Dominykas Razgunas
@@ -74,20 +69,14 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	*/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
-
-		// Get Reinstatement with lapse date.
-		LocalDateTime reinstatementDate = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(2);
 
 		TestData testData = getPolicyTD();
 
 		// Initiate Policy, calculate premium and open Rating Details View
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
+		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		// Save Locked UW Points value.
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -101,11 +90,13 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
 		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime reinstatementDate = PolicySummaryPage.getEffectiveDate().plusMonths(2);
 
 		// Cancel Policy
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -128,14 +119,17 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
 		documentsAndBindTab.submitTab();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change system date
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusMonths(10);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 
@@ -151,7 +145,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		errorTab.override();
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -179,29 +173,29 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
 		// Create Policy
-		mainApp().open();
-		getCopiedPolicy();
-		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		String policyNumber = openAppAndCreatePolicy();
+		LocalDateTime renewalEff = PolicySummaryPage.getExpirationDate();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change Time to renew policy and have and issued renewal
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 
 		// Issue Renewal
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNumber);
+		payTotalAmtDue(policyNumber);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -226,13 +220,12 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
 
 		// Create Policy
-		mainApp().open();
-		getCopiedPolicy();
+		openAppAndCreatePolicy();
 
 		// Initiate Renewal and Navigate to P&C Page.
 		policy.renew().start();
@@ -274,15 +267,13 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
-		TimeSetterUtil.getInstance().confirmDateIsAfter(LocalDateTime.of(2018, Month.AUGUST, 28, 0, 0));
-
 		// get time for min due payments
-		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		LocalDateTime effDate = TimeSetterUtil.getInstance().getCurrentTime();
+		String today = effDate.format(DateTimeUtils.MM_DD_YYYY);
 
 		mainApp().open();
 		createCustomerIndividual();
@@ -315,7 +306,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		PolicySummaryPage.buttonBackFromRenewals.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();
 
-		purchaseRenewal(effDate, policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Initiate Endorsement
 		endorsementChanges();
@@ -331,14 +322,17 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
+        setDoNotRenewFlag(policyNum);
 
 		// Change system date
-		LocalDateTime reneweff = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1);
-		TimeSetterUtil.getInstance().nextPhase(reneweff);
+		LocalDateTime renewalEff = effDate.plusYears(1);
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 
@@ -350,7 +344,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
 
-		purchaseRenewal(reneweff, policyNum);
+		payTotalAmtDue(policyNum);
 
 		// Navigate to Renewal
 		PolicySummaryPage.buttonRenewals.click();
@@ -379,19 +373,8 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 
 	private void openVRD(){
 		// Navigate to P&C. Calculate Premium. Open VRD.
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-	}
-
-	private void purchaseRenewal(LocalDateTime minDueDate, String policyNumber){
-		// Open Billing account and Pay min due for the renewal
-		SearchPage.openBilling(policyNumber);
-		Dollar minDue = new Dollar(BillingHelper.getBillCellValue(minDueDate, BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE));
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-		// Open Policy
-		SearchPage.openPolicy(policyNumber);
 	}
 
 	private void verifyLockedLimitsNB(){

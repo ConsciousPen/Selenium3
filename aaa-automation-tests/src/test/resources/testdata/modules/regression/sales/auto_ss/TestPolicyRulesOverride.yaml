@@ -186,9 +186,20 @@ TestData_ID: {
   FormsTab: '@<auto_ss>@DataGather@FormsTab',
   PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
-  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_ID',
   ErrorTab: '@ErrorTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
+
+DocumentsAndBindTab_ID: {
+ RequiredToBind: {
+     #Auto Insurance Application: Physically Signed,
+     UM and UIM Disclosure Statement and Rejection Of Coverage: Physically Signed
+   },
+   Agreement: I agree,
+   RequiredToIssue: {
+     Proof of Prior Insurance: 'Yes'
+   }
 }
 
 # ------- IN ------

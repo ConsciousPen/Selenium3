@@ -3,32 +3,30 @@ package aaa.modules.regression.sales.pup;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.Map;
-
-import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.DoubleTextBox;
-import toolkit.webdriver.controls.TextBox;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum.PersonalUmbrellaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.MotorHomes;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Motorcycles;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData.UnderlyingRisksOtherVehiclesTab.RecreationalVehicle;
+import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksOtherVehiclesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.DoubleTextBox;
+import toolkit.webdriver.controls.TextBox;
 
 /**
  * @author Ryan Yu
@@ -218,33 +216,33 @@ public class TestCoverLimitsValidation  extends PersonalUmbrellaBaseTest {
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getAutomobilesAssetList().fill(tdSpecific);
 			changeSinglelimit(vehType, sLimitIncorrect);
-			assertThat(autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT)).hasValue(sLimitErrorMsgExpected);
+			assertThat(autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT)).valueContains(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
-			assertThat(autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT)).hasValue("");
+			assertThat(autoTab.getAutomobilesAssetList().getWarning(Automobiles.COMBINED_SINGLE_LIMIT)).valueContains("");
 			break;
 		case MOTORCYCLE:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorcyclesAssetList().fill(tdSpecific);
 			changeSinglelimit(vehType, sLimitIncorrect);
-			assertThat(autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT)).hasValue(sLimitErrorMsgExpected);
+			assertThat(autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT)).valueContains(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
-			assertThat(autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT)).hasValue("");
+			assertThat(autoTab.getMotorcyclesAssetList().getWarning(Motorcycles.COMBINED_SINGLE_LIMIT)).valueContains("");
 			break;
 		case MOTORHOME:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
 			autoTab.getMotorHomesAssetList().fill(tdSpecific);
 			changeSinglelimit(vehType, sLimitIncorrect);
-			assertThat(autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT)).hasValue(sLimitErrorMsgExpected);
+			assertThat(autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT)).valueContains(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
-			assertThat(autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT)).hasValue("");
+			assertThat(autoTab.getMotorHomesAssetList().getWarning(MotorHomes.COMBINED_SINGLE_LIMIT)).valueContains("");
 			break;
 		case RECREATIONAL:
 			NavigationPage.toViewSubTab(PersonalUmbrellaTab.UNDERLYING_RISKS_OTHER_VEHICLES.get());
 			otherVehiclesTab.getRecreationalVehicleAssetList().fill(tdSpecific);
 			changeSinglelimit(vehType, sLimitIncorrect);
-			assertThat(otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT)).hasValue(sLimitErrorMsgExpected);
+			assertThat(otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT)).valueContains(sLimitErrorMsgExpected);
 			changeSinglelimit(vehType, sLimitCorrect);
-			assertThat(otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT)).hasValue("");
+			assertThat(otherVehiclesTab.getRecreationalVehicleAssetList().getWarning(RecreationalVehicle.COMBINED_SINGLE_LIMIT)).valueContains("");
 			break;
 		}
 	}

@@ -1,6 +1,7 @@
 package aaa.helpers.ssh;
 
 import java.io.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -236,29 +237,27 @@ public class Ssh {
 		}
 	}
 
-	public synchronized String executeCommand(String command, ExecutionParams execParams) {
+	public synchronized CommandResults executeCommand(String command, ExecutionParams execParams) {
 		StringBuilder outputBuilder = new StringBuilder();
 		StringBuilder errorOutputBuilder = new StringBuilder();
-		String errorOutput;
+		CommandResults results = new CommandResults();
 
 		try {
 			createSession();
 			execChannel = (ChannelExec) session.openChannel("exec");
 			execChannel.setCommand(command);
-			execChannel.setInputStream(null);
-			execChannel.setErrStream(System.err);
 			execChannel.connect();
 			log.info("SSH: Started EXEC Channel");
 		} catch (JSchException e) {
-			throw new IstfException("SSH: Unable to execute command: " + command + "\n", e);
+			throw new CommandExecutionException("SSH: Unable to execute command: " + command + "\n", e);
 		}
 
-		try (InputStream in = execChannel.getInputStream(); InputStream errStream = execChannel.getErrStream()) {
-			byte[] tmp = new byte[1024];
-			long currentTime = System.currentTimeMillis();
-			long startTime = currentTime;
-			long endTime = currentTime + TimeUnit.SECONDS.toMillis(execParams.getTimeoutInSeconds());
-			while (currentTime < endTime) {
+		byte[] tmp = new byte[1024];
+		Instant currentTime = Instant.now();
+		results.setExecutionStartTime(currentTime);
+		Instant endTime = currentTime.plus(execParams.getTimeout());
+		try (InputStream in = execChannel.getInputStream(); InputStream err = execChannel.getErrStream()) {
+			while (currentTime.isBefore(endTime)) {
 				while (in.available() > 0) {
 					int i = in.read(tmp, 0, 1024);
 					if (i < 0) {
@@ -267,57 +266,58 @@ public class Ssh {
 					outputBuilder.append(new String(tmp, 0, i));
 				}
 
-				while (errStream.available() > 0) {
-					int i = errStream.read(tmp, 0, 1024);
+				while (err.available() > 0) {
+					int i = err.read(tmp, 0, 1024);
 					if (i < 0) {
 						break;
 					}
 					errorOutputBuilder.append(new String(tmp, 0, i));
 				}
 
-				if (execChannel.isClosed()) {
-					long execDuration = System.currentTimeMillis() - startTime;
-					log.info("SSH: Command execution has been finished after {}",
-							execDuration > 1000 ? TimeUnit.MILLISECONDS.toSeconds(execDuration) + " second(s)" : execDuration + " milliseconds");
+				try {
+					TimeUnit.MILLISECONDS.sleep(execParams.getRetryPollingInterval().toMillis());
+					currentTime = Instant.now();
+				} catch (InterruptedException | RuntimeException e) {
+					throw new CommandExecutionException("SSH: Exception in Thread.sleep", e);
+				}
+
+				if (execChannel.isClosed() && in.available() == 0 && err.available() == 0) {
 					break;
 				}
-
-				try {
-					TimeUnit.MILLISECONDS.sleep(execParams.getRetryIntervalInMilliseconds());
-					currentTime = System.currentTimeMillis();
-				} catch (InterruptedException | RuntimeException e) {
-					throw new IstfException("SSH: Exception in Thread.sleep", e);
-				}
 			}
+			results.setExecutionEndTime(currentTime);
+			results.setOutput(outputBuilder);
+			results.setExitCode(execChannel.getExitStatus());
+			results.setErrorOutput(errorOutputBuilder);
+			log.info("SSH: Command execution has been finished. {}", results);
 
-			if (currentTime >= endTime) {
-				String message = String.format("SSH: Command execution time has exeeded! Timed out after: %s seconds!", TimeUnit.MILLISECONDS.toSeconds(currentTime - startTime));
+			if (currentTime.isAfter(endTime)) {
+				String message = String.format("SSH: Command execution time has exeeded! Timed out after: %s seconds!", results.getDuration().getSeconds());
 				if (execParams.isFailOnTimeout()) {
-					throw new IstfException(message);
+					throw new CommandExecutionException(message);
 				}
-				log.error(message);
+				log.warn(message);
 			}
 
-			errorOutput = errorOutputBuilder.toString();
-			if (execChannel.getExitStatus() != 0 || !errorOutput.isEmpty()) {
-				String message = String.format("Command returned exit code %1$s and %2$s", execChannel.getExitStatus(), errorOutput.isEmpty() ? "empty error message" : "error message:\n" + errorOutput);
+			if (results.getExitCode() != 0 || !results.getErrorOutput().isEmpty()) {
+				String message = String.format("Command returned exit code %1$s and %2$s",
+						results.getExitCode(), results.getErrorOutput().isEmpty() ? "empty error message" : "error message: '" + results.getErrorOutput()) + "'";
 				if (execParams.isFailOnError()) {
-					throw new IstfException(message);
+					if (!execParams.getExitCodesToIgnore().contains(results.getExitCode())) {
+						throw new CommandExecutionException(message);
+					}
 				}
-				log.error(message);
+				log.warn(message);
 			}
 		} catch (IOException e) {
-			throw new IstfException("SSH: Unable to execute command: " + command + "\n", e);
+			throw new CommandExecutionException("SSH: Unable to execute command: " + command + "\n", e);
 		} finally {
 			if (execChannel != null && !execChannel.isClosed()) {
 				execChannel.disconnect();
 			}
 		}
 
-		if (execParams.isReturnErrorOutput()) {
-			return errorOutput;
-		}
-		return outputBuilder.toString();
+		return results;
 	}
 
 	public String parseFileName(String source) {

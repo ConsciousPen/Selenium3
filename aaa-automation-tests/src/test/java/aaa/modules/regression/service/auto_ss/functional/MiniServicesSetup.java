@@ -3,7 +3,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.PROPERTY_CONFIGURER_ENTITY_INSERT;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.listeners.AaaTestListener;
 import aaa.modules.regression.service.auto_ss.functional.preconditions.MiniServicesSetupPreconditions;
@@ -20,6 +20,11 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void premiumTaxRateUri() {
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_PREMIUM_TAX_RATE_URI_UPDATE);
+	}
+
+	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void myPolicyUserEnableUpdate() {
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.MY_POLICY_USER_ENABLE_UPDATE);
 	}
@@ -29,7 +34,7 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 	 */
 	@Test(enabled = false, description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void myPolicyUserAddAllPrivilegesUpdate() {
-		if (Boolean.valueOf(PropertyProvider.getProperty(CustomTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
+		if (Boolean.valueOf(PropertyProvider.getProperty(CsaaTestProperties.SCRUM_ENVS_SSH)).equals(true)) {
 			DBService.get().executeUpdate(MiniServicesSetupPreconditions.MY_POLICY_USER_ADD_ALL_PRIVILEGES_UPDATE);
 		}
 	}

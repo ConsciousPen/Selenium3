@@ -20,7 +20,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class TestPaperlessPreferences extends AutoSSBaseTest {
 
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-    private InquiryAssetList inquiryAssetList = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.class);
+    private InquiryAssetList inquiryAssetListDPD = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.class);
+    private InquiryAssetList inquiryAssetListPP = new InquiryAssetList(new DocumentsAndBindTab().getAssetList().getLocator(), AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.class);
 
     @Test(description = "Preconditions")
     public static void eValueConfigCheck() {
@@ -106,12 +107,12 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             //PAS-269 start
             NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
             softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
-            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent();
-            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isEnabled(false);
-            softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent();
-            softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE)).isPresent(false);
-            softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
-            softly.assertThat(inquiryAssetList.getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);//will change based on View/Hide rules
+            softly.assertThat(inquiryAssetListPP.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent();
+            softly.assertThat(inquiryAssetListPP.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isEnabled(false);
+            softly.assertThat(inquiryAssetListPP.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent();
+            softly.assertThat(inquiryAssetListDPD.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE)).isPresent(false);
+            softly.assertThat(inquiryAssetListDPD.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
+            softly.assertThat(inquiryAssetListDPD.getStaticElement(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);//will change based on View/Hide rules
             documentsAndBindTab.cancel();
             //PAS-269 end
 
@@ -135,77 +136,6 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
             softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.ISSUE_DATE)).isPresent(false);
             softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
             softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
-            documentsAndBindTab.saveAndExit();
-            //PAS-3097 end
-        });
-    }
-
-    /**
-     * @author Oleg Stasyuk
-     * @name Test Paperless Preferences not shown for state where it is not configured
-     * @scenario 1. Create new Paperless Preferences eligible quote but for the not eligible state (PA)
-     * 2. Check Enrolled in Paperless? field and Manage Paperless Preferences button are not shown in Documents tab
-     * 3. Check Document Printing Details section's fields are present
-     * 4. Check Document Delivery related Address fields are removed
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = "eValueConfigCheck")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-838")
-    public void pas838_eValuePaperlessPreferencesNotConfiguredForState(@Optional("PA") String state) {
-
-        TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-        testEValueDiscount.eValueQuoteCreation();
-
-        CustomSoftAssertions.assertSoftly(softly -> {
-            policy.dataGather().start();
-            NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be absent").isFalse();
-            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.ENROLLED_IN_PAPERLESS)).isPresent(false);
-            softly.assertThat(documentsAndBindTab.getPaperlessPreferencesAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.PaperlessPreferences.BTN_MANAGE_PAPERLESS_PREFERENCES)).isPresent(false);
-
-            softly.assertThat(documentsAndBindTab.isSectionPresent("Paperless Preferences")).as("'Paperless Preferences' section should be present").isTrue();
-            softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.SUPPRESS_PRINT)).isPresent();
-
-            //PAS-277 start
-            softly.assertThat(documentsAndBindTab.isSectionPresent("Document Delivery Details")).as("'Document Delivery Details' section should be absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Send To")).as("Field 'Send To' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Country")).as("Field 'Country' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Zip/Postal Code")).as("Field 'Zip/Postal Code' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 1")).as("Field 'Address Line 1' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 2")).as("Field 'Address Line 2' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Address Line 3")).as("Field 'Address Line 3' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("City")).as("Field 'City' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("State / Province")).as("Field 'State / Province' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Notes")).as("Field 'Notes' is absent").isFalse();
-            softly.assertThat(documentsAndBindTab.isFieldThatIsNotInAssetListIsPresent("Issue Date")).as("Field 'Issue Date' is absent").isFalse();
-            //PAS-277 end
-
-            //PAS-3097 start
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).isPresent(false);
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.ISSUE_DATE)).isPresent(false);
-
-            documentsAndBindTab.saveAndExit();
-
-            testEValueDiscount.simplifiedQuoteIssue();
-
-            policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-            NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-            softly.assertThat(documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.ISSUE_DATE)).isPresent(false);
-
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).hasValue("Mail");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY)).containsAllOptions("", "Mail", "Email");
-            documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).setValue("Email");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent();
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).hasValue("Email with Link");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).containsAllOptions("Email with Link", "Email with Attachment");
-            documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.METHOD_OF_DELIVERY).setValue("Mail");
-            softly.assertThat(documentsAndBindTab.getDocumentPrintingDetailsAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.DocumentPrintingDetails.INCLUDE_WITH_EMAIL)).isPresent(false);
-
             documentsAndBindTab.saveAndExit();
             //PAS-3097 end
         });

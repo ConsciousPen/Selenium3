@@ -1,0 +1,856 @@
+TestData_Plus20Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+20d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+TestData_Plus25Days: {
+  EndorsementActionTab: {
+    Endorsement Date: $<today+25d>,
+    Endorsement Reason: 'Maintain General Information'
+  }
+}
+
+#test data for creation NB in Endorsement/Renewal scenarios
+TestData_NB_Policy: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverInformation',
+  MembershipTab: {
+    Order Report: click,
+  },
+  VehicleTab: '@VehicleInformation',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: index=1,
+    }
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    VehicleInformation:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation'],
+  AAAProductOwned: '@AAAProductOwned',
+  ContactInformation: '@ContactInformation',
+  CurrentCarrierInformation: '@CurrentCarrierInformation',
+  PolicyInformation: '@PolicyInformation',
+  'Is there any Third Party Designee?': 'Yes',
+  ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation',
+}
+
+#test data for creation NB in Data Gather scenarios
+TestData_NB_Quote: {
+  PrefillTab: '@<auto_ca_choice>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab_Quote',
+  DriverTab: '@DriverInformation_Version1',
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: {
+      Primary Driver: index=1,
+    }
+  },
+  FormsTab: {
+    Driver Forms: {
+      CIPCSR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: CA
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {
+    Product: CA Choice,
+  },
+  DriverActivityReportsTab: '@<auto_ca_choice>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      Personal Auto Application: Physically Signed,
+      Deleting Uninsured Motorist Property Damage Coverage: Physically Signed,
+    },
+    RequiredToIssue: {
+      Proof of Anti-Theft Recovery Device: 'Yes',
+    },
+    Vehicle Information:{
+      "Are there any additional interest(s)?": 'No',
+    },
+  },
+  PurchaseTab: '@<auto_ca_choice>@DataGather@PurchaseTab'
+}
+
+GeneralTab_Quote: {
+  NamedInsuredInformation: ['@NamedInsuredInformation_Version1'],
+  AAAProductOwned: '@AAAProductOwned_Version1',
+  ContactInformation: '@ContactInformation_Version1',
+  CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
+  PolicyInformation: '@PolicyInformation_Version1',
+  'Is there any Third Party Designee?': 'Yes',
+  ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version1',
+}
+
+#General Tab - Named Insured Information section
+
+TestData_NamedInsuredInformation_Version1: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation_Version1']
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
+TestData_NamedInsuredInformation_Version2: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation_Version2']
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
+NamedInsuredInformation: {
+  Title: MR,
+  First Name: NBFirstName,
+  Middle Name: NB,
+  Last Name: NBLastName,
+  Suffix: JR,
+  Base Date: $<today>,
+  Zip Code: 90201,
+  Address Line 1: NB residence address 1,
+  Address Line 2: NB residence address 2,
+  City: Bell,
+  State: CA,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-1y>,
+  Prior Zip Code: 90201,
+  Prior Address Line 1: NB prior address 1,
+  Prior Address Line 2: NB prior address 2,
+  Prior City: Bell,
+  Prior State: CA,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 90201,
+  Mailing Address Line 1: NB mailing address 1,
+  Mailing Address Line 2: NB mailing address 2,
+  Mailing City: Bell,
+  Mailing State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {
+  }
+}
+
+NamedInsuredInformation_Version1: {
+  Title: MRS,
+  First Name: VIFirstName,
+  Middle Name: VI,
+  Last Name: VILastName,
+  Suffix: 'SR.',
+  Base Date: $<today-1M>,
+  Zip Code: 90255,
+  Address Line 1: VI residence address 1,
+  Address Line 2: VI residence address 2,
+  City: HUNTINGTON PARK,
+  State: CA,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-2y>,
+  Prior Zip Code: 90255,
+  Prior Address Line 1: VI prior address 1,
+  Prior Address Line 2: VI prior address 2,
+  Prior City: HUNTINGTON PARK,
+  Prior State: CA,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 90255,
+  Mailing Address Line 1: VI mailing address 1,
+  Mailing Address Line 2: VI mailing address 2,
+  Mailing City: HUNTINGTON PARK,
+  Mailing State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {
+  }
+}
+
+NamedInsuredInformation_Version2: {
+  Title: MISS,
+  First Name: VIIFirstName,
+  Middle Name: VII,
+  Last Name: VIILastName,
+  Suffix: II,
+  Base Date: $<today-2M>,
+  Zip Code: 90232,
+  Address Line 1: VII residence address 1,
+  Address Line 2: VII residence address 2,
+  City: Culver City,
+  State: CA,
+  "Has lived here for less than three years?": 'Yes',
+  Move-In Date: $<today-2y-1M>,
+  Prior Zip Code: 90232,
+  Prior Address Line 1: VII prior address 1,
+  Prior Address Line 2: VII prior address 2,
+  Prior City: Culver City,
+  Prior State: CA,
+  "Is residential address different from mailing address?":'Yes',
+  Mailing Zip Code: 90232,
+  Mailing Address Line 1: VII mailing address 1,
+  Mailing Address Line 2: VII mailing address 2,
+  Mailing City: Culver City,
+  Mailing State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {
+  }
+}
+
+#General Tab - AAA Product Owned
+TestData_AAAProductOwned_Version1: {
+  GeneralTab: {
+    AAAProductOwned: '@AAAProductOwned_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_AAAProductOwned_Version2: {
+  GeneralTab: {
+    AAAProductOwned: '@AAAProductOwned_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+AAAProductOwned: {
+  Current AAA Member: 'Yes',
+  Membership Number: 4382127703153016,
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 1111111111,
+  Life: 'Yes',
+  "Life Policy #": 1111111112,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 1111111113,
+  Renters: 'Yes',
+  "Renters Policy #": 1111111114,
+  Condo: 'Yes',
+  "Condo Policy #": 1111111115,
+  #can't be added for Choice
+  #PUP: 'Yes',
+  #"PUP Motorcycle Policy #": 1111111116,
+}
+
+AAAProductOwned_Version1: {
+  Current AAA Member: 'Membership Override',
+  Override Type: Life,
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 2222222221,
+  Life: 'Yes',
+  "Life Policy #": 2222222222,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 2222222223,
+  Renters: 'Yes',
+  "Renters Policy #": 2222222224,
+  Condo: 'Yes',
+  "Condo Policy #": 2222222225,
+  #can't be added for Choice
+  #PUP: 'Yes',
+  #"PUP Motorcycle Policy #": 2222222226,
+}
+
+AAAProductOwned_Version2: {
+  Current AAA Member: 'No',
+  Motorcycle: 'Yes',
+  "Motorcycle Policy #": 3333333331,
+  Life: 'Yes',
+  "Life Policy #": 3333333332,
+  Home: 'Yes',
+  "Home Motorcycle Policy #": 3333333333,
+  Renters: 'Yes',
+  "Renters Policy #": 3333333334,
+  Condo: 'Yes',
+  "Condo Policy #": 3333333335,
+  #can't be added for Choice
+  #PUP: 'Yes',
+  #"PUP Motorcycle Policy #": 3333333336,
+}
+
+#General Tab - Contact Information
+TestData_ContactInformation_Version1: {
+  GeneralTab: {
+    ContactInformation: '@ContactInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_ContactInformation_Version2: {
+  GeneralTab: {
+    ContactInformation: '@ContactInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+ContactInformation: {
+  Home Phone Number: 1111111111,
+  Work Phone Number: 1111111112,
+  Mobile Phone Number: 1111111113,
+  "Preferred Phone #": Home Phone,
+  Email: 'nb@gmail.com'
+}
+
+ContactInformation_Version1: {
+  Home Phone Number: 2222222221,
+  Work Phone Number: 2222222222,
+  Mobile Phone Number: 2222222223,
+  "Preferred Phone #": Work Phone,
+  Email: 'version1@gmail.com'
+}
+
+ContactInformation_Version2: {
+  Home Phone Number: 3333333331,
+  Work Phone Number: 3333333332,
+  Mobile Phone Number: 3333333333,
+  "Preferred Phone #": Mobile Phone,
+  Email: 'version2@gmail.com'
+}
+
+#General Tab - Current Carrier Information
+TestData_CurrentCarrierInformation_Version1: {
+  GeneralTab: {
+    CurrentCarrierInformation: '@CurrentCarrierInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_CurrentCarrierInformation_Version2: {
+  GeneralTab: {
+    CurrentCarrierInformation: '@CurrentCarrierInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+CurrentCarrierInformation: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'AAA - NCNU',
+  Agent Entered Inception Date: $<today-1y-1d>,
+  Agent Entered Expiration Date: $<today-7M-1d>,
+  Agent Entered Policy Number: AA11111,
+  Agent Entered BI Limits: '$300,000/$500,000',
+}
+
+CurrentCarrierInformation_Version1: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'Other',
+  Other Agent Entered Current/Prior Carrier: Other test,
+  Agent Entered Inception Date: $<today-1y-10d>,
+  Agent Entered Expiration Date: $<today-8M>,
+  Agent Entered Policy Number: AA22222,
+  Agent Entered BI Limits: '$250,000/$500,000',
+}
+
+CurrentCarrierInformation_Version2: {
+  "Override Prefilled Current Carrier?": 'Yes',
+  Agent Entered Current/Prior Carrier: 'Allstate',
+  Agent Entered Inception Date: $<today-2y>,
+  Agent Entered Expiration Date: $<today-1y>,
+  Agent Entered Policy Number: AA33333,
+  Agent Entered BI Limits: '$100,000/$300,000',
+}
+
+#General Tab - Policy Information
+
+TestData_PolicyInformation_Version1: {
+  GeneralTab: {
+    PolicyInformation: '@PolicyInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_PolicyInformation_Version2: {
+  GeneralTab: {
+    PolicyInformation: '@PolicyInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+PolicyInformation: {
+  Source of Business: 'New Business',
+  Policy Type: Standard,
+  Effective Date: '$<today:MM/dd/yyyy>',
+  Channel Type: 'AAA Agent',
+  Agency: 'AAA NCNU - 500001005',
+  Agency Location: 'contains=AAA NCNU - 500001005',
+  Agent: 'House Agent AAA NCNU',
+  Commission Type: 'New Business',
+  Authorized by: QA nb,
+  TollFree Number: 1111111111,
+  Language Preference: English,
+  Suppress Print: 'Suppress Declaration'
+}
+
+PolicyInformation_Version1: {
+  Source of Business: 'Split',
+  "Source Policy #": 123456111,
+  Channel Type: 'Phone (Direct Sales Unit)',
+  Agency: 'SMTestCC - 400000092',
+  Sales Channel: 'IE DSC-District Sales and Marketing',
+  Agent: 'House Agent SMTestCC',
+  Authorized by: QA version1,
+  TollFree Number: 2222222222,
+  Language Preference: Spanish,
+  Suppress Print: 'Print Declaration'
+}
+
+PolicyInformation_Version2: {
+  Source of Business: 'Spin-Off',
+  "Source Policy #": 123456222,
+  Override ASD Level: 'No',
+  Channel Type: 'AAA Agent',
+  Agency: 'SMTestNCNU - 400001005',
+  Agency Location: 'SMTestNCNU LOCATION - 400001105 - Emeryville',
+  Sales Channel: 'Captive Branch Agents',
+  Agent: 'House Agent SMTestNCNU LOCATION',
+  Authorized by: QA version2,
+  TollFree Number: 3333333333,
+  Language Preference: English,
+  Suppress Print: 'Divert Declaration'
+}
+
+#Third Party Designee Information
+
+TestData_ThirdPartyDesigneeInformation_Version1: {
+  GeneralTab: {
+    ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_ThirdPartyDesigneeInformation_Version2: {
+  GeneralTab: {
+    ThirdPartyDesigneeInformation: '@ThirdPartyDesigneeInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+ThirdPartyDesigneeInformation: {
+  Name: NB Third Party,
+  Zip Code: 90201,
+  Address Line 1: NB third party address 1,
+  Address Line 2: NB third party address 2,
+  City: Bell,
+  State: CA,
+}
+
+ThirdPartyDesigneeInformation_Version1: {
+  Name: VI Third Party,
+  Zip Code: 90255,
+  Address Line 1: VI third party address 1,
+  Address Line 2: VI third party address 2,
+  City: HUNTINGTON PARK,
+  State: CA,
+}
+
+ThirdPartyDesigneeInformation_Version2: {
+  Name: VII Third Party,
+  Zip Code: 90232,
+  Address Line 1: VII third party address 1,
+  Address Line 2: VII third party address 2,
+  City: Culver City,
+  State: CA,
+}
+
+#Driver Tab - Driver Information section
+
+TestData_DriverInformation_Version1: {
+  GeneralTab: {},
+  DriverTab: '@DriverInformation_Version1',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {
+    Driver Forms: {
+      CIPCSR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: CA
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue:{
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+}
+
+TestData_DriverInformation_Version2: {
+  GeneralTab: {},
+  DriverTab: '@DriverInformation_Version2',
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      #Proof of New Driver Course Completion: 'Yes',
+      Proof of Good Student Discount: 'Yes',
+    }
+  },
+}
+
+DriverInformation: {
+  Date of Birth: $<today-35y>,
+  Gender: Female,
+  Marital Status: Divorced,
+  Occupation: 'Farmer',
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-2y>,
+  License State: CA,
+  "License #": A1111111,
+  Employee Benefit Type: Active employee,
+  Employee ID: 111222333,
+  #should be No always
+  #ADB Coverage: 'Yes',
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'Yes',
+  Filling Type: SR-1P,
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: '10-yr Major Violation',
+    Occurrence Date: '$<today-3M:MM/dd/yyyy>',
+    Description: 'Driving under the influence of drugs',
+    Conviction Date: '$<today-3M:MM/dd/yyyy>',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+  }
+}
+
+DriverInformation_Version1: {
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-3y>,
+  License State: CA,
+  "License #": A2222222,
+  Employee Benefit Type: None,
+  #should be No always
+  #ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'Yes',
+  Filling Type: SR-22,
+  Ridesharing Coverage: 'No',
+  ActivityInformation: {
+    Activity Source: Customer Input,
+    Type: 'Major Violation',
+    Description: 'Hit and run',
+    Occurrence Date: '07/20/2018',
+    Conviction Date: '07/20/2018',
+    'Include in Points and/or YAF?': 'No',
+    'Not Included in Points and/or YAF - Reason Codes': 'Dismissed by DMV',
+  }
+}
+
+DriverInformation_Version2: {
+  Date of Birth: $<today-18y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1y-2M>,
+  License Type: 'Valid',
+  License State: CA,
+  "License #": A3333333,
+  Employee Benefit Type: Surviving spouse,
+  #should be No always
+  #ADB Coverage: 'No',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  "Smoker: Cigarettes, cigars or pipes": 'Yes',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  ActivityInformation: {
+    Activity Sorce: Company Input,
+    Type: 'Minor Violation',
+    Occurrence Date: '06/20/2018',
+    Conviction Date: '06/20/2018',
+    Description: 'Child seat belt violation',
+    "Include in Points and/or YAF?": 'Yes',
+  }
+}
+
+#Vehicle Tab - Vehicle Information section
+
+TestData_VehicleInformation_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version1',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+  },
+}
+
+TestData_VehicleInformationRenewal_Version1: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformationRenewal_Version1',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+  },
+}
+
+TestData_VehicleInformation_Version2: {
+  GeneralTab: {},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: '@VehicleInformation_Version2',
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Photos showing all 4 sides of Salvaged Vehicle(s): 'Yes'
+    }
+  },
+}
+
+VehicleInformation: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: 2HNYD28498H554858,
+  Primary Use: 'Pleasure (recreational driving only)',
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 15,
+  Odometer Reading: 80,
+  Odometer Reading Date: $<today-2y>,
+  Customer Declared Annual Miles: 10000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'Yes',
+  Zip Code: 90201,
+  Address Line 1: NB garaging address 1,
+  Address Line 2: NB garaging address 2,
+  City: Bell,
+  State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {},
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+VehicleInformation_Version1: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: WDBSK75F03F030897,
+  Primary Use: Business (small business non-commercial),
+  "View Business use questionnaire?": 'Yes',
+  "Is the vehicle used in any commercial business operations?": 'No',
+  Business Use Description: business use description,
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 20,
+  Odometer Reading: 100,
+  Odometer Reading Date: $<today-1y>,
+  Customer Declared Annual Miles: 13000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'No',
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+VehicleInformationRenewal_Version1: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: WDBSK75F03F030897,
+  Year: 2003,
+  Make: MERCEDES-BENZ,
+  Model: SL500R,
+  Series: SL500R,
+  Body Style: ROADSTER,
+  Primary Use: Business (small business non-commercial),
+  "View Business use questionnaire?": 'Yes',
+  "Is the vehicle used in any commercial business operations?": 'No',
+  Business Use Description: business use description,
+  Air Bags: FRONT & SIDE AIRBAGS,
+  Anti-theft: STD,
+  Anti-theft Recovery Device: Vehicle Recovery Device,
+  Anti-Lock Brakes: 4 wheel standard,
+  Existing Damage: None,
+  "Salvaged?": 'No',
+  Miles One-way to Work or School: 20,
+  Odometer Reading: 100,
+  Odometer Reading Date: $<today-1y>,
+  Customer Declared Annual Miles: 13000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'No',
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+}
+
+VehicleInformation_Version2: {
+  #Vehicle Information section
+  Type: 'Regular',
+  VIN: 1B4GP44G9WB508860,
+  Primary Use: 'Commute (to/from work and school)',
+  Anti-theft Recovery Device: None,
+  Existing Damage: None,
+  "Salvaged?": 'Yes',
+  Miles One-way to Work or School: 30,
+  Odometer Reading: 50,
+  Odometer Reading Date: $<today-4M>,
+  Customer Declared Annual Miles: 8000,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'Yes',
+  Zip Code: 90232,
+  Address Line 1: VII garaging address 1,
+  Address Line 2: VII garaging address 2,
+  City: Culver City,
+  State: CA,
+  Validate Address: true,
+  Validate Address Dialog: {
+  },
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Financed,
+    First Name: GMAC,
+    Validate Address: true,
+    Validate Address Dialog: {},
+  },
+}
+

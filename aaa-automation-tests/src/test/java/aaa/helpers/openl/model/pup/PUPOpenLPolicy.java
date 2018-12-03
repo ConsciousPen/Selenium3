@@ -4,38 +4,65 @@ import static aaa.helpers.openl.model.pup.PUPOpenLFile.PUP_POLICY_SHEET_NAME;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.PUPTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
+import aaa.utils.excel.bind.annotation.ExcelTransient;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = PUP_POLICY_SHEET_NAME, headerRowIndex = PUPOpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class PUPOpenLPolicy extends OpenLPolicy {
 
+	@RequiredField
 	private List<PUPOpenLCoverage> coverages;
-	private OpenLDwelling dwelling;
-	private List<OpenLRiskItem> riskItems;
 
+	@RequiredField
+	private PUPOpenLDwelling dwelling;
+
+	@RequiredField
+	private List<PUPOpenLRiskItem> riskItems;
+
+	@RequiredField
 	private String autoTier;
 	private Boolean businessPursuitsInd;
 	private Integer daycareChildrenCount;
 	private Boolean dropDownInd;
+
+	@RequiredField
 	private LocalDate effectiveDate;
+
+	@RequiredField
 	private String homeTier;
+
 	private Boolean incidentalFarmingInd;
+
+	@RequiredField
 	private Integer numOfAccidents;
+
 	private Integer numOfAddlResidences;
 	private Integer numOfNanoVehicles;
 	private Integer numOfSeniorOps;
+
+	@RequiredField
 	private Integer numOfViolations;
+
 	private Integer numOfYouthfulOps;
 	private Boolean permittedOccupancyInd;
+
+	@RequiredField
 	private Integer rentalUnitsCount;
+
 	private String signature;
+
+	@ExcelTransient
 	private Integer term;
 
 	public List<PUPOpenLCoverage> getCoverages() {
@@ -46,19 +73,19 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 		this.coverages = new ArrayList<>(coverages);
 	}
 
-	public OpenLDwelling getDwelling() {
+	public PUPOpenLDwelling getDwelling() {
 		return dwelling;
 	}
 
-	public void setDwelling(OpenLDwelling dwelling) {
+	public void setDwelling(PUPOpenLDwelling dwelling) {
 		this.dwelling = dwelling;
 	}
 
-	public List<OpenLRiskItem> getRiskItems() {
+	public List<PUPOpenLRiskItem> getRiskItems() {
 		return new ArrayList<>(riskItems);
 	}
 
-	public void setRiskItems(List<OpenLRiskItem> riskItems) {
+	public void setRiskItems(List<PUPOpenLRiskItem> riskItems) {
 		this.riskItems = new ArrayList<>(riskItems);
 	}
 
@@ -100,8 +127,8 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public PUPTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new PUPTestDataGenerator(state, baseTestData);
+	public PUPTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new PUPTestDataGenerator(this.getState(), baseTestData);
 	}
 
 	@Override
@@ -119,7 +146,20 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 			requiredMocks.add(propertyRiskReportsMockData);
 		}
 
+		if (!mockGenerator.isAddressReferenceMockPresent(getDwelling().getAddress().getZipCode(), getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getDwelling().getAddress().getZipCode(), getState());
+			requiredMocks.add(addressReferenceMock);
+		}
+
 		return requiredMocks;
+	}
+
+	@Override
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(),
+				//do not affect rating:
+				"policy.dwelling.viciousDogCount",
+				"policy.dwelling.address.county");
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
@@ -215,6 +255,11 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.PUP;
+	}
+
+	@Override
 	public Integer getTerm() {
 		return term != null ? term : 12;
 	}
@@ -226,32 +271,5 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return null;
-	}
-
-	@Override
-	public String toString() {
-		return "PUPOpenLPolicy{" +
-				"coverages=" + coverages +
-				", dwelling=" + dwelling +
-				", riskItems=" + riskItems +
-				", autoTier='" + autoTier + '\'' +
-				", businessPursuitsInd=" + businessPursuitsInd +
-				", daycareChildrenCount=" + daycareChildrenCount +
-				", dropDownInd=" + dropDownInd +
-				", effectiveDate=" + effectiveDate +
-				", homeTier='" + homeTier + '\'' +
-				", incidentalFarmingInd=" + incidentalFarmingInd +
-				", numOfAccidents=" + numOfAccidents +
-				", numOfAddlResidences=" + numOfAddlResidences +
-				", numOfNanoVehicles=" + numOfNanoVehicles +
-				", numOfSeniorOps=" + numOfSeniorOps +
-				", numOfViolations=" + numOfViolations +
-				", numOfYouthfulOps=" + numOfYouthfulOps +
-				", permittedOccupancyInd=" + permittedOccupancyInd +
-				", rentalUnitsCount=" + rentalUnitsCount +
-				", signature='" + signature + '\'' +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
 	}
 }

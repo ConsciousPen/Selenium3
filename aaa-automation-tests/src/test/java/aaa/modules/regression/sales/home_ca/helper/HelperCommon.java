@@ -26,6 +26,8 @@ import toolkit.webdriver.controls.composite.table.Table;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.*;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -113,12 +115,22 @@ public class HelperCommon extends HomeCaHO3BaseTest{
 
         switch (policyType) {
             case "homeca_ho3":
+                Map<String, String> endorsement_FPCECA = new HashMap<>();
+                endorsement_FPCECA.put("Form ID", "FPCECA");
+                endorsement_FPCECA.put("Name", "FAIR Plan Companion Endorsement - California");
+
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
                 endorsementTab.btnSaveEndo.click();
+                assertThat(new EndorsementTab().tblIncludedEndorsements.getRowContains(endorsement_FPCECA)).isPresent();
                 break;
             case "homeca_dp3":
+                Map<String, String> endorsement_FPCECADP = new HashMap<>();
+                endorsement_FPCECADP.put("Form ID", "FPCECADP");
+                endorsement_FPCECADP.put("Name", "FAIR Plan Companion Endorsement - California");
+
                 endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
                 endorsementTab.btnSaveEndo.click();
+                assertThat(new EndorsementTab().tblIncludedEndorsements.getRowContains(endorsement_FPCECADP)).isPresent();
                 break;
         }
     }

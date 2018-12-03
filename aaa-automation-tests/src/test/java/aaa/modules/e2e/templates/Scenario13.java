@@ -468,6 +468,9 @@ public class Scenario13 extends ScenarioBaseTest {
 
 	protected void payRenewalBill() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
+		if (getState().equals(Constants.States.CA)) {
+			billDueDate = policyExpirationDate; //avoid switch to Monday, Renewal bill should be payed before policyStatusUpdateJob
+		}
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
 
 		mainApp().open();

@@ -10,6 +10,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
@@ -49,7 +50,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-4270")
 	public void pas4270_VerifyExpiredDriversLicenceError(@Optional("VA") String state) {
 
@@ -58,7 +59,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
 		PolicyType.HOME_SS_HO3.get().createPolicy(getTdHome());
 
-//		 Create Test Data
+		// Create Test Data
 		TestData tdOtherActive = getTestSpecificTD("TestData_ActiveUnderlyingPolicies")
 				.adjust(TestData.makeKeyPath("ActiveUnderlyingPoliciesSearch", "Policy Number"), PolicySummaryPage.getPolicyNumber());
 		TestData tdPUP = getPolicyTD()
@@ -68,13 +69,11 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 
 		PolicyType.PUP.get().initiate();
 		policy.getDefaultView().fillUpTo(tdPUP, PremiumAndCoveragesQuoteTab.class);
-
 		premiumAndCoveragesQuoteTab.calculatePremium();
 
-		//TODO If the Issue described in pas4270 attached email is fixed these lines needs to be uncommented. If it is decided that the issue will not be fixed they can be removed.
-//		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS2260177);
-//		errorTab.cancel();
-		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan").isPresent()).isTrue();
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_PUP_SS2260177);
+		errorTab.cancel();
+		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan")).isPresent();
 
 		NavigationPage.toViewTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS.get());
 		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.UNDERLYING_RISKS_AUTO.get());
@@ -85,7 +84,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 
 		premiumAndCoveragesQuoteTab.calculatePremium();
-		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan").isPresent()).isTrue();
+		assertThat(premiumAndCoveragesQuoteTab.getAssetList().getAsset("Payment Plan")).isPresent();
 
 	}
 

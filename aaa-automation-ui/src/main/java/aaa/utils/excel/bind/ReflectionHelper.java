@@ -67,16 +67,16 @@ public class ReflectionHelper {
 
 	@SuppressWarnings("unchecked")
 	public static <T> Class<T> getGenericType(Field field) {
-		ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
-		Type[] typeArgs = parameterizedType.getActualTypeArguments();
 		try {
+			ParameterizedType parameterizedType = (ParameterizedType) field.getGenericType();
+			Type[] typeArgs = parameterizedType.getActualTypeArguments();
 			return (Class<T>) typeArgs[0];
 		} catch (ClassCastException e) {
-			throw new IstfException("Can't get generic type of field " + field.getClass().getName(), e);
+			throw new IstfException("Can't get generic type of field " + field.getName(), e);
 		}
 	}
 
-	public static Object getInstance(Class<?> clazz) {
+	public static <T> T getInstance(Class<T> clazz) {
 		try {
 			return clazz.getConstructor().newInstance();
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {

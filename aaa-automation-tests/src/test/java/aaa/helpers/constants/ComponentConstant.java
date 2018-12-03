@@ -79,6 +79,7 @@ public class ComponentConstant {
 
 	public final class Finance {
 		public static final String OPERATIONAL_REPORTS = "Finance.Operational Reports";
+		public static final String BILLING = "Finance.Billing";
 	}
 
 	public final class Renewal {

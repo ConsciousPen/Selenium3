@@ -42,3 +42,11 @@ PaymentMethods_EFT: {
   'Transit #': '011104209',
   'Account #': '1234567890'
 }
+
+#------
+
+TestData_AddPaymentMethod: {
+  AcceptPaymentActionTab: {
+    PaymentMethods: '@PaymentMethods@CC_MasterCard'
+  }
+}

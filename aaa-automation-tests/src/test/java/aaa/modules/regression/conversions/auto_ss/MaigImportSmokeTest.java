@@ -1,7 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss;
 
 import java.time.LocalDateTime;
-import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -23,7 +22,7 @@ public class MaigImportSmokeTest extends MaigConversionTest {
 	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigImportTest(@Optional("PA") String state, ITestContext context) {
+	public void maigImportTest(@Optional("PA") String state) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData("3.xml", effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context, false);

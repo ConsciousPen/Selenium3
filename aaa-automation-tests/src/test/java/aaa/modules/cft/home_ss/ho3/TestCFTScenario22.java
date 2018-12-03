@@ -5,6 +5,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
@@ -27,9 +29,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
  * Check Downpayment
  */
 public class TestCFTScenario22 extends ControlledFinancialBaseTest {
+
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario22(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		acceptTotalDuePlusOverpaymentOnEffDateMinus20(new Dollar(200));
@@ -41,6 +45,7 @@ public class TestCFTScenario22 extends ControlledFinancialBaseTest {
 	protected PolicyType getPolicyType() {
 		return PolicyType.HOME_SS_HO3;
 	}
+
 	@Override
 	protected TestData getPolicyTestData() {
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", DEFAULT_TEST_DATA_KEY);

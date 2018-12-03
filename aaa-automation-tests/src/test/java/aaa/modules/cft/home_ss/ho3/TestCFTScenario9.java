@@ -1,5 +1,6 @@
 package aaa.modules.cft.home_ss.ho3;
 
+import aaa.common.enums.Constants;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +13,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -29,13 +31,13 @@ import toolkit.utils.TestInfo;
  */
 public class TestCFTScenario9 extends ControlledFinancialBaseTest {
 
-	@Test(groups = {Groups.CFT})
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario9(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);
-		// No split policy for property
 	}
 
 	@Override

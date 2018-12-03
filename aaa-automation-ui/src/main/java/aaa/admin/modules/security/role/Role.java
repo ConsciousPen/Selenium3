@@ -2,20 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.admin.modules.security.role;
 
-import com.exigen.ipb.etcsa.base.app.Application.AppType;
-
-import aaa.utils.EntityLogger;
-import aaa.admin.metadata.security.RoleMetaData.SearchByField;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import aaa.admin.metadata.security.RoleMetaData;
 import aaa.admin.modules.security.ChannelType;
 import aaa.admin.modules.security.role.defaulttabs.GeneralRoleTab;
 import aaa.admin.modules.security.role.views.DefaultView;
 import aaa.admin.pages.security.RolePage;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
-import aaa.common.enums.NavigationEnum.AdminAppLeftMenu;
-import aaa.common.enums.NavigationEnum.AdminAppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.ActionConstants;
+import aaa.utils.EntityLogger;
 import toolkit.datax.TestData;
 
 public class Role implements IRole {
@@ -34,7 +31,7 @@ public class Role implements IRole {
     @Override
     public void initiate() {
         navigateToFlow();
-        RolePage.assetListSearchForm.getAsset(SearchByField.BUSINESS_DOMAIN).setValue(channelType.getName());
+        RolePage.assetListSearchForm.getAsset(RoleMetaData.SearchByField.BUSINESS_DOMAIN).setValue(channelType.getName());
         RolePage.buttonAddNewRole.click();
     }
 
@@ -45,13 +42,13 @@ public class Role implements IRole {
 
     @Override
     public void navigate() {
-        NavigationPage.toMainTab(AdminAppMainTabs.SECURITY.get());
-        NavigationPage.toViewLeftMenu(AdminAppLeftMenu.SECURITY_ROLE.get());
+        NavigationPage.toMainTab(NavigationEnum.AdminAppMainTabs.SECURITY.get());
+        NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.SECURITY_ROLE.get());
     }
 
     @Override
     public void navigateToFlow() {
-        NavigationPage.toFlow(AppType.ADMIN, NavigationEnum.AdminAppLeftMenu.SECURITY_ROLE.getFlow());
+        NavigationPage.toFlow(CSAAApplicationFactory.get().adminApp(), NavigationEnum.AdminAppLeftMenu.SECURITY_ROLE.getFlow());
     }
 
     @Override

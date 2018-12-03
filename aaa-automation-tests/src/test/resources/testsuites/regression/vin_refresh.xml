@@ -1,0 +1,40 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Vin Upload/Refresh Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="Auto SS tests">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas2714_Endorsement"/>
+                    <include name="pas11659_Renewal_VersionR45"/>
+                    <include name="pas12872_VINRefreshPartialMatchUnboundQuote"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto CA tests">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas2714_Endorsement"/>
+                    <include name="pas2716_AutomatedRenewal_ExpirationDateMinus35"/>
+                    <include name="pas12872_VINRefreshNoMatchUnboundAutoCAQuote"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVINUpload">
+                <methods>
+                    <include name="pas533_newVinAdded"/>
+                    <include name="pas12872_VINRefreshNoMatchUnboundAutoCAQuote"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -20,6 +20,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -28,18 +29,17 @@ import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
-import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
-public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
+public class TestRefundProcess extends PolicyBaseTest implements TestRefundProcessPreConditions {
 
 	private static final String PENDING_REFUND_AMOUNT = "1000";
 	private static final String APPROVED_REFUND_AMOUNT = "999.99";
@@ -68,7 +68,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -106,7 +106,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -135,7 +135,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -153,7 +153,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCheck(@Optional("VA") String state) {
 
@@ -165,7 +165,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -183,7 +183,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCheck(@Optional("VA") String state) {
 
@@ -197,12 +197,12 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private String preconditionPolicyCreationPup() {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}
 
-	@AfterClass(alwaysRun = true)
+	@AfterSuite(alwaysRun = true)
 	private void deleteMultipleLastPaymentRequests() {
 		for (HelperWireMockStub wireMockStubObject : requestIdList) {
 			wireMockStubObject.cleanUp();

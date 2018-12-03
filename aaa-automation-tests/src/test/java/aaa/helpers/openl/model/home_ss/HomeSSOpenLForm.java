@@ -8,8 +8,10 @@ import aaa.utils.excel.bind.annotation.ExcelTransient;
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeSSOpenLForm extends OpenLForm {
 	private Integer covPercentage;
+
 	@ExcelTransient
 	private Integer formOid;
+
 	private Boolean masonaryOrFarmPremisesInd;
 	private Double optionalValue;
 	private Double optionalValue3;
@@ -98,21 +100,5 @@ public class HomeSSOpenLForm extends OpenLForm {
 
 	public void setNoOfPersons(Integer noOfPersons) {
 		this.noOfPersons = noOfPersons;
-	}
-
-	@Override
-	public String toString() {
-		return "HomeSSOpenLForm{" +
-				"covPercentage=" + covPercentage +
-				", formOid=" + formOid +
-				", masonaryOrFarmPremisesInd=" + masonaryOrFarmPremisesInd +
-				", optionalValue=" + optionalValue +
-				", type='" + type + '\'' +
-				", noOfFamilies=" + noOfFamilies +
-				", noOfPersons=" + noOfPersons +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
 	}
 }

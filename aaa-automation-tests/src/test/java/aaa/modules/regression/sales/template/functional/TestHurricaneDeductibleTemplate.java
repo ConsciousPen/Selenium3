@@ -40,10 +40,7 @@ public class TestHurricaneDeductibleTemplate extends PolicyBaseTest {
 						HomeSSMetaData.PropertyInfoTab.Riskmeter.ELEVATION_FEET.getLabel()), "50");
 
 		// Open App initiate policy
-		mainApp().open();
-		createCustomerIndividual();
-		policy.initiate();
-		policy.getDefaultView().fillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class, true);
+		createQuoteAndFillUpTo(tdHome, PremiumsAndCoveragesQuoteTab.class);
 
 		// Assert That Hurricane Deductible is 1% for this zip code and Distance to Coast  AC1 PAS-6907
 		assertThat(premiumsAndCoveragesQuoteTab.getAssetList().getAsset(hurricaneDeductible).getValue().toString()).contains("1%");

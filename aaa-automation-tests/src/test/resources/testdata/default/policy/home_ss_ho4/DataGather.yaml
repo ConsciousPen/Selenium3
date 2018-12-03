@@ -360,8 +360,8 @@ GeneralTab_KY: {
 }
 
 UnderwritingAndApprovalTab_KY: {
-  "Have any of the applicant(s)' current pets injured, intentionally or unintentionally, another creature or person?": "No",
-  "Do employees of any resident or applicant reside in the dwelling?": "No", 
+  "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
   "Is any business or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No"
 }
 

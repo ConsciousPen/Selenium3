@@ -20,6 +20,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -33,7 +34,6 @@ import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditi
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -89,7 +89,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedYes(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -129,7 +129,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7039", "PAS-7196", "PAS-450"})
 	public void pas7039_newDataElementsDeceasedNo(@Optional("VA") String state) throws SftpException, JSchException, IOException {
 		String manualRefundAmount = "100";
@@ -158,7 +158,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -176,7 +176,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsACH(@Optional("MD") String state) throws IllegalAccessException {
 
@@ -194,7 +194,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCC(@Optional("VA") String state) throws IllegalAccessException {
 
@@ -212,7 +212,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_SS_HO3, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsACH(@Optional("MD") String state) throws IllegalAccessException {
 
@@ -233,7 +233,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private String preconditionPolicyCreationHo() {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}

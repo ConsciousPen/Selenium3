@@ -9,7 +9,6 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO4OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
-
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 	private Integer age;
 	private Double deductible;
@@ -91,25 +90,5 @@ public class HomeCaHO4OpenLForm extends HomeCaOpenLForm {
 	@Override
 	public void setLimit(Double limit) {
 		this.limit = limit;
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO4OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
-				", age=" + age +
-				", deductible=" + deductible +
-				", formClass='" + formClass + '\'' +
-				", hasCorporalPunishmentSurcharge=" + hasCorporalPunishmentSurcharge +
-				", numOfFamilies=" + numOfFamilies +
-				", territoryCode='" + territoryCode + '\'' +
-				", type='" + type + '\'' +
-				", limit=" + limit +
-				", applyDiscounts=" + applyDiscounts +
-				", hasSupportingForm=" + hasSupportingForm +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
 	}
 }

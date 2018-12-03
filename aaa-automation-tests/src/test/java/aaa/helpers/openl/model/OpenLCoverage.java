@@ -1,12 +1,20 @@
 package aaa.helpers.openl.model;
 
+import aaa.helpers.openl.annotation.MatchingField;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
-public class OpenLCoverage {
+/**
+ * Note: this class has a natural ordering that is inconsistent with equals.
+ */
+public class OpenLCoverage implements Comparable<OpenLCoverage> {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
 	@ExcelColumnElement(ignoreCase = true)
+	@MatchingField
+	@RequiredField
 	protected String coverageCd;
 
 	protected String limit;
@@ -36,11 +44,7 @@ public class OpenLCoverage {
 	}
 
 	@Override
-	public String toString() {
-		return "OpenLCoverage{" +
-				"number=" + number +
-				", coverageCd='" + coverageCd + '\'' +
-				", limit='" + limit + '\'' +
-				'}';
+	public int compareTo(OpenLCoverage otherCoverage) {
+		return this.getCoverageCd().compareTo(otherCoverage.getCoverageCd());
 	}
 }

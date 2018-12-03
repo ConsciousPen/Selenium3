@@ -1,0 +1,74 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense MVR Predictor Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+
+    <test name="MVR Predictor Algo">
+        <parameter name="state" value="IN,KY,MD,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo NJ">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo NV">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                    <exclude name="pas14264_MVRPredictorConversion"/>
+                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="MVR Predictor Algo Accidents">
+        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
+                <methods>
+                    <include name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
+                    <include name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Good Student Discount">
+        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
+        </classes>
+    </test>
+
+</suite>

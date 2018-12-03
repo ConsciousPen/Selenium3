@@ -6,8 +6,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -20,9 +20,9 @@ import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 /**
- * @author 
+ * @author
  * @name Test Create CA Select Auto Policy
- * @scenario 
+ * @scenario
  * 1. Create Customer 
  * 2. Create CA Select Auto Policy
  * 3. Verify Policy status is '	 Policy Active'
@@ -32,20 +32,25 @@ import toolkit.utils.TestInfo;
 public class TestPolicyCreation extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
-	@StateList(states =  States.CA)
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
+	@StateList(states = States.CA)
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT)
 	public void testPolicyCreation(@Optional("CA") String state) {
 		mainApp().open();
-
 		createCustomerIndividual();
 		createPolicy();
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
 		log.info("CA Select Policy Product Verification Started...");
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Select");
+
+		if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+			assertThat(PremiumAndCoveragesTab.labelProductMessageInquiry).valueContains("CA Select");
+		}
+		else {
+			assertThat(PremiumAndCoveragesTab.labelProductInquiry).valueContains("CA Select");
+		}
 	}
 }

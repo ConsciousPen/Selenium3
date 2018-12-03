@@ -5,6 +5,8 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import aaa.common.enums.Constants;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import aaa.helpers.constants.Groups;
@@ -21,9 +23,11 @@ import aaa.modules.cft.ControlledFinancialBaseTest;
  */
 
 public class TestCFTScenario10 extends ControlledFinancialBaseTest {
-	@Test(groups = {Groups.CFT})
+
+	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
+	@StateList(statesExcept = {Constants.States.CA})
 	public void cftTestScenario10(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);

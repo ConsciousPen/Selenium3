@@ -27,7 +27,7 @@ public class TestDisableReorderReport extends HomeSSDP3BaseTest {
      * 7.  Verify policy can be bound
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_DP3, testCaseId = "PAS-6795")
     public void pas6795_disableReorderReportEndorsement(@Optional("PA") String state) {
 
@@ -48,7 +48,7 @@ public class TestDisableReorderReport extends HomeSSDP3BaseTest {
      * 6.  check that user can't re-order report
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Renewal.HOME_SS_DP3, testCaseId = "PAS-6827, PAS-12770")
     public void pas6827_disableReorderReportRenewal(@Optional("PA") String state) {
 

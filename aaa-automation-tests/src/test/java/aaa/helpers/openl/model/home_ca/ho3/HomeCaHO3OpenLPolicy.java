@@ -4,26 +4,39 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLCoverage;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO3TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> {
+public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm, HomeCaHO3OpenLDwelling> {
 
+	@RequiredField
 	private HomeCaHO3OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaHO3OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaOpenLCoverage> coverages;
 
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
+
+	@RequiredField
 	private Boolean hasEmployeeDiscount;
 	private Boolean hasMultiPolicyDiscount;
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
 
+	@Override
 	public HomeCaHO3OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -96,32 +109,14 @@ public class HomeCaHO3OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO3OpenLForm> 
 	public void setHasSeniorDiscount(Boolean hasSeniorDiscount) {
 		this.hasSeniorDiscount = hasSeniorDiscount;
 	}
-	
+
 	@Override
-	public HomeCaHO3TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaHO3TestDataGenerator(state, baseTestData);
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_HO3;
 	}
 
 	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLPolicy{" +
-				"dwelling=" + dwelling +
-				", forms=" + forms +
-				", covALimit=" + covALimit +
-				", covELimit=" + covELimit +
-				", hasEmployeeDiscount=" + hasEmployeeDiscount +
-				", hasMultiPolicyDiscount=" + hasMultiPolicyDiscount +
-				", hasPolicySupportingForm=" + hasPolicySupportingForm +
-				", hasSeniorDiscount=" + hasSeniorDiscount +
-				", coverages=" + coverages +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+	public HomeCaHO3TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaHO3TestDataGenerator(this.getState(), baseTestData);
 	}
 }

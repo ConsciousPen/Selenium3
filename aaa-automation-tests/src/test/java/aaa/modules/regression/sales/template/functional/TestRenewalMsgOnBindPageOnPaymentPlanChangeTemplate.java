@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyBaseTest {
 
 	private LocalDateTime policyExpirationDate;
-	private String policyNumber;
 
 	private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 	private MortgageesTab mortgageesTab = new MortgageesTab();
@@ -52,14 +51,14 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 			+ "Do you agree to these changes?";
 
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange(String initialPaymentPlan, Boolean isOnAutopay, String renewalPaymentPlan, String message, String initialPaymentPlanInRenewal) {
-		createPolicy(initialPaymentPlan, isOnAutopay);
+		String policyNumber = createPolicy(initialPaymentPlan, isOnAutopay);
 		createProposedRenewal();
-		navigateToRenewal();
+		navigateToRenewal(policyNumber);
 		changePaymentPlanOnRenewal(renewalPaymentPlan);
 		checkMessageInBindTab(message, initialPaymentPlanInRenewal, renewalPaymentPlan);
 	}
 
-	private void createPolicy(String paymentPlan, Boolean isOnAutoPay) {
+	private String createPolicy(String paymentPlan, Boolean isOnAutoPay) {
 		TestData policyTd =  getPolicyTD();
 		policyTd = policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), paymentPlan);
@@ -75,7 +74,7 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 
 		mainApp().open();
 		createCustomerIndividual();
-		policyNumber = createPolicy(policyTd);
+		return createPolicy(policyTd);
 	}
 
 	private void createProposedRenewal() {
@@ -84,13 +83,11 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
 
 		//Create Proposed Renewal
-		//For now 'Proposed Renewal' is not always generated after first run
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
-	private void navigateToRenewal() {
-		mainApp().open();
+	private void navigateToRenewal(String policyNumber) {
+		mainApp().reopen();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -114,6 +111,7 @@ public class TestRenewalMsgOnBindPageOnPaymentPlanChangeTemplate extends PolicyB
 			mortgageesTab.getValidateAddressDialogAssetList().getAsset(DialogsMetaData.AddressValidationMetaData.BTN_OK).click();
 			mortgageesTab.getMortgageeInfoAssetList().getAsset(HomeCaMetaData.MortgageesTab.MortgageeInformation.LOAN_NUMBER).setValue("12345678");
 		} else {
+			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.BILL_TO_AT_RENEWAL).setValue("Insured");
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN).setValue(paymentPlan);
 		}
 		premiumsAndCoveragesQuoteTab.calculatePremium();

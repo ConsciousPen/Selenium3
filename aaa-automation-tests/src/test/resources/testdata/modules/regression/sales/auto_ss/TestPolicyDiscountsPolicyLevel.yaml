@@ -150,8 +150,10 @@ GeneralTab_Discounts: {
 }
 
 AAAProductOwned1: {
-  Current AAA Member: 'Membership Pending',
+  #Current AAA Member: 'Membership Pending',
   #Membership Number: 4290023667710001,
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
   Life: 'Yes',
   'Life Policy #': L87654567,
   Home: 'Yes',
@@ -646,7 +648,9 @@ GeneralTab_Discounts_AZ: {
 }
 
 AAAProductOwned1_AZ: {
-  Current AAA Member: 'Membership Pending',
+  #Current AAA Member: 'Membership Pending',
+  Current AAA Member: 'Yes',
+  Membership Number: 4290023667710001,
   #Membership Number: 4290023667710001,
   Motorcycle: 'Yes',
   'Motorcycle Policy #': M09098765,

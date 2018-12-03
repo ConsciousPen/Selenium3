@@ -2,16 +2,15 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.document_fulfillment.home_ss.ho4.functional;
 
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigConversionHomeAbstract;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
@@ -26,7 +25,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
     public void pas2305_preRenewalLetterHSPRNXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -44,7 +43,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2305"})
     public void pas2305_preRenewalLetterPupConvHSPRNXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -61,7 +60,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9170"})
     public void pas9170_preRenewalLetterPupHSPRNXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -78,7 +77,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-7342"})
     public void pas7342_preRenewalLetterHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -96,7 +95,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-7342"})
     public void pas7342_preRenewalLetterPupConvHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -113,7 +112,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-9170"})
     public void pas9170_preRenewalLetterPupHSPRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -130,7 +129,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2309"})
     public void pas2309_renewalCoverLetterHSRNHODPXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -148,7 +147,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2309"})
     public void pas2309_renewalCoverLetterPupConvHSRNHODPXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -165,7 +164,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2309"})
     public void pas2309_renewalCoverLetterPupHSRNHODPXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -182,7 +181,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2570"})
     public void pas2570_renewalCoverLetterHSRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -200,7 +199,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2570"})
     public void pas2570_renewalCoverLetterPupConvHSRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -217,7 +216,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-2570"})
     public void pas2570_renewalCoverLetterPupHSRNMXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -234,7 +233,7 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(statesExcept = {States.CA, States.MD, States.PA})
+    @StateList(statesExcept = {States.CA})
     @Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-8789"})
     public void pas8789_insuranceRenewalBillHomeAHRBXX(@Optional("VA") String state) throws NoSuchFieldException {
@@ -282,19 +281,61 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
      * @scenario
      * 1. Create Customer
      * 2. Initiate Renewal Entry
-     * 3. Fill Conversion Policy data for Home - MD
-     * 4. Check that HSFLDMD documents are getting generated
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSPISKY documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSPISKY document is NOT generated
      * @details
      */
     @Override
     @Parameters({STATE_PARAM})
-    @StateList(states = States.MD)
+    @StateList(states = States.KY)
     @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-12589"})
-    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("MD") String state) throws NoSuchFieldException {
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-18432"})
+    public void pas18432_policyInformationSheetHSPISKY(@Optional("KY") String state) throws NoSuchFieldException {
+        super.pas18432_policyInformationSheetHSPISKY(state);
+    }
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSFLD documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSFLD document is NOT generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = {States.MD, States.IN, States.CT, States.WV})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-12589", "PAS-18431"})
+    public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(@Optional("IN") String state) throws NoSuchFieldException {
         super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 
+    /**
+     * @name Creation converted policy for checking 'Expiration Notice' letter AH64XX
+     * @scenario
+     * 1. Create Customer
+     * 2. Create Conversion Policy
+     * 3. Generate Bill at R-20
+     * 4. Generate 'Expiration Notice' at R+10
+     * 5. Check that form is getting generated with correct content
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.CA})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-21331"})
+    public void pas20836_expirationNoticeFormGeneration(@Optional("AZ") String state) throws NoSuchFieldException {
+        super.pas20836_expirationNoticeFormGeneration(state);
+    }
 
     @Override
     protected PolicyType getPolicyType() {

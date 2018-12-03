@@ -4,21 +4,17 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum.Errors;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.pup.defaulttabs.BindTab;
-import aaa.main.modules.policy.pup.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Lina Li
@@ -107,7 +103,7 @@ public class TestQuoteUnderwritingRules extends PersonalUmbrellaBaseTest {
 	private void checkFieldsError(TestData td) {
 		TestData tdFieldsError = td.getTestData(FIELDS_ERROR_KEY);
 		for (String key : tdFieldsError.getKeys()) {
-			assertThat(underwritingTab.getAssetList().getWarning(key)).hasValue(tdFieldsError.getValue(key));
+			assertThat(underwritingTab.getAssetList().getWarning(key)).valueContains(tdFieldsError.getValue(key));
 		}
 	}
 	

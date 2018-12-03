@@ -1,136 +1,136 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestCurrentTermEndAddsVehicleTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 @StateList(states = Constants.States.CA)
 public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicleTemplate {
 
-    /**
-     * * @author Kiruthika Rajendran
-     *
-     * @name Current Term End Adds Vehicle:
-     * Make refresh correct for current and renewal terms
-     * @scenario 1
-     * 1. Create CA CHOICE Auto policy with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN MATCHED
-     * 2. Make policy status - Proposed
-     * 3. Initiate Endorsement
-     * 4. Update VIN number for first Vehicle to VIN NOT MATCHED
-     * 5. Add third Vehicle
-     * 6. Calculate Premium and bind the endorsement
-     * 7. Open the last renewal inscription in 'Transaction history'
-     * Expected Result:
-     * The First Vehicle - updated according to 4th step VIN details
-     * The second Vehicle - NOT updated will not change/not refresh
-     * The third Vehicle - displayed new data according to version
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
-    //PAS-16150 and PAS-14532 carry same scenarios
-    public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(NOT_MATCHED);
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_CA_CHOICE;
+	}
 
-    /**
-     * * @author Kiruthika Rajendran/Chris Johns
-     *
-     * @name Current Term End Adds Vehicle:
-     * Make refresh correct for current and renewal terms
-     * @scenario 2
-     * 1. Create CA CHOICE Auto Quote with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN MATCHED
-     * 2. Make policy status - Proposed
-     * 3. Initiate Endorsement
-     * 4. Update VIN number for second Vehicle to VIN MATCHED
-     * 5. Add third Vehicle
-     * 6. Calculate Premium and bind the endorsement
-     * 7. Open the last renewal inscription in 'Transaction history'
-     * Expected Result:
-     * The First Vehicle - updated according to 4th step VIN details
-     * The second Vehicle - NOT updated will not change/not refresh
-     * The third Vehicle - displayed new data according to version
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
-    //PAS-16150 and PAS-14532 carry same scenarios
-    public void pas14532_refreshForCurrentAndRenewalTermsVinMatched(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(MATCHED);
-    }
+	/**
+	 * * @author Kiruthika Rajendran
+	 *
+	 * @name Current Term End Adds Vehicle:
+	 * Make refresh correct for current and renewal terms
+	 * @scenario 1
+	 * 1. Create CA CHOICE Auto policy with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN MATCHED
+	 * 2. Make policy status - Proposed
+	 * 3. Initiate Endorsement
+	 * 4. Update VIN number for first Vehicle to VIN NOT MATCHED
+	 * 5. Add third Vehicle
+	 * 6. Calculate Premium and bind the endorsement
+	 * 7. Open the last renewal inscription in 'Transaction history'
+	 * Expected Result:
+	 * The First Vehicle - updated according to 4th step VIN details
+	 * The second Vehicle - NOT updated will not change/not refresh
+	 * The third Vehicle - displayed new data according to version
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
+	//PAS-16150 and PAS-14532 carry same scenarios
+	public void pas14532_refreshForCurrentAndRenewalTermsVinNotMatched(@Optional("CA") String state) {
+		pas14532_refreshForCurrentAndRenewalTerms(NOT_MATCHED);
+	}
 
-    /**
-     * * @author Kiruthika Rajendran
-     *
-     * @name Current Term End Adds Vehicle:
-     * Make refresh correct for current and renewal terms
-     * @scenario 3
-     * 1. Create CA CHOICE Quote with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN NOT MATCHED
-     * 2. Make policy status - Proposed
-     * 3. Initiate Endorsement
-     * 4. Check if new VIN stub exist.
-     * 5. Update y/m/m/s/s for a Vehicle details.
-     * 6. Add third Vehicle
-     * 7. Calculate Premium and bind the endorsement
-     * 8. Open the last renewal inscription in 'Transaction history'
-     * Expected Result:
-     * The First Vehicle - NOT updated will not change/not refresh;
-     * The second Vehicle - updated according to 4th step VIN details;
-     * The third Vehicle - displayed new data according to version;
-     * @details
-     */
-    @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
-    //PAS-16150 and PAS-14532 carry same scenarios
-    public void pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate(@Optional("CA") String state) {
-        pas14532_refreshForCurrentAndRenewalTerms(STUB);
-    }
+	/**
+	 * * @author Kiruthika Rajendran/Chris Johns
+	 *
+	 * @name Current Term End Adds Vehicle:
+	 * Make refresh correct for current and renewal terms
+	 * @scenario 2
+	 * 1. Create CA CHOICE Auto Quote with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN MATCHED
+	 * 2. Make policy status - Proposed
+	 * 3. Initiate Endorsement
+	 * 4. Update VIN number for second Vehicle to VIN MATCHED
+	 * 5. Add third Vehicle
+	 * 6. Calculate Premium and bind the endorsement
+	 * 7. Open the last renewal inscription in 'Transaction history'
+	 * Expected Result:
+	 * The First Vehicle - updated according to 4th step VIN details
+	 * The second Vehicle - NOT updated will not change/not refresh
+	 * The third Vehicle - displayed new data according to version
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
+	//PAS-16150 and PAS-14532 carry same scenarios
+	public void pas14532_refreshForCurrentAndRenewalTermsVinMatched(@Optional("CA") String state) {
+		pas14532_refreshForCurrentAndRenewalTerms(MATCHED);
+	}
 
-    public void pas14532_refreshForCurrentAndRenewalTerms(String scenario) {
-        pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(scenario);
-        pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(scenario);
-        //7. Verify Latest Renewal Version has correct vehicle details
-        viewRatingDetails();
-        ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-        if (scenario.equals(NOT_MATCHED)) { //Assertion for scenario 1
-            // The First Vehicle - Displays Updated/refreshed data according to version;
-            doSoftAssertions(softly, 2, "HYUNDAI MOTOR", "20", "20");
-            doSoftAssertions(softly, 3, "TOYOTA MOTOR", "6", "6");
-            doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
-        } else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
-            // The second Vehicle - NOT updated will not change/not refresh;
-            doSoftAssertions(softly, 2, "KIA MOTOR", "8", "8");
-            doSoftAssertions(softly, 3, "TOYOTA MOTOR", "6", "6");
-            doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
-        } else if (scenario.equals(STUB)) { //Assertion for scenario 3
-            // The third Vehicle - displayed updated/refreshed data according to version;
-            doSoftAssertions(softly, 2, "KIA MOTOR", "8", "8");
-            doSoftAssertions(softly, 3, "BMW MOTOR", "7", "7");
-            doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
-        }
-        softly.close();
-        closeRatingDetails();
-    }
+	/**
+	 * * @author Kiruthika Rajendran
+	 *
+	 * @name Current Term End Adds Vehicle:
+	 * Make refresh correct for current and renewal terms
+	 * @scenario 3
+	 * 1. Create CA CHOICE Quote with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN NOT MATCHED
+	 * 2. Make policy status - Proposed
+	 * 3. Initiate Endorsement
+	 * 4. Check if new VIN stub exist.
+	 * 5. Update y/m/m/s/s for a Vehicle details.
+	 * 6. Add third Vehicle
+	 * 7. Calculate Premium and bind the endorsement
+	 * 8. Open the last renewal inscription in 'Transaction history'
+	 * Expected Result:
+	 * The First Vehicle - NOT updated will not change/not refresh;
+	 * The second Vehicle - updated according to 4th step VIN details;
+	 * The third Vehicle - displayed new data according to version;
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16150")
+	//PAS-16150 and PAS-14532 carry same scenarios
+	public void pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate(@Optional("CA") String state) {
+		pas14532_refreshForCurrentAndRenewalTerms(STUB);
+	}
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_CA_CHOICE;
-    }
+	public void pas14532_refreshForCurrentAndRenewalTerms(String scenario) {
+		pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(scenario);
+		pas14532_refreshForCurrentAndRenewalTerms_bindEndorsement(scenario);
+		//7. Verify Latest Renewal Version has correct vehicle details
+		viewRatingDetails();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		if (scenario.equals(NOT_MATCHED)) { //Assertion for scenario 1
+			// The First Vehicle - Displays Updated/refreshed data according to version;
+			doSoftAssertions(softly, 2, "HYUNDAI MOTOR", "20", "20");
+			doSoftAssertions(softly, 3, "TOYOTA MOTOR", "6", "6");
+			doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
+		} else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
+			// The second Vehicle - NOT updated will not change/not refresh;
+			doSoftAssertions(softly, 2, "KIA MOTOR", "8", "8");
+			doSoftAssertions(softly, 3, "TOYOTA MOTOR", "6", "6");
+			doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
+		} else if (scenario.equals(STUB)) { //Assertion for scenario 3
+			// The third Vehicle - displayed updated/refreshed data according to version;
+			doSoftAssertions(softly, 2, "KIA MOTOR", "8", "8");
+			doSoftAssertions(softly, 3, "BMW MOTOR", "7", "7");
+			doSoftAssertions(softly, 4, "FORD MOTOR", "13", "13");
+		}
+		softly.close();
+		closeRatingDetails();
+	}
 
-    @AfterClass(alwaysRun = true)
-    protected void resetDefault() {
-        cleanup();
-    }
+	@AfterClass(alwaysRun = true)
+	protected void resetDefault() {
+		cleanup();
+	}
 }

@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.auto_ca.choice;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.AutoOpenLCoverage;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
@@ -10,11 +11,20 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
+
+	@RequiredField
 	private List<AutoOpenLCoverage> coverages;
 
+	@RequiredField
 	private Boolean antiLock;
+
+	@RequiredField
 	private Boolean antiTheft;
+
+	@RequiredField
 	private String vehType;
+
+	@RequiredField
 	private String vehicleUsageCd;
 
 	@SuppressWarnings({"FieldNameHidesFieldInSuperclass"})
@@ -71,29 +81,6 @@ public class AutoCaChoiceOpenLVehicle extends OpenLVehicle {
 	@Override
 	public String getUmLiabilitySymbol() {
 		return umLiabilitySymbol;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoCaChoiceOpenLVehicle{" +
-				"coverages=" + coverages +
-				", antiLock=" + antiLock +
-				", antiTheft=" + antiTheft +
-				", vehType='" + vehType + '\'' +
-				", vehicleUsageCd='" + vehicleUsageCd + '\'' +
-				", number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
 	}
 
 	public Boolean hasAntiLock() {

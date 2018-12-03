@@ -9,7 +9,6 @@ TestData: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
 
 TestData1: {
@@ -23,8 +22,8 @@ TestData1: {
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
   DocumentsAndBindTab: '@DocumentsAndBindTab1',
   PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
-
 }
+
 TestData2: {
    PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
     GeneralTab: '@GeneralTab',
@@ -36,7 +35,19 @@ TestData2: {
     DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
     DocumentsAndBindTab: '@DocumentsAndBindTab',
     PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
+}
 
+TestData3: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab7','@DriverTab5', '@DriverTab_notNI_Spouse', '@Driver_two1'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 GeneralTab1: {
@@ -53,6 +64,19 @@ GeneralTab: {
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
+}
+
+TestDataExcluded: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab5'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: ['@VehicleTab1', '@VehicleTab2'],
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@PremiumAndCoveragesTab',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 CurrentCarrierInformation: {
@@ -129,6 +153,20 @@ NamedInsuredInformation6: {
   Social Security Number: 785412369,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
+}
+
+TestData_SixDrivers: {
+  PrefillTab: '@<auto_ss>@DataGather@PrefillTab',
+  GeneralTab: '@GeneralTab1',
+  DriverTab: ['@DriverTab2', '@DriverTab1', '@DriverTab7','@DriverTab5','@DriverTab4', '@Driver_four'],
+  RatingDetailReportsTab: '@<auto_ss>@DataGather@RatingDetailReportsTab',
+  VehicleTab: '@<auto_ss>@DataGather@VehicleTab',
+  AssignmentTab: '@<auto_ss>@DataGather@AssignmentTab',
+  FormsTab: '@<auto_ss>@DataGather@FormsTab',
+  PremiumAndCoveragesTab: '@<auto_ss>@DataGather@PremiumAndCoveragesTab_VA',
+  DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@<auto_ss>@DataGather@DocumentsAndBindTab',
+  PurchaseTab: '@<auto_ss>@DataGather@PurchaseTab'
 }
 
 DriverTab1: {
@@ -235,6 +273,45 @@ DriverTab6: {
          License Status: 'Licensed (US)',
 }
 
+DriverTab7: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Other',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: '603557779',
+    License Status: 'Licensed (US)'
+}
+
+DriverTab_notNI_Spouse: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  Rel. to First Named Insured: Spouse,
+  First Name: 'Rebeka',
+  Middle Name: 'not',
+  Last Name: 'Spouser',
+  Suffix: 'III',
+  Date of Birth: '12/12/1992',
+  Gender: 'Female',
+  Marital Status: Single,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: '447585215',
+  License Status: 'Licensed (US)',
+  Most Recent GPA: None
+}
+
 VehicleTab1: {
     Add Vehicle: Click,
     Usage: Pleasure,
@@ -271,6 +348,7 @@ AssignedDriver4: {
     Select Vehicle: 'index=2'
 }
 
+
 PremiumAndCoveragesTab: {
   Payment Plan: Quarterly,
 
@@ -305,6 +383,10 @@ DocumentsAndBindTab1: {
 
 TestData_TwoDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
+}
+
+TestData_DriverWithActivity: {
+  DriverTab: ['@Driver_one', '@Driver_withActivity'],
 }
 
 TestData_ThreeDrivers: {
@@ -523,4 +605,25 @@ Driver_two1: {
     Age First Licensed: '18',
     License Number: '454353443',
     License Status: 'Licensed (US)'
+}
+
+Driver_withActivity: {
+  Add drivers: 'Yes',
+  DriverSearchDialog: {},
+  "Policy #": '123456789',
+  Rel. to First Named Insured: Child,
+  First Name: 'OneLoss',
+  Middle Name: 'Sam',
+  Last Name: 'UnderThreshold',
+  Date of Birth: '01/01/1970',
+  Gender: 'Male',
+  Suffix: 'II',
+  Marital Status: Married,
+  Occupation: 'index=1',
+  License Type: 'Licensed (US)',
+  Age First Licensed: '18',
+  License Number: 'B19115001',
+  License Status: 'Licensed (US)',
+  Death Indemnity and Specific Disability: "Yes",
+  Total Disability: "No"
 }

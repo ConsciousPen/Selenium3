@@ -19,7 +19,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
@@ -42,7 +42,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements TestEValueMembershipProcessPreConditions {
 
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static List<String> requestIdList = new LinkedList<>();
 	private Random random = new Random();
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -50,12 +50,8 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	private PremiumsAndCoveragesQuoteTab premiumAndCoveragesTab = new PremiumsAndCoveragesQuoteTab();
 	private ReportsTab reportsTab = new ReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private SSHController sshControllerRemote = new SSHController(
-			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
+	private SSHController sshControllerRemote = new SSHController(PropertyProvider.getProperty(CsaaTestProperties.APP_HOST), PropertyProvider.getProperty(CsaaTestProperties.SSH_USER), PropertyProvider.getProperty(CsaaTestProperties.SSH_PASSWORD));
 
-	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).orElse(""))
 				.as("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate").contains(APP_HOST);
@@ -94,9 +90,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -121,41 +118,6 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Membership Discount is removed for membership status = Pending.
-	 * @scenario
-	 * 0. Check email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 3. Check AHDRXX is not produced on NB+30
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
-	public void pas356_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipPolicyCreation("Pending");
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.openPolicy(policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.openPolicy(policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed", softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Test Membership Discount is removed for membership status = Cancelled.
 	 * @scenario
 	 * 0. Check email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
@@ -164,9 +126,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForCancelledMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -199,9 +162,10 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
 	public void pas356_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 

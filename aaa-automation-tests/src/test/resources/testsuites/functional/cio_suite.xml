@@ -4,9 +4,9 @@
          <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
      </listeners>
 
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO3)">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -19,7 +19,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO4)">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
@@ -32,7 +32,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (HO6)">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
@@ -45,7 +45,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)" thread-count="1024">
+    <test name="PAS-11338 - Do not force payment plan change on mid-term changes (DP3)">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
@@ -58,7 +58,7 @@
         </classes>
     </test>
 
-    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)" thread-count="1024">
+    <test name="PAS-11785 - Do not force payment plan change on mid-term changes (PUP)">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
@@ -72,16 +72,14 @@
     </test>
 
     <!--Functional FAIR Plan Tests-->
-    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA DP3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanSignature">
             </class>
         </classes>
     </test>
-    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA HO3)"
-          thread-count="1024">
+    <test name="PAS-13239 - AC1 - 18.5: CA FAIR Plan: Signature required to bind (CA HO3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanSignature">
@@ -89,8 +87,7 @@
         </classes>
     </test>
 
-    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13445 - 18.5: CA FAIR Plan: Mutually Exclusive Endorsements (CA DP3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
@@ -102,55 +99,49 @@
         </classes>
     </test>
 
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA DP3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
                 <methods>
-                    <exclude name="AC3_Renewal_VisibleFPCECA "/>
+                    <exclude name="AC3_Renewal_VisibleFPCECA"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement (CA HO3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
                 <methods>
-                    <exclude name="AC3_Renewal_VisibleFPCECA "/>
+                    <exclude name="AC3_Renewal_VisibleFPCECA"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA DP3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCanItBind">
             </class>
         </classes>
     </test>
-    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA HO3)"
-          thread-count="1024">
+    <test name="PAS-13210 - 18.5: CA FAIR Plan: Update Fireline underwriting eligibility rules to enable Bind with FPCECA/FPCECADP Endorsement (CA HO3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCanItBind">
             </class>
         </classes>
     </test>
-    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)"
-          thread-count="1024">
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA DP3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating">
             </class>
         </classes>
     </test>
-    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)"
-          thread-count="1024">
+    <test name="PAS-13215 - AC1/2 - 18.5: CA FAIR Plan: Rating (CA HO3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating">
@@ -159,7 +150,7 @@
     </test>
 
     <!--Functional Membership Tests-->
-    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS" thread-count="1024">
+    <test name="PAS-3786, PAS-6668, PAS-6800 - Test Membership validation for Auto SS">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipValidation">
@@ -167,7 +158,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidationHomeSS" thread-count="1024">
+    <test name="TestMembershipValidationHomeSS">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipValidation">
@@ -175,7 +166,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_1" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_1">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError">
@@ -183,7 +174,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_2" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_2">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError">
@@ -191,7 +182,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_3" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_3">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNotOrderedMembershipError">
@@ -199,7 +190,7 @@
         </classes>
     </test>
 
-    <test name="Test Not Ordered Membership Errors_4" thread-count="1024">
+    <test name="Test Not Ordered Membership Errors_4">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNotOrderedMembershipError">
@@ -207,7 +198,7 @@
         </classes>
     </test>
 
-    <test name="TestMembershipValidation" thread-count="1024">
+    <test name="TestMembershipValidation">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMembershipValidation">
@@ -223,7 +214,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto SS)">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMembershipOverride">
@@ -236,7 +227,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)" thread-count="1024">
+    <test name="PAS-6311 PAS-9626 PAS-6313 PAS-6314 PAS-6316 - Test Membership Override(Auto CA Select)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMembershipOverride">
@@ -250,7 +241,7 @@
         </classes>
     </test>
 
-    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)" thread-count="1024">
+    <test name="PAS-9371 PAS-9635 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home CA HO3)">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
@@ -264,7 +255,7 @@
         </classes>
     </test>
 
-    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)" thread-count="1024">
+    <test name="PAS-9686 PAS-9370 PAS-9634 PAS-6370 PAS-10154 - Test Membership Override(Home SS HO3)">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
@@ -275,6 +266,57 @@
                     <exclude name="AC3_testMembershipOverride_Renewal"/>
                 </methods>
             </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - DP3">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_DP3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO6">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO6"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO3">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17784 - Test Membership Pending for CA - HO4">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO4"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="PAS-17328 - Inaccurate rating at NB caused by Include in Points and/or YAF not systematically included in rating">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInaccurateRatingFromOmittedPoints"> </class>
         </classes>
     </test>
 </suite>

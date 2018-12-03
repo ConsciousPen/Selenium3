@@ -7,13 +7,32 @@ TestData_ThreeVehicles: {
 }
 
 TestData_VehicleTrailer: {
-    VehicleTab: ['@VehicleTab_1','@VehicleTab_Trailer'],
+    VehicleTab: ['@VehicleTab_1','@VehicleTab_Trailer', '@VehicleTab_MotorHome'],
+}
+
+TestData_FourVehicles: {
+    VehicleTab: ['@VehicleTab_1', '@VehicleTab_2', '@VehicleTab_3', '@VehicleTab_4'],
+}
+
+TestData_VehicleTrailer_NY: {
+  VehicleTab: ['@VehicleTab_1_NY','@VehicleTab_Trailer_NY', '@VehicleTab_MotorHome_NY'],
+}
+
+TestData_VehicleTrailer_AZ: {
+  VehicleTab: ['@VehicleTab_1','@VehicleTab_Trailer', '@VehicleTab_MotorHome', '@VehicleTab_GolfCart'],
 }
 
 VehicleTab_1: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: WDCYC7BB0B6729451
+}
+
+VehicleTab_1_NY: {
+  Add Vehicle: Click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  "Less Than 3,000 Miles": 'No'
 }
 
 VehicleTab_2: {
@@ -26,6 +45,12 @@ VehicleTab_3: {
     Add Vehicle: Click,
     Usage: Pleasure,
     VIN: 1G2NE52T9XM924276
+}
+
+VehicleTab_4: {
+    Add Vehicle: Click,
+    Usage: Pleasure,
+    VIN: 1D7HW22N95S201385
 }
 
 VehicleTab_Trailer: {
@@ -42,8 +67,64 @@ VehicleTab_Trailer: {
    Stated Amount: 55000
     }
 
+VehicleTab_Trailer_NY: {
+  Add Vehicle: Click,
+  Type: Trailer,
+  Trailer Type: Travel Trailer,
+  Primary operator: Index=2,
+  Usage: Traveling Primary Residence,
+  VIN: 1GNWGPFG8B65,
+  Year: 2018,
+  Other Make: BHN,
+  Other Model: 456,
+  Stat Code: Recreational Trailer,
+  Stated Amount: 55000,
+  "Less Than 3,000 Miles": 'No'
+}
+
+VehicleTab_MotorHome: {
+  Add Vehicle: Click,
+  Type: Motor Home,
+  Primary operator: index=2,
+  Motor Home Type: Mini Motor Home (Class C),
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: 5B4MP67G123353230,
+  Other Make: 'Motor',
+  Other Model: 'Motor',
+  Stated Amount: '50000',
+}
+
+VehicleTab_MotorHome_NY: {
+  Add Vehicle: Click,
+  Type: Motor Home,
+  Primary operator: index=2,
+  Motor Home Type: Mini Motor Home (Class C),
+  Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+  VIN: 5B4MP67G123353230,
+  Other Make: 'Motor',
+  Other Model: 'Motor',
+  Stated Amount: '50000',
+  "Less Than 3,000 Miles": 'No'
+}
+
+VehicleTab_GolfCart: {
+  Add Vehicle: click,
+  Type: Golf Cart,
+  Primary operator: index=2,
+  Usage: 'Traveling Primary Residence',
+  VIN: KNDJT2A2XA7038383,
+  Year: 2010,
+  Other Make: Geer,
+  Other Model: GRX100,
+  Stated Amount: 1500
+}
+
 TestData_FourDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
+}
+
+TestData_oneAdditionalDriver: {
+  DriverTab: ['@Driver_two'],
 }
 
 TestData_TwoDrivers: {
@@ -77,6 +158,7 @@ Driver_two: {
     Marital Status: Married,
     Occupation: 'index=1',
     License Type: 'Licensed (US)',
+    License State: 'VA',
     Age First Licensed: '18',
     License Number: 'T60355298',
     License Status: 'Licensed (US)'
@@ -123,8 +205,20 @@ AssignmentTab_Two_Driver: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
 }
 
+AssignmentTabTwoDriversFourVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5']
+}
+
 AssignmentTabFourDrivers: {
   DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver2', '@AssignedDriver3', '@AssignedDriver4' ]
+}
+
+AssignmentTabFourDriversThreeVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver3', '@AssignedDriver7' ]
+}
+
+AssignmentTabThreeDriversTwoVehicles: {
+  DriverVehicleRelationshipTable: ['@AssignedDriver1', '@AssignedDriver5', '@AssignedDriver3' ]
 }
 
 AssignmentTabThreeDrivers: {
@@ -161,6 +255,55 @@ AssignedDriver6: {
     Select Vehicle: 'index=3'
 }
 
+AssignedDriver7: {
+    Driver: 'contains=Laura',
+    Select Vehicle: 'index=3'
+}
+
+AssignmentTabFourDriversTwoVehicles: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=3'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    },
+    {
+      Select Driver: 'index=2'
+    }
+  ]
+}
+
+AssignmentTabThreeDriversFourVehicles: {
+  DriverVehicleRelationshipTable: [
+    {
+      Driver: 'contains=Ben',
+      Select Vehicle: 'index=1'
+    },
+    {
+      Driver: 'contains=John',
+      Select Vehicle: 'index=2'
+    },
+    {
+      Driver: 'contains=Monica',
+      Select Vehicle: 'index=3'
+    }
+  ],
+  Assign: '',
+  ExcessVehiclesTable: [
+    {
+      Select Driver: 'index=1'
+    }
+  ]
+}
 
 AssignmentTab: {
   DriverVehicleRelationshipTable: [

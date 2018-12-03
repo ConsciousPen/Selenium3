@@ -132,26 +132,4 @@ public class HomeSSOpneLCappingDetails extends OpenLCappingDetails {
 	public void setUnderwriterCode(String underwriterCode) {
 		this.underwriterCode = underwriterCode;
 	}
-
-	@Override
-	public String toString() {
-		return "HomeSSOpneLCappingDetails{" +
-				"agePremium=" + agePremium +
-				", cappingCalculatedForTerm=" + cappingCalculatedForTerm +
-				", carrierCode='" + carrierCode + '\'' +
-				", formCd='" + formCd + '\'' +
-				", lineOfBusiness='" + lineOfBusiness + '\'' +
-				", overriddenCappingFactor=" + overriddenCappingFactor +
-				", previousCappingFactor=" + previousCappingFactor +
-				", previousPolicyPremium=" + previousPolicyPremium +
-				", productCode='" + productCode + '\'' +
-				", programCode='" + programCode + '\'' +
-				", state='" + state + '\'' +
-				", term=" + term +
-				", termCappingFactor=" + termCappingFactor +
-				", underwriterCode='" + underwriterCode + '\'' +
-				", number=" + number +
-				", plcyInceptionDate=" + plcyInceptionDate +
-				'}';
-	}
 }

@@ -12,18 +12,17 @@ import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
 import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.http.HttpJob;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 
 public class JobUtils {
 
 	private static Logger log = LoggerFactory.getLogger(JobUtils.class);
-	private static String jobRunMode = PropertyProvider.getProperty(CustomTestProperties.BATCHJOB_RUN_MODE, "http");
+	private static String jobRunMode = PropertyProvider.getProperty(CsaaTestProperties.BATCHJOB_RUN_MODE, "http");
 	private static LocalDateTime currentPhase;
 
 	public static void executeJob(Job job, Boolean forceExecution) {
@@ -108,7 +107,6 @@ public class JobUtils {
 				break;
 			case "soap":
 				try {
-					setSoapProperty();
 					new SoapJobActions().startJob(JobGroup.fromSingleJob(jobName));
 				} catch (Exception ie) {
 					throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
@@ -186,12 +184,5 @@ public class JobUtils {
 		}
 
 		return fullName;
-	}
-
-	private static void setSoapProperty() {
-		String host = PropertyProvider.getProperty(TestProperties.APP_HOST);
-		String adUrl = PropertyProvider.getProperty(TestProperties.AD_URL_TEMPLATE).replace("/login.xhtml", "").replace("/admin", "");
-		String soapTemplate = PropertyProvider.getProperty(CustomTestProperties.SOAP_BATCHJOB_TEMLATE);
-		System.setProperty("soap.batchjob.endpoint", "http://" + host + adUrl + soapTemplate);
 	}
 }

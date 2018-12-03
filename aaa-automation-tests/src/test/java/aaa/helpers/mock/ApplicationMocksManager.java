@@ -4,19 +4,22 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.model.UpdatableMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
 import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsMock;
 import aaa.helpers.openl.mock_generator.MockGenerator;
+import aaa.helpers.ssh.CommandResults;
 import aaa.helpers.ssh.ExecutionParams;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
@@ -28,15 +31,17 @@ import toolkit.exceptions.IstfException;
 public class ApplicationMocksManager {
 	protected static final Logger log = LoggerFactory.getLogger(ApplicationMocksManager.class);
 
-	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_USER);
-	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CustomTestProperties.APP_ADMIN_PASSWORD);
-	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CustomTestProperties.APP_SSH_AUTH_KEYPATH);
+	private static final String APP_ADMIN_USER = PropertyProvider.getProperty(CsaaTestProperties.APP_ADMIN_USER);
+	private static final String APP_ADMIN_PASSWORD = PropertyProvider.getProperty(CsaaTestProperties.APP_ADMIN_PASSWORD);
+	private static final String APP_AUTH_KEYPATH = PropertyProvider.getProperty(CsaaTestProperties.APP_SSH_AUTH_KEYPATH);
 	private static final String ENV_NAME = PropertyProvider.getProperty(TestProperties.APP_HOST).split("\\.")[0];
 	private static final String TEMP_MOCKS_FOLDER = "src/test/resources/mock";
-	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
-	private static final String APP_MOCKS_SCRIPT_WORKDIR = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_WORKDIR);
-	private static final String APP_MOCKS_SCRIPT_START = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_START), ENV_NAME);
-	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CustomTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
+	private static final String APP_MOCKS_FOLDER = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_FOLDER_TEMPLATE), ENV_NAME);
+	private static final String APP_MOCKS_SCRIPT_WORKDIR = PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_WORKDIR);
+	private static final String APP_MOCKS_SCRIPT_START = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_START), ENV_NAME);
+	private static final String APP_MOCKS_SCRIPT_STOP = String.format(PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_SCRIPT_STOP), ENV_NAME);
+	private static final String START_STUB_KNOWN_EXCEPTION = "com.ibm.websphere.management.exception.ConnectorException: java.net.SocketTimeoutException: Async operation timed out";
+	private static final int START_STUB_FAILURE_EXIT_CODE = 103;
 	private static OS currentOS;
 
 	private static MocksCollection appMocks = new MocksCollection();
@@ -93,40 +98,52 @@ public class ApplicationMocksManager {
 		}
 	}
 
-	public static synchronized void restartStubServer() {
-		// TimeSetterUtil.getInstance().getCurrentTime() breaks time shifting if executed in before suite and "timeshift-scenario-mode" != "suite"
-		LocalDate serverDate = TimeSetterUtil.istfDateToJava(new TimeSetterClient().getStartTime()).toLocalDate();
-		assertThat(serverDate).as("Stub server restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
-				.isEqualTo(LocalDate.now());
+	public static void restartStubServer() {
+		stopStubServer();
+		sleep(10); // Possibly to avoid error 103 we need to sleep some time before starting stub server. To be investigated...
+		CommandResults results = startStubServer();
 
-		String startCommand = null;
-		String stopCommand = null;
-		log.info("Stopping stub server...");
-		switch (getCurrentOS()) {
-			case WINDOWS:
-				startCommand = String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_START);
-				stopCommand = String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_STOP);
-				break;
-			case LINUX:
-			case MAC_OS:
-				startCommand = String.format("cd %1$s && ./%2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_START);
-				stopCommand = String.format("cd %1$s && ./%2$s", APP_MOCKS_SCRIPT_WORKDIR, APP_MOCKS_SCRIPT_STOP);
-				break;
-			case UNKNOWN:
-				throw new IstfException("Unknown OS detected, unable to restart stub server");
+		int retry = 1;
+		int maxRetries = 5;
+		long retryDelay = 60;
+		while (results.getExitCode() == START_STUB_FAILURE_EXIT_CODE && results.getOutput().contains(START_STUB_KNOWN_EXCEPTION) && retry <= maxRetries) {
+			retry++;
+			log.warn("Retry #{} of {} max attempts to start stub server will be performed after {} seconds", retry, maxRetries, retryDelay);
+			sleep(retryDelay);
+			results = startStubServer();
 		}
 
-		getRemoteHelper().executeCommand(stopCommand, ExecutionParams.with().timeoutInSeconds(300).failOnTimeout().failOnError());
-		log.info("Stub server has been stopped");
+		if (retry == maxRetries && results.getOutput().contains(START_STUB_KNOWN_EXCEPTION)) {
+			throw new IstfException(String.format("Stub server restart has been failed after %s retries", retry));
+		}
+	}
 
+	public static synchronized CommandResults stopStubServer() {
+		assertTimeIsNotShifted();
+		String stopCommand = getExecuteScriptCommand(APP_MOCKS_SCRIPT_STOP);
+		log.info("Stopping stub server...");
+		CommandResults results = getRemoteHelper().executeCommand(stopCommand, ExecutionParams.with().timeout(Duration.ofMinutes(5)).failOnTimeout().failOnError());
+		log.info("Stub server has been stopped");
+		return results;
+	}
+
+	public static synchronized CommandResults startStubServer() {
+		assertTimeIsNotShifted();
+		String startCommand = getExecuteScriptCommand(APP_MOCKS_SCRIPT_START);
 		log.info("Starting stub server... it may take up to 10 minutes");
-		getRemoteHelper().executeCommand(startCommand, ExecutionParams.with().timeoutInSeconds(700).failOnTimeout().failOnError());
-		log.info("Stub server has been started");
+		ExecutionParams params = ExecutionParams.with().timeout(Duration.ofMinutes(12)).failOnTimeout().failOnErrorIgnoring(START_STUB_FAILURE_EXIT_CODE);
+		CommandResults results = getRemoteHelper().executeCommand(startCommand, params);
+		if (results.getExitCode() == START_STUB_FAILURE_EXIT_CODE && results.getOutput().contains(START_STUB_KNOWN_EXCEPTION)) {
+			log.warn("Failed to start stub server because of known error");
+		} else {
+			log.info("Stub server has been started");
+		}
+		return results;
 	}
 
 	public static synchronized OS getCurrentOS() {
 		if (currentOS == null) {
-			String osType = getRemoteHelper().executeCommand("uname -s");
+			String osType = getRemoteHelper().executeCommand("uname -s").getOutput();
 			if (osType.contains("Unable to execute command or shell on remote system") || osType.contains("CYGWIN") || osType.contains("MINGW32") || osType.contains("MSYS")) {
 				currentOS = OS.WINDOWS;
 			} else if (osType.contains("Linux")) {
@@ -156,7 +173,7 @@ public class ApplicationMocksManager {
 			mockObject = excelUnmarshaller.unmarshal(mockDataClass);
 		} finally {
 			if (!mockTempFile.delete()) {
-				log.error("Unable to delete temp mock file: %s", mockTempDestinationPath);
+				log.error("Unable to delete temp mock file: {}", mockTempDestinationPath);
 			}
 		}
 		return mockObject;
@@ -177,7 +194,6 @@ public class ApplicationMocksManager {
 		return RemoteHelper.with().user(APP_ADMIN_USER, APP_ADMIN_PASSWORD).privateKey(APP_AUTH_KEYPATH).get();
 	}
 
-	@SuppressWarnings("unchecked")
 	private static <M extends UpdatableMock> String getFileName(Class<M> mockModelClass) {
 		switch (mockModelClass.getSimpleName()) {
 			case "RetrieveMembershipSummaryMock":
@@ -189,12 +205,47 @@ public class ApplicationMocksManager {
 			default:
 				M mock;
 				try {
-					mock = (M) ReflectionHelper.getInstance(mockModelClass);
+					mock = ReflectionHelper.getInstance(mockModelClass);
 				} catch (RuntimeException e) {
 					throw new IstfException("Unable to get filename for mock of class: " + mockModelClass.getName());
 				}
 				return mock.getFileName();
 		}
+	}
+
+	private static void assertTimeIsNotShifted() {
+		LocalDate serverDate = TimeSetterUtil.istfDateToJava(getTimeSetterClient().getStartTime()).toLocalDate();
+		assertThat(serverDate).as("Stub server start/stop/restart is not allowed on instance with shifted time.\nCurrent date is %1$s, Current date on server is: %2$s", LocalDate.now(), serverDate)
+				.isEqualTo(LocalDate.now());
+	}
+
+	private static String getExecuteScriptCommand(String scriptFileName) {
+		switch (getCurrentOS()) {
+			case WINDOWS:
+				return String.format("cmd /c cd %1$s && cmd /c %2$s", APP_MOCKS_SCRIPT_WORKDIR, scriptFileName);
+			case LINUX:
+			case MAC_OS:
+				return String.format("cd %1$s && ./%2$s", APP_MOCKS_SCRIPT_WORKDIR, scriptFileName);
+			case UNKNOWN:
+			default:
+				throw new IstfException("Unknown OS detected, unable to start/stop stub server");
+		}
+	}
+
+	private static void sleep(long seconds) {
+		try {
+			TimeUnit.SECONDS.sleep(seconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static synchronized TimeSetterClient getTimeSetterClient() {
+		return TimeSetterClientHolder.timeSetterClient;
+	}
+
+	private static class TimeSetterClientHolder {
+		private static final TimeSetterClient timeSetterClient = new TimeSetterClient();
 	}
 
 	private enum OS {

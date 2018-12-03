@@ -5,12 +5,14 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.modules.cft.ControlledFinancialBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -26,6 +28,7 @@ public class TestCFTScenario33 extends ControlledFinancialBaseTest {
 	@Test(groups = {Groups.CFT, Groups.TIMEPOINT})
 	@TestInfo(component = Groups.CFT)
 	@Parameters({STATE_PARAM})
+	@StateList(states = {Constants.States.CA})
 	public void cftTestScenario33(@Optional(StringUtils.EMPTY) String state) {
 		createPolicyForTest();
 		generateInstallmentBill(1);

@@ -6,14 +6,14 @@ import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
-	void createEndorsementWithCheck(String policyNumber) {
+	public void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
@@ -31,24 +31,28 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.residentialAddress.stateProvCd).isNotEmpty();
 		assertThat(response.residentialAddress.postalCode).isNotEmpty();
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
+		assertThat(response.policyTerm).isNotEmpty();
+		assertThat(response.endorsementId).isNotEmpty();
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, vehicleAddRequest);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
 		return newVehicleOid;
 	}
 
-	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
+	public VehicleUpdateResponseDto updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 		updateVehicleUsageRequest.usage = "Pleasure";
 		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		return updateVehicleUsageResponse;
 	}
 
 	void pas14952_checkEndorsementStatusWasReset(String policyNumber, String endorsementStatus) {
@@ -58,7 +62,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(endorsementStatus);
 	}
 
-	void endorsementRateAndBind(String policyNumber) {
+	public void endorsementRateAndBind(String policyNumber) {
 		assertSoftly(softly -> {
 			//Rate endorsement
 			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
@@ -74,7 +78,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		});
 	}
 
-	void rateEndorsementWithCheck(String policyNumber) {
+	public void rateEndorsementWithCheck(String policyNumber) {
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 		assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
@@ -91,7 +95,8 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	void bindEndorsementWithCheck(String policyNumber) {
-		HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
+		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
@@ -106,13 +111,29 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(bindResponseFiltered.field).isEqualTo(field);
 	}
 
-	void orderReportErrors(String policyNumber, String driverOid,String errorCode, String errorMessage, String field, boolean isErrorShouldExist) {
-		ErrorResponseDto orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, ErrorResponseDto.class, 422);
-		assertThat(orderReportErrorResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(orderReportErrorResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-		boolean errorExists = orderReportErrorResponse.errors.stream()
-				.anyMatch(errors -> errorCode.contains(errors.errorCode) && errors.message.startsWith(errorMessage) && field.equals(errors.field));
-		assertThat(errorExists).isEqualTo(isErrorShouldExist);
+	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, ErrorDxpEnum.Errors... errors) {
+		return orderReportErrors(policyNumber, driverOid, true, errors);
+	}
+
+	public OrderReportsResponse orderReportErrors(String policyNumber, String driverOid, boolean errorExistsCheck, ErrorDxpEnum.Errors... errors) {
+		OrderReportsResponse orderReportErrorResponse = HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
+		for(ErrorDxpEnum.Errors error : errors) {
+			if(errorExistsCheck) {
+				assertThat(orderReportErrorResponse.validations.stream()
+						.anyMatch(valError ->  valError.message.equals(error.getMessage()))).isTrue();
+				assertThat(orderReportErrorResponse.validations.stream()
+						.anyMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
+			} else {
+				assertThat(orderReportErrorResponse.validations.stream()
+						.noneMatch(valError -> valError.message.equals(error.getMessage()))).isTrue();
+				assertThat(orderReportErrorResponse.validations.stream()
+						.noneMatch(valError ->  valError.errorCode.equals(error.getCode()))).isTrue();
+			}
+		}
+		if(errors.length == 0) {
+			assertThat(orderReportErrorResponse.validations).isEmpty();
+		}
+		return orderReportErrorResponse;
 	}
 
 }

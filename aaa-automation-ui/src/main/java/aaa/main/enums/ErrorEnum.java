@@ -6,6 +6,7 @@ public final class ErrorEnum {
 
 	public enum Errors {
 
+		ERROR_POLICY_NOT_RATED("Unprepared data", "Cannot issue policy which was not rated!"),
 		ERROR_200127("200127", "The selected pay plan is not allowed when Membership is \"\"No\"\". Please choose a plan with a minimum down payment of 50% or greater. Do not select 'refer for approval.' Any exceptions to this rule must be discussed directly with Service. (200127) [for ExistingPolicies.existingMembershipCd]"),
 		ERROR_200103("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
@@ -16,11 +17,14 @@ public final class ErrorEnum {
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
 
 		// Property errors
+		ERROR_AAA_HO_Fireline("AAA_HO_Fireline","FireLine score is ineligible. (AAA_HO_Fireline) [for AAAFirelineDetailsMVO.fi..." ),
+		ERROR_AAA_HO_Fireline_CA02122017("Fireline_CA02122017","FireLine score is ineligible (Fireline_CA02122017) [for AAAHOCADetermineEligi..."),
 		ERROR_AAA_HO_SS3054048("AAA_HO_SS3054048", "Order CLUE report before binding. (AAA_HO_SS3054048) [for AAAHOOrderClueRepor..."),
 		ERROR_AAA_HO_CA20180518("AAA_HO_CA20180518", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA20180517("AAA_HO_CA20180517", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA02122017("AAA_HO_CA02122017", "Dwellings located in PPC 10 are ineligible."),
 		ERROR_AAA_HO_CA10100616("AAA_HO_CA10100616", "Log homes must be in protection class 1-8 and assembled by a licensed buildin..."),
+		ERROR_AAA_HO_CSA25636985("AAA_CSA25636985", "Policy cannot be bound with Current AAA Member as Pending"),
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
 		ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
@@ -30,6 +34,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA12240080("AAA_HO_CA12240080", "A detached structure greater than 50% of Coverage A is ineligible."),
 		ERROR_AAA_HO_CA12260015("AAA_HO_CA12260015", "Dwellings with more than 2 detached building structures rented to others on t..."),
 		ERROR_AAA_HO_CA12261856("AAA_HO_CA12261856", "More than 2 additional Interests require Underwriting approval"),
+		ERROR_AAA_HO_CA1302295("AAA_HO_CA1302295", "Dwellings with FireLine score greater than 2 with wood shingle/wood shake roo..."),
 		ERROR_AAA_HO_CA3230672("AAA_HO_CA3230672", "Policy effective date cannot be backdated more than three days from today's d..."),
 		ERROR_AAA_HO_CA338657_3("AAA_HO_CA338657_3", "Dwellings or applicants that perform a home day care, including child day car..."),
 		ERROR_AAA_HO_CA338657_6("AAA_HO_CA338657_6", "Farming/Ranching on premises is unacceptable unless it is incidental and not ..."),
@@ -40,6 +45,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA338657_23("AAA_HO_CA338657_23", "Applicants/insureds with any dogs or other animals, reptiles, or pets with an..."),
 		ERROR_AAA_HO_CA338657_28("AAA_HO_CA338657_28", "Water heaters (except electric heaters) must be strapped to the wall or if lo..."),
 		ERROR_AAA_HO_CA338657_36("AAA_HO_CA338657_36", "Risks located within 500 feet of bay or coastal water is ineligible."),
+		ERROR_AAA_HO_CA7150360 ("AAA_HO_CA7150360", "Order PPC report before quote."),
 		ERROR_AAA_HO_CA7220104("AAA_HO_CA7220104", "Dwellings built prior to 1900 are ineligible."),
 		ERROR_AAA_HO_CA7220432("AAA_HO_CA7220432", "Dwellings with more than 2 roof layers are ineligible."),
 		ERROR_AAA_HO_CA7220704("AAA_HO_CA7220704", "Maximum total number of livestock is 100."),
@@ -51,6 +57,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."),
 		ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
 		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
+		ERROR_AAA_HO_SS2240042("AAA_HO_SS2240042", "Dwellings with FireLine score greater than 2 with wood shingle/wood shake roo..."),
 		ERROR_AAA_HO_SS7230342("AAA_HO_SS7230342", "Underwriting approval is required for the option you have selected."),
 		ERROR_AAA_HO_SS4260842("AAA_HO_SS4260842", "Wind/hail endorsement is required when roof type is wood shingle/wood shake."),
 		ERROR_AAA_HO_SS14061993("AAA_HO_SS14061993", "	Dwellings with a Zip Code Level Match returned for Fireline require further u..."),
@@ -78,7 +85,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS3230162("AAA_HO_SS3230162", "More than 2 additional Insureds require Underwriting approval"),
 		ERROR_AAA_HO_SS3230756("AAA_HO_SS3230756", "More than 2 additional Interests require Underwriting approval"),
 		ERROR_AAA_PUP_SS1263335("AAA_PUP_SS1263335", "Applicants with any liability claims in the past 3 years are ineligible."),
-		ERROR_AAA_PUP_SS2260177("AAA_PUP_SS2260177", "Risk is ineligible because applicant does not have a valid license. (AAA_PUP_..."),
+		ERROR_AAA_PUP_SS2260177("AAA_PUP_SS2260177", "Risk is ineligible because applicant does not have a valid license."),
         ERROR_AAA_PUP_SS2220189("AAA_PUP_SS2220189", "Risks with a property liability limit less than $300,000 are ineligible."),
         ERROR_AAA_PUP_SS2220190("AAA_PUP_SS2220190", "Risks with a property liability limit less than $500,000 are ineligible."),
 		ERROR_AAA_PUP_SS3171100("AAA_PUP_SS3171100", "UW approval is required to bind the policy if any applicants or insureds are ..."),
@@ -139,9 +146,13 @@ public final class ErrorEnum {
 
 		// Auto Errors
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
+		ERROR_AAA_200008("200008", "Each driver must have a unique Driver's License Number."),
 		ERROR_AAA_200009("200009", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA__200009_PA("200009_PA", "Driver with a Major violation, including a DUI is unacceptable (200009) [for ..."),
 		ERROR_AAA_200011("200011","Requested Effective Date not Available (200011) [for Policy.effective]"),
+		ERROR_AAA_200034("200034_OR", "A signed Named Driver Exclusion Endorsement must be received prior to issuing..."),
+		ERROR_AAA_200037("200037", "A signed Uninsured And Underinsured Motorist Coverage Selection Form must be..."),
+		ERROR_AAA_200111("200111_OR", "Named Driver Exclusion requires Underwriting Approval"),
 		ERROR_AAA_SS171018("AAA_SS171018", "Non-members are ineligible for coverage."),
 		ERROR_AAA_SS171018_DE("AAA_SS171018_DE", "Policies with unsuccessful membership validation results require prior approval."),
 		ERROR_AAA_SS171018_NJ("AAA_SS171018_NJ", "Policies with unsuccessful membership validation results require prior approval."),
@@ -151,7 +162,10 @@ public final class ErrorEnum {
 		ERROR_AAA_CSA1801266BZWW("AAA_CSA180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_SS1801266BZWW("AAA_SS180126-6BzwW", "You must recalculate premium. Return to the Premium and Coverages tab to comp..."),
 		ERROR_AAA_MES_PC_0017_CA_CHOICE("MES-PC-0017_CA_CHOICE", "Rating variables stat code or Value($) is required for rating (MES-PC-0017) [..."),
+		ERROR_AAA_MVR_order_validation_SS("AAA_MVR_order_validation_SS", "Current MVR for "),
         ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to..."),
+		ERROR_AAA_200205("200205", "Vehicles with Physical Damage Coverage requires a CARCO Inspection"),
+		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 
 		//MEMBERSHIP Errors
 		ERROR_AAA_AUTO_SS_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
@@ -159,7 +173,8 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_AUTO_CA_MEM_LASTNAME("AAA_HO_SS_MEM_LASTNAME", "Membership Validation Failed. Please review the Membership Report and confirm..."),
 		ERROR_AAA_MES_IRE_06("MES-IRE-06", "Too early to rate a policy in PAS."),
-		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS.");
+		ERROR_AAA_MES_IRE_07("MES-IRE-07", "Too late to rate a policy in PAS."),
+		ERROR_AAA_MES_IRE_08("MES-IRE-08", "already created for previous policy.");
 		private String code;
 		private String message;
 

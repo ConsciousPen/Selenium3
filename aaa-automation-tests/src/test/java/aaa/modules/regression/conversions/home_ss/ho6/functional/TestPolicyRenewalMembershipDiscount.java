@@ -55,7 +55,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSHO6BaseTest {
 
     @Parameters({"state"})
     @StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = "PAS-10453")
     public void pas10453_PolicyRenewal(@Optional("NJ") String state) {
 

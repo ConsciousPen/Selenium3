@@ -3,23 +3,17 @@ package aaa.modules.regression.sales.home_ss.ho3;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.DocumentsTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
@@ -66,90 +60,102 @@ import toolkit.verification.CustomSoftAssertions;
 public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 
 	@Parameters({"state"})
-	@StateList(statesExcept = { States.CA })
-	@Test(groups = { Groups.REGRESSION, Groups.CRITICAL })
-    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3) 
+	@StateList(statesExcept = {States.CA})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testQuoteUnderwritingRules(@Optional("") String state) {
 		mainApp().open();
-		
+
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
 		TestData td_uw2 = getTestSpecificTD("TestData_UW2");
 		TestData td_uw3 = getTestSpecificTD("TestData_UW3");
 		TestData td_uw4 = getTestSpecificTD("TestData_UW4");
-        
-        createCustomerIndividual();
 
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, false);
-        
-        UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
-        underwritingTab.fillTab(td_uw1);
-        underwritingTab.submitTab();
+		createCustomerIndividual();
+
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, UnderwritingAndApprovalTab.class, false);
+
+		UnderwritingAndApprovalTab underwritingTab = new UnderwritingAndApprovalTab();
+		underwritingTab.fillTab(td_uw1);
+		underwritingTab.submitTab();
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON))
-        		.hasWarningWithText("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");
-        
-	        if (getState().equals("KY")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ALREADY_ATTACHED_TO_THE_POLICY))
-			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present.");
-	        }
-	        else if (getState().equals("MD")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
-			        .hasWarningWithText("Business or farming activity is ineligible");
-	        }
-	        else if (getState().equals("OR")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES))
-			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
-	        }
-	        else {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY))
-			        .hasWarningWithText("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");
-	        }
+			softly.assertThat(underwritingTab.getAssetList()
+					.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.HAVE_ANY_OF_THE_APPLICANT_S_CURRENT_PETS_INJURED_ANOTHER_PERSON)
+					.getWarning().toString())
+					.contains("Applicants/insureds with any dogs or other animals, reptiles, or pets with any prior biting history are unacceptable. Underwriting review will occur post bind.");
+			if (getState().equals("KY")) {
+				softly.assertThat(underwritingTab.getAssetList()
+						.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ALREADY_ATTACHED_TO_THE_POLICY)
+						.getWarning().toString())
+						.contains("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present.");
+			} else if (getState().equals("MD")) {
+				softly.assertThat(underwritingTab.getAssetList()
+						.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES)
+						.getWarning().toString())
+						.contains("Business or farming activity is ineligible");
+			} else if (getState().equals("OR")) {
+				softly.assertThat(underwritingTab.getAssetList()
+						.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS__ADULT_DAY_CARE_OR_FARMING_ACTIVITY_CONDUCTED_ON_THE_PREMISES)
+						.getWarning().toString())
+						.contains("Risk must be endorsed with the appropriate business or farming endorsement when a business or incidental farming exposure is present and deemed eligible for coverage. Applicants that perform adult day care, or pet day care, are unacceptable");
+			} else {
+				softly.assertThat(underwritingTab.getAssetList()
+						.getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.IS_ANY_BUSINESS_CONDUCTED_ON_THE_PREMISES_FOR_WHICH_AN_ENDORSEMENT_IS_NOT_ATTACHED_TO_THE_POLICY)
+						.getWarning().toString())
+						.contains("Risk must be endorsed with the appropriate business or farming endorsement when an eligible business or incidental farming exposure is present. Applicants that perform a home day care, including child, adult or pet day care, are unacceptable.");
+			}
 
-	        underwritingTab.fillTab(td_uw2);
-	        underwritingTab.submitTab();
-	        if (getState().equals("CT")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
-	        }
-	        else if (getState().equals("KY")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasWarningWithText("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
-	        }
-	        else if (getState().equals("MD")) {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE_MD)).hasWarningWithText("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
-	        }
-	        else {
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE)).hasWarningWithText("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)).hasWarningWithText("'Remarks' is required");
-		        softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)).hasWarningWithText("'Remarks' is required");
-	        }
+			underwritingTab.fillTab(td_uw2);
+			underwritingTab.submitTab();
+			if (getState().equals("CT")) {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)
+						.getWarning().toString()).contains("'Remarks' is required");
+			} else if (getState().equals("KY")) {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)
+						.getWarning().toString()).contains("'Remarks' is required");
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)
+						.getWarning().toString()).contains("'Remarks' is required");
+			} else if (getState().equals("MD")) {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE_MD)
+						.getWarning().toString()).contains("'Remarks' is required");
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)
+						.getWarning()).contains("'Remarks' is required");
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)
+						.getWarning().toString()).contains("'Remarks' is required");
+			} else {
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_PRIOR_INSURANCE)
+						.getWarning().toString()).contains("'Remarks' is required");
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_FORECLOSURE)
+						.getWarning().toString()).contains("'Remarks' is required");
+				softly.assertThat(underwritingTab.getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.REMARK_RESIDENT_EMPLOYEES)
+						.getWarning().toString()).contains("'Remarks' is required");
+			}
 
-	        underwritingTab.fillTab(td_uw3);
-	        underwritingTab.submitTab();
+			underwritingTab.fillTab(td_uw3);
+			underwritingTab.submitTab();
 
-	        policy.getDefaultView().fillFromTo(td, DocumentsTab.class, BindTab.class, true);
-	        BindTab bindTab = new BindTab();
-	        bindTab.btnPurchase.click();
+			policy.getDefaultView().fillFromTo(td, DocumentsTab.class, BindTab.class, true);
+			BindTab bindTab = new BindTab();
+			bindTab.btnPurchase.click();
 
-	        Map<String, String> err1_dataRow = new HashMap<>();
-	        err1_dataRow.put("Severity", "Error");
-	        err1_dataRow.put("Message", "Risks with more than 2 resident employees are ineligible.");
+			Map<String, String> err1_dataRow = new HashMap<>();
+			err1_dataRow.put("Severity", "Error");
+			err1_dataRow.put("Message", "Risks with more than 2 resident employees are ineligible.");
 
-	        Map<String, String> err2_dataRow = new HashMap<>();
-	        err2_dataRow.put("Severity", "Error");
-	        err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the p...");
+			Map<String, String> err2_dataRow = new HashMap<>();
+			err2_dataRow.put("Severity", "Error");
+			err2_dataRow.put("Message", "Applicants who have been cancelled, refused insurance or non-renewed in the p...");
 
-	        Map<String, String> err3_dataRow = new HashMap<>();
-	        err3_dataRow.put("Severity", "Error");
-	        err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless a...");
+			Map<String, String> err3_dataRow = new HashMap<>();
+			err3_dataRow.put("Severity", "Error");
+			err3_dataRow.put("Message", "Dwelling must not have been in foreclosure within the past 18 months unless a...");
 
-	        ErrorTab errorTab = new ErrorTab();
+			ErrorTab errorTab = new ErrorTab();
 
-	        switch (getState()) {
+			switch (getState()) {
 				case "CT":
 					//TODO-dchubkov: replace with errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_XXXXXX);
 					softly.assertThat(errorTab.getErrorsControl().getTable().getRowContains(err1_dataRow)).exists();
@@ -175,17 +181,17 @@ public class TestQuoteUnderwritingRules extends HomeSSHO3BaseTest {
 					assertThat(errorTab.getErrorsControl().getTable().getRowContains(err2_dataRow)).exists();
 					assertThat(errorTab.getErrorsControl().getTable().getRowContains(err3_dataRow)).exists();
 			}
-	        errorTab.cancel();
+			errorTab.cancel();
 
-	        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
-	        underwritingTab.fillTab(td_uw4);
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			underwritingTab.fillTab(td_uw4);
 
-	        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
-	        policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
-	        new PurchaseTab().submitTab();
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+			policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
+			new PurchaseTab().submitTab();
 
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-	        log.info("TEST Underwriting rules: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
+			log.info("TEST Underwriting rules: HSS Policy created with #" + PolicySummaryPage.labelPolicyNumber.getValue());
 		});
 	}
 }

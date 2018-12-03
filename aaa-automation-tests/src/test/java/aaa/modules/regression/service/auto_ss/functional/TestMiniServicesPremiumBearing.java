@@ -261,7 +261,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8784"})
 	public void pas8784_endorsementValidateStateSpecificConfigVersioning(@Optional("AZ") String state) {
-
+		//The test was moved out from dxp_suite, need to refactor after PAS-19725
 		pas8784_endorsementValidateStateSpecificConfigVersioning(getPolicyType());
 	}
 
@@ -614,6 +614,27 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	public void pas10227_ViewPremiumServicePendedEndorsement(@Optional("VA") String state) {
 
 		pas10227_ViewPremiumServiceForPendedEndorsement();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View Premium Service - Tax information
+	 * @scenario 1. Create policy
+	 * 2. Hit view Policy Premium service
+	 * 3. Check if tax info exist
+	 * 4. Create endorsement outside of PAS
+	 * 5. Add new driver and bind endorsement
+	 * 6. Check tax info
+	 * 7. Hit view endorsement Premium info
+	 * 8. Check tax information
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KY, Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19742"})
+	public void pas19742ViewPremiumServiceTaxInformation(@Optional("KY") String state) {
+
+		pas19742ViewPremiumServiceTaxInformationBody();
 	}
 
 	/**

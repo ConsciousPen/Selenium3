@@ -14,12 +14,12 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
@@ -126,7 +126,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 			String oid = viewVehicleResponse.vehicleList.get(0).oid;
 
-			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oid);
 			AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Conversion")).isEqualTo("Conversion Van");
@@ -159,7 +159,6 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("NONE")).isEqualTo("None");
 			softly.assertThat(metaDataFieldResponseAntiTheft.valueRange.get("STD")).isEqualTo("Vehicle Recovery Device");
 
-			getAttributeMetadata(metaDataResponse, "vehicleStatus", true, false, false, null, "String");
 			getAttributeMetadata(metaDataResponse, "registeredOwner", true, false, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, false, true, "10", "String");
@@ -192,7 +191,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
 			vehicleTab.saveAndExit();
 
-			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oid);
 			getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10", "String");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40", "String");
@@ -342,8 +341,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String originalDriver = responseViewDrivers.driverList.get(0).oid;
 
 		//get all coverages
-		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber);
-		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
@@ -387,7 +386,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//Add new vehicle
 		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
@@ -478,8 +478,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		ViewDriversResponse responseViewDriver = HelperCommon.viewEndorsementDrivers(policyNumber);
 		assertThat(responseViewDriver.driverList.stream().filter(driver -> originalDriver.equals(driver.oid)).findFirst().orElse(null)).isNotNull();
 
-		//View driver assignment if VA
-		if ("VA, NY, CA".contains(state)) {
+		//TODO jpukenaite add NY when this state will have driver assignment functionality
+		if ("VA, CA".contains(state)) {
 			ViewDriverAssignmentResponse responseDriverAssignment = HelperCommon.viewEndorsementAssignments(policyNumber);
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(0).driverOid).isNotEmpty();
@@ -488,7 +488,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).vehicleOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).driverOid).isNotEmpty();
 			softly.assertThat(responseDriverAssignment.driverVehicleAssignments.get(1).relationshipType).isEqualTo("occasional");
-		} else {
+		} else if (!state.contains("NY")){
 			ErrorResponseDto responseDriverAssignment = HelperCommon.viewEndorsementAssignmentsError(policyNumber, 422);
 			softly.assertThat(responseDriverAssignment.errorCode).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getCode());
 			softly.assertThat(responseDriverAssignment.message).isEqualTo(ErrorDxpEnum.Errors.OPERATION_NOT_APPLICABLE_FOR_THE_STATE.getMessage());
@@ -497,9 +497,9 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd = "COMPDED";
 		String compDedAvailableLimits = "100";
-		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd, compDedAvailableLimits);
-		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredCoverageResponse.coverageLimit).isEqualTo("100");
+		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class);
+		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredCoverageResponse.getCoverageLimit()).isEqualTo("100");
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 		//Rate endorsement
@@ -519,14 +519,14 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
-		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, compDedCovCd2, compDedAvailableLimits2);
-		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class);
+		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredUpdateCoverageResponse2.getCoverageLimit()).isEqualTo("500");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid);
-		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
+		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewEndorsementCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		//BUG not reset status
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
@@ -543,9 +543,9 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		assertThat(responseUnlock.status).isEqualTo("Unlocked");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid);
-		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
+		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewPolicyCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsement created/issued through service
@@ -556,11 +556,11 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid,VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin);
-		assertThat(deleteVehicleResponse.ruleSets).isEqualTo(null);
+		assertThat(deleteVehicleResponse.validations).isEqualTo(null);
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 

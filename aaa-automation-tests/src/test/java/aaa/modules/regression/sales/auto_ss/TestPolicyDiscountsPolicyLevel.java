@@ -105,6 +105,9 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 		generalTab.fillTab(getTestSpecificTD("GeneralTab_Discounts"));
 		generalTab.submitTab();
 		driverTab.fillTab(getTestSpecificTD("DriverTab_Discounts"));
+		driverTab.submitTab();
+		ratingDetailReportsTab.fillTab(getTestSpecificTD("RatingDetailReportsTab_Discounts"));
+		
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	
 		// check discounts is displayed on Premium&Coverages tab

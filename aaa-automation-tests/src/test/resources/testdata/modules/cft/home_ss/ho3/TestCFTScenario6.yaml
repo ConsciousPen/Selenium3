@@ -30,7 +30,9 @@ TestData_OOS: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'No Inspection Required'
+  },
   DocumentsTab: {},
   BindTab: {}
 }

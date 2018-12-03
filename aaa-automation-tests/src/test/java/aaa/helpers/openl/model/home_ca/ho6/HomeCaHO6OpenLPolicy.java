@@ -4,29 +4,44 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
-public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> {
+public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, HomeCaHO6OpenLDwelling> {
+	@RequiredField
 	private HomeCaHO6OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaHO6OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
+
+	@RequiredField
 	private Double deductible;
 	private Boolean hasEmployeeDiscount;
 	private Integer ageOfOldestInsured;
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
+
+	@RequiredField
 	private Boolean hasAutoPolicy;
 	private Boolean hasCeaPolicy;
 	private Boolean isRented;
 	private String occupation;
 
+	@Override
 	public HomeCaHO6OpenLDwelling getDwelling() {
 		return dwelling;
 	}
@@ -139,37 +154,14 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm> 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-	
+
 	@Override
-	public HomeCaHO6TestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new HomeCaHO6TestDataGenerator(state, baseTestData);
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_HO6;
 	}
 
 	@Override
-	public String toString() {
-		return "HomeCaHO6OpenLPolicy{" +
-				"dwelling=" + dwelling +
-				", forms=" + forms +
-				", covALimit=" + covALimit +
-				", covELimit=" + covELimit +
-				", deductible=" + deductible +
-				", hasEmployeeDiscount=" + hasEmployeeDiscount +
-				", ageOfOldestInsured=" + ageOfOldestInsured +
-				", hasPolicySupportingForm=" + hasPolicySupportingForm +
-				", hasSeniorDiscount=" + hasSeniorDiscount +
-				", hasAutoPolicy=" + hasAutoPolicy +
-				", hasCeaPolicy=" + hasCeaPolicy +
-				", isRented=" + isRented +
-				", occupation='" + occupation + '\'' +
-				", coverages=" + coverages +
-				", claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
+	public HomeCaHO6TestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new HomeCaHO6TestDataGenerator(this.getState(), baseTestData);
 	}
 }

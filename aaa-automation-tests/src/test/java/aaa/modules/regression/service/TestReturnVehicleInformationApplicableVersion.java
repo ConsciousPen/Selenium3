@@ -8,71 +8,68 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.modules.policy.PolicyType;
+import aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.AAAVehicleServices;
+import aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.model.AAABodyStyleByYearMakeModelSeries;
+import aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.model.AAAMakeByYear;
+import aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.model.AAAModelByYearMake;
+import aaa.helpers.rest.aaaAdmin.services.aaaVehicleInfoRs.v1.vinInfo.model.AAASeriesByYearMakeModel;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAABodyStyleByYearMakeModelSeries;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAMakeByYear;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAAModelByYearMake;
-import aaa.modules.regression.service.helper.dtoAdmin.responses.AAASeriesByYearMakeModel;
 import toolkit.utils.TestInfo;
 
 public class TestReturnVehicleInformationApplicableVersion extends PolicyBaseTest {
 
-	@Override
-	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_CHOICE;
-	}
-
+	private static final String EFFECTIVE_DATE = "2018-12-31";
+	private static final String YEAR = "2001";
+	private static final String PRODUCT_CD = "AAA_SS";
+	private static final String STATE_CD = "AZ";
+	private static final String MAKE = "BMW";
+	private static final String FORM_TYPE = "";
+	private static final String MODEL = "740I";
+	private static final String SERIES = "740IL%20PROTECTION";
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void pas12465_MakeByYear(@Optional("CA") String state) {
+	public void pas12465_MakeByYear(@Optional("AZ") String state) {
 
 		AAAMakeByYear aaaMakeByYearResponse =
-				HelperCommon.getMakes("2001", "AAA_SS", "UT", "", "2000-01-01");
+				AAAVehicleServices.getMakes(YEAR, PRODUCT_CD, STATE_CD, FORM_TYPE, EFFECTIVE_DATE);
 
-		assertThat(aaaMakeByYearResponse).isNotNull();
-		log.info("\n\nList of Makes : " + aaaMakeByYearResponse.getListMake().toString() + "\n");
+		assertThat(aaaMakeByYearResponse.getMakes()).isNotNull();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void pas12465_ModelByMakeYear(@Optional("CA") String state) {
+	public void pas12465_ModelByMakeYear(@Optional("AZ") String state) {
 
 		AAAModelByYearMake aaaModelByMakeYearResponse =
-				HelperCommon.getModels("2001","BMW", "AAA_SS", "AZ","", "2000-01-01" );
+				AAAVehicleServices.getModels(YEAR,MAKE, PRODUCT_CD, STATE_CD, FORM_TYPE, EFFECTIVE_DATE);
 
-		assertThat(aaaModelByMakeYearResponse).isNotNull();
-		log.info("\n\nList of Makes : " + aaaModelByMakeYearResponse.getModels().toString() + "\n");
+		assertThat(aaaModelByMakeYearResponse.getModels()).isNotNull();
 	}
 
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void pas12465_BodyStyleByYearMakeModelSeries(@Optional("CA") String state) {
+	public void pas12465_BodyStyleByYearMakeModelSeries(@Optional("AZ") String state) {
 
 		AAABodyStyleByYearMakeModelSeries aaaBodyStyleByYearMakeModelSeriesResponse =
-				HelperCommon.getBodyStyle("2001", "BMW", "740I", "740IL%20PROTECTION", "AAA_SS", "AZ","", "2017-12-31");
+				AAAVehicleServices.getBodyStyle(YEAR, MAKE, MODEL, SERIES, PRODUCT_CD, STATE_CD, FORM_TYPE, EFFECTIVE_DATE);
 
-		assertThat(aaaBodyStyleByYearMakeModelSeriesResponse).isNotNull();
-		log.info("\n\nList of Body Styles : " + aaaBodyStyleByYearMakeModelSeriesResponse.getBodyStyle() + "\n");
+		assertThat(aaaBodyStyleByYearMakeModelSeriesResponse.getBodyStyles()).isNotNull();
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12465"})
-	public void pas12465_SeriesByYearMakeModel(@Optional("CA") String state) {
+	public void pas12465_SeriesByYearMakeModel(@Optional("AZ") String state) {
 
 		AAASeriesByYearMakeModel aaaSeriesByYearMakeModel =
-				HelperCommon.getSeries("2001", "BMW", "740I", "AAA_SS", "AZ","", "2017-12-31");
+				AAAVehicleServices.getSeries(YEAR, MAKE, MODEL, PRODUCT_CD, STATE_CD, FORM_TYPE, EFFECTIVE_DATE);
 
-		assertThat(aaaSeriesByYearMakeModel).isNotNull();
-		log.info("\n\nSeries : " + aaaSeriesByYearMakeModel.getSeries() + "\n");
+		assertThat(aaaSeriesByYearMakeModel.getSeries()).isNotNull();
 	}
-
 
 }

@@ -4,15 +4,19 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.COVERAGE_SHEET_NAME, headerRowIndex = OpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 public class AutoOpenLCoverage extends OpenLCoverage {
-	protected Integer additionalLimitAmount;
+	protected Double additionalLimitAmount;
 	protected String deductible;
 
-	public Integer getAdditionalLimitAmount() {
+	public Double getAdditionalLimitAmount() {
 		return additionalLimitAmount;
 	}
 
-	public void setAdditionalLimitAmount(Integer additionalLimitAmount) {
+	public void setAdditionalLimitAmount(Double additionalLimitAmount) {
 		this.additionalLimitAmount = additionalLimitAmount;
+	}
+
+	public void setAdditionalLimitAmount(Integer additionalLimitAmount) {
+		this.additionalLimitAmount = additionalLimitAmount.doubleValue();
 	}
 
 	public String getDeductible() {
@@ -21,16 +25,5 @@ public class AutoOpenLCoverage extends OpenLCoverage {
 
 	public void setDeductible(String deductible) {
 		this.deductible = deductible;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoOpenLCoverage{" +
-				"additionalLimitAmount=" + additionalLimitAmount +
-				", coverageCd='" + coverageCd + '\'' +
-				", deductible='" + deductible + '\'' +
-				", number=" + number +
-				", limit='" + limit + '\'' +
-				'}';
 	}
 }

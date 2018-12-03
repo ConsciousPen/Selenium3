@@ -2,8 +2,8 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.testng.annotations.Optional;
@@ -17,6 +17,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -27,7 +28,6 @@ import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
 import aaa.modules.regression.service.helper.HelperRfi;
-import aaa.modules.regression.service.helper.dtoAdmin.RfiDocumentResponse;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -63,7 +63,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341", "PAS-20333"})
 	public void pas349_rfiHO3_1(@Optional("AZ") String state) {
 		String today = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		TestData adjustedTd = rfiTestData(state, "TestData1", "1939");
@@ -101,12 +101,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
 			//PAS-341 Start
 			RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "1POSOA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "8POGHA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "1POCFA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "2POCTA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "9POPRR", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "12FDEPT", "NS", softly);
 			//PAS-341 End
 
 			uploadDocuments(policyNumber, softly);
@@ -147,7 +147,7 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341"})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-349", "PAS-341", "PAS-20333"})
 	public void pas349_rfiHO3_2(@Optional("VA") String state) {
 		TestData adjustedTd = rfiTestData(state, "TestData2", "1941");
 
@@ -184,12 +184,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 
 			//PAS-341 Start
 			RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "DISC", "NS", softly);
-			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "1POSOA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "8POGHA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "1POCFA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "2POCTA", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "10PORHM", "NS", softly);
+			HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "12FDEPT", "NS", softly);
 			//PAS-341 End
 		});
 	}
@@ -227,12 +227,12 @@ public class TestServiceRFI extends HomeSSHO3BaseTest {
 		DBService.get().executeUpdate(String.format(HelperRfi.UPDATE_POLICY_VERSION, String.valueOf(Integer.valueOf(currentVersion) + 1), latestPolicySummaryId));
 
 		RfiDocumentResponse[] result = HelperCommon.executeRequestRfi(policyNumber, TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "NBA", "PS", softly);
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "DISC", "NS", softly);
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "DISC", "PS", softly);
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "DISC", "PS", softly);
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "MISC", "NS", softly);
-		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "MISC", "NS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToIssue.SIGNED_POLICY_APPLICATION.getLabel(), "1POSOA", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "8POGHA", "NS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "1POCFA", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "2POCTA", "PS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_PLUMBING_AND_OTHER_RENOVATIONS.getLabel(), "9POPRR", "NS", softly);
+		HelperRfi.policyServiceRfiValuesCheck(result, HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "12FDEPT", "NS", softly);
 	}
 
 	private void endorseRateDocuments() {

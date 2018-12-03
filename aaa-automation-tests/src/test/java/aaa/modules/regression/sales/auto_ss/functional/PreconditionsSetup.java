@@ -2,7 +2,7 @@ package aaa.modules.regression.sales.auto_ss.functional;
 
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.listeners.AaaTestListener;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
@@ -41,7 +41,7 @@ public class PreconditionsSetup {
     @Test(description = "updates number range for policies to start with")
     public void numberRangeUpdate() {
 
-        String env = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+		String env = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
         String dayOfWeek = DBService.get().getValue(GET_DAY_OF_WEEK).get();
         String teamToUse = "";
         String envNumToUse = "";

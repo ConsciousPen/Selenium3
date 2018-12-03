@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ca.select.functional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -12,14 +12,16 @@ import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestContactInformationAbstract;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssert;
+import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
@@ -48,14 +50,11 @@ public class TestContactInformation extends TestContactInformationAbstract {
     public void pas270_contactInformation(@Optional("CA") String state)  {
         initiateQuote(DocumentsAndBindTab.class);
 
-        CustomAssert.enableSoftMode();
         verifyContactInformationSection();
         changeFNIAndVerifyContactInformationSection(AutoCaMetaData.GeneralTab.FIRST_NAMED_INSURED.getLabel(),
                 AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel());
         bindPolicy();
-        verifyPolicyStatus();
-        CustomAssert.disableSoftMode();
-        CustomAssert.assertAll();
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
     }
 
     @Override
@@ -134,9 +133,9 @@ public class TestContactInformation extends TestContactInformationAbstract {
     }
 
     @Override
-    protected void presenceOfContactInformationSection(int insuredNumber, boolean isPresent) {
+    protected void presenceOfContactInformationSection(int insuredNumber, boolean isPresent, ETCSCoreSoftAssertions softly) {
         ((GeneralTab)getGeneralTabElement()).viewInsured(insuredNumber);
-        assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isEqualTo(isPresent);
+        softly.assertThat(getGeneralTabElement().isSectionPresent("Contact Information")).as("'Contact Information' section should be present").isEqualTo(isPresent);
     }
 
     @Override

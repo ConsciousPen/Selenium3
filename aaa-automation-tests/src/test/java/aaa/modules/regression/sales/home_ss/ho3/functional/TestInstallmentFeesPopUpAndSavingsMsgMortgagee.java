@@ -47,7 +47,6 @@ public class TestInstallmentFeesPopUpAndSavingsMsgMortgagee extends HomeSSHO3Bas
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-1383"})
 	public void pas246_InstallmentFeesPopUpAndSavingsMsgForMortgagee(@Optional("PA") String state) {
 		mainApp().open();
-
 		TestData policyTD = getPolicyTD();
 		String mortgageeTabKey = TestData.makeKeyPath(MortgageesTab.class.getSimpleName());
 		TestData mortgageeTD = getTestSpecificTD("MortgageesTab");

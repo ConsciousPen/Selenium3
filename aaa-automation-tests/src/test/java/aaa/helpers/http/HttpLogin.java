@@ -1,16 +1,17 @@
 package aaa.helpers.http;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import aaa.helpers.http.impl.*;
+import aaa.modules.BaseTest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import aaa.helpers.http.impl.*;
-import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpLogin {
 
@@ -43,7 +44,11 @@ public class HttpLogin {
 		System.setProperty("http.proxyPort", "8888");*/
 
 		HttpQueryBuilder queryBuilder = new HttpQueryBuilder();
-		queryBuilder.readParamsFile(PARAMS_FILENAME);
+		try {
+			queryBuilder.readParamsFile(PARAMS_FILENAME);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		try {
 			httpRequestor.sendGetRequest(HttpHelper.getAdLoginUrl());
@@ -94,11 +99,7 @@ public class HttpLogin {
 				location = "/aaa-admin/" + location;
 			}
 			httpRequestor.sendGetRequest(location);
-			try {
-				sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
-			} catch (IOException e) {
-				log.error("Can't get windowId");
-			}
+			sessionWindowId = HttpHelper.find(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION), HttpConstants.REGEX_SESSION_WINDOW_ID);
 		}
 		httpRequestor.setSessionWindowId(sessionWindowId);
 		httpRequestor.sendGetRequest(httpRequestor.getReponseHeader(HttpRequestor.HttpHeaders.LOCATION));

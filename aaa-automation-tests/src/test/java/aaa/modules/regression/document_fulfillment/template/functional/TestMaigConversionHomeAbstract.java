@@ -1,18 +1,7 @@
 package aaa.modules.regression.document_fulfillment.template.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
-import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
-import static aaa.main.enums.DocGenEnum.Documents.*;
-import static org.apache.commons.lang.StringUtils.defaultIfBlank;
-import static org.apache.commons.lang.StringUtils.substringAfterLast;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.inject.internal.ImmutableList;
-import com.google.inject.internal.ImmutableMap;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -32,8 +21,22 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.inject.internal.ImmutableList;
+import com.google.inject.internal.ImmutableMap;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.*;
+import static aaa.helpers.docgen.DocGenHelper.getPackageDataElemByName;
+import static aaa.main.enums.DocGenEnum.Documents.*;
+import static org.apache.commons.lang.StringUtils.defaultIfBlank;
+import static org.apache.commons.lang.StringUtils.substringAfterLast;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
@@ -43,6 +46,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 			.put(RENEWAL_BILL, ImmutableList.of(Jobs.aaaRenewalNoticeBillAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(BILL_FIRST_RENEW_REMINDER_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
 			.put(MORTGAGEE_BILL_FINAL_EXP_NOTICE, ImmutableList.of(Jobs.aaaMortgageeRenewalReminderAndExpNoticeAsyncJob, Jobs.aaaDocGenBatchJob))
+			.put(EXPIRATION_NOTICE, ImmutableList.of(Jobs.aaaRenewalReminderGenerationAsyncJob, Jobs.aaaDocGenBatchJob))
 			.build();
 
 	ProductRenewalsVerifier productRenewalsVerifier = new ProductRenewalsVerifier();
@@ -57,6 +61,20 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 */
 	public void pas2305_preRenewalLetterHSPRNXX(String state) throws NoSuchFieldException {
 		preRenewalLetterFormGeneration(getConversionPolicyDefaultTD(), HSPRNXX, false);
+	}
+
+	/**
+	 * @name Creation converted policy for checking 'Expiration Notice' letter
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Conversion Policy
+	 * 3. Generate Bill at R-20
+	 * 4. Generate 'Expiration Notice' at R+10
+	 * 5. Check that form is getting generated with correct content
+	 * @details
+	 */
+	public void pas20836_expirationNoticeFormGeneration(String state) throws NoSuchFieldException {
+		expirationNoticeFormGeneration(getConversionPolicyDefaultTD(), AH64XX);
 	}
 
 	/**
@@ -79,6 +97,56 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, PRE_RENEWAL);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, PRE_RENEWAL);
 		verifyRenewalDocumentTagData(document, testData, isPupPresent, PRE_RENEWAL);
+	}
+
+	/**
+	 * @name Creation converted policy for checking 'Expiration Notice' letter
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Create Conversion Policy
+	 * 3. Generate Bill at R-20
+	 * 4. Generate 'Expiration Notice' at R+10
+	 * 5. Check that form is getting generated with correct content
+	 * @details
+	 */
+	private void expirationNoticeFormGeneration(TestData testData, DocGenEnum.Documents form) throws NoSuchFieldException {
+		String policyNumber = openAppAndCreateConversionPolicy(testData);
+
+		//Auto conversion policy does not have expiration date on PolicySummaryPage
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getEffectiveDate().plusYears(1);
+
+		expirationNoticeJobExecution(policyExpirationDate);
+
+		DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, EXPIRATION_NOTICE);
+		String policyTransactionCode = getPackageTag(policyNumber, "PlcyTransCd", EXPIRATION_NOTICE);
+
+		String expectedPolicyTransCode;
+
+		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
+			switch (getState()) {
+				case Constants.States.AZ:
+				case Constants.States.NY:
+				case Constants.States.OH:
+					expectedPolicyTransCode = "CANC";
+					break;
+				default:
+					expectedPolicyTransCode = "STMT";
+					break;
+			}
+		} else {
+			//PAS-20836
+			switch (getState()) {
+				case Constants.States.AZ:
+				case Constants.States.NY:
+				case Constants.States.OH:
+					expectedPolicyTransCode = "CANB";
+					break;
+				default:
+					expectedPolicyTransCode = "STMT";
+					break;
+			}
+		}
+		assertThat(policyTransactionCode).as("PlcyTransCd is not correct for " + getState()).isEqualTo(expectedPolicyTransCode);
 	}
 
 	/**
@@ -210,12 +278,58 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	 * @scenario 1. Create Customer
 	 * 2. Initiate Renewal Entry
 	 * 3. Fill Conversion Policy data for Home
-	 * 4. Check that HSFLDMD documents are getting generated
+	 * 4. Check that HSPISKY documents are getting generated
+	 * 5. Buy Conversion Policy
+	 * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+	 * 7. Check that HSPISKY document is NOT generated
+	 * @details
+	 */
+	public void pas18432_policyInformationSheetHSPISKY(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSPISKY, false, state);
+		assertThat(numberOfLetters).isEqualTo(1);
+		checkSecondRenewalsOfferGenerationDoesNotGenerateForm(HSPISKY);
+	}
+
+	/**
+	 /**
+	 * @name Test Conversion Document generation (Non Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that HSFLD documents are getting generated
+	 * 5. Buy Conversion Policy
+	 * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+	 * 7. Check that HSFLD document is NOT generated
 	 * @details
 	 */
 	public void pas11772_importantNoticeRegardingFloodInsuranceHSFLD(String state) throws NoSuchFieldException {
 		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), HSFLD, false, state);
 		assertThat(numberOfLetters).isEqualTo(1);
+		checkSecondRenewalsOfferGenerationDoesNotGenerateForm(HSFLD);
+	}
+
+	private void checkSecondRenewalsOfferGenerationDoesNotGenerateForm(DocGenEnum.Documents form) {
+		PolicySummaryPage.buttonBackFromRenewals.click();
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime conversionExpDate = PolicySummaryPage.getExpirationDate();
+
+		payTotalAmtDue(conversionExpDate, policyNumber);
+
+		LocalDateTime secondPolicyExpirationDate = PolicySummaryPage.getExpirationDate();
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(secondPolicyExpirationDate));
+
+		JOBS_FOR_EVENT.get(RENEWAL_OFFER).forEach(job -> JobUtils.executeJob(job));
+
+		//After first Renewal_Offer_Generation_Part2 run only Renewal Image is created in 'Data Gather' status
+		//Running 2nd time proposes renewal image.
+		if (DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size() == 1) {
+			JOBS_FOR_EVENT.get(RENEWAL_OFFER).forEach(job -> JobUtils.executeJob(job));
+		}
+
+		//Check that 2nd Renewal Offer is generated
+		assertThat(DocGenHelper.getAllDocumentPackages(policyNumber, RENEWAL_OFFER).size()).as("2nd Renewal Offer is not generated").isEqualTo(2);
+		//Check that 2nd Renewal Offer does not have the form (e.g. HSFLD, HSPISKY)
+		assertThat(DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER, false).size()).isEqualTo(1);
 	}
 
 	/**
@@ -242,7 +356,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
-			if (form!=HSFLD) {
+			if (form!=HSFLD && form !=HSPISKY) {
 				verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
 			}
 		}
@@ -498,7 +612,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFinalxpNoticeJobExecution(expirationDate);
+		mortgageeBillFinalRenewalReminderNoticeJobExecution(expirationDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, MORTGAGEE_BILL_FINAL_EXP_NOTICE);
 		verifyTagDataBill(document, policyNumber,MORTGAGEE_BILL_FINAL_EXP_NOTICE);
@@ -531,7 +645,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 				getStaticElement(HomeSSMetaData.GeneralTab.SOURCE_POLICY_NUMBER).getValue();
 		log.info("Conversion Home policy number: " + policyNumber + " with legacy number: " + legacyPolicyNumber);
 
-		billFirstReminderNoticeJobExecution(expirationDate);
+		mortgageeBillFirstRenewalReminderNoticeJobExecution(expirationDate);
 
 		Document document = DocGenHelper.waitForDocumentsAppearanceInDB(form, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
 		verifyTagDataBill(document, policyNumber, BILL_FIRST_RENEW_REMINDER_NOTICE);
@@ -585,23 +699,31 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		JOBS_FOR_EVENT.get(RENEWAL_BILL).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFirstReminderNoticeJobExecution(LocalDateTime expirationDate){
+	private void mortgageeBillFirstRenewalReminderNoticeJobExecution(LocalDateTime expirationDate){
 		renewalBillJobExecution(expirationDate);
-		LocalDateTime statusUpdate = getTimePoints().getUpdatePolicyStatusDate(expirationDate);
-		TimeSetterUtil.getInstance().nextPhase(statusUpdate);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 		LocalDateTime mortgageeBillFirstRenewalReminder = getTimePoints().getMortgageeBillFirstRenewalReminder(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(mortgageeBillFirstRenewalReminder);
 		JOBS_FOR_EVENT.get(BILL_FIRST_RENEW_REMINDER_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
-	private void billFinalxpNoticeJobExecution(LocalDateTime expirationDate){
-		billFirstReminderNoticeJobExecution(expirationDate);
+	private void mortgageeBillFinalRenewalReminderNoticeJobExecution(LocalDateTime expirationDate){
+		mortgageeBillFirstRenewalReminderNoticeJobExecution(expirationDate);
 		LocalDateTime lapsedRenewal = getTimePoints().getRenewCustomerDeclineDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(lapsedRenewal);
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
 		TimeSetterUtil.getInstance().nextPhase(expirationDate.plusMonths(2).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
 		JOBS_FOR_EVENT.get(MORTGAGEE_BILL_FINAL_EXP_NOTICE).forEach(job -> JobUtils.executeJob(job));
+	}
+
+	private void expirationNoticeJobExecution(LocalDateTime expirationDate){
+		renewalBillJobExecution(expirationDate);
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(expirationDate));
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getInsuranceRenewalReminderDate(expirationDate));
+		JOBS_FOR_EVENT.get(EXPIRATION_NOTICE).forEach(job -> JobUtils.executeJob(job));
 	}
 
 	/**
@@ -744,7 +866,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	/**
 	 * Verify that tag value is present in the Documents section
 	 */
-	private void verifyTagData(Document document, String tag, String textFieldValue) {
+	protected void verifyTagData(Document document, String tag, String textFieldValue) {
 		assertThat(DocGenHelper.getDocumentDataElemByName(tag, document).getDataElementChoice().getTextField()).isEqualTo(textFieldValue);
 	}
 

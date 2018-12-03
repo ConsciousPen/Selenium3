@@ -1,21 +1,33 @@
 package aaa.helpers.openl.model;
 
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public abstract class OpenLVehicle {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 
+	@RequiredField
 	protected OpenLAddress address;
+
 	protected Integer annualMileage;
+
+	@RequiredField
 	protected Integer collSymbol;
+
+	@RequiredField
 	protected Integer compSymbol;
+
 	protected String id;
+
+	@RequiredField
 	protected Integer modelYear;
-	protected String statCode;
-	protected String oldStatCode;
+
+	@RequiredField
 	protected String biLiabilitySymbol;
+
 	protected String pdLiabilitySymbol;
 	protected String mpLiabilitySymbol;
 	protected String umLiabilitySymbol;
@@ -70,22 +82,6 @@ public abstract class OpenLVehicle {
 		this.modelYear = modelYear;
 	}
 
-	public String getStatCode() {
-		return statCode;
-	}
-
-	public void setStatCode(String statCode) {
-		this.statCode = statCode;
-	}
-
-	public String getOldStatCode() {
-		return oldStatCode;
-	}
-
-	public void setOldStatCode(String oldStatCode) {
-		this.oldStatCode = oldStatCode;
-	}
-
 	public String getBiLiabilitySymbol() {
 		return biLiabilitySymbol;
 	}
@@ -124,23 +120,5 @@ public abstract class OpenLVehicle {
 
 	public void setAddress(OpenLAddress address) {
 		this.address = address;
-	}
-
-	@Override
-	public String toString() {
-		return "OpenLVehicle{" +
-				"number=" + number +
-				", annualMileage=" + annualMileage +
-				", collSymbol=" + collSymbol +
-				", compSymbol=" + compSymbol +
-				", id='" + id + '\'' +
-				", modelYear=" + modelYear +
-				", oldStatCode='" + oldStatCode + '\'' +
-				", biLiabilitySymbol='" + biLiabilitySymbol + '\'' +
-				", pdLiabilitySymbol='" + pdLiabilitySymbol + '\'' +
-				", mpLiabilitySymbol='" + mpLiabilitySymbol + '\'' +
-				", umLiabilitySymbol='" + umLiabilitySymbol + '\'' +
-				", address=" + address +
-				'}';
 	}
 }

@@ -8,11 +8,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.testng.ITestContext;
 import org.testng.annotations.DataProvider;
 import aaa.common.enums.Constants;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 
 public class DataProviderClass {
-	private static String usState = PropertyProvider.getProperty(CustomTestProperties.TEST_USSTATE);
+	private static String usState = PropertyProvider.getProperty(CsaaTestProperties.TEST_USSTATE);
 
 	@DataProvider(name = "state", parallel = true)
 	public Object[][] getState(ITestContext tc, Method method) {

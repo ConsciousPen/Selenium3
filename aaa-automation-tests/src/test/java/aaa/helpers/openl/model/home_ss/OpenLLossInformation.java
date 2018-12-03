@@ -1,6 +1,7 @@
 package aaa.helpers.openl.model.home_ss;
 
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -8,10 +9,15 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.LOSS_INFORMATION_SHEET_NAME, headerRowIndex = HomeSSOpenLFile.COVERAGE_HEADER_ROW_NUMBER)
 public class OpenLLossInformation {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	private Integer number;
 
+	@RequiredField
 	private String autoTier;
+
+	@RequiredField
 	private Integer creditBands;
+
 	private Integer autoCreditBands; // PA specific
 	private String multipolicyStatus; // PA specific
 	private Integer expClaimPoint;
@@ -81,19 +87,5 @@ public class OpenLLossInformation {
 
 	public void setMultipolicyStatus(String multipolicyStatus) {
 		this.multipolicyStatus = multipolicyStatus;
-	}
-
-	@Override
-	public String toString() {
-		return "OpenLLossInformation{" +
-				"number=" + number +
-				", autoTier='" + autoTier + '\'' +
-				", creditBands=" + creditBands +
-				", autoCreditBands=" + autoCreditBands +
-				", expClaimPoint=" + expClaimPoint +
-				", multipolicyStatus='" + multipolicyStatus + '\'' +
-				", priorClaimPoint=" + priorClaimPoint +
-				", recentYCF=" + recentYCF +
-				'}';
 	}
 }

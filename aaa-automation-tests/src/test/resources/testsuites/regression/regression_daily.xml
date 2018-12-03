@@ -8,8 +8,6 @@
     <test name="Common Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
-            <class name="aaa.modules.regression.common.TestSearchPageFillingAndWarnings"/>
-            <class name="aaa.modules.regression.common.TestSearchForAllCriteria"/>
             <class name="aaa.modules.regression.common.TestAccountUpdate"/>
         </classes>
     </test>
@@ -52,6 +50,17 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.TestPolicyBilling"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestContactInformation"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
+        </classes>
+    </test>
+    <test name="AZ Auto Regression Tests" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPolicyMoratorium">
+                <methods>
+                    <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
+                    <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CA Select Auto Regression Tests" parallel="methods">
@@ -177,6 +186,12 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPolicyMoratorium">
+                <methods>
+                    <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
+                    <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="PA HSS Regression Tests" parallel="methods">
@@ -258,6 +273,26 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
+        </classes>
+    </test>
+    <test name="Auto SS TestAutoPoliciesLock AIP and NAF">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas2247_pas2248_AipAndNafLock"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Auto SS TestAutoPoliciesLock ASD">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAutoPoliciesLock">
+                <methods>
+                    <include name="pas4311_pas6587_ASDLock_newly_locked"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

@@ -1,65 +1,36 @@
 package com.exigen.ipb.etcsa.base.app;
 
+import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
+import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
+import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
+
 public class CSAAApplicationFactory {
-	static CSAAApplicationFactory appFactory = null;
+	static CSAAApplicationFactory appFactory;
 
-	private static ThreadLocal<Application.AppType> appType = new ThreadLocal<Application.AppType>() {
-		@Override
-		public Application.AppType initialValue() {
-			return Application.AppType.EU;
-		}
-	};
+	private static ThreadLocal<MainApplication> mainApp = ThreadLocal.withInitial(MainApplication::new);
 
-	private static ThreadLocal<MainApplication> mainApp = new ThreadLocal<MainApplication>() {
-		@Override
-		public MainApplication initialValue() {
-			return new MainApplication(Application.AppType.EU);
-		}
-	};
+	private static ThreadLocal<AdminApplication> adminApp = ThreadLocal.withInitial(AdminApplication::new);
 
-	private static ThreadLocal<AdminApplication> adminApp = new ThreadLocal<AdminApplication>() {
-		@Override
-		public AdminApplication initialValue() {
-			return new AdminApplication(Application.AppType.ADMIN);
-		}
-	};
-
-	private static ThreadLocal<OperationalReportApplication> opReportApp = new ThreadLocal<OperationalReportApplication>() {
-		@Override
-		public OperationalReportApplication initialValue() {
-			return new OperationalReportApplication(Application.AppType.OPERATIONAL_REPORT);
-		}
-	};
+	private static ThreadLocal<OperationalReportApplication> opReportApp = ThreadLocal.withInitial(OperationalReportApplication::new);
 
 	public static synchronized CSAAApplicationFactory get() {
-		if (appFactory == null) {
-			appFactory = new CSAAApplicationFactory();
-		}
-		return appFactory;
+		return InstanceHolder.HOLDER_INSTANCE;
 	}
 
-	public MainApplication mainApp(ILogin login) {
-		appType.set(Application.AppType.EU);
-		mainApp.get().setType(Application.AppType.EU);
-		mainApp.get().setLogin(login);
+	public MainApplication mainApp() {
 		return mainApp.get();
 	}
 
-	public AdminApplication adminApp(ILogin login) {
-		appType.set(Application.AppType.ADMIN);
-		adminApp.get().setType(Application.AppType.ADMIN);
-		adminApp.get().setLogin(login);
+	public AdminApplication adminApp() {
 		return adminApp.get();
 	}
 
-	public OperationalReportApplication opReportApp(ILogin login) {
-		appType.set(Application.AppType.OPERATIONAL_REPORT);
-		opReportApp.get().setType(Application.AppType.OPERATIONAL_REPORT);
-		opReportApp.get().setLogin(login);
+	public OperationalReportApplication opReportApp() {
 		return opReportApp.get();
 	}
 
-	public Application.AppType getAppType() {
-		return appType.get();
+	private static class InstanceHolder {
+		public static final CSAAApplicationFactory HOLDER_INSTANCE = new CSAAApplicationFactory();
 	}
+
 }

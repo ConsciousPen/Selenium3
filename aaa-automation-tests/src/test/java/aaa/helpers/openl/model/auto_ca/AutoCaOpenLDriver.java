@@ -1,9 +1,13 @@
 package aaa.helpers.openl.model.auto_ca;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLDriver;
 
 public class AutoCaOpenLDriver extends OpenLDriver {
+	@RequiredField
 	protected Boolean goodDriver;
+
+	@RequiredField
 	protected Boolean matureDriver;
 
 	public void setGoodDriver(Boolean goodDriver) {
@@ -12,21 +16,6 @@ public class AutoCaOpenLDriver extends OpenLDriver {
 
 	public void setMatureDriver(Boolean matureDriver) {
 		this.matureDriver = matureDriver;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoCaOpenLDriver{" +
-				"goodDriver=" + goodDriver +
-				", matureDriver=" + matureDriver +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
 	}
 
 	public Boolean isGoodDriver() {

@@ -32,7 +32,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends FireRelated
 	 **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ, Constants.States.PA, Constants.States.MD})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10703")
 	public void testVerifyFireRelatedFieldsOnThePropertyInfoTab(@Optional("NJ") String state) {
 		verifyFireRelatedFieldsOnThePropertyInfoTab();
@@ -53,7 +53,7 @@ public class TestVerifyFireRelatedFieldsOnThePropertyInfoTab extends FireRelated
 	 **/
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.NJ, Constants.States.AZ, Constants.States.PA, Constants.States.MD})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-10703")
 	public void testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal(@Optional("NJ") String state) {
 		verifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal();

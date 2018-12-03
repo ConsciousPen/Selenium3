@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.http.impl.HttpAAARequestor;
 import aaa.helpers.http.impl.HttpConstants;
 import aaa.helpers.http.impl.HttpHelper;
@@ -18,7 +18,7 @@ import toolkit.exceptions.IstfException;
 public class HttpStub {
 
 	private static final String PARAMS_FILENAME = "stub.txt";
-	private static final String STUB_URL = PropertyProvider.getProperty(CustomTestProperties.APP_STUB_URL_TEMPLATE);
+	private static final String STUB_URL = PropertyProvider.getProperty(CsaaTestProperties.APP_STUB_URL_TEMPLATE);
 	private static Logger log = LoggerFactory.getLogger(HttpStub.class);
 	private static String host = HttpHelper.getHost();
 	private static String urlTemplate = HttpConstants.URL_PROTOCOL + host + STUB_URL;

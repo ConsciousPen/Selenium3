@@ -15,9 +15,7 @@ import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;
 import com.exigen.istf.timesetter.client.TimeSetterClient;
-import aaa.common.pages.LoginPage;
 import toolkit.config.PropertyProvider;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -34,7 +32,7 @@ public class TimeSetterUtil {
 
 	private TimeSetterUtil() {
 
-		if (TimeShiftTestUtil.isContextAvailable()) {
+		if (TimeShiftTestUtil.isPEFAvailable()) {
 			isPEF = true;
 		}
 	}
@@ -179,8 +177,8 @@ public class TimeSetterUtil {
 	}
 
 	private void closeAllApps() {
-		CSAAApplicationFactory.get().mainApp(new LoginPage(new SimpleDataProvider())).close();
-		CSAAApplicationFactory.get().adminApp(new LoginPage(new SimpleDataProvider())).close();
-		CSAAApplicationFactory.get().opReportApp(new LoginPage(new SimpleDataProvider())).close();
+		CSAAApplicationFactory.get().mainApp().close();
+		CSAAApplicationFactory.get().adminApp().close();
+		CSAAApplicationFactory.get().opReportApp().close();
 	}
 }

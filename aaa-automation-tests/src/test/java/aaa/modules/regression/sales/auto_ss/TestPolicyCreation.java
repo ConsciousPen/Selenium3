@@ -6,7 +6,6 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -27,18 +26,16 @@ import toolkit.utils.TestInfo;
  */
 public class TestPolicyCreation extends AutoSSBaseTest {
 
-    @Parameters({"state"})
-    @StateList(statesExcept = { States.CA })
-	@Test(groups = { Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER })
-    @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-    public void testPolicyCreation(@Optional("") String state) {
-    	
-        mainApp().open();
+	@Parameters({"state"})
+	@StateList(statesExcept = {States.CA})
+	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
+	public void testPolicyCreation(@Optional("") String state) {
+		mainApp().open();
+		createCustomerIndividual();
+		createPolicy();
 
-        createCustomerIndividual();
-        createPolicy();
-
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-    }
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
+	}
 }

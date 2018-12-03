@@ -1,5 +1,6 @@
 package aaa.helpers.openl.model.auto_ca.select;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -7,8 +8,14 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(sheetName = OpenLFile.DRIVER_SHEET_NAME, headerRowIndex = OpenLFile.DRIVER_HEADER_ROW_NUMBER)
 public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 	private Boolean drivesync;
+
+	@RequiredField
 	private Boolean newDriver;
+
+	@RequiredField
 	private String type;
+
+	@RequiredField
 	private Integer yaf;
 
 	public Boolean isDrivesync() {
@@ -41,24 +48,5 @@ public class AutoCaSelectOpenLDriver extends AutoCaOpenLDriver {
 
 	public void setYaf(Integer yaf) {
 		this.yaf = yaf;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoCaSelectOpenLDriver{" +
-				"drivesync=" + drivesync +
-				", goodDriver=" + goodDriver +
-				", matureDriver=" + matureDriver +
-				", newDriver=" + newDriver +
-				", type='" + type + '\'' +
-				", yaf=" + yaf +
-				", number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
 	}
 }

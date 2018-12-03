@@ -37,6 +37,19 @@ TestData_NJ: {
   DocumentsAndBindTab: '@DocumentsAndBindTab_NJ'
 }
 
+# ------- PA ------
+TestData_PA: {
+  PrefillTab: '@PrefillTab',
+  GeneralTab: '@GeneralTab',
+  DriverTab: '@DriverTab_PA',
+  RatingDetailReportsTab: '@RatingDetailReportsTab',
+  VehicleTab: '@VehicleTab',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: '@DriverActivityReportsTab',
+  DocumentsAndBindTab: '@DocumentsAndBindTab_PA'
+}
+
 PrefillTab: {
   Date of Birth: '08/08/1977',
   Validate Address: click,
@@ -85,6 +98,16 @@ DriverTab_MD: {
   Age First Licensed: 18,
   License Type: 'Licensed (US)',
   License Number: S123456789999
+}
+
+DriverTab_PA: {
+  Gender: 'index=1',
+  Marital Status: 'index=1',
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License State: 'PA',
+  License Number: 83127880
 }
 
 RatingDetailReportsTab: {
@@ -136,6 +159,20 @@ DocumentsAndBindTab_NJ: {
     CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
     Separate Vehicle 1: 'Yes'
     },
+  GeneralInformation: {
+    Authorized By: qa
+  }
+}
+
+DocumentsAndBindTab_PA: {
+  RequiredToBind: {
+    Auto Insurance Application: Physically Signed,
+    Uninsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Underinsured Motorists Coverage Selection/Rejection: Physically Signed,
+    Pennsylvania Important Notice: Physically Signed,
+    Pennsylvania Notice to Named Insured Regarding Tort Options: Physically Signed,
+    Invoice-Minimum Coverages: Physically Signed
+  },
   GeneralInformation: {
     Authorized By: qa
   }

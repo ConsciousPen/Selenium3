@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Policy name="AAA_HO_CA" version="1.0" rootEntityType="policy">
 	<AAAHOPolicy state="Created">
-		<agencyCd>0094</agencyCd>
-		<agentCd>500014690</agentCd>
+		<agencyCd>500001005</agencyCd>
+		<agencyLocation>500005333</agencyLocation>
+		<agentCd>70683577</agentCd>
 		<agentGeneralNumber>003</agentGeneralNumber>
 		<countryCd>US</countryCd>
 		<doNotRenewInd>false</doNotRenewInd>
@@ -13,7 +14,7 @@
 		<isAdditionalPolicy>false</isAdditionalPolicy>
 		<isAdditionalProppolicy>false</isAdditionalProppolicy>
 		<leadSourceCd>25</leadSourceCd>
-		<officeType>CC</officeType>
+		<officeType>AZ Club Agent</officeType>
 		<policyFormCd>DP3</policyFormCd>
 		<preConversionPolicyNumber>DP3 3861392</preConversionPolicyNumber>
 		<preConversionPolicyPremium>1107</preConversionPolicyPremium>

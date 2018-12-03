@@ -15,6 +15,9 @@ import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.NotesAndAlertsMetaData;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class NotesAndAlertsSummaryPage extends SummaryPage {
@@ -47,7 +50,7 @@ public class NotesAndAlertsSummaryPage extends SummaryPage {
     }
 
     public static void updateNoteByRow(TestData td, int row) {
-        activitiesAndUserNotes.getRow(row).getCell(1).controls.links.getFirst().click();
+    	tableFilterResults.getRow(row).getCell("Title").controls.links.getFirst().click();
         assetListUpdateNote.fill(td);
         Tab.buttonSave.click();
     }
@@ -60,6 +63,13 @@ public class NotesAndAlertsSummaryPage extends SummaryPage {
     public static void checkActivitiesAndUserNotes (String note, Boolean present, ETCSCoreSoftAssertions softly) {
         activitiesAndUserNotes.expand();
         softly.assertThat(activitiesAndUserNotes.getRowContains("Description", note)).isPresent(present);
+    }
+
+    public static int countActivitiesAndUserNotes (String note) {
+        activitiesAndUserNotes.expand();
+        Map<String, String> query = new HashMap<>();
+        query.put("Description", note);
+        return activitiesAndUserNotes.getRowsThatContain(query).size();
     }
 
     public static void deleteNoteByRow(int row) {

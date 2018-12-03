@@ -1,0 +1,42 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Refresh Renewal Merge Tests" verbose="1" parallel="false">
+    <!--<listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        &lt;!&ndash;<listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>&ndash;&gt;
+    </listeners>-->
+    <!-- <parameter name="timeshift-scenario-mode" value="test"/>-->
+    <test name="AZ Auto">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.preconditions.SetTodayDate"/>
+            <class name="aaa.modules.preconditions.CleanAsyncTasks"/>
+            <class name="aaa.modules.preconditions.CleanCache"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="CA Auto">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.preconditions.SetTodayDate"/>
+            <class name="aaa.modules.preconditions.CleanAsyncTasks"/>
+            <class name="aaa.modules.preconditions.CleanCache"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.preconditions.SetTodayDate"/>
+            <class name="aaa.modules.preconditions.CleanAsyncTasks"/>
+            <class name="aaa.modules.preconditions.CleanCache"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestCurrentTermEndAddsVehicle">
+                <methods>
+                    <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -139,17 +139,6 @@
             </class>
         </classes>
     </test>
-    <test name="TestPaperlessPreferencesPA">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
-                <methods>
-                    <include name="eValueConfigCheck"/>
-                    <include name="pas838_eValuePaperlessPreferencesNotConfiguredForState"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="TestTriggersAH35XX">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestTriggersAH35XX"/>
@@ -215,10 +204,24 @@
             </class>
         </classes>
     </test>
-    <test name="TestRFI-Ho3SS">
+    <test name="TestRFI-Ho3SS - Part 1">
         <parameter name="state" value="VA, PA, NV, AZ"/>
         <classes>
-            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI"/>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas349_rfiHO3_1"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="TestRFI-Ho3SS - Part 2">
+        <parameter name="state" value="VA, PA, NV, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.home_ss.ho3.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas349_rfiHO3_2"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="TestInstallmentFeesPopUpAndSavingsMsg-AutoSS">

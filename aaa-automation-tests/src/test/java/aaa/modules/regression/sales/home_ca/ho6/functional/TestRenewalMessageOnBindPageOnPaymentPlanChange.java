@@ -34,12 +34,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, notAutomaticPaymentMessage,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
@@ -60,12 +60,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.SEMI_ANNUAL,
-				false, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL, notAutomaticPaymentMessage,
+				false, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, notAutomaticPaymentMessage,
 				BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL);
 	}
 
@@ -89,7 +89,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_QuarterlyToMortgageeBill(@Optional("") String state) {
 
@@ -118,7 +118,7 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_MortgageeBillToMonthly(@Optional("") String state) {
 
@@ -143,12 +143,12 @@ public class TestRenewalMessageOnBindPageOnPaymentPlanChange extends TestRenewal
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-16405, PAS-16526, PAS-16883")
 	public void testRenewalMessageOnBindPageOnPaymentPlanChange_AutoPay(@Optional("") String state) {
 
 		testRenewalMessageOnBindPageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				true, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL, automaticPaymentMessage,
+				true, BillingConstants.PaymentPlan.MONTHLY_STANDARD_RENEWAL, automaticPaymentMessage,
 				BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 }

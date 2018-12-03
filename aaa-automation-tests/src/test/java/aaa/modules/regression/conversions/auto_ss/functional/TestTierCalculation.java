@@ -21,7 +21,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.policy.auto_ss.AutoSSPolicyActions;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -35,8 +34,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
 public class TestTierCalculation extends AutoSSBaseTest {
 
-    private final Tab generalTab = new GeneralTab();
-    private final Tab premiumCovTab = new PremiumAndCoveragesTab();
+    private final GeneralTab generalTab = new GeneralTab();
+    private final PremiumAndCoveragesTab premiumCovTab = new PremiumAndCoveragesTab();
     private final DocumentsAndBindTab documentsTab = new DocumentsAndBindTab();
     private String policyNumberNb;
     private String policyNumberConv;
@@ -73,9 +72,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
                 .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()), getTestSpecificTD("CurrentCarrierInformation"));
 
         //Create Policy
-        mainApp().open();
-        createCustomerIndividual();
-        policyNumberNb = createPolicy(tdAutoNB);
+		policyNumberNb = openAppAndCreatePolicy(tdAutoNB);
 
         //Save policy Premium and Tier values
         policy.policyInquiry().start();
@@ -87,7 +84,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Initiate manual conversion policy
         customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
         policy.getDefaultView().fillUpTo(tdAutoConv, PremiumAndCoveragesTab.class, true);
-	    new PremiumAndCoveragesTab().calculatePremium();
+	    premiumCovTab.calculatePremium();
 
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
@@ -122,37 +119,48 @@ public class TestTierCalculation extends AutoSSBaseTest {
     public void pas2443_calculateTierNyConversionCheckRenewal(@Optional("NY") String state) {
         LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-        mainApp().reopen();
-        SearchPage.openBilling(policyNumberConv);
-        BillingSummaryPage.linkAcceptPayment.click();
-        Tab acceptPayment = new AcceptPaymentActionTab();
-        acceptPayment.fillTab(getTestSpecificTD("TestData")
-                .adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), premiumValue.add(20).toString())).submitTab();
+        // Propose conversion renewal image
+		mainApp().open();
+		SearchPage.openPolicy(policyNumberConv);
+		policy.dataGather().start();
+		premiumCovTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsTab.submitTab();
 
+		// Pay amount due
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		BillingSummaryPage.linkAcceptPayment.click();
+		Tab acceptPayment = new AcceptPaymentActionTab();
+		acceptPayment.fillTab(getTestSpecificTD("TestData")
+				.adjust(TestData.makeKeyPath(acceptPayment.getMetaKey(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), premiumValue.add(20).toString())).submitTab();
+
+		// Run policy status update job
+		mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(effDate);
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
-        mainApp().reopen();
+        // Change time point to renewal image generation date
+        mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumberConv);
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(PolicySummaryPage.getExpirationDate()));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(expDate));
+
+        // Create renewal image for both policies and validate tier values
+		mainApp().open();
         assertThat(getRenewalValues(policyNumberConv)).isEqualTo(getRenewalValues(policyNumberNb));
 
     }
 
     private Map<String, String> getRenewalValues(String policyNumber) {
-        mainApp().reopen();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-        PolicySummaryPage.buttonRenewals.click();
-        new AutoSSPolicyActions.DataGather().start();
-	    new PremiumAndCoveragesTab().calculatePremium();
+		SearchPage.openPolicy(policyNumber);
+		policy.renew().start();
+		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-        mainApp().close();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsTab.submitTab();
         return result;
     }
 

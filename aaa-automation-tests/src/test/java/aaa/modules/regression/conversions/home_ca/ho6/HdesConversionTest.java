@@ -1,6 +1,5 @@
 package aaa.modules.regression.conversions.home_ca.ho6;
 
-import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -17,21 +16,21 @@ public class HdesConversionTest extends HdesConversionTestTemplate {
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO6ConversionTest(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO6ConversionTest(@Optional("CA") String state, @Optional("") String file) {
 		hdesCAConversion(file, context);
 	}
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO6ConversionTest_renewWithLapse(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO6ConversionTest_renewWithLapse(@Optional("CA") String state, @Optional("") String file) {
 		hdesCAConversion_renewWithLapse(file, context);
 	}
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
-	public void hdesCAHO6ConversionTest_renewAfterPayment(@Optional("CA") String state, String file, ITestContext context) {
+	public void hdesCAHO6ConversionTest_renewAfterPayment(@Optional("CA") String state, @Optional("") String file) {
 		hdesCAConversion_renewAfterPayment(file, context);
 	}
 }

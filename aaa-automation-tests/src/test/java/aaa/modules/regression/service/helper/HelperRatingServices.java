@@ -1,8 +1,10 @@
 package aaa.modules.regression.service.helper;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.modules.regression.service.helper.dtoRating.DiscountPercentageRuntimeContext;
-import aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest;
+import javax.ws.rs.core.Response;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.dtoRating.DiscountPercentageRuntimeContext;
+import aaa.helpers.rest.dtoRating.DiscountRetrieveFullRequest;
 import toolkit.db.DBService;
 
 public class HelperRatingServices {
@@ -12,7 +14,7 @@ public class HelperRatingServices {
 	private static final String RATING_SERVICE_TYPE = "/determineDiscountPercentage";
 
 	static void executeDiscountPercentageRetrieveRequest(String lob, String usState, String coverageCd, String expectedValue) {
-		aaa.modules.regression.service.helper.dtoRating.DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
+		DiscountRetrieveFullRequest request = new DiscountRetrieveFullRequest();
 		request.runtimeContext = new DiscountPercentageRuntimeContext();
 		request.runtimeContext.currentDate = 1517382000000L;
 		request.runtimeContext.lob = lob;
@@ -21,7 +23,7 @@ public class HelperRatingServices {
 		request.coverageCd = coverageCd;
 		request.policyType = lob;
 		String requestUrl = DBService.get().getValue(RATING_URL_TEMPLATE).get() + RATING_SERVICE_TYPE;
-		String discountPercentageValue = HelperCommon.runJsonRequestPostDxp(requestUrl, request);
+		String discountPercentageValue = JsonClient.sendPostRequest(requestUrl, request, String.class, Response.Status.OK.getStatusCode());
 		assertThat(discountPercentageValue).isEqualTo(expectedValue);
 	}
 }

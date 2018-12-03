@@ -2,16 +2,14 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import aaa.common.components.Dialog;
 import aaa.common.pages.Page;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.controls.Button;
@@ -20,6 +18,9 @@ import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AbstractContainer;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Abstract tab class.
@@ -50,7 +51,7 @@ public abstract class Tab {
 	public static Button buttonYes = new Button(By.xpath("//input[(@value = 'Yes' or @value = 'YES') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonGo = new Button(By.xpath("//input[(@value = 'Go' or @value = 'GO') and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Button buttonCreateVersion = new Button(By.id("topCreateQuoteVersionLink"));
-
+	public static Button buttonSubmit = new Button(By.xpath("//input[@value = 'Submit' and not(@class = 'hidden') and not(contains(@style,'none'))]"));
 	public static Dialog dialogCancelAction = new Dialog(By.id("cancelConfirmDialogDialog_container"));
 
 	public static StaticElement labelStatus =
@@ -64,7 +65,7 @@ public abstract class Tab {
 	public static StaticElement labelLoggedUser = new StaticElement(By.id("logoutForm:userDetails"));
 
 	public static TextBox createVersionDescription = new TextBox(By.xpath("//input[@id='quoteVersionCreationPopupForm:quoteVersionDescription']"));
-	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionPopoup_datagatherButtonsPanel_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
+	public DialogAssetList moratoriumOverrideDialog = new DialogAssetList(By.id("policyDataGatherForm:actionValidationPopup_container"), DialogsMetaData.MoratoriumOverrideDialog.class);
 	protected AbstractContainer<?, ?> assetList;
 	protected InquiryAssetList inquiryAssetList;
 
@@ -113,6 +114,13 @@ public abstract class Tab {
 	 */
 	public String getPolicyNumber() {
 		return labelPolicyNumber.getValue();
+	}
+
+	/**
+	 * @return String Quote/Policy status from tab header
+	 */
+	public String getPolicyStatus() {
+		return labelStatus.getValue();
 	}
 
 	/**

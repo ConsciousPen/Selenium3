@@ -2,23 +2,33 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(containsSheetName = OpenLFile.POLICY_SHEET_NAME, headerRowIndex = OpenLFile.POLICY_HEADER_ROW_NUMBER)
 public class AutoSSOpenLPolicy extends OpenLPolicy {
 
+	@RequiredField
 	private AutoSSOpenLCappingDetails cappingDetails;
+	@RequiredField
 	private List<AutoSSOpenLVehicle> vehicles;
+	@RequiredField
 	private List<AutoSSOpenLDriver> drivers;
 
+	@RequiredField
 	private LocalDate effectiveDate;
 	private Integer term;
 	private Boolean isHomeOwner;
@@ -30,6 +40,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Boolean aaaLifePolicy;
 	private Boolean aaaMotorcyclePolicy;
 	private Boolean isEMember;
+
+	@RequiredField
 	private Integer memberPersistency;
 	private Integer autoInsurancePersistency;
 	private Integer aaaInsurancePersistency;
@@ -46,6 +58,8 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yearsIncidentFree;
 	private Integer aggregateCompClaims;
 	private Integer nafAccidents;
+
+	@RequiredField
 	private Double avgAnnualERSperMember;
 	private Integer insuredAge;
 	private Integer noOfVehiclesExcludingTrailer;
@@ -65,6 +79,11 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	private Integer yafAfterInception; // NY specific
 	private Integer ycfAfterInception; // NY specific
 	private String tort; // PA specific
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	@Override
 	public Integer getTerm() {
@@ -93,6 +112,15 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 			RetrieveMembershipSummaryMock membershipMock = mockGenerator.getRetrieveMembershipSummaryMock(getEffectiveDate(), getMemberPersistency(), getAvgAnnualERSperMember());
 			requiredMocks.add(membershipMock);
 		}
+
+		HashSet<String> postalCodes = getVehicles().stream().map(v -> v.getAddress().getZip()).collect(Collectors.toCollection(HashSet::new));
+		for (String postalCode : postalCodes) {
+			if (!mockGenerator.isAddressReferenceMockPresent(postalCode, getState())) {
+				AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(postalCode, getState());
+				requiredMocks.add(addressReferenceMock);
+			}
+		}
+
 		return requiredMocks;
 	}
 
@@ -390,8 +418,19 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	}
 
 	@Override
-	public AutoSSTestDataGenerator getTestDataGenerator(String state, TestData baseTestData) {
-		return new AutoSSTestDataGenerator(state, baseTestData);
+	public AutoSSTestDataGenerator getTestDataGenerator(TestData baseTestData) {
+		return new AutoSSTestDataGenerator(this.getState(), baseTestData);
+	}
+
+	@Override
+	public Map<String, String> getFilteredOpenLFieldsMap() {
+		return removeOpenLFields(super.getFilteredOpenLFieldsMap(),
+				"^policy\\.drivers\\[\\d+\\]\\.id$",
+				"^policy\\.vehicles\\[\\d+\\]\\.id$",
+				"^policy\\.vehicles\\[\\d+\\].annualMileage$",
+				"^policy\\.vehicles\\[\\d+\\]\\.ratedDriver\\.id$",
+				"^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$"
+		);
 	}
 
 	public void setEffectiveDate(LocalDate effectiveDate) {
@@ -440,63 +479,6 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 
 	public void setSupplementalSpousalLiability(Boolean supplementalSpousalLiability) {
 		this.supplementalSpousalLiability = supplementalSpousalLiability;
-	}
-
-	@Override
-	public String toString() {
-		return "AutoSSOpenLPolicy{" +
-				"effectiveDate=" + effectiveDate +
-				", term=" + term +
-				", isHomeOwner=" + isHomeOwner +
-				", creditScore=" + creditScore +
-				", isAAAMember=" + isAAAMember +
-				", aaaHomePolicy='" + aaaHomePolicy + '\'' +
-				", aaaRentersPolicy='" + aaaRentersPolicy + '\'' +
-				", aaaCondoPolicy='" + aaaCondoPolicy + '\'' +
-				", aaaLifePolicy=" + aaaLifePolicy +
-				", aaaMotorcyclePolicy=" + aaaMotorcyclePolicy +
-				", isEMember=" + isEMember +
-				", memberPersistency=" + memberPersistency +
-				", autoInsurancePersistency=" + autoInsurancePersistency +
-				", aaaInsurancePersistency=" + aaaInsurancePersistency +
-				", aaaAsdInsurancePersistency=" + aaaAsdInsurancePersistency +
-				", isAARP=" + isAARP +
-				", isEmployee=" + isEmployee +
-				", isAdvanceShopping=" + isAdvanceShopping +
-				", paymentPlanType='" + paymentPlanType + '\'' +
-				", distributionChannel='" + distributionChannel + '\'' +
-				", unacceptableRisk=" + unacceptableRisk +
-				", priorBILimit='" + priorBILimit + '\'' +
-				", reinstatements=" + reinstatements +
-				", yearsAtFaultAccidentFree=" + yearsAtFaultAccidentFree +
-				", yearsIncidentFree=" + yearsIncidentFree +
-				", aggregateCompClaims=" + aggregateCompClaims +
-				", nafAccidents=" + nafAccidents +
-				", avgAnnualERSperMember=" + avgAnnualERSperMember +
-				", insuredAge=" + insuredAge +
-				", noOfVehiclesExcludingTrailer=" + noOfVehiclesExcludingTrailer +
-				", multiCar=" + multiCar +
-				", supplementalSpousalLiability=" + supplementalSpousalLiability +
-				", umbiConvCode=" + umbiConvCode +
-				", aaaAPIPIncomeContBenLimit=" + aaaAPIPIncomeContBenLimit +
-				", aaaAPIPLengthIncomeCont='" + aaaAPIPLengthIncomeCont + '\'' +
-				", aaaPIPExtMedPayLimit=" + aaaPIPExtMedPayLimit +
-				", aaaPIPMedExpDeductible=" + aaaPIPMedExpDeductible +
-				", aaaPIPMedExpLimit=" + aaaPIPMedExpLimit +
-				", aaaPIPNonMedExp='" + aaaPIPNonMedExp + '\'' +
-				", aaaPIPPrimaryInsurer='" + aaaPIPPrimaryInsurer + '\'' +
-				", noOfAPIPAddlNamedRel=" + noOfAPIPAddlNamedRel +
-				", previousAaaInsurancePersistency=" + previousAaaInsurancePersistency +
-				", rbTier='" + rbTier + '\'' +
-				", yafAfterInception=" + yafAfterInception +
-				", ycfAfterInception=" + ycfAfterInception +
-				", tort='" + tort + '\'' +
-				", cappingDetails=" + cappingDetails +
-				", vehicles=" + vehicles +
-				", drivers=" + drivers +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
 	}
 
 	public Boolean isHomeOwner() {

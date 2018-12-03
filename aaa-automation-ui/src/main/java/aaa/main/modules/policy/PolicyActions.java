@@ -2,18 +2,19 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy;
 
-import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
-import org.openqa.selenium.By;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import static aaa.main.pages.summary.PolicySummaryPage.tableDifferences;
 
 /**
  * Set of abstract classes describing all actions available for the product entities of each type.
@@ -493,6 +494,9 @@ public final class PolicyActions {
 
 			int rowsCount;
 			int columnsCount;
+			int maxRowsCount = 5;
+			String linkTriangleXPathPart1 = "//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_";
+			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]";
 
 			if (tableDifferences.isPresent()) {
 				rowsCount = tableDifferences.getRowsCount();
@@ -500,10 +504,21 @@ public final class PolicyActions {
 
 				//expand rows
 				for (int i = 0; i < rowsCount; i++) {
-					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+					Link linkTriangle = new Link(By.xpath(linkTriangleXPathPart1 + i + linkTriangleXPathPart2));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
+						for (int j = 0; j < maxRowsCount; j++) {
+							Link linkTriangle2 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + linkTriangleXPathPart2));
+							if (linkTriangle2.isPresent() && linkTriangle2.isVisible()) {
+								linkTriangle2.click();
+								for (int z = 0; z < maxRowsCount; z++) {
+									Link linkTriangle3 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + "_" + z + linkTriangleXPathPart2));
+									if (linkTriangle3.isPresent() && linkTriangle3.isVisible()) {
+										linkTriangle3.click();
+									}
+								}
+							}
+						}
 					}
 				}
 
@@ -692,7 +707,7 @@ public final class PolicyActions {
 		 * Use method like policy.getDefaultView().fillUpTo(td, tabClass) after this.
 		 */
 		public AbstractAction perform() {
-			return super.perform(new SimpleDataProvider());
+			return perform(new SimpleDataProvider());
 		}
 }
 

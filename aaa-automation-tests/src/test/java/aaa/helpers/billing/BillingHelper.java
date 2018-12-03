@@ -156,6 +156,20 @@ public final class BillingHelper {
 		}
 		return amount;
 	}
+	
+	/**
+	 * Search for all transactions in specified date
+	 */
+	public static Dollar getTransactionsAmountSum(LocalDateTime date) {
+		Dollar amount = new Dollar(0);
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, date.format(DateTimeUtils.MM_DD_YYYY));
+		List<String> feeValues = BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(values, BillingPaymentsAndOtherTransactionsTable.AMOUNT);
+		for (String fee : feeValues) {
+			amount = amount.add(new Dollar(fee));
+		}
+		return amount;
+	}
 
 	public static Dollar getPolicyRenewalProposalSum(LocalDateTime renewDate, String policyNum) {
 		HashMap<String, String> query = new HashMap<>();

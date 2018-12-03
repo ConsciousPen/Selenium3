@@ -8,9 +8,12 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import aaa.common.enums.Constants;
 import aaa.helpers.mock.ApplicationMocksManager;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.UpdatableMock;
+import aaa.helpers.mock.model.address.AddressReference;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.MembershipRequest;
 import aaa.helpers.mock.model.membership.MembershipResponse;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -19,7 +22,9 @@ import aaa.helpers.mock.model.property_risk_reports.RetrievePropertyRiskReportsM
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsRequest;
 import aaa.helpers.mock.model.property_risk_reports.RiskReportsResponse;
 import aaa.utils.excel.bind.ReflectionHelper;
+import toolkit.db.DBService;
 import toolkit.exceptions.IstfException;
+import toolkit.verification.CustomAssertions;
 
 public class MockGenerator {
 	private static final Integer RISKREPORTS_ELEVATION = 2700;
@@ -34,9 +39,8 @@ public class MockGenerator {
 		generatedMocks.clear();
 	}
 
-	@SuppressWarnings("unchecked")
 	public static <M extends UpdatableMock> M getEmptyMock(Class<M> mockDataClass) {
-		M mockInstance = (M) ReflectionHelper.getInstance(mockDataClass);
+		M mockInstance = ReflectionHelper.getInstance(mockDataClass);
 		for (Field tableField : ReflectionHelper.getAllAccessibleTableFieldsFromThisAndSuperClasses(mockDataClass)) {
 			ReflectionHelper.setFieldValue(tableField, mockInstance, new ArrayList<>());
 		}
@@ -66,7 +70,9 @@ public class MockGenerator {
 		List<String> validRiskReportsRequestIDs = getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsRequests().stream()
 				.filter(r -> StringUtils.isBlank(r.getState())
 						&& StringUtils.isBlank(r.getCityName())
-						&& StringUtils.isBlank(r.getZipCode()))
+						&& StringUtils.isBlank(r.getZipCode())
+						&& StringUtils.isBlank(r.getStreetAddressLine())
+						&& StringUtils.isBlank(r.getStreetAddressLine2()))
 				.map(RiskReportsRequest::getId).collect(Collectors.toList());
 
 		return getMock(RetrievePropertyRiskReportsMock.class).getRiskReportsResponses().stream()
@@ -83,6 +89,10 @@ public class MockGenerator {
 		return getMock(RetrieveMembershipSummaryMock.class).getMembershipNumberForAvgAnnualERSperMember(policyEffectiveDate, memberPersistency, avgAnnualERSperMember) != null;
 	}
 
+	public boolean isAddressReferenceMockPresent(String postalCode, String state) {
+		return getMock(AddressReferenceMock.class).hasAddress(postalCode, state);
+	}
+
 	public RetrievePropertyClassificationMock getRetrievePropertyClassificationMock() {
 		RetrievePropertyClassificationMock propertyClassificationMock = buildRetrievePropertyClassificationMock();
 		generatedMocks.add(propertyClassificationMock);
@@ -96,7 +106,6 @@ public class MockGenerator {
 		RetrievePropertyRiskReportsMock propertyRiskReportsMock = new RetrievePropertyRiskReportsMock();
 		RiskReportsRequest riskReportsRequest = new RiskReportsRequest();
 		riskReportsRequest.setId(id);
-		riskReportsRequest.setStreetAddressLine(STREET_ADDRESS_LINE);
 
 		RiskReportsResponse riskReportsResponse = new RiskReportsResponse();
 		riskReportsResponse.setId(id);
@@ -158,9 +167,30 @@ public class MockGenerator {
 		return membershipMock;
 	}
 
+	public AddressReferenceMock getAddressReferenceMock(String postalCode, String state) {
+		String getZipQuery = String.format("select * from LOOKUPVALUE where %s = ? and LOOKUPLIST_ID in (select ID from LOOKUPLIST where LOOKUPNAME = 'AAACountyTownship') and RISKSTATECD = ?",
+				Constants.States.CT.equals(state) ? "CODE" : "POSTALCODE");
+
+		CustomAssertions.assertThat(DBService.get().getValue(getZipQuery, postalCode, state)).as("Zip code %s is not valid for %s state, mock generation is useless", postalCode, state).isPresent();
+
+		AddressReferenceMock addressReferenceMock = new AddressReferenceMock();
+		List<AddressReference> addressReferences = new ArrayList<>();
+		AddressReference addressReference = new AddressReference();
+		addressReference.setPostalCode(postalCode);
+		addressReference.setCity("SomeCity " + RandomStringUtils.randomAlphabetic(5));
+		addressReference.setState(state);
+		addressReference.setCounty("SomeCounty " + RandomStringUtils.randomAlphabetic(5));
+		addressReference.setCountry("US");
+		addressReferences.add(addressReference);
+		addressReferenceMock.setAddressReferences(addressReferences);
+
+		generatedMocks.add(addressReferenceMock);
+		return addressReferenceMock;
+	}
+
 	protected static synchronized String generateMockId(List<String> existingMockIDs) {
 		int idLastIndex = existingMockIDs.stream().filter(id -> id != null && id.startsWith(GENERATED_ID_PREFIX))
-				.map(id -> Integer.valueOf(id.replaceAll(GENERATED_ID_PREFIX, ""))).max(Integer::compare).orElse(0);
+				.map(id -> Integer.valueOf(id.replaceAll("\\D", "").matches("^[0-9]+$") ? id.replaceAll("\\D", "") : "0")).max(Integer::compare).orElse(0);
 		return GENERATED_ID_PREFIX + (idLastIndex + 1);
 	}
 

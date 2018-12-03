@@ -3,23 +3,26 @@ package aaa.helpers.openl.model.home_ca;
 import java.time.LocalDate;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.helpers.mock.MocksCollection;
+import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeCaMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.utils.excel.bind.annotation.ExcelTransient;
 
-public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenLPolicy {
+public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends HomeCaOpenLDwelling> extends OpenLPolicy {
 	protected Integer claimPoints;
 	protected Double covCLimit;
 	protected Integer expClaimPoints;
 	protected Boolean isAaaMember;
 	protected Integer yearsOfPriorInsurance;
-	protected Integer yearsWithCsaa;
+	protected LocalDate effectiveDate;
 
-	@ExcelTransient
-	private LocalDate effectiveDate;
+	@RequiredField
+	protected Integer yearsWithCsaa;
 
 	public Integer getClaimPoints() {
 		return claimPoints;
@@ -70,12 +73,22 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenL
 	}
 
 	@Override
+	public String getState() {
+		return Constants.States.CA;
+	}
+
+	@Override
 	public MocksCollection getRequiredMocks() {
 		MocksCollection requiredMocks = new MocksCollection();
 		MockGenerator mockGenerator = new HomeCaMockGenerator();
 		if (!mockGenerator.isPropertyClassificationMockPresent()) {
 			RetrievePropertyClassificationMock propertyClassificationMock = mockGenerator.getRetrievePropertyClassificationMock();
 			requiredMocks.add(propertyClassificationMock);
+		}
+
+		if (!mockGenerator.isAddressReferenceMockPresent(getDwelling().getAddress().getZipCode(), getState())) {
+			AddressReferenceMock addressReferenceMock = mockGenerator.getAddressReferenceMock(getDwelling().getAddress().getZipCode(), getState());
+			requiredMocks.add(addressReferenceMock);
 		}
 		return requiredMocks;
 	}
@@ -105,17 +118,5 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm> extends OpenL
 
 	public abstract List<F> getForms();
 
-	@Override
-	public String toString() {
-		return "HomeCaOpenLPolicy{" +
-				"claimPoints=" + claimPoints +
-				", covCLimit=" + covCLimit +
-				", expClaimPoints=" + expClaimPoints +
-				", isAaaMember=" + isAaaMember +
-				", yearsOfPriorInsurance=" + yearsOfPriorInsurance +
-				", yearsWithCsaa=" + yearsWithCsaa +
-				", number=" + number +
-				", policyNumber='" + policyNumber + '\'' +
-				'}';
-	}
+	public abstract D getDwelling();
 }

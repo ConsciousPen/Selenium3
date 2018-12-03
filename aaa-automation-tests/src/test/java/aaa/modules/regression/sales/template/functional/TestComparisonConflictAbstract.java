@@ -6,12 +6,10 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.InvalidArgumentException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import com.google.common.collect.*;
 import aaa.common.Tab;
@@ -22,7 +20,10 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.auto_ss.functional.VersionsComparisonConstants;
+import aaa.modules.regression.sales.helper.SectionFieldData;
 import toolkit.datax.TestData;
+import toolkit.datax.TestDataException;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 
@@ -30,6 +31,57 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	private static final String SECTION_UIFIELD_SEPARATOR = ".";
 	private static final int SECTION_NAME_ROW_INDEX = 1;
+	private static final List<String> NOT_IMPLEMENTED_YET_SECTIONS = ImmutableList.of(
+			//Auto SS
+			"Drivers.VIIFirstName VII VIILastName.AAA Claims Report Order",
+			"Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order",
+			"Drivers.NBFirstName NB NBLastName.AAA Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.AAAMvr Report Order",
+			"Named Insureds.VIFirstName VI VILastName.AAA Credit History Order",
+			"Named Insureds.VIIFirstName VII VIILastName.AAA Credit History Order",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Credit History Order",
+			"AAACredit Score Info",
+			"AAAPolicy Issue Summary",
+			"Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage",
+			"Vehicles.2003, MERCEDES-BENZ, SL500R.Coverages.AAAADBCoverage",
+			"Vehicles.1998, DODGE, CARAVAN.Forms",
+			"AZ_ADBEEndorsement Form",
+			"AZ_SR22FREndorsement Form",
+			//Auto CA unique
+			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.AAAMvr Report Order",
+			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.A A A Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.AAAMvr Report Order",
+			"ADBEndorsement Form",
+			"CIPCS22Endorsement Form",
+			"Forms",
+			"ENOCCEndorsement Form",
+			"LSOPCEndorsement Form",
+			"AA59 Existing Damage Endorsement Form"
+	);
+
+	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
+			"AAA Membership report.Order Date",
+			"AAA Membership report.Receipt Date",
+			"Current Carrier Information.Days Lapsed",
+			"Policy Information.Renewal Term Premium - Old Rater",
+			"Drivers.VIFirstName VI VILastName.Date First Licensed",
+			"Drivers.NBFirstName NB NBLastName.Date First Licensed",
+			"Drivers.VIFirstName VI VILastName.New Driver Course Completion Date",
+			"Drivers.NBFirstName NB NBLastName.New Driver Course Completion Date",
+			"Drivers.VIFirstName VI VILastName.Smart Driver Course Completion Date",
+			"Drivers.NBFirstName NB NBLastName.Smart Driver Course Completion Date",
+			"Drivers.VIFirstName VI VILastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Description",
+			"Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Description",
+			"Drivers.VIFirstName VI VILastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes",
+			"Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and run, 07/20/2018, Not included in Rating).Not Included in Points and/or YAF - Reason Codes",
+			"Vehicles.1998, DODGE, CARAVAN.AAA UBI Device Status Date",
+			"Vehicles.1998, DODGE, CARAVAN.Safety Score Date",
+			"Vehicles.1998, DODGE, CARAVAN.Garaging Address",
+			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form"
+	);
 	private final ErrorTab errorTab = new ErrorTab();
 
 	/**
@@ -114,7 +166,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	}
 
 	private void verifyTransactionHistoryType(int rowIndex, String type) {
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(rowIndex).getCell(2).getValue()).as("Transaction type should be {0}", type).isEqualTo(type);
+		assertThat(PolicySummaryPage.tableTransactionHistory.getRow(rowIndex).getCell(2).getValue()).as("Transaction type should be %1$s.", type).isEqualTo(type);
 	}
 
 	/**
@@ -125,7 +177,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param tabName name of tab where section is located
 	 * @param sectionName section name that is under verification
 	 */
-	protected void endorsementsComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
+	protected void endorsementComparison(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
 		mainApp().open();
 		createCustomerIndividual();
 		createPolicy(getTestSpecificTD("TestData_NB_Policy"));
@@ -182,6 +234,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		policy.getDefaultView().fill(tdVersion);
 	}
 
+	private void renewalBlankVersionCreation() {
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		policy.getDefaultView().fill(getTestSpecificTD("TestData_Blank"));
+	}
+
 	/**
 	 * Mid-term endorsement transaction effective date + 20 days
 	 * @param td test data that is used for endorsement transaction
@@ -197,6 +255,14 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void processPlus25DaysEndorsement(TestData td) {
 		TestData endorsementTD = td.adjust(getTestSpecificTD("TestData_Plus25Days"));
+		policy.endorse().performAndFill(endorsementTD);
+	}
+
+	/**
+	 * Blank Mid-term endorsement transaction effective date + 27 days to validate that all rules/validations for policies are set correctly
+	 */
+	private void processPlus27DaysBlankEndorsement() {
+		TestData endorsementTD = getTestSpecificTD("TestData_Blank").adjust(getTestSpecificTD("TestData_Plus27Days"));
 		policy.endorse().performAndFill(endorsementTD);
 	}
 
@@ -226,15 +292,45 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param sectionName section name that is under verification
 	 */
 	private void checkComparisonPage(TestData tdVersion1, TestData tdVersion2, Multimap<String, String> expectedSectionsAndUIFields, String tabName, String sectionName) {
+		List<SectionFieldData> actualSectionsAndUIFields = Lists.newArrayList();
+		ArrayListMultimap<SectionFieldData, String> actualUIFieldsAndValuesV1 = ArrayListMultimap.create();
+		ArrayListMultimap<SectionFieldData, String> actualUIFieldsAndValuesV2 = ArrayListMultimap.create();
+		gatherActualResults(actualSectionsAndUIFields, actualUIFieldsAndValuesV1, actualUIFieldsAndValuesV2);
+
+		if (log.isDebugEnabled()) {
+			log.debug("EXPECTED RESULT (draft to create expected result from): ");
+			prettyPrintDraftSections(actualSectionsAndUIFields);
+		}
 		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV1 = createExpectedResultFromTD(tdVersion1, tabName, sectionName);
 		ListMultimap<String, String> expectedUIFieldsAndValuesFromTDV2 = createExpectedResultFromTD(tdVersion2, tabName, sectionName);
 
-		ArrayListMultimap<String, String> actualSectionsAndUIFields = ArrayListMultimap.create();
-		ArrayListMultimap<String, String> actualUIFieldsAndValuesV1 = ArrayListMultimap.create();
-		ArrayListMultimap<String, String> actualUIFieldsAndValuesV2 = ArrayListMultimap.create();
-		gatherActualResults(actualSectionsAndUIFields, actualUIFieldsAndValuesV1, actualUIFieldsAndValuesV2);
-		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV1, actualSectionsAndUIFields, actualUIFieldsAndValuesV1, 1); //version1
-		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV2, actualSectionsAndUIFields, actualUIFieldsAndValuesV2, 0); //version2
+		Multimap<String, String> actualSectionsAndUIFieldsMap = toMultimap(actualSectionsAndUIFields);
+		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV1, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV1), 1); //version1
+		verificationComparisonPage(expectedSectionsAndUIFields, expectedUIFieldsAndValuesFromTDV2, actualSectionsAndUIFieldsMap, toMultimap(actualUIFieldsAndValuesV2), 0); //version2
+	}
+
+	/**
+	 * Prints draft to create expected result from. See {@link VersionsComparisonConstants}
+	 */
+	private void prettyPrintDraftSections(List<SectionFieldData> actualSectionsAndUIFields) {
+		actualSectionsAndUIFields.forEach(field -> log.debug(".put(\"{}\", \"{}\")", field.getSectionPath(), field.getFieldName()));
+	}
+
+	private Multimap<String, String> toMultimap(List<SectionFieldData> actualSectionsAndUIFields) {
+		ListMultimap<String, String> result = MultimapBuilder.hashKeys().arrayListValues().build();
+		actualSectionsAndUIFields.forEach(field -> {
+			if (!field.isSection()) {
+				result.put(field.getSectionPath(), field.getFieldName());  // collects paths for fields only
+			}
+		});
+		return result;
+	}
+
+	private ArrayListMultimap<String, String> toMultimap(ArrayListMultimap<SectionFieldData, String> actualSectionsAndUIFields) {
+		ArrayListMultimap<String, String> result = ArrayListMultimap.create();
+		actualSectionsAndUIFields.entries()
+				.forEach(fieldSectionData -> result.put(fieldSectionData.getKey().getFullPath(), fieldSectionData.getValue()));
+		return result;
 	}
 
 	/**
@@ -245,14 +341,24 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @return list of expected UI fields and according values
 	 */
 	private ListMultimap<String, String> createExpectedResultFromTD(TestData td, String tabName, String sectionName) {
-		ListMultimap<String, String> expectedUIFieldsAndValues = MultimapBuilder.hashKeys().arrayListValues().build();
+		ListMultimap<String, String> expectedUIFieldsAndValuesResult = MultimapBuilder.hashKeys().arrayListValues().build();
 		List<TestData> testData = td.getTestData(tabName).getTestDataList(sectionName);
 		TestData uiFields = testData.isEmpty() ? td.getTestData(tabName) : testData.get(0);
-		for (String key : uiFields.getKeys()) {
+		return extractFieldsFromTestData(uiFields, expectedUIFieldsAndValuesResult);
+	}
+
+	private ListMultimap<String, String> extractFieldsFromTestData(TestData testData, ListMultimap<String, String> expectedUIFieldsAndValues) {
+		for (String key : testData.getKeys()) {
 			if (!excludedTDKeys.contains(key)) {
-				String value = uiFields.getValue(key);
-				String valueOnComparisonPage = getComparisonPageDifferentValues().getOrDefault(value, value);
-				expectedUIFieldsAndValues.put(key, valueOnComparisonPage);
+				try {
+					String value = testData.getValue(key);
+					String valueOnComparisonPage = getComparisonPageDifferentValues().getOrDefault(value, value);
+					expectedUIFieldsAndValues.put(key, valueOnComparisonPage);
+					log.debug("Extract expected from TD:{} [{}] -> [{}]", System.lineSeparator(), key, valueOnComparisonPage);
+				} catch (TestDataException e) {
+					log.debug("Extract section [{}] from TD", key);
+					extractFieldsFromTestData(testData.getTestData(key), expectedUIFieldsAndValues);
+				}
 			}
 		}
 		return expectedUIFieldsAndValues;
@@ -268,6 +374,11 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void verificationComparisonPage(Multimap<String, String> expectedSectionsAndUIFields, ListMultimap<String, String> expectedUIFieldsAndValuesFromTD,
 			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion) {
+		expectedSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(expectedSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections/fields
+		actualSectionsAndUIFields = MultimapBuilder.hashKeys().arrayListValues().build(actualSectionsAndUIFields);  // TODO REMOVE. Added to support not implemented sections/fields
+		actualUIFieldsAndValues = ArrayListMultimap.create(actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections/fields
+		removeNotImplementedFields(expectedSectionsAndUIFields, actualSectionsAndUIFields, actualUIFieldsAndValues);  // TODO REMOVE. Added to support not implemented sections/fields
+
 		//verification of expected section/UI fields names and amount
 		verifySectionsAndUIFieldsNames(expectedSectionsAndUIFields, actualSectionsAndUIFields);
 
@@ -278,9 +389,34 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 				verifyWithTDValues(expectedUIFieldsAndValuesFromTD, actualUIFieldsAndValues, comparisonVersion, uiFieldsPath, getUIFieldsToTDMapping().get(uiFieldsPath));
 			} else {
 				//path Section.UIField isn't found in getUIFieldsToTDMapping(mapping Section.UIField to field name in Test Data), so looking for expectedValue in predefinedExpectedValues and compare with actual results
-				verityWithPredefinedValues(actualUIFieldsAndValues, comparisonVersion, uiFieldsPath);
+				verifyWithPredefinedValues(actualUIFieldsAndValues, comparisonVersion, uiFieldsPath);
 			}
 		}
+	}
+
+	/**
+	 * Remove all not implemented sections from actual/expected results
+	 * @param expectedSectionsAndUIFields expected list of sections/UI fields from section
+	 * @param actualSectionsAndUIFields actual list of sections/UI fields from section
+	 * @param actualUIFieldsAndValues actual list of UI fields from section/values
+	 */
+	private void removeNotImplementedFields(Multimap<String, String> expectedSectionsAndUIFields,
+			Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValues) {
+		expectedSectionsAndUIFields.keySet()
+				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
+						.anyMatch(notImplementedSection -> isFieldNotImplemented(fieldPath, notImplementedSection)));
+		actualSectionsAndUIFields.keySet()
+				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
+						.anyMatch(notImplementedSection -> isFieldNotImplemented(fieldPath, notImplementedSection)));
+		actualUIFieldsAndValues.keySet()
+				.removeIf(fieldPath -> NOT_IMPLEMENTED_YET_SECTIONS.stream()
+						.anyMatch(notImplementedSection -> isFieldNotImplemented(fieldPath, notImplementedSection)));
+	}
+
+	private boolean isFieldNotImplemented(String fieldPath, String notImplementedSection) {
+		return fieldPath.startsWith(notImplementedSection + SECTION_UIFIELD_SEPARATOR) ||
+				fieldPath.contains(SECTION_UIFIELD_SEPARATOR + notImplementedSection) ||
+				fieldPath.equals(notImplementedSection);
 	}
 
 	/**
@@ -289,17 +425,18 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param comparisonVersion version can be current or available
 	 * @param uiFieldsPath Section.UIFields combination
 	 */
-	private void verityWithPredefinedValues(ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion, String uiFieldsPath) {
+	private void verifyWithPredefinedValues(ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion, String uiFieldsPath) {
 		//looking for Section.UIFields in predefined expected values
 		List<String> predefinedExpectedValues = getPredefinedExpectedValues().get(uiFieldsPath);
 		//getting value based on needed version (current or available)
+		log.debug("Check predefined field: [{}]", uiFieldsPath);
 		String expectedValue = predefinedExpectedValues.get(comparisonVersion);
 		assertSoftly(softly -> {
-			softly.assertThat(predefinedExpectedValues).as("UI field path {0} not found in TestData or predefined values.", uiFieldsPath).isNotEmpty();
-			softly.assertThat(expectedValue).as("Expected values for ui field path {0} not found in TestData or predefined values.", uiFieldsPath).isNotNull();
-			if (!predefinedExpectedValues.isEmpty() && expectedValue != null) {
+			softly.assertThat(predefinedExpectedValues).as("UI field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotEmpty();
+			softly.assertThat(expectedValue).as("Expected values for ui field path %1$s not found in TestData or predefined values.", uiFieldsPath).isNotNull();
+			if (!predefinedExpectedValues.isEmpty() && expectedValue != null && !NOT_IMPLEMENTED_YET_FIELDS.contains(uiFieldsPath)) {
 				//comparison actual and expected value of UI field
-				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in " + uiFieldsPath).isEqualTo(expectedValue);
+				softly.assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(0)).as("Problem in %1$s.", uiFieldsPath).isEqualTo(expectedValue);
 			}
 		});
 	}
@@ -310,27 +447,49 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param actualUIFieldsAndValues actual values that are taken from Comparison screen
 	 * @param comparisonVersion version can be current or available
 	 * @param uiFieldsPath Section.UIFields combination
-	 * @param uiFields getting the whole list of UIFields with the same path (e.g. for Product Owned section, where they can be the same)
+	 * @param tdKeysForFieldPath getting the whole list of UIFields with the same path (e.g. for Product Owned section, where they can be the same)
 	 */
 	private void verifyWithTDValues(ListMultimap<String, String> expectedUIFieldsAndValuesFromTD, ArrayListMultimap<String, String> actualUIFieldsAndValues, int comparisonVersion,
-			String uiFieldsPath, List<String> uiFields) {
+			String uiFieldsPath, List<String> tdKeysForFieldPath) {
 		//the same Section.UIField can be present more than once e.g.:
 		//"AAA Products Owned.Policy #" => "Motorcycle Policy #"
 		//"AAA Products Owned.Policy #" => "Life Policy #"
 		//TODO refactor code, than problem about unique name of fields is solved
-		for (int uiFieldPos = 0; uiFieldPos < uiFields.size(); uiFieldPos++) {
-			//getting value for UI field from TD
-			String expectedValueFromTD = expectedUIFieldsAndValuesFromTD.get(uiFields.get(uiFieldPos)).get(0);
+		for (int tdKeyPos = 0; tdKeyPos < tdKeysForFieldPath.size(); tdKeyPos++) {
 			String expectedValue;
-			if (expectedValueFromTD == null) {
-				//if value not found look for it in predefinedExpectedFields (for case when the same Section.UIField can be present more than once)
-				expectedValue = getPredefinedExpectedValues().get(uiFieldsPath).get(comparisonVersion);
-			} else {
-				expectedValue = expectedValueFromTD;
+			//getting value for UI field from TD
+			expectedValue = searchByKeyInTDValues(expectedUIFieldsAndValuesFromTD, tdKeysForFieldPath.get(tdKeyPos));
+			if (expectedValue == null) {
+				expectedValue = searchByPathInPredefinedValues(comparisonVersion, uiFieldsPath);
 			}
+			//if value is not in predefined and not in TD, make it empty for situations when we don't have field in one version and have it in another version.
+			expectedValue = StringUtils.defaultIfEmpty(expectedValue, StringUtils.EMPTY);
 			//comparison actual and expected value of UI field
-			assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(uiFieldPos)).as("Problem in " + uiFieldsPath).isEqualTo(expectedValue);
+			if (!NOT_IMPLEMENTED_YET_FIELDS.contains(uiFieldsPath)) {
+				assertThat(actualUIFieldsAndValues.get(uiFieldsPath).get(tdKeyPos)).as("Problem in %1$s.", uiFieldsPath).isEqualTo(expectedValue);
+			} else{
+				log.info("{} is skipped for verification because it is not implemented", uiFieldsPath);
+			}
 		}
+	}
+
+	private String searchByPathInPredefinedValues(int comparisonVersion, String uiFieldsPath) {
+		String expectedValue;//if value not found look for it in predefinedExpectedFields (for case when the same Section.UIField can be present more than once)
+
+		List<String> foundExpectedValueInPredefined = getPredefinedExpectedValues().get(uiFieldsPath);
+		if (!getPredefinedExpectedValues().get(uiFieldsPath).isEmpty()) {
+			expectedValue = foundExpectedValueInPredefined.get(comparisonVersion);
+			return expectedValue;
+		}
+		return null;
+	}
+
+	private String searchByKeyInTDValues(ListMultimap<String, String> expectedUIFieldsAndValuesFromTD, String tdKey) {
+		List<String> foundExpectedValueInTD = expectedUIFieldsAndValuesFromTD.get(tdKey);
+		if (!foundExpectedValueInTD.isEmpty()) {
+			return foundExpectedValueInTD.get(0);
+		}
+		return null;
 	}
 
 	/**
@@ -344,7 +503,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			softly.assertThat(actualSectionsAndUIFields.keySet().size()).isEqualTo(expectedSectionsAndUIFields.keySet().size());
 			//comparison of actual and expected section and UI fields names for each section
 			for (String sectionName : expectedSectionsAndUIFields.keySet()) {
-				softly.assertThat(actualSectionsAndUIFields.get(sectionName)).as("Section {0} isn't found", sectionName).isNotEmpty();
+				softly.assertThat(actualSectionsAndUIFields.get(sectionName)).as("Expected section %1$s is not found.", sectionName).isNotEmpty();
 				if (!actualSectionsAndUIFields.get(sectionName).isEmpty()) {
 					softly.assertThat(actualSectionsAndUIFields.get(sectionName)).isEqualTo(expectedSectionsAndUIFields.get(sectionName));
 				}
@@ -358,16 +517,17 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 * @param actualUIFieldsAndValuesV1 actual list of UI fields from section/values for version1
 	 * @param actualUIFieldsAndValuesV2 actual list of UI fields from section/values for version2
 	 */
-	private void gatherActualResults(Multimap<String, String> actualSectionsAndUIFields, ArrayListMultimap<String, String> actualUIFieldsAndValuesV1,
-			ArrayListMultimap<String, String> actualUIFieldsAndValuesV2) {
-		for (int sectionNumber = 0; ; sectionNumber++) {
-			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(sectionNumber);
+	private void gatherActualResults(List<SectionFieldData> actualSectionsAndUIFields, ArrayListMultimap<SectionFieldData, String> actualUIFieldsAndValuesV1,
+			ArrayListMultimap<SectionFieldData, String> actualUIFieldsAndValuesV2) {
+		for (int sectionNumber = 0; ; sectionNumber++) { // main sections level
+			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(Lists.newArrayList(sectionNumber));
 			if (sectionText.isPresent()) {
 				String sectionName = sectionText.getValue();
-				List<String> uiFields = parseUIFieldsForSection(sectionNumber);
-				actualSectionsAndUIFields.putAll(sectionName, uiFields);
-				actualUIFieldsAndValuesV1.putAll(parseUIFieldsAndValuesForSection(sectionNumber, sectionName, uiFields, 3));
-				actualUIFieldsAndValuesV2.putAll(parseUIFieldsAndValuesForSection(sectionNumber, sectionName, uiFields, 2));
+				List<SectionFieldData> uiFields = parseUIFieldsForSection(sectionName, Collections.singletonList(sectionNumber));
+				actualSectionsAndUIFields.addAll(uiFields);
+
+				actualUIFieldsAndValuesV1.putAll(parseUIFieldsAndValuesForSection(uiFields, 3));
+				actualUIFieldsAndValuesV2.putAll(parseUIFieldsAndValuesForSection(uiFields, 2));
 			} else {
 				break;
 			}
@@ -376,20 +536,18 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	/**
 	 * Getting actual list of values for sections/UI fields
-	 * @param sectionNumber number of section
-	 * @param sectionName name of section
 	 * @param uiFields list of UI fields belong to section
 	 * @param column version that is checked (current/available)
 	 * @return values for sections/UI fields
 	 */
-	private Multimap<String, String> parseUIFieldsAndValuesForSection(int sectionNumber, String sectionName, List<String> uiFields, int column) {
-		Multimap<String, String> comparisonValues = ArrayListMultimap.create();
-		for (int uiFieldNumber = 0; uiFieldNumber < uiFields.size(); uiFieldNumber++) {
-			StaticElement columnValue = PolicySummaryPage.TransactionHistory.provideValueExpandComparisonTree(sectionNumber, uiFieldNumber, column);
+	private Multimap<SectionFieldData, String> parseUIFieldsAndValuesForSection(List<SectionFieldData> uiFields, int column) {
+		Multimap<SectionFieldData, String> comparisonValues = MultimapBuilder.hashKeys().arrayListValues().build();
+		for(SectionFieldData uiField: uiFields) {
+			StaticElement columnValue = PolicySummaryPage.TransactionHistory.provideValueExpandComparisonTree(column, uiField.getTreePosition());
 			if (columnValue.isPresent()) {
-				comparisonValues.put(buildUIFieldPath(sectionName, uiFields.get(uiFieldNumber)), columnValue.getValue());
+				comparisonValues.put(uiField, columnValue.getValue());
 			} else {
-				comparisonValues.put(buildUIFieldPath(sectionName, uiFields.get(uiFieldNumber)), StringUtils.EMPTY);
+				comparisonValues.put(uiField, StringUtils.EMPTY);
 			}
 		}
 		return comparisonValues;
@@ -397,21 +555,76 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 
 	/**
 	 * Getting actual list of UI fields for a section
-	 * @param sectionNumber number of section
-	 * @return list of UI fields
+	 * E.g.:
+	 * <pre>
+	 *  _____________________________________________________________________
+	 * |Named Insureds (0)|                                 |
+	 * |                  | VIIFirstName VII VIILastName (0)|
+	 * |                  |                                 | Prefix (0)
+	 * |                  |                                 | First Name (1)
+	 * |Drivers (1)       |                                 |
+	 * |                  | VIIFirstName VII VIILastName (0)|
+	 * |                  |                                 | First Name (0)
+	 * |                  |                                 | Middle Name (1)
+	 * </pre>
+	 *
+	 * List (1,0,1) represents path Drivers -> VIIFirstName VII VIILastName -> Middle Name
+	 * @param sectionPath path of the section
+	 * @param elementTreePosition - list that represetns position of the section/field element in the tree (mainSection, subsection1, subsection2...subsectionN)
+	 * @return multimap of UI fields and their full paths
 	 */
-	private List<String> parseUIFieldsForSection(int sectionNumber) {
-		List<String> uiFields = new ArrayList<>();
-		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber).click();
-		for (int uiFieldNumber = 0; ; uiFieldNumber++) {
-			StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(sectionNumber, uiFieldNumber);
+	private List<SectionFieldData> parseUIFieldsForSection(String sectionPath, List<Integer> elementTreePosition) {
+		List<Integer> mutableTreePosition = Lists.newArrayList(elementTreePosition);
+		List<SectionFieldData> uiFieldsPathAndValues = Lists.newArrayList();
+
+		Link sectionLink;
+		while ((sectionLink = PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(mutableTreePosition)).isPresent()) {
+			log.debug("Open path [{}] [{}]", mutableTreePosition, sectionPath);
+			ArrayList<Integer> fieldTreePosition = Lists.newArrayList(mutableTreePosition);
+			fieldTreePosition.add(-1); // latest tree element to iterate on
+			for (int sectionFieldNumber = 0; ; sectionFieldNumber++) {
+				fieldTreePosition.set(fieldTreePosition.size()-1, sectionFieldNumber); // set latest element position
+
+					if (isSubsection(fieldTreePosition)) {
+						List<Integer> fieldValuePosition = ImmutableList.copyOf(fieldTreePosition);
+						nextField(fieldTreePosition);
+						StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(fieldValuePosition);
+						String subsectionPath = buildUIFieldPath(sectionPath, uiFieldElement.getValue());
+						log.debug("Path [{}] [{}] is subsection. Collecting subsection data.", fieldValuePosition, subsectionPath);
+
+						List<SectionFieldData> subsectionData = parseUIFieldsForSection(subsectionPath, fieldValuePosition);
+						uiFieldsPathAndValues.addAll(subsectionData);
+					} else {
+						StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(fieldTreePosition);
 			if (uiFieldElement.isPresent()) {
-				uiFields.add(uiFieldElement.getValue());
+							log.debug("Path [{}] [{}] is field.", fieldTreePosition, buildUIFieldPath(sectionPath, uiFieldElement.getValue()));
+							uiFieldsPathAndValues.add(new SectionFieldData(sectionPath, uiFieldElement.getValue(), fieldTreePosition));
 			} else {
+							nextField(mutableTreePosition);
 				break;
 			}
 		}
-		return uiFields;
+			}
+			return uiFieldsPathAndValues;
+		}
+		return uiFieldsPathAndValues;
+	}
+
+	private void nextField(List<Integer> fieldTreePosition) {
+		fieldTreePosition.set(fieldTreePosition.size()-1, 1 + fieldTreePosition.get(fieldTreePosition.size()-1));
+	}
+
+	/**
+	 * Checks if section field is subsection, e.g.
+	 * | ˅ Named Insureds
+	 * |    ˅ FirstName LastName
+	 * |    ˅ VIIFirstName VII VIILastName
+	 * @param sectionNumber
+	 * @return
+	 */
+	private boolean isSubsection(List<Integer> sectionNumber) {
+		Link subsectionLink = PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber);
+		return subsectionLink.isPresent();
 	}
 
 	/**
@@ -423,8 +636,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private String buildUIFieldPath(String sectionName, String value) {
 		return sectionName + SECTION_UIFIELD_SEPARATOR + value;
 	}
-
-	//Conflict functionality
 
 	/**
 	 * Verification of comparison screen after conflict resolution for oose and rolled on transactions,  endorsement and rolled on transaction. Verification content of Conflict screen.
@@ -447,7 +658,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		policy.rollOn().openConflictPage(isAutomatic);
 		resolveConflict(conflictLinks);
 		policy.rollOn().submit();
-
 		PolicySummaryPage.buttonTransactionHistory.click();
 		verifyTransactionHistoryType(1, ROLLED_ON_ENORSEMENT);
 		verifyTransactionHistoryType(2, OOS_ENDORSEMENT);
@@ -466,6 +676,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		PolicySummaryPage.buttonCompareVersions.click();
 		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsEndorsement, tabName, sectionName);
 		Tab.buttonCancel.click();
+		Tab.buttonCancel.click();
+
+		//TODO need to be returned when Bind page is done
+		//processPlus27DaysBlankEndorsement();
 	}
 
 	/**
@@ -504,8 +718,11 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			errorTab.submitTab();
 		}
 
-		resolveConflict(conflictLinks);
-		policy.rollOn().submit();
+		if (tableDifferences.isPresent()) {
+			resolveConflict(conflictLinks);
+			policy.rollOn().submit();
+		}
+
 		PolicySummaryPage.buttonRenewalQuoteVersion.click();
 		verifyTransactionHistoryType(1, RENEWAL);
 		verifyTransactionHistoryType(2, RENEWAL);
@@ -515,8 +732,12 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		selectTransactionType(2, true);
 		PolicySummaryPage.buttonCompare.click();
 
-		checkComparisonPage(tdVersion2, tdVersion1, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
-		Tab.buttonCancel.click();
+		checkComparisonPage(tdVersion1, tdVersion2, expectedSectionsAndUIFieldsRenewal, tabName, sectionName);
+
+		//TODO need to be returned when bind page is done
+		//Tab.buttonCancel.click();
+		//buttonQuoteOverview.click();
+		//renewalBlankVersionCreation();
 	}
 
 	/**
@@ -534,133 +755,43 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void resolveConflict(ArrayListMultimap<String, String> conflictLinks) {
 		Multiset<String> uiFieldPath = conflictLinks.keys();
-		List<String> presentedSectionOnConflictPage = new ArrayList<>();
-		for (int sectionNumber = 0; ; sectionNumber++) {
-			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideLinkTextComparisonTree(sectionNumber);
+		List<SectionFieldData> presentedSectionOnConflictPage = new ArrayList<>();
+		for (int sectionNumber = 0; ; sectionNumber++) { // main sections level
+			StaticElement sectionText = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(Collections.singletonList(sectionNumber));
 			if (sectionText.isPresent()) {
 				String sectionName = sectionText.getValue();
-				if (uiFieldPath.stream().anyMatch(uiFieldsPath -> uiFieldsPath.startsWith(sectionName))) {
-					selectUIFieldsVersions(sectionName, sectionNumber, conflictLinks);
-				}
-				presentedSectionOnConflictPage.add(sectionName);
+				List<SectionFieldData> uiFields = parseUIFieldsForSection(sectionName, Collections.singletonList(sectionNumber));
+				presentedSectionOnConflictPage.add(new SectionFieldData(sectionName, null, Collections.singletonList(sectionNumber), true));
+				presentedSectionOnConflictPage.addAll(uiFields);
 			} else {
 				break;
 			}
 		}
-		allSectionsPresentedOnConflictPage(presentedSectionOnConflictPage, conflictLinks.keySet());
-	}
-
-	/**
-	 * Verify that all sections are present
-	 * @param presentedSectionOnConflictPage actual list of sections
-	 * @param uiFieldsPaths expected list of sections
-	 */
-	private void allSectionsPresentedOnConflictPage(List<String> presentedSectionOnConflictPage, Set<String> uiFieldsPaths) {
-		for (String sectionName : presentedSectionOnConflictPage) {
-			assertSoftly(softly -> {
-				softly.assertThat(uiFieldsPaths.stream()
-						.anyMatch(uiFieldPath -> uiFieldPath.startsWith(buildUIFieldPath(sectionName, StringUtils.EMPTY))))
-						.as("Section " + sectionName + " not present in UI fields configuration.")
-						.isTrue();
-			});
-
-		}
+		presentedSectionOnConflictPage.forEach(field -> selectUIFieldsVersions(field, conflictLinks));
 	}
 
 	/**
 	 * Resolve all conflicts based on current or available selection
-	 * @param sectionName name of the section
-	 * @param sectionNumber number of the sections on conflict page
-	 * @param conflictLinks what version(current/available) we chose on conflict page
+	 * @param conflictVersionValues what version(current/available) we chose on conflict page
 	 */
-	private void selectUIFieldsVersions(String sectionName, int sectionNumber, ArrayListMultimap<String, String> conflictLinks) {
-		//expand section in conflict page
-		PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(sectionNumber).click();
-		//getting list of UI fields from section for what we need to chose current or available section
-		List<String> uiFieldsPathList = conflictLinks.keys().stream()
-				.filter(uiFieldsPath -> uiFieldsPath.startsWith(sectionName + SECTION_UIFIELD_SEPARATOR))
-				.collect(Collectors.toList());
-		//expected number of UI fields that need to be resolved (select conflict version current/available)
-		long expectedResolvedUIFieldsConflicts = conflictLinks.keys().stream()
-				.filter(path -> path.startsWith(sectionName))
-				.count();
+	private void selectUIFieldsVersions(SectionFieldData sectionField, ArrayListMultimap<String, String> conflictVersionValues) {
 		//actual number of UI fields that are resolved (select conflict version current/available)
-		int actualResolvedUIFieldsConflicts = 0;
-		int columnsCount = tableDifferences.getColumnsCount();
+		List<SectionFieldData> actualResolvedUIFieldsConflicts = Lists.newArrayList();
+		//expected number of UI fields that need to be resolved (select conflict version current/available)
 
-		for (int uiFieldNumber = 0; ; uiFieldNumber++) {
-			StaticElement uiFieldElement = PolicySummaryPage.TransactionHistory.provideAttributeExpandComparisonTree(sectionNumber, uiFieldNumber);
-			if (uiFieldElement.isPresent()) {
-				String uiFieldPath = buildUIFieldPath(sectionName, uiFieldElement.getValue());
-				if (uiFieldsPathList.contains(uiFieldPath)) {
-					//resolving conflict for each UI field
-					actualResolvedUIFieldsConflicts = findAndPressVersionLinksInSection(sectionName, conflictLinks, actualResolvedUIFieldsConflicts, columnsCount, uiFieldNumber, uiFieldPath);
+		if (conflictVersionValues.containsKey(sectionField.getFullPath())) {
+			boolean pressed = pressVersionLink(sectionField, conflictVersionValues.get(sectionField.getFullPath()).get(0));
+			assertThat(pressed).as("Invalid resolved UI field number for {}.", sectionField.getFullPath()).isTrue();
+			actualResolvedUIFieldsConflicts.add(sectionField);
 				}
-			} else {
-				break;
 			}
-		}
-		//verification that number of all expected conflicts are resolved
-		assertThat(actualResolvedUIFieldsConflicts).as("Invalid resolved UI field number for {0}.", sectionName).isEqualTo((int) expectedResolvedUIFieldsConflicts);
 
-	}
-
-	/**
-	 * Resolving all conflicts (selecting current or available) for each section
-	 * @param sectionName section name
-	 * @param conflictLinks the whole list of values for resolving conflict (Section.UIField + version(current or available))
-	 * @param actualResolvedUIFieldsConflicts number of resolved conflicts for section
-	 * @param columnsCount column for resolving versions
-	 * @param uiFieldNumber number of UI field in the section
-	 * @param uiFieldPath Section.UIField combination
-	 * @return
-	 */
-	private int findAndPressVersionLinksInSection(String sectionName, ArrayListMultimap<String, String> conflictLinks, int actualResolvedUIFieldsConflicts, int columnsCount, int uiFieldNumber,
-			String uiFieldPath) {
-		//get list of needed versions foe each uiFieldPath (can be more than one only when UI fields have the same name, e.g. AAA Product Owned section)
-		List<String> versionsLinkValues = conflictLinks.get(uiFieldPath);
-		for (int uiFieldsWithSameNameNumber = 0; uiFieldsWithSameNameNumber < versionsLinkValues.size(); uiFieldsWithSameNameNumber++) {
-			String versionLinkValue = versionsLinkValues.get(uiFieldsWithSameNameNumber);
-			int uiFieldPosition = uiFieldNumber + uiFieldsWithSameNameNumber;
-			//press version link for UI Field (current or available)
-			if (pressVersionLink(uiFieldPosition, columnsCount, versionLinkValue, sectionName)) {
-				actualResolvedUIFieldsConflicts++;
-			}
-		}
-		return actualResolvedUIFieldsConflicts;
-	}
-
-	/**
-	 * Select needed version (current or available)
-	 * @param uiFieldRow row for the UI field
-	 * @param columnCount last column for select version
-	 * @param versionValue version value current/available
-	 * @param sectionName name of the section
-	 * @return boolean value based on press or not link
-	 */
-	private boolean pressVersionLink(int uiFieldRow, int columnCount, String versionValue, String sectionName) {
-		Link linkSetValue;
-		int versionPosition;
-		switch (versionValue) {
-			case "Current": {
-				versionPosition = 1;
-				break;
-			}
-			case "Available": {
-				versionPosition = 2;
-				break;
-			}
-			default:
-				throw new InvalidArgumentException("Unknown conflict version");
-		}
-		int sectionRowIndex = tableDifferences.getRow(SECTION_NAME_ROW_INDEX, sectionName).getIndex();
-		linkSetValue = tableDifferences.getRow(sectionRowIndex + uiFieldRow + 1).getCell(columnCount).controls.links.get(
-				versionPosition);
-		if (linkSetValue.isPresent() && linkSetValue.isVisible()) {
-			linkSetValue.click();
+	private boolean pressVersionLink(SectionFieldData sectionFieldData, String versionValue) {
+		Link versionLink = PolicySummaryPage.TransactionHistory.provideLinkConflictVersion(sectionFieldData.getTreePosition(), versionValue);
+		if (versionLink.isPresent() && versionLink.isVisible()) {
+			versionLink.click();
 			return true;
 		}
 		return false;
 	}
-
 }

@@ -37,7 +37,7 @@ GeneralTab: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '$<today:MM/dd/yyyy>'
+    #Base date with AAA: '$<today:MM/dd/yyyy>'
     }
 }
 
@@ -82,7 +82,8 @@ AgentInfo: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+   AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]

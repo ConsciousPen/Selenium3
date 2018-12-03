@@ -1,14 +1,9 @@
 package aaa.modules.e2e.templates;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.TimePoints;
@@ -36,10 +31,16 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class Scenario2 extends ScenarioBaseTest {
 
@@ -75,7 +76,7 @@ public class Scenario2 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}
@@ -220,7 +221,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
@@ -231,7 +232,7 @@ public class Scenario2 extends ScenarioBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(PolicyStatus.PROPOSED).verify(1);
 
@@ -314,11 +315,14 @@ public class Scenario2 extends ScenarioBaseTest {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		
 	}
 
 	protected void makeManualPaymentInFullRenewalOfferAmount() {
@@ -326,7 +330,9 @@ public class Scenario2 extends ScenarioBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(renewCustomerDecline);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
+
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+
 		Dollar sum = BillingHelper.getPolicyRenewalProposalSum(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate), policyNum);
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);

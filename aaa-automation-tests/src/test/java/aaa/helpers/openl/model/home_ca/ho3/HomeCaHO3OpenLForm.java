@@ -9,7 +9,6 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
-
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 	private Integer age;
 	private Double deductible;
@@ -91,24 +90,5 @@ public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	@Override
-	public String toString() {
-		return "HomeCaHO3OpenLForm{" +
-				"scheduledPropertyItems=" + scheduledPropertyItems +
-				", age=" + age +
-				", deductible=" + deductible +
-				", formClass='" + formClass + '\'' +
-				", hasCorporalPunishmentSurcharge=" + hasCorporalPunishmentSurcharge +
-				", numOfFamilies=" + numOfFamilies +
-				", territoryCode='" + territoryCode + '\'' +
-				", type='" + type + '\'' +
-				", applyDiscounts=" + applyDiscounts +
-				", hasSupportingForm=" + hasSupportingForm +
-				", number=" + number +
-				", formCode='" + formCode + '\'' +
-				", limit=" + limit +
-				'}';
 	}
 }

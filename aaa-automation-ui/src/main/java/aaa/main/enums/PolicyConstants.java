@@ -196,6 +196,8 @@ public final class PolicyConstants {
 
     public static final class PolicyEndorsementFormsTable {
         public static final String DESCRIPTION = "Description";
+        public static final String TERM_PREMIUM = "Term Premium ($)";
+        public static final String INCLUDED = "Included";
     }
 
     public static final class PolicyPupPropertyInformationTable {
@@ -236,6 +238,7 @@ public final class PolicyConstants {
 
     public static final class MVRReportTable {
         public static final String LICENSE_STATUS = "License Status";
+        public static final String NAME_ON_LICENSE = "Name on License";
     }
 
     public static final class ViewCappingDetailsTable {
@@ -250,4 +253,39 @@ public final class PolicyConstants {
         public static final String PROGRAM_CODE = "Program Code";
         public static final String MANUAL_CAPPING_FACTOR = "Manual Capping Factor (%)";
     }
+
+    public static final class PropertyInfoClaimHistoryTable {
+        public static final String DATE_OF_LOSS = "Date of loss";
+        public static final String CAUSE_OF_LOSS = "Cause of loss";
+        public static final String AMOUNT_OF_LOSS = "Amount of loss";
+        public static final String CLAIM_STATUS = "Claim Status";
+        public static final String INCLUDED_IN_RATING_AND_ELIGIBILITY = "Include in Rating and Eligibility";
+        public static final String SOURCE = "Source";
+        public static final String MODIFY = "Modify";
+    }
+
+    public static final class SignatureStatus {
+        public static final String PHYSICALLY_SIGNED = "Physically Signed";
+        public static final String ELECTRONICALLY_SIGNED = "Electronically Signed";
+        public static final String VOICE_SIGNED = "Voice Signed";
+        public static final String NOT_SIGNED = "Not Signed";
+    }
+
+    public static final class AssignmentTabTable {
+        public static final String PRIMARY_DRIVER = "Primary Driver";
+        public static final String SYSTEM_RATED_DRIVER = "System Rated Driver";
+        public static final String MANUALLY_RATED_DRIVER = "Manually Rated Driver";
+        public static final String UNDESIGNATED = "Undesignated";
+    }
+
+    public static final class ActivityInformationTable {
+        public static final String DATE = "Date";
+        public static final String DESCRIPTION = "Description";
+        public static final String SOURCE = "Source";
+        public static final String POINTS = "Points";
+        public static final String INCLUDE_IN_POINTS_TIER = "Include in Points and/or Tier?";
+        public static final String NOT_INCLUDED_REASON_CODES = "Not Included in Points and/or Tier - Reason Codes";
+        public static final String REASON_CODE_ASW = "Waived - Accident Surcharge Waiver";
+    }
+
 }

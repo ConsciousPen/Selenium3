@@ -41,12 +41,12 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToSemiAnnual(@Optional("") String state) {
 
 		testRenewalBillDiscardAndMessageOnPaymentPlanChange(BillingConstants.PaymentPlan.QUARTERLY,
-				false, false, BillingConstants.PaymentPlan.SEMI_ANNUAL_RENEWAL,
+				false, false, BillingConstants.PaymentPlan.MONTHLY_RENEWAL,
 				notAutomaticPaymentMessage, BillingConstants.PaymentPlan.QUARTERLY_RENEWAL);
 	}
 
@@ -74,7 +74,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_SemiAnnualToQuarterly(@Optional("") String state) {
 
@@ -110,7 +110,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_QuarterlyToMortgageeBill(@Optional("") String state) {
 
@@ -146,7 +146,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_MortgageeBillToMonthly(@Optional("") String state) {
 
@@ -178,7 +178,7 @@ public class TestRenewalBillDiscardAndMessageOnPaymentPlanChange extends TestRen
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Display message when changing payment plans")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, description = "Display message when changing payment plans")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-16405, PAS-16526")
 	public void testRenewalBillDiscardAndMessageOnPaymentPlanChange_AutoPay_ManualBillGeneration(@Optional("") String state) {
 

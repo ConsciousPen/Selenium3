@@ -45,4 +45,9 @@
             <class name="aaa.modules.regression.finance.operational_reports.TestOperationalReportsEuwSummaryCheckPolicyNumberParameter"/>
         </classes>
     </test>
+    <test name="TestFinanceEliminateManualEscheatmentReversalCapability" preserve-order="true">
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceEliminateManualEscheatmentReversalCapability"/>
+        </classes>
+    </test>
 </suite>

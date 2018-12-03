@@ -1,13 +1,19 @@
 package aaa.helpers.openl.model;
 
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 
 public class OpenLDriver {
 	@ExcelColumnElement(name = OpenLFile.PRIMARY_KEY_COLUMN_NAME, isPrimaryKey = true)
+	@RequiredField
 	protected Integer number;
 	protected String id;
 	protected String gender;
+
+	@RequiredField
 	protected String maritalStatus;
+
+	@RequiredField
 	protected Integer tyde;
 	protected Integer dsr;
 	protected Boolean goodStudent;
@@ -66,18 +72,5 @@ public class OpenLDriver {
 
 	public Boolean isGoodStudent() {
 		return goodStudent;
-	}
-
-	@Override
-	public String toString() {
-		return "OpenLDriver{" +
-				"number=" + number +
-				", id='" + id + '\'' +
-				", gender='" + gender + '\'' +
-				", maritalStatus='" + maritalStatus + '\'' +
-				", tyde=" + tyde +
-				", dsr=" + dsr +
-				", goodStudent=" + goodStudent +
-				'}';
 	}
 }

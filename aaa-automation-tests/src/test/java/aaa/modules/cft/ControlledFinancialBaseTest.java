@@ -7,6 +7,8 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import aaa.main.modules.billing.paymentsmaintenance.actiontabs.ReverseSuspenseActionTab;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
@@ -135,6 +137,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 								.setPolicyExpirationDate(TimeSetterUtil.getInstance().parse(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(3).getValue(), DateTimeUtils.MM_DD_YYYY).plusYears(1))
 								.build())
 						.build());
+		log.info("Policy {} for billing account {} is created", BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber(), BillingAccountInformationHolder.getCurrentBillingAccountDetails().getBillingAccountNumber());
 	}
 
 	protected void declineSuspensePaymentOnCancellationDate() {
@@ -210,7 +213,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		String endorsementDate = getTestSpecificTD("TestData_OOS").getValue(endorsementEffDateDataKeys);
 		assertSoftly(softly -> {
 			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate, policyNumber))).exists();
+					String.format("Initiate Endorsement effective %1$s", endorsementDate))).exists();
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
 			policy.rollOn().perform(false, true);
 			softly.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -252,8 +255,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void futureEndorsePolicyOnCancellationNoticeDate(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = getTimePoints().getCancellationNoticeDate(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getInstallments().get(1));
-		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
-		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+		performFutureEndorsementOnDate(endorsementDate, endorsementEffDateDataKeys);
 	}
 
 	/**
@@ -262,8 +264,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	 */
 	protected void futureEndorsePolicyOnStartDatePlus2(String[] endorsementEffDateDataKeys) {
 		LocalDateTime endorsementDate = TimeSetterUtil.getInstance().getStartTime().plusDays(2);
-		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
-		performEndorsementOnDate(endorsementDate, endorsementEffDate);
+		performFutureEndorsementOnDate(endorsementDate, endorsementEffDateDataKeys);
 
 	}
 
@@ -383,7 +384,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.POLICY_STATUS).getValue())
-					.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
+				.isEqualTo(BillingConstants.BillingAccountPoliciesPolicyStatus.POLICY_CANCELLED);
 		Dollar refundAmount = BillingSummaryPage.getTotalPaid();
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPendingTransactionsTable.TYPE, BillingConstants.BillingPendingTransactionsType.REFUND);
@@ -600,6 +601,9 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void manualRenewalEntryOnStartDate() {
 		LocalDateTime effDate = getTimePoints().getEffectiveDateForTimePoint(TimeSetterUtil.getInstance().getCurrentTime(), TimePoints.TimepointsList.RENEW_GENERATE_PREVIEW);
+		if ("CT".equals(getState())){
+			effDate = TimeSetterUtil.getInstance().getPhaseStartTime().plusDays(56);
+		}
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTd = getConversionPolicyDefaultTD();
@@ -678,7 +682,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -854,6 +858,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 				policyNumber));
 		SearchSuspenseActionTab.buttonSearch.click();
 		SearchSuspenseActionTab.tableSuspenseSearchResults.getRow(1).getCell(BillingConstants.BillingSuspenseSearchResultsTable.ACTION).controls.links.get(ActionConstants.REVERSE).click();
+		new ReverseSuspenseActionTab().fillTab(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		Tab.buttonOk.click();
 		log.info("Suspense refunded successfully");
 	}
@@ -1050,6 +1055,8 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		mainApp().reopen();
 		SearchPage.openPolicy(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//String cancellationPremium = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Subtype/Reason", "Cancellation - Insured Non-Payment Of Premium").getCell("Amount").getValue();
 		log.info("Cancellation action completed successfully");
 	}
 
@@ -1140,7 +1147,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.reinstate().perform(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
+				String.format("Bind Reinstatement for Policy %1$s", policyNumber))).exists();
 		log.info("Manual reinstatement action completed successfully");
 	}
 
@@ -1180,10 +1187,6 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 	}
 
 	private void performEndorsementOnDate(LocalDateTime endorsementDate) {
-		performEndorsementOnDate(endorsementDate, endorsementDate.format(DateTimeUtils.MM_DD_YYYY));
-	}
-
-	private void performEndorsementOnDate(LocalDateTime endorsementDate, String endorsementEffDate) {
 		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
 		log.info("Endorsment action started on {}", endorsementDate);
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
@@ -1192,8 +1195,23 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
-					ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
-					String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber))).exists();
+				ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementDate.format(DateTimeUtils.MM_DD_YYYY), policyNumber))).exists();
+		log.info("Endorsment action completed successfully");
+	}
+
+	private void performFutureEndorsementOnDate(LocalDateTime endorsementDate, String[] endorsementEffDateDataKeys) {
+		TimeSetterUtil.getInstance().nextPhase(endorsementDate);
+		log.info("Endorsment action started on {}", endorsementDate);
+		JobUtils.executeJob(Jobs.cftDcsEodJob);
+		mainApp().reopen();
+		String policyNumber = BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber();
+		String endorsementEffDate = getTestSpecificTD(DEFAULT_TEST_DATA_KEY).getValue(endorsementEffDateDataKeys);
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().performAndFill(getTestSpecificTD(DEFAULT_TEST_DATA_KEY));
+		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains(
+				ActivitiesAndUserNotesConstants.ActivitiesAndUserNotesTable.DESCRIPTION,
+				String.format("Bind Endorsement effective %1$s for Policy %2$s", endorsementEffDate, policyNumber))).exists();
 		log.info("Endorsment action completed successfully");
 	}
 

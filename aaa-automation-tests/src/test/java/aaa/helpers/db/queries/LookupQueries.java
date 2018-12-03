@@ -21,27 +21,6 @@ public class LookupQueries {
 	public static final String UPDATE_VEHICLE_STATE_CODE_VALUES = "update lookupValue set LOOKUPLIST_ID = (select id from LOOKUPLIST where LOOKUPLIST.LOOKUPNAME = 'AAAVehicleStatCode')\n"+
 			"where LOOKUPLIST_ID is null";
 
-	/**
-	 * Returns the AAA Membership Member Since Date from DB.
-	 * @param quoteOrPolicyNumber
-	 * @return
-	 */
-	public static java.util.Optional<String> GetAAAMemberSinceDateFromSQL(String quoteOrPolicyNumber){
-
-		String quoteOrPolicyColumn = quoteOrPolicyNumber.toUpperCase().startsWith("Q") ? "quotenumber" : "policynumber";
-
-		String columnToJoinOn = String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumn, quoteOrPolicyNumber);
-
-		String query =
-				"SELECT MS.MEMBERSINCEDATE AS MS_MEMBERSINCEDATE " +
-						"FROM policysummary ps " +
-						"JOIN OTHERORPRIORPOLICY OP ON OP.POLICYDETAIL_ID=ps.POLICYDETAIL_ID AND OP.PRODUCTCD ='membership' " +
-						columnToJoinOn +
-						"JOIN MEMBERSHIPSUMMARYENTITY MS ON MS.ID=ps.MEMBERSHIPSUMMARY_ID";
-
-		return DBService.get().getValue(query);
-	}
-
 	public static void insertStatCodeValues() {
 		DBService.get().executeUpdate(INSERT_VEHICLE_STATE_CODE_LOOKUP);
 		DBService.get().executeUpdate(UPDATE_VEHICLE_STATE_CODE_VALUES);

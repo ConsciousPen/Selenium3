@@ -1,16 +1,19 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesVehiclesHelper;
 import aaa.utils.StateList;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
+
+import java.util.Random;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 
@@ -323,6 +326,127 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name validate that revert option is available for removed vehicles
+	 * @scenario
+	 * 1. Retrieve policy with 8 vehicles (max count)
+	 * 2. Remove 1 vehicle and validate that there is 'revert' option in response
+	 * 3. Run viewEndorsementVehicles and validate that there is 'revert' option for removed vehicle
+	 * 4. Add vehicle
+	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
+	 *    PAS-18670
+	 * 6. Try to revert removed vehicle when there already is max count of vehicles ----> I receive error
+	 *    PAS-18670
+	 * 7. Try to revert Replaced vehicle when there already is max count of vehicles ----> Revert option is available and I do not receive error
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18670", "PAS-18670"})
+	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
+		pas18672_vehiclesRevertOptionForDeleteBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is not updated before removal
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Do not Update and then Remove 1 vehicle through service
+	 *4. Run Cancel Remove Vehicle Transaction Service for 'pendingRemoval' vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18670"})
+	public void pas18670_CancelRemoveVehicleWithoutChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(false, false, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before removal
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Update and then Remove 1 vehicle through service
+	 *4. Run Cancel Remove Vehicle Transaction Service for 'pendingRemoval' vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was after update and before removal
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18670"})
+	public void pas18670_CancelRemoveVehicleWithChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(true, true, false);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is not updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles
+	 *2. Create endorsement through service
+	 *3. Do not update Vehicle and Vehicle Coverages, Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignment is not defaulted (if multiple drivers)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicleWithoutChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(false, true, true);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles and drivers
+	 *2. Create endorsement through service
+	 *3. Update Vehicle and Vehicle Coverages, Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was after update and before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignement is not defaulted (if multiple drivers)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicleWithChanges(@Optional("VA") String state) {
+		pas18670_CancelRemoveVehicleBody(true, true, true);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name validate revert option when vehicle is updated before replace
+	 * @scenario
+	 *1. Create a policy in PAS with multiple vehicles and 1 driver
+	 *2. Create endorsement through service
+	 *3. Run Replace Vehicle service for one of the Vehicles
+	 *4. Run Cancel Remove Vehicle Transaction Service for replaced vehicle
+	 *5. Run viewVehicles service and validate response
+	 *6. Retrieve endorsement in PAS and validate that vehicle is reverted ---> vehicle is reverted back to state as it was before removal. Newly added vehicle is deleted.
+	 *7. Run viewAssignments service and validate that Reverted Vehicle Assignement is defaulted (if 1 driver)
+	 * NOTE: test additionally validates that Vehicle level coverages are not changed after revert
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18671"})
+	public void pas18671_CancelReplaceVehicle_oneDriver(@Optional("VA") String state) {
+		boolean testWithUpdates = new Random().nextBoolean();
+		printToLog("testWithUpdates: " + testWithUpdates);
+		pas18670_CancelRemoveVehicleBody(testWithUpdates, false, true);
+	}
+
+	/**
 	 * @author Oleg Stasyuk
 	 * @name no error about garaging address being different when binding endorsement
 	 * @scenario 1. see script body
@@ -397,10 +521,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 7. Rate and Bind.
 	 * 8. Create new endorsement outside of PAS.
 	 * 9. Hit "Transaction History Service". Check if response is empty.
-	 * 10. Add new vehicle.
-	 * 11. Replace that new Vehicle.
-	 * 12. Hit "Transaction History Service". Check if only one vehicle exist in response.
-	 * 13. Rate and Bind.
+	 * 10. Replace Vehicle which was already replaced.
+	 * 11. Hit "Transaction History Service". Check if only one vehicle exist in response.
+	 * 12. Rate and Bind.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -482,7 +605,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("VA") String state) {
+	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriver(@Optional("AZ") String state) {
 
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(true);
 	}
@@ -503,40 +626,6 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver(@Optional("VA") String state) {
 
 		pas13920_ReplaceVehicleKeepAssignmentsOneDriverBody(false);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Check replace with KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * ??????????? - result is not clear. Maybe this test can be removed.
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-		//BUG PAS-16113 Replace Vehicle and Driver Assignment - when a state doesn't have driver assignment
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(true);
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Check replace with Don't KeepAssignments is allowed in the state with no Assignments
-	 * @scenario 1.Create a policy with 1 vehicle and one driver
-	 * 2.Check coverages
-	 * 3.Start an endorsement, Replace vehicles with KeepAssignments, Don't Keep Coverages
-	 * 4. check replacement is successful
-	 */
-	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13920", "PAS-13320", "PAS-14680"})
-	public void pas13920_ReplaceVehicleDontKeepAssignmentsOneDriverAz(@Optional("AZ") String state) {
-
-		pas13920_ReplaceVehicleKeepAssignmentsOneDriverAzBody(false);
 	}
 
 	/**
@@ -607,6 +696,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	public void pas12175_RemoveReplaceWaiveLiability(@Optional("VA") String state) {
 
 		pas12175_RemoveReplaceWaiveLiabilityBody();
+		pas12175_RemoveReplaceWaiveLiabilityBody();
 	}
 
 	/**
@@ -617,13 +707,102 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 3. Update vehicle to have a different garaging address outside of PAS
 	 * 4. Hit Meta Data Service and verify that the garaging address is different
 	 * 5. Bind the endorsement and verify that the policy is active
+	 * Pas-15269 : Megha Gubbala.
+	 * 6. Run the test for CT and VA If CT verify county in meta data service
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942"})
-	public void pas12942_GaragingAddressConsistencyDXP(@Optional("VA") String state) {
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-12942, Pas-15269"})
+	public void pas12942_GaragingAddressConsistencyDXP(@Optional("CT") String state) {
 
-		pas12942_GaragingAddressConsistencyDXPBody();
+		pas12942_GaragingAddressConsistencyDXPBody(state);
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Check Vehicle Assignments after replacing the vehicle (only states without driver assignment)
+	 * @scenario 1.Create a policy with 2 drivers and two vehicles
+	 * 2.Create new endorsement outside of PAS
+	 * 3.Replace one vehicle: KeepAssignment = true
+	 * 4.Replace second vehicle: KeepAssignment = false
+	 * 5.Rate and bind
+	 * 6.Create new endorsement outside of PAS.
+	 * 7.Add new vehicle, update, rate and bind.
+	 * 8.Create new endorsement outside of PAS.
+	 * 9.Delete one old vehicle.
+	 * 10. Replace the newest vehicle: KeepAssignment = true
+	 * 11. Issue and Bind.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
+	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {
+
+		pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Add Vehicle Service - Blocking for Purchase Date
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS (date = today)
+	 * 3. Add vehicle, purchase date: -5days
+	 * 4. Check error and if vehicle wasn't added to the endorsement.
+	 * 5. Try add another vehicle, purchase date = endorsement date.
+	 * 6. Check if vehicle was added.
+	 * 7. Add vehicle, purchase date: - 31days
+	 * 8. Check if vehicle was added.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9750"})
+	public void pas9750_addVehicleServiceBlockingForPurchaseDate(@Optional("NV") String state) {
+
+		pas9750_addVehicleServiceBlockingForPurchaseDateBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name viewPolicyRenewalSummary - See if county is there
+	 * @scenario 1. Create policy CT.
+	 * 2. run viewPolicyRenewalSummary verify county is there
+	 * 3. Create endorsement outside of PAS (date = today)
+	 * 4. run viewEndorsementVehicles verify county
+	 * 5. createUpdateVehicleRequest update vehicle with garaging Address outside CT verify county is not there.
+	 * 6. createUpdateVehicleRequest update vehicle with garaging Address that has only 1 county verify county is there .
+	 * 7. createUpdateVehicleRequest update vehicle with garaging Address that has more than 1  county verify county is null .
+	 * 8. again update vehicle with county verify county in response.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15269"})
+	public void pas15269_ViewVehicleServiceAddTownship(@Optional("CT") String state) {
+		assertSoftly(softly ->
+				pas15269_ViewVehicleServiceAddTownshipBody(softly)
+		);
+	}
+
+	/**
+	 * @author Sabra Domeika
+	 * @name Registered Owner -
+	 * @scenario
+	 * 1. Create policy CT.
+	 * 2. Create new endorsement in DXP
+	 * 3. Add a new vehicle.
+	 * 4. Update the vehicle and registered owner to false.
+	 * 5. Validate that an error is returned.
+	 * 6. Navigate to the PAS UI. Validate that Registered Owner Different is set to Yes in the UI.
+	 * 7. Attempt to rate in DXP. Validate that an error is returned.
+	 * 8. Update the vehicle to registered owner to true.
+	 * 9. Rate in DXP. Validate than no error is returned.
+	 * 10. Bind in DXP. Validate that no error is returned.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.CT, Constants.States.NY, Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15269"})
+	public void pas15499_RegisteredOwnerDifferent(@Optional("CT") String state) {
+		assertSoftly(softly -> pas15499_RegisteredOwners(softly));
 	}
 }
 

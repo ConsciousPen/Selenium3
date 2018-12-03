@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Show Me The Money Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
+        </classes>
+    </test>
+</suite>

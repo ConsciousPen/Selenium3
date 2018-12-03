@@ -79,18 +79,24 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-7 steps with new added drivers:
 	 * 1) 2minor violations <=36months.
 	 * 2) 3minor violations, 1 is outdated >36months.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15384"})
 	public void pas15384_moreThanTwoMinorViolationsError(@Optional("VA") String state) {
 
-		pas15384_moreThanTwoMinorViolationsErrorBody();
+		pas15384_moreThanTwoMinorViolationsErrorBody("VA");
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17676"})
+	public void pas17676_moreThanTwoMinorViolationsError(@Optional("MD") String state) {
+
+		pas15384_moreThanTwoMinorViolationsErrorBody("MD");
 	}
 
 	/**
@@ -106,7 +112,6 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 8. Create endorse, update driver from previous endorsement.
 	 * 9. Try to rate and bind endorsement.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15371", "PAS-17648"})
@@ -125,12 +130,10 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-7 steps with new added drivers:
 	 * 1)Driver with 20 points (less than 20 in 33months)
 	 * 2)Driver with less than 20 points.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15370"})
@@ -149,11 +152,9 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-6 steps with new added driver:
 	 * 1)Driver with 4 incidents, one is outdated.
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15385"})
@@ -173,17 +174,57 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	 * 5. Check response. Rate.
 	 * 6. Try Bind, check response.
 	 * 7. Delete endorsement.
-	 *
 	 * Repeat 1-6 steps with new added driver which have:
 	 * Violation: DUI, DUD, TLQ,
 	 */
-
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15375"})
 	public void pas15375_duiIsUnacceptableForDriverUnderTheAgeError(@Optional("VA") String state) {
 
 		pas15375_duiIsUnacceptableForDriverUnderTheAgeErrorBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Drivers with a major violation -<=33 months - 200009
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with one major violation.
+	 * 4. Order reports for new driver.
+	 * 5. Check response. Rate.
+	 * 6. Try Bind, check response.
+	 * 7. Delete endorsement.
+	 * Repeat with drivers, which have:
+	 * FEL, HOM, DR, FLE, HAR, LTS, NGD,
+	 * RKD, SUS violations.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15374"})
+	public void pas15374_driverWithMajorViolationsError(@Optional("VA") String state) {
+
+		pas15374_driverWithMajorViolationsErrorBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name The order of violations
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver which have more than 3 violations.
+	 * 4. Order reports for new driver.
+	 * 5. Check order of response.
+	 * Repeat with drivers, which have:
+	 * 1. More than three claims.
+	 * 2. Driver which have records from MVR and CLUE.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19673"})
+	public void pas19673_theOrderOfViolations(@Optional("VA") String state) {
+
+		pas19673_theOrderOfViolationsBody();
 	}
 
 	/**
@@ -203,6 +244,102 @@ public class TestMiniServicesMVRAndClueReportOrder extends TestMiniServicesMVRAn
 	public void pas15383_driverWithOneOrMoreFaultAccidents(@Optional("VA") String state) {
 
 		pas15383_driverWithOneOrMoreFaultAccidentsErrorBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Report Information and the Conviction Date and driver reports
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Accident fault Violation
+	 * 4. Verify response on DXP in License status and conviction date as correct
+	 * 5. Check Pas And verify if the dates are matching to pas.
+	 * 6. Verify driver activity and verify status there.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriver(@Optional("VA") String state) {
+
+		pas15369_reportOrderAndDriverBody();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: Name mismatch.
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error for name mismatch.
+	 * 6. Add one more driver with gender and DOB mismatch.
+	 * 7. Verify errors for gender and DOB.
+	 * 8. update the driver and correct DOB and Gender.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15372"})
+	public void pas15372_driverDetailsAndMvrRulesThatProvided(@Optional("AZ") String state) {
+
+		pas15372_driverDetailsAndMvrRulesThatProvidedBody();
+	}
+
+	//Scenario2 For CO
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverCO(@Optional("CO") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario3 For NY
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverNY(@Optional("NY") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario4 For NJ
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverNJ(@Optional("NJ") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	//Scenario5 For PA
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15369", "PAS-17924"})
+	public void pas15369_reportOrderAndDriverPA(@Optional("PA") String state) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		pas15369_reportOrderAndDriverOtherStateBody(policyNumber);
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name Driver Details and the MVR
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add driver with: 3 or more minor violations for speeding
+	 * 4. Order reports for new driver.
+	 * 5. Check response. to verify Error 200103_C
+	 * 6. rate and bind verify rule on bind
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15376"})
+	public void pas15376_3OrMoreMinorOrSpeedingViolations(@Optional("AZ") String state) {
+
+		pas15376_3OrMoreMinorOrSpeedingViolationsBody();
 	}
 }
 

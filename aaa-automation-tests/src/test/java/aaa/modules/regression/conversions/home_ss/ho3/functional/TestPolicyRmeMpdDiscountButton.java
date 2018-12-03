@@ -1,5 +1,9 @@
 package aaa.modules.regression.conversions.home_ss.ho3.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -11,12 +15,7 @@ import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jovita Pukenaite
@@ -53,8 +52,10 @@ public class TestPolicyRmeMpdDiscountButton extends HomeSSHO3BaseTest {
 
         //Verify that "Legacy policy had Multi-Policy discount" radio button is mandatory on RME screen
         initiateRenewalEntryActionTab.submitTab();
-        assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT))
-                .hasWarningWithText(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
+        assertThat(initiateRenewalEntryActionTab.getAssetList()
+                .getAsset(CustomerMetaData.InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT)
+                .getWarning().toString())
+                .contains(PolicyConstants.InitiateRenewalEntryScreenErrorMessages.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT_SHOULD_BE_SELECTED);
 
         initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
                 .InitiateRenewalEntryActionTab.LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT).setValue("Yes");

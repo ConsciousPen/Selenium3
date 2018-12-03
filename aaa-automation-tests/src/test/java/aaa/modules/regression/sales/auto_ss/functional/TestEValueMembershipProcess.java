@@ -2,10 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.auto_ss.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -32,16 +32,19 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.config.CustomTestProperties;
+import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -55,11 +58,11 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueMembershipProcessPreConditions;
 import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.exceptions.IstfException;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -72,7 +75,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
 public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestEValueMembershipProcessPreConditions {
 
 	private static final String E_VALUE_DISCOUNT = "eValue Discount"; //PAS-440 - rumors have it, that discount might be renamed
-	private static final String APP_HOST = PropertyProvider.getProperty(CustomTestProperties.APP_HOST);
+	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static final String MESSAGE_INFO_1 = "This customer is not eligible for eValue discount due to one or more of the following reasons:";
 	private static final String MESSAGE_BULLET_8 = "Does not have an active AAA membership";
 	private static final String MESSAGE_INFO_4 = "eValue Discount Requirements:";
@@ -83,12 +86,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-	private SSHController sshControllerRemote = new SSHController(
-			PropertyProvider.getProperty(CustomTestProperties.APP_HOST),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_USER),
-			PropertyProvider.getProperty(CustomTestProperties.SSH_PASSWORD));
+	private SSHController sshControllerRemote = new SSHController(PropertyProvider.getProperty(CsaaTestProperties.APP_HOST), PropertyProvider.getProperty(CsaaTestProperties.SSH_USER), PropertyProvider.getProperty(CsaaTestProperties.SSH_PASSWORD));
 
-	@Test(description = "Check membership endpoint", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void retrieveMembershipSummaryEndpointCheck() {
 		assertThat(DBService.get().getValue(RETRIEVE_MEMBERSHIP_SUMMARY_STUB_POINT_CHECK).orElse(""))
 				.as("retrieveMembershipSummary doesn't use stub endpoint. Please run retrieveMembershipSummaryStubEndpointUpdate").containsIgnoringCase(APP_HOST);
@@ -144,15 +143,18 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(1));
 	}
 
-	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public void preconditionsClearFolders() throws SftpException, JSchException {
+	public void preconditionsClearFolders() {
 		printToLog("Clear membership folders started");
 
-		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
-		sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
+		try {
+			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
+			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
+		} catch (JSchException | SftpException e) {
+			throw new IstfException("Precondition failed: /n", e);
+		}
 
-		if (RemoteHelper.get().isPathExist(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
-			RemoteHelper.get().clearFolder(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
+		if (RemoteHelper.get().isPathExist(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound")) {
+			RemoteHelper.get().clearFolder(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound");
 		}
 		printToLog("Clear membership folders completed");
 	}
@@ -169,9 +171,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 		testEValueDiscount.pas111_clearCache();
@@ -214,9 +217,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-331"})
 	public void pas331_membershipEligibilityConfigurationTrueForErredMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -260,9 +264,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -305,9 +310,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822", "PAS-312"})
 	public void pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -349,9 +355,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationFalseForActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 		testEValueDiscount.pas111_clearCache();
@@ -393,9 +400,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
 	public void pas3697_membershipEligibilityConfigurationFalseForPendingMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -437,9 +445,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -483,9 +492,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -497,9 +507,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
 	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipActiveEValueRenewal(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
 		boolean eValueSet = true;
@@ -510,6 +521,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		LocalDateTime renewBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
@@ -522,14 +535,32 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry", softly);
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 			renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather", softly);
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
+			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 		});
+
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		TimeSetterUtil.getInstance().nextPhase(renewBillGenDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		Dollar renewalMinDue = BillingSummaryPage.getMinimumDue();
+		BillingAccount billingAccount = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), renewalMinDue);
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		assertThat(PolicySummaryPage.tableGeneralInformation.getRow(1).getCell(PolicyConstants.PolicyGeneralInformationTable.EVALUE_STATUS)).hasValue("Active");
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
 	public void pas10229_membershipEligibilityConfigurationTrueForActiveMembershipInActiveEValueRenewal(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Active";
 		boolean eValueSet = false;
@@ -557,9 +588,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324", "PAS-1928"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
@@ -589,9 +621,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324", "PAS-1928"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = false;
@@ -627,7 +660,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
 	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
-		String membershipStatus = "Pending";
+		String membershipStatus = "No";
 		boolean eValueSet = false;
 
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -662,9 +695,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324", "PAS-1928"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = true;
@@ -698,9 +732,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
 	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "Cancelled";
 		boolean eValueSet = false;
@@ -778,9 +813,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-324", "PAS-1928", "PAS-319"})
 	public void pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
@@ -829,9 +865,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -880,9 +917,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -931,9 +969,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -982,9 +1021,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1033,9 +1073,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1084,9 +1125,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1133,9 +1175,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1183,9 +1226,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
 	public void pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1234,9 +1278,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "retrieveMembershipSummaryEndpointCheck")
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-5837", "PAS-3697", "PAS-327", "PAS-329", "PAS-12822"})
 	public void pas5837_eValueDiscountRemovedIfPaperlessPreferenceIsPending(@Optional("DC") String state) {
+		retrieveMembershipSummaryEndpointCheck();
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
@@ -1271,45 +1316,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount removed when Membership is Not required for eValue and membership status = Cancelled. Renewal
-	 * @scenario
-	 * 0. upload configuration to require Membership for eValue
-	 * 1. change time to R-96, generate Renewal Image
-	 * 2. change time to R-63, run Order Membership Report Job, run Membership stub service, run Receive Membership Report Job
-	 * 3. change time to R-48, run Order Membership Report Job, run Membership stub service, run Receive Membership Report Job
-	 * 4. Check eValue discount is set to Yes in P&C tab of renewal
-	 * 5. Check AHDEXX is produced in the DB and contains only Membership discount info and no eValue discounts information
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "preconditionsClearFolders")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11740")
-	public void pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState(@Optional("OK") String state) {
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", false);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			//TODO Question to Maris
-			//membershipLogicActivitiesAndNotesCheck(true, "Membership information was updated for the policy based on best membership logic");
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			lastTransactionHistoryMembershipDiscountCheck(true, softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed", softly);
-			lastTransactionHistoryMembershipDiscountCheck(false, softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Test eValue Cancelled policy is not picked up by NB+15, NB+30 jobs
 	 * @scenario
 	 * 0. upload configuration to require Membership for eValue
@@ -1322,7 +1328,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11740")
 	public void pas13528_membershipEligConfTrueForActiveMembershipCancelledPolicy(@Optional("VA") String state) {
 		String membershipDiscountEligibilitySwitch = "TRUE";
@@ -1362,7 +1368,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
 	public void pas1451_eValueRemovedByServiceNoAHDRXX(@Optional("VA") String state) {
 		testEValueDiscount.eValueQuoteCreation(true);
@@ -1422,7 +1428,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceNoAHDRXXforCancelledPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1473,7 +1479,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1508,7 +1514,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedReinstatedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1548,7 +1554,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceForFutureDatedCancelledPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1587,7 +1593,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServicePendingPolicy(@Optional("VA") String state) {
 		testEValueDiscount.eValueQuoteCreation(true);
@@ -1630,7 +1636,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceCancPendingPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1668,7 +1674,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceExpiredPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1709,7 +1715,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueNotRemovedByServiceLapsedPolicy(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1752,7 +1758,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceProposedRenewal(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1791,7 +1797,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServiceInForceRenewal(@Optional("VA") String state) {
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
@@ -1979,8 +1985,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		//TODO commented out to avoid hanging of SSH session in VDMs
 		/*		if (clearExgPasArchiveFolder) {
 			try {
-				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
-				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
+				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/archive" + "/*.*"));
+				sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_PASHUB_EXGPAS_4004_D/archive" + "/*.*"));
 			} catch (JSchException | SftpException e) {
 				e.printStackTrace();
 			}
@@ -1991,7 +1997,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
 		/*try {
-			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CustomTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound" + "/*.*"));
+			sshControllerRemote.deleteFile(new File(PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER) + "PAS_B_EXGPAS_PASHUB_4004_D/outbound" + "/*.*"));
 		} catch (JSchException | SftpException e) {
 			e.printStackTrace();
 		}*/
@@ -2319,9 +2325,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	}
 
 	/**
-	 * Checks that number of failed async tasks is not huge
+	 * Post Condition  - Checks that number of failed async tasks is not huge
 	 */
-	@Test(groups = {Groups.PRECONDITION, Groups.CRITICAL})
+	@Test(groups = {Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"N/A"})
 	public void xAsyncTaskCheck() {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(2));

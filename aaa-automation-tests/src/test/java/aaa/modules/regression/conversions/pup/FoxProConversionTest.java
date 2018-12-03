@@ -46,70 +46,70 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest1(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest1(@Optional("CA") String state) {
 		foxProConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest2(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest2(@Optional("CA") String state) {
 		foxProConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest3(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest3(@Optional("CA") String state) {
 		foxProConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest4(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest4(@Optional("CA") String state) {
 		foxProConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest5(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest5(@Optional("CA") String state) {
 		foxProConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest_customerDeclined1(@Optional("CA") String state) {
 		foxProConversion_renewWithLapse("1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest_customerDeclined2(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest_customerDeclined2(@Optional("CA") String state) {
 		foxProConversion_renewWithLapse("2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest_customerDeclined3(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest_customerDeclined3(@Optional("CA") String state) {
 		foxProConversion_renewWithLapse("3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest_customerDeclined4(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest_customerDeclined4(@Optional("CA") String state) {
 		foxProConversion_renewWithLapse("4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPConversionTest_customerDeclined5(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPConversionTest_customerDeclined5(@Optional("CA") String state) {
 		foxProConversion_renewWithLapse("5.xml", context);
 	}
 
@@ -201,7 +201,7 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(effDate);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(effDate).plusDays(1))
-				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
+				.setType(BillingConstants.PaymentsAndOtherTransactionType.PREMIUM).verifyPresent();
 	}
 
 	protected void fillPolicy() {
@@ -214,10 +214,10 @@ public class FoxProConversionTest extends PersonalUmbrellaBaseTest {
 		prefillTab.getNamedInsuredListChangeLink(1).click();
 
 		policy.getDefaultView().fillUpTo(getPolicyTD()
-				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "NamedInsured"), getTestSpecificTD("NamedInsured"))
-				.mask(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "ActiveUnderlyingPolicies"))
-				.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), "PolicyInfo"), getTestSpecificTD("PolicyInfo"))
-				.adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), getTestSpecificTD("UnderlyingRisksAllResidentsTab"))
+						.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "NamedInsured"), getTestSpecificTD("NamedInsured"))
+						.mask(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), "ActiveUnderlyingPolicies"))
+						.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), "PolicyInfo"), getTestSpecificTD("PolicyInfo"))
+						.adjust(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName(), getTestSpecificTD("UnderlyingRisksAllResidentsTab"))
 				, BindTab.class, true);
 		new BindTab().submitTab();
 		ErrorTab errorTab = new ErrorTab();

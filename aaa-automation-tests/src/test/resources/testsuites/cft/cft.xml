@@ -5,38 +5,36 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-
     <suite-files>
-        <suite-file path="./Scenario1.xml" />
-	    <suite-file path="./Scenario2.xml" />
-        <suite-file path="./Scenario3.xml" />
-        <suite-file path="./Scenario4.xml" />
-        <suite-file path="./Scenario5.xml" />
-        <suite-file path="./Scenario6.xml" />
-        <suite-file path="./Scenario7.xml" />
-        <suite-file path="./Scenario8.xml" />
-        <suite-file path="./Scenario10.xml" />
-        <suite-file path="./Scenario11.xml" />
-        <suite-file path="./Scenario12.xml" />
-        <suite-file path="./Scenario13.xml" />
-        <suite-file path="./Scenario14.xml" />
-        <suite-file path="./Scenario16.xml" />
-        <suite-file path="./Scenario17.xml" />
-        <suite-file path="./Scenario18.xml" />
-        <suite-file path="./Scenario19.xml" />
-		<suite-file path="./Scenario20.xml" />
-		<suite-file path="./Scenario21.xml" />
-		<suite-file path="./Scenario22.xml" />
-		<suite-file path="./Scenario23.xml" />
-		<suite-file path="./Scenario24.xml" />
-		<suite-file path="./Scenario25.xml" />
-		<suite-file path="./Scenario26.xml" />
-		<suite-file path="./Scenario27.xml" />
-		<suite-file path="./Scenario29.xml" />
-		<suite-file path="./Scenario31.xml" />
-		<suite-file path="./Scenario33.xml" />
-		<suite-file path="./Scenario34.xml" />
-  		<suite-file path="./Scenario35.xml" />
+        <suite-file path="./Scenario1.xml"/>
+        <suite-file path="./Scenario2.xml"/>
+        <suite-file path="./Scenario3.xml"/>
+        <suite-file path="./Scenario4.xml"/>
+        <suite-file path="./Scenario5.xml"/>
+        <suite-file path="./Scenario6.xml"/>
+        <suite-file path="./Scenario7.xml"/>
+        <suite-file path="./Scenario8.xml"/>
+        <suite-file path="./Scenario10.xml"/>
+        <suite-file path="./Scenario11.xml"/>
+        <suite-file path="./Scenario12.xml"/>
+        <suite-file path="./Scenario13.xml"/>
+        <suite-file path="./Scenario14.xml"/>
+        <suite-file path="./Scenario16.xml"/>
+        <suite-file path="./Scenario17.xml"/>
+        <suite-file path="./Scenario18.xml"/>
+        <suite-file path="./Scenario19.xml"/>
+        <suite-file path="./Scenario20.xml"/>
+        <suite-file path="./Scenario21.xml"/>
+        <suite-file path="./Scenario22.xml"/>
+        <suite-file path="./Scenario23.xml"/>
+        <suite-file path="./Scenario24.xml"/>
+        <suite-file path="./Scenario25.xml"/>
+        <suite-file path="./Scenario26.xml"/>
+        <suite-file path="./Scenario27.xml"/>
+        <suite-file path="./Scenario29.xml"/>
+        <suite-file path="./Scenario31.xml"/>
+        <suite-file path="./Scenario33.xml"/>
+        <suite-file path="./Scenario34.xml"/>
+        <suite-file path="./Scenario35.xml"/>
     </suite-files>
-
 </suite>

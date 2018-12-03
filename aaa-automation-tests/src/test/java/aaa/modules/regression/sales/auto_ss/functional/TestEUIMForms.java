@@ -61,7 +61,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormNB(@Optional("MD") String state) {
 
@@ -93,7 +93,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormConversion(@Optional("MD") String state) {
 
@@ -121,7 +121,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormEndorsement(@Optional("MD") String state) {
 
@@ -151,7 +151,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormRenewal(@Optional("MD") String state) {
 
@@ -159,10 +159,12 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy();
+		LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
 		setDoNotRenewFlag(policyNumber);
 
 		// Create renewal and switch to EUIM coverage
-		TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+		TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
@@ -187,7 +189,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC1_NB(@Optional("MD") String state) {
 
@@ -234,7 +236,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC2_Endorsement(@Optional("MD") String state) {
 
@@ -266,7 +268,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Conversion(@Optional("MD") String state) {
 
@@ -299,7 +301,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Renewal(@Optional("MD") String state) {
 
@@ -313,6 +315,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		validateDocumentIsNotGeneratedInPackage(policyNumber, POLICY_ISSUE, false);
 
 		//3. Create renewal image
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(45));
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -322,6 +325,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//4. Switch UIM to EUIM coverage and Bind
 		switchToEUIMCoverageAndBind();
 
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 
@@ -342,7 +346,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("MD") String state) {
 
@@ -387,7 +391,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("MD") String state) {
 
@@ -433,7 +437,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_do_not_generate_AAEUIMMD_if_coverage_removed(@Optional("MD") String state) {
 

@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Link;
@@ -16,7 +17,6 @@ import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Table;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -85,7 +85,7 @@ public class ReportsTab extends Tab {
 				Cell cell = reportTable.getRow(i).getCell("Report");
 				Link report = cell.controls.links.get("Re-order report') or contains(.,'Re-order report");
 				if (report.isPresent() && !report.getAttribute("class").equals("link_disabled")) {
-					report.click(Waiters.AJAX);
+					new JavaScriptButton(report.getLocator()).click();  // very small shortcutted and with .. workaround to avoid "other element received click"
 				}
 			}
 		}

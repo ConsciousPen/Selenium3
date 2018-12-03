@@ -2,7 +2,6 @@ package aaa.modules.regression.conversions.pup;
 
 import java.time.LocalDateTime;
 import java.util.Map;
-import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -21,7 +20,7 @@ public class FoxProImportSmokeTest extends FoxProConversionTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Conversions.PUP)
-	public void foxProCAPUPImportTest(@Optional("CA") String state, ITestContext context) {
+	public void foxProCAPUPImportTest(@Optional("CA") String state) {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		mainApp().open();
 		createCustomerIndividual();

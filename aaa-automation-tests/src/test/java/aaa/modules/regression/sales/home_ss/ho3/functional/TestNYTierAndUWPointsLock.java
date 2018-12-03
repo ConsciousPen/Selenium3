@@ -1,20 +1,23 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import aaa.common.enums.Constants;
-import aaa.helpers.constants.ComponentConstant;
-import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSHO3BaseTest;
-import aaa.modules.regression.sales.template.functional.TestNYPropertyTierAndUWPointsLock;
-import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
+import aaa.helpers.constants.ComponentConstant;
+import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.sales.template.functional.TestNYPropertyTierAndUWPointsLock;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.NY)
-public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
+public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock {
 
-	private TestNYPropertyTierAndUWPointsLock template = new TestNYPropertyTierAndUWPointsLock();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_HO3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -41,11 +44,11 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14030, PAS-14045")
-	public void pas14030_testNYViewRatingDetailsRenewal(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsRenewal_HO3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsRenewal(getPolicyType());
+		pas14030_TestNYViewRatingDetailsRenewal();
 	}
 
 	/**
@@ -71,9 +74,9 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14030, PAS-14045")
-	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsRenewalFlatEndorsement();
 	}
 
 	/**
@@ -100,11 +103,11 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Mid Term Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Mid Term Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14030")
-	public void pas14030_testNYViewRatingDetailsMidTermEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsMidTermEndorsement_HO3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsMidTermEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsMidTermEndorsement();
 	}
 
 	/**
@@ -131,10 +134,10 @@ public class TestNYTierAndUWPointsLock extends HomeSSHO3BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14030")
-	public void pas14030_testNYViewRatingDetailsEndorsement(@Optional("NY") String state) {
+	public void pas14030_testNYViewRatingDetailsEndorsement_HO3(@Optional("NY") String state) {
 
-		template.pas14030_TestNYViewRatingDetailsEndorsement(getPolicyType());
+		pas14030_TestNYViewRatingDetailsEndorsement();
 	}
 }

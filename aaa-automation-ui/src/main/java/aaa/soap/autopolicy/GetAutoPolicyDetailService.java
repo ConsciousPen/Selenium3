@@ -6,11 +6,11 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.*;
 import org.apache.cxf.Bus;
-import org.apache.cxf.bus.CXFBusFactory;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
+import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
 import aaa.soap.AAAHTTPConfigurer;
 import aaa.soap.autopolicy.models.wsdl.GetAutoPolicyDetail;
-import toolkit.config.PropertyProvider;
 
 
 /**
@@ -24,19 +24,19 @@ public class GetAutoPolicyDetailService
     extends Service
 {
 
-    private final static URL GETAUTOPOLICYDETAILSERVICE_WSDL_LOCATION;
-    private final static WebServiceException GETAUTOPOLICYDETAILSERVICE_EXCEPTION;
-    private final static QName GETAUTOPOLICYDETAILSERVICE_QNAME = new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailService");
+    private static final URL GETAUTOPOLICYDETAILSERVICE_WSDL_LOCATION;
+    private static final WebServiceException GETAUTOPOLICYDETAILSERVICE_EXCEPTION;
+    private static final QName GETAUTOPOLICYDETAILSERVICE_QNAME = new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailService");
 
     static {
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL(String.format("http://%1$s%2$s/aaa-admin/services/getAutoPolicyDetail?wsdl", PropertyProvider.getProperty("app.host"),PropertyProvider.getProperty("app.ad.urltemplate").substring(0,5)));
+            url = new URL(CSAAApplicationFactory.get().adminApp().getUrl().replace("/admin", "").concat("/services/getAutoPolicyDetail?wsdl"));
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
-        Bus bus = CXFBusFactory.getThreadDefaultBus();
+        Bus bus = BusFactory.getThreadDefaultBus();
         HTTPConduitConfigurer conf = new AAAHTTPConfigurer("qa", "qa");
         bus.setExtension(conf, HTTPConduitConfigurer.class);
         GETAUTOPOLICYDETAILSERVICE_WSDL_LOCATION = url;
@@ -74,19 +74,19 @@ public class GetAutoPolicyDetailService
      */
     @WebEndpoint(name = "GetAutoPolicyDetailSOAPPort")
     public GetAutoPolicyDetail getGetAutoPolicyDetailSOAPPort() {
-        return super.getPort(new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailSOAPPort"), GetAutoPolicyDetail.class);
+        return getPort(new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailSOAPPort"), GetAutoPolicyDetail.class);
     }
 
     /**
      * 
      * @param features
-     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
+     *     A list of {@link WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
      *     returns GetAutoPolicyDetail
      */
     @WebEndpoint(name = "GetAutoPolicyDetailSOAPPort")
     public GetAutoPolicyDetail getGetAutoPolicyDetailSOAPPort(WebServiceFeature... features) {
-        return super.getPort(new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailSOAPPort"), GetAutoPolicyDetail.class, features);
+        return getPort(new QName("http://www.aaancnuit.com.AAANCNU_WSDL_GetAutoPolicyDetail_version2", "GetAutoPolicyDetailSOAPPort"), GetAutoPolicyDetail.class, features);
     }
 
     private static URL __getWsdlLocation() {

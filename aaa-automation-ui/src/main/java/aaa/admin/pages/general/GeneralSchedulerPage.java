@@ -5,14 +5,11 @@ package aaa.admin.pages.general;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.base.app.Application;
 import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.app.LoginPage;
 import aaa.admin.pages.AdminPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.utils.JobRunner;
-import toolkit.config.PropertyProvider;
-import toolkit.config.TestProperties;
 import toolkit.exceptions.IstfException;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
@@ -163,9 +160,7 @@ public class GeneralSchedulerPage extends AdminPage {
 
 	//TODO(vmarkouski): workaround for EISDEV-119304
 	public static void reopenGeneralScheduler() {
-		CSAAApplicationFactory.get().adminApp(new LoginPage(
-				PropertyProvider.getProperty(TestProperties.APP_USER),
-				PropertyProvider.getProperty(TestProperties.APP_PASSWORD))).open();
+		CSAAApplicationFactory.get().adminApp().open();
 		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 	}
 

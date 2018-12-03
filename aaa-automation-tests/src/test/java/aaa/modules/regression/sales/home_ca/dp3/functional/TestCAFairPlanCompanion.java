@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,9 +19,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaDP3BaseTest;
 import aaa.modules.regression.sales.home_ca.helper.HelperCommon;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -44,7 +44,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC1AC4_Quote_VisibleFPCECADP(@Optional("") String state) {
 
@@ -58,11 +58,11 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Click FPCECA Endorsement
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
 
         // Verify FPCECA now present on Documents Tab & Quote Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        myHelper.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
+        HelperCommon.verifySelectedEndorsementsPresent(PremiumsAndCoveragesQuoteTab.tableEndorsementForms, PolicyConstants.PolicyEndorsementFormsTable.DESCRIPTION, "FPCECADP");
 
         // Verify Document Tab populates Endorsement
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.DOCUMENTS.get());
@@ -75,13 +75,12 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * 1. Create a DP3 Quote.
      * 2. Bind Quote.
      * 3. Initiate Mid-Term Endorsement.
-     * 4. Observe FPCECA is visible.
-     * 5. After opting to add FPCECA, a message is displayed.
-     * 6. Verify message will match mock data.
+     * 4. Observe FPCECADP is visible.
+     * 5. Validated endorsement is added to policy
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Add FAIR Plan Companion endorsement DP3")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-13210")
     public void AC2AC5_Endorsement_VisibleFPCECA(@Optional("") String state) {
 
@@ -96,10 +95,8 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.endorse().perform(endorsementTestData.adjust(getPolicyTD("Endorsement", "TestData")));
         policy.getDefaultView().fillUpTo(endorsementTestData, EndorsementTab.class, false);
 
-        myHelper.verifyFPCECAEndorsementAvailable(getPolicyType().getShortName());
-
-        // Click FPCECADP Endorsement
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        //verifies FPCECADP availability in endorsements and that it can be added
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
         
     }
 
@@ -127,7 +124,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         myHelper.handleRenewalTesting(defaultPolicyData);
         policy.getDefaultView().fillUpTo(getTestSpecificTD("Renewal_AC3"), EndorsementTab.class, false);
 
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
         
     }
 
@@ -141,7 +138,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
      * @param state
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, description = "18.5: CA FAIR Plan: Send FAIR Plan data to DCS when rendering EOI document")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-14675")
     public void PAS_14675_IsFPCECAInEOI(@Optional("") String state) {
 
@@ -156,8 +153,8 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         policy.getDefaultView().fillUpTo(defaultPolicyData, EndorsementTab.class, false);
 
         // Add FPCECA Endorsement and complete Policy
-        myHelper.addFAIRPlanEndorsement(getPolicyType().getShortName());
-        myHelper.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
+        HelperCommon.addFAIRPlanEndorsement(getPolicyType().getShortName());
+        HelperCommon.completeFillAndVerifyFAIRPlanSign(policy, defaultPolicyData, EndorsementTab.class, DocumentsTab.class, getPolicyType().getShortName());
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
@@ -166,7 +163,7 @@ public class TestCAFairPlanCompanion extends HomeCaDP3BaseTest {
         PolicyDocGenActionTab documentActionTab = policy.policyDocGen().getView().getTab(PolicyDocGenActionTab.class);
         documentActionTab.generateDocuments(DocGenEnum.Documents._62_6500);
 
-        myHelper.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
+        HelperCommon.validatePdfFromDb(policyNumber, DocGenEnum.Documents._62_6500,
                 AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE, EXPECTED_NAME, "Y");
         
     }

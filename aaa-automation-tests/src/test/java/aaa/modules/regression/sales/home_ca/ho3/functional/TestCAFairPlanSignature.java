@@ -1,6 +1,11 @@
 package aaa.modules.regression.sales.home_ca.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.util.HashMap;
+import java.util.Map;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -9,16 +14,13 @@ import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
-import aaa.main.modules.policy.home_ca.defaulttabs.*;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @StateList(states = Constants.States.CA)
 public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
@@ -36,7 +38,7 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PAS-13239 18.5: CA FAIR Plan: Signature required to bind HO3")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PAS-13239 18.5: CA FAIR Plan: Signature required to bind HO3")
     @TestInfo(component = ComponentConstant.Service.HOME_CA_HO3,  testCaseId = "PAS-13239")
     public void testPolicyRateFairPlanSignatureHO3(@Optional("CA") String state) {
         testSetup();
@@ -71,8 +73,7 @@ public class TestCAFairPlanSignature extends HomeCaHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.BIND.get());
         new BindTab().btnPurchase.click();
         ErrorTab errorTab = new ErrorTab();
-        errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_CA20180517);
-
+        assertThat(errorTab.getErrorCodesList().contains(ErrorEnum.Errors.ERROR_AAA_HO_CA20180517.getCode())).isTrue();
     }
 
 

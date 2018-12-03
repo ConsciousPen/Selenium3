@@ -165,7 +165,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
                     <include name="preconditionsClearFolders"/>
-                    <include name="pas11740_membershipEligConfTrueForPendingMembershipNotEvalueState"/>
                     <include name="pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48"/>
                 </methods>
             </class>
@@ -312,7 +311,6 @@
                     <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForPendingMembership"/>
                 </methods>
             </class>
         </classes>
@@ -365,7 +363,6 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas9716_policySummaryForLapsedRenewal"/>
-                    <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9337_StartEndorsementInfoServerResponseForExpiredPolicy"/>
                 </methods>
             </class>

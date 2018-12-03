@@ -3,8 +3,6 @@ package aaa.modules.regression.conversions.auto_ss;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import org.testng.ITestContext;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -31,6 +29,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -43,70 +42,70 @@ public class MaigConversionTest extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest1(@Optional("VA") String state, ITestContext context) {
+	public void maigConversionTest1(@Optional("VA") String state) {
 		maigConversion("1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest2(@Optional("DE") String state, ITestContext context) {
+	public void maigConversionTest2(@Optional("DE") String state) {
 		maigConversion("2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest3(@Optional("PA") String state, ITestContext context) {
+	public void maigConversionTest3(@Optional("PA") String state) {
 		maigConversion("3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest4(@Optional("MD") String state, ITestContext context) {
+	public void maigConversionTest4(@Optional("MD") String state) {
 		maigConversion("4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest5(@Optional("NJ") String state, ITestContext context) {
+	public void maigConversionTest5(@Optional("NJ") String state) {
 		maigConversion("5.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined1(@Optional("VA") String state, ITestContext context) {
+	public void maigConversionTest_customerDeclined1(@Optional("VA") String state) {
 		maigConversion_customerDeclined("1.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined2(@Optional("DE") String state, ITestContext context) {
+	public void maigConversionTest_customerDeclined2(@Optional("DE") String state) {
 		maigConversion_customerDeclined("2.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined3(@Optional("PA") String state, ITestContext context) {
+	public void maigConversionTest_customerDeclined3(@Optional("PA") String state) {
 		maigConversion_customerDeclined("3.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined4(@Optional("MD") String state, ITestContext context) {
+	public void maigConversionTest_customerDeclined4(@Optional("MD") String state) {
 		maigConversion_customerDeclined("4.xml", context);
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void maigConversionTest_customerDeclined5(@Optional("NJ") String state, ITestContext context) {
+	public void maigConversionTest_customerDeclined5(@Optional("NJ") String state) {
 		maigConversion_customerDeclined("5.xml", context);
 	}
 
@@ -114,9 +113,9 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		LocalDateTime effDate = getTimePoints().getConversionEffectiveDate();
 		ConversionPolicyData data = new MaigConversionData(file, effDate);
 		String policyNum = ConversionUtils.importPolicy(data, context);
-//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
-//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
-//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
+		//		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		//		new BillingAccount().update().perform(testDataManager.billingAccount.getTestData("Update", "TestData_AddAutopay")
+		//				.adjust(TestData.makeKeyPath("UpdateBillingAccountActionTab","Billing Account Name Type"), "Individual"));
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -148,6 +147,7 @@ public class MaigConversionTest extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(effDate.plusYears(1));
 	}
 
 	public void maigConversion_customerDeclined(String file, ITestContext context) {

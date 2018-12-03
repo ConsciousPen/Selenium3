@@ -115,7 +115,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		//TODO-dchubkov: implement test data generation for optionalCoverages field (postponed since all tests have empty values)
 		assertThat(openLVehicle.getOptionalCoverages()).as("Test data generation for non-empty optionalCoverages field is not implemented").isNullOrEmpty();
 
-		String statCode = getStatCode(openLVehicle);
+		String statCode = openLVehicle.getBiLiabilitySymbol();
 		String usage;
 		String milesToWorkOrSchool = null;
 
@@ -247,7 +247,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	protected String getVehicleTabType(AutoCaSelectOpenLVehicle openLVehicle) {
-		String statCode = getStatCode(openLVehicle);
+		String statCode = openLVehicle.getBiLiabilitySymbol();
 		if (isRegularType(statCode)) {
 			return "Regular";
 		}
@@ -300,7 +300,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	@Override
 	protected String[] getLimitOrDeductibleRange(AutoOpenLCoverage coverage) {
 		if ("ETEC".equals(coverage.getCoverageCd())) {
-			String limitCode = String.valueOf(((AutoCaSelectOpenLCoverage) coverage).getLimitCode());
+			String limitCode = ((AutoCaSelectOpenLCoverage) coverage).getLimitCode();
 			String[] limitRange = limitCode.split("/");
 			assertThat(limitRange.length).as("Unknown mapping for limitCode: %s", limitCode).isGreaterThanOrEqualTo(1).isLessThanOrEqualTo(2);
 			return limitRange;

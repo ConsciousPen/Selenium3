@@ -1,47 +1,41 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="E2E Scenario 1" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-
-    <test name="HSS Scenario 1 E2E with HO3" parallel="none">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="HSS Scenario 1 E2E with HO3" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho3.TestScenario1" />
         </classes>
     </test>
-
-    <test name="HSS Scenario 1 E2E with DP3" parallel="none">
+    <test name="HSS Scenario 1 E2E with DP3" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.dp3.TestScenario1" />
         </classes>
     </test>
-
-    <test name="HSS Scenario 1 E2E with HO4" parallel="none">
+    <test name="HSS Scenario 1 E2E with HO4" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho4.TestScenario1" />
         </classes>
     </test>
-
-    <test name="HSS Scenario 1 E2E with HO6" parallel="none">
+    <test name="HSS Scenario 1 E2E with HO6" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ" />
         <classes>
             <class name="aaa.modules.e2e.home_ss.ho6.TestScenario1" />
         </classes>
     </test>
-
-    <test name="PUP Scenario 1" parallel="none">
+    <test name="PUP Scenario 1" parallel="methods">
         <parameter name="state" value="UT, AZ, NJ, DE, CA" />
         <classes>
             <class name="aaa.modules.e2e.pup.TestScenario1" />
         </classes>
     </test>
-
-    <test name="Auto SS Scenario 1" parallel="none">
+    <test name="Auto SS Scenario 1" parallel="methods">
         <parameter name="state" value="UT, AZ, CO, IN, KS, NJ, NY, OH, OR, PA, SD, VA, KY" />
         <classes>
             <class name="aaa.modules.e2e.auto_ss.TestScenario1" />
@@ -49,35 +43,31 @@
     </test>
 
     <!-- CA -->
-    <test name="CA HSS Scenario 1 E2E with HO3" parallel="none">
+    <test name="CA HSS Scenario 1 E2E with HO3" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho3.TestScenario1" />
         </classes>
     </test>
-
-    <test name="CA HSS Scenario 1 E2E with DP3" parallel="none">
+    <test name="CA HSS Scenario 1 E2E with DP3" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.dp3.TestScenario1" />
         </classes>
     </test>
-
-    <test name="CA HSS Scenario 1 E2E with HO4" parallel="none">
+    <test name="CA HSS Scenario 1 E2E with HO4" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho4.TestScenario1" />
         </classes>
     </test>
-
-    <test name="CA HSS Scenario 1 E2E with HO6" parallel="none">
+    <test name="CA HSS Scenario 1 E2E with HO6" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.home_ca.ho6.TestScenario1" />
         </classes>
     </test>
-
-    <test name="Auto CA Scenario 1" parallel="none">
+    <test name="Auto CA Scenario 1" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>
             <class name="aaa.modules.e2e.auto_ca.TestScenario1" />
