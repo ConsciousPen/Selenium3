@@ -38,7 +38,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper= new TestMiniServicesDriversHelper();
 	protected void pas10484_ViewDriverAssignmentService() {
-		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		TestData td = createPolicyWithMoreThanOneDriver( "TestData_TwoDrivers");
 		String policyNumber = openAppAndCreatePolicy(td);
 
 		//Create a pended Endorsement
@@ -175,7 +175,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas14477_ViewDriverAssignment_NewDriver_Body() {
-		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		TestData td = createPolicyWithMoreThanOneDriver("TestData_TwoDrivers");
 		String policyNumber = openAppAndCreatePolicy(td);
 		SearchPage.openPolicy(policyNumber);
 
@@ -348,7 +348,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//add vehicle
-		String vehicleOid2 = addVehicle(policyNumber, "2012-02-21", "4S2CK58W8X4307498");
+		addVehicle(policyNumber, "2012-02-21", "4S2CK58W8X4307498");
 
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
@@ -367,6 +367,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		List<Vehicle> sortedVehicles1 = viewEndorsementVehicleResponse2.vehicleList;
 		sortedVehicles1.sort(Vehicle.PENDING_ENDORSEMENT_COMPARATOR);
 		String vehicleOid1 = viewEndorsementVehicleResponse2.vehicleList.get(0).oid;
+		String vehicleOid2 = viewEndorsementVehicleResponse2.vehicleList.get(1).oid;
 
 		ViewDriverAssignmentResponse response = HelperCommon.viewEndorsementAssignments(policyNumber);
 		assertSoftly(softly -> {
@@ -393,7 +394,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	protected void pas13994_UpdateDriverAssignmentServiceRule1Body1(PolicyType policyType) {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		TestData td = createPolicyWithMoreThanOneDriver( "TestData_TwoDrivers");
 
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -431,7 +432,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			//Update: V1-->D1, D2, Check V1-->D1,D2, V2-->Unn
-			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle1.oid, Arrays.asList(driver1.oid));
+			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicle1.oid, Arrays.asList(driver1.oid, driver2.oid));
 			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
 			DriverAssignments toMatch2 = new DriverAssignments()
 					.addAssignment(driver1.oid, vehicle1.oid)
@@ -441,19 +442,19 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(2);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(2);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().contains(vehicleOid2)).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().contains(vehicle1.oid)).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee2.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee2.getAssignableVehicles().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee2.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.getUnassignedVehicles().contains(vehicleOid2)).isTrue();
+			softly.assertThat(updDriverAssignee2.getVehiclesWithTooManyDrivers().contains(vehicle1.oid)).isTrue();
+			softly.assertThat(updDriverAssignee2.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getCode(), ErrorDxpEnum.Errors.DRIVERS_MUST_BE_ASSIGNED_A_UNIQUE_VEHICLE.getMessage(), "attributeForRules");
 
 			//Update: V2-->D2, V1-->D1, V2-->D2
-			DriverAssignments updDriverAssignee3 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid2, Arrays.asList(driver1.oid));
+			DriverAssignments updDriverAssignee3 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid2, Arrays.asList(driver2.oid));
 			DriverAssignments driverAssignmentResponse3 = HelperCommon.viewEndorsementAssignments2(policyNumber);
 			DriverAssignments toMatch3 = new DriverAssignments()
 					.addAssignment(driver1.oid, vehicle1.oid)
@@ -462,12 +463,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(2);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(2);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee3.getAssignableDrivers().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee3.getAssignableVehicles().size()).isEqualTo(2);
+			softly.assertThat(updDriverAssignee3.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			checkAssignButtonInUiRateAndBind(policyNumber);
@@ -476,7 +477,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	protected void pas15529_UpdateDriverAssignmentServiceRule1Body2(PolicyType policyType) {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_FourDrivers", "TestData_TwoVehicles", "AssignmentTabFourDrivers");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_FourDrivers", "TestData_TwoVehicles", "AssignmentTabFourDrivers");
 
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -534,12 +535,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().contains(vehicle2.oid)).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee2.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee2.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee2.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee2.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee2.getVehiclesWithTooManyDrivers().contains(vehicle2.oid)).isTrue();
+			softly.assertThat(updDriverAssignee2.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
@@ -558,12 +559,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse3).isEqualToComparingOnlyGivenFields(toMatch3, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee3.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee3.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee3.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee3.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee3.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
@@ -582,12 +583,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse4).isEqualToComparingOnlyGivenFields(toMatch4, "driverVehicleAssignments", "unassignedVehicles", "unassignedDrivers");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().size()).isEqualTo(1);
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee4.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee4.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee4.getUnassignedDrivers().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee4.getUnassignedVehicles().size()).isEqualTo(1);
+			softly.assertThat(updDriverAssignee4.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee4.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION.getMessage(), "attributeForRules");
 			helperMiniServices.rateEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getCode(), ErrorDxpEnum.Errors.INCOMPLETE_OR_UNACCEPTABLE_SELECTION_VA_2.getMessage(), "attributeForRules");
@@ -604,12 +605,12 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(driverAssignmentResponse5).isEqualToComparingOnlyGivenFields(toMatch5, "driverVehicleAssignments");
 
 			//check the last part of the response
-			softly.assertThat(updDriverAssignee1.getAssignableDrivers().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getAssignableVehicles().size()).isEqualTo(4);
-			softly.assertThat(updDriverAssignee1.getUnassignedDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getUnassignedVehicles().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee1.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee5.getAssignableDrivers().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee5.getAssignableVehicles().size()).isEqualTo(4);
+			softly.assertThat(updDriverAssignee5.getUnassignedDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee5.getUnassignedVehicles().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee5.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
+			softly.assertThat(updDriverAssignee5.isMaxOneDriverPerVehicle()).isEqualTo(true);
 
 			helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
@@ -619,7 +620,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	protected void pas13994_UpdateDriverAssignmentServiceRule2Body1(PolicyType policyType) {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_ThreeVehicles", "AssignmentTab");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_TwoDrivers", "TestData_ThreeVehicles", "AssignmentTab");
 
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -707,7 +708,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			softly.assertThat(updDriverAssignee3.getUnassignedDrivers().isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee3.getUnassignedVehicles().isEmpty()).isTrue();
 			softly.assertThat(updDriverAssignee3.getVehiclesWithTooManyDrivers().isEmpty()).isTrue();
-			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isEqualTo(true);
+			softly.assertThat(updDriverAssignee3.isMaxOneDriverPerVehicle()).isTrue();
 
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 			checkAssignButtonInUiRateAndBind(policyNumber);
@@ -716,7 +717,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	protected void pas13994_UpdateDriverAssignmentServiceRule2Body2(PolicyType policyType) {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle( "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
 
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -842,7 +843,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 
 	protected void pas13994_UpdateDriverAssignmentServiceRule3Body() {
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_FourDrivers", "TestData_TwoVehicles", "AssignmentTabFourDrivers");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_FourDrivers", "TestData_TwoVehicles", "AssignmentTabFourDrivers");
 
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -973,7 +974,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas14539_transactionInfoUpdateDriverAssignmentBody() {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_TwoVehicles", "AssignmentTab_Two_Driver");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_TwoDrivers", "TestData_TwoVehicles", "AssignmentTab_Two_Driver");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 
 		String policyNumber = openAppAndCreatePolicy(td);
@@ -1026,8 +1027,8 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	protected void pas15540_RemoveDriverAssignedToTrailerBody(PolicyType policyType) {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_VehicleTrailer", null);
+	protected void pas15540_RemoveDriverAssignedToTrailerBody() {
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_TwoDrivers", "TestData_VehicleTrailer", null);
 		//adjust test data to override errors for NJ and NY
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		if (Constants.States.NJ.contains(getState()) || Constants.States.NY.contains(getState())) {
@@ -1050,7 +1051,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body(){
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle( "TestData_ThreeDrivers", "TestData_ThreeVehicles", "AssignmentTabThreeDrivers");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1139,7 +1140,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body() {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_TwoDrivers", "TestData_FourVehicles", "AssignmentTabFourDriversTwoVehicles");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_TwoDrivers", "TestData_FourVehicles", "AssignmentTabFourDriversTwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1237,7 +1238,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body() {
-		TestData td = createPolicyWithMoreThanOneVehicle(getPolicyType(), "TestData_TwoVehicles");
+		TestData td = createPolicyWithMoreThanOneVehicle( "TestData_TwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1287,7 +1288,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body() {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_FourVehicles", "AssignmentTabThreeDriversFourVehicles");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_ThreeDrivers", "TestData_FourVehicles", "AssignmentTabThreeDriversFourVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1371,7 +1372,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body(){
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_FourDrivers", "TestData_ThreeVehicles", "AssignmentTabFourDriversThreeVehicles");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_FourDrivers", "TestData_ThreeVehicles", "AssignmentTabFourDriversThreeVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1442,7 +1443,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body() {
-		TestData td = createPolicyWithMoreThanOneDriverAndVehicle(getPolicyType(), "TestData_ThreeDrivers", "TestData_TwoVehicles", "AssignmentTabThreeDriversTwoVehicles");
+		TestData td = createPolicyWithMoreThanOneDriverAndVehicle("TestData_ThreeDrivers", "TestData_TwoVehicles", "AssignmentTabThreeDriversTwoVehicles");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1505,7 +1506,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	protected void pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body() {
-		TestData td = createPolicyWithMoreThanOneDriver(getPolicyType(), "TestData_TwoDrivers");
+		TestData td = createPolicyWithMoreThanOneDriver("TestData_TwoDrivers");
 		TestData customerData = new TestDataManager().customer.get(CustomerType.INDIVIDUAL);
 		assertSoftly(softly -> {
 			String policyNumber = openAppAndCreatePolicy(td);
@@ -1558,7 +1559,7 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 	}
 
 	private void checkAssignButtonInUiRateAndBind(String policyNumber) {
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
@@ -1631,19 +1632,19 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 		return newVehicleOid;
 	}
 
-	private TestData createPolicyWithMoreThanOneVehicle(PolicyType policyType, String vehicleTestData){
+	private TestData createPolicyWithMoreThanOneVehicle(String vehicleTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(vehicleTestData).getTestDataList("VehicleTab")).resolveLinks();
 			return td;
 		}
 
-	private TestData createPolicyWithMoreThanOneDriver(PolicyType policyType, String driverTestData){
+	private TestData createPolicyWithMoreThanOneDriver(String driverTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD(driverTestData).getTestDataList("DriverTab")).resolveLinks();
 			return td;
 		}
 
-	private TestData createPolicyWithMoreThanOneDriverAndVehicle(PolicyType policyType, String driverTestData, String vehicleTestData, String assignmentTestData){
+	private TestData createPolicyWithMoreThanOneDriverAndVehicle(String driverTestData, String vehicleTestData, String assignmentTestData){
 			TestData td = getPolicyDefaultTD();
 			td.adjust(new DriverTab().getMetaKey(), getTestSpecificTD(driverTestData).getTestDataList("DriverTab")).resolveLinks();
 			td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD(vehicleTestData).getTestDataList("VehicleTab")).resolveLinks();

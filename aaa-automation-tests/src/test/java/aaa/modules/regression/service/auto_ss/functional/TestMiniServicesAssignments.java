@@ -225,7 +225,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15540", "PAS-15505"})
 	public void pas15540_RemoveDriverAssignedToTrailer(@Optional("VA") String state) {
-		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType());
+		pas15540_RemoveDriverAssignedToTrailerBody();
 		//NOTE: This test works for all Auto SS states
 	}
 
