@@ -36,9 +36,16 @@ public class TestPolicyBilling extends PolicyBilling {
 	//@StateList("All")
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP)
-	public void testBilling(@Optional("") String state) {
-
-		super.testBilling();
+	public void testBillingPayments(@Optional("") String state) {
+		super.testBillingPayments();
+	}
+	
+	@Parameters({"state"})
+	//@StateList("All")
+	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.PUP)
+	public void testBillingRefund(@Optional("") String state) {
+		super.testBillingRefund();
 	}
 
 }

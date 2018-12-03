@@ -4,6 +4,7 @@ import aaa.common.Tab;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.main.enums.ClaimConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -60,7 +61,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaimByCauseOfLoss(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -70,7 +71,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
         policy.dataGather().start();
         navigateToPropertyInfoTab();
-        viewEditClaimByCauseOfLoss(Labels.WATER);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -120,7 +121,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaimByCauseOfLoss(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -130,7 +131,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // PAS-6759 AC2. Ability to remove Claims for unprivileged user while NB tx is not bound
         policy.endorse().start();
         navigateToPropertyInfoTab();
-        viewEditClaimByCauseOfLoss(Labels.WATER);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -172,7 +173,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaimByCauseOfLoss(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -181,7 +182,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         policy.dataGather().start();
         navigateToPropertyInfoTab();
-        viewEditClaimByCauseOfLoss(Labels.WATER);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -213,7 +214,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // Last added Claim can be removed
         checkRemoveButtonAvailable(true);
         removeClaim();
-        viewEditClaimByCauseOfLoss(Labels.LIABILITY);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
         checkRemoveButtonAvailable(false);
     }
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal(){
@@ -249,7 +250,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // 4 Claims were added manually
         checkTblClaimRowCount(4);
-        viewEditClaimByCauseOfLoss(Labels.THEFT);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
         removeClaim();
 
         // Check that 1 Claim was removed. 3 Claims left
@@ -262,7 +263,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         navigateToPropertyInfoTab();
 
         getPropertyInfoTab().fillTab(td);
-        viewEditClaimByCauseOfLoss(Labels.WATER);
+        viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
         removeClaim();
 
         // Check that table contains 2 claims
@@ -368,7 +369,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
-        createSpecificCustomerIndividual("Agustin", "Miras");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("AgustinDP", "Miras");
+        } else {
+            createSpecificCustomerIndividual("Agustin", "Miras");
+        }
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         checkTblClaimRowCount(0);
@@ -376,7 +381,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
-        createSpecificCustomerIndividual("MARSHA", "LACKEY");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("MARSHADP", "LACKEYDP");
+        } else {
+            createSpecificCustomerIndividual("MARSHA", "LACKEY");
+        }
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
         assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
@@ -384,20 +393,31 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6703_testCatastropheIndicatorUnknownNB() {
-        createSpecificCustomerIndividual("Sachin", "Kohli");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("SachinDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Sachin", "Kohli");
+        }
+
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
-        checkTblClaimRowCount(2);
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
+            // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
+            assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
+        } else {
+            checkTblClaimRowCount(2);
+            viewEditClaimByLossAmount("14000");
+        }
 
         // Validates 'Applicant & Property' with catastrophe = 'Unknown'
-        viewEditClaimByLossAmount("14000");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
 
         if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             // Validates 'Applicant' with catastrophe = 'Unknown'
             viewEditClaimByLossAmount("13000");
-            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT);
             assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
         }
 
@@ -434,7 +454,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         getReportsTab().submitTab();
         if (getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
-            checkTblClaimRowCount(1);
+            // Can't use checkTblClaimRowCount with 1 claim (no table present)
+            assertThat(new PropertyInfoTab().tblClaimsList).isPresent(false);
+            assertThat(getClaimSourceAsset().getValue()).isEqualTo("CLUE");
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT_PROPERTY);
         } else {
             checkTblClaimRowCount(2);
         }
@@ -678,14 +701,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Validates 'Applicant & Property' with catastrophe = 'Yes'
         viewEditClaimByLossAmount("11000");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
         // Validate Loss For Field is enabled for L41 (PAS-22144)
         assertThat(getClaimLossForAsset()).isEnabled();
 
         // Validates 'Applicant & Property' with catastrophe = 'No'
         viewEditClaimByLossAmount("42500");
-        assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT_PROPERTY);
+        assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT_PROPERTY);
         assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
         // Validate Loss For Field is enabled for L41 (PAS-22144)
         assertThat(getClaimLossForAsset()).isEnabled();
@@ -693,14 +716,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
             // Validates 'Applicant' with catastrophe = 'Yes'
             viewEditClaimByLossAmount("1500");
-            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT);
             assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_YES);
             // Validate Loss For Field is enabled for L41 (PAS-22144)
             assertThat(getClaimLossForAsset()).isEnabled();
 
             // Validates 'Applicant' with catastrophe = 'No'
             viewEditClaimByLossAmount("2500");
-            assertThat(getClaimLossForAsset().getValue()).isEqualTo(Labels.APPLICANT);
+            assertThat(getClaimLossForAsset().getValue()).isEqualTo(ClaimConstants.LossFor.APPLICANT);
             assertThat(getClaimCatastropheAsset().getValue()).isEqualTo(Labels.RADIO_NO);
             // Validate Loss For Field is enabled for L41 (PAS-22144)
             assertThat(getClaimLossForAsset()).isEnabled();

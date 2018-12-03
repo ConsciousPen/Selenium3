@@ -1,7 +1,6 @@
 package aaa.main.enums;
 
 public enum CoverageLimits {
-
 	COV_20("20", "$20"),
 	COV_25("25", "$25"),
 	COV_30("30", "$30"),
@@ -24,6 +23,7 @@ public enum CoverageLimits {
 	COV_300000("300000", "$300,000"),
 	COV_500000("500000", "$500,000"),
 	COV_1000000("1000000", "$1,000,000"),
+	COV_1530("15000/30000", "$15,000/$30,000"),
 	COV_1020("10000/20000", "$10,000/$20,000"),
 	COV_2550("25000/50000", "$25,000/$50,000"),
 	COV_2565("25000/65000", "$25,000/$65,000"),
@@ -46,12 +46,24 @@ public enum CoverageLimits {
 	COV_TRUE("true", "Yes"),
 	COV_FALSE("false", "No"),
 	COV_FALSE_NO_COVERAGE("false", "No Coverage"),
-
 	DED_0("0", "$0"),
 	DED_250("250", "$250"),
 	DED_500("500", "$500"),
 	DED_1000("1000", "$1,000"),
-	DED_3500("3500", "$3500/$250 Ded");
+	DED_3500("3500", "$3500/$250 Ded"),
+	COV_750("750", "$750"),
+	COV_500("500", "$500"),
+	COV_50("50", "$50"),
+	COV_100("100", "$100"),
+	COV_1000("1000", "$1,000"),
+	COV_SP_1000("1000", "$1,000.00"),
+	COV_1("1", "Yes"),
+	COV_30_900("30/900", "$30/$900"),
+	COV_40_1200("40/1200", "$40/$1,200"),
+	COV_50_1500("50/1500", "$50/$1,500"),
+	COV_50_300("50/300", "$50/$300"),
+	COV_No_Cov("-1", "No Coverage"),
+	SP_EQ_0("0", "$0.00");
 
 	private final String limit;
 	private final String display;
@@ -63,6 +75,7 @@ public enum CoverageLimits {
 
 	public String getLimit() {
 		return limit;
+
 	}
 
 	public String getDisplay() {

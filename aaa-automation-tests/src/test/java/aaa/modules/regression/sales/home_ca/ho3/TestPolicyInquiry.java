@@ -8,8 +8,11 @@ import org.testng.annotations.Test;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum.HomeCaTab;
+import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -36,14 +39,38 @@ public class TestPolicyInquiry extends HomeCaHO3BaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3)
 	public void testPolicyInquiry(@Optional("CA") String state) {
-		mainApp().open();
-		getCopiedPolicy();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		String totalPremium;
 		
-		String totalPremium = PolicySummaryPage.tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue();
-		
-		policy.policyInquiry().start();
-		
+		if(getUserGroup().equals(UserGroups.B31.get())) {
+			mainApp().open(getLoginTD(UserGroups.QA));
+			createCustomerIndividual();
+			createPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			mainApp().close();
+			
+			//Login with B31 user
+			mainApp().open(getLoginTD(UserGroups.B31));
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			SearchPage.openPolicy(policyNumber);
+			totalPremium = PolicySummaryPage.tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue();
+			policy.policyInquiry().start();		
+			verifyPolicyInInquiryMode(totalPremium);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		}
+		else {
+			mainApp().open();
+			getCopiedPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);		
+			totalPremium = PolicySummaryPage.tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue();
+			
+			policy.policyInquiry().start();		
+			verifyPolicyInInquiryMode(totalPremium);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		}
+	}
+	
+	public void verifyPolicyInInquiryMode(String totalPremium) {
 		NavigationPage.toViewTab(HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		NavigationPage.toViewTab(HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		assertThat(PremiumsAndCoveragesQuoteTab.btnCalculatePremium).isDisabled();
@@ -54,7 +81,6 @@ public class TestPolicyInquiry extends HomeCaHO3BaseTest {
 		assertThat(new BindTab().btnPurchase).isDisabled();
 		
 		Tab.buttonCancel.click();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 }
