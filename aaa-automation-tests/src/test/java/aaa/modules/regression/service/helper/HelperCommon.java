@@ -70,6 +70,7 @@ public class HelperCommon {
 
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
+	private static final String DXP_VIEW_RFI = "/api/v1/policies/%s/endorsement/rfi";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
 
 	private static AdminApplication adminApp() {
@@ -464,6 +465,11 @@ public class HelperCommon {
 	public static AccountDetails billingAccountInfoService(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, AccountDetails.class);
+	}
+
+	public static RFIDocument rfiViewService(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, RFIDocument.class);
 	}
 
 	public static Installment[] billingInstallmentsInfo(String policyNumber) {

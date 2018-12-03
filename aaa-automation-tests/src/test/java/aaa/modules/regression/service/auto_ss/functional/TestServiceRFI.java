@@ -4,8 +4,12 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import aaa.modules.regression.service.helper.HelperMiniServices;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -37,6 +41,39 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name RFI View Service
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Update policy level coverage, (UM)
+	 * 4. Rate. Hit RFI service.
+	 * 5. Go to PAS, endorsement inquire mode, check the status of the document.
+	 * 6. Rate and bind.
+	 * 7. Create new endorsement.
+	 * 8. Rate and hit RFI service.
+	 * 9. UM document is not displaying in the RFI service response
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19630", "PAS-19631"})
+	public void pas14536_TransportationExpensePart1(@Optional("VA") String state) {
+		assertSoftly(softly -> {
+			String policyNumber = openAppAndCreatePolicy();
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+			//rate endorsement and check RFI service
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+
+
+
+
+		});
+	}
+
 
 	/**
 	 * @author Oleg Stasyuk
@@ -57,7 +94,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * Proof of Current Insurance for all "Not Available for Rating" drivers
 	 *
 	 * Driver4 - Not Available for Rating
-	 *
 	 *
 	 * Vehicle1 -
 	 * Photos showing all 4 sides of salvaged vehicles	select salvaged
