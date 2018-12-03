@@ -236,7 +236,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAA Products Owned.Current AAA Member", CURRENT)
 					.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 					.put("AAA Products Owned.Life Policy #", CURRENT)
 					.put("AAA Products Owned.Home Policy #", AVAILABLE)
@@ -273,7 +272,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> CONTACT_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
 					.put("Contact Information.Home Phone Number", CURRENT)
 					.put("Contact Information.Work Phone Number", AVAILABLE)
 					.put("Contact Information.Mobile Phone Number", CURRENT)
