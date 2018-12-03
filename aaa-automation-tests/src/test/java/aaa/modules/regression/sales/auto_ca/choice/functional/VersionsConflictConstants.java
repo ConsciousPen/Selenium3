@@ -242,6 +242,7 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
+					.put("AAA Products Owned.Current AAA Member", CURRENT)
 					.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 					.put("AAA Products Owned.Life Policy #", CURRENT)
 					.put("AAA Products Owned.Home Policy #", AVAILABLE)
