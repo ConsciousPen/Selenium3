@@ -65,9 +65,12 @@ public class PolicySummary {
 	public String policyTerm;
 
 	@ApiModelProperty(value = "Policy endorsement ID", example = "ivB8QApZ3n9oaVHM3CFIpQ")
-	public String endorsementId;
+	public String id;
 
 	@ApiModelProperty(value = "Policy bind Time and Date", example = "2018-09-05T20:48:10Z")
 	public String bindDate;
+
+	@ApiModelProperty(value = "Renewal offered indicator", example = "true")
+	public Boolean isRenewalOffered;
 
 }

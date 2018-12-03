@@ -94,6 +94,26 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 				pas12866_e2eBctBody(state, false, softly)
 		);
 	}
+	/**
+	 * @author Maris Strazds
+	 * @name Validate isRenewalOffered in Renewal summary service
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. Run all required renewal jobs till Renewal Proposal date (excluding)
+	 * 3. Run viewPolicyRenewalSummary service ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 4. Run all required renewal jobs at R-35
+	 * 5. Run viewPolicyRenewalSummary service ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 6. Make Revised Renewal by updating Current term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 7. Make Revised Renewal by updating Renewal term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 8. Renewa the policy
+	 * 9. Generate Renewal image, run viewPolicyRenewalSummary and validate that isRenewalOffered si false for Renewal term
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22548"})
+	public void pas22548_RenewalOfferIndicator(@Optional("VA") String state) {
+		pas22548_RenewalOfferIndicatorBody();
+	}
 }
 
 

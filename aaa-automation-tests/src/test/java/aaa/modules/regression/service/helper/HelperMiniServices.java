@@ -32,7 +32,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(response.residentialAddress.postalCode).isNotEmpty();
 		assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate);
 		assertThat(response.policyTerm).isNotEmpty();
-		assertThat(response.endorsementId).isNotEmpty();
+		assertThat(response.id).isNotEmpty();
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
