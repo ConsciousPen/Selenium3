@@ -33,6 +33,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 * PAS-8310: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 1)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
 	 * PAS-21435: Remove LASTNAME_YOB match logic
+	 * PAS-18341 - Added PermissiveUse tag to Claims Service Contract (this test contains Y, N, blank, no tag, and Junk test veriations)
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:

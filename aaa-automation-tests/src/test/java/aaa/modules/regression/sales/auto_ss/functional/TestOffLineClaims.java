@@ -81,6 +81,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * @author Andrii Syniagin
      * PAS-14679 - DL # matching logic
      * PAS-14058 - COMP Claims match to FNI
+     * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * @name Test Offline STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -136,6 +137,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * @author Chris Johns
      * PAS-8310 - LASTNAME_FIRSTNAME_DOB & LASTNAME_FIRSTNAME_YOB matches
      * PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB matches
+     * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * @name Test Match more claims to satisfy the Name and DOB match logic LASTNAME_FIRSTNAME_DOB,  LASTNAME_FIRSTNAME_YOB
      * @scenario Test Steps:
      * 1. Create a Policy with 4 drivers
@@ -178,6 +180,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * PAS-21821 - PAS/Microservice Security Token
      * PAS-8310 - LASTNAME_FIRSTNAME_DOB & LASTNAME_FIRSTNAME_YOB matches
      * PAS-17894 - LASTNAME_FIRSTNAME & LASTNAME_FIRSTINITAL_DOB matches
+     * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * @name Test NAME and DOB Match logic Via Manual Renewal To Support Security Token Validation
      * @scenario Test Steps:
      * 1. Create a Policy with 4 drivers
@@ -197,7 +200,6 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
         // Create the claim response
         createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
-//	    createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
 
         // Retrieve policy and generate a manual renewal image
         createManualRenewal();
@@ -223,6 +225,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     /**
      * @author Mantas Garsvinskas
      * PAS-14552 - INC IN RATING: Determine if Previously Unmatched but Now matched should be Included in Rating
+     * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
      * @name Test Claims 'Include In Rating' determination according to Occurrence date
      * @scenario Test Steps:
      * 1. Create a Policy with 1 driver ANNUAL TERM;

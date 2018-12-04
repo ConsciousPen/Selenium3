@@ -52,7 +52,7 @@ claimLineItemList:
     driverAgeAsOfDateOfLoss: '21'
     driverDateofBirth: '1975-05-26'
     driverRelationToInsured: INSURED
-    permissiveUse: Y
+    permissiveUse: JUNK
     drivingLicenseNumber: D07963705
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -83,7 +83,7 @@ claimLineItemList:
     driverDateofBirth: '1990-05-09'
     driverName: Tony Stark
     driverRelationToInsured: INSURED
-    permissiveUse: Y
+    permissiveUse: N
     drivingLicenseNumber: A99999999
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -114,7 +114,7 @@ claimLineItemList:
     driverDateofBirth: '1997-10-16'
     driverName: Trory Stark
     driverRelationToInsured: INSURED
-    permissiveUse: Y
+    permissiveUse: N
     drivingLicenseNumber: A99999999
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -145,7 +145,7 @@ claimLineItemList:
     driverDateofBirth: '1997-01-01'
     driverName: Leeroy Stark
     driverRelationToInsured: INSURED
-    permissiveUse: Y
+    permissiveUse: N
     drivingLicenseNumber: A99999999
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
