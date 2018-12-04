@@ -49,13 +49,15 @@ public abstract class PolicyNoteCreateUpdate extends PolicyBaseTest {
 		}
 		else if (getUserGroup().equals(UserGroups.F35.get())) {
 			mainApp().open();
-			getCopiedPolicy();			
+			createCustomerIndividual();
+			createPolicy();		
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			createNote();
 		}
 		else {
 			mainApp().open();
-			getCopiedPolicy();			
+			createCustomerIndividual();
+			createPolicy();			
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);		
 			createAndUpdateNote();
 		}		

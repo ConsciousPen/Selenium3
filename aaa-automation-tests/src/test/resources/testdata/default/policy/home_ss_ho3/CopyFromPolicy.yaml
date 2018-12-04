@@ -21,7 +21,21 @@ UnderwritingAndApprovalTab: {
   "Do employees of any resident or applicant reside in the dwelling?": "No",
   "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No" 
 }
-  
+ 
+# TestData for User F35, G36
+TestData_F35_G36: {
+  CopyFromPolicyActionTab: '@CopyFromPolicyActionTab',
+  ReportsTab: '@ReportsTab',
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_F35_G36',
+  PurchaseTab: '@DataGather@PurchaseTab'
+} 
+
+UnderwritingAndApprovalTab_F35_G36: {
+  "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+  "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+  "Do employees of any resident or applicant reside in the dwelling?": "No",
+  "Is any business, home day care, or farming activity conducted on the premises for which an endorsement is not already attached to the policy?": "No" 
+}
   
 # TestData_Backdated  
 TestData_BackDated: {
