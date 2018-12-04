@@ -3,7 +3,7 @@ package aaa.helpers.rest.dtoDxp;
 import java.util.*;
 
 public class DriverAssignments {
-    protected List<DriverAssignment> driverVehicleAssignments;
+    protected Set<DriverAssignment> driverVehicleAssignments;
     protected Set<String> assignableDrivers;
     protected Set<String> assignableVehicles;
     protected Set<String> unassignedDrivers;
@@ -18,7 +18,7 @@ public class DriverAssignments {
 
     public DriverAssignments addAssignment(String driverOid, String vehicleOid) {
         if(driverVehicleAssignments == null) {
-            driverVehicleAssignments = new ArrayList<>();
+            driverVehicleAssignments = new HashSet<>();
         }
         DriverAssignment driverAssignment = new DriverAssignment();
         driverAssignment.vehicleOid = vehicleOid;
@@ -43,11 +43,11 @@ public class DriverAssignments {
         return this;
     }
 
-    public List<DriverAssignment> getDriverVehicleAssignments() {
+    public Set<DriverAssignment> getDriverVehicleAssignments() {
         return driverVehicleAssignments;
     }
 
-    public void setDriverVehicleAssignments(List<DriverAssignment> driverVehicleAssignments) {
+    public void setDriverVehicleAssignments(Set<DriverAssignment> driverVehicleAssignments) {
         this.driverVehicleAssignments = driverVehicleAssignments;
     }
 
