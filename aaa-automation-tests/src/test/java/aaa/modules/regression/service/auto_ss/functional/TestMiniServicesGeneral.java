@@ -105,7 +105,7 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	 * 5. Run viewPolicyRenewalSummary service ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
 	 * 6. Make Revised Renewal by updating Current term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
 	 * 7. Make Revised Renewal by updating Renewal term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
-	 * 8. Renewa the policy
+	 * 8. Renew the policy
 	 * 9. Generate Renewal image, run viewPolicyRenewalSummary and validate that isRenewalOffered si false for Renewal term
 	 */
 	@Parameters({"state"})
@@ -113,6 +113,7 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22548"})
 	public void pas22548_RenewalOfferIndicator(@Optional("VA") String state) {
 		pas22548_RenewalOfferIndicatorBody();
+		//NOTE: this test is not included in any test suite as the story was pulled out of the sprint.
 	}
 }
 
