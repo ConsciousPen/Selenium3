@@ -2614,6 +2614,49 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		});
 	}
 
+	protected void pas15344_ViewUpdateUMPD_NV() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
+		String vehicleOid = viewVehicleResponse.vehicleList.get(0).oid;
+		PolicyCoverageInfo viewCoverageResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
+		Coverage umpdWithColl = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.COV_CDW);
+		Coverage returnedUmpd = findCoverage(getVehicleCoverages(viewCoverageResponse, vehicleOid).coverages, "UMPD");
+		assertThat(umpdWithColl).isEqualTo(returnedUmpd);
+
+		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "0"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		Coverage umpdNoCoverage = Coverage.create(CoverageInfo.UMPD_NV_WITHCOLL).changeLimit(CoverageLimits.COV_0);
+		Coverage returnedUmpdNoCov = findCoverage(getVehicleCoverages(updateCoverageResponse, vehicleOid).coverages, "UMPD");
+		assertThat(umpdNoCoverage).isEqualTo(returnedUmpdNoCov);
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_AND_UNDERINSURED_MOTORIST_BI.getLabel(), "No Coverage");
+		premiumAndCoveragesTab.saveAndExit();
+
+		PolicyCoverageInfo viewCoverageNoUMResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
+		Coverage umpdNoUM = Coverage.create(CoverageInfo.UMPD_NV_WOUM).changeLimit(CoverageLimits.COV_0).disableCanChange().disableCustomerDisplay();
+		Coverage returnedUmpdNoUM = findCoverage(getVehicleCoverages(viewCoverageNoUMResponse, vehicleOid).coverages, "UMPD");
+		assertThat(umpdNoUM).isEqualTo(returnedUmpdNoUM);
+
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("BI", "100000/300000"), PolicyCoverageInfo.class);
+		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("COLLDED", "-1"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo viewCoverageNoCollResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, vehicleOid, PolicyCoverageInfo.class);
+		Coverage umpdNoColl = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_0);
+		Coverage returnedUmpdNoColl = findCoverage(getVehicleCoverages(viewCoverageNoCollResponse, vehicleOid).coverages, "UMPD");
+		assertThat(umpdNoColl).isEqualTo(returnedUmpdNoColl);
+
+		PolicyCoverageInfo updateCoverageResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "3500"), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		Coverage umpdNoCoverage2 = Coverage.create(CoverageInfo.UMPD_NV_NOCOLL).changeLimit(CoverageLimits.COV_3500);
+		Coverage returnedUmpdNoCov2 = findCoverage(getVehicleCoverages(updateCoverageResponse2, vehicleOid).coverages, "UMPD");
+		assertThat(umpdNoCoverage2).isEqualTo(returnedUmpdNoCov2);
+	}
+
 	protected void pas14730_UpdateCoverageUMPDAndPDBody(PolicyType policyType) {
 		mainApp().open();
 
@@ -4775,85 +4818,13 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void assertThatOnlyOneInstanceOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse) {
 		assertSoftly(softly -> {
-			//make sure that no Policy Level coverages are missed
-			validateCountOfPolicyLevelCoverages(coverageResponse, softly);
+			List<String> orderOfPolicyLevelCoveragesExpected = getTestSpecificTD("TestData_OrderOfCoverages").getList("PolicyLevelCoverages");
+			softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(orderOfPolicyLevelCoveragesExpected.size());
+			orderOfPolicyLevelCoveragesExpected.forEach(expectedCoverage ->
+				softly.assertThat(coverageResponse.policyCoverages.stream().filter(cov -> expectedCoverage.equals(cov.getCoverageCd())).count()).isEqualTo(1)
+			);
 
-			List<Coverage> filteredPolicyCoverageResponseBI = coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponseBI.size()).isEqualTo(1);
-
-			List<Coverage> filteredPolicyCoverageResponsePD = coverageResponse.policyCoverages.stream().filter(cov -> "PD".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			softly.assertThat(filteredPolicyCoverageResponsePD.size()).isEqualTo(1);
-
-			if (!"NY".contains(getState())) {
-				List<Coverage> filteredPolicyCoverageResponseUMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).collect(Collectors.toList());
-				softly.assertThat(filteredPolicyCoverageResponseUMBI.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseUIMBI = coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUIMBI.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseUIMBI.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseUMPD = coverageResponse.policyCoverages.stream().filter(cov -> "UMPD".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMPD.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseUMPD.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseMEDPM = coverageResponse.policyCoverages.stream().filter(cov -> "MEDPM".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseMEDPM.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseMEDPM.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseIL = coverageResponse.policyCoverages.stream().filter(cov -> "IL".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseIL.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseIL.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponsePIP = coverageResponse.policyCoverages.stream().filter(cov -> "PIP".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponsePIP.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponsePIP.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseBPIP = coverageResponse.policyCoverages.stream().filter(cov -> "BPIP".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseBPIP.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseBPIP.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseADDPIP = coverageResponse.policyCoverages.stream().filter(cov -> "ADDPIP".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseADDPIP.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseADDPIP.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseGPIP = coverageResponse.policyCoverages.stream().filter(cov -> "GPIP".equals(cov.getCoverageCd())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseGPIP.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseGPIP.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseUMSU = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Stacked/Unstacked".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMSU.isEmpty()) {//TODO-mstrazds: PAS-16038 View Coverages - UIM/UIM Stacked/Unstacked - PA
-				softly.assertThat(filteredPolicyCoverageResponseUMSU.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseFPB = coverageResponse.policyCoverages.stream().filter(cov -> "First Party Benefits".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseFPB.isEmpty()) { //TODO-mstrazds: PAS-15350 View Coverages - First Party Benefits and Pennsylvania
-				softly.assertThat(filteredPolicyCoverageResponseFPB.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseTH = coverageResponse.policyCoverages.stream().filter(cov -> "Tort Threshold".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseTH.isEmpty()) {//TODO-mstrazds: PAS-15304 View coverages - Tort - PA
-				softly.assertThat(filteredPolicyCoverageResponseTH.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponseRoWLB = coverageResponse.policyCoverages.stream().filter(cov -> "Rejection of Work Loss Benefit (Y/N)".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseRoWLB.isEmpty()) {//TODO-mstrazds: PAS-16040 View Coverages - Rejection of Work Loss Benefit - NY
-				softly.assertThat(filteredPolicyCoverageResponseRoWLB.size()).isEqualTo(1);
-			}
-
-			List<Coverage> filteredPolicyCoverageResponsePIPD = coverageResponse.policyCoverages.stream().filter(cov -> "Personal Injury Protection Deductible".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponsePIPD.isEmpty()) {//TODO-mstrazds: US needed
-				softly.assertThat(filteredPolicyCoverageResponsePIPD.size()).isEqualTo(1);
-			}
-
+			// Not touching this yet -- NY's a pain. I'll leave it for the story when it comes around.
 			if ("NY".contains(getState())) {
 				List<Coverage> filteredPolicyCoverageResponseUMSUMny = coverageResponse.policyCoverages.stream().filter(cov -> "UM/SUM".equals(cov.getCoverageCd())).collect(Collectors.toList());
 				softly.assertThat(filteredPolicyCoverageResponseUMSUMny.size()).isEqualTo(1);
@@ -4874,19 +4845,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				List<Coverage> filteredPolicyCoverageResponseOBELny = coverageResponse.policyCoverages.stream().filter(cov -> "OBEL".equals(cov.getCoverageCd())).collect(Collectors.toList());
 				softly.assertThat(filteredPolicyCoverageResponseOBELny.size()).isEqualTo(1);
 			}
-
-			// Possible issue that this coverage will be missing. It is possible, that it should be displayed only for one of the vehicles. Seems this coverage is only for IN.//TODO-mstrazds:US needed
-			List<Coverage> filteredPolicyCoverageResponseUMPDD = coverageResponse.policyCoverages.stream().filter(cov -> "Uninsured Motorist Property Damage Deductible".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMPDD.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseUMPDD.size()).isEqualTo(1);
-			}
-
-			//For CT this coverage is without coverageCD//TODO-mstrazds: PAS-15265 View Coverages - UM Conversion Coverage - CT
-			List<Coverage> filteredPolicyCoverageResponseUMCC = coverageResponse.policyCoverages.stream().filter(cov -> "Underinsured Motorist Conversion Coverage".equals(cov.getCoverageDescription())).collect(Collectors.toList());
-			if (!filteredPolicyCoverageResponseUMCC.isEmpty()) {
-				softly.assertThat(filteredPolicyCoverageResponseUMCC.size()).isEqualTo(1);
-			}
-
 		});
 	}
 
@@ -4960,81 +4918,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			}
 
 		});
-	}
-
-	private void validateCountOfPolicyLevelCoverages(PolicyCoverageInfo coverageResponse, ETCSCoreSoftAssertions softly) {
-		switch (getState()) {
-			case "AZ":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "CO":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "CT":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "DC":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
-				break;
-			case "MD":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
-				break;
-			case "NJ":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "NV":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "WV":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
-				break;
-			case "WY":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "DE":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "ID":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "IN":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);//possible issue with missing "Uninsured Motorist Property Damage Deductible"
-				break;
-			case "KS":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "KY":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(7);
-				break;
-			case "MT":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "NY":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);//possible issue with missing "Medical Expense Elimination"
-				break;
-			case "OK":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "SD":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "VA":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(6);
-				break;
-			case "UT":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(5);
-				break;
-			case "OH":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "OR":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(4);
-				break;
-			case "PA":
-				softly.assertThat(coverageResponse.policyCoverages.size()).isEqualTo(9);
-				break;
-			default:
-		}
 	}
 
 	private Dollar getCoverage(int index, String coverageCd, String... replacement) {

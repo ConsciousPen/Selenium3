@@ -243,7 +243,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_50_300
 	)),
 	COLLDEDNONPPA(ImmutableList.of(
-			CoverageLimits.COV_No_Cov,
+			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_100,
 			CoverageLimits.COV_250,
 			CoverageLimits.COV_500,
@@ -251,7 +251,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_1000
 	)),
 	COMPDEDNONPPA(ImmutableList.of(
-			CoverageLimits.COV_No_Cov,
+			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_50,
 			CoverageLimits.COV_100,
 			CoverageLimits.COV_250,
@@ -266,7 +266,20 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_20000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000
-			));
+	)),
+	UMPD_NV_NOCOLL(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_3500
+	)),
+	UMPD_NV_WITHCOLL(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_CDW
+	)),
+	UMPD_NV_WOUM(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_3500,
+			CoverageLimits.COV_CDW
+	));
 
 	private final List<CoverageLimits> availableLimits;
 
