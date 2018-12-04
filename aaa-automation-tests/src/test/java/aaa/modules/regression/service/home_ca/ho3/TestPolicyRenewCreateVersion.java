@@ -14,6 +14,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum.HomeCaTab;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -53,7 +54,18 @@ public class TestPolicyRenewCreateVersion extends HomeCaHO3BaseTest {
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         
-        policy.renew().performAndFill(getTestSpecificTD("TestData"));
+        //workaround for Users of E34, F35, G36 groups
+        if (getUserGroup().equals(UserGroups.E34.get())||getUserGroup().equals(UserGroups.F35.get())
+        		||getUserGroup().equals(UserGroups.G36.get())) {
+        	policy.renew().start();
+            NavigationPage.toViewTab(HomeCaTab.PREMIUMS_AND_COVERAGES.get());
+    		NavigationPage.toViewTab(HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+    		new PremiumsAndCoveragesQuoteTab().calculatePremium();
+    		new PremiumsAndCoveragesQuoteTab().saveAndExit();
+        }
+        else {
+        	policy.renew().performAndFill(getTestSpecificTD("TestData"));
+        }
         
         assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();

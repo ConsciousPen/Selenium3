@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.Constants.States;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario2;
 import aaa.utils.StateList;
@@ -58,6 +59,7 @@ public class TestScenario2 extends Scenario2 {
 			renewalPaymentNotGenerated();
 			updatePolicyStatus();
 			makeManualPaymentInFullRenewalOfferAmount();
+			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);
 		});
 	}
 }

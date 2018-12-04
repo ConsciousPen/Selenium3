@@ -4,6 +4,7 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
@@ -51,6 +52,7 @@ public class TestScenario7 extends Scenario7 {
 			customerDeclineRenewal(); //customer declined for CA Auto on R+10 according to PASBB-624/PAS-624
 			createRemittanceFile();
 			payRenewalBillByRemittance();
+			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);
 		});
 	}
 }
