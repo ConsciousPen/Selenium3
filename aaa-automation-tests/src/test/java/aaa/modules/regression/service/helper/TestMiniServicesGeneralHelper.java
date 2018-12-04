@@ -584,7 +584,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	}
 
 	protected void pas22548_RenewalOfferIndicatorBody() {
-		String policyNumber = openAppAndCreatePolicy(getPolicyDefaultTD());
+		String policyNumber = getCopiedPolicy();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		LocalDateTime renewPreviewGenDateDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
