@@ -1056,15 +1056,33 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
-/**
- * @author Megha Gubbala
- * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
- * @scenario1
- * 1. Create policy with trailer Motor home and ppa vehicle
- * 2. Create endorsement outside of PAS.
- * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
- * 4. And Trailer customerDisplayed canChangeCoverage false
- * */
+	/**
+	 * @author Sabra Domeika
+	 * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+	 * @scenario1 Create policy in PAS
+	 * 1. Create endorsement through service
+	 * 2. Update UMPD through service and check response
+	 * 3. Open PAS UI and validate Coverage tab
+	 * 4. Update BI to 100000/300000 and COLLDED to -1 through service and check response
+	 * 5. Update UMPD to 3500 and check response
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198"})
+	public void pas15344_ViewUpdateUmpdNV(@Optional("NV") String state) {
+		pas15344_ViewUpdateUMPD_NV();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy with trailer Motor home and ppa vehicle
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
+	 * 4. And Trailer customerDisplayed canChangeCoverage false
+	 * */
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.OR})
@@ -1072,8 +1090,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
 	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
 		assertSoftly(softly ->
-				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
-		);	}
+				pas16112_umpdOregonViewCoverageBody(softly, getPolicyType())
+		);
+	}
 
 	/**
 	 * @author Megha Gubbala
@@ -1090,8 +1109,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20344"})
 	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
 		assertSoftly(softly ->
-		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
-		);	}
+				pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly, getPolicyType())
+		);
+	}
 
 	/**
 	 * @author Maris Strazds

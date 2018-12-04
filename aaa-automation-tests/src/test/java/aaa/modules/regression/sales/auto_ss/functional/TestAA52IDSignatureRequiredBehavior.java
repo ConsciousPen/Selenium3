@@ -48,7 +48,7 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-18892")
 	public void pas18892_testResetSignatureOptionEndorsement(@Optional("ID") String state) {
 
@@ -86,7 +86,7 @@ public class TestAA52IDSignatureRequiredBehavior extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-18892")
 	public void pas18892_testResetSignatureOptionRenewal(@Optional("ID") String state) {
 

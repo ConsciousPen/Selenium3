@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.UserGroups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -25,7 +27,15 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 		
 		mainApp().open();
 
-        String originalPolicyNumber = getCopiedPolicy();
+        String originalPolicyNumber;
+        
+        if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+        	createCustomerIndividual();
+        	originalPolicyNumber = createPolicy();
+        }
+        else {
+        	originalPolicyNumber = getCopiedPolicy();
+        }
         
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
@@ -41,7 +51,13 @@ public class PolicyCancelRewrite extends PolicyBaseTest {
 		log.info("TEST: Rewriting Policy #" + rewritePolicyNumber);
 		
 		policy.dataGather().start();
-		policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
+		
+		if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+			policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy_F35_G36"));
+		}
+		else {
+			policy.getDefaultView().fill(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"));
+		}
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 

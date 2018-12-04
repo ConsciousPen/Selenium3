@@ -14,8 +14,6 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.pup.defaulttabs.BindTab;
-import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.modules.regression.conversions.ConvPUPBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
@@ -38,7 +36,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6977")
 	public void pas6977_OverrideRulesForConversionMAIG(@Optional("NJ") String state) {
 
@@ -71,7 +69,7 @@ public class TestOverrideIneligibleUnderlyingRisks extends ConvPUPBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6977")
 	public void pas6977_OverrideRulesForPup(@Optional("NJ") String state) {
 

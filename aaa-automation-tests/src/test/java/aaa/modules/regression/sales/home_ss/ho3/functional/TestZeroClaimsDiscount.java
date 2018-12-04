@@ -46,7 +46,7 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS HO3 Quote")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Zero Claims Discount for SS HO3 Quote")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-9088")
 	public void pas9088_testZeroClaimsDiscountHO3Quote(@Optional("") String state) {
 		pas9088_testZeroClaimsDiscountQuote();
@@ -79,7 +79,7 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * @details
 	 **/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS HO3 Renewals")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Zero Claims Discount for SS HO3 Renewals")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-9088")
 	public void pas9088_testZeroClaimsDiscountHO3Renewal(@Optional("") String state) {
 		pas9088_testZeroClaimsDiscountRenewal();

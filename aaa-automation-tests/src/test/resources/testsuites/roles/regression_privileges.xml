@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Privileges Tests" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+	<parameter name="timeshift-scenario-mode" value="method"/>
+	
+	<suite-files>
+		<suite-file path="./regression_privileges_B31.xml"/>
+		<suite-file path="./regression_privileges_E34.xml"/>
+		<suite-file path="./regression_privileges_F35.xml"/>
+		<suite-file path="./regression_privileges_G36.xml"/>
+		<suite-file path="./regression_privileges_L41.xml"/>
+	</suite-files>
+	
+</suite>

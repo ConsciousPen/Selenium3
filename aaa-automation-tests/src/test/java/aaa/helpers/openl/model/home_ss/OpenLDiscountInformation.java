@@ -251,7 +251,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public Integer getNoOfConsecutiveYrs() {
-		return noOfConsecutiveYrs;
+		return noOfConsecutiveYrs == null ? 0 : noOfConsecutiveYrs;
 	}
 
 	public void setNoOfConsecutiveYrs(Integer noOfConsecutiveYrs) {
@@ -315,7 +315,7 @@ public class OpenLDiscountInformation {
 	}
 
 	public String getRentalPropertyMgr() {
-		return rentalPropertyMgr;
+		return rentalPropertyMgr == null ? "None" : rentalPropertyMgr;
 	}
 
 	public void setRentalPropertyMgr(String rentalPropertyMgr) {
