@@ -7,12 +7,14 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.enums.PolicyConstants.PolicyRenewalsTable;
@@ -509,5 +511,11 @@ public class Scenario7 extends ScenarioBaseTest {
 		CustomAssertions.assertThat(MyWorkSummaryPage.tableTasks.getRow(MyWorkConstants.MyWorkTasksTable.TASK_NAME, "Qualify for manual Renewal")).isPresent();
 
 		// TODO ? verify all task info
+	}
+	
+	protected void verifyDocGenForms(boolean generated, DocGenEnum.Documents... documents) {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(generated, true, policyNum, documents);
 	}
 }
