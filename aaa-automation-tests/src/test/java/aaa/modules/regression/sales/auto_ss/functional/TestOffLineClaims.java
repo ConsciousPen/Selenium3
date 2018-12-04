@@ -155,7 +155,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		//Move time by one day to get claims to show in the UI
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 
-		// Enter renewal image and verify claim presence
+		//Enter renewal image and verify claim presence
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		buttonRenewals.click();
@@ -245,7 +245,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 
-        // Enter renewal image and verify claim presence
+        //Enter renewal image and verify claim presence
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         buttonRenewals.click();
