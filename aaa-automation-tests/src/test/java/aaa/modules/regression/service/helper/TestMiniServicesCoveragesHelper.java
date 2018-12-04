@@ -421,10 +421,10 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage filteredCoverageUmpd = findCoverage(coverageResponse.policyCoverages, CoverageInfo.UMPD.getCode());
 		assertSoftly(softly -> {
 			//To check the coverages limits
-			Coverage toMatchUimpd = Coverage.create(CoverageInfo.UIMPD).changeLimit(limit).disableCanChange();
+			Coverage toMatchUimpd = Coverage.create(CoverageInfo.UIMPD).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
 			softly.assertThat(filteredCoverageUimpd).isEqualToIgnoringGivenFields(toMatchUimpd, "coverageType");
 
-			Coverage toMatchUmpd = Coverage.create(CoverageInfo.UMPD).changeLimit(limit).disableCanChange();
+			Coverage toMatchUmpd = Coverage.create(CoverageInfo.UMPD).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
 			softly.assertThat(filteredCoverageUmpd).isEqualToIgnoringGivenFields(toMatchUmpd);
 		});
 	}
@@ -3326,8 +3326,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 			Coverage covBI = Coverage.create(CoverageInfo.BI);
-			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange();
-			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_MD).disableCanChange();
+			Coverage covUMBI = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange().removeAvailableLimitsAbove(CoverageLimits.COV_100300);
+			Coverage covUMPD = Coverage.create(CoverageInfo.UMPD_MD).disableCanChange().removeAvailableLimitsAbove(CoverageLimits.COV_50000);
 			Coverage covEUIM = Coverage.create(CoverageInfo.EUIM_MD).disableCanChange();
 			PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
@@ -3339,7 +3339,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			//update coverages
 			covBI = covBI.changeLimit(CoverageLimits.COV_250500);
 			covUMPD = covUMPD.changeLimit(CoverageLimits.COV_50000);
-			covUMBI = covUMBI.changeLimit(CoverageLimits.COV_250500);
+			covUMBI = Coverage.create(CoverageInfo.UMBI_MD).disableCanChange().changeLimit(CoverageLimits.COV_250500).removeAvailableLimitsAbove(CoverageLimits.COV_250500);
 
 			PolicyCoverageInfo coverageResponse = updateCoverage(policyNumber, covBI);
 
@@ -3357,14 +3357,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 			PolicyCoverageInfo viewEndorsementCoverages1 = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 			Coverage covEUIM1 = Coverage.create(CoverageInfo.EUIM_MD_TRUE).disableCanChange();
-			Coverage enhancedUMBI = Coverage.create(CoverageInfo.UMBI_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_250500);
-			Coverage enhancedUMPD = Coverage.create(CoverageInfo.UMPD_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_50000);
+			Coverage enhancedUMBI = Coverage.create(CoverageInfo.UMBI_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_250500).removeAvailableLimitsAbove(CoverageLimits.COV_250500);
+			Coverage enhancedUMPD = Coverage.create(CoverageInfo.UMPD_MD_ENHANCED_UIM_TRUE).disableCanChange().changeLimit(CoverageLimits.COV_50000).removeAvailableLimitsAbove(CoverageLimits.COV_50000);
 			assertThat(findPolicyCoverage(viewEndorsementCoverages1, enhancedUMBI.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMBI);
 			assertThat(findPolicyCoverage(viewEndorsementCoverages1, enhancedUMPD.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMPD);
 			assertThat(findPolicyCoverage(viewEndorsementCoverages1, covEUIM1.getCoverageCd())).isEqualToComparingFieldByField(covEUIM1);
 			//update coverages
 			covBI = covBI.changeLimit(CoverageLimits.COV_100300);
-			enhancedUMBI = enhancedUMBI.changeLimit(CoverageLimits.COV_100300);
+			enhancedUMBI = enhancedUMBI.changeLimit(CoverageLimits.COV_100300).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
 			enhancedUMPD = enhancedUMPD.changeLimit(CoverageLimits.COV_50000);
 
 			PolicyCoverageInfo coverageResponse2 = updateCoverage(policyNumber, covBI);
