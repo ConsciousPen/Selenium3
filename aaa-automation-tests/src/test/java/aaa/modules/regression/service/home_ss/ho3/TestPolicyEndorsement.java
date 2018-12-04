@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -52,9 +53,17 @@ public class TestPolicyEndorsement extends HomeSSHO3BaseTest {
 	public void testPolicyEndorsement(@Optional("") String state) {
 		mainApp().open();
 
-		getCopiedPolicy(); // fails by timeout
+		//getCopiedPolicy(); // fails by timeout
 		//createCustomerIndividual();
 		//createPolicy();
+		
+		if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+        	createCustomerIndividual();
+            createPolicy();
+        }
+        else {
+        	getCopiedPolicy();
+        }
 
 		Dollar policyPremium = PolicySummaryPage.TransactionHistory.getEndingPremium();
 
