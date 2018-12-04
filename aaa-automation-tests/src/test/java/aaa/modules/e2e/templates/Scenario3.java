@@ -10,8 +10,10 @@ import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -280,4 +282,11 @@ public class Scenario3 extends ScenarioBaseTest {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(lapsedRenewShort).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
 		}
 	}
+	
+	protected void verifyDocGenForms(boolean generated, DocGenEnum.Documents... documents) {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
+		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		DocGenHelper.verifyDocumentsGenerated(generated, true, policyNum, documents);
+	}
+	
 }
