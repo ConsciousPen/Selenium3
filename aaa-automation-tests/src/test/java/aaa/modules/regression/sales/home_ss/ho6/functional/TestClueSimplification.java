@@ -471,4 +471,27 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 
 	}
 
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test Require UW approval when CAT indicator and/or 'Include in Rating and Eligibility' field are changed
+	 * @scenario
+	 * 1. Create quote with default test data (including customer)
+	 * 2. Add 2 named insured with claims (Virat and Silvia Kohli)
+	 * 3. Order CLUE.
+	 * 4. Set CAT = YES and chargeable = NO.
+	 * 5. Select 10588 chargeable = NO.
+	 * 6. Select 11000 Claim and set CAT = NO.
+	 * 7. Issue Policy Override added rule ERROR_AAA_HO_XX1210012 for term.
+	 * 8. Endorse Policy Issue Endorsement no Rules fired.
+	 * 9. Change time Renew Policy Override added rule ERROR_AAA_HO_XX1210012 for life.
+	 * 10. Renew Policy no rules are fired.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-21557")
+	public void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged(@Optional("CA") String state) {
+		pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged();
+
+	}
+
 }

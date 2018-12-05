@@ -4,7 +4,9 @@ import aaa.common.Tab;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.PolicySummary;
 import aaa.main.enums.ClaimConstants;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -25,6 +27,7 @@ import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {
@@ -484,6 +487,103 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         } else {
             checkTblClaimRowCount(4);
         }
+
+    }
+
+    protected void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged() {
+        TestData tdSilviaKohli;
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            createSpecificCustomerIndividual("ViratDP", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("SilviaDP", "Kohli");
+        } else {
+            createSpecificCustomerIndividual("Virat", "Kohli");
+            tdSilviaKohli = getNamedInsuredTd("Silvia", "Kohli");
+        }
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
+                DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdSilviaKohli));
+
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
+
+        selectRentalClaimForCADP3();
+        // Validate non-dependency between CAT and Chargeable indicator radio buttons
+        getClaimIncludedInRatingAsset().setValue("No");
+        // Validate Warning message when Include in rating field changed
+        String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        getClaimNonChargeableReasonAsset().setValue("Something");
+        getClaimCatastropheAsset().setValue("Yes");
+        // Validate Warning message when CAT field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        getClaimCatastropheRemarksAsset().setValue("CAT");
+
+        viewEditClaimByLossAmount("10588");
+        selectRentalClaimForCADP3();
+        getClaimIncludedInRatingAsset().setValue("No");
+        getClaimNonChargeableReasonAsset().setValue("Something");
+        // Validate Warning message when Include in rating field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+
+        viewEditClaimByLossAmount("11000");
+        selectRentalClaimForCADP3();
+        getClaimCatastropheAsset().setValue("No");
+        // Validate Warning message when CAT field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
+        policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
+        getBindTab().submitTab();
+        // Override errors for CA property or SS property
+        if (isStateCA()){
+            // Check UW rule is added
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
+        } else {
+            // Check UW rule is added
+            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210012);
+            new ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
+            new ErrorTab().override();
+        }
+        getBindTab().submitTab();
+        getPurchaseTab().fillTab(getPolicyTD("DataGather", "TestData"));
+        getPurchaseTab().submitTab();
+        //Endorsement check that no UW rules are fired.
+        policy.endorse().performAndFill(getPolicyTD("Endorsement", "TestData_Empty_Endorsement").adjust(getPolicyTD("Endorsement", "TestData")));
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        //Change Date renew policy and no override same UW rules
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+        searchForPolicy(policyNumber);
+        policy.renew().perform();
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
+        navigateToBindTab();
+        getBindTab().submitTab();
+        // Override errors for CA property or SS property
+        if (isStateCA()){
+            // Check UW rule is added
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
+        } else {
+            // Check UW rule is added
+            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210012);
+            new ErrorTab().overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
+            new ErrorTab().override();
+        }
+        getBindTab().submitTab();
+        payTotalAmtDue(policyNumber);
+        // Create new renewal with rules overriden for life and bind renewal with no UW rules
+        PolicySummaryPage.buttonRenewals.click();
+        policy.renew().perform();
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
+        navigateToBindTab();
+        getBindTab().submitTab();
+        assertThat(PolicySummaryPage.getPolicyNumber()).contains(policyNumber);
 
     }
 
