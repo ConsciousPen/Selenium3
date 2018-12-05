@@ -2,6 +2,8 @@ package aaa.main.enums;
 
 import com.google.common.collect.ImmutableList;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public enum CoverageInfo {
@@ -48,17 +50,38 @@ public enum CoverageInfo {
 	EUIM_MD_TRUE("EUIM", "Enhanced UIM Selected", CoverageLimits.COV_TRUE, AvailableCoverageLimits.EUIM_MD, null),
 	BI("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI, "Per Person/Per Accident"),
 	PD("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_IN, "Per Accident"),
+	PD_VA("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_VA, "Per Accident"),
+	PD_WV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD_WV, "Per Accident"),
 	UIMPD("UIMPD", "Underinsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UIMPD,"Property Damage"),
 	UMPD("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Per Accident"),
+	UMPD_VA("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD_VA, "Per Accident"),
 	UIMCONV_CT("UIMCONV", "Underinsured Motorist Conversion Coverage", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.UIMCONV_CT),
 	UMBI_CT_NO("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = No
 	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = Yes
 	ADB("ADB", "Automobile Death Benefit", null, null, null),
+	TD("TD", "Total Disability", null, null, null),
 	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
+	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
-	BIWV("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BIWV, "Per Person/Per Accident"),
+	BI_WV_VA_KS("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_WV_VA_KS, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
-	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage");
+	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),
+	UMPD_OR("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_0, AvailableCoverageLimits.UMPD_OR, "Per Accident"),
+	LOAN("LOAN", "Vehicle Loan/Lease Protection", CoverageLimits.COV_0, AvailableCoverageLimits.LOAN,"None"),
+	RREIM("RREIM", "Rental Reimbursement", CoverageLimits.COV_00, AvailableCoverageLimits.PREIM,"Per Day/Maximum"),
+	TOWINGLABOR("TOWINGLABOR", "Towing and Labor Coverage", CoverageLimits.COV_00, AvailableCoverageLimits.TOWINGLABOR,"Per Disablement/Maximum"),
+	SPECEQUIP("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.COV_SP_1000, null,null),
+	NEWCAR("NEWCAR", "New Car Added Protection", CoverageLimits.COV_FALSE, null),
+	COMPDED_AZ_PPA("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_250, AvailableCoverageLimits.COMPDEDNONPPA, "Deductible"),
+	COLLDED_AZ_PPA("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDEDNONPPA, "Deductible"),
+	SPECEQUIP_NONPPA("SPECEQUIP", "Special Equipment Coverage", CoverageLimits.SP_EQ_0, null,null),
+	BI_AZ("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_AZ, "Per Person/Per Accident"),
+	COMPDED_AZ("COMPDED", "Comprehensive Deductible", CoverageLimits.COV_750, AvailableCoverageLimits.COMPDED, "Deductible"),
+	COLLDED_AZ("COLLDED", "Collision Deductible", CoverageLimits.COV_500, AvailableCoverageLimits.COLLDED, "Deductible"),
+	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None"),
+	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
+	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
+	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident");
 
 	private final String code;
 	private final String description;
@@ -67,15 +90,7 @@ public enum CoverageInfo {
 	private final List<CoverageLimits> availableLimits;
 
 	CoverageInfo(String code, String description, CoverageLimits defaultLimit, AvailableCoverageLimits availableLimits) {
-		this.code = code;
-		this.description = description;
-		this.coverageType = null;
-		this.defaultLimit = defaultLimit;
-		if(availableLimits != null) {
-			this.availableLimits = availableLimits.getAvailableLimits();
-		} else {
-			this.availableLimits = ImmutableList.of();
-		}
+		this(code, description, defaultLimit, availableLimits, null);
 	}
 
 	CoverageInfo(String code, String description, CoverageLimits defaultLimit, AvailableCoverageLimits availableLimits, String coverageType) {
@@ -108,5 +123,11 @@ public enum CoverageInfo {
 
 	public List<CoverageLimits> getAvailableLimits() {
 		return availableLimits;
+	}
+
+	public List<CoverageLimits> getReversedAvailableLimits() {
+		List<CoverageLimits> reversedAvailableCoverageLimitList = new ArrayList<>(availableLimits);
+		Collections.reverse(reversedAvailableCoverageLimitList);
+		return reversedAvailableCoverageLimitList;
 	}
 }

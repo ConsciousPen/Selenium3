@@ -4,9 +4,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test" />
-
-                                 <!-- Billing And Payments -->
+    <!-- Billing And Payments -->
 
     <test name="Billing and payment - BCT_ONL_030" preserve-order="true">
         <parameter name="state" value="CA" />

@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +20,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -73,7 +68,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy(@Optional("MD") String state) {
 
@@ -141,7 +136,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
@@ -184,7 +179,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
@@ -223,7 +218,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
@@ -279,7 +274,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 

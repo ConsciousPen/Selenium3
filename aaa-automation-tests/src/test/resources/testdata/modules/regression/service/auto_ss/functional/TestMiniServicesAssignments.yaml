@@ -123,10 +123,6 @@ TestData_FourDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two', '@Driver_three', '@Driver_four'],
 }
 
-TestData_oneAdditionalDriver: {
-  DriverTab: ['@Driver_two'],
-}
-
 TestData_TwoDrivers: {
     DriverTab: ['@Driver_one', '@Driver_two'],
 }

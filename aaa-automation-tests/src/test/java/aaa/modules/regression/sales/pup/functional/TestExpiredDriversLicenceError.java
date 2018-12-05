@@ -50,7 +50,7 @@ public class TestExpiredDriversLicenceError extends PersonalUmbrellaBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-4270")
 	public void pas4270_VerifyExpiredDriversLicenceError(@Optional("VA") String state) {
 

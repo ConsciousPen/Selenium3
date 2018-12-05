@@ -118,42 +118,6 @@ public class TestEValueMembershipProcess extends HomeSSHO3BaseTest implements Te
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test Membership Discount is removed for membership status = Pending.
-	 * @scenario
-	 * 0. Check email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is not removed on NB+30
-	 * 3. Check AHDRXX is not produced on NB+30
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = {"PAS-356", "PAS-2872", "PAS-312"})
-	public void pas356_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipPolicyCreation("Pending");
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.openPolicy(policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.openPolicy(policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "", softly);
-			transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed", softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Test Membership Discount is removed for membership status = Cancelled.
 	 * @scenario
 	 * 0. Check email record present in admin log (no "eValue Discount Pending Notification Url:") on NB+15

@@ -5,7 +5,10 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
+import aaa.config.CsaaTestProperties;
+import toolkit.config.PropertyProvider;
 import toolkit.metrics.ReportingContext;
 import toolkit.webdriver.OptionsModifier;
 
@@ -13,6 +16,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 
 	@Override
 	public ChromeOptions chrome(ChromeOptions options) {
+		options.setHeadless(PropertyProvider.getProperty(CsaaTestProperties.BROWSER_SET_HEADLESS, false));
 		options.addArguments("disable-infobars", "--no-sandbox");
 		options.setExperimentalOption("useAutomationExtension", false);
 		HashMap<String, Object> chromePrefs = new HashMap<>();
@@ -29,6 +33,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 
 	@Override
 	public FirefoxOptions firefox(FirefoxOptions options) {
+		options.setHeadless(PropertyProvider.getProperty(CsaaTestProperties.BROWSER_SET_HEADLESS, false));
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("browser.download.folderList", 2);
 		profile.setPreference("browser.download.manager.showWhenStarting", false);
@@ -36,6 +41,12 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		options.setCapability(FirefoxDriver.PROFILE, profile);
 		options.setCapability("name", ReportingContext.get().getCurrentTestName());
 		options.setCapability("enableVNC", true);
+		return allBrowsers(options);
+	}
+
+	@Override
+	public InternetExplorerOptions iexplore(InternetExplorerOptions options) {
+		options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		return allBrowsers(options);
 	}
 }

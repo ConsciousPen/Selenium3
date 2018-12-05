@@ -2,7 +2,7 @@
 <suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="TestEValueMembershipProcessJobAdding" >
@@ -309,7 +309,6 @@
                     <include name="pas356_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForCancelledMembership"/>
                     <include name="pas356_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas356_membershipEligibilityConfigurationTrueForPendingMembership"/>
                 </methods>
             </class>
         </classes>

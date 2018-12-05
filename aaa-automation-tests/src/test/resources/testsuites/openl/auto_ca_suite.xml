@@ -9,8 +9,8 @@
     <!--<parameter name="localTests" value="true"/>-->
 
     <test name="Auto CA Choice Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="TestsCAChoiceTest-20170806.xls"/>
-        <parameter name="policyNumbers" value="1,3"/>
+        <parameter name="fileName" value="TestsCAChoiceTest-20180625.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
         <classes>
             <class name="aaa.modules.openl.AutoCaPremiumCalculationTest"/>
         </classes>

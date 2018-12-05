@@ -39,6 +39,13 @@ import toolkit.utils.TestInfo;
 /**
  * @author Tatsiana Saltsevich
  * @name Manual Hybrid Conversion Docs Verification ("D-T-AU-SS-OR-958-CNV")
+ * 1.Hybrid CONVERSION  - Do not generate pre-renewal notice during 2nd or subsequent renewals regardless of the policy term
+ * 2.Hybrid Conversion - Renewal Dec Page - Fields and Attributes - 2nd and all subsequent renewals in PAS.
+ * 3.Hybrid Conversion Named Driver Exclusion (AA43OR) Endorsement - Renewal 2nd renewal term PAS and for all subsequent renewal terms triggers
+ * 4.Hybrid Conversion - "ELECTION OF LOWER LIMITS FOR UNINSURED MOTORISTS COVERAGE" (AA52OR)  form UMBI lower thant BI limits-
+ * 2nd renewal term PAS and for all subsequent renewal terms triggers"
+ * 5.Hybrid Conversion- AH64XX - form content -2nd renewal in PAS"
+ *
  * @scenario
  * 1. Pre-conditions:- Create a new customer in PAS
  * Ensure policy meets following conditions:-
@@ -107,16 +114,16 @@ import toolkit.utils.TestInfo;
  * Note:- Refer to the Mapping Document for static, variable and dynamic text on AH64XX for OR for document content validation
  */
 
-public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
+public class TestManualConversionScenario2 extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = Constants.States.OR)
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
-	public void manualHybridConversionDocsScenario2(@Optional("OR") String state) {
+	public void manualConversionDocsScenario2(@Optional("OR") String state) {
 		List<LocalDateTime> installmentDueDates;
 		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime billGenDate;
-		LocalDateTime renewalDate = getTimePoints().getConversionEffectiveDate();
+		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
 		// Ensure policy meets following conditions:-
 		// i. 1 or more Named Insured and 1 or more vehicles and drivers where the age of the Named Insured -
@@ -129,8 +136,7 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		//2. (R-45) Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above -> Renewal entry is initiated
 		mainApp().open(getLoginTD(Constants.UserGroups.L41));
 		//1. Create a new customer in PAS
-		//createCustomerIndividual();
-		SearchPage.openCustomer("700032274");
+		createCustomerIndividual();
 		//3. Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
 		//4. Enter the value for the Previous Policy Number/Source System and provide valid values for the other mandatory fields and click on the OK button.
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
@@ -282,11 +288,12 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		//#V6 - OREGON ELECTION OF LOWER LIMITS FOR UNINSURED MOTORISTS COVERAGE (AA52OR) form will not generate
 		DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AA52OR);
 		//#V7 - Form number for Uninsured and Underinsured Motorist Disclosure State and Rejection of Coverage form DOES print on the Subsequent Renewal DEC page in the FORMS & ENDORSEMENT section.
-		//35. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob ->
-		//Installment bill is generated under Bills and Statement section of the Billing tab
-		//Type = "Bill", Date = Installment due date.
+		//35. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		//36. Navigate to the Billing tab ->
+		//Installment bill is generated under Bills and Statement section of the Billing tab
+		//Type = "Bill", Date = Installment due date.
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
@@ -294,9 +301,6 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(0));
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(0), billGenDate, secondRenewalDate, BillingHelper.DZERO);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
-		//36. Navigate to the Billing tab ->
-		//#V6: System archives the form "Insurance Renewal Bill" (AHRBXX 03 16) is available in the Policy E-folder under Renewal. Note:- Refer to form template and requirement for content validation
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX);
 		//37. (2R) Do not make the renewal term payment.
 		//38. (2R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(secondRenewalDate));
@@ -314,6 +318,8 @@ public class TestManualHybridConversionScenario2 extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		//41. Retrieve the policy and navigate to Policy Consolidated View
 		//42. Navigate to E-Folder
+		//#V6: System archives the form "Insurance Renewal Bill" (AHRBXX 03 16) is available in the Policy E-folder under Renewal. Note:- Refer to form template and requirement for content validation
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX);
 		//#V8 - Validate Expiration Notice(AH64XX) is generated for the policy in the Efolder
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH64XX);
 	}

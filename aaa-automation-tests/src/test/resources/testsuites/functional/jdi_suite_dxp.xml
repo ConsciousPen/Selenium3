@@ -2,7 +2,7 @@
 <suite name="JDI DXP Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
     <test name="TestMiniServicesPremiumBearingAZ">
@@ -110,6 +110,7 @@
                     <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
                     <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -677,6 +678,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas20818_ViewPdCoverageLimits"/>
+                    <include name="pas21363_BIAndUMBIAndCanChangeFalse"/>
                 </methods>
             </class>
         </classes>
@@ -789,6 +791,7 @@
                 <methods>
                     <include name="pas19626_biAndUMAndUIMCoverageSD"/>
                     <include name="pas22037_updateBiCoverage"/>
+                    <include name="pas19625_TotalDisabilitySD"/>
                 </methods>
             </class>
         </classes>
@@ -800,6 +803,7 @@
                 <methods>
                     <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
                     <include name="pas20292_updateCoverageBIPDWv"/>
+                    <include name="pas21364_PDAndUMPDAndCanChangeFalse"/>
                 </methods>
             </class>
         </classes>
@@ -830,6 +834,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                    <include name="pas16112_umpdOregonViewCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -855,6 +860,16 @@
             </class>
         </classes>
     </test>
+    <test name="pas15499_RegisteredOwner">
+        <parameter name="state" value="CT, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas15499_RegisteredOwnerDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
     <test name="Underinsured Conversion Coverage - CT">
         <parameter name="state" value="KS"/>
@@ -863,6 +878,37 @@
                 <methods>
                     <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
                     <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Moratoriums - VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Moratoriums - AZ">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage">
+        <parameter name="state" value="VA, KS, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
                 </methods>
             </class>
         </classes>

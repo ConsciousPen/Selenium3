@@ -186,11 +186,16 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
      */
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).waitForAccessible(5000);
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+
         if (reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Order report")|| reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().getValue().equals("Re-order report")) {
             reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
         }
+
         premiumsAndCoveragesQuoteTab.calculatePremium();
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
@@ -202,10 +207,10 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         } else if (bindTab.confirmPurchase.isPresent() && bindTab.confirmPurchase.isVisible()){
             log.info("[NB Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmPurchase.buttonNo.click(Waiters.AJAX);
-        } else if (bindTab.confirmEndorsementPurchase.isVisible() && bindTab.confirmEndorsementPurchase.isPresent()){
+        } else if (bindTab.confirmEndorsementPurchase.isPresent() && bindTab.confirmEndorsementPurchase.isVisible()){
             log.info("[Endorsement Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmEndorsementPurchase.buttonNo.click(Waiters.AJAX);
-        } else if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
+        } else if (bindTab.confirmRenewPurchase.isPresent() && bindTab.confirmRenewPurchase.isVisible()) {
             log.info("[Renewal Quote] Membership Error Validation Passed. Moving on to the next condition.");
             bindTab.confirmRenewPurchase.buttonNo.click(Waiters.AJAX);
         }
@@ -276,7 +281,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
         bindTab.btnPurchase.click();
 
-        if (bindTab.confirmRenewPurchase.isVisible() && bindTab.confirmRenewPurchase.isPresent()) {
+        if (bindTab.confirmRenewPurchase.isPresent() && bindTab.confirmRenewPurchase.isVisible()) {
             bindTab.confirmRenewPurchase.buttonYes.click(Waiters.AJAX);
         }
 

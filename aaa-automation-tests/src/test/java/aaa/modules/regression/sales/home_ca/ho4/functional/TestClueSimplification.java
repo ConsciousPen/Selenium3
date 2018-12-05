@@ -125,7 +125,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
 	@Override
-	protected RadioGroup getClaimChargeableAsset() {
+	protected RadioGroup getClaimIncludedInRatingAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 
@@ -338,7 +338,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationNB(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationNB();
 
@@ -358,7 +358,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationEndorsement(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -378,7 +378,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRenewal(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationRenewal();
 
@@ -399,7 +399,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRewrite(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationRewrite();
 
