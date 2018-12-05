@@ -2873,21 +2873,21 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
 
 		Coverage coverageEUIM = policyCoverageResponse.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
+		coverageXproperties(softly, coverageEUIM, "EUIM", "Enhanced UIM", "false", "No", null, true, true);
 
 		String coverageCd1 = "EUIM";
 		String newBILimits1 = "true";
 		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd1, newBILimits1), PolicyCoverageInfo.class);
 
 		Coverage coverageEUIM1 = coverageResponse.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM1, "EUIM", "Enhanced UIM Selected", "true", "Yes", null, true, true);
+		coverageXproperties(softly, coverageEUIM1, "EUIM", "Enhanced UIM", "true", "Yes", null, true, true);
 
 		String coverageCd2 = "EUIM";
 		String newBILimits2 = "false";
 		PolicyCoverageInfo coverageResponse1 = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd2, newBILimits2), PolicyCoverageInfo.class);
 
 		Coverage coverageEUIM2 = coverageResponse1.policyCoverages.get(3);
-		coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM Selected", "false", "No", null, true, true);
+		coverageXproperties(softly, coverageEUIM2, "EUIM", "Enhanced UIM", "false", "No", null, true, true);
 	}
 
 	protected void pas20675_TortCoverageBody(ETCSCoreSoftAssertions softly, PolicyType policyType) {
@@ -3415,6 +3415,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(findPolicyCoverage(coverageResponse2, covBI.getCoverageCd())).isEqualToComparingFieldByField(covBI);
 			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMPD.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMPD);
 			softly.assertThat(findPolicyCoverage(coverageResponse2, enhancedUMBI.getCoverageCd())).isEqualToComparingFieldByField(enhancedUMBI);
+
+			//PAS-22550 check that EUIM description is as expected in transaction history
+			validatePolicyLevelCoverageChangeLog(policyNumber, covEUIM1);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
