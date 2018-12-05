@@ -139,6 +139,29 @@ public class TestFireline extends TestFirelineTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "FAIRplan endorsement ignores fire rule for roof type - wood shingle/wood shake for fireline score 5")
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-22224")
 	public void pas18914_FAIRplanEndorsement(@Optional("CA") String state) {
-		pas18914_CA_firelineRuleForWoodShingleRoof("90004", "252 CHIPMAN AVE", 5, PrivilegeEnum.Privilege.L41, true);
+		pas18914_CA_firelineRuleForWoodShingleRoof("91016", "265 CHIPMAN AVE", 5, PrivilegeEnum.Privilege.L41, true);
+	}
+
+	/**
+	 * @author Rokas Lazdauskas
+	 * @name test: Revise CA Automated Exception model to remove AE#5 rule
+	 * @scenario
+	 * 1. Create Customer
+	 * 2. Initiate Policy creation
+	 * 3. Fill information which should satisfy AE#5 rule for CA
+	 * 3.1. Have underlying AAA Auto policy (which has Auto policy BI limit != $25.000/$50.000)
+	 * 3.2. Applicant must be a member
+	 * 3.3. Fireline score should be 5 or 6
+	 * 3.4. Coverage A must be less than a million dollars
+	 * 4. Try Purchase policy
+	 * 5. Check that Error tab appeared and fireline rule ERROR_AAA_HO_Fireline_CA02122017 appeared
+	 * // Note: This was automated exception rule that if quote meets all requirments from step 3. error wouldn't be fire and quote was eligible to purchase)
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-22425")
+	public void pas18296_AE5RuleNotTriggering(@Optional("CA") String state) {
+		pas18296_AE5RuleNotTriggering("91016", "265 CHIPMAN AVE", 5);
 	}
 }

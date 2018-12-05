@@ -286,9 +286,14 @@ public class Scenario2 extends ScenarioBaseTest {
 	}
 
 	protected void verifyDocGenForms(DocGenEnum.Documents[] documents) {
+		verifyDocGenForms(true, documents);
+	}
+	
+
+	protected void verifyDocGenForms(boolean generated, DocGenEnum.Documents... documents) {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, documents);
+		DocGenHelper.verifyDocumentsGenerated(generated, true, policyNum, documents);
 	}
 
 	protected void removeAutoPay() {
@@ -337,4 +342,5 @@ public class Scenario2 extends ScenarioBaseTest {
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_CC"), sum);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
+	
 }

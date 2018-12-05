@@ -340,6 +340,7 @@ public final class DocGenEnum {
 		_55_3333("55 3333", ""),
 		_55_3500("55 3500", "Refund Check"),
 		_55_5086("55 5086", ""),
+		_55_5003("55 5003", "Automatic Reinstatement Letter"),
 		_55_5080("55 5080", "Manual Reinstatement letter"),
 		_55_5100("55 5100", ""),
 		_55_6101("55 6101", "Earned Premium Bill 1"),

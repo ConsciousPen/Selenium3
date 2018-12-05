@@ -3,6 +3,8 @@
 package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
+import aaa.common.enums.Constants.UserGroups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -27,7 +29,13 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
     	
         mainApp().open();
           
-        getCopiedPolicy();
+        if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+        	createCustomerIndividual();
+            createPolicy();
+        }
+        else {
+        	getCopiedPolicy();
+        }
         
         String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 

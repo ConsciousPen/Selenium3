@@ -34,7 +34,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
-		pas10484_ViewDriverAssignmentService(getPolicyType());
+		pas10484_ViewDriverAssignmentService();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14477, PAS-10484"})
 	public void pas14477_ViewDriverAssignment_NewDriver(@Optional("VA") String state) {
 
-		pas14477_ViewDriverAssignment_NewDriver_Body(getPolicyType());
+		pas14477_ViewDriverAssignment_NewDriver_Body();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
 	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
 
-		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
+		pas11633_ViewDriverAssignmentAutoAssignService();
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529", "PAS-15253"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule3Body();
 	}
 
 	@Parameters({"state"})
@@ -183,7 +183,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * @scenario 1. Create a policy with 1V and 1D
 	 * 2.create endorsement
 	 * 3.Hit viewEndorsementChangeLog.
-	 * 4Verify if transaction history shows change type added and driver assignment.
+	 * 4.Verify if transaction history shows change type added and driver assignment.
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -200,16 +200,16 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 2.create endorsement
 	 * 3.Hit viewEndorsementChangeLog.
 	 * 4.Verify if transaction history shows change type added and driver assignment.
-	 * 5.change the driver assignment
-	 * 6. then run change log service again
-	 * 7. verify new driver assignment added and existing is removed
+	 * 5.Change the driver assignment
+	 * 6.Then run change log service again
+	 * 7.Verify new driver assignment added and existing is removed
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14539,PAS-16589"})
 	public void pas14539_transactionInfoUpdateDriverAssignment(@Optional("VA") String state) {
 
-		pas14539_transactionInfoUpdateDriverAssignmentBody(getPolicyType());
+		pas14539_transactionInfoUpdateDriverAssignmentBody();
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15540", "PAS-15505"})
 	public void pas15540_RemoveDriverAssignedToTrailer(@Optional("VA") String state) {
-		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType());
+		pas15540_RemoveDriverAssignedToTrailerBody();
 		//NOTE: This test works for all Auto SS states
 	}
 

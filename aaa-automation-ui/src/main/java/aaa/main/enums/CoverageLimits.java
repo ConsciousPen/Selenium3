@@ -9,6 +9,7 @@ public enum CoverageLimits {
 	COV_1500("1500", "$1,500"),
 	COV_2000("2000", "$2,000"),
 	COV_3000("3000", "$3,000"),
+	COV_3500("3500", "$3,500"),
 	COV_4500("4500", "$4,500"),
 	COV_5000("5000", "$5,000"),
 	COV_UP_TO_5000("5000", "Up to $5,000"),
@@ -43,9 +44,12 @@ public enum CoverageLimits {
 	COV_20002000("2000000/2000000", "$2,000,000/$2,000,000"),
 	COV_0("0", "No Coverage"),
 	COV_00("0/0", "No Coverage"),
+	COV_1("1", "Yes"),
+	COV_NO_COV("-1", "No Coverage"),
 	COV_TRUE("true", "Yes"),
 	COV_FALSE("false", "No"),
 	COV_FALSE_NO_COVERAGE("false", "No Coverage"),
+	COV_CDW("1", "Collision Deductible Waiver"),
 	DED_0("0", "$0"),
 	DED_250("250", "$250"),
 	DED_500("500", "$500"),
@@ -57,12 +61,10 @@ public enum CoverageLimits {
 	COV_100("100", "$100"),
 	COV_1000("1000", "$1,000"),
 	COV_SP_1000("1000", "$1,000.00"),
-	COV_1("1", "Yes"),
 	COV_30_900("30/900", "$30/$900"),
 	COV_40_1200("40/1200", "$40/$1,200"),
 	COV_50_1500("50/1500", "$50/$1,500"),
 	COV_50_300("50/300", "$50/$300"),
-	COV_No_Cov("-1", "No Coverage"),
 	SP_EQ_0("0", "$0.00");
 
 	private final String limit;
@@ -75,7 +77,6 @@ public enum CoverageLimits {
 
 	public String getLimit() {
 		return limit;
-
 	}
 
 	public String getDisplay() {

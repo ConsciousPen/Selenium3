@@ -41,6 +41,8 @@ public class Claim {
 
     private String cause;
 
+    private String permissiveUse;
+
     private List<Payment> payments;
 
     public String getClaimNumber() {
@@ -176,17 +178,17 @@ public class Claim {
         return isCompClaim;
     }
 
-    public void setIsCompClaim(Boolean isCompClaim) {
-        this.isCompClaim = isCompClaim;
-    }
+    public void setIsCompClaim(Boolean isCompClaim) {this.isCompClaim = isCompClaim;}
 
-     public String getCause() {
-        return cause;
-    }
+    public String getCause() {return cause;}
 
     public void setCause(String cause) {
         this.cause = cause;
     }
+
+    public String getPermissiveUse() {return permissiveUse;}
+
+    public void setPermissiveUse(String permissiveUse) {this.cause = permissiveUse;}
 
     @Override
     public String toString() {
@@ -209,6 +211,7 @@ public class Claim {
                 ", payments=" + payments +
                 ", isCompClaim=" + isCompClaim +
                 ", cause=" + cause +
+                ", permissiveUse=" + permissiveUse +
                 '}';
     }
 }
