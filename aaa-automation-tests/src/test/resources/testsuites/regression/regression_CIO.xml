@@ -177,16 +177,6 @@
         </classes>
     </test>
     <!--Tests for PUP-->
-    <test name="Test NY Pup Locked Tier" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
-                <methods>
-                    <include name="pas14037_testNYMarketTierLockVRD"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="Test Override Liability Losses" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>

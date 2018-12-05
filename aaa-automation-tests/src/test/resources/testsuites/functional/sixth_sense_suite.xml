@@ -95,6 +95,17 @@
         </classes>
     </test>
 
+    <test name="Test NY Pup Locked Tier">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
+                <methods>
+                    <include name="pas14037_testNYMarketTierLockVRD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Defects-->
 
     <test name="Test Endorsement Premium Database Entries DP3">
