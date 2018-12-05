@@ -15,7 +15,6 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
-import aaa.main.enums.SearchEnum;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -47,7 +46,7 @@ public class TestFinanceEPCalculationPremiumRefund extends FinanceOperations {
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21456")
 	public void pas21456_testFinanceEPCalculationPremiumRefund(@Optional("AZ") String state) {
 
-String policyNumber = openAppAndCreatePolicy();
+		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusMonths(3);
 

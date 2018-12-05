@@ -310,8 +310,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 					calculatedEarnedPremiums.put(txWithPremium, ep);
 					break;
 				case ENDORSE:
-                    calculateEpForRollOn(
-                            txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom, calculatedEarnedPremiums);
+					calculateEpForRollOn(
+							txWithPremium, txsWithPremium, effectiveDate, expirationDate, periodFactorsFrom, calculatedEarnedPremiums);
 					break;
 				case CANCEL:
 					calculateEpForOosCancel(

@@ -10,12 +10,10 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
-import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -52,7 +50,7 @@ public class TestFinanceEPCalculationOOSRollBack extends FinanceOperations {
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSRollBack(@Optional("AZ") String state) {
 
-String policyNumber = openAppAndCreatePolicy();
+		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
 		LocalDateTime e1date = today.plusDays(62);

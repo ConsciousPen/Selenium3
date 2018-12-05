@@ -10,12 +10,10 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
-import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
-import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
@@ -47,7 +45,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSCancelAndReinstate(@Optional("AZ") String state) {
 
-String policyNumber = openAppAndCreatePolicy();
+		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
 		LocalDateTime eDate = today.plusDays(123);
