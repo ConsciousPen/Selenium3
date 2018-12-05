@@ -113,7 +113,6 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22548"})
 	public void pas22548_RenewalOfferIndicator(@Optional("VA") String state) {
 		pas22548_RenewalOfferIndicatorBody();
-		//NOTE: this test is not included in any test suite as the story was pulled out of the sprint.
 	}
 }
 
