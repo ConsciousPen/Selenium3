@@ -15,10 +15,12 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract Tab getReportsTab();
     protected abstract void navigateToBindTab();
     protected abstract void navigateToApplicantTab();
-    protected abstract RadioGroup getClaimChargeableAsset();
+    protected abstract RadioGroup getClaimIncludedInRatingAsset();
     protected abstract TextBox getClaimNonChargeableReasonAsset();
     protected abstract TextBox getClaimCatastropheRemarksAsset();
     protected abstract ComboBox getClaimSourceAsset();
@@ -41,6 +43,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract ComboBox getClaimLossForAsset();
     protected abstract void reorderClueReport();
     protected abstract String getNamedInsuredLabel();
+
+    private StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMsg"));
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -293,7 +297,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields();
 
         // Validate PAS-20851 (already validated for other transactions in above method)
         tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
@@ -302,7 +306,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         reorderClueReport();
         navigateToPropertyInfoTab();
-        assertThat(getClaimChargeableAsset()).isEnabled();
+        assertThat(getClaimIncludedInRatingAsset()).isEnabled();
 
         // Validation for PAS-22144
         openPolicyQuoteAsAgentUser();
@@ -320,7 +324,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields();
 
         // Validation for PAS-22144
         openPolicyQuoteAsAgentUser();
@@ -339,7 +343,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields();
 
         // Validation for PAS-22144
         openPolicyQuoteAsAgentUser();
@@ -360,7 +364,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         validateCatastropheAndLossForFields();
 
         // Validation for PAS-6742
-        pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields();
+        pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields();
 
         // Validation for PAS-22144
         openPolicyQuoteAsAgentUser();
@@ -483,7 +487,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     }
 
-    private void pas6742_pas20851_CheckRemovedDependencyForCATAndChargeableFields(){
+    private void pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields(){
+        // 'Chargeable' label was changed to 'Included in Rating'
 
         selectRentalClaimForCADP3();
 
@@ -493,16 +498,21 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Verify CAT = RADIO_NO chargeable = RADIO_YES
         assertThat(getClaimCatastropheAsset()).hasValue("No");
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
 
         // Verify Chargeable text field and CAT code/remarks text field are both hidden
         assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
         assertThat(getClaimCatastropheRemarksAsset()).isAbsent();
 
         // Validate non-dependency between CAT and Chargeable indicator radio buttons
-        getClaimChargeableAsset().setValue("No");
+        getClaimIncludedInRatingAsset().setValue("No");
+        // Validate Warning message when Include in rating field changed
+        String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
+        // Validate Warning message when CAT field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
         getClaimCatastropheRemarksAsset().setValue("CAT");
 
         // Verify Chargeable text field and CAT code/remarks text field are both visible
@@ -510,8 +520,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         assertThat(getClaimCatastropheRemarksAsset()).isPresent();
 
         // Check the chargeable Value is the same
-        assertThat(getClaimChargeableAsset()).hasValue("No");
-        assertThat(getClaimChargeableAsset()).isEnabled();
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("No");
+        assertThat(getClaimIncludedInRatingAsset()).isEnabled();
 
         // Select Fire Claim
         viewEditClaimByLossAmount("999");
@@ -519,12 +529,14 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Verify CAT = RADIO_YES chargeable = RADIO_YES
         assertThat(getClaimCatastropheAsset()).hasValue("Yes");
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
 
         // Set CAT no and verify non-dependency with Chargeable indicator
         getClaimCatastropheAsset().setValue("No");
+        // Validate Warning message when CAT field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
         assertThat(getClaimCatastropheAsset()).hasValue("No");
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
 
         // Select Water Claim
         viewEditClaimByLossAmount("42500");
@@ -532,15 +544,19 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         // Verify CAT = RADIO_NO chargeable = RADIO_YES
         assertThat(getClaimCatastropheAsset()).hasValue("No");
-        assertThat(getClaimChargeableAsset()).hasValue("Yes");
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
 
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("Yes");
-        getClaimChargeableAsset().setValue("No");
+        // Validate Warning message when CAT field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        getClaimIncludedInRatingAsset().setValue("No");
+        // Validate Warning message when Include in rating field changed
+        assertThat(warningMessage).hasValue(pas6739WarningMsg);
         getClaimNonChargeableReasonAsset().setValue("Something Else");
         getClaimCatastropheRemarksAsset().setValue("CAT");
         assertThat(getClaimCatastropheAsset()).hasValue("Yes");
-        assertThat(getClaimChargeableAsset()).hasValue("No");
+        assertThat(getClaimIncludedInRatingAsset()).hasValue("No");
 
         // Select Wind Claim and set CAT = RADIO_YES chargeable = RADIO_YES (all except SS DP3)
         if (!getPolicyType().equals(PolicyType.HOME_SS_DP3)) {
@@ -549,18 +565,19 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
             // Set CAT no first so that chargeable is enabled
             assertThat(getClaimCatastropheAsset()).hasValue("No");
-            assertThat(getClaimChargeableAsset()).hasValue("Yes");
+            assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
             getClaimCatastropheAsset().setValue("Yes");
+            // Validate Warning message when CAT field changed
+            assertThat(warningMessage).hasValue(pas6739WarningMsg);
             getClaimCatastropheRemarksAsset().setValue("CAT");
 
             // Check the chargeable Value is the same
-            assertThat(getClaimChargeableAsset()).hasValue("Yes");
-            assertThat(getClaimChargeableAsset()).isEnabled();
+            assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
+            assertThat(getClaimIncludedInRatingAsset()).isEnabled();
 
             // Check that Non Chargeable reason is not present because CAT is RADIO_YES
             assertThat(getClaimNonChargeableReasonAsset()).isAbsent();
         }
-
     }
 
     private void addNamedInsuredWithClaims() {

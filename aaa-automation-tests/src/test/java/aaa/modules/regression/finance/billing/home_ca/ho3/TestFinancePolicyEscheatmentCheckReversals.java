@@ -53,7 +53,6 @@ public class TestFinancePolicyEscheatmentCheckReversals extends FinanceOperation
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals(@Optional("CA") String state) {
-
 		String policyNumber = createEscheatmentTransaction();
 
 		mainApp().open();

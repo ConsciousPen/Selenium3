@@ -234,15 +234,20 @@ public class HelperCommon {
 		return JsonClient.sendDeleteRequest(requestUrl, ErrorResponseDto.class, request, 422);
 	}
 
+	public static <T> T revertDriver(String policyNumber, String driverOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	}
+
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, ViewDriverAssignmentResponse.class);
 	}
 
-	public static <T> T revertDriver(String policyNumber, String driverOid, Class<T> responseType, int status) {
-		RestRequestInfo<T> restRequestInfo =
-				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid)), responseType, status);
-		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
@@ -257,9 +262,16 @@ public class HelperCommon {
 		return JsonClient.sendPostRequest(requestUrl, request, ViewDriverAssignmentResponse.class, 200);
 	}
 
-	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+	public static DriverAssignments updateDriverAssignment2(String policyNumber, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
-		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentRequest assignmentDto = new DriverAssignmentRequest();
+		assignmentDto.driverOids = driverOids;
+		assignmentDto.vehicleOid = vehicleOid;
+		request.assignmentRequests.add(assignmentDto);
+		return JsonClient.sendPostRequest(requestUrl, request, DriverAssignments.class, 200);
 	}
 
 	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, String driverOid) {

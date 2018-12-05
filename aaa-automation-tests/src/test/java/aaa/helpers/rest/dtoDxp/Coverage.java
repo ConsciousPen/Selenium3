@@ -85,6 +85,14 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage removeAvailableLimitsAbove(CoverageLimits removeAboveLimit) {
+		int removeFromLimitIndex = availableLimits.stream().map(CoverageLimit::getCoverageLimit).collect(Collectors.toList()).indexOf(removeAboveLimit.getLimit()) + 1;
+		int lastElementIndex = availableLimits.size();
+		List<CoverageLimit> limitsToRemove = availableLimits.subList(removeFromLimitIndex, lastElementIndex);
+		availableLimits.removeAll(limitsToRemove);
+		return this;
+	}
+
 	public Coverage enableCanChange() {
 		this.canChangeCoverage = true;
 		return this;
