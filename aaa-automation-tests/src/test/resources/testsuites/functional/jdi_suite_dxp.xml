@@ -894,7 +894,7 @@
         </classes>
     </test>
     <test name="Moratoriums - AZ">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
                 <methods>
@@ -910,6 +910,17 @@
                 <methods>
                     <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="RFI View Service">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas19630_ViewServiceRFI"/>
+                    <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
                 </methods>
             </class>
         </classes>
