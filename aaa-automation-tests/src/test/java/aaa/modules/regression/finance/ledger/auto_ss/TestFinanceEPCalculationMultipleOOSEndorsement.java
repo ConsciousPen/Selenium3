@@ -51,9 +51,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
     public void pas20277_testFinanceEPCalculationMultipleOOSEndorsement(@Optional("NV") String state) {
 
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+       String policyNumber = openAppAndCreatePolicy();
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime e1date = today.plusDays(32);
         LocalDateTime e2date = e1date.plusDays(212);
@@ -66,20 +64,17 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
         jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
         jobDate = runEPJobUntil(jobDate, oose3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(oose3date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-36, "TestData_EndorsementAddSecondCoverage");
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
@@ -91,8 +86,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
 
         jobDate = runEPJobUntil(jobDate, oose4date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(oose4date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-279, "TestData_Endorsement");
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
@@ -108,8 +102,7 @@ public class TestFinanceEPCalculationMultipleOOSEndorsement extends FinanceOpera
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
         runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();
 
         assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

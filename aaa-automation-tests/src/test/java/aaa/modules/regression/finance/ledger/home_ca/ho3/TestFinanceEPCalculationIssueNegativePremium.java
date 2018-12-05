@@ -52,9 +52,7 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20308")
 	public void pas20308_testFinanceEPCalculationIssueNegativePremium(@Optional("CA") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusDays(62);
@@ -68,14 +66,12 @@ public class TestFinanceEPCalculationIssueNegativePremium extends FinanceOperati
 
 		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(eDate);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement");
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")

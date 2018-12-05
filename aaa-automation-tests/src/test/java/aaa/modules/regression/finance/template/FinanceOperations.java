@@ -63,9 +63,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	 */
 
 	protected String createEscheatmentTransaction() {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = openAppAndCreatePolicy();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), new Dollar(25));
@@ -180,8 +178,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
+		searchForPolicy(policyNum);
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 
 		PolicySummaryPage.buttonRenewals.click();
@@ -193,9 +190,8 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		mainApp().open();
-		SearchPage.openPolicy(policyNum);
-		//PolicySummaryPage.buttonRenewals.verify.enabled();
+		searchForPolicy(policyNum);
+
 		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);

@@ -47,9 +47,7 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSCancelAndReinstate(@Optional("AZ") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
 		LocalDateTime eDate = today.plusDays(123);
@@ -63,29 +61,25 @@ public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperat
 		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(eDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 
 		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
 		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		cancelPolicy(txEffectiveDate, getPolicyType());
 
 		jobDate = runEPJobUntil(jobDate, rDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(rDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		reinstatePolicy(txEffectiveDate);
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

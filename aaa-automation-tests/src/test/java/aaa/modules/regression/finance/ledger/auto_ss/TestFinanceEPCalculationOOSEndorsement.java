@@ -53,9 +53,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSEndorsement(@Optional("AZ") String state) {
 
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+       String policyNumber = openAppAndCreatePolicy();
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime e1date = today.plusDays(62);
         LocalDateTime e2date = e1date.plusDays(61);
@@ -67,20 +65,17 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
 
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
         jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
         jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e3date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-95, "TestData_EndorsementAddSecondCoverage");
 
         //180-042-2CL - Endorsement with an effective date more than 30 days prior to current date cannot be bound - rule 200011
@@ -91,8 +86,7 @@ public class TestFinanceEPCalculationOOSEndorsement extends FinanceOperations {
         policy.rollOn().perform(false, false);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();
 
         assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

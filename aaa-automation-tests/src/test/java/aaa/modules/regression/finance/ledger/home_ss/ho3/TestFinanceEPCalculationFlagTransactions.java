@@ -56,9 +56,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
     @TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20300")
     public void pas20300_testFinanceEPCalculationFlagTransactions(@Optional("AZ") String state) {
 
-        mainApp().open();
-        createCustomerIndividual();
-        String policyNumber = createPolicy();
+       String policyNumber = openAppAndCreatePolicy();
         LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime e1date = today.plusDays(62);
         LocalDateTime e2date = e1date.plusDays(61);
@@ -73,21 +71,18 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e1date);
 
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
         jobDate = runEPJobUntil(jobDate, manualRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         log.info("TEST: Add Manual Renew for Policy #" + policyNumber);
         policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
         assertThat(PolicySummaryPage.labelManualRenew).isPresent();
 
         jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e2date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-1, "TestData_EndorsementAddCoverage");
 
         log.info("TEST: Remove Manual Renew for Policy #" + policyNumber);
@@ -95,8 +90,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         assertThat(PolicySummaryPage.labelManualRenew).isPresent(false);
 
         jobDate = runEPJobUntil(jobDate, doNotRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         //Set Do not Renew Flag
         log.info("TEST: Add Do Not Renew for Policy #" + policyNumber);
         policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
@@ -104,8 +98,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
 
         jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
         TimeSetterUtil.getInstance().nextPhase(e3date);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         createEndorsement(-95, "TestData_EndorsementAddSecondCoverage");
 
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.PENDING_OUT_OF_SEQUENCE_COMPLETION);
@@ -118,8 +111,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
         assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 
         runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
         PolicySummaryPage.buttonTransactionHistory.click();
 
         assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

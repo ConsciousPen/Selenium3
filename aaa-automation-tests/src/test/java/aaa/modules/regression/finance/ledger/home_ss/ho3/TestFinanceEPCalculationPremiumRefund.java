@@ -47,9 +47,7 @@ public class TestFinanceEPCalculationPremiumRefund extends FinanceOperations {
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21456")
 	public void pas21456_testFinanceEPCalculationPremiumRefund(@Optional("AZ") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusMonths(3);
 
@@ -60,8 +58,7 @@ public class TestFinanceEPCalculationPremiumRefund extends FinanceOperations {
 		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(eDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement");
 
 		mainApp().open();
@@ -71,8 +68,7 @@ public class TestFinanceEPCalculationPremiumRefund extends FinanceOperations {
 		new BillingAccount().refund().perform(testDataManager.billingAccount.getTestData("Refund", "TestData_Check"), refundAmount);
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

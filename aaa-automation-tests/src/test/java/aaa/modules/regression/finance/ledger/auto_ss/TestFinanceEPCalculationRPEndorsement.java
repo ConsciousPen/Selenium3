@@ -45,9 +45,7 @@ public class TestFinanceEPCalculationRPEndorsement extends FinanceOperations {
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21454")
 	public void pas21454_testFinanceEPCalculationRPEndorsement(@Optional("AZ") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime eDate = today.plusMonths(3);
 
@@ -57,13 +55,11 @@ public class TestFinanceEPCalculationRPEndorsement extends FinanceOperations {
 
 		jobDate = runEPJobUntil(jobDate, eDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(eDate);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementRemoveCoverage");
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

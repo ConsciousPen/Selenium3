@@ -54,9 +54,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-20277")
 	public void pas20277_testFinanceEPCalculationOOSEndorseCancelReinstate(@Optional("KY") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime txEffectiveDate = today.plusMonths(1);
 		LocalDateTime e1Date = today.plusDays(62);
@@ -71,29 +69,25 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 		jobDate = runEPJobUntil(jobDate, e1Date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1Date);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement1");
 
 		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		cancelPolicy(-1, getPolicyType());
 
 		jobDate = runEPJobUntil(jobDate, rDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(rDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		reinstatePolicy(-1);
 
 		jobDate = runEPJobUntil(jobDate, e2Date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2Date);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		createEndorsement(txEffectiveDate, "TestData_Endorsement2");
 
 		errorTab.overrideAllErrors();
@@ -109,8 +103,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

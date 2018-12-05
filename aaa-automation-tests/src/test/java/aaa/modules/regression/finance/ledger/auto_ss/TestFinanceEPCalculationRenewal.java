@@ -47,9 +47,7 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21444")
 	public void pas21444_testFinanceEPCalculationFlatCancellation(@Optional("NV") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
         LocalDateTime renewalJobEndDate = PolicySummaryPage.getExpirationDate().plusYears(1).plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
@@ -64,8 +62,7 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 
 		jobDate = runEPJobUntil(jobDate, renewalImageGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-        mainApp().open();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+        searchForPolicy(policyNumber);
 		renewalImageGeneration(expirationDate, policyNumber);
 
         jobDate = runEPJobUntil(jobDate, renewalPreviewGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);

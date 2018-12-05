@@ -48,9 +48,7 @@ public class TestFinanceEPCalculationFlatCancellation extends FinanceOperations 
 	@TestInfo(component = ComponentConstant.Finance.LEDGER, testCaseId = "PAS-21444")
 	public void pas21444_testFinanceEPCalculationFlatCancellation(@Optional("AZ") String state) {
 
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
+		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime cancelDate = today.plusDays(35);
 
@@ -61,15 +59,13 @@ public class TestFinanceEPCalculationFlatCancellation extends FinanceOperations 
 		jobDate = runEPJobUntil(jobDate, cancelDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cancelDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 
 		cancelPolicy(-35, getPolicyType());
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))

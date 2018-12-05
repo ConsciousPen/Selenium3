@@ -58,12 +58,9 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 	public void pas21457_testFinanceEPCalculationEPWriteOff(@Optional("CA") String state) {
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
-
-		mainApp().open();
-		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
 				.adjust("PremiumsAndCoveragesQuoteTab|Payment Plan", BillingConstants.PaymentPlan.MONTHLY_STANDARD).resolveLinks();
-		String policyNumber = createPolicy(policyTD);
+		String policyNumber = openAppAndCreatePolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(1).minusDays(20);
 		LocalDateTime cDate = today.plusMonths(4);
@@ -84,8 +81,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		cancelPolicy(cDate, getPolicyType());
 
 		jobDate = runEPJobUntil(jobDate, earnedPremiumWriteOff, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
@@ -95,8 +91,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 
 		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
-		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 
 		BigDecimal issueEndingPremium = LedgerHelper.toBigDecimal(PolicySummaryPage.tableTransactionHistory.getRow(PolicyConstants.PolicyTransactionHistoryTable.TYPE, "Issue")

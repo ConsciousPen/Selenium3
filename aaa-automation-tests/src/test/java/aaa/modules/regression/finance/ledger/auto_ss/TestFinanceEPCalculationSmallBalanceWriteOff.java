@@ -55,13 +55,10 @@ public class TestFinanceEPCalculationSmallBalanceWriteOff extends FinanceOperati
 	public void pas21458_testFinanceEPCalculationSmallBalanceWriteOff(@Optional("AZ") String state) {
 		BillingAccount billingAccount = new BillingAccount();
 		TestData tdBilling = testDataManager.billingAccount;
-
-		mainApp().open();
-		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
 				.adjust("PremiumAndCoveragesTab|Payment Plan", "Eleven Pay - Standard").resolveLinks();
 
-		String policyNumber = createPolicy(policyTD);
+		String policyNumber = openAppAndCreatePolicy(policyTD);
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(10).minusDays(20);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
