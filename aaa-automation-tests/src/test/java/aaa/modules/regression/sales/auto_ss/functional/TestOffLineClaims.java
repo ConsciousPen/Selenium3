@@ -114,23 +114,58 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        CustomSoftAssertions.assertSoftly(softly -> {
-            DriverTab driverTab = new DriverTab();
-            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
-            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-            // Check 1st driver: FNI, has the COMP match claim
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_1);
-
-            // Check 2nd driver: Has DL match claim
-            DriverTab.tableDriverList.selectRow(2);
-	        softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
-            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(CLAIM_NUMBER_2);
-        });
+	    // Check 1st driver: FNI, has the COMP match claim
+	    // Check 2nd driver: Has DL match claim
+		compDLAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2);
     }
+
+	/**
+	 * @author Kiruthika Rajendran
+	 * @author Chris Johns
+	 * PAS-14679 - DL # matching logic
+	 * PAS-14058 - COMP Claims match to FNI
+	 * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
+	 * @name Test NAME and DOB Match logic Via Manual Renewal To Support Security Token Validation
+	 * @scenario Test Steps:
+	 * 1. Create a Policy with 4 drivers
+	 * 2. Initiate Manual Renewal
+	 * 3. Place the CAS Claim Response for PAS consumption
+	 * 4. Run Claims "claimsRenewBatchReceiveJob" Batch Job
+	 * 5. Retrieve policy and enter renewal image
+	 * 6. Verify Claim Data is applied to the correct driver.
+	 * @details Clean Path. Expected Result is that claims data is applied to the correct driver
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
+	public void pas14679_CompDLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+		// Create Customer and Policy with 4 drivers
+		createPolicyMultiDrivers();
+
+		// Create the claim response
+		createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+
+		// Retrieve policy and generate a manual renewal image
+		createManualRenewal();
+
+		//Run Claims receive batch job, to assign claims
+		JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+
+		//Move time by one day to get claims to show in the UI
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
+
+		//Enter renewal image and verify claim presence
+		mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+
+		// Check 1st driver: FNI, has the COMP match claim
+		// Check 2nd driver: Has DL match claim
+		compDLAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2);
+	}
 
     /**
      * @author Kiruthika Rajendran
@@ -210,7 +245,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 
-        // Enter renewal image and verify claim presence
+        //Enter renewal image and verify claim presence
         mainApp().reopen();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
         buttonRenewals.click();
