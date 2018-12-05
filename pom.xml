@@ -14,7 +14,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- <project.version>1.0-SNAPSHOT</project.version> -->
         <maven.compiler.version>3.5.1</maven.compiler.version>
-        <pef.version>2.0.2</pef.version>
+        <pef.version>2.0.2.1</pef.version>
         <etcs.version>9.11</etcs.version>
         <istf.version>3.7.5</istf.version>
         <webdriver.version>3.8.1</webdriver.version>
