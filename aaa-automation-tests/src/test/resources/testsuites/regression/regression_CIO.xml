@@ -102,10 +102,26 @@
     <test name="Test Tier And UW Points Lock NY" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
+                <methods>
+                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="Test Renovation Discount for KS DP3, HO3" parallel="methods">
