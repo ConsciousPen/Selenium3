@@ -53,6 +53,13 @@
         </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Coverage C limit 70% within of Coverage A - CA" parallel="methods" thread-count="1024">
