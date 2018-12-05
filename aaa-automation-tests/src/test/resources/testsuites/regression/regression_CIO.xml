@@ -62,7 +62,7 @@
         </classes>
     </test>
     <test name="Test Premium Recalculation Factors" parallel="methods">
-        <parameter name="state" value="AZ, KY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
         </classes>
@@ -209,7 +209,7 @@
         </classes>
     </test>
     <test name="Test Zero Claims Discount" parallel="methods">
-        <parameter name="state" value="AZ, UT, KY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
@@ -218,7 +218,7 @@
         </classes>
     </test>
     <test name="Test Claims display on VRD page SS" parallel="methods">
-        <parameter name="state" value="AZ, OK"/>
+        <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
@@ -305,7 +305,7 @@
     </test>
     <!--Tests for Defects-->
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states" parallel="methods">
-        <parameter name="state" value="CO, OH, UT"/>
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
@@ -339,7 +339,7 @@
         </classes>
     </test>
     <test name="Test CLUE reports on new copied policies for SS Auto" parallel="methods">
-        <parameter name="state" value="AZ, PA, OH"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions"/>
         </classes>
@@ -358,7 +358,7 @@
         </classes>
     </test>
     <test name="Test Accident Surcharge Waiver" parallel="methods">
-        <parameter name="state" value="AZ, PA, NY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
         </classes>
@@ -406,7 +406,7 @@
         </classes>
     </test>
     <test name="MVR Predictor Algo" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,PA,VA,OK,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -414,40 +414,12 @@
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo NJ" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo NV" parallel="methods">
-        <parameter name="state" value="NV"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                    <exclude name="pas14264_MVRPredictorConversion"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
                 </methods>
             </class>
         </classes>
     </test>
     <test name="MVR Predictor Algo Accidents" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -460,7 +432,7 @@
         </classes>
     </test>
     <test name="Good Student Discount" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
         </classes>
