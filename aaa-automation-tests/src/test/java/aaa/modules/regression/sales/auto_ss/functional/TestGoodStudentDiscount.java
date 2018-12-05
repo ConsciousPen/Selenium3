@@ -124,7 +124,7 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 		createPolicy(getPolicyTDforGSD());
 
 		// Add 5 Drivers who are not eligible for GSD
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		policy.renew().perform();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		policy.getDefaultView().fill(driverTab);
 

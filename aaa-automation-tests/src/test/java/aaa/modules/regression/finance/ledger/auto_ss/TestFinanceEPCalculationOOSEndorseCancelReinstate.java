@@ -109,7 +109,7 @@ String policyNumber = openAppAndCreatePolicy();
 		assertThat(LedgerHelper.getEndingActualPremium(policyNumber))
 				.isEqualTo(new Dollar(LedgerHelper.getEarnedMonthlyReportedPremiumTotal(policyNumber)));
 
-		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.CANCEL, TxType.REINSTATE,
+		List<TxType> txTypes = Arrays.asList(TxType.ISSUE, TxType.ENDORSE, TxType.CANCEL, TxType.REINSTATE_LAPSE,
 				TxType.OOS_ENDORSE, TxType.ROLL_ON, TxType.ROLL_ON_CANCEL, TxType.ROLL_ON_REINSTATE);
 		validateEPCalculations(policyNumber, txTypes, today, expirationDate);
 	}

@@ -5,7 +5,7 @@ TestData_EndorsementRemoveCoverage: {
    VehicleTab: {},
    FormsTab: {},
    PremiumAndCoveragesTab: {
-   Uninsured/Underinsured Motorist Bodily Injury: 'contains=No Coverage'
+   Uninsured and Underinsured Motorist Bodily Injury: 'contains=No Coverage'
    },
    DriverActivityReportsTab: {},
    DocumentsAndBindTab: {

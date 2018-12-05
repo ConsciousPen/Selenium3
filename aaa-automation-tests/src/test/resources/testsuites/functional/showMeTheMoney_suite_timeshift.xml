@@ -17,11 +17,18 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
+
     <!-- Earned Premium Calculation Changes: PAS-14510-->
     <test name="PAS-14510 Earned Premium Calculation Changes - I scenario" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY, WV, NJ"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement"/>
+        </classes>
+    </test>
+    <test name="PAS-20300 Earned Premium Calculation Changes - Cancel Flag" parallel="methods" thread-count="1024">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationCancelFlagTransactions"/>
         </classes>
     </test>
     <test name="PAS-14510 Earned Premium Calculation Changes - II,III,V scenarios" parallel="methods" thread-count="1024">
@@ -38,7 +45,7 @@
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
         </classes>
     </test>
-    <test name="PAS-20308, PAS-21455: Earned Premium Calculation Negative Premium, Billing Fees" parallel="methods" thread-count="1024">
+    <test name="PAS-20308, PAS-21455 - Earned Premium Calculation Negative Premium, Billing Fees" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
@@ -46,56 +53,20 @@
             <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
         </classes>
     </test>
-    <test name="PAS-21444 Earned Premium Calculation Changes - Cancellation - Flat" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
-        </classes>
-    </test>
-    <test name="PAS-21456 - Test Earned Premium Calculation Changes - Refund - Premium Refund" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
-        </classes>
-    </test>
-    <test name="PAS-21446 - Test Earned Premium Calculation Changes - AP endorsement w subsequent Roll Back of the AP endorsement" parallel="methods"
+    <test name="PAS-21446, PAS-21454, PAS-21458, PAS-21446,
+    PAS-21454, PAS-21444, PAS-21456, PAS-21457 - Test Earned Premium Calculation Changes" parallel="methods"
           thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackAPEndorsement"/>
-        </classes>
-    </test>
-    <test name="PAS-21454 - Test Earned Premium Calculation Changes - RP endorsement w subsequent Roll Back of the RP endorsement" parallel="methods"
-          thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackRPEndorsement"/>
-        </classes>
-    </test>
-    <test name="PAS-21458 - Test Earned Premium Calculation Changes - Small Balance Write-Off" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationSmallBalanceWriteOff"/>
-        </classes>
-    </test>
-    <test name="PAS-21457 - Test Earned Premium Calculation Changes - Earned Premium Write-Off" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
-        </classes>
-    </test>
-    <test name="PAS-21446 - Test Earned Premium Calculation Changes - AP endorsement" parallel="methods"
-          thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationAPEndorsement"/>
-        </classes>
-    </test>
-    <test name="PAS-21454 - Test Earned Premium Calculation Changes - RP endorsement" parallel="methods"
-          thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
             <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRPEndorsement"/>
+            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
+            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
         </classes>
     </test>
 </suite>

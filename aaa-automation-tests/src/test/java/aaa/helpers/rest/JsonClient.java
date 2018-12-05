@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.*;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -236,13 +237,17 @@ public class JsonClient {
 	private static String getBearerToken() {
 		Client client = null;
 		Response response = null;
+		Form form = new Form();
+		form.param("client_id","cc_PAS");
+		form.param("client_secret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"); //PAS: QA + CERT Environments
+		form.param("grant_type", "client_credentials");
 		try {
 			client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			WebTarget target = client.target(PropertyProvider.getProperty(CsaaTestProperties.WIRE_MOCK_STUB_URL_TEMPLATE) + PropertyProvider.getProperty(CsaaTestProperties.PING_HOST));
 			response = target
 					.request()
 					.header(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_FORM_URLENCODED)
-					.post(Entity.json(GetOAuth2TokenRequest.create().asUrlEncoded()));
+					.post(Entity.form(form));
 
 			Map result = response.readEntity(HashMap.class);
 
@@ -256,5 +261,4 @@ public class JsonClient {
 			}
 		}
 	}
-
 }

@@ -241,9 +241,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.OH:
 			case Constants.States.VA:
 			case Constants.States.KS:
-			case Constants.States.NV:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.NV:
+				coveragesMap.put("UMBI", "Uninsured and Underinsured Motorist Bodily Injury");
 				break;
 			case Constants.States.MT:
 			case Constants.States.WV:
@@ -454,10 +456,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		if ("EMB".equals(coverageCd)) {
 			return "1000000".equals(limitRange[0]) ? "starts=Yes" : "starts=No";
-		}
-
-		if ("RENTAL".equals(coverageCd)) {
-			return "1".equals(coverage.getLimit().toString()) ? "starts=Yes" : "starts=No";
 		}
 
 		StringBuilder returnLimit = new StringBuilder();
