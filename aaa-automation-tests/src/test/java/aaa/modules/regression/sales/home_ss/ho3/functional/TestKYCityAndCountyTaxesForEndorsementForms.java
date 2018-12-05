@@ -37,7 +37,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesNBTx(@Optional("KY") String state) {
 
@@ -62,7 +62,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesEndorsementsTx(@Optional("KY") String state) {
 
@@ -87,7 +87,7 @@ public class TestKYCityAndCountyTaxesForEndorsementForms extends TestKYCityAndCo
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.HOME_SS_HO3, testCaseId = "PAS-17089")
     public void pas17089_testKYCityAndCountyTaxesRenewalTx(@Optional("KY") String state) {
 

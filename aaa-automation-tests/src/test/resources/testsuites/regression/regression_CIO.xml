@@ -5,13 +5,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="Test Initiate HO policies and check that Endorsement HO29 is included" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInitiateHoPolicyDefaultEndorsementForm"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestInitiateHoPolicyDefaultEndorsementForm"/>
-        </classes>
-    </test>
     <test name="Test Clue assignment for multiple drivers CA" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -154,15 +147,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium"/>
         </classes>
     </test>
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPARevisedHomeTierAutoNA"/>
-        </classes>
-    </test>
     <test name="Test Disable Reorder Report at Mid Term and Renewal" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
@@ -206,42 +190,6 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestViewPropertyQuoteLink"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestViewPropertyQuoteLink"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewPropertyQuoteLink"/>
-        </classes>
-    </test>
-    <test name="Test Zero Claims Discount" parallel="methods">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestZeroClaimsDiscount"/>
-        </classes>
-    </test>
-    <test name="Test Claims display on VRD page SS" parallel="methods">
-        <parameter name="state" value="OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClaimPointsVRDPage"/>
-        </classes>
-    </test>
-    <test name="Test Claims display on VRD page CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage"/>
-        </classes>
-    </test>
-    <test name="Test KY City and Country Taxes Calculation for Endorsement forms" parallel="methods">
-        <parameter name="state" value="KY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
         </classes>
     </test>
     <!--Tests for PUP-->
@@ -361,36 +309,6 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries DP3" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO3" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO4" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO6" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Enhanced UIM Coverage Forms" parallel="methods">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
         </classes>
     </test>
     <test name="Test Enhanced UIM Coverage Behavior" parallel="methods">
