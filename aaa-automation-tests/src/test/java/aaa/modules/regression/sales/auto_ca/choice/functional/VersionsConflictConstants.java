@@ -447,15 +447,15 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.VIN", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.VIN", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.VIN", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.VIN", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE

@@ -420,19 +420,19 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Enroll in Usage Based Insurance?", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type",CURRENT)
-					.put("AALPXXEndorsement Form", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Usage", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type",CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Usage", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
