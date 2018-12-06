@@ -111,8 +111,8 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22548"})
-	public void pas22548_RenewalOfferIndicator(@Optional("VA") String state) {
-		pas22548_RenewalOfferIndicatorBody();
+	public void pas22548_isRenewalOfferGenerated(@Optional("VA") String state) {
+		pas22548_isRenewalOfferGeneratedBody();
 	}
 }
 

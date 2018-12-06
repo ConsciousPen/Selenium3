@@ -384,7 +384,7 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
                 <methods>
-                    <include name="pas22548_RenewalOfferIndicator"/>
+                    <include name="pas22548_isRenewalOfferGenerated"/>
                 </methods>
             </class>
         </classes>

@@ -583,7 +583,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
-	protected void pas22548_RenewalOfferIndicatorBody() {
+	protected void pas22548_isRenewalOfferGeneratedBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();//this is also renewal Effective date
