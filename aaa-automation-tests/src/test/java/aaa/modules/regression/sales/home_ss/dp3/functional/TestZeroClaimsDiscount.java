@@ -20,8 +20,8 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Test Zero Claims Discount for SS DP3 Quotes
+	 * @author Josh Carpenter, Dominykas Razgunas
+	 * @name Test Zero Claims Discount for SS DP3 Quotes, Updated with PAS-6730
 	 * @scenario
 	 * 1. Create customer
 	 * 2. Initiate SS DP3 quote
@@ -36,25 +36,25 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * 		f. Catastrophe = No
 	 * 6. Navigate to P & C tab, calculate premium
 	 * 7. Validate no zero claims discount is present and premium has increased
-	 * 8. Change claim to 'Open' and validate discount/premium is added/decreased
-	 * 9. Change claim to back to 'Closed' and validate discount/premium is removed/increased
-	 * 10. Change claim to 'Subrogation' and validate discount/premium is added/decreased
-	 * 11. Change claim to back to 'Closed' and validate discount/premium is removed/increased
-	 * 12. Change claim Date to more than 3 years ago and validate discount/premium is added/decreased
+	 * 8. Change claim to 'Open' and validate discount/premium is NOT added/decreased
+	 * 9. Change claim to back to 'Closed' and validate discount/premium do not change
+	 * 10. Change claim to 'Subrogation' and validate discount/premium is NOT added/decreased
+	 * 11. Change claim to back to 'Closed' and validate discount/premium do not change
+	 * 12. Change claim Date to more than 5 years ago and validate discount/premium is added/decreased
 	 * 13. Change date back to 1 year ago and validate discount/premium is removed/increased
 	 * 14. Change claim amount to less than $1000 and validate discount/premium is added/decreased
 	 * @details
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS DP3 Quote")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-9088")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-9088, PAS-6730")
 	public void pas9088_testZeroClaimsDiscountDP3Quote(@Optional("") String state) {
 		pas9088_testZeroClaimsDiscountQuote();
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Test Zero Claims Discount for SS DP3 Renewals
+	 * @author Josh Carpenter, Dominykas Razgunas
+	 * @name Test Zero Claims Discount for SS DP3 Renewals, Updated with PAS-6730
 	 * @scenario
 	 * 1. Create customer
 	 * 2. Create SS DP3 Policy
@@ -69,18 +69,18 @@ public class TestZeroClaimsDiscount extends TestZeroClaimsDiscountTemplate {
 	 * 		f. Catastrophe = No
 	 * 6. Navigate to P & C tab, calculate premium
 	 * 7. Validate no zero claims discount is present and premium has increased
-	 * 8. Change claim to 'Open' and validate discount/premium is added/decreased
-	 * 9. Change claim to back to 'Closed' and validate discount/premium is removed/increased
-	 * 10. Change claim to 'Subrogation' and validate discount/premium is added/decreased
-	 * 11. Change claim to back to 'Closed' and validate discount/premium is removed/increased
-	 * 12. Change claim Date to more than 3 years ago and validate discount/premium is added/decreased
+	 * 8. Change claim to 'Open' and validate discount/premium is NOT added/decreased
+	 * 9. Change claim to back to 'Closed' and validate discount/premium do not change
+	 * 10. Change claim to 'Subrogation' and validate discount/premium is NOT added/decreased
+	 * 11. Change claim to back to 'Closed' and validate discount/premium do not change
+	 * 12. Change claim Date to more than 5 years ago and validate discount/premium is added/decreased
 	 * 13. Change date back to 1 year ago and validate discount/premium is removed/increased
 	 * 14. Change claim amount to less than $1000 and validate discount/premium is added/decreased
 	 * @details
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Zero Claims Discount for SS DP3 Renewals")
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-9088")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-9088, PAS-6730")
 	public void pas9088_testZeroClaimsDiscountDP3Renewal(@Optional("") String state) {
 		pas9088_testZeroClaimsDiscountRenewal();
 	}

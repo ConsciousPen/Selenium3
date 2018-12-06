@@ -55,29 +55,29 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		// Validate discount is removed and premium increases
 		premium = validateDiscountRemovedAndPremiumIncreases(premium);
 
-		// Change claim to 'Open' and validate discount/premium is added/decreased
+		// PAS-6730 OPEN CLAIMS ARE USED. Change claim to 'Open' and validate discount/premium is NOT added/decreased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Open");
-		premium = validateDiscountAddedAndPremiumDecreases(premium);
+		premium = validateDiscountAddedAndPremiumDoesNotChange(premium);
 
-		// Change claim to back to 'Closed' and validate discount/premium is removed/increased
+		// Change claim to back to 'Closed' and validate discount/premium is not changed
 		premium = changeClaimToClosedAndValidate(premium);
 
-		// Change claim to 'Subrogated' and validate discount/premium is added/decreased
+		// PAS-6730 Subrogated CLAIMS ARE USED. Change claim to 'Subrogated' and validate discount/premium is NOT added/decreased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Subrogation");
-		premium = validateDiscountAddedAndPremiumDecreases(premium);
+		premium = validateDiscountAddedAndPremiumDoesNotChange(premium);
 
-		// Change claim to back to 'Closed' and validate discount/premium is removed/increased
+		// Change claim to back to 'Closed' and validate discount/premium is not changed
 		premium = changeClaimToClosedAndValidate(premium);
 
-		// Change claim Date to 4 years ago and validate discount/premium is added/decreased
+		// PAS-6730 limit changed to 5 years. Change claim Date to 6 years ago and validate discount/premium is added/decreased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-		String claimDateFourYrs = effectiveDate.minusYears(4).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateFourYrs);
-		premium = validateDiscountAddedAndPremiumDecreases(premium);
+		String claimDateSixYrs = effectiveDate.minusYears(6).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(claimDateSixYrs);
+		premium = validateDiscountAddedAndPremiumIsDecreased(premium);
 
-		// Change date back to less than 4 years ago and validate discount/premium is removed/increased
+		// PAS-6730 limit changed to 5 years. Change date back to less than 6 years ago and validate discount/premium is removed/increased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(dateOfLoss);
 		premium = validateDiscountRemovedAndPremiumIncreases(premium);
@@ -85,7 +85,7 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		// Change claim amount to less than $1000 and validate discount/premium is added/decreased
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS).setValue("1000");
-		validateDiscountAddedAndPremiumDecreases(premium);
+		validateDiscountAddedAndPremiumIsDecreased(premium);
 
 	}
 
@@ -97,7 +97,15 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		return newPremium;
 	}
 
-	private Dollar validateDiscountAddedAndPremiumDecreases(Dollar premium) {
+	private Dollar validateDiscountAddedAndPremiumDoesNotChange(Dollar premium) {
+		premiumsAndCoveragesQuoteTab.calculatePremium();
+		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isFalse();
+		Dollar newPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
+		newPremium.verify.equals(premium);
+		return newPremium;
+	}
+
+	private Dollar validateDiscountAddedAndPremiumIsDecreased(Dollar premium) {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 		assertThat(premiumsAndCoveragesQuoteTab.isDiscountApplied(DiscountEnum.HomeSSDiscounts.ZERO_PRIOR_CLAIMS.getName())).isTrue();
 		Dollar newPremium = new Dollar(PremiumsAndCoveragesQuoteTab.tableTotalPremiumSummary.getRow(1).getCell(2).getValue());
@@ -108,12 +116,12 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 	private Dollar changeClaimToClosedAndValidate(Dollar premium) {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS).setValue("Closed");
-		return validateDiscountRemovedAndPremiumIncreases(premium);
+		return validateDiscountAddedAndPremiumDoesNotChange(premium);
 	}
 
 	private TestData getClaimTD() {
 		String claimHistoryKeyPath = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel());
-		dateOfLoss = effectiveDate.minusYears(4).plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		dateOfLoss = effectiveDate.minusYears(5).plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD.getLabel()), "Click")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), dateOfLoss)
