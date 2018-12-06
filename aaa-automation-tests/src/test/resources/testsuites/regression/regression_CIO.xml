@@ -5,13 +5,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
-    <test name="Test Initiate HO policies and check that Endorsement HO29 is included" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestInitiateHoPolicyDefaultEndorsementForm"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestInitiateHoPolicyDefaultEndorsementForm"/>
-        </classes>
-    </test>
     <test name="Test Clue assignment for multiple drivers CA" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
@@ -62,7 +55,7 @@
         </classes>
     </test>
     <test name="Test Premium Recalculation Factors" parallel="methods">
-        <parameter name="state" value="AZ, KY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPremiumRecalculationFactors"/>
         </classes>
@@ -109,26 +102,10 @@
     <test name="Test Tier And UW Points Lock NY" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <exclude name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock"/>
         </classes>
     </test>
     <test name="Test Renovation Discount for KS DP3, HO3" parallel="methods">
@@ -152,15 +129,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestRemovingSppLowersTotalPremium"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestRemovingSppLowersTotalPremium"/>
-        </classes>
-    </test>
-    <test name="PA Revised Home Tier: Auto Tier Assignment of value N/A and UI Display" parallel="methods">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPARevisedHomeTierAutoNA"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPARevisedHomeTierAutoNA"/>
         </classes>
     </test>
     <test name="Test Disable Reorder Report at Mid Term and Renewal" parallel="methods">
@@ -208,53 +176,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestViewPropertyQuoteLink"/>
         </classes>
     </test>
-    <test name="Test Zero Claims Discount" parallel="methods">
-        <parameter name="state" value="AZ, UT, KY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestZeroClaimsDiscount"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestZeroClaimsDiscount"/>
-        </classes>
-    </test>
-    <test name="Test Claims display on VRD page SS" parallel="methods">
-        <parameter name="state" value="AZ, OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClaimPointsVRDPage"/>
-        </classes>
-    </test>
-    <test name="Test Claims display on VRD page CA" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClaimPointsVRDPage"/>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClaimPointsVRDPage"/>
-        </classes>
-    </test>
-    <test name="Test KY City and Country Taxes Calculation for Endorsement forms" parallel="methods">
-        <parameter name="state" value="KY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestKYCityAndCountyTaxesForEndorsementForms"/>
-        </classes>
-    </test>
     <!--Tests for PUP-->
-    <test name="Test NY Pup Locked Tier" parallel="methods">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.pup.functional.TestPupInfoSectionViewRatingDetails">
-                <methods>
-                    <include name="pas14037_testNYMarketTierLockVRD"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test name="Test Override Liability Losses" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
@@ -305,7 +227,7 @@
     </test>
     <!--Tests for Defects-->
     <test name="Test PUP policies rate correctly when underlying DP3 has multiple units for SS states" parallel="methods">
-        <parameter name="state" value="CO, OH, UT"/>
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.pup.functional.TestPupRatingWithMultipleUnits">
                 <methods>
@@ -339,7 +261,7 @@
         </classes>
     </test>
     <test name="Test CLUE reports on new copied policies for SS Auto" parallel="methods">
-        <parameter name="state" value="AZ, PA, OH"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClueReportOnCopyActions"/>
         </classes>
@@ -358,39 +280,9 @@
         </classes>
     </test>
     <test name="Test Accident Surcharge Waiver" parallel="methods">
-        <parameter name="state" value="AZ, PA, NY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries DP3" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO3" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO4" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Endorsement Premium Database Entries HO6" parallel="methods">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestEndorsementPremiumEntries"/>
-        </classes>
-    </test>
-    <test name="Test Enhanced UIM Coverage Forms" parallel="methods">
-        <parameter name="state" value="MD"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
         </classes>
     </test>
     <test name="Test Enhanced UIM Coverage Behavior" parallel="methods">
@@ -406,7 +298,7 @@
         </classes>
     </test>
     <test name="MVR Predictor Algo" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,PA,VA,OK,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -414,40 +306,12 @@
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
                     <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo NJ" parallel="methods">
-        <parameter name="state" value="NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="MVR Predictor Algo NV" parallel="methods">
-        <parameter name="state" value="NV"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
-                <methods>
-                    <exclude name="pas9723_BypassMVRPredictorManuallyAddedAccidents"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion"/>
-                    <exclude name="pas14264_MVRPredictorConversion"/>
-                    <exclude name="pas14264_BypassMVRPredictorManuallyAddedViolationsConversion"/>
                 </methods>
             </class>
         </classes>
     </test>
     <test name="MVR Predictor Algo Accidents" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,NJ,PA,VA,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMVRPredictorAlgo">
                 <methods>
@@ -460,7 +324,7 @@
         </classes>
     </test>
     <test name="Good Student Discount" parallel="methods">
-        <parameter name="state" value="IN,KY,MD,NJ,NV,PA,VA,OK,CT"/>
+        <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestGoodStudentDiscount"/>
         </classes>
