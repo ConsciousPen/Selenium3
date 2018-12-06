@@ -1,6 +1,7 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -71,6 +72,7 @@ public class HelperCommon {
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
+	private static final String DXP_BILLING_POLICIES_TERM_INFO = "/api/v1/billing/account/%s/policies?effectiveDate=%s";
 
 	private static AdminApplication adminApp() {
 		return CSAAApplicationFactory.get().adminApp();
@@ -464,6 +466,16 @@ public class HelperCommon {
 	public static AccountDetails billingAccountInfoService(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, AccountDetails.class);
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, LocalDateTime termEffectiveDate, Class<T> responseType) {
+		return viewPolicyTermInfo(policyNumber, termEffectiveDate.toString(), responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, String termEffectiveDate, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_BILLING_POLICIES_TERM_INFO, policyNumber, termEffectiveDate)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static Installment[] billingInstallmentsInfo(String policyNumber) {
