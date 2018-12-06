@@ -23,6 +23,13 @@
         </classes>
     </test>
 
+    <!--<test name="Test CARCO Task Not Created">-->
+        <!--<parameter name="state" value="NJ, NY"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
     <!--Tests for Property-->
 
     <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
@@ -43,7 +50,7 @@
     </test>
 
     <test name="Test Zero Claims Discount">
-        <parameter name="state" value="AZ, UT, KY"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestZeroClaimsDiscount"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestZeroClaimsDiscount"/>
@@ -53,7 +60,7 @@
     </test>
 
     <test name="Test Claims display on VRD page SS">
-        <parameter name="state" value="AZ, OK"/>
+        <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
