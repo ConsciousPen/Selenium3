@@ -653,9 +653,9 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		PolicyTerm[] renewalTermInfo = HelperCommon.viewPolicyTermInfo(policyNumber, renewalEffectiveDate, PolicyTerm[].class);
 		LocalDateTime currentDate = DateTimeUtils.getCurrentDateTime();
 		if (currentDate.isEqual(renewalProposalDate) || currentDate.isAfter(renewalProposalDate)) {
-			assertThat(renewalTermInfo.length).isEqualTo(0);
-		} else {
 			assertThat(renewalTermInfo.length).isEqualTo(1);
+		} else {
+			assertThat(renewalTermInfo.length).isEqualTo(0);
 		}
 	}
 
