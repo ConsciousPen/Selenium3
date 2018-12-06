@@ -302,9 +302,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         new DocumentsAndBindTab().submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        new DocumentsAndBindTab().submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+            errorTab.override();
+            new DocumentsAndBindTab().submitTab();
+        }
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         payTotalAmtDue(policyNum);

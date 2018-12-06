@@ -131,6 +131,26 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
     }
 
+    // Assertions for COMP and DL Tests
+    public void compDLAssertions(String COMP_MATCH, String DL_MATCH) {
+        CustomSoftAssertions.assertSoftly(softly -> {
+            DriverTab driverTab = new DriverTab();
+            ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+            softly.assertThat(DriverTab.tableDriverList).hasRows(4);
+
+            // Check 1st driver: FNI, has the COMP match claim
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+
+            // Check 2nd driver: Has DL match claim
+            DriverTab.tableDriverList.selectRow(2);
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+            softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(DL_MATCH);
+        });
+    }
+
     // Assertions for Name/DOB Tests
     public void nameDobYobAssertions(String LASTNAME_FIRSTNAME_DOB, String LASTNAME_FIRSTNAME, String LASTNAME_FIRSTINITAL_DOB, String LASTNAME_FIRSTNAME_YOB ) {
         CustomSoftAssertions.assertSoftly(softly -> {

@@ -2,7 +2,7 @@
 <suite name="JDI Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -368,7 +368,6 @@
             </class>
         </classes>
     </test>
-
     <test name="pas14156_DecPagePlcyVehInfo">
         <parameter name="state" value="CA"/>
         <classes>

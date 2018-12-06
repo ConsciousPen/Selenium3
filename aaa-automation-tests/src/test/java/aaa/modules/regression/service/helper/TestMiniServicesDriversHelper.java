@@ -807,6 +807,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			softly.assertThat(addDriver9.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
 			softly.assertThat(addDriver9.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
 
+			//Remove one driver and check if user can be able to add driver after
+			HelperCommon.removeDriver(policyNumber, driverOid7, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+			ViewDriversResponse responseViewDriverEndorsement5 = HelperCommon.viewEndorsementDrivers(policyNumber);
+			assertThat(responseViewDriverEndorsement5.canAddDriver).isEqualTo(true);
+
+			DriversDto addDriver10 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class);
+			ViewDriversResponse responseViewDriverEndorsement6 = HelperCommon.viewEndorsementDrivers(policyNumber);
+			assertThat(responseViewDriverEndorsement6.canAddDriver).isEqualTo(false);
+			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("male", "T32325892", 18, "VA", "CH", "SSS");
+			HelperCommon.updateDriver(policyNumber, addDriver10.oid, updateDriverRequest3);
+
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			policyNumber7Drivers = policyNumber;
 		});

@@ -1,10 +1,10 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
-import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -16,7 +16,7 @@ import toolkit.utils.TestInfo;
 
 public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQuoteTemplate {
 
-	private String policyNumber;
+	private static String policyNumber;
 
 	@Override
 	protected PolicyType getPolicyType() {
@@ -36,17 +36,10 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	 */
 
 	@Parameters({"state"})
-	@StateList(states = States.CA)
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO3")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
-	public void pas21410_dataPrepAutoCAChoicePolicyCreation(@Optional("CA") String state) {
-		policyNumber = openAppAndCreatePolicy();
-	}
-
-	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO3(@Optional("CA") String state) {
+		createAutoPolicy();
 		searchForPolicy(policyNumber);
 		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO3);
 	}
@@ -55,6 +48,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO4")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO4(@Optional("CA") String state) {
+		createAutoPolicy();
 		searchForPolicy(policyNumber);
 		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO4);
 	}
@@ -63,6 +57,7 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is included HO6")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceHO6(@Optional("CA") String state) {
+		createAutoPolicy();
 		searchForPolicy(policyNumber);
 		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_HO6);
 	}
@@ -71,7 +66,14 @@ public class TestInitiateHoPolicyDefaultEndorsementForm extends TestInitiateHOQu
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Test Initiate HO policies and check that Endorsement HO29 is not included DP3")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-21410")
 	public void pas21410_testInitiateHO3PolicyFromAutoCAChoiceDP3(@Optional("CA") String state) {
+		createAutoPolicy();
 		searchForPolicy(policyNumber);
 		pas21410_testInitiateHOQuoteFromAutoAndHO29IsAdded(PolicyType.HOME_CA_DP3);
+	}
+
+	private synchronized void createAutoPolicy() {
+		if (StringUtils.isBlank(policyNumber)) {
+			policyNumber = openAppAndCreatePolicy();
+		}
 	}
 }

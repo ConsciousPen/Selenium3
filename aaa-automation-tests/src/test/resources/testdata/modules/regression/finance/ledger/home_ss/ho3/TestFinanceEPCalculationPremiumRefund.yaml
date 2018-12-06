@@ -1,0 +1,18 @@
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Pay in Full,
+    Coverage E - Personal Liability Each Occurrence: 'contains=$100,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'index=1'
+  },
+  DocumentsTab: {},
+  BindTab: {},
+}
