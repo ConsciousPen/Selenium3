@@ -55,8 +55,8 @@ public class TestMinDueIsNotRecalculatedAfterEndorsements extends AutoSSBaseTest
 	@Parameters({"state"})
 	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-20379")
-	public void pas20379_testMinDueIsNotRecalculatedAfterEndorsements(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-20379, PAS-22575")
+	public void pas22575_testMinDueIsNotRecalculatedAfterEndorsements(@Optional("AZ") String state) {
 
 		TestData tdPolicy = getPolicyTD()
 				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
