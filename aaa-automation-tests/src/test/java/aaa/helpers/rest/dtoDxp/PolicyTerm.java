@@ -1,7 +1,6 @@
 package aaa.helpers.rest.dtoDxp;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -11,10 +10,10 @@ public class PolicyTerm {
 	public String policyNumber;
 
 	@ApiModelProperty(value = "Billable policy term effective date in IS8601 format (yyyy-MM-dd).", example = "2018-01-30")
-	public ZonedDateTime effectiveDate;
+	public String effectiveDate;
 
 	@ApiModelProperty(value = "Billable policy term expiration date in IS8601 format (yyyy-MM-dd).", example = "2019-01-30")
-	public ZonedDateTime expirationDate;
+	public String expirationDate;
 
 	@ApiModelProperty(value = "Product code", example = "AAA_SS")
 	public String productCd;
