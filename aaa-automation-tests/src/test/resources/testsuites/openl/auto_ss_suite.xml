@@ -80,8 +80,8 @@
         </classes>
     </test>
     <test name="AutoSS [MT] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="MTTests-20171201.xls"/>
-        <parameter name="policyNumbers" value="1, 6"/>
+        <parameter name="fileName" value="MTTests-20190101_forUI_part1.xls"/>
+        <parameter name="policyNumbers" value="1, 5"/>
         <classes>
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
