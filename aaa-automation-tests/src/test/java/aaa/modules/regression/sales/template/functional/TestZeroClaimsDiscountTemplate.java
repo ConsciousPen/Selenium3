@@ -121,7 +121,7 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 
 	private TestData getClaimTD() {
 		String claimHistoryKeyPath = TestData.makeKeyPath(PropertyInfoTab.class.getSimpleName(), HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel());
-		dateOfLoss = effectiveDate.minusYears(5).plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		dateOfLoss = effectiveDate.minusYears(4).plusDays(1).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.BTN_ADD.getLabel()), "Click")
 				.adjust(TestData.makeKeyPath(claimHistoryKeyPath, HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS.getLabel()), dateOfLoss)
