@@ -84,32 +84,6 @@
         </classes>
     </test>
 
-    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="Test Replacement Cost Value for Endorsed Renewal SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="UT"/>
         <classes>
