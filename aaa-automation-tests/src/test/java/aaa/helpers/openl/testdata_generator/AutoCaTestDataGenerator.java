@@ -150,6 +150,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (AutoOpenLCoverage coverage : vehicle.getCoverages()) {
+				//Vehicle can either have UMPD or CDW coverage, but not both. UMPD is not available with COLL coverage, however CDW is.
 				if ("UMPD".equals(coverage.getCoverageCd()) && vehicle.getCoverages().stream().anyMatch(c -> "COLL".equals(c.getCoverageCd()))) {
 					coverage.setCoverageCd("CDW");
 				}
