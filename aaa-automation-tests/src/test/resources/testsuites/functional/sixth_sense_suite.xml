@@ -108,6 +108,21 @@
 
     <!--Tests for Defects-->
 
+    <test name="Test Renewal Effective On Rewrite CA">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite"/>
+        </classes>
+    </test>
+
+    <test name="Test Renewal Effective On Rewrite SS">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRenewalEffectiveOnRewrite"/>
+        </classes>
+    </test>
+
     <test name="Test Endorsement Premium Database Entries DP3">
         <parameter name="state" value="CA"/>
         <classes>
