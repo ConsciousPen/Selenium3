@@ -100,13 +100,13 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 	 * @scenario
 	 * 1. Create a policy in PAS
 	 * 2. Run all required renewal jobs till Renewal Proposal date (excluding)
-	 * 3. Run viewPolicyRenewalSummary service ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 3. Run viewPolicyTermInfo service ---> response doesn't contain ifo for renewal term as it is not proposed yet
 	 * 4. Run all required renewal jobs at R-35
-	 * 5. Run viewPolicyRenewalSummary service ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
-	 * 6. Make Revised Renewal by updating Current term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
-	 * 7. Make Revised Renewal by updating Renewal term ---> isRenewalOffered is always false for current term and true for renewal term if it is Proposed
+	 * 5. Run viewPolicyTermInfo service for renewal term ---> response contains info as renewal is proposed
+	 * 6. Make Revised Renewal by updating Current term and Run viewPolicyTermInfo service for renewal term  ---> response contains info as renewal is proposed
+	 * 7. Make Revised Renewal by updating Renewal term and Run viewPolicyTermInfo service for renewal term ---> response contains info as renewal is proposed
 	 * 8. Renew the policy
-	 * 9. Generate Renewal image, run viewPolicyRenewalSummary and validate that isRenewalOffered si false for Renewal term
+	 * 9. Generate Renewal image, run viewPolicyTermInfo and validate that response doesn't contain ifo for renewal term as it is not proposed yet
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})

@@ -70,7 +70,4 @@ public class PolicySummary {
 	@ApiModelProperty(value = "Policy bind Time and Date", example = "2018-09-05T20:48:10Z")
 	public String bindDate;
 
-	@ApiModelProperty(value = "Renewal offered indicator", example = "true")
-	public Boolean isRenewalOffered;
-
 }
