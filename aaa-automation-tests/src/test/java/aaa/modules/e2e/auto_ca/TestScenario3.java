@@ -6,6 +6,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import aaa.common.enums.Constants.States;
+import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.e2e.templates.Scenario3;
 import aaa.utils.StateList;
@@ -33,12 +34,15 @@ public class TestScenario3 extends Scenario3 {
 			cancelPolicy(installmentDueDates.get(1));
 			createRemittanceFile();
 			payCancellationNoticeByRemittance();
+			verifyDocGenForms(true, DocGenEnum.Documents._55_5003);
+			verifyDocGenForms(false, DocGenEnum.Documents._55_5080);
 			renewalImageGeneration();
 			renewalPreviewGeneration();
 			renewalOfferGeneration(softly);
 			expirePolicy();
 			customerDeclineRenewal();
 			payRenewOffer();
+			verifyDocGenForms(false, DocGenEnum.Documents._55_5003, DocGenEnum.Documents._55_5080);
 		});
 	}
 }
