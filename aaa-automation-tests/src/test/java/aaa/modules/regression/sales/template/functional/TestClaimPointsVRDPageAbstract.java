@@ -183,25 +183,25 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
 		getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
 		calculatePremiumAndOpenVRD();
-		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("5");
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("5");
 		// Within 5 years YCF=4
 		navigateToPropertyInfoTab();
 		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
 		getClaimDateOfLossAsset().setValue(newLossDateWithin5Years);
 		calculatePremiumAndOpenVRD();
-		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("4");
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("4");
 		// Within 4 years YCF=3
 		navigateToPropertyInfoTab();
 		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
 		getClaimDateOfLossAsset().setValue(newLossDateWithin4Years);
 		calculatePremiumAndOpenVRD();
-		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("3");
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("3");
 		// Within 3 years YCF=2
 		navigateToPropertyInfoTab();
 		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
 		getClaimDateOfLossAsset().setValue(newLossDateWithin3Years);
 		calculatePremiumAndOpenVRD();
-		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("2");
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("2");
 
 	}
 
