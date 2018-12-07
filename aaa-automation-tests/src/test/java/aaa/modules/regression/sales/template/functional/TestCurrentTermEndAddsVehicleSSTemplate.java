@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
 import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
+import static org.apache.commons.net.ntp.TimeStamp.getCurrentTime;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -63,6 +66,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         // vin upload to update second VIN To another VIN where VIN will be matched
         adminApp().open();
         uploadToVINTableTab.uploadFiles(controlTableFile, vinTableFile);
+
         LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
         LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(361);
         updateControlTable(expirationDate, effectiveDate);
@@ -222,11 +226,92 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2GTEC19V%3", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2HNYD2H6%C", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("WBSAK031%M", SYMBOL_2018_CHOICE);
-        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018));
-        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018_CHOICE));
-        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "AZ", SYMBOL_2018));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "AZ", SYMBOL_2000));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000));
-        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018_CHOICE));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "AZ", SYMBOL_2018));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "AZ", SYMBOL_2000));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000));
+//        DBService.get().executeUpdate(String.format(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_EXPIRATIONDATE_BY_STATECD_VERSION, "99999999", "CA", SYMBOL_2000_CHOICE));
+  }
+    protected void pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms_initiateEndorsement() {
+
+        UploadToVINTableTab uploadToControlTableTab = new UploadToVINTableTab();
+        String controlTableMSRPFile = "controlTable_updateMSRPVersion_AZ_SS.xlsx";
+        TestData testDataTwoMSRPVehicles = getTestDataWithTwoMSRPVehicles(getPolicyTD());
+
+        //1. Create auto SS policy with two vehicles and save the expiration date
+        mainApp().open();
+        createCustomerIndividual();
+        policyNumber = createPolicy(testDataTwoMSRPVehicles);
+        log.info("policyNumber: "+policyNumber);
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+        //2. control table file upload for changing the effective date and expiration date
+        adminApp().open();
+        uploadToControlTableTab.uploadControlTable(controlTableMSRPFile);
+        LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(300);
+        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(301);
+        log.info("expirationDate:"+expirationDate);
+        log.info("effectiveDate:"+effectiveDate);
+        updateControlTable(expirationDate, effectiveDate);
+
+        //3. Change system date to R-35 and renew it
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
+        DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 0,9999,null,"MSRP_2018",49));
+
+        //4. Initiate endorsement
+        initiateEndorsement();
     }
+
+    public void pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms_bindEndorsement() {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+        TestData testDataThreeMSRPVehicles = getTestDataWithThreeMSRPVehicles(getPolicyTD());
+
+        //6. Calculate Premium and bind the endorsement
+        policy.getDefaultView().fillFromTo(testDataThreeMSRPVehicles, VehicleTab.class, PremiumAndCoveragesTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab();
+    }
+
+    public TestData getTestDataWithTwoMSRPVehicles(TestData testData) {
+        TestData firstMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle1")).resolveLinks();
+        TestData secondMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle2")).resolveLinks();
+
+        // Build Vehicle Tab old version vin + updated vehicle
+        List<TestData> testDataList = new ArrayList<>();
+        testDataList.add(firstMSRPVehicle);
+        testDataList.add(secondMSRPVehicle);
+
+        log.info("getTestDataWithTwoMSRPVehicles: testDataList is "+testDataList);
+
+        // add three vehicles
+        return testData
+                .adjust(vehicleTab.getMetaKey(), testDataList).resolveLinks();
+    }
+
+    public TestData getTestDataWithThreeMSRPVehicles(TestData testData) {
+        TestData modifiedFirstMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle3")).resolveLinks();
+        TestData modifiedSecondMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle4")).resolveLinks();
+        TestData thirdMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle5")).resolveLinks();
+
+        // Build Vehicle Tab old version vin + updated vehicle
+        List<TestData> testDataList = new ArrayList<>();
+        testDataList.add(modifiedFirstMSRPVehicle);
+        testDataList.add(modifiedSecondMSRPVehicle);
+        testDataList.add(thirdMSRPVehicle);
+
+        log.info("getTestDataWithThreeMSRPVehicles: testDataList is "+testDataList);
+
+        // add three vehicles
+        return testData
+                .adjust(vehicleTab.getMetaKey(), testDataList).resolveLinks();
+    }
+
 }

@@ -55,6 +55,7 @@ public class UploadToVINTableTab extends DefaultTab {
 		getAssetList().getAsset(AdministrationMetaData.VinTableTab.UPLOAD_TO_VIN_CONTROL_TABLE_OPTION).setValue(true);
 		uploadFile(controlTable);
 		log.info("WARN Vin control file {} upload finished",controlTable);
+
 	}
 
 	public void openUploadToVinTableTab() {

@@ -21,6 +21,9 @@ public class MsrpQueries {
 	public static final String INSERT_MSRPCOMPCOLLCONTROL_VERSION = "insert into MsrpCompCollControl(vehicleyearmin, vehicleyearmax, vehicletype, liabilitysymbol, msrpversion, key) values "
 			+ "(%1$d,%2$d,'%3$s',null,'%4$s',%5$d)";
 
+	public static final String INSERT_MSRPCOMPCOLLCONTROL_VERSION_SELECT = "insert into MsrpCompCollControl(vehicleyearmin, vehicleyearmax, vehicletype, liabilitysymbol, msrpversion, key) values "
+			+ "(%1$d,%2$d,'%3$s','%4$s','%5$s',%6$d)";
+
 	public static final String DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY = "DELETE from MSRPCompCollCONTROL WHERE MSRPVERSION = '%1$s' AND KEY = %2$d AND VEHICLETYPE = '%3$s'";
 	public static final String DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_VERSION_STATECD = "DELETE FROM VEHICLEREFDATAVINCONTROL WHERE MSRP_VERSION = '%1$s' AND STATECD = '%2$s'";
 

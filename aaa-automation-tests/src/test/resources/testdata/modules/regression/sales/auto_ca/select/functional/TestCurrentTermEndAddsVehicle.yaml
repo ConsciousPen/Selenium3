@@ -31,3 +31,66 @@ VehicleTab_updateVINStub_CA: {
      Odometer Reading: 3,
      Odometer Reading Date: '12/01/18'
 }
+
+VehicleTab_updateMSRPVehicle1_CA: {
+     VIN: 'PQ2AE9QW7L3425407',
+     Year: '2017',
+     Make: 'TESLA',
+     Model: 'OTHER',
+     Other Model: 'Other model',
+     Other Series: 'Other series',
+     Other Body Style: 'Sedan',
+     Stat Code: 'Passenger Car Small',
+     Value($): '169000',
+}
+
+VehicleTab_updateMSRPVehicle2_CA: {
+      VIN: 'CC2AE91R2E3425407',
+      Year: '2018',
+      Make: 'OTHER',
+      Other Make: 'Other make',
+     # Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Passenger Car Small',
+      Value($): '169000',
+}
+
+VehicleTab_updateMSRPVehicle3_CA: {
+     VIN: 'PQ2AE9QW7L3425407',
+     Year: '2017',
+     Make: 'OTHER',
+     Other Make: 'Other make',
+     #Model: 'OTHER',
+     Other Model: 'Other model1',
+     Other Series: 'Other series1',
+     Other Body Style: 'Sedan',
+     Stat Code: 'Passenger Car Small',
+     Value($):  '234567',
+}
+
+VehicleTab_updateMSRPVehicle4_CA: {
+      VIN: 'CC2AE91R2E3425407',
+      Year: '2018',
+      Make: 'OTHER',
+      Other Make: 'Other make',
+      #Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Passenger Car Small',
+      Value($):  '169000',
+}
+
+VehicleTab_updateMSRPVehicle5_CA: {
+      VIN: 'OP2AE91R5Q3425407',
+      Year: '2017',
+      Make: 'AUDI',
+      Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Passenger Car Small',
+      Value($):   '80000',
+}
