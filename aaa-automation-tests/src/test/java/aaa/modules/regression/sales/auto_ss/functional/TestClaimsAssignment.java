@@ -33,7 +33,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 * PAS-8310: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 1)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
 	 * PAS-21435: Remove LASTNAME_YOB match logic
-	 * PAS-18341 - Added PermissiveUse tag to Claims Service Contract (this test contains Y, N, blank, no tag, and Junk test veriations)
+	 * PAS-18341; Added PermissiveUse tag to Claims Service Contract (this test contains Y, N, blank, no tag, and Junk test veriations)
+	 * PAS-18300; Add Permissive use match criteria; will match to the FNI
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:
@@ -83,6 +84,9 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//PAS-21436 - CAS Claims With Missing Drivers License Numbers
 		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
+
+		//PAS-18300 Add Permissive use match criteria; will match to the FNI -7TZ02222OHS
+		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("PERMISSIVE_USE");
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
@@ -94,3 +98,4 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 }
+

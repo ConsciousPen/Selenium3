@@ -24,7 +24,7 @@
         "dateOfBirth":"1997-05-09",
         "licenseNumber":"A98769878",
         "claimDriverName":"Bilbo Baggins",
-        "permissiveUse": "Y"
+        "permissiveUse": "N"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"crashed into waving inflatable arm guy",
@@ -58,7 +58,7 @@
         "dateOfBirth":"1997-08-30",
         "licenseNumber":"A12345222",
         "claimDriverName":"Bruce Banner",
-        "permissiveUse": "N"
+        "permissiveUse": "Y"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"collided with 1 passenger bus",
