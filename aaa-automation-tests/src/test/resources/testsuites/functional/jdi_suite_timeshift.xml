@@ -376,4 +376,14 @@
             </class>
         </classes>
     </test>
+    <test name="Policy Summary Service - Renewal Offer Indicator">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
+                <methods>
+                    <include name="pas22548_isRenewalOfferGenerated"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
