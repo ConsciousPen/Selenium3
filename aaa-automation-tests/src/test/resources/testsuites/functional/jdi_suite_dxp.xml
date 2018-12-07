@@ -2,7 +2,7 @@
 <suite name="JDI DXP Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -744,7 +744,7 @@
         </classes>
     </test>
     <test name="Named Insured marital status and the Relationship to the FNI (MD)">
-        <parameter name="state" value="MD"/>
+        <parameter name="state" value="MD, NJ, CO, DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
