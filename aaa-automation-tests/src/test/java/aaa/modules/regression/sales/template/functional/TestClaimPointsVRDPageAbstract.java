@@ -164,7 +164,44 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "1001", "1"));
 		}
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "2"));
-		PropertyQuoteTab.RatingDetailsView.close();
+
+		//PAS-6730 assert 5 years rule for Years Claim Free
+		navigateToPropertyInfoTab();
+		// Change Claim Dates to within or over 5 years
+		String newLossDateWithin3Years = getPropertyInfoTab().getEffectiveDate().minusMonths(35).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		String newLossDateWithin4Years = getPropertyInfoTab().getEffectiveDate().minusMonths(47).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		String newLossDateWithin5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(59).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+		String newLossDateOver5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(61).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+		//Over 5 years YCF = 5
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+		getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
+		getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
+		getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
+		getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+		calculatePremiumAndOpenVRD();
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("5");
+		// Within 5 years YCF=4
+		navigateToPropertyInfoTab();
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+		getClaimDateOfLossAsset().setValue(newLossDateWithin5Years);
+		calculatePremiumAndOpenVRD();
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("4");
+		// Within 4 years YCF=3
+		navigateToPropertyInfoTab();
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+		getClaimDateOfLossAsset().setValue(newLossDateWithin4Years);
+		calculatePremiumAndOpenVRD();
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("3");
+		// Within 3 years YCF=2
+		navigateToPropertyInfoTab();
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+		getClaimDateOfLossAsset().setValue(newLossDateWithin3Years);
+		calculatePremiumAndOpenVRD();
+		assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey("Number of years claims free")).contains("2");
 
 	}
 
