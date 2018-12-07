@@ -111,7 +111,7 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 * 22. Validate claims display on VRD page with correct points
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-17772")
 	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
 

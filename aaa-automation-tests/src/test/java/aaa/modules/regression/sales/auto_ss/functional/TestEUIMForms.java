@@ -61,7 +61,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormNB(@Optional("MD") String state) {
 
@@ -93,7 +93,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormConversion(@Optional("MD") String state) {
 
@@ -121,7 +121,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormEndorsement(@Optional("MD") String state) {
 
@@ -151,7 +151,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormRenewal(@Optional("MD") String state) {
 
@@ -189,7 +189,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC1_NB(@Optional("MD") String state) {
 
@@ -236,7 +236,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC2_Endorsement(@Optional("MD") String state) {
 
@@ -268,7 +268,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Conversion(@Optional("MD") String state) {
 
@@ -301,7 +301,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Renewal(@Optional("MD") String state) {
 
@@ -346,7 +346,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Renewal_Term_Change(@Optional("MD") String state) {
 
@@ -391,7 +391,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_AC3_Revised_Renewal_After_Current_Term_Change(@Optional("MD") String state) {
 
@@ -437,7 +437,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12466")
 	public void pas12466_do_not_generate_AAEUIMMD_if_coverage_removed(@Optional("MD") String state) {
 

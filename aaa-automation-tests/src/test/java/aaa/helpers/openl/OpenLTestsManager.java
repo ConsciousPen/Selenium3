@@ -43,7 +43,7 @@ import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public final class OpenLTestsManager {
 	private static final Logger log = LoggerFactory.getLogger(OpenLTestsManager.class);
-	private List<OpenLTestInfo<? extends OpenLPolicy>> openLTests;
+	private final List<OpenLTestInfo<? extends OpenLPolicy>> openLTests;
 
 	public OpenLTestsManager(ITestContext context) {
 		XmlSuite parentSuite = TestNGUtils.getRootSuite(context.getSuite());
@@ -107,9 +107,13 @@ public final class OpenLTestsManager {
 				//TODO-dchubkov: try to split OpenLPolicy objects creation to multi threads (just several ones due to huge memory consumption)
 				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
-					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
+					boolean isLocalFile = Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test));
+					testInfo.setLocalFile(isLocalFile);
+					if (!isLocalFile) {
+						testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
+					}
 					testInfo.setOpenLFilePath(getFilePath(test));
-					testInfo.setOpenLPolicies(getOpenLPolicies(test));
+					testInfo.setOpenLPolicies(getOpenLPolicies(test, isLocalFile));
 				} catch (Throwable e) {
 					testInfo.setException(e);
 				}
@@ -120,19 +124,7 @@ public final class OpenLTestsManager {
 		return openLTests;
 	}
 
-	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Throwable {
-		String filePath = getFilePath(test);
-		File openLFile;
-
-		boolean deleteFileAfterUnmarshalling = false;
-		if (Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test))) {
-			openLFile = new File(filePath);
-			assertThat(openLFile).as("Local openl file does not exist", filePath).exists();
-		} else {
-			openLFile = downloadOpenLFile(filePath, TestParams.TESTS_BRANCH.getValue(test));
-			deleteFileAfterUnmarshalling = true;
-		}
-
+	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test, boolean isLocalFile) throws Throwable {
 		List<P> openLPolicies;
 		List<OpenLTest> openLTests;
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
@@ -141,13 +133,14 @@ public final class OpenLTestsManager {
 		assertThat(OpenLPolicy.class).as("OpenL policy model class should extend OpenL base class", openLPolicyModel.getName(), OpenLPolicy.class.getName())
 				.isAssignableFrom(openLPolicyModel);
 
-		log.info("Getting {} objects from \"{}\" file", openLPolicyModel.getSimpleName(), openLFile);
+		File openLFile = isLocalFile ? new File(getFilePath(test)) : downloadOpenLFile(getFilePath(test), TestParams.TESTS_BRANCH.getValue(test));
+		log.info("Getting {} objects from \"{}\"{} file", openLPolicyModel.getSimpleName(), openLFile, isLocalFile ? " local" : "");
 		try (ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(openLFile, false, cellTypes)) {
 			//noinspection unchecked
 			openLPolicies = excelUnmarshaller.unmarshalRows((Class<P>) openLPolicyModel, policyNumbers);
 			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 		} finally {
-			if (deleteFileAfterUnmarshalling) {
+			if (!isLocalFile) {
 				deleteTempFile(openLFile);
 			}
 		}
