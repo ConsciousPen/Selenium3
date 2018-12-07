@@ -733,6 +733,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<AdvancedComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", AdvancedComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
+
+		public static final AssetDescriptor<DialogAssetList> VIEW_CAPPING_DETAILS_DIALOG = declare("View Capping Details", DialogAssetList.class, HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.class,
+				By.xpath("//form[@id='cappingDetailsPopupPanel']"));
 	}
 
 	public static final class MoratoriumInformationSection extends MetaData {
