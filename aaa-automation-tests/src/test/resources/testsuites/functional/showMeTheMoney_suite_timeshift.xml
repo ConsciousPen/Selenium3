@@ -17,7 +17,42 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
-
+    <test name="CA TestFinanceWaiveInstallmentFeeTC1A" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_PaidInFull"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceWaiveInstallmentFeeTC1B" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Overpaid"/>
+        </classes>
+    </test>
+    <test name="KY TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+        </classes>
+    </test>
+    <test name="AZ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+        </classes>
+    </test>
+    <test name="NJ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+        </classes>
+    </test>
     <!-- Earned Premium Calculation Changes: PAS-14510-->
     <test name="PAS-14510 Earned Premium Calculation Changes - I scenario" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ, KY, WV, NJ"/>
