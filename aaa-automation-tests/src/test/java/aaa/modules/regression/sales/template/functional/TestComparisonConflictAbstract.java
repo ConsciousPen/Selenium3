@@ -580,7 +580,6 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 		Link sectionLink;
 		while ((sectionLink = PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree(mutableTreePosition)).isPresent()) {
 			log.debug("Open path [{}] [{}]", mutableTreePosition, sectionPath);
-			sectionLink.click();
 			ArrayList<Integer> fieldTreePosition = Lists.newArrayList(mutableTreePosition);
 			fieldTreePosition.add(-1); // latest tree element to iterate on
 			for (int sectionFieldNumber = 0; ; sectionFieldNumber++) {

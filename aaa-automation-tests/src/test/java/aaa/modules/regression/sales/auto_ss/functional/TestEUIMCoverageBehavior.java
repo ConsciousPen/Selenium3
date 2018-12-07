@@ -21,11 +21,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -64,7 +60,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
@@ -119,7 +115,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620")
     public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
 
@@ -158,7 +154,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
         mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(expDate.minusDays(35));
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(expDate));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
@@ -188,7 +184,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
@@ -227,7 +223,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
@@ -283,7 +279,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
@@ -306,9 +302,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         new DocumentsAndBindTab().submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        new DocumentsAndBindTab().submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+            errorTab.override();
+            new DocumentsAndBindTab().submitTab();
+        }
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         payTotalAmtDue(policyNum);

@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import aaa.main.modules.policy.PolicyType;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
@@ -40,7 +40,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends RevisedHomeTierPATempl
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - Privilege to Edit Auto Companion Tier")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PA Revised Home Tier  - Privilege to Edit Auto Companion Tier")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsAutoTier(@Optional("PA") String state) {
 
@@ -67,7 +67,7 @@ public class TestPrivilegeToEditCompanionAutoTier extends RevisedHomeTierPATempl
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - Privilege to Edit Auto Companion Tier")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PA Revised Home Tier  - Privilege to Edit Auto Companion Tier")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6829")
 	public void pas6676_testPAViewRatingDetailsManualAutoTier(@Optional("PA") String state) {
 

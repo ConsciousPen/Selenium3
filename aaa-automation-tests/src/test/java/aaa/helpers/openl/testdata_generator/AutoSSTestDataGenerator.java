@@ -529,7 +529,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
-					if ("PIP".equals(coverage.getCoverageCd()) && getState().equals(Constants.States.OR)) {
+					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY))) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
 								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
 					}
@@ -572,6 +572,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		if (getState().equals(Constants.States.MT) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("UIMBI"))) {
 			policyCoveragesData.put(getPremiumAndCoveragesTabCoverageName("UIMBI"), "starts=No Coverage");
+		}
+
+		if (getState().equals(Constants.States.KY) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("APIP"))) {
+			policyCoveragesData.put(getPremiumAndCoveragesTabCoverageName("APIP"), "starts=No Coverage");
 		}
 
 		if (getState().equals(Constants.States.IN)) {
@@ -754,7 +758,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					vehicle.getMpLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getMpLiabilitySymbol() + "'",
 					vehicle.getUmLiabilitySymbol() == null ? "is null" : "= '" + vehicle.getUmLiabilitySymbol() + "'",
 					vehicle.getAirbagCode() == null ? "is null" : getDbRestraintsCode(vehicle.getAirbagCode()),
-					vehicle.getAntiTheftString() == null ? "is null" : "= 'NONE' OR ANTITHEFTCODE = 'STD'");
+					vehicle.getAntiTheftString() == null ? "is null" : "= 'NONE' OR ANTITHEFTCODE = 'STD' OR ANTITHEFTCODE = 'UNK'");
 
 			vin = DBService.get().getValue(getVinQuery).orElse(null);
 		}

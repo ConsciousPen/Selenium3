@@ -151,7 +151,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 	 *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11302")
 	public void pas11302_testEUIMMDFormRenewal(@Optional("MD") String state) {
 

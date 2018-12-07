@@ -289,11 +289,12 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//#V6 - OREGON ELECTION OF LOWER LIMITS FOR UNINSURED MOTORISTS COVERAGE (AA52OR) form will not generate
 		DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AA52OR);
 		//#V7 - Form number for Uninsured and Underinsured Motorist Disclosure State and Rejection of Coverage form DOES print on the Subsequent Renewal DEC page in the FORMS & ENDORSEMENT section.
-		//35. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob ->
-		//Installment bill is generated under Bills and Statement section of the Billing tab
-		//Type = "Bill", Date = Installment due date.
+		//35. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(secondRenewalDate));
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		//36. Navigate to the Billing tab ->
+		//Installment bill is generated under Bills and Statement section of the Billing tab
+		//Type = "Bill", Date = Installment due date.
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
@@ -301,9 +302,6 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(0));
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(0), billGenDate, secondRenewalDate, BillingHelper.DZERO);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
-		//36. Navigate to the Billing tab ->
-		//#V6: System archives the form "Insurance Renewal Bill" (AHRBXX 03 16) is available in the Policy E-folder under Renewal. Note:- Refer to form template and requirement for content validation
-		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX);
 		//37. (2R) Do not make the renewal term payment.
 		//38. (2R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(secondRenewalDate));
@@ -321,6 +319,8 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		//41. Retrieve the policy and navigate to Policy Consolidated View
 		//42. Navigate to E-Folder
+		//#V6: System archives the form "Insurance Renewal Bill" (AHRBXX 03 16) is available in the Policy E-folder under Renewal. Note:- Refer to form template and requirement for content validation
+		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX);
 		//#V8 - Validate Expiration Notice(AH64XX) is generated for the policy in the Efolder
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH64XX);
 	}

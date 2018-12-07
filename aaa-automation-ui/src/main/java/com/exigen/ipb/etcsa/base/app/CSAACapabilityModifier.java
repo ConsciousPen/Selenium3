@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
@@ -49,6 +50,12 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		profile.setPreference("browser.download.manager.showWhenStarting", false);
 		profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel");
 		options.setCapability(FirefoxDriver.PROFILE, profile);
+		return allBrowsers(options);
+	}
+
+	@Override
+	public InternetExplorerOptions iexplore(InternetExplorerOptions options) {
+		options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		return allBrowsers(options);
 	}
 }

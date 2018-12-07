@@ -73,7 +73,6 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals_C32(@Optional("CA") String state) {
-
 		String policyNumber = createEscheatmentTransaction();
 
 		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.C32);

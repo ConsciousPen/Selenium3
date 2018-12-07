@@ -1,5 +1,8 @@
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -7,9 +10,6 @@ import aaa.main.enums.EndorsementForms;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestEndorsementsTabTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
@@ -41,7 +41,7 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_NewBusiness(@Optional("") String state) {
 		newBusinessTx_privileged(insuranceLimitFormId, supplementLossFormId);
@@ -68,7 +68,7 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_Endorsement(@Optional("") String state) {
 		endorsementTx_privileged(insuranceLimitFormId, supplementLossFormId);
@@ -95,7 +95,7 @@ public class TestIncreasedInsuranceLimitAndSupplementalLossEndorsements extends 
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Increased Insurance Limit And Supplemental Loss Endorsements")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-18111")
 	public void pas18111_Privileged_Renewal(@Optional("") String state) {
 		renewalTx_privileged(insuranceLimitFormId, supplementLossFormId);
