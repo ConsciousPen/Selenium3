@@ -15,14 +15,13 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract void reorderClueReport();
     protected abstract String getNamedInsuredLabel();
 
-    private StaticElement warningMessage = new StaticElement(By.id("policyDataGatherForm:warningMsg"));
+    private String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
 
     protected void pas6759_AbilityToRemoveManuallyEnteredClaimsNB() {
 
@@ -512,12 +511,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // Validate non-dependency between CAT and Chargeable indicator radio buttons
         getClaimIncludedInRatingAsset().setValue("No");
         // Validate Warning message when Include in rating field changed
-        String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
         // Validate Warning message when CAT field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimCatastropheRemarksAsset().setValue("CAT");
 
         viewEditClaimByLossAmount("10588");
@@ -525,13 +523,13 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getClaimIncludedInRatingAsset().setValue("No");
         getClaimNonChargeableReasonAsset().setValue("Something");
         // Validate Warning message when Include in rating field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
 
         viewEditClaimByLossAmount("11000");
         selectRentalClaimForCADP3();
         getClaimCatastropheAsset().setValue("No");
         // Validate Warning message when CAT field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
 
         calculatePremiumAndOpenVRD();
         PropertyQuoteTab.RatingDetailsView.close();
@@ -612,12 +610,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // Validate non-dependency between CAT and Chargeable indicator radio buttons
         getClaimIncludedInRatingAsset().setValue("No");
         // Validate Warning message when Include in rating field changed
-        String pas6739WarningMsg = "Underwriting approval is required for claim(s) that have been modified";
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimNonChargeableReasonAsset().setValue("Something");
         getClaimCatastropheAsset().setValue("Yes");
         // Validate Warning message when CAT field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimCatastropheRemarksAsset().setValue("CAT");
 
         // Verify Chargeable text field and CAT code/remarks text field are both visible
@@ -639,7 +636,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // Set CAT no and verify non-dependency with Chargeable indicator
         getClaimCatastropheAsset().setValue("No");
         // Validate Warning message when CAT field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         assertThat(getClaimCatastropheAsset()).hasValue("No");
         assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
 
@@ -654,10 +651,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         // Set CAT no first so that chargeable is enabled
         getClaimCatastropheAsset().setValue("Yes");
         // Validate Warning message when CAT field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimIncludedInRatingAsset().setValue("No");
         // Validate Warning message when Include in rating field changed
-        assertThat(warningMessage).hasValue(pas6739WarningMsg);
+        validateWarningMessage();
         getClaimNonChargeableReasonAsset().setValue("Something Else");
         getClaimCatastropheRemarksAsset().setValue("CAT");
         assertThat(getClaimCatastropheAsset()).hasValue("Yes");
@@ -673,7 +670,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
             assertThat(getClaimIncludedInRatingAsset()).hasValue("Yes");
             getClaimCatastropheAsset().setValue("Yes");
             // Validate Warning message when CAT field changed
-            assertThat(warningMessage).hasValue(pas6739WarningMsg);
+            validateWarningMessage();
             getClaimCatastropheRemarksAsset().setValue("CAT");
 
             // Check the chargeable Value is the same
@@ -889,6 +886,17 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         } else {
             checkTblClaimRowCount(9);
         }
+    }
+
+    private void validateWarningMessage(){
+        if (isStateCA()){
+            // Check warning message is fired for CA
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+        } else {
+            // Check warning message is fired for SS
+            assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
+        }
+
     }
 
 }
