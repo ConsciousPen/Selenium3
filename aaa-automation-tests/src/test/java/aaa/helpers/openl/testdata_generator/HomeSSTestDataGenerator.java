@@ -228,6 +228,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	public TestData getChangeCoverageCData(HomeSSOpenLPolicy openLPolicy) {
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			return DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.emptyData());
+		}
 		return DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(),
 				new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
 	}
@@ -238,6 +241,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						"Action", "Remove")));
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0461".equals(c.getFormCode()))) {
 			removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PersonalPropertyTab().getMetaKey(), DataProviderFactory.emptyData()));
+		}
+
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			return removeFormData;
 		}
 		removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit())));
@@ -793,6 +800,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 		Double covA = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit());
 		Double covB = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovB".equals(c.getCode())).findFirst().get().getLimit());
+		Double covC = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit());
 		Double covD = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCode())).findFirst().get().getLimit());
 
 		String coverageDeductible = openLPolicy.getPolicyCoverageDeductible().getCoverageDeductible().split("/")[0];
@@ -811,7 +819,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			premiumAndCoveragesQuoteTabData = premiumAndCoveragesQuoteTabData.adjust(DataProviderFactory.dataOf(
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
-					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit(),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC,
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
@@ -822,6 +830,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		if ("HO4".equals(openLPolicy.getPolicyType())) {
 			premiumAndCoveragesQuoteTabData = premiumAndCoveragesQuoteTabData.adjust(DataProviderFactory.dataOf(
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C_BUILDING.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covA * 100 / covC)),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covC)),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0]
