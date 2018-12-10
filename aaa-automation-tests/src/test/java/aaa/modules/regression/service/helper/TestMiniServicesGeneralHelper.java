@@ -4,23 +4,33 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.dtoDxp.*;
-import aaa.main.enums.ErrorDxpEnum;
+import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
@@ -29,6 +39,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void pas9997_paymentMethodsLookupBody() {
 		assertSoftly(softly -> {
@@ -572,6 +583,87 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas22548_isRenewalOfferGeneratedBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();//this is also renewal Effective date
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		LocalDateTime renewPreviewGenDateDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+		LocalDateTime renewalProposalDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		LocalDateTime renewalBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		List<LocalDateTime> renewalTimePoints = Arrays.asList(renewImageGenDate, renewPreviewGenDateDate, renewalProposalDate);
+
+		//Go through renewal Time Points till Renewal Offer generation date (Proposal date), run renewal jobs and validate Renewal Offer Indicator
+		for (LocalDateTime renewalTimePoint : renewalTimePoints) {
+			TimeSetterUtil.getInstance().nextPhase(renewalTimePoint);
+			runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+		}
+		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate.plusDays(3)); //set date few days after renewal proposal date
+
+		//Revise renewal image by making endorsement to current term and validate renewal Offer Indicator
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		endorsementSteps_pas22548(policyNumber, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), renewalProposalDate, policyExpirationDate);
+
+		//Revise renewal image by making endorsement to Renewal term and validate renewal Offer Indicator
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		endorsementSteps_pas22548(policyNumber, AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel(), renewalProposalDate, policyExpirationDate);
+
+		//Generate Renewal Bill
+		TimeSetterUtil.getInstance().nextPhase(renewalBillGenDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		//Change time to Renewal effective date and make renewal payment
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		IBillingAccount billing = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		TestData cashPayment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+		billing.acceptPayment().perform(cashPayment, totalDue);
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(totalDue.negate()).setStatus("Cleared").verifyPresent();
+
+		//Make second renewal image and validate that isRenewalOffered = false
+		LocalDateTime policyExpirationDate2 = policyExpirationDate.plusYears(1);
+		LocalDateTime renewImageGenDate2 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate2);
+		LocalDateTime renewalProposalDate2 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate2);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate2);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(policyNumber, renewalProposalDate2, policyExpirationDate2);
+	}
+
+	private void endorsementSteps_pas22548(String policyNumber, String coverageField, LocalDateTime renewalProposalDate, LocalDateTime policyExpirationDate) {
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageField, "-"); //updates to lower limit
+		premiumAndCoveragesTab.calculatePremium();
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new BindTab().submitTab();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+	}
+
+	private void isRenewalOfferGenerated_pas22548(String policyNumber, LocalDateTime renewalProposalDate, LocalDateTime renewalEffectiveDate) {
+		PolicyTerm[] renewalTermInfo = HelperCommon.viewPolicyTermInfo(policyNumber, renewalEffectiveDate, PolicyTerm[].class);
+		LocalDateTime currentDate = DateTimeUtils.getCurrentDateTime();
+		if (currentDate.isEqual(renewalProposalDate) || currentDate.isAfter(renewalProposalDate)) {
+			assertThat(renewalTermInfo.length).isEqualTo(1);
+		} else {
+			assertThat(renewalTermInfo.length).isEqualTo(0);
+		}
+	}
+
+	private void runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(String policyNumber, LocalDateTime renewalProposalDate, LocalDateTime policyExpirationDate) {
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+	}
 }
 
 
