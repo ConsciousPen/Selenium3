@@ -45,7 +45,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	private static final String CLAIM_NUMBER_4 = "1FAZ1111OHS";
 	private static final String CLAIM_NUMBER_5 = "4FAZ44444OHS";
     private static final String CLAIM_NUMBER_6 = "1002-10-8705";
-    private static final String TWO_CLAIMS_DATA_MODEL = "two_claims_data_model.yaml";
+    private static final String COMP_DL_PU_CLAIMS_DATA_MODEL = "comp_dl_pu_claims_data_model.yaml";
     private static final String NAME_DOB_CLAIMS_DATA_MODEL = "name_dob_claims_data_model.yaml";
     private static final String INC_IN_RATING_3RD_RENEWAL_DATA_MODEL = "inc_in_rating_3rd_renewal_data_model.yaml";
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
@@ -103,7 +103,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+        createCasClaimResponseAndUpload(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy
@@ -117,7 +117,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 	    // Check 1st driver: FNI, has the COMP match claim
 	    // Check 2nd driver: Has DL match claim
-		compDLAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2);
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
     }
 
 	/**
@@ -144,7 +144,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		createPolicyMultiDrivers();
 
 		// Create the claim response
-		createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+		createCasClaimResponseAndUpload(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
 
 		// Retrieve policy and generate a manual renewal image
 		createManualRenewal();
@@ -164,7 +164,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
 		// Check 1st driver: FNI, has the COMP match claim
 		// Check 2nd driver: Has DL match claim
-		compDLAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2);
+		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
 	}
 
     /**

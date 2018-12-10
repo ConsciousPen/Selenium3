@@ -70,4 +70,37 @@ claimLineItemList:
     vehicleManufacturedYear: '2006'
     vehicleSerialNumber: 1FTNF20506ED96616
     vehicleDescription: Big truck
+  - accidentFault: ADVERSE_PARTY_AT_FAULT
+    claimCause: tur
+    claimCloseDate: '2018-11-30'
+    claimCoverageList:
+    - {claimCoverageAmount: '99.000000000', claimCoverageCurrencyCode: USD, coverageId: COV_004,
+       coverageName: COLL_GROUP}
+    - {claimCoverageAmount: '3500.250000000', claimCoverageCurrencyCode: USD, coverageId: COV_005,
+       coverageName: MEDICAL_PAYMENTS}
+    claimDateOfLoss: '2017-11-11'
+    claimDeductibleAmount: '0.000000000'
+    claimDeductibleCurrencyCode: USD
+    claimNumber: 1002-10-8704
+    claimPrefix: ''
+    claimOpenDate: '2018-11-11'
+    claimPolicyReferenceNumber: AZSS203552391
+    claimStatusCode: CLOSED
+    claimType: B
+    driverAgeAsOfDateOfLoss: '31'
+    driverDateofBirth: '1987-12-12'
+    driverName: BRUCE BANNER
+    driverRelationToInsured: INSURED
+    permissiveUse: Y
+    drivingLicenseNumber: D99999999
+    drivingLicenseState: AZ
+    lossSummary: IV hit OV while parked.
+    subroFlag: Y
+    totalAmountPaid: '3500.000000000'
+    totalAmountPaidCurrencyCode: USD
+    vehicleBodyType: SRW SUPER DUTY
+    vehicleMake: FORD
+    vehicleManufacturedYear: '2006'
+    vehicleDescription: Big truck
+    vehicleSerialNumber: 1FTNF20506ED96616
   product: AAA_SS

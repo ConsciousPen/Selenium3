@@ -50,6 +50,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 12,    17894- 1: LASTNAME_FIRSTNAME
 	 *      --Claim 13,    17894- 4: LASTNAME_FIRSTINITAL_DOB
 	 *      --Claim 14-15, 17894- 6 & 8: Unmatched (PAS-21435 Removed LASTNAME_YOB Match)
+	 *      --Claim 16-19, 18431- 1, 2, 3 & 4: PERMISSIVE_USE Match
+	 *      --Claim 16-19, 18431- 5: UNMATCHED Match
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -85,7 +87,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
 
-		//PAS-18300 Add Permissive use match criteria; will match to the FNI -7TZ02222OHS
+		//PAS-18300 Add Permissive use match criteria; will match to the FNI -18431-11111OHS
 		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("PERMISSIVE_USE");
 	}
 

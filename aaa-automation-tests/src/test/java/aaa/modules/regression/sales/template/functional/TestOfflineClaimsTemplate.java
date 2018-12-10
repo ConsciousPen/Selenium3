@@ -132,16 +132,20 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     // Assertions for COMP and DL Tests
-    public void compDLAssertions(String COMP_MATCH, String DL_MATCH) {
+    public void compDLPuAssertions(String COMP_MATCH, String DL_MATCH, String PU_MATCH) {
         CustomSoftAssertions.assertSoftly(softly -> {
             DriverTab driverTab = new DriverTab();
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
             softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-            // Check 1st driver: FNI, has the COMP match claim
-            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(1);
+            // Check 1st driver: FNI, has COMP and Permissive Use matched claims
+            softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
+
+	        DriverTab.tableActivityInformationList.selectRow(2);
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
+	        softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(PU_MATCH);
 
             // Check 2nd driver: Has DL match claim
             DriverTab.tableDriverList.selectRow(2);
