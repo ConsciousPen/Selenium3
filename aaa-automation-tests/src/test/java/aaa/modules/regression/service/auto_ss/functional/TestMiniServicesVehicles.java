@@ -317,17 +317,9 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 11. Check when the last vehicle is added, the response contains canAddVehicle = false
 	 * 12. rate, bind
 	 * 13. Create 1 more endorsement in UI
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9546"})
-	public void pas9546_maxVehicles(@Optional("VA") String state) {
-		pas9546_maxVehiclesBody();
-	}
-
-	/**
+	 *
 	 * @author Maris Strazds
-	 * @name validate that revert option is available for removed vehicles
+	 * @name validate that revert option is available for removed vehicles ("PAS-18672", "PAS-18670")
 	 * @scenario
 	 * 1. Retrieve policy with 8 vehicles (max count)
 	 * 2. Remove 1 vehicle and validate that there is 'revert' option in response
@@ -336,13 +328,15 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 5. Run viewEndorsementVehicles and validate that there is NOT 'revert' option for removed vehicle as there already is max amount of vehicles
 	 *    PAS-18670
 	 * 6. Try to revert removed vehicle when there already is max count of vehicles ----> I receive error
-	 *    PAS-18670
+	 * 	 *    PAS-18670
 	 * 7. Try to revert Replaced vehicle when there already is max count of vehicles ----> Revert option is available and I do not receive error
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9546_maxVehicles")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18670", "PAS-18670"})
-	public void pas18672_vehiclesRevertOptionForDelete(@Optional("VA") String state) {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9546", "PAS-18672", "PAS-18670"})
+	public void pas9546_maxVehicles(@Optional("VA") String state) {
+		pas9546_maxVehiclesBody();
+		mainApp().close();
 		pas18672_vehiclesRevertOptionForDeleteBody();
 	}
 
