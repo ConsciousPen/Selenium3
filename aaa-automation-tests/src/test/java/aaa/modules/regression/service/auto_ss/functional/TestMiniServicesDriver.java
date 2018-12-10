@@ -197,19 +197,9 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 12. Hit view driver endorsement service (false).
 	 * 13. Try add driver. Check error.
 	 * 14. Rate and Bind endorsement.
-	 */
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9662"})
-	public void pas9662_maxDrivers(@Optional("VA") String state) {
-
-		pas9662_maxDriversBody(getPolicyType());
-	}
-
-	/**
+	 *
 	 * @author Maris Strazds
-	 * @name validate that revert option is available for removed drivers
+	 * @name validate that revert option is available for removed drivers ("PAS-18672", "PAS-18672", "PAS-18643")
 	 * @scenario
 	 * 1. Retrieve policy with 7 vehicles (max count)
 	 * 2. Remove 1 vehicle with reason code RD1001 or RD1002 and validate that there is 'revert' option in response
@@ -218,12 +208,16 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 *    and driver removed with code RD1003/RD1004 (driverTypeChanged) has revert option
 	 *    PAS-18643
 	 * 5. Try to Revert delete of pendingRemoval driver when there already is max count of drivers (i.e driver without Revert option) ----> I receive error
-	 * NOTE: step 5 is not applciable to driverTypeChanged driver as it always should have revert option
+	 * NOTE: step 5 is not applicable to driverTypeChanged driver as it always should have revert option
 	 */
+
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "pas9662_maxDrivers")
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-18672", "PAS-18672", "PAS-18643"})
-	public void pas18672_driversRevertOptionForDelete(@Optional("VA") String state) {
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9662", "PAS-18672", "PAS-18672", "PAS-18643"})
+	public void pas9662_maxDrivers(@Optional("VA") String state) {
+
+		pas9662_maxDriversBody(getPolicyType());
+		mainApp().close();
 		pas18672_driversRevertOptionForDeleteBody();
 	}
 
