@@ -25,7 +25,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -534,7 +533,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         calculatePremiumAndOpenVRD();
         PropertyQuoteTab.RatingDetailsView.close();
-        policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
+        policy.getDefaultView().fillFromTo(getPolicyTD(), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
         getBindTab().submitTab();
         // Override errors for CA property or SS property
         if (isStateCA()){
