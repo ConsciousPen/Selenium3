@@ -4,7 +4,6 @@ import aaa.common.Tab;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.rest.dtoDxp.PolicySummary;
 import aaa.main.enums.ClaimConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
@@ -26,6 +25,7 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -540,11 +540,13 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         if (isStateCA()){
             // Check UW rule is added
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012);
+            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().getErrorRowFrequencyByCode(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012.getCode())).isEqualTo(3);
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
         } else {
             // Check UW rule is added
-            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210012);
+            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210011);
+            assertThat(new ErrorTab().getErrorRowFrequencyByCode(ErrorEnum.Errors.ERROR_AAA_HO_SS1210011.getCode())).isEqualTo(3);
             new ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
             new ErrorTab().override();
         }
@@ -566,11 +568,13 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         if (isStateCA()){
             // Check UW rule is added
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012);
+            assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().getErrorRowFrequencyByCode(ErrorEnum.Errors.ERROR_AAA_HO_CA1210012.getCode())).isEqualTo(3);
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
             new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
         } else {
             // Check UW rule is added
-            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210012);
+            new ErrorTab().verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS1210011);
+            assertThat(new ErrorTab().getErrorRowFrequencyByCode(ErrorEnum.Errors.ERROR_AAA_HO_SS1210011.getCode())).isEqualTo(3);
             new ErrorTab().overrideAllErrors(ErrorEnum.Duration.LIFE, ErrorEnum.ReasonForOverride.OTHER);
             new ErrorTab().override();
         }
