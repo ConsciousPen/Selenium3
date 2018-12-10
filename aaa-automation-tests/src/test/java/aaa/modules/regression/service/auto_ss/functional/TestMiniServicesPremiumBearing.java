@@ -36,7 +36,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
 		assertSoftly(softly -> {
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
@@ -276,7 +276,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
 	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
@@ -294,7 +294,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785", "PAS-11622"})
 	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 

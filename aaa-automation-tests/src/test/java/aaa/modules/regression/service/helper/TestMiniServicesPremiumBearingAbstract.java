@@ -2,6 +2,7 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -377,6 +378,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
