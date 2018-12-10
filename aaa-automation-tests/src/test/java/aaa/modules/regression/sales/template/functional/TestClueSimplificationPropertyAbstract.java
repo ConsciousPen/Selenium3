@@ -19,6 +19,7 @@ import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.openqa.selenium.By;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.StaticElement;
@@ -500,6 +501,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         }
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), tdSilviaKohli));
+        TestData policyTDnoPremiumAndCoverages = getPolicyTD().adjust(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(), new SimpleDataProvider());
 
         policy.initiate();
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
@@ -533,7 +535,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         calculatePremiumAndOpenVRD();
         PropertyQuoteTab.RatingDetailsView.close();
-        policy.getDefaultView().fillFromTo(getPolicyTD(), getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
+        policy.getDefaultView().fillFromTo(policyTDnoPremiumAndCoverages, getPremiumAndCoveragesQuoteTab().getClass(), getBindTab().getClass());
         getBindTab().submitTab();
         // Override errors for CA property or SS property
         if (isStateCA()){
