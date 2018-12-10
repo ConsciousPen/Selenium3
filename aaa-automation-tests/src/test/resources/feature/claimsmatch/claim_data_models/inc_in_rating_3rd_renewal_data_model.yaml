@@ -21,6 +21,7 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
+    permissiveUse: N
     drivingLicenseNumber: A19191911
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -51,6 +52,7 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
+    permissiveUse: N
     drivingLicenseNumber: A19191911
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
@@ -81,6 +83,7 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: MATTHEW FOX
     driverRelationToInsured: INSURED
+    permissiveUse: N
     drivingLicenseNumber: A19191911
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.

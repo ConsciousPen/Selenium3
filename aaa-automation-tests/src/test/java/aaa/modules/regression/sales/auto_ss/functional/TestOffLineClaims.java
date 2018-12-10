@@ -17,7 +17,6 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
-import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -31,7 +30,6 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
@@ -103,7 +101,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
+        createCasClaimResponseAndUpload(policyNumber, TWO_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE, null);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy
@@ -159,7 +157,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
+        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null, null);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy and verify claim presence on renewal image
@@ -199,7 +197,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         createPolicyMultiDrivers();
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null);
+        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null, null);
 
         // Retrieve policy and generate a manual renewal image
         createManualRenewal();
@@ -248,21 +246,12 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
-        // Toggle ON MatchMoreClaims Logic
-        DBService.get().executeUpdate(SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE);
-
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
         String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
 
-        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_DATEOFLOSS =
-                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
-
-        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_OPENDATE =
-                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
-
-        Map<String, String> UPDATE_CAS_RESPONSE_FIELD_CLOSEDATE =
+        Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
                 ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
 
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
@@ -285,19 +274,9 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         //Run Jobs to create 3rd required Renewal and validate the results
         runRenewalClaimOrderJob();
 
-        // Create CAS response file
-        String casResponseFileName = getCasResponseFileName();
-        BatchClaimHelper batchClaimHelper = new BatchClaimHelper(INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, casResponseFileName);
+        // Create Updated CAS Response and Upload
+        createCasClaimResponseAndUpload(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, null, UPDATE_CAS_RESPONSE_DATE_FIELDS);
 
-        // Make Changes to created CAS Response file
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
-            setPolicyNumber(policyNumber, response);
-            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_DATEOFLOSS, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
-            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_OPENDATE, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
-            updateFieldForClaim(UPDATE_CAS_RESPONSE_FIELD_CLOSEDATE, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
-        });
-
-        uploadCasResponseFile(claimResponseFile, casResponseFileName);
         runRenewalClaimReceiveJob();
 
         // Retrieve policy and verify claim presence on renewal image

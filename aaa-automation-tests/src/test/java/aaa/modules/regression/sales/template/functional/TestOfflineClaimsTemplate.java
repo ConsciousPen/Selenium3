@@ -27,6 +27,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
@@ -161,11 +162,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     public void generateClaimRequest() {
         // Download the claim request
-        File claimRequestFile = downloadClaimRequest();
+        String content = downloadClaimRequest();
 
         //PAS-2467 -  Check if request contains DL and PolicyNumber. Should NOT contain DL
         List<String> driverLicenseList = getDriverLicences(adjusted);
-        String content = contentOf(claimRequestFile, Charset.defaultCharset());
         assertThat(content)
                 .contains("ClaimBatchRequest")
                 .contains(policyNumber)
@@ -181,9 +181,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
     }
 
-    /*
-    Method changes current date to policy expiration date and issues generated renewal image
-    */
+    /**
+     * Method changes current date to policy expiration date and issues generated renewal image
+     * @param policyNumber given policy number
+     */
     protected void issueGeneratedRenewalImage(String policyNumber) {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
         mainApp().open();
@@ -203,6 +204,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         payTotalAmtDue(policyNumber);
     }
 
+    /**
+     * Method updates CAS Response XML with given Driver Licence according to Claim Number
+     * @param claimToDriverLicenseMap given Driver Licence Number according to Claim Number
+     * @param response CAS Response
+     */
     private void updateDriverLicence(Map<String, String> claimToDriverLicenseMap, CASClaimResponse response) {
         List<Claim> claims = response.getClaimLineItemList().stream()
                 .flatMap(claimLineItem -> claimLineItem.getClaimList().stream())
@@ -217,23 +223,23 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
     /**
      * Method Updates CAS Response value by given XML Tag Name
-     * @param updatableFieldValueMap given value according to Claim Number
-     * @param response
-     * @param updatableField given XML Tag name
+     * @param updatableDateFieldValueMap given value according to Claim Number
+     * @param response CAS Response
+     * @param updatableDateField given XML Tag name
      */
-    protected void updateFieldForClaim(Map<String, String> updatableFieldValueMap, CASClaimResponse response, String updatableField) {
+    protected void updateDatesForClaim(Map<String, String> updatableDateFieldValueMap, CASClaimResponse response, String updatableDateField) {
         List<Claim> claims = response.getClaimLineItemList().stream()
                 .flatMap(claimLineItem -> claimLineItem.getClaimList().stream())
                 .collect(Collectors.toList());
         claims.forEach(c -> {
-            String updatableFieldValue = updatableFieldValueMap.get(c.getClaimNumber());
-            if (updatableFieldValue != null) {
+            String updatableDateFieldValue = updatableDateFieldValueMap.get(c.getClaimNumber());
+            if (updatableDateFieldValue != null) {
                 try {
-                    Field field = Claim.class.getDeclaredField(updatableField);
+                    Field field = Claim.class.getDeclaredField(updatableDateField);
                     field.setAccessible(true);
-                    field.set(c, updatableFieldValue);
+                    field.set(c, updatableDateFieldValue);
                 } catch (NoSuchFieldException | IllegalAccessException e) {
-	                throw new IllegalStateException("Can't update field " + updatableField + " by " + updatableFieldValue, e);
+                    throw new IllegalStateException("Can't update field " + updatableDateField + " by " + updatableDateFieldValue, e);
                 }
             }
         });
@@ -258,7 +264,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         return dls;
     }
 
-    protected File downloadClaimRequest() {
+    /**
+     * Method returns content as String of CAS Request file
+     * @return
+     */
+    protected String downloadClaimRequest() {
         String claimRequestFolder = Jobs.getClaimOrderJobFolder();
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
@@ -268,11 +278,12 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         assertThat(claimRequestFile).exists().isFile().canRead().isAbsolute();
         String content = contentOf(claimRequestFile, Charset.defaultCharset());
         log.info("Downloaded CAS claim request: {}" + content);
-        return claimRequestFile;
+        return content;
     }
 
     /**
-     Method returns pas-admins wrapper.log as String TODO:gunxgar combine download methods and move to common classes to be able to use downloadFILE from any method.
+     * Method returns content as String of pas-admins wrapper.log file
+     * @return
      */
     protected String downloadPasAdminLog() {
         String pasAdminLogFolder = PasAdminLogGrabber.getPasAdminLogFolder();
@@ -308,9 +319,16 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         return claimValue;
     }
 
-    //TODO:gunxgar refactor is needed following method and its uses. More info in PAS14552_includeClaimsInRatingDetermination, now duplicates
+    /**
+     * Method creates CAS Response file and updates required fields: policyNumber, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
+     *
+     * @param policyNumber given Policy Number
+     * @param dataModelFileName given CAS Response data model
+     * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
+     * @param claimDatesToUpdate if != null, given Claim Dates according to Claim Number
+     */
     protected void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
-            Map<String, String> claimToDriverLicence) {
+            Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
@@ -318,16 +336,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             setPolicyNumber(policyNumber, response);
             if (claimToDriverLicence != null)
                 updateDriverLicence(claimToDriverLicence, response);
+            if (claimDatesToUpdate != null)
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
+                updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
         });
-        String content = contentOf(claimResponseFile, Charset.defaultCharset());
-        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
-
-        // Upload claim response
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
-    }
-
-    protected void uploadCasResponseFile(File claimResponseFile, String casResponseFileName) {
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
 
