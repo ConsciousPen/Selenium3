@@ -12,6 +12,7 @@
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -23,6 +24,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -34,6 +36,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -44,6 +47,7 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -55,6 +59,7 @@
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -66,6 +71,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -77,6 +83,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
@@ -88,6 +95,7 @@
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">
                 <methods>
                     <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
                 </methods>
             </class>
         </classes>
