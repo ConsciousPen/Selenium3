@@ -167,4 +167,45 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
 	}
+
+	protected void pas18296_AE5RuleNotTriggering(String zipCode, String address, int expectedFirelineScore) {
+		mainApp().open();
+		createCustomerIndividual();
+		getPolicyType().get().initiate();
+
+		TestData policyTd = getPolicyTD();
+		//Add AUTO Other active AAA policies
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+				getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "OtherActiveAAAPolicies"));
+
+		//Override address and ZIP code. This address should return Fireline score 5 or 6.
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
+				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), zipCode);
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
+				HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
+
+		//Override Roof Type to anything but NOT 'Wood shingle/Wood shake'
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(),
+				HomeCaMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Builtup Tar & Gravel");
+
+		getPolicyType().get().getDefaultView()
+				.fillUpTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
+
+		assertThat(reportsTab.tblFirelineReport.getRow(1)
+				.getCell(HomeCaMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
+				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
+
+		reportsTab.submitTab();
+
+		getPolicyType().get().getDefaultView()
+				.fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
+						aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
+
+		assertThat(errorTab.isVisible()).isTrue();
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
+	}
 }

@@ -52,6 +52,22 @@ ApplicantTab: {
   OtherActiveAAAPolicies: {}
 }
 
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherCompanionAutoPolicy'
+}
+
+OtherCompanionAutoPolicy: {
+  Policy type: Auto,
+  'Companion Auto pending with discount?':"No",
+  Auto policy state: CA,
+  Policy number: '345345345',
+  Effective date: '$<today:MM/dd/yyyy>',
+  Auto policy BI limit: '$50,000/$100,000',
+}
+
 NamedInsured: {
   Relationship to primary named insured: Primary Insured
 }

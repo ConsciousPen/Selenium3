@@ -48,8 +48,8 @@
         </classes>
     </test>
     
-    <test name="UT Auto Regression Tests" parallel="methods">
-    	<parameter name="state" value="UT"/>
+    <test name="AZ Auto Regression Tests" parallel="methods">
+    	<parameter name="state" value="AZ"/>
     	<parameter name="login" value="G36"/>
     	<classes>
     		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>

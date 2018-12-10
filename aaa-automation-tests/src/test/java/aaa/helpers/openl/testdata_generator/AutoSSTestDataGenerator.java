@@ -18,6 +18,7 @@ import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.UnverifiableDrivingRecordSurcharge;
@@ -49,9 +50,8 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 		assertThat(getState()).as("State from TestDataGenerator differs from openl file's state").isEqualTo(openLPolicy.getCappingDetails().getState());
 
-		if (!isLegacyConvPolicy && openLPolicy.getCappingDetails().getTermCappingFactor() != null && openLPolicy.getCappingDetails().getTermCappingFactor() != 1) {
-			//TODO-dchubkov: to be implemented...
-			throw new NotImplementedException("Test data generation for \"termCappingFactor\" not equal to 1 is not implemented for non-legacy policy.");
+		if (!isLegacyConvPolicy && isCappedPolicy(openLPolicy)) {
+			throw new IstfException("non-legacy policy should not have capping factor");
 		}
 
 		/*if (openLPolicy.getCappingDetails().getPreviousCappingFactor() != null && openLPolicy.getCappingDetails().getPreviousCappingFactor() != 1) {
@@ -143,40 +143,53 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
-		TestData currentCarrierInformationData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER.getLabel(), "Yes",
-				AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel(), getGeneralTabPriorBILimit(openLPolicy.getPriorBILimit()));
+		Map<String, Object> currentCarrierInformationData = new HashMap<>();
+		currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER.getLabel(), "Yes");
+		currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_BI_LIMITS.getLabel(), getGeneralTabPriorBILimit(openLPolicy.getPriorBILimit()));
 
-		currentCarrierInformationData.adjust(
+		currentCarrierInformationData.putAll(
 				getGeneralTabAgentInceptionAndExpirationData(openLPolicy.getAutoInsurancePersistency(), openLPolicy.getAaaInsurancePersistency(), openLPolicy.getEffectiveDate()));
 
-		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but is's missed. To be investigated...
+		//TODO-dchubkov: all ID states tests have "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)" value for "Agent Entered Current/Prior Carrier" but it's missed. To be investigated...
 		if (StringUtils.isNotBlank(openLPolicy.getCappingDetails().getCarrierCode()) && !getState().equals(Constants.States.ID)) {
 			//TODO-dchubkov: add common method for replacing values from excel?
 			String carrierCode = openLPolicy.getCappingDetails().getCarrierCode().trim().replaceAll("\u00A0", "");
-			currentCarrierInformationData.adjust(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
+		} else if (isCappedPolicy(openLPolicy)) {
+			String carrierCode;
+			switch (getState()) {
+				//TODO-dchubkov: fill carrier codes for other states, see "Capping" tab -> "Carrier Code" column in algorithm files for each state
+				case Constants.States.KY:
+					carrierCode = "Western United";
+					break;
+				case Constants.States.MD:
+					carrierCode = "CSAA Affinity Insurance Company (formerly Keystone Insurance Company)";
+					break;
+				default:
+					throw new IstfException(String.format("In order to set termCappingFactor=%1$s, appropriate carrier code should be set in General tab but it's unknown for %2$s state.",
+							openLPolicy.getCappingDetails().getTermCappingFactor(), getState()));
+			}
+			currentCarrierInformationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_CURRENT_PRIOR_CARRIER.getLabel(), carrierCode);
 		}
 
-		TestData policyInformationData = DataProviderFactory.dataOf(
-				AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY),
-				AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getCappingDetails().getTerm()),
-				AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent" // hardcoded value
-				//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
-		);
+		Map<String, Object> policyInformationData = new HashMap<>();
+		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
+		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getCappingDetails().getTerm()));
+		policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.CHANNEL_TYPE.getLabel(), "AAA Agent"); // hardcoded value
+		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNTS.getLabel(), generalTabIsAdvanceShopping(openLPolicy.isAdvanceShopping())
 
 		if (Boolean.TRUE.equals(openLPolicy.isAdvanceShopping())) {
-			policyInformationData
-					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.OVERRIDE_ASD_LEVEL.getLabel(), "Yes")
-					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNT_OVERRIDE.getLabel(), "Level 1")
-					.adjust(AutoSSMetaData.GeneralTab.PolicyInformation.ASD_OVERRIDEN_BY.getLabel(), "Tester $<rx:\\d{5}>");
+			policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.OVERRIDE_ASD_LEVEL.getLabel(), "Yes");
+			policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.ADVANCED_SHOPPING_DISCOUNT_OVERRIDE.getLabel(), "Level 1");
+			policyInformationData.put(AutoSSMetaData.GeneralTab.PolicyInformation.ASD_OVERRIDEN_BY.getLabel(), "Tester $<rx:\\d{5}>");
 		}
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
 				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
-				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), currentCarrierInformationData,
-				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), policyInformationData);
+				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
+				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
 	}
 
 	private List<TestData> getDriverTabData(AutoSSOpenLPolicy openLPolicy) {
@@ -532,9 +545,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					if ("PIP".equals(coverage.getCoverageCd()) && (getState().equals(Constants.States.OR) || getState().equals(Constants.States.KY))) {
 						policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.PERSONAL_INJURY_PROTECTION_DEDUCTIBLE.getLabel(),
 								"starts=" + getFormattedCoverageLimit(coverage.getDeductible(), coverage.getCoverageCd()));
-						if (getState().equals(Constants.States.KY)) {
-							policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel(), "starts=No Coverage");
-						}
 					}
 				} else {
 					detailedCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -577,6 +587,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			policyCoveragesData.put(getPremiumAndCoveragesTabCoverageName("UIMBI"), "starts=No Coverage");
 		}
 
+		if (getState().equals(Constants.States.KY) && !policyCoveragesData.containsKey(getPremiumAndCoveragesTabCoverageName("APIP"))) {
+			policyCoveragesData.put(getPremiumAndCoveragesTabCoverageName("APIP"), "starts=No Coverage");
+		}
+
 		if (getState().equals(Constants.States.IN)) {
 			policyCoveragesData.put(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT.getLabel(), "starts=No Coverage");
 		}
@@ -612,9 +626,27 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT.getLabel(), "Yes");
 		}
 
-		return new SimpleDataProvider(premiumAndCoveragesTabData)
-				.adjust(new SimpleDataProvider(policyCoveragesData))
-				.adjust(getPolicyPersonalInjuryProtectionCoveragesData(openLPolicy));
+		premiumAndCoveragesTabData.putAll(policyCoveragesData);
+
+		if (getState().equals(Constants.States.NJ)) {
+			premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(),
+					getPolicyPersonalInjuryProtectionCoveragesData(openLPolicy));
+		}
+
+		if (isCappedPolicy(openLPolicy)) {
+			Map<String, Object> cappingData = new HashMap<>();
+			cappingData.put(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), openLPolicy.getCappingDetails().getTermCappingFactor() * 100);
+			cappingData.put(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1");
+			cappingData.put(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click");
+			cappingData.put(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES.getLabel(), "click");
+			premiumAndCoveragesTabData.put(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), new SimpleDataProvider(cappingData));
+		}
+
+		return new SimpleDataProvider(premiumAndCoveragesTabData);
+	}
+
+	private boolean isCappedPolicy(AutoSSOpenLPolicy openLPolicy) {
+		return openLPolicy.getCappingDetails().getTermCappingFactor() != null && openLPolicy.getCappingDetails().getTermCappingFactor() != 1;
 	}
 
 	private TestData getVehicleTabInformationData(AutoSSOpenLVehicle vehicle) {
@@ -765,10 +797,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 	}
 
 	private TestData getPolicyPersonalInjuryProtectionCoveragesData(AutoSSOpenLPolicy openLPolicy) {
-		if (!getState().equals(Constants.States.NJ)) {
-			return DataProviderFactory.emptyData();
-		}
-
 		Map<String, Object> td = new HashMap<>();
 		if (openLPolicy.getAaaAPIPIncomeContBenLimit() != null) {
 			td.put(AutoSSMetaData.PremiumAndCoveragesTab.PolicyLevelPersonalInjuryProtectionCoverages.WEEKLY_INCOME_CONTINUATION_BENEFITS.getLabel(), getDollarValue(openLPolicy
@@ -822,7 +850,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			}
 		}
 
-		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES.getLabel(), new SimpleDataProvider(td));
+		return new SimpleDataProvider(td);
 	}
 
 	private String getOtherBodyStyle(String statCode) {

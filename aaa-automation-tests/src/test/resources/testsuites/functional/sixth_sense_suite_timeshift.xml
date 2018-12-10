@@ -53,6 +53,13 @@
         </classes>
     </test>
 
+    <test name="Test Enhanced UIM Coverage Forms" parallel="methods" thread-count="1024">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEUIMForms"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Coverage C limit 70% within of Coverage A - CA" parallel="methods" thread-count="1024">
@@ -72,32 +79,6 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestCoverageCRangeWithinCoverageA">
                 <methods>
                     <include name="pas20367_TestCoverageCRangeWithinCoverageATemplate"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Tier And UW Points Lock NY" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NY"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO4"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock">
-                <methods>
-                    <include name="pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO6"/>
                 </methods>
             </class>
         </classes>

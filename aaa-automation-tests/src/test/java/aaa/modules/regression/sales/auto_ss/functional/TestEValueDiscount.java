@@ -1239,7 +1239,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-297", "PAS-296"})
 	public void pas297_MidTermOptInNotificationToAgentAboutPaperlessPreferences(@Optional("VA") String state) {
 
-		//eValueQuoteCreation();
 		eValueQuoteCreation();
 		String quoteNumber = PolicySummaryPage.getPolicyNumber();
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(quoteNumber, OPT_OUT);

@@ -32,6 +32,7 @@ public class Claim {
     private String vehicleMake;
     private String vehicleManufacturedYear;
     private String vehicleDescription;
+    private String permissiveUse;
 
     private List<ClaimCoverage> claimCoverageList;
 
@@ -259,6 +260,14 @@ public class Claim {
         this.claimCoverageList = claimCoverageList;
     }
 
+    public String getPermissiveUse() {
+        return permissiveUse;
+    }
+
+    public void setPermissiveUse(String permissiveUse) {
+        this.permissiveUse = permissiveUse;
+    }
+
     @Override
     public String toString() {
         return "Claim{" +
@@ -290,6 +299,7 @@ public class Claim {
                 ", vehicleManufacturedYear='" + vehicleManufacturedYear + '\'' +
                 ", vehicleDescription='" + vehicleDescription + '\'' +
                 ", claimCoverageList=" + claimCoverageList +
+                ", permissiveUse=" + permissiveUse +
                 '}';
     }
 }

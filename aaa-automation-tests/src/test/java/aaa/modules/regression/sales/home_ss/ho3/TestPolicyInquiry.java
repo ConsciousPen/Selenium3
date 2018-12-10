@@ -37,7 +37,9 @@ public class TestPolicyInquiry extends HomeSSHO3BaseTest{
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3)
 	public void testPolicyInquiry(@Optional("") String state) {
 		mainApp().open();
-		getCopiedPolicy();
+		//getCopiedPolicy();
+		createCustomerIndividual();
+		createPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		
 		String totalPremium = PolicySummaryPage.tableTotalPremiumSummaryProperty.getRow(1).getCell(2).getValue();
