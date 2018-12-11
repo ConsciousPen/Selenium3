@@ -566,13 +566,14 @@ public final class PolicyActions {
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
+				/*
 				for (int i = 0; i < rowsCount; i++) {
 					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
 							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
 					}
-				}
+				}*/
 
 				//apply values
 				Link linkSetValue;
