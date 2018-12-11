@@ -4710,6 +4710,27 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber); //US has note not to bind
 	}
 
+	protected void pas15313_updateBiCoverageCheckUMandUIMbody(){
+		String policyNumber = openAppAndCreatePolicy();
+		//update BI to highest available limit so that PD has all available limits
+		PolicyCoverageInfo viewCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+
 	private void updateBIAndCheckPDAndUMPD_pas21364(ETCSCoreSoftAssertions softly, String policyNumber, boolean canChangeCoverageUMPD, CoverageInfo covBI, CoverageInfo covPD, CoverageInfo covUMPD) {
 		//Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
 		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, covBI.getCode(), CoverageLimits.COV_50100.getLimit());
@@ -5310,6 +5331,38 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 		premiumAndCoveragesTab.cancel();
 	}
+
+	//jp --------------------------------
+	private void checkUmbiAndUimbiCoverages(PolicyCoverageInfo coverageResponse, CoverageLimits limit) {
+		Coverage filteredCoverageUimbi = findCoverage(coverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+		Coverage filteredCoverageUmbi = findCoverage(coverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+		assertSoftly(softly -> {
+			//To check the coverages limits
+			Coverage toMatchUimbi = Coverage.create(CoverageInfo.UIMBI).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
+			softly.assertThat(filteredCoverageUimbi).isEqualToIgnoringGivenFields(toMatchUimbi, "coverageType");
+
+			Coverage toMatchUmbi = Coverage.create(CoverageInfo.UMBI).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
+			softly.assertThat(filteredCoverageUmbi).isEqualToIgnoringGivenFields(toMatchUmbi);
+		});
+	}
+
+//	private void updateBIandValidateUMBIandUIMBI(String policyNumber, List<CoverageLimits> biAvailableLimits) {
+//		for (CoverageLimits biCoverageLimit : biAvailableLimits) {
+//			PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.BI_DC.getCode(), biCoverageLimit.getLimit());
+//			Coverage uimbiActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
+//			Coverage umbiActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
+//
+//			//Validate UMBI
+//			validateUMPDOrUIMPDAvailableLimits_pas15281(biCoverageLimit, CoverageInfo.UMBI, umbiActual);
+//
+//			//Validate UIMBI
+//			validateUMPDOrUIMPDAvailableLimits_pas15281(biCoverageLimit, CoverageInfo.UIMBI, uimbiActual);
+//
+//			assertSoftly(softly -> {
+//				validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
+//			});
+//		}
+//	}
 }
 
 

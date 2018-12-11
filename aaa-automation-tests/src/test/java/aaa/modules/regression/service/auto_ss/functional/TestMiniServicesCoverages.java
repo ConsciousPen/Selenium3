@@ -1162,7 +1162,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMBI COULD BE USED. Test can be adapted to any state where UMBI is single coverage (not 2 separate)
 	 *  ans state must have BI available limits be the same as UMBI available limits.
 	 * 1. Create policy in PAS
-	 * 2.Create endorsement through service
+	 * 2. Create endorsement through service
 	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 5. Update UMBI limit ---> UMBI is not updated, BI limit is not updated
@@ -1224,4 +1224,25 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas21364_PDAndUMPDAndCanChangeFalse(@Optional("WV") String state) {
 		pas21364_PDAndUMPDAndCanChangeFalseBody();
 	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update coverage - UM and UIM - DC
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Hit view coverage service.
+	 * 4. Update BI coverage. (Check with all limits)
+	 * 5. Check if UMBI and UIMBI is the same.
+	 * 6
+	 *
+	 */
+	@Parameters({"state"})
+	//@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15313"})
+	public void pas15313_updateBiCoverageCheckUMandUIM(@Optional("VA") String state) {
+
+		pas15313_updateBiCoverageCheckUMandUIMbody();
+	}
 }
+
