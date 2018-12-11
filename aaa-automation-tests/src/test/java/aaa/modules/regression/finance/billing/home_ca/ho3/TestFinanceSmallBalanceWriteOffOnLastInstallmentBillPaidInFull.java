@@ -20,7 +20,7 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_PaidInFull extends BillingBaseTest {
+public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull extends BillingBaseTest {
 
 	/**
 	 * @author Maksim Piatrouski

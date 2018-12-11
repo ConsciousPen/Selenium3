@@ -20,7 +20,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 
-public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Overpaid extends BillingBaseTest {
+public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid extends BillingBaseTest {
 
 	/**
 	 * @author Maksim Piatrouski

@@ -20,13 +20,13 @@
     <test name="CA TestFinanceWaiveInstallmentFeeTC1A" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_PaidInFull"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull"/>
         </classes>
     </test>
     <test name="CA TestFinanceWaiveInstallmentFeeTC1B" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Overpaid"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid"/>
         </classes>
     </test>
     <test name="KY TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
