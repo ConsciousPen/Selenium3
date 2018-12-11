@@ -79,7 +79,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//Create a list of all the actual UNMATCHED claim numbers
 		ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
 		int x = 0;
-		while (x <= 12)
+		while (x < microServiceResponse.getUnmatchedClaims().size())
 		{
 			String claimNumber = microServiceResponse.getUnmatchedClaims().get(0+x).getClaimNumber();
 			log.info(claimNumber);
@@ -99,7 +99,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//Create a list of all the actual MATCH CODES
 		ArrayList<String> actualMatchCodes = new ArrayList<>();
 		int y = 0;
-		while (y <= 6)
+		while (y < microServiceResponse.getMatchedClaims().size())
 		{
 			String matchcode = microServiceResponse.getMatchedClaims().get(0+y).getMatchCode();
 			log.info(matchcode);
