@@ -553,7 +553,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getPurchaseTab().fillTab(getPolicyTD("DataGather", "TestData"));
         getPurchaseTab().submitTab();
         //Endorsement check that no UW rules are fired.
-        policy.endorse().performAndFill(getPolicyTD("Endorsement", "TestData_Empty_Endorsement").adjust(getPolicyTD("Endorsement", "TestData")));
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        calculatePremiumAndOpenVRD();
+        PropertyQuoteTab.RatingDetailsView.close();
+        navigateToBindTab();
+        getBindTab().submitTab();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         //Change Date renew policy and no override same UW rules
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
