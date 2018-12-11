@@ -1,9 +1,11 @@
-package aaa.modules.regression.finance.billing.home_ss.ho6;
+package aaa.modules.regression.finance.billing.auto_ss;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
@@ -18,9 +20,8 @@ import aaa.modules.regression.finance.billing.BillingBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomSoftAssertions;
 
-public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid extends BillingBaseTest {
+public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount extends BillingBaseTest {
 
 	/**
 	 * @author Maksim Piatrouski
@@ -28,21 +29,22 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid exte
 	 * amount over the ‘Pay in Full’ amount where the installment payment is the last installment.
 	 * TC Steps:
 	 * 1. Create Policy
-	 * 2. Make all installment payments (last payment - add 1$)
+	 * 2. Make all installment payments (last payment =  full amount - double fee)
 	 * 3. Run aaaRefundGenerationAsyncJob (date = last installmet payment + 1d)
-	 * 4. Check Small Balance Write-off transaction created
+	 * 4. Check
 	 */
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_SS_HO6;
+		return PolicyType.AUTO_SS;
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.NJ})
+	@StateList(states = {Constants.States.KY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid(@Optional("NJ") String state) {
+	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid(@Optional("KY") String state) {
+
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
 		LocalDateTime p2Date = pDate.plusMonths(3);
@@ -52,12 +54,15 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid exte
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-				.adjust("PremiumsAndCoveragesQuoteTab|Payment plan", BillingConstants.PaymentPlan.QUARTERLY).resolveLinks();
+				.adjust("PremiumAndCoveragesTab|Payment Plan", BillingConstants.PaymentPlan.QUARTERLY).resolveLinks();
 		String policyNumber = createPolicy(policyTD);
 
 		makeInstallmentPayment(pDate, policyNumber, 0);
 		makeInstallmentPayment(p2Date, policyNumber, 0);
-		makeInstallmentPayment(p3Date, policyNumber, -15);
+
+		Dollar fee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains("Type", "Fee")
+				.getCell("Amount").getValue());
+		makeInstallmentPayment(p3Date, policyNumber, fee.multiply(2).negate());
 
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
@@ -65,11 +70,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid exte
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell("Min. Due")
-					.getValue()).isEqualTo("$15.00");
-			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
-					.getValue()).isEqualTo("Manual Payment");
-		});
+		assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
+				.getValue()).isEqualTo("Small Balance Write-off");
 	}
 }

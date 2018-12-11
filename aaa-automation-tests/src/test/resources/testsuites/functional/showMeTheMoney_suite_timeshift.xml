@@ -32,25 +32,31 @@
     <test name="KY TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
         </classes>
     </test>
     <test name="WV TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
         <parameter name="state" value="WV"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
         </classes>
     </test>
     <test name="AZ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
     </test>
     <test name="NJ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
     </test>
     <!-- Earned Premium Calculation Changes: PAS-14510-->

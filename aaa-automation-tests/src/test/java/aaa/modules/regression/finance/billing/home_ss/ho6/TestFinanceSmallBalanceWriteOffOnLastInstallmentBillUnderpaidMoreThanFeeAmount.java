@@ -1,4 +1,4 @@
-package aaa.modules.regression.finance.billing.auto_ca.select;
+package aaa.modules.regression.finance.billing.home_ss.ho6;
 
 import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
@@ -20,7 +20,7 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 
-public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid extends BillingBaseTest {
+public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount extends BillingBaseTest {
 
 	/**
 	 * @author Maksim Piatrouski
@@ -35,14 +35,14 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid exte
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.AUTO_CA_SELECT;
+		return PolicyType.HOME_SS_HO6;
 	}
 
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.CA})
+	@StateList(states = {Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid(@Optional("CA") String state) {
+	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount(@Optional("NJ") String state) {
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
 		LocalDateTime p2Date = pDate.plusMonths(3);
@@ -52,7 +52,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBill_Underpaid exte
 		mainApp().open();
 		createCustomerIndividual();
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-				.adjust("PremiumAndCoveragesTab|Payment Plan", BillingConstants.PaymentPlan.QUARTERLY).resolveLinks();
+				.adjust("PremiumsAndCoveragesQuoteTab|Payment plan", BillingConstants.PaymentPlan.QUARTERLY).resolveLinks();
 		String policyNumber = createPolicy(policyTD);
 
 		makeInstallmentPayment(pDate, policyNumber, 0);
