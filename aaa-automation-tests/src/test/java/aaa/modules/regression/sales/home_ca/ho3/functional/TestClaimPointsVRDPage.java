@@ -109,22 +109,6 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 * 20. Adjust fire & water claims back to AAA Claim = 'Yes'; fire claim amount to $1001; theft claim to catastrophe = 'Yes'
 	 * 21. Navigate to P & C tab and calculate premium
 	 * 22. Validate claims display on VRD page with correct points
-	 * 23. Navigate To Property Info Tab
-	 * 24. Change All Claims To be Over 5 years old
-	 * 25. Navigate to P & C tab and calculate premium
-	 * 26. Check that Number of years claims free = 5
-	 * 27. Navigate To Property Info Tab
-	 * 28. Change All Claims To be Within 5 years old
-	 * 29. Navigate to P & C tab and calculate premium
-	 * 30. Check that Number of years claims free = 4
-	 * 31. Navigate To Property Info Tab
-	 * 32. Change All Claims To be Within 4 years old
-	 * 33. Navigate to P & C tab and calculate premium
-	 * 34. Check that Number of years claims free = 3
-	 * 35. Navigate To Property Info Tab
-	 * 36. Change All Claims To be Within 3 years old
-	 * 37. Navigate to P & C tab and calculate premium
-	 * 38. Check that Number of years claims free = 2
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
