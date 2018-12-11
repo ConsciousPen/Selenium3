@@ -17,6 +17,9 @@ import toolkit.utils.TestInfo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -60,7 +63,6 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	public void pas14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
 
 		//Define which JSON request to use
-		//TODO - Consider using a JSON Request Builder for future tests
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "PAS14679_testMSClaimsAssignment.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
@@ -69,11 +71,31 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
 
-		//Verify the First claim is in the unmatched section
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
+		//Create a list of all the expected UNMATCHED claim numbers
+		String[] expectedClaimNumbers = {"1TAZ1111OHS", "17894-2222OHS", "17894-3333OHS", "17894-55555OHS", "17894-66666OHS", "17894-77777OHS", "17894-88888OHS", "17894-99999OHS", "18431-11111OHS", "18431-22222OHS", "18431-33333OHS", "18431-44444OHS", "18431-55555OHS"};
+		ArrayList<String> expectedUnmatchedClaims = new ArrayList<>();
+		expectedUnmatchedClaims.addAll(Arrays.asList(expectedClaimNumbers));
+
+		//Create a list of all the actual UNMATCHED claim numbers
+		ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
+		int x = 0;
+		while (x <= 12)
+		{
+			String claimNumber = microServiceResponse.getUnmatchedClaims().get(0+x).getClaimNumber();
+			log.info(claimNumber);
+			actualUnmatchedClaims.add(claimNumber);
+			x++;
+		}
+
+		//Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
 		//PAS-21435 - Remove LASTNAME_YOB match logic. These claims will now be unmatched
-		assertThat(microServiceResponse.getUnmatchedClaims().get(4).getClaimNumber()).isEqualTo("17894-66666OHS");
-		assertThat(microServiceResponse.getUnmatchedClaims().get(6).getClaimNumber()).isEqualTo("17894-88888OHS");
+		assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
+
+
+
+
+
+
 
 		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
 		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
@@ -88,7 +110,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
 
 		//PAS-18300 Add Permissive use match criteria; will match to the FNI -18431-11111OHS
-		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("PERMISSIVE_USE");
+//		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("PERMISSIVE_USE");
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
