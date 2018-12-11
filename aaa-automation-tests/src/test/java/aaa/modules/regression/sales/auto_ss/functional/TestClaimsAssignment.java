@@ -88,29 +88,32 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		}
 
 		//Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
-		//PAS-21435 - Remove LASTNAME_YOB match logic. These claims will now be unmatched
+		//PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
 		assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
 
+		//Create a list of all the expected MATCH CODES
+		String[] expectedCodes = {"EXISTING_MATCH", "COMP", "DL", "LASTNAME_FIRSTNAME_DOB", "LASTNAME_FIRSTNAME_YOB", "LASTNAME_FIRSTNAME", "LASTNAME_FIRSTINITAL_DOB"};
+		ArrayList<String> expectedMatchCodes = new ArrayList<>();
+		expectedMatchCodes.addAll(Arrays.asList(expectedCodes));
 
+		//Create a list of all the actual MATCH CODES
+		ArrayList<String> actualMatchCodes = new ArrayList<>();
+		int y = 0;
+		while (y <= 6)
+		{
+			String matchcode = microServiceResponse.getMatchedClaims().get(0+y).getMatchCode();
+			log.info(matchcode);
+			actualMatchCodes.add(matchcode);
+			y++;
+		}
 
-
-
-
-
-		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
-		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
-		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("COMP");
-		assertThat(microServiceResponse.getMatchedClaims().get(2).getMatchCode()).isEqualTo("DL");
-		assertThat(microServiceResponse.getMatchedClaims().get(3).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME_DOB");
-		assertThat(microServiceResponse.getMatchedClaims().get(4).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME_YOB");
-
-		//PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
-		//PAS-21436 - CAS Claims With Missing Drivers License Numbers
-		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
-		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
-
-		//PAS-18300 Add Permissive use match criteria; will match to the FNI -18431-11111OHS
-//		assertThat(microServiceResponse.getMatchedClaims().get(7).getMatchCode()).isEqualTo("PERMISSIVE_USE");
+		//Verify the actual MATCH CODES equal the expected MATCH CODES
+		//PAS-14679 - Match Logic: DL Number
+		//PAS-14058 - Match Logic: COMP
+		//PAS-8310  - Match Logic: LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME_YOB
+		//PAS-17894 - Match Logic: LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
+		//PAS-18300 - Match Logic: PERMISSIVE_USE
+		assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
