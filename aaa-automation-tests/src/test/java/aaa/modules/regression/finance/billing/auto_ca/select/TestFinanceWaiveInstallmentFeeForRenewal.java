@@ -61,9 +61,8 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
         createCustomerIndividual();
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
         TestData testData = td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
-                AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
+                AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
         String policyNumber =  createPolicy(testData);
-        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
         SearchPage.openBilling(policyNumber);
 
@@ -86,22 +85,21 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
-        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+        assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
-                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).isEqualTo(new Dollar(-5));
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
-                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()).isEqualTo(new Dollar(0));
+                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-7)));
+        assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
+                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
         //Initiate Renewal Offer
         renewalImageGeneration(policyNumber, policyExpirationDate);
         renewalPreviewGeneration(policyNumber, policyExpirationDate);
         renewalOfferGeneration(policyNumber, policyExpirationDate);
-        renewalPremiumNotice(policyNumber, policyEffectiveDate, policyExpirationDate);
 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
-                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()).isNotEqualTo(new Dollar(0));
+        assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
+                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isNotEqualTo(new Dollar(0));
     }
 }

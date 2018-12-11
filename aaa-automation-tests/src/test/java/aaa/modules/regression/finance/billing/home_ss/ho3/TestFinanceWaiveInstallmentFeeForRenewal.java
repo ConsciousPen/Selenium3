@@ -52,7 +52,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
     @StateList(states = {Constants.States.KY, Constants.States.NJ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceWaiveInstallmentFeeForRenewal(@Optional("NJ") String state) {
+	public void pas22285_testFinanceWaiveInstallmentFeeForRenewal(@Optional("KY") String state) {
         List<LocalDateTime> installmentDueDates;
         LocalDateTime billGenDate;
         Dollar totalPayment;
@@ -86,11 +86,11 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
-        assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+        assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
-                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).isEqualTo(new Dollar(-5));
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
-                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()).isEqualTo(new Dollar(0));
+                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-5)));
+        assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
+                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
         //Initiate Renewal Offer
         renewalImageGeneration(policyNumber, policyExpirationDate);
@@ -101,7 +101,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
         mainApp().open();
         SearchPage.openBilling(policyNumber);
 
-        assertThat(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
-                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue()).isNotEqualTo(new Dollar(0));
+        assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
+                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isNotEqualTo(new Dollar(0));
     }
 }

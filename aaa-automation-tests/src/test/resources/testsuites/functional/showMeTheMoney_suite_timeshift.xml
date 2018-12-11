@@ -17,6 +17,7 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
+    <!-- Waive Installment fee if a Policy was Paid in full on an Installment Bill: PAS-22285-->
     <test name="CA TestFinanceWaiveInstallmentFeeTC1A" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
