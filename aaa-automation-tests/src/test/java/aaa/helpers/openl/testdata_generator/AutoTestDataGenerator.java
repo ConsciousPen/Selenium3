@@ -516,6 +516,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				formattedCoverageLimit = formattedCoverageLimit + " Guest";
 			}
 		}
+		if (getState().equals(Constants.States.NY) && "APIP".equals(coverageCD)) {
+			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
+		}
 		return formattedCoverageLimit;
 	}
 
