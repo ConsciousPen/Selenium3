@@ -36,7 +36,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
 		assertSoftly(softly -> {
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
@@ -49,7 +48,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
 	}
 
-	@Test(description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void myPolicyUserAddedConfigCheck() {
 		assertThat(DBService.get().getValue(MY_POLICY_USER_CONFIG_CHECK)).hasValue("MyPolicy");
 	}
