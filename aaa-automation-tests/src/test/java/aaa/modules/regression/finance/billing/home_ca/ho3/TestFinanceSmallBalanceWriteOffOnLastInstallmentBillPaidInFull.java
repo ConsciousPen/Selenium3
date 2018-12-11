@@ -42,7 +42,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull exte
 	@StateList(states = {Constants.States.CA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_PaidInFull(@Optional("CA") String state) {
+	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull(@Optional("CA") String state) {
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
 		LocalDateTime p2Date = pDate.plusMonths(3);

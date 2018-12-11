@@ -42,7 +42,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid extend
 	@StateList(states = {Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBill_Overpaid(@Optional("WV") String state) {
+	public void pas22285_testFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid(@Optional("WV") String state) {
 		LocalDateTime today = TimeSetterUtil.getInstance().getCurrentTime();
 		LocalDateTime pDate = today.plusMonths(3).minusDays(20);
 		LocalDateTime p2Date = pDate.plusMonths(3);
