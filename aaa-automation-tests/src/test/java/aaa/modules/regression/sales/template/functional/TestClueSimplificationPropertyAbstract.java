@@ -507,21 +507,29 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
 
-        selectRentalClaimForCADP3();
-        // Validate non-dependency between CAT and Chargeable indicator radio buttons
-        getClaimIncludedInRatingAsset().setValue("No");
-        // Validate Warning message when Include in rating field changed
-        validateWarningMessage();
-        getClaimNonChargeableReasonAsset().setValue("Something");
-        getClaimCatastropheAsset().setValue("Yes");
-        // Validate Warning message when CAT field changed
-        validateWarningMessage();
-        getClaimCatastropheRemarksAsset().setValue("CAT");
+        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+            selectRentalClaimForCADP3();
+            // Validate non-dependency between CAT and Chargeable indicator radio buttons
+            getClaimIncludedInRatingAsset().setValue("No");
+            // Validate Warning message when Include in rating field changed
+            validateWarningMessage();
+            getClaimCatastropheAsset().setValue("No");
+            // Validate Warning message when CAT field changed
+            validateWarningMessage();
+            getClaimNonChargeableReasonAsset().setValue("Something");
+        } else {
+            // Validate non-dependency between CAT and Chargeable indicator radio buttons
+            getClaimIncludedInRatingAsset().setValue("Yes");
+            // Validate Warning message when Include in rating field changed
+            validateWarningMessage();
+            getClaimCatastropheAsset().setValue("No");
+            // Validate Warning message when CAT field changed
+            validateWarningMessage();
+        }
 
         viewEditClaimByLossAmount("10588");
         selectRentalClaimForCADP3();
-        getClaimIncludedInRatingAsset().setValue("No");
-        getClaimNonChargeableReasonAsset().setValue("Something");
+        getClaimIncludedInRatingAsset().setValue("Yes");
         // Validate Warning message when Include in rating field changed
         validateWarningMessage();
 
