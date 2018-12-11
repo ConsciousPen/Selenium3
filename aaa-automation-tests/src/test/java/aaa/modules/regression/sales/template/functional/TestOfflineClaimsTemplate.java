@@ -94,7 +94,6 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         }
     }
 
-    //TODO:gunxgar improve method to be able to pass specifc test data
     public String createPolicyMultiDrivers() {
         TestData testData = getPolicyTD();
         List<TestData> testDataDriverData = new ArrayList<>();// Merged driver tab with 4 drivers
@@ -336,10 +335,11 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             setPolicyNumber(policyNumber, response);
             if (claimToDriverLicence != null)
                 updateDriverLicence(claimToDriverLicence, response);
-            if (claimDatesToUpdate != null)
+            if (claimDatesToUpdate != null) {
                 updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_DATE_OF_LOSS);
                 updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_CLOSE_DATE);
                 updateDatesForClaim(claimDatesToUpdate, response, ClaimCASResponseTags.TagNames.CLAIM_OPEN_DATE);
+            }
         });
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);

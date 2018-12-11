@@ -238,7 +238,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * 5.1 Claim2: claimNumber2 - INCLUDED IN RATING dateOfLoss = Two Policy Terms (R1)
      * 5.1 Claim3: claimNumber3 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46)
      *
-     * //TODO:gunxgar add one more claim on 1st Renewal for Existing match, will be implemented in other Story
+     * //TODO:gunxgar add one more claim on 1st Renewal for Existing match, will be implemented in other Story: PAS-22026
      * @details
      */
     @Parameters({"state"})
