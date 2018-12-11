@@ -490,7 +490,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-21557")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-21557")
 	public void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged(@Optional("CA") String state) {
 		pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged();
 
