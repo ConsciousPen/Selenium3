@@ -1,11 +1,14 @@
 package aaa.main.modules.policy.home_ss.defaulttabs;
 
+import aaa.main.enums.ErrorEnum;
 import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.CommonErrorTab;
 import aaa.toolkit.webdriver.customcontrols.FillableErrorTable;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.util.Collections;
 
 public class ErrorTab extends CommonErrorTab {
 
@@ -29,4 +32,7 @@ public class ErrorTab extends CommonErrorTab {
 		return getAssetList().getAsset(HomeSSMetaData.ErrorTab.ERROR_OVERRIDE);
 	}
 
+	public int getErrorRowFrequencyByCode(String code) {
+		return Collections.frequency(tableErrors.getColumn(ErrorEnum.ErrorsColumn.CODE.get()).getValue(), code);
+	}
 }

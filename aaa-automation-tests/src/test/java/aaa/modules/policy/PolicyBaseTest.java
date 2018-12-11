@@ -246,8 +246,8 @@ public abstract class PolicyBaseTest extends BaseTest {
 		// Open Billing account and Pay min due for the renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
-		Dollar minDue = new Dollar(BillingSummaryPage.getTotalDue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
+		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
 		// Open Policy (Renewal)
 		SearchPage.openPolicy(policyNumber);
