@@ -166,7 +166,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "2"));
 
 		//PAS-6730 assert 5 years rule for Years Claim Free only for SS
-		if (isStateCA()) {
+		if (!isStateCA()) {
 			navigateToPropertyInfoTab();
 			// Change Claim Dates to within or over 5 years
 			String newLossDateWithin3Years = getPropertyInfoTab().getEffectiveDate().minusMonths(35).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
