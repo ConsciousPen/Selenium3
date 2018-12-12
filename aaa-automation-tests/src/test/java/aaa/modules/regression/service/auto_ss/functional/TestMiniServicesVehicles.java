@@ -469,7 +469,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	//@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
-	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
+	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("NY") String state) {
 		pas14952_StatusResetsForNewlyAddedVehicleBody();
 	}
 

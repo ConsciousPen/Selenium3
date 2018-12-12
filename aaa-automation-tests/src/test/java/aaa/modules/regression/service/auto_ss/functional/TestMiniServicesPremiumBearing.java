@@ -98,7 +98,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
+	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("AZ") String state) {
 
 		pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
 	}
