@@ -1,4 +1,4 @@
-package aaa.modules.regression.finance.billing.home_ca.ho3;
+package aaa.modules.regression.finance.billing.auto_ca.select;
 
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
@@ -9,7 +9,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
-import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -49,7 +49,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
+		return PolicyType.AUTO_CA_SELECT;
 	}
 
 	@Parameters({"state"})
@@ -64,8 +64,8 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
         mainApp().open();
         createCustomerIndividual();
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-        TestData testData = td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
+        TestData testData = td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.STANDARD_MONTHLY);
         String policyNumber =  createPolicy(testData);
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();

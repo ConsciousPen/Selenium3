@@ -9,7 +9,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
-import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
@@ -26,7 +25,11 @@ import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOperations {
 
@@ -50,10 +53,10 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 	}
 
 	@Parameters({"state"})
-    @StateList(states = {Constants.States.AZ})
+    @StateList(states = {Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceWaiveInstallmentFeeWhenPolicyFullyPaid(@Optional("AZ") String state) {
+	public void pas22285_testFinanceWaiveInstallmentFeeWhenPolicyFullyPaid(@Optional("WV") String state) {
         List<LocalDateTime> installmentDueDates;
         LocalDateTime billGenDate;
         Dollar totalPayment;
@@ -82,11 +85,16 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalPayment);
 
         TimeSetterUtil.getInstance().nextPhase(billGenDate.plusDays(1));
-
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-        //Verify
+
+        assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
+                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-5)));
+        assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
+                policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
         //Initiate Renewal Proposal
         renewalImageGeneration(policyNumber, policyExpirationDate);
@@ -115,6 +123,9 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
         JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
         mainApp().open();
         SearchPage.openBilling(policyNumber);
-        //Verify
+
+        Map<String, String> query = new HashMap<>();
+        query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED);
+        BillingSummaryPage.tablePaymentsOtherTransactions.getRowsThatContain(query).size();
     }
 }

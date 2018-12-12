@@ -1,4 +1,4 @@
-package aaa.modules.regression.finance.billing.home_ca.ho3;
+package aaa.modules.regression.finance.billing.auto_ss;
 
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
@@ -9,7 +9,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
-import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -49,14 +49,14 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 
 	@Override
 	protected PolicyType getPolicyType() {
-		return PolicyType.HOME_CA_HO3;
+		return PolicyType.AUTO_SS;
 	}
 
 	@Parameters({"state"})
-    @StateList(states = {Constants.States.CA})
+    @StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-22285")
-	public void pas22285_testFinanceWaiveInstallmentFeeWhenPolicyFullyPaid(@Optional("CA") String state) {
+	public void pas22285_testFinanceWaiveInstallmentFeeWhenPolicyFullyPaid(@Optional("AZ") String state) {
         List<LocalDateTime> installmentDueDates;
         LocalDateTime billGenDate;
         Dollar totalPayment;
@@ -64,8 +64,8 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
         mainApp().open();
         createCustomerIndividual();
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
-        TestData testData = td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
+        TestData testData = td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+                AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
         String policyNumber =  createPolicy(testData);
         LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
@@ -92,7 +92,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 
         assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
                 BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
-                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-7)));
+                getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-5)));
         assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
                 policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
@@ -100,6 +100,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
         renewalImageGeneration(policyNumber, policyExpirationDate);
         renewalPreviewGeneration(policyNumber, policyExpirationDate);
         renewalOfferGeneration(policyNumber, policyExpirationDate);
+        renewalPremiumNotice(policyNumber, policyEffectiveDate, policyExpirationDate);
         payRenewalBill(policyNumber, policyExpirationDate);
         updatePolicyStatus(policyNumber, policyEffectiveDate, policyExpirationDate);
 

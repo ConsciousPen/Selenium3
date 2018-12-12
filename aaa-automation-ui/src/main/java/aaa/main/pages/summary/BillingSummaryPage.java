@@ -96,6 +96,12 @@ public class BillingSummaryPage extends SummaryPage {
 		}
 	}
 
+	public static void hidePriorTerms() {
+		if (buttonHidePriorTerms.isPresent() && buttonHidePriorTerms.isVisible() && buttonHidePriorTerms.isEnabled()) {
+			buttonHidePriorTerms.click();
+		}
+	}
+
 	public static Dollar getBillableAmount() {
 		return new Dollar(tableBillingGeneralInformation.getRow(1).getCell(BillingConstants.BillingGeneralInformationTable.BILLABLE_AMOUNT).getValue());
 	}
