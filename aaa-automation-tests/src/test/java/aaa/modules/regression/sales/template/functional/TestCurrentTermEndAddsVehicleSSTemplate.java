@@ -1,10 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
@@ -15,7 +13,6 @@ import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
-import aaa.main.modules.policy.auto_ss.actiontabs.RollOnChangesActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -23,8 +20,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMethods {
 

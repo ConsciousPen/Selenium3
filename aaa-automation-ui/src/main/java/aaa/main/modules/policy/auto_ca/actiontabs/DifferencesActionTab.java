@@ -7,7 +7,6 @@ package aaa.main.modules.policy.auto_ca.actiontabs;
 import org.openqa.selenium.By;
 import aaa.common.ActionTab;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyActions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -32,7 +31,7 @@ public class DifferencesActionTab extends ActionTab {
 	 * @param selectCurrentChange true -> selects all current changes for differences roll on
 	 */
 	public void applyDifferences(boolean selectCurrentChange){
-		expandsRows();
+		//expandsRows();
 		selectCurrentRollOn(selectCurrentChange);
 		submit();
 	}

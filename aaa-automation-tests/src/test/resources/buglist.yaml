@@ -200,7 +200,7 @@ PAS-5529:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+      messages: ["Errors: 'Roof shape' is not in within range"]
 PAS-5102:
   summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
@@ -431,11 +431,11 @@ PT-3048:
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
-PAS-20379:
+PAS-22575:
   summary: "Test Min Due Is Not Recalculated After Endorsements"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas20379_testMinDueIsNotRecalculatedAfterEndorsements]
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas22575_testMinDueIsNotRecalculatedAfterEndorsements]
     messages: ["expected:"]
 PAS-21588:
   summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"

@@ -72,7 +72,7 @@ public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_HO3(@Optional("NY") String state) {
 

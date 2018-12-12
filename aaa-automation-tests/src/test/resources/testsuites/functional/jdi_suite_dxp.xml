@@ -85,7 +85,6 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
-                    <include name="pas18672_vehiclesRevertOptionForDelete"/> <!--depends on pas9546_maxVehicles-->
                 </methods>
             </class>
         </classes>
@@ -140,7 +139,6 @@
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
                     <include name="pas16551_relationToFniHardStop"/>
-                    <include name="pas18672_driversRevertOptionForDelete"/> <!--depends on pas9662_maxDrivers-->
                 </methods>
             </class>
         </classes>
@@ -724,7 +722,6 @@
                     <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
                     <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
                     <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
-                    <!--<include name="pas18672_driversRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="DriversVA"> -->
                 </methods>
             </class>
         </classes>
@@ -739,13 +736,12 @@
                     <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
                     <include name="pas18671_CancelReplaceVehicleWithChanges"/>
                     <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
-                    <!--<include name="pas18672_vehiclesRevertOptionForDelete"/>--> <!-- Error message test. This test is included in <test name="VehiclesAZ"> -->
                 </methods>
             </class>
         </classes>
     </test>
     <test name="Named Insured marital status and the Relationship to the FNI (MD)">
-        <parameter name="state" value="MD"/>
+        <parameter name="state" value="MD, NJ, CO, DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -894,7 +890,7 @@
         </classes>
     </test>
     <test name="Moratoriums - AZ">
-        <parameter name="state" value="VA"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
                 <methods>
@@ -910,6 +906,17 @@
                 <methods>
                     <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="RFI View Service">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas19630_ViewServiceRFI"/>
+                    <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
                 </methods>
             </class>
         </classes>

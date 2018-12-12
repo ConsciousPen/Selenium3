@@ -9,6 +9,7 @@ import toolkit.exceptions.IstfException;
 
 public class OpenLTestInfo<P extends OpenLPolicy> {
 	private String openLFilePath;
+	private boolean isLocalFile;
 	private String openLFileBranch;
 	private List<P> openLPolicies;
 	private Throwable exception;
@@ -17,12 +18,17 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 
 	OpenLTestInfo() {}
 
-	OpenLTestInfo(String state, String openLFilePath, String openLFileBranch, List<P> openLPolicies) {
+	OpenLTestInfo(String openLFilePath, String openLFileBranch, List<P> openLPolicies) {
+		this(openLFilePath, false, openLFileBranch, openLPolicies);
+	}
+
+	OpenLTestInfo(String openLFilePath, boolean isLocalFile, String openLFileBranch, List<P> openLPolicies) {
 		this.openLFilePath = openLFilePath;
+		this.isLocalFile = isLocalFile;
 		this.openLFileBranch = openLFileBranch;
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
-	
+
 	public String getOpenLFilePath() {
 		return this.openLFilePath;
 	}
@@ -35,7 +41,15 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 		return openLFileBranch;
 	}
 
-	public void setOpenLFileBranch(String openLFileBranch) {
+	public boolean isLocalFile() {
+		return isLocalFile;
+	}
+
+	void setLocalFile(boolean isLocalFile) {
+		this.isLocalFile = isLocalFile;
+	}
+
+	void setOpenLFileBranch(String openLFileBranch) {
 		this.openLFileBranch = openLFileBranch;
 	}
 
@@ -46,11 +60,11 @@ public class OpenLTestInfo<P extends OpenLPolicy> {
 	void setOpenLPolicies(List<P> openLPolicies) {
 		this.openLPolicies = new ArrayList<>(openLPolicies);
 	}
-	
+
 	public boolean isFailed() {
 		return this.exception != null;
 	}
-	
+
 	public Throwable getException() {
 		return this.exception;
 	}
