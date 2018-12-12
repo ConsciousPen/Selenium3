@@ -922,4 +922,14 @@
             </class>
         </classes>
     </test>
+    <test name="DC Coverages">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
