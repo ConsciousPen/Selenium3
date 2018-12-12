@@ -12,6 +12,15 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdateBillingAccountForUserB31"/>
+            	</methods>
+            </class>
         </classes>
     </test>    
     <test name="CA HSS Regression Tests" parallel="methods">
@@ -20,7 +29,15 @@
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyInquiry"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdateBillingAccountForUserB31"/>
+            	</methods>
+            </class>
         </classes>
     </test>
-    
 </suite>
