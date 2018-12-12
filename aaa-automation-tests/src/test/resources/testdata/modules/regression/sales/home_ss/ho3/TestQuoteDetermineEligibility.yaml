@@ -48,7 +48,7 @@ PropertyInfoTab_SC2_1: {
   Construction: '@Construction_1',
   Interior: '@Interior_1', 
   PetsOrAnimals: '@PetsOrAnimals_3', 
-  ClaimHistory: ['@ClaimHistory1', '@ClaimHistory2', '@ClaimHistory3', '@ClaimHistory4', '@ClaimHistory5', '@ClaimHistory6']
+  ClaimHistory: ['@ClaimHistory1', '@ClaimHistory2', '@ClaimHistory3', '@ClaimHistory4', '@ClaimHistory5']
 }
 
 TestData_RmoveAllClaims: {
