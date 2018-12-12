@@ -494,16 +494,16 @@ public final class PolicyActions {
 
 			int rowsCount;
 			int columnsCount;
-			/*int maxRowsCount = 5;
+			int maxRowsCount = 5;
 			String linkTriangleXPathPart1 = "//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_";
-			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]";*/
+			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e')]";
 
 			if (tableDifferences.isPresent()) {
-				//rowsCount = tableDifferences.getRowsCount();
+				rowsCount = tableDifferences.getRowsCount();
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
-				/*for (int i = 0; i < rowsCount; i++) {
+				for (int i = 0; i < rowsCount; i++) {
 					Link linkTriangle = new Link(By.xpath(linkTriangleXPathPart1 + i + linkTriangleXPathPart2));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
@@ -520,7 +520,7 @@ public final class PolicyActions {
 							}
 						}
 					}
-				}*/
+				}
 
 				//apply values
 				Link linkSetValue;
