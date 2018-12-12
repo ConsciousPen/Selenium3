@@ -4775,7 +4775,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas15281_UMPDAndUIMPDAndCanChangeTrueBody() {
 		String policyNumber = openAppAndCreatePolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
 		//update BI to highest available limit so that PD has all available limits
 		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().size() - 1).getLimit());
