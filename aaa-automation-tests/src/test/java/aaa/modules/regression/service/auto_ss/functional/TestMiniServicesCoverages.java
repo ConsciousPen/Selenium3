@@ -1233,14 +1233,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 3. Hit view coverage service.
 	 * 4. Update BI coverage. (Check with all limits)
 	 * 5. Check if UMBI and UIMBI is the same.
-	 * 6
-	 *
+	 * 6. Check available limits.
 	 */
 	@Parameters({"state"})
-	//@StateList(states = {Constants.States.DC})
+	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15313"})
-	public void pas15313_updateBiCoverageCheckUMandUIM(@Optional("VA") String state) {
+	public void pas15313_updateBiCoverageCheckUMandUIM(@Optional("DC") String state) {
 
 		pas15313_updateBiCoverageCheckUMandUIMbody();
 	}

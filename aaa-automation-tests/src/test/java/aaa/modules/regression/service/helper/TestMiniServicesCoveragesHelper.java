@@ -5093,7 +5093,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}else {
 			Coverage UMPD = Coverage.create(CoverageInfo.UMPD_OR);
 			softly.assertThat(findCoverage(coverages, CoverageInfo.UMPD.getCode())).isEqualToComparingFieldByField(UMPD);
-
 		}
 
 	}
@@ -5331,38 +5330,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 		premiumAndCoveragesTab.cancel();
 	}
-
-	//jp --------------------------------
-	private void checkUmbiAndUimbiCoverages(PolicyCoverageInfo coverageResponse, CoverageLimits limit) {
-		Coverage filteredCoverageUimbi = findCoverage(coverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
-		Coverage filteredCoverageUmbi = findCoverage(coverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
-		assertSoftly(softly -> {
-			//To check the coverages limits
-			Coverage toMatchUimbi = Coverage.create(CoverageInfo.UIMBI).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
-			softly.assertThat(filteredCoverageUimbi).isEqualToIgnoringGivenFields(toMatchUimbi, "coverageType");
-
-			Coverage toMatchUmbi = Coverage.create(CoverageInfo.UMBI).changeLimit(limit).disableCanChange().removeAvailableLimitsAbove(limit);
-			softly.assertThat(filteredCoverageUmbi).isEqualToIgnoringGivenFields(toMatchUmbi);
-		});
-	}
-
-//	private void updateBIandValidateUMBIandUIMBI(String policyNumber, List<CoverageLimits> biAvailableLimits) {
-//		for (CoverageLimits biCoverageLimit : biAvailableLimits) {
-//			PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, CoverageInfo.BI_DC.getCode(), biCoverageLimit.getLimit());
-//			Coverage uimbiActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMBI.getCode());
-//			Coverage umbiActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMBI.getCode());
-//
-//			//Validate UMBI
-//			validateUMPDOrUIMPDAvailableLimits_pas15281(biCoverageLimit, CoverageInfo.UMBI, umbiActual);
-//
-//			//Validate UIMBI
-//			validateUMPDOrUIMPDAvailableLimits_pas15281(biCoverageLimit, CoverageInfo.UIMBI, uimbiActual);
-//
-//			assertSoftly(softly -> {
-//				validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateCoverageResponse);
-//			});
-//		}
-//	}
 }
 
 
