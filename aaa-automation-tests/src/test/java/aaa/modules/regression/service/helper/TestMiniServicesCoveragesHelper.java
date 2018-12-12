@@ -4799,6 +4799,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "coverageLimit", "coverageLimitDisplay");
 		assertThat(uimpdActual).isEqualToIgnoringGivenFields(uimpdExpected, "coverageLimit", "coverageLimitDisplay");
 
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void updatePDAndValidateUMPDAndUIMPD_pas15281(String policyNumber, List<CoverageLimits> pdAvailableLimits) {
