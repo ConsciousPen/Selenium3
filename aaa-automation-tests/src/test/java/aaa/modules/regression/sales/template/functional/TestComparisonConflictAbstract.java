@@ -272,10 +272,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	 */
 	private void processRenewalGenerationJob(LocalDateTime expirationDate) {
 		//move time to R-45 and run renewal batch job
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
+		/*LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);*/
 
 		//move time to R-35 and run renewal batch job
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(expirationDate);
