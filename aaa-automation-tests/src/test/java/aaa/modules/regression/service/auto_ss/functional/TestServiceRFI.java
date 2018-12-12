@@ -9,9 +9,11 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.service.helper.HelperMiniServices;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -105,9 +107,10 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 7. Try bind check error
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
-	public void pas21423_aacsdcFormRFI(@Optional("VA") String state) {
+	public void pas21423_aacsdcFormRFI(@Optional("DC") String state) {
 		assertSoftly(softly -> {
 
 			TestData td = getPolicyDefaultTD();

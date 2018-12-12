@@ -917,6 +917,7 @@
                 <methods>
                     <include name="pas19630_ViewServiceRFI"/>
                     <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
+                    <include name="pas21423_aacsdcFormRFI"/>
                 </methods>
             </class>
         </classes>
