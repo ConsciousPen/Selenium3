@@ -25,7 +25,7 @@ claimLineItemList:
     driverDateofBirth: '1996-05-05'
     driverName: casMATTHEW casFOX
     driverRelationToInsured: INSURED
-    permissiveUse: Y
+    permissiveUse: N
     drivingLicenseNumber: A19191912
     drivingLicenseState: AZ
     lossSummary: IV hit OV while turning.
