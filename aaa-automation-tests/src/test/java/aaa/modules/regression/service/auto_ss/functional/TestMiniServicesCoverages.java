@@ -1226,6 +1226,24 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD and UIMPD
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15281"})
+	public void pas15281_UMPDAndUIMPDAndCanChangeTrue(@Optional("DC") String state) {
+		pas15281_UMPDAndUIMPDAndCanChangeTrueBody();
+	}
+
+	/**
 	 * @author Jovita Pukenaite
 	 * @name Update coverage - UM and UIM - DC
 	 * @scenario 1. Create policy.
