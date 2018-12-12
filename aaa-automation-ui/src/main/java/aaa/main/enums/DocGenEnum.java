@@ -264,6 +264,7 @@ public final class DocGenEnum {
 		HSFLD("Important Flood Information for MD Policyholders"),
 		HSHU2NJ("New Jersey Policyholder Hurricane Percentage Deductible Consumer Guide"),
 		HSHUVA("Virginia Adverse Action Underwriting Decision Notice"),
+		HSIIHNV("Important Information Regarding Your Policy"),
 		HSILXX("Property Inventory List"),
 		HSINVA("Important Notice Regarding Flood and earthquake Exclusion"),
 		HSINVAP("Important Information Regarding Your Insurance"),
