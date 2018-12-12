@@ -66,6 +66,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
 
+
 		//Verify the First claim is in the unmatched section
 		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
 		//PAS-21435 - Remove LASTNAME_YOB match logic. These claims will now be unmatched

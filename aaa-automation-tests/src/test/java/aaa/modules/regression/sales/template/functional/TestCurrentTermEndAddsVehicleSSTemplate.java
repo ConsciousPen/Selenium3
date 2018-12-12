@@ -7,8 +7,12 @@ import static org.apache.commons.net.ntp.TimeStamp.getCurrentTime;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
+import aaa.main.enums.CacheManagerEnums;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
@@ -246,6 +250,18 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         log.info("policyNumber: "+policyNumber);
         LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+//        //2. control table file upload for changing the effective date and expiration date
+//        adminApp().open();
+//        uploadToControlTableTab.uploadControlTable(controlTableMSRPFile);
+//        LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(300);
+//        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(301);
+//        log.info("expirationDate:"+expirationDate);
+//        log.info("effectiveDate:"+effectiveDate);
+//        updateControlTable(expirationDate, effectiveDate);
+
+        //3. Change system date to R-35 and renew it
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
         //2. control table file upload for changing the effective date and expiration date
         adminApp().open();
         uploadToControlTableTab.uploadControlTable(controlTableMSRPFile);
@@ -255,10 +271,18 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         log.info("effectiveDate:"+effectiveDate);
         updateControlTable(expirationDate, effectiveDate);
 
-        //3. Change system date to R-35 and renew it
-        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
-
         DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, 0,9999,null,"MSRP_2018",49));
+
+        adminApp().open();
+        CacheManager cacheManager = new CacheManager();
+        cacheManager.getToCacheManagerTab();
+        List<String> cacheName = Arrays.asList(CacheManagerEnums.CacheNameEnum.BASE_LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.LOOKUP_CACHE.get(), CacheManagerEnums.CacheNameEnum.VEHICLE_VIN_REF_CACHE.get());
+        for (String cache : cacheName) {
+            cacheManager.clearFromCacheManagerTable(cache);
+        }
+
+//        //Move time by one hour to refresh to happen
+//        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
 
         //4. Initiate endorsement
         initiateEndorsement();
