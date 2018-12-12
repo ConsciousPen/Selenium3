@@ -496,7 +496,7 @@ public final class PolicyActions {
 			int columnsCount;
 			int maxRowsCount = 5;
 			String linkTriangleXPathPart1 = "//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_";
-			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]";
+			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e')]";
 
 			if (tableDifferences.isPresent()) {
 				rowsCount = tableDifferences.getRowsCount();
