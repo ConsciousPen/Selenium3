@@ -4782,7 +4782,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		Coverage coveragePDActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.PD_DC.getCode());
-		assertThat(coveragePDActual.getAvailableLimits()).isEqualTo(CoverageInfo.PD_DC.getAvailableLimits());
+		assertThat(coveragePDActual.getAvailableLimits()).isEqualTo(Coverage.create(CoverageInfo.PD_DC).getAvailableLimits());
 
 		//Update PD from higher Limit to lower limit (go through all available limits)
 		updatePDAndValidateUMPDAndUIMPD_pas15281(policyNumber, CoverageInfo.PD_DC.getReversedAvailableLimits());
@@ -4790,9 +4790,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//Update PD from lover Limit to higher limit (go through all available limits)
 		updatePDAndValidateUMPDAndUIMPD_pas15281(policyNumber, CoverageInfo.PD_DC.getAvailableLimits());
 
-		//TODO-mstrazds: check if this works
 		//update BI to lower limit so that PD is also updated and check UMBI and UIMBI available limits
-		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageLimits.COV_50000.getLimit());
+		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageLimits.COV_2550.getLimit());
 		Coverage umpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UMPD_DC.getCode());
 		Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_DC).removeAvailableLimitsAbove(CoverageLimits.COV_50000);
 		Coverage uimpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UIMPD_DC.getCode());
@@ -4823,7 +4822,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateUMPDOrUIMPDAvailableLimits_pas15281(CoverageLimits pdCoverageLimit, CoverageInfo umpdOrUimpd, Coverage umpdOrUimpdActual) {
 		List<CoverageLimit> pdCoverageLimitsUpTo25 = Coverage.create(CoverageInfo.PD_DC).removeAvailableLimitsAbove(CoverageLimits.COV_25000).getAvailableLimits();
 		Coverage coverageExpected = Coverage.create(umpdOrUimpd);
-		if (pdCoverageLimitsUpTo25.contains(pdCoverageLimit)) {
+		if (pdCoverageLimitsUpTo25.stream().anyMatch(p -> p.getCoverageLimit().equals(pdCoverageLimit.getLimit()))) {
 			coverageExpected = coverageExpected.removeAvailableLimitsAbove(CoverageLimits.COV_25000);
 		} else {
 			coverageExpected = coverageExpected.removeAvailableLimitsAbove(pdCoverageLimit);
