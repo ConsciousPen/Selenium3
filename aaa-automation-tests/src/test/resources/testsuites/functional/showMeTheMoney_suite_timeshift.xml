@@ -17,32 +17,32 @@
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
-    <test name="CA TestFinanceWaiveInstallmentFeeTC1A" parallel="methods" thread-count="1024">
+    <test name="CA TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull"/>
         </classes>
     </test>
-    <test name="CA TestFinanceWaiveInstallmentFeeTC1B" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <test name="CA TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid" parallel="methods" thread-count="1024">
+        <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid"/>
         </classes>
     </test>
-    <test name="KY TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
+    <test name="KY TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount" parallel="methods" thread-count="1024">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
         </classes>
     </test>
-    <test name="WV TestFinanceWaiveInstallmentFeeTC1C" parallel="methods" thread-count="1024">
+    <test name="WV TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount" parallel="methods" thread-count="1024">
         <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
         </classes>
     </test>
-    <test name="AZ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <test name="AZ TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
@@ -53,8 +53,8 @@
             <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
     </test>
-    <test name="NJ TestFinanceWaiveInstallmentFeeTC1D" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
+    <test name="NJ TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
         </classes>
