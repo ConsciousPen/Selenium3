@@ -200,7 +200,7 @@ PAS-5529:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+      messages: ["Errors: 'Roof shape' is not in within range"]
 PAS-5102:
   summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD

@@ -67,6 +67,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS1050670_OR("AAA_HO_SS1050670_OR", "Applicants with any paid non-CAT claim and/or more than 1 paid CAT claim in t..."),
 		ERROR_AAA_HO_SS12023000("AAA_HO_SS12023000", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_WM_0523("WM-0523", "Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claims in..."),
+		ERROR_AAA_HO_SS4040546("AAA_HO_SS4040546", "Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claims in..."),
 		ERROR_WM_0523_SD("WM-0523_SD", "Applicants with more than one paid non-weather claim and/or more than two pai..."),
 		ERROR_AAA_HO_SS12200234("AAA_HO_SS12200234", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
 		ERROR_AAA_HO_SS7160042("AAA_HO_SS7160042", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
