@@ -356,7 +356,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		List<Document> documents = DocGenHelper.waitForMultipleDocumentsAppearanceInDB(form, policyNumber, RENEWAL_OFFER);
 		verifyPackageTagData(legacyPolicyNumber, policyNumber, RENEWAL_OFFER);
 		for (Document document : documents) {
-			if (form!=HSFLD && form !=HSPISKY) {
+			if (form!=HSFLD && form !=HSPISKY && form != DSIIDNV) {
 				verifyRenewalDocumentTagDataConvFlgYN(document, testData, isPupPresent, RENEWAL_OFFER);
 			}
 		}
@@ -669,6 +669,25 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 		if(RENEWAL_BILL.equals(eventName)){
 			verifyTagData(document, "ConvFlgYN", "Y");
 		}
+	}
+
+
+	/**
+	 /**
+	 * @name Test Conversion Document generation (Non Renewal cover letters)
+	 * @scenario 1. Create Customer
+	 * 2. Initiate Renewal Entry
+	 * 3. Fill Conversion Policy data for Home
+	 * 4. Check that DSIIDNV documents are getting generated
+	 * 5. Buy Conversion Policy
+	 * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+	 * 7. Check that DSIIDNV document is NOT generated
+	 * @details
+	 */
+	public void pas18433_importantInformationRegardingYourNewDwellingFirePolicyDSIIDNV0512(String state) throws NoSuchFieldException {
+		int numberOfLetters = renewalCoverLetterFormsGeneration(getConversionPolicyDefaultTD(), DSIIDNV, false, state);
+		assertThat(numberOfLetters).isEqualTo(1);
+		checkSecondRenewalsOfferGenerationDoesNotGenerateForm(DSIIDNV);
 	}
 
 	private void preRenewalJobExecution(LocalDateTime expirationDate, String policyNumber){
