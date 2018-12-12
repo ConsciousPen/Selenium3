@@ -244,6 +244,7 @@ public final class ClaimConstants {
     }
 
     public static final class ClaimsRatingDetails {
+        public static  final  String NUMBER_OF_YEARS_CLAIMS_FREE = "Number of years claims free";
         public static final String PRIOR_CLAIMS = "Prior claims";
         public static final String PRIOR_CLAIMS_POINTS = "Prior claims points";
         public static final String AAA_CLAIMS = "AAA claims";

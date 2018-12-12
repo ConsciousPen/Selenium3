@@ -81,8 +81,8 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Test Claims points refresh on VRD page for CA HO3 policies during NB
+	 * @author Josh Carpenter, Dominykas Razgunas
+	 * @name Test Claims points refresh on VRD page for CA HO3 policies during NB. Updated with PAS-6730
 	 * @scenario
 	 * 1.  Create customer
 	 * 2.  Initiate CA HO3 quote
@@ -112,12 +112,10 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = "PAS-19183")
+	@TestInfo(component = ComponentConstant.Service.HOME_CA_HO3, testCaseId = "PAS-19183, PAS-6730")
 	public void pas19183_testClaimPointsVRDPage(@Optional("") String state) {
 
 		testClaimsPointsVRDPage();
 
 	}
-
-
 }
