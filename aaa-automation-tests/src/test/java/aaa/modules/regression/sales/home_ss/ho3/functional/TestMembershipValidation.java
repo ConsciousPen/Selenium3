@@ -1,9 +1,11 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -20,7 +22,9 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 import static aaa.main.metadata.policy.HomeSSMetaData.ReportsTab.SALES_AGENT_AGREEMENT;
@@ -57,10 +61,12 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     //Test Data Helper
     TestDataHelper _myTestDataHelper = new TestDataHelper();
 
+    private String _preloadedPolicyNumber = null;
+
     @Parameters({"state"})
-    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
+    @Test(enabled = false, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
-    public void pas3786_validateMembership(@Optional("AZ") String state) {
+    public void pas3786_validateMembership_OLD(@Optional("AZ") String state) {
         TestData tdEndorsementStart = getPolicyTD("Endorsement", "TestData_Plus1Day");
         TestData tdRenewalStart = getPolicyTD("Renew", "TestData");
 
@@ -121,7 +127,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         log.info("Membership Validation for Renewal Quote with Dummy Number Completed..");
         //BUG PAS-12369: Membership Validation UW eligibility rule is not fired at Midterm Endorsement/Renewal
         // Endorsement Quote Membership Validation
-        createPolicy(_tdPolicy);
+        createPolicy(getPolicyDefaultTD());
         policy.endorse().perform(tdEndorsementStart);
         log.info("Membership Full Validation for Endorsement Quote Started..");
         fullMembershipMatchValidation(_tdPolicy, tdMembershipOverride, tdMembershipSecondMember, tdMembershipThirdMember);
@@ -187,7 +193,15 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
     private void validateMembership(){
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
 
-        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).waitForAccessible(5000);
+        if (!reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).isPresent()){
+            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        }
+
+        if (!reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).isPresent()){
+            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+        }
+
+        reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).waitForAccessible(10000);
         reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
 
         reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
@@ -247,7 +261,6 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         if (!errorTab.isVisible()){
             bindTab.confirmPurchase();
         }
-
         errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
         errorTab.getAssetList().fill(tdMembershipOverride);
         log.info("Last Condition passed in current Quote. Membership Error is successfully overridden..");
@@ -306,5 +319,151 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
                 .setValue("05/17/1990");
 
         validateMembership();
+    }
+
+    /**
+     * This is the new version of pas3786_validateMembership that is targeted at improving the previous version in several ways to include: <br>
+     *     1. Improved Stability; 2. Improved Stability; 3. Improved Traceability; 4. Reduced Upkeep. <br>
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, priority = 1, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
+    public void pas3786_validateMembership_NewBusiness(@Optional("AZ") String state) {
+
+        // Create Test Data for New Business IN-ACTIVE Member first. Will not match and will throw error.
+        TestData _inActiveMemberTD = getPolicyDefaultTD();
+        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), "ABC");
+        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), "XYZ");
+        _myTestDataHelper.adjustTD(_inActiveMemberTD, ApplicantTab.class, HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), "01/01/1942");
+        createQuoteAndFillUpTo(_inActiveMemberTD, BindTab.class, true);
+        bindTab.btnPurchase.click();
+
+        // Validate there is an error due NO MATCHING First Name, Last Name and DOB.
+        errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+        errorTab.cancel();
+
+        // Change ONLY First Name data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(true);
+
+        // Change ONLY Last Name data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(false);
+
+        // Change ONLY DOB data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "11/10/1968");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(true);
+
+        // Change ALL data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("John", "Smith", "11/10/1968");
+        ReorderReportsFromReportsTab();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+        AttemptToBindValidateResults(false);
+    }
+
+    /**
+     * This test will leverage a policy created by 'pas3786_validateMembership_NewBusiness' if available and perform
+     *     an endorsement test for Membership Validation. <br>
+     * @param state
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, priority = 2, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "30504: Membership Validation Critical Defect Stabilization")
+    @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-3786")
+    public void pas3786_validateMembership_Endorsement(@Optional("AZ") String state) {
+        TestData _testData = getPolicyDefaultTD();
+
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy(_testData);
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+        // Change NOTHING so that NO DATA MATCHES Stub.
+        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "01/01/1942");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(true);
+
+        // Change ONLY First Name data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(true);
+
+        // Change ONLY Last Name data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
+        ReorderReportsFromReportsTab();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+        AttemptToBindValidateResults(false);
+
+        // Change ONLY DOB data to match an active member from STUB.
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData")); // Reopen Endorsement From Binding
+        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "11/10/1968");
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(true);
+
+        // Change ALL data to match an active member from STUB.
+        GoToApplicantTabAndChangeApplicantData("John", "Smith", "11/10/1968");
+        ReorderReportsFromReportsTab();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+        new PremiumsAndCoveragesQuoteTab().calculatePremium();
+        AttemptToBindValidateResults(false);
+
+    }
+
+    public void ReorderReportsFromReportsTab(){
+        // Go to Reports Tab and Reorder Insurance and CLUE Data
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+
+        try {
+            reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        }catch(Exception ex){
+            log.error("<QADEBUG-ERROR> Could not click 'I Agree' on Reports Tab. Repeating steps to ensure test is on Reports Tab and didn't somehow slip. <QADEBUG-ERROR>");
+            NavigationPage.toViewTab(NavigationEnum.HomeSSTab.REPORTS.get());
+            reportsTab.getAssetList().getAsset(SALES_AGENT_AGREEMENT.getLabel(), RadioGroup.class).setValue("I Agree");
+        }
+        reportsTab.tblInsuranceScoreReport.getRow(1).getCell(11).click();
+        reportsTab.tblClueReport.getRow(1).getCell(6).controls.links.getFirst().click();
+    }
+
+    public void AttemptToBindValidateResults(boolean bShouldErrorOccur){
+        boolean bIsQuote = bindTab.getPolicyNumber().startsWith("Q"); // <-- determine via policy number before potentially throwing the error.
+
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+        bindTab.btnPurchase.click();
+
+        // Check if we're in an endorsement. If so, there's an extra button to click to keep the test on the rails.
+        if(!bIsQuote){
+            bindTab.confirmEndorsementPurchase.buttonYes.click();
+        }
+
+        // The Validation Itself
+        if(bShouldErrorOccur){
+            errorTab.verify.errorsPresent(bShouldErrorOccur, ErrorEnum.Errors.ERROR_AAA_HO_SS_MEM_LASTNAME);
+            errorTab.cancel();
+        }else{
+            if(bIsQuote){ // If policy Number begins with Q, we click the New Business Button
+                CustomAssertions.assertThat(bindTab.confirmPurchase.buttonNo.getWebElement().isDisplayed()).isTrue();
+                bindTab.confirmPurchase.buttonNo.click();
+            }else{
+                //CustomAssertions.assertThat(bindTab.confirmEndorsementPurchase.buttonNo.getWebElement().isDisplayed()).isTrue();
+                //bindTab.confirmEndorsementPurchase.buttonNo.click();
+            }
+        }
+
+    }
+
+    public void GoToApplicantTabAndChangeApplicantData(String firstName, String lastName, String DOB){
+        // Change data so ONLY First Name matches an Active Member from STUB Data.
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.APPLICANT.get());
+        applicantTab.getNamedInsuredAssetList().getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.FIRST_NAME.getLabel(), TextBox.class).setValue(firstName);
+        applicantTab.getNamedInsuredAssetList().getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.LAST_NAME.getLabel(), TextBox.class).setValue(lastName);
+        applicantTab.getNamedInsuredAssetList().getAsset(HomeSSMetaData.ApplicantTab.NamedInsured.DATE_OF_BIRTH.getLabel(), TextBox.class).setValue(DOB);
     }
 }
