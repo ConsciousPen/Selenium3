@@ -24,7 +24,7 @@
         "dateOfBirth":"1997-05-09",
         "licenseNumber":"A98769878",
         "claimDriverName":"Bilbo Baggins",
-        "permissiveUse": "Y"
+        "permissiveUse": "N"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"crashed into waving inflatable arm guy",
@@ -58,7 +58,7 @@
         "dateOfBirth":"1997-08-30",
         "licenseNumber":"A12345222",
         "claimDriverName":"Bruce Banner",
-        "permissiveUse": "N"
+        "permissiveUse": "Y"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"collided with 1 passenger bus",
@@ -91,7 +91,7 @@
         "issuedState":"AZ",
         "dateOfBirth":"1997-08-30",
         "licenseNumber":"A12345333",
-        "permissiveUse": "N",
+        "permissiveUse": "Y",
         "claimDriverName":"Tony Stark"
       },
       "dateOpened":"2019-01-02",
@@ -125,7 +125,7 @@
         "dateOfBirth": "1977-12-12",
         "licenseNumber": "D8901121",
         "claimDriverName":"Nicolas Smith",
-        "permissiveUse": "N"
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Hail Storm",
@@ -166,7 +166,7 @@
         "claimDriverName":"Shirley Larson",
         "dateOfBirth":"1970-09-12",
         "licenseNumber":"A29801002",
-        "permissiveUse": ""
+        "permissiveUse": "Y"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"collided with 1 parked vehicles",
@@ -201,7 +201,7 @@
         "claimDriverName":"JOSHUA FUSSELL",
         "dateOfBirth":"1997-10-14",
         "licenseNumber":"A12345225",
-        "permissiveUse": "N"
+        "permissiveUse": "Y"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"collision",
@@ -231,7 +231,8 @@
         "lastName":"Stark",
         "issuedState":"AZ",
         "dateOfBirth":"1990-05-09",
-        "claimDriverName":"Tony Stark"
+        "claimDriverName":"Tony Stark",
+        "permissiveUse": "Y"
       },
       "dateOpened":"2019-01-02",
       "lossSummary":"crashed into waving inflatable arm guy",
@@ -320,7 +321,8 @@
         "lastName": "Stark",
         "issuedState": "AZ",
         "dateOfBirth": "1997-10-16",
-        "claimDriverName":"Trory Stark"
+        "claimDriverName":"Trory Stark",
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Hail Storm accident",
@@ -413,7 +415,8 @@
         "issuedState": "AZ",
         "dateOfBirth": "1997-10-16",
         "licenseNumber": "A99999999",
-        "claimDriverName":"Trory Lark"
+        "claimDriverName":"Trory Lark",
+        "permissiveUse": ""
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Hail Storm accident",
@@ -483,6 +486,166 @@
       "isCompClaim": false,
       "liabilityCd": "AF",
       "claimNumber": "17894-99999OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Bruce",
+        "lastName": "Spriggstine",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-08-30",
+        "licenseNumber": "A99999999",
+        "claimDriverName": "Bruce Spriggstine",
+        "Permissive Use": "Y"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Crashed into existential barricade",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "18431-11111OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Tony",
+        "lastName": "Banner",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-08-30",
+        "licenseNumber": "A99999999",
+        "claimDriverName": "Tony Banner",
+        "Permissive Use": "Y"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Hail Storm caused collision",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "18431-22222OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Boolean",
+        "lastName": "Banner",
+        "issuedState": "AZ",
+        "dateOfBirth": "1999-09-09",
+        "licenseNumber": "A99999999",
+        "claimDriverName": "Boolean Banner",
+        "Permissive Use": "Y"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Fender Bender",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "18431-33333OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Boolean",
+        "lastName": "Banner",
+        "issuedState": "AZ",
+        "dateOfBirth": "1999-09-09",
+        "licenseNumber": "A99999999",
+        "claimDriverName": "Boolean Banner",
+        "Permissive Use": "Y"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Fender Bender",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "18431-44444OHS",
+      "status": "CLOSED"
+    },
+    {
+      "dateOfLoss": "2019-01-11",
+      "policyReferenceNumber": "CAAC952918542",
+      "payments": [{
+        "disposition": "Closed",
+        "amountPaid": 1000,
+        "paymentType": "COLLISION_ONLY"
+      }
+      ],
+      "cause": "cha",
+      "totalAmountPaid": 1056,
+      "dateClosed": "2019-01-12",
+      "type": "Accident",
+      "claimDeductible": 500,
+      "driverInformation": {
+        "relationToNamedInsured": "INSURED",
+        "firstName": "Bruce",
+        "lastName": "Spriggstine",
+        "issuedState": "AZ",
+        "dateOfBirth": "1997-08-30",
+        "licenseNumber": "A99999999",
+        "claimDriverName": "Bruce Spriggstine",
+        "Permissive Use": "N"
+      },
+      "dateOpened": "2019-01-02",
+      "lossSummary": "Crashed into existential barricade",
+      "amountpaid": 1056,
+      "isCompClaim": false,
+      "liabilityCd": "AF",
+      "claimNumber": "18431-55555OHS",
       "status": "CLOSED"
     }
   ],

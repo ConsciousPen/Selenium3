@@ -17,6 +17,9 @@ import toolkit.utils.TestInfo;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -33,7 +36,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 * PAS-8310: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 1)
 	 * PAS-17894: MATCH MORE: Create Claim to Driver Match Logic (not comp/not already assigned to driver/not DL) (part 2)
 	 * PAS-21435: Remove LASTNAME_YOB match logic
-	 * PAS-18341 - Added PermissiveUse tag to Claims Service Contract (this test contains Y, N, blank, no tag, and Junk test veriations)
+	 * PAS-18341; Added PermissiveUse tag to Claims Service Contract (this test contains Y, N, blank, no tag, and Junk test veriations)
+	 * PAS-18300; Add Permissive use match criteria; will match to the FNI
 	 * @name Test Claims Matching Micro Service - Test 1 -3 Claims: No match, Exiting match, DL Match
 	 * @scenario
 	 * Test Steps:
@@ -49,6 +53,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 12,    17894- 1: LASTNAME_FIRSTNAME
 	 *      --Claim 13,    17894- 4: LASTNAME_FIRSTINITAL_DOB
 	 *      --Claim 14-15, 17894- 6 & 8: Unmatched (PAS-21435 Removed LASTNAME_YOB Match)
+	 *      --Claim 16-19, 18431- 1, 2, 3 & 4: PERMISSIVE_USE Match
+	 *      --Claim 16-19, 18431- 5: UNMATCHED Match
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -57,7 +63,6 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	public void pas14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
 
 		//Define which JSON request to use
-		//TODO - Consider using a JSON Request Builder for future tests
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "PAS14679_testMSClaimsAssignment.json")));
 
 		//Use 'runJsonRequestPostClaims' to send the JSON request to the Claims Assignment Micro Service
@@ -66,23 +71,49 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//Throw the microServiceResponse to log - assists with debugging
 		log.info(microServiceResponse.toString());
 
-		//Verify the First claim is in the unmatched section
-		assertThat(microServiceResponse.getUnmatchedClaims().get(0).getClaimNumber()).isEqualTo("1TAZ1111OHS");
-		//PAS-21435 - Remove LASTNAME_YOB match logic. These claims will now be unmatched
-		assertThat(microServiceResponse.getUnmatchedClaims().get(4).getClaimNumber()).isEqualTo("17894-66666OHS");
-		assertThat(microServiceResponse.getUnmatchedClaims().get(6).getClaimNumber()).isEqualTo("17894-88888OHS");
+		//Create a list of all the expected UNMATCHED claim numbers
+		String[] expectedClaimNumbers = {"1TAZ1111OHS", "17894-2222OHS", "17894-3333OHS", "17894-55555OHS", "17894-66666OHS", "17894-77777OHS", "17894-88888OHS", "17894-99999OHS", "18431-11111OHS", "18431-22222OHS", "18431-33333OHS", "18431-44444OHS", "18431-55555OHS"};
+		ArrayList<String> expectedUnmatchedClaims = new ArrayList<>();
+		expectedUnmatchedClaims.addAll(Arrays.asList(expectedClaimNumbers));
 
-		//Verify that the Second claim returned is an existing match and the Third claim is a DL match
-		assertThat(microServiceResponse.getMatchedClaims().get(0).getMatchCode()).isEqualTo("EXISTING_MATCH");
-		assertThat(microServiceResponse.getMatchedClaims().get(1).getMatchCode()).isEqualTo("COMP");
-		assertThat(microServiceResponse.getMatchedClaims().get(2).getMatchCode()).isEqualTo("DL");
-		assertThat(microServiceResponse.getMatchedClaims().get(3).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME_DOB");
-		assertThat(microServiceResponse.getMatchedClaims().get(4).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME_YOB");
+		//Create a list of all the actual UNMATCHED claim numbers
+		ArrayList<String> actualUnmatchedClaims = new ArrayList<>();
+		int x = 0;
+		while (x < microServiceResponse.getUnmatchedClaims().size())
+		{
+			String claimNumber = microServiceResponse.getUnmatchedClaims().get(0+x).getClaimNumber();
+			log.info(claimNumber);
+			actualUnmatchedClaims.add(claimNumber);
+			x++;
+		}
 
-		//PAS-17894 - LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
-		//PAS-21436 - CAS Claims With Missing Drivers License Numbers
-		assertThat(microServiceResponse.getMatchedClaims().get(5).getMatchCode()).isEqualTo("LASTNAME_FIRSTNAME");
-		assertThat(microServiceResponse.getMatchedClaims().get(6).getMatchCode()).isEqualTo("LASTNAME_FIRSTINITAL_DOB");
+		//Verify the actual UNMATCHED claims equal the expected UNMATCHED claims
+		//PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
+		assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
+
+		//Create a list of all the expected MATCH CODES
+		String[] expectedCodes = {"EXISTING_MATCH", "COMP", "DL", "LASTNAME_FIRSTNAME_DOB", "LASTNAME_FIRSTNAME_YOB", "LASTNAME_FIRSTNAME", "LASTNAME_FIRSTINITAL_DOB"};
+		ArrayList<String> expectedMatchCodes = new ArrayList<>();
+		expectedMatchCodes.addAll(Arrays.asList(expectedCodes));
+
+		//Create a list of all the actual MATCH CODES
+		ArrayList<String> actualMatchCodes = new ArrayList<>();
+		int y = 0;
+		while (y < microServiceResponse.getMatchedClaims().size())
+		{
+			String matchcode = microServiceResponse.getMatchedClaims().get(0+y).getMatchCode();
+			log.info(matchcode);
+			actualMatchCodes.add(matchcode);
+			y++;
+		}
+
+		//Verify the actual MATCH CODES equal the expected MATCH CODES
+		//PAS-14679 - Match Logic: DL Number
+		//PAS-14058 - Match Logic: COMP
+		//PAS-8310  - Match Logic: LASTNAME_FIRSTNAME_DOB, LASTNAME_FIRSTNAME_YOB
+		//PAS-17894 - Match Logic: LASTNAME_FIRSTNAME, LASTNAME_FIRSTINITAL_DOB, & LASTNAME_YOB
+		//PAS-18300 - Match Logic: PERMISSIVE_USE
+		assertThat(actualMatchCodes).isEqualTo(expectedMatchCodes);
 	}
 
 	//Method to send JSON Request to Claims Matching Micro Service
@@ -94,3 +125,4 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
 	}
 }
+
