@@ -453,5 +453,5 @@ PAS-18273:
   summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
   reason: PROD
   failures:
-    - tests: [aaa.modules.bct.renewal.RenewalTest.*]
+  - tests: [aaa.modules.bct.renewal.RenewalTest.*]
     messages: ["Unprepared data; Error; You must order the Membership report"]
