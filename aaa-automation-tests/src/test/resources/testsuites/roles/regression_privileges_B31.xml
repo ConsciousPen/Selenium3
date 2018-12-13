@@ -10,8 +10,16 @@
         <parameter name="state" value="CA"/>
         <parameter name="login" value="B31"/>
         <classes>
+        	<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
             <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementAdd"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCopy"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewCreateVersion"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
@@ -27,8 +35,15 @@
         <parameter name="state" value="CA"/>
         <parameter name="login" value="B31"/>
         <classes>
+        	<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyInquiry"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsement"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCopy"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
@@ -39,5 +54,5 @@
             	</methods>
             </class>
         </classes>
-    </test>
+    </test>    
 </suite>
