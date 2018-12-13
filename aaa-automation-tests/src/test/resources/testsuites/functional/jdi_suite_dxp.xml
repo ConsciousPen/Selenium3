@@ -34,5 +34,20 @@
             </class>
         </classes>
     </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12767_ManualEndorsementCancel"/>
+                    <include name="pas12767_ServiceEndorsementCancel"/>
+                    <include name="pas13287_ViewStartEndorsementInfoService"/>
+                    <include name="pas15897_transactionHistoryAndMessage"/>
+                    <include name="pas14540_transactionInfoAddVehicleCoverages"/>
+                    <include name="pas14540_transactionInfoAddVehicleCoveragesUpdate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>
