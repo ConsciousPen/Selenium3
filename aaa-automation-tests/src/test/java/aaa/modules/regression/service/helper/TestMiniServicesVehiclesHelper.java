@@ -4,6 +4,7 @@ import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionT
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
@@ -65,6 +66,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -127,6 +129,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -286,6 +289,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas488_VehicleDeleteBody(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -625,6 +629,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas9610_UpdateVehicleService() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -897,6 +902,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas18672_vehiclesRevertOptionForDeleteBody() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber8Vehicles);
 		policy.copyPolicy(getCopyFromPolicyTD());
@@ -1114,6 +1120,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(ETCSCoreSoftAssertions softly, String ownershipType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1245,6 +1252,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas12246_ViewVehiclePendingRemovalService(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -1478,6 +1486,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1574,6 +1583,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	protected void pas15483_deleteOriginalVehicleBody() {
 		assertSoftly(softly -> {
+			miniServicesEndorsementDeleteDelayConfigCheck();
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
 
@@ -2838,6 +2848,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody(){
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab"))
 				.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Driver").getTestDataList("DriverTab"))

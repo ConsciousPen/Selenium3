@@ -12,7 +12,6 @@
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -35,5 +34,898 @@
             </class>
         </classes>
     </test>
-
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas12767_ManualEndorsementCancel"/>
+                    <include name="pas12767_ServiceEndorsementCancel"/>
+                    <include name="pas13287_ViewStartEndorsementInfoService"/>
+                    <include name="pas15897_transactionHistoryAndMessage"/>
+                    <include name="pas14540_transactionInfoAddVehicleCoverages"/>
+                    <include name="pas14540_transactionInfoAddVehicleCoveragesUpdate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="AZ"/>
+    <test thread-count="1024" name="DriversAZ" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14463_ViewDriverService"/>
+                    <include name="pas482_ViewDriverServiceOrderOfDriver"/>
+                    <include name="pas14475_NameInsuredMaritalStatusWSS"/>
+                    <include name="pas14475_NameInsuredMaritalStatusDSS"/>
+                    <include name="pas14475_NameInsuredMaritalStatus"/>
+                    <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
+                    <include name="pas17641_MetaDataServiceDriverAddADB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="AZ"/>
+    <test thread-count="1024" name="VehiclesAZ" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas7082_AddVehicle"/>
+                    <include name="pas8275_vinValidate"/>
+                    <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
+                    <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas11618_UpdateVehicleLeasedInfo"/>
+                    <include name="pas11618_UpdateVehicleFinancedInfo"/>
+                    <include name="pas9546_maxVehicles"/>
+                    <include name="pas488_VehicleDelete"/>
+                    <include name="pas15483_deleteOriginalVehicle"/>
+                    <include name="pas12246_ViewVehiclePendingRemoval"/>
+                    <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
+                    <include name="pas9610_UpdateVehicleService"/>
+                    <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="NV"/>
+    <test thread-count="1024" name="VehiclesNV" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                    <include name="pas9750_addVehicleServiceBlockingForPurchaseDate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="AZ"/>
+    <test thread-count="1024" name="CoveragesAZ" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas10352_ManageVehicleCoverageUpdateCoverageOtherThanVa"/>
+                    <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
+                    <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
+                    <include name="pas14693_updateCoverageRentalReimbursement"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="GeneralVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
+                <methods>
+                    <include name="pas12407_BigMetaDataService"/>
+                    <include name="pas9997_paymentMethodsLookup"/>
+                    <include name="pas9997_paymentPlansLookup"/>
+                    <include name="pas15369_reportOrderAndDriver"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="DriversVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas11932_viewDrivers"/>
+                    <include name="pas9662_maxDrivers"/>
+                    <include name="pas15076_MetadataServiceDriver"/>
+                    <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
+                    <include name="pas15373_uniqueDriverLicenses"/>
+                    <include name="pas16551_relationToFniHardStop"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="VehiclesVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas8273_OnlyActiveVehiclesAreAllowed"/>
+                    <include name="pas10449_ViewVehicleServiceOrderOfVehicle"/>
+                    <include name="pas11741_ManageVehicleLevelCoverages"/>
+                    <include name="pas502_DuplicateVinAddVehicleService"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddRemoveVehicle"/>
+                    <include name="pas14497_TransactionInformationForEndorsementsReplaceVehicle"/>
+                    <include name="pas9493_TransactionInformationForEndorsementsAddDriver"/>
+                    <include name="pas7147_VehicleUpdateBusiness"/>
+                    <include name="pas7147_VehicleUpdateRegisteredOwner"/>
+                    <include name="pas14952_EndorsementStatusResetForVehRatingFactors"/>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                    <include name="pas13252_UpdateVehicleGaragingAddressProblem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="AssignmentsVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas10484_ViewDriverAssignment"/>
+                    <include name="pas11633_ViewDriverAssignmentAutoAssign"/>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule1"/>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule2"/>
+                    <include name="pas13994_UpdateDriverAssignmentServiceRule3"/>
+                    <include name="pas14539_transactionInfoDriverAssignment"/>
+                    <include name="pas14539_transactionInfoUpdateDriverAssignment"/>
+                    <include name="pas14477_ViewDriverAssignment_NewDriver"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule1"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule3"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="CoveragesVA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas11741_ManageVehicleLevelCoverages"/>
+                    <include name="pas12769_ViewVehicleLevelCoveragesOneVehicle"/>
+                    <include name="pas10352_ManageVehicleCoverageUpdateCoverage"/>
+                    <include name="pas13353_LoanLeaseCoverage"/>
+                    <include name="pas14316_LoanLeasedCovForLeasedOldVehicle"/>
+                    <include name="pas14316_LoanLeasedCovForFinancedNewVehicle"/>
+                    <include name="pas502_DuplicateVinAddVehicleService"/>
+                    <include name="pas14721_UpdateCoveragesBI_PD"/>
+                    <include name="pas14536_TransportationExpensePart1"/>
+                    <include name="pas14536_TransportationExpensePart2"/>
+                    <include name="pas14536_TransportationExpensePart3"/>
+                    <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="UT"/>
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingUT" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas8784_endorsementValidateNoDelayAllowedAgent"/>
+                    <include name="pas8784_endorsementValidateNoDelayNotAllowedSystem"/>
+                    <include name="pas8784_endorsementValidateNotAllowedCustomer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!--Disabled the test to check BackwardCompatibility for all states-->
+    <parameter name="state" value="NY"/>
+    <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="AZ,NY,VA"/>
+    <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas478_AddDrivers"/>
+                    <include name="pas477_UpdateDrivers"/>
+                    <include name="pas14474_UpdateSpouseDriver"/>
+                    <include name="pas16696_AddANameInsuredSameDayPolicyEffectiveDate"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="AZ"/>
+    <test thread-count="1024" name="PolicySummaryService AZ" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForPolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="VA"/>
+    <test thread-count="1024" name="PolicySummaryService VA" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas15846_CheckTransactionDateForEndorsements"/>
+                    <include name="pas16678_policySummaryForPolicyForPolicyTerm"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <parameter name="state" value="MD"/>
+    <test thread-count="1024" name="PolicySummaryService MD" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="iewPremiumService - Tax" parallel="methods">
+        <parameter name="state" value="KY, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19742ViewPremiumServiceTaxInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PolicySummaryService DC" parallel="methods">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas13287_ViewStartEndorsementInfoServiceForDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PolicySummaryService CA" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas9716_policySummaryForPolicy"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DXP E2E" parallel="methods">
+        <parameter name="state" value="VA, UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
+                <methods>
+                    <include name="pas12866_e2e"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DXP E2E BCT" parallel="methods">
+        <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
+        <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
+                <methods>
+                    <include name="pas12866_e2eBct"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas11684_DriverAssignmentExistsForState"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.service.auto_ca.select.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas11684_DriverAssignmentExistsForState"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DriverAssignmentExistsForState SS" parallel="methods">
+        <parameter name="state" value="AZ, KY, MD, NY, NJ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas11684_DriverAssignmentExistsForState"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas9495_miniServicesDiscounts" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
+                <methods>
+                    <include name="pas9495_miniServicesDiscounts"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart" parallel="methods">
+        <parameter name="state" value="AZ, VA"/> <!--This test works for all Auto SS states-->
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
+                <methods>
+                    <include name="pas15540_RemoveDriverAssignedToTrailer"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14501_garagingDifferent" parallel="methods">
+        <parameter name="state" value="VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas14501_garagingDifferent"/>
+                    <include name="pas16577_DuplicateVinAddVehicleServicePendingRemove"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas13663_CurrentBillServiceVA" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
+                <methods>
+                    <include name="pas16982_ViewInstallmentScheduleService"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14648_MedpmDelimiter" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14648_MedpmDelimiter"/>
+                    <include name="pas14734_UpdateViewCoverageILAndMedical"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas12852_UW_rules" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
+                <methods>
+                    <include name="pas12852_GaragedInMichigan200020"/>
+                    <include name="pas12852_GaragedOutOfState200019"/>
+                    <include name="pas12852_DuplicateVin200031"/>
+                    <include name="pas12852_ExpensiveVehicle200022"/>
+                    <include name="pas12852_GaragedOutOfStateOnlyOneVeh200018"/>
+                    <include name="pas12852_MustHavePPA200016"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14646_UimDelimiter" parallel="methods">
+        <parameter name="state" value="VA, CT, DE, IN, KS, MD, NV, OH, OR, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14646_UimDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15228_UmUimDelimiter" parallel="methods">
+        <parameter name="state" value="AZ, DC, ID, KY, PA, SD, MT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15228_UmUimDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15824_UmpdDelimiter" parallel="methods">
+        <parameter name="state" value="DE, MD, VA, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15824_UmpdDelimiter"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="ViewUpdateCoverageUMPD" parallel="methods">
+        <parameter name="state" value="CO, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15255_UpdateCompCollCoveragesCheckUmpd"/>
+                    <include name="pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14730_UpdateCoverageUMPDAndPD" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14730_UpdateCoverageUMPDAndPD"/>
+                    <include name="pas11654_MDEnhancedUIMBICoverage"/>
+                    <include name="pas20835_mdAndEnhancedCoverage"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15325_UmpdNotExist" parallel="methods">
+        <parameter name="state" value="AZ, CT, KS, KY, MT, NY, OK, PA, SD, WY, ID"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15325_UmpdNotExist"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15254_14733_UpdateCoveragesBI_UM_UIM" parallel="methods">
+        <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15254_14733_UpdateCoveragesBI_UM_UIM"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14721_UpdateCoveragesServiceBIPD" parallel="methods">
+        <parameter name="state" value="AZ, VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14721_UpdateCoveragesServiceBIPD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Replace vehiclesVA" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12175_RemoveReplaceAllVehicles"/>
+                    <include name="pas12175_RemoveReplaceWaiveLiability"/>
+                    <include name="pas13920_ReplaceVehicleDontKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleDontKeepCoveragesOneDriverOneVehicle"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsKeepCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsNoCoverages"/>
+                    <include name="pas13920_ReplaceVehicleKeepAssignmentsOneDriver"/>
+                    <include name="pas13920_ReplaceVehicleKeepCoveragesOneDriverOneVehicle"/>
+                    <include name="pas13920_ReplaceVehicleNoAssignmentsKeepCoverages"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods">
+        <parameter name="state" value="VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas14680_TrailersCoveragesThatDoNotApply"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas14591_AddDriversUnhappyAge" parallel="methods">
+        <!--Can be run for all states time by time-->
+        <!--<parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>-->
+        <!---->
+        <parameter name="state" value="KS, MT, SD, NV, VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14591_AddDriversUnhappyAge"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Report Order and Endorsement" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15077_orderReports_endorsement"/>
+                    <include name="pas16694_orderReports_not_Named_Insured_endorsement"/>
+                    <include name="pas15384_moreThanTwoMinorViolationsError"/>
+                    <include name="pas15371_driversWithNarcoticsDrugOrFelonyConvictionsError"/>
+                    <include name="pas15370_driverWithMoreThanTwentyPointsError"/>
+                    <include name="pas15385_driverWithFourOrMoreIncidentsError"/>
+                    <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
+                    <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
+                    <include name="pas15374_driverWithMajorViolationsError"/>
+                    <include name="pas19673_theOrderOfViolations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="name Insured And Driver" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14475_NameInsuredMaritalStatusPSS"/>
+                    <include name="pas16696_AddANameInsuredSameDayNotPolicyEffectiveDate"/>
+                    <include name="pas14963_remove_driver_transaction_history"/>
+                    <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
+                    <include name="pas17769_tooOldDriverErrorAndNoHintFromReportResponse"/>
+                    <include name="pas19768_ageFirstLicensedCannotBeGreaterThanDob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="remove Driver" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14640_NotNamedInsuredAvailableForRatingHappyPath"/>
+                    <include name="pas14642_NotNamedInsuredAvailableForRatingHardStop"/>
+                    <include name="pas14641_NotNamedInsuredUpdateToNotAvailableForRating"/>
+                    <include name="pas14653_ViewDriverServiceOrderOfPendingDelete"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC01"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC02"/>
+                    <include name="pas14650_DeathAndSpecificDisabilityCovAndTotalDisabilityCovTC03"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas17629_Umuim_Update_coverage" parallel="methods">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17629_Umuim_Update_coverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverPA" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverPA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverNJ" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverNJ"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverNY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverNY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverCO" parallel="methods">
+        <parameter name="state" value="CO"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15369_reportOrderAndDriverCO"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits" parallel="methods">
+        <!--can run for all states (Except CA)-->
+        <parameter name="state" value="VA, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
+        <parameter name="state" value="VA, AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas18624_CustomisedEquipment"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="View Coverages-PD Limits" parallel="methods">
+        <parameter name="state" value="IN, KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20818_ViewPdCoverageLimits"/>
+                    <include name="pas21363_BIAndUMBIAndCanChangeFalse"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas16035ViewCoverageUpdateCoverage" parallel="methods">
+        <parameter name="state" value="IN"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas16035_ViewCoverageUpdateCoverage"/>
+                    <include name="pas17628_ViewCoverageUpdateCoverageUmpdDeductible"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15376_3OrMoreMinorOrSpeedingViolations" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas15376_3OrMoreMinorOrSpeedingViolations"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas17676_moreThanTwoMinorViolationsError" parallel="methods">
+        <parameter name="state" value="MD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
+                <methods>
+                    <include name="pas17676_moreThanTwoMinorViolationsError"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
+                    <include name="pas18670_CancelRemoveVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Named Insured marital status and the Relationship to the FNI (MD)" parallel="methods">
+        <parameter name="state" value="MD, NJ, CO, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16548_NamedInsuredMaritalStatus_MultipleMarital"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas20675_TortCoverage" parallel="methods">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20675_TortCoverage"/>
+                    <include name="pas19627_UMAndUimCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)" parallel="methods">
+        <parameter name="state" value="MD, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable" parallel="methods">
+        <parameter name="state" value="WY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas19626_biAndUMAndUIMCoverageSD" parallel="methods">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                    <include name="pas22037_updateBiCoverage"/>
+                    <include name="pas19625_TotalDisabilitySD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="View Coverage - UMPD and UIMPD" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
+                    <include name="pas20292_updateCoverageBIPDWv"/>
+                    <include name="pas21364_PDAndUMPDAndCanChangeFalse"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas19195_viewUpdatePIPCoverage_KY" parallel="methods">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15358_viewUpdatePIPCoverage_KS" parallel="methods">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15358_viewUpdatePIPCoverage_KS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15365_viewUpdatePIPCoverage_OR" parallel="methods">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                    <include name="pas16112_umpdOregonViewCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="viewUpdateCoverages_UT" parallel="methods">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="pas15499_RegisteredOwner" parallel="methods">
+        <parameter name="state" value="CT, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas15499_RegisteredOwnerDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Underinsured Conversion Coverage - CT" parallel="methods">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Moratoriums - VA" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="Moratoriums - az" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage" parallel="methods">
+        <parameter name="state" value="VA, KS, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="RFI View Service" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas19630_ViewServiceRFI"/>
+                    <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DC Coverages" parallel="methods">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
