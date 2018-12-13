@@ -261,8 +261,8 @@ PAS-5437:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
-PAS-19817:
-  summary: "Regression BCT: Time Out Error during cancellation"
+PAS-21552:
+  summary: "Errors: Time out. No session available. When 2 users change/cancel a policy at the same time"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
@@ -309,8 +309,8 @@ PASBB-818:
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
   - tests: [aaa.modules.bct.service.CancelPolicyTest.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
-PAS-18349:
-  summary: "IN, OR, KS , KY State. Total premium value is reduced during Empty Endorsement"
+PASBB-855:
+  summary: "Auto Tier not locked on Home policy during endorsement"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
@@ -385,6 +385,12 @@ PT-2829:
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigSpecificFormsGeneration.*]
     messages: ["[Renewal Bill for 2nd Renewal is not generated]"]
+PAS-21025:
+  summary: "driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
+    messages: ["PAS Driver should be 2nd Driver of Policy"]
 PAS-20880:
   summary: "Cannot save and exit on property info tab"
   reason: PROD
@@ -411,12 +417,6 @@ PAS-20851:
             aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
             aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
     messages: ["Cannot set value of RadioGroup {Chargeable"]
-PAS-20919:
-  summary: "Regression BCT: Cancel Notice flag is present after accepting payment on total due amount"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.bct.*]
-    messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
 PAS-21992:
   summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
@@ -449,3 +449,9 @@ PAS-22161:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
     messages: ["Waived - Accident Surcharge Waiver"]
+PAS-18273:
+  summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.renewal.RenewalTest.*]
+    messages: ["Unprepared data; Error; You must order the Membership report"]
