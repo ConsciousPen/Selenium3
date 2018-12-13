@@ -450,7 +450,7 @@ PAS-22161:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
     messages: ["Waived - Accident Surcharge Waiver"]
 PAS-18273:
-  summary: "Unable to remove second insured in auto policy or Error You must order membership report" is fired"
+  summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.renewal.RenewalTest.*]
