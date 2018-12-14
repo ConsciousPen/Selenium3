@@ -1,6 +1,21 @@
 package aaa.modules.regression.finance.template;
 
-import aaa.common.Tab;
+import static java.math.BigDecimal.ROUND_HALF_UP;
+import static java.time.temporal.ChronoField.DAY_OF_MONTH;
+import static java.time.temporal.ChronoUnit.DAYS;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.math.BigDecimal;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -22,27 +37,9 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
-
-import java.math.BigDecimal;
-import java.time.DateTimeException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.math.BigDecimal.ROUND_HALF_UP;
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoUnit.DAYS;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class FinanceOperations extends PolicyBaseTest {
 
@@ -233,17 +230,17 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		BillingSummaryPage.hidePriorTerms();
 	}
 
-    // Skip this step for CA
-    protected void renewalPremiumNotice(String policyNumber, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
-        LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
-        TimeSetterUtil.getInstance().nextPhase(billDate);
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-        mainApp().open();
-        SearchPage.openBilling(policyNumber);
-        BillingSummaryPage.showPriorTerms();
-        new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
-        new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
-    }
+	// Skip this step for CA
+	protected void renewalPremiumNotice(String policyNumber, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
+		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(billDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+	}
 
 	/**
 	 * @author Mantas Kazlauskas
