@@ -212,6 +212,7 @@ public final class DocGenEnum {
 		DS11("Application for Rental Property Insurance"),
 		DS2482("DS 24 82", ""),
 		DSIQXX("Rental Property Insurance Quote page"),
+		DSIIDNV("Important Information Regarding Your Policy"),
 		F1076B("California Application For Homeowners Insurance"),
 		F1122("Property Inventory List"),
 		F122G(""),
@@ -401,6 +402,7 @@ public final class DocGenEnum {
 		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
 		_62_6500("62 6500", "CA Evidence of Property Insurance");
+
 
 		private String id;
 		private String idInXml;
