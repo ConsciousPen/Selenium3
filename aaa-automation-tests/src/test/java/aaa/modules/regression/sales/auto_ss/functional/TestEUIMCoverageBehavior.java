@@ -395,7 +395,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyUIMVRD("No");
 
         //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
-        String euimSelectedText = "Enhanced UIM Selected";
+        String euimSelectedText = "Enhanced UIM";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
@@ -426,7 +426,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyPolicySummaryPage(String value) {
-        String euim = "Enhanced UIM Selected";
+        String euim = "Enhanced UIM";
         String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
         TestData coveragesSummary = PolicySummaryPage.getAutoCoveragesSummaryTestData();
         assertThat(coveragesSummary.getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);

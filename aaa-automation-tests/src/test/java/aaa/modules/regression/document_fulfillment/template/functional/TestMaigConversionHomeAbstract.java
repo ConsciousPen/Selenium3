@@ -708,7 +708,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 	private void preRenewalJobExecution(LocalDateTime expirationDate, String policyNumber){
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		LocalDateTime preRenewalGenDate = getTimePoints().getPreRenewalLetterGenerationDate(expirationDate).plusHours(1);
+		LocalDateTime preRenewalGenDate = getTimePoints().getPreRenewalLetterGenerationDate(expirationDate).plusHours(4);
 		TimeSetterUtil.getInstance().nextPhase(preRenewalGenDate);
 		JOBS_FOR_EVENT.get(PRE_RENEWAL).forEach(job -> JobUtils.executeJob(job));
 	}

@@ -23,12 +23,12 @@
         </classes>
     </test>
 
-    <!--<test name="Test CARCO Task Not Created">-->
-        <!--<parameter name="state" value="NJ, NY"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test CARCO Task Not Created">
+        <parameter name="state" value="NJ, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 
