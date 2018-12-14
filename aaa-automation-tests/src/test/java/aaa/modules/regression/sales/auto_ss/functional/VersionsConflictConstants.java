@@ -78,13 +78,16 @@ public class VersionsConflictConstants {
             .putAll("Named Insureds.Insured Principal (VIIFirstName VII VIILastName)","Insured Principal (VIIFirstName VII VIILastName)","")
             .putAll("Drivers.Driver (New Driver Version1)","Driver (New Driver Version1)","")
             .putAll("Drivers.Driver (New Driver Version2)","Driver (New Driver Version2)","")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","AAA Clue Order","")
 			.putAll("Vehicles.Vehicle (1998, DODGE, CARAVAN)","Vehicle (1998, DODGE, CARAVAN)","")
 			.putAll("Vehicles.Vehicle (2003, MERCEDES-BENZ, SL500R)","Vehicle (2003, MERCEDES-BENZ, SL500R)","")
-			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.")
+			.putAll("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)","")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Are there any additional interest(s)?", "true", "false")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.First Name", "First Name version1", "")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Second Name", "Second Name version1", "")
 			.putAll("Vehicles.2008, ACURA, MDX.Additional Interest.Additional Interest Information.Additional Interest Address", "interest address 1, VI interest address 2, Phoenix, AZ, 85085","")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date","","")
+			.putAll("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date","","")
 			.build();
 
 	//mapping of expected Component.Attribute to TD attributes
@@ -468,12 +471,32 @@ public class VersionsConflictConstants {
                     .put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date", CURRENT)
                     .build());
 
+	protected static final ArrayListMultimap<String, String> ADD_DRIVER_INFORMATION_MANUAL = ArrayListMultimap.create(
+			ImmutableListMultimap.<String, String>builder()
+					.put("Contact Information.Home Phone Number", CURRENT)
+					.put("Contact Information.Work Phone Number", AVAILABLE)
+					.put("Contact Information.Mobile Phone Number", CURRENT)
+					.put("Contact Information.Preferred Phone #", CURRENT)
+					.put("Contact Information.Email", AVAILABLE)
+					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order", AVAILABLE)
+					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date",CURRENT)
+					.put("Drivers.Driver (New Driver Version1)", AVAILABLE)
+					.put("Drivers.Driver (New Driver Version2)", CURRENT)
+					.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)", AVAILABLE)
+					.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage.Automobile Death Benefit",CURRENT)
+					.build());
+
     //all components/attributes that should be on Comparison page  Rolled on/endorsement
     static final Multimap<String, String> ADD_DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
             .put("AAAPolicy Issue Summary", "Insured Email")
             .put("Contact Information", "Work Phone Number")
             .put("Contact Information", "Email")
             .put("Drivers", "Driver (New Driver Version1)")
+			.put("Named Insureds.NBFirstName NB NBLastName", "AAA Clue Order")
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities", "Activity Information (Accident (Property Damage Only), 05/25/2018, Not included in Rating)")
+			.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage", "Automobile Death Benefit")
             .build();
 
     //all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -482,7 +505,11 @@ public class VersionsConflictConstants {
             .put("Contact Information", "Mobile Phone Number")
             .put("Contact Information", "Preferred Phone #")
             .put("Drivers", "Driver (New Driver Version2)")
-            .build();
+			.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage", "Automobile Death Benefit")
+			.put("Named Insureds.NBFirstName NB NBLastName", "AAA Clue Order")
+			.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","Order Date")
+			.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","Receipt Date")
+			.build();
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()

@@ -631,7 +631,7 @@ TestData_AddDriverInformation_Version1: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {
-    Validate Driving History: click
+    Validate Driving History: click,
   },
   DocumentsAndBindTab: {},
 }
@@ -645,7 +645,7 @@ TestData_AddDriverInformation_Version2: {
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {
-    Validate Driving History: click
+    Validate Driving History: click,
   },
   DocumentsAndBindTab: {},
 }
@@ -675,7 +675,6 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
-  DriverSearchDialog: {},
   Date of Birth: $<today-55y>,
   Gender: Male,
   Marital Status: Married,
@@ -703,7 +702,6 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
-  DriverSearchDialog: {},
   Date of Birth: $<today-18y>,
   Gender: Female,
   Marital Status: Single,
