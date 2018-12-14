@@ -82,7 +82,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 					HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
 		}
 
-		getPolicyType().get().getDefaultView().fillUpTo(policyTd, ReportsTab.class, false);
+		getPolicyType().get().getDefaultView().fillUpTo(policyTd, ReportsTab.class, true);
 
 		assertThat(reportsTab.tblFirelineReport.getRow(1)
 				.getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
