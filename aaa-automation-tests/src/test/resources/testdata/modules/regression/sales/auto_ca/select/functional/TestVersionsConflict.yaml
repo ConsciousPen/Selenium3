@@ -161,6 +161,40 @@ TestData_NamedInsuredInformation_Version2: {
   DocumentsAndBindTab: {},
 }
 
+TestData_AddNamedInsuredInformation_Version1: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_Version1'],
+    ContactInformation: '@ContactInformation_Version1'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
+TestData_AddNamedInsuredInformation_Version2: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_Version2'],
+    ContactInformation: '@ContactInformation_Version2'
+  },
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
 NamedInsuredInformation: {
   Title: MR,
   First Name: NBFirstName,
@@ -192,6 +226,7 @@ NamedInsuredInformation: {
 }
 
 NamedInsuredInformation_Version1: {
+  InsuredSearchDialog: {},
   Title: MRS,
   First Name: VIFirstName,
   Middle Name: VI,
@@ -222,6 +257,7 @@ NamedInsuredInformation_Version1: {
 }
 
 NamedInsuredInformation_Version2: {
+  InsuredSearchDialog: {},
   Title: MISS,
   First Name: VIIFirstName,
   Middle Name: VII,
@@ -614,6 +650,34 @@ TestData_DriverInformation_Version2: {
   },
 }
 
+TestData_AddDriverInformation_Version1: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version1'},
+  DriverTab: ['@DriverInformation_AddActivity1','@DriverInformation_Add_Version1'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
+TestData_AddDriverInformation_Version2: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version2'},
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version2'],
+  RatingDetailReportsTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
 DriverInformation: {
   Date of Birth: $<today-35y>,
   Gender: Female,
@@ -643,6 +707,66 @@ DriverInformation: {
   #  "Include in Points and/or YAF?": 'No',
   #  Not Included in Points and/or YAF - Reason Codes: 'Report errors',
   #}
+}
+
+DriverInformation_AddActivity1: {
+  Date of Birth: $<today-35y>,
+  Gender: Female,
+  Marital Status: Divorced,
+  Occupation: 'Farmer',
+  License Type: 'Licensed (US)',
+  License State: UT,
+  License Number: 111111111,
+  Age First Licensed: 17,
+  Affinity Group: AAA Employee,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'Yes',
+  Filing State: 'Utah',
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: 'At-Fault Accident',
+    Description: 'Accident (Property Damage Only)',
+    Occurrence Date: '05/25/2018',
+    Loss Payment Amount: 2000,
+    "Include in Points and/or Tier?": 'No',
+    Not Included in Points and/or Tier - Reason Codes: 'Report errors',
+  }
+}
+
+DriverInformation_Add_Version1: {
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Clergy',
+  License Type: 'Licensed (US)',
+  License State: AZ,
+  License Number: 222222222,
+  Age First Licensed: 16,
+  Affinity Group: AAA Employee,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'No',
+}
+
+DriverInformation_Add_Version2: {
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Clergy',
+  License Type: 'Licensed (US)',
+  License State: AZ,
+  License Number: 222222222,
+  Age First Licensed: 16,
+  Affinity Group: AAA Employee,
+  ADB Coverage: 'Yes',
+  Financial Responsibility Filing Needed: 'No',
 }
 
 DriverInformation_Version1: {
@@ -757,6 +881,79 @@ TestData_VehicleInformation_Version2: {
       Photos for salvage vehicle with physical damage coverage: 'Yes'
     }
   },
+}
+
+TestData_AddVehicleInformation_Version1: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version1'},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: ['@VehicleInformation_AddAdditionalInterest', '@VehicleInformation_Version1'],
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
+TestData_AddVehicleInformation_Version2: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version2'},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version2'],
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Photos for salvage vehicle with physical damage coverage: 'Yes'
+    }
+  },
+}
+
+VehicleInformation_AddAdditionalInterest: {
+  #Vehicle Information section
+  Type: 'Private Passenger Auto',
+  Usage: Pleasure,
+  VIN: 2HNYD28498H554858,
+  Existing Damage: Normal Wear and Tear,
+  "Salvaged?": 'No',
+  Anti-theft: Vehicle Recovery Device,
+  #Usage Based Insurance Program
+  "Enroll in Usage Based Insurance?": 'Yes',
+  Get Vehicle Details: click,
+  Grant Participation Discount: click,
+  #Garaging Address
+  "Is Garaging different from Residential?": 'Yes',
+  Zip Code: 85118,
+  Address Line 1: NB garaging address 1,
+  Address Line 2: NB garaging address 2,
+  City: Gold Canyon,
+  State: AZ,
+  Validate Address: true,
+  Validate Address Dialog: {
+    Street number: NB,
+    Street Name: garaging address 1,
+  },
+  #Ownership Information
+  Ownership: {
+    Ownership Type: Owned,
+  },
+  "Are there any additional interest(s)?": 'Yes',
+  AdditionalInterestInformation: {
+    First Name: First Name version1,
+    Second Name: Second Name version1,
+    Zip Code: 85085,
+    Address Line 1: VI interest address 1,
+    Address Line 2: VI interest address 2,
+    City: Phoenix,
+    State: AZ,
+    Validate Address: true,
+    Validate Address Dialog: {
+      Street number: VI,
+      Street Name: interest address 1,
+    },
+  }
 }
 
 VehicleInformation: {
