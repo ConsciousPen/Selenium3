@@ -22,7 +22,13 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdate_enableAutoPay"/>
+            		<include name="testUpdate_addPaymentMetodAndEnableAutoPay"/>
+            		<include name="testUpdate_disableAutoPay"/>
+            	</methods>
+            </class>
         </classes>
     </test>    
     <test name="CA HSS Regression Tests" parallel="methods">
@@ -42,7 +48,13 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdate_enableAutoPay"/>
+            		<include name="testUpdate_addPaymentMetodAndEnableAutoPay"/>
+            		<include name="testUpdate_disableAutoPay"/>
+            	</methods>
+            </class>
         </classes>
     </test>
 </suite>

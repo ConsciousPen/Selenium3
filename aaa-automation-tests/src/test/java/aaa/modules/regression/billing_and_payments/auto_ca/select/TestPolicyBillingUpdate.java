@@ -42,7 +42,6 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 		
 		super.testUpdate_addPaymentMethodAndEnableAutoPay();
 	}
-
 	
 	@Parameters({"state"})
 	@StateList(states =  States.CA)
@@ -54,5 +53,14 @@ public class TestPolicyBillingUpdate extends PolicyBillingUpdate {
 				.adjust(TestData.makeKeyPath(PurchaseMetaData.PurchaseTab.class.getSimpleName()), getTestSpecificTD("TestData_PurchaseTab_WithEnabledAutoPay"));
 		
 		super.testUpdate_disableAutoPay(td);
+	}
+	
+	@Parameters({"state"})
+	@StateList(states = States.CA)
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT)
+	public void testUpdateBillingAccountForUserB31(@Optional("CA") String state) {
+		
+		super.testUpdateBillingAccountForUserB31();
 	}
 }
