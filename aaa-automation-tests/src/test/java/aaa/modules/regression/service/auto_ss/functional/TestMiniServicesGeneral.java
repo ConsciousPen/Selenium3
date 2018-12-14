@@ -94,6 +94,26 @@ public class TestMiniServicesGeneral extends TestMiniServicesGeneralHelper {
 				pas12866_e2eBctBody(state, false, softly)
 		);
 	}
+	/**
+	 * @author Maris Strazds
+	 * @name Validate isRenewalOffered in Renewal summary service
+	 * @scenario
+	 * 1. Create a policy in PAS
+	 * 2. Run all required renewal jobs till Renewal Proposal date (excluding)
+	 * 3. Run viewPolicyTermInfo service ---> response doesn't contain ifo for renewal term as it is not proposed yet
+	 * 4. Run all required renewal jobs at R-35
+	 * 5. Run viewPolicyTermInfo service for renewal term ---> response contains info as renewal is proposed
+	 * 6. Make Revised Renewal by updating Current term and Run viewPolicyTermInfo service for renewal term  ---> response contains info as renewal is proposed
+	 * 7. Make Revised Renewal by updating Renewal term and Run viewPolicyTermInfo service for renewal term ---> response contains info as renewal is proposed
+	 * 8. Renew the policy
+	 * 9. Generate Renewal image, run viewPolicyTermInfo and validate that response doesn't contain ifo for renewal term as it is not proposed yet
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22548"})
+	public void pas22548_isRenewalOfferGenerated(@Optional("VA") String state) {
+		pas22548_isRenewalOfferGeneratedBody();
+	}
 }
 
 

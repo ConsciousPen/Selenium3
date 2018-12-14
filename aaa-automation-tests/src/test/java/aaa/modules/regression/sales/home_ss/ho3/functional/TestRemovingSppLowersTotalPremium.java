@@ -1,11 +1,9 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import static aaa.common.enums.NavigationEnum.HomeSSTab.ENDORSEMENT;
-import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES;
-import static aaa.common.enums.NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_ENDORSEMENT_SCHEDULED_PERSONAL_PROPERTY;
+import static aaa.common.enums.NavigationEnum.HomeSSTab.*;
 import static aaa.main.metadata.policy.HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY;
 import static aaa.main.metadata.policy.HomeSSMetaData.EndorsementTab.HS_04_61;
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -44,7 +42,7 @@ public class TestRemovingSppLowersTotalPremium extends HomeSSHO3BaseTest {
      * 5.  Recalculate premium and validate if the Actual premium is subtracting the SPP amount
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-5847")
     public void pas5847_removingSPPDoesNotLowerTotalPremium(@Optional("NJ") String state) {
 

@@ -116,12 +116,12 @@ INC0655981:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount.pas278_eValueeSignedPledgeDocumentAHEVAXX]
       messages: ["Miscellaneous"]
-PAS-11538:
-  summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35"
+PAS-15463:
+  summary: "Regression: Home SS: HO4: UT: Renewal status is Policy Pending on R-35 on low value policies"
   reason: PROD
   failures:
     - tests: [aaa.modules.e2e.home_ss.ho4.TestScenario9.TC01_createPolicy]
-      messages: ["Column Status was not found in the table"]
+      messages: ["Button {<unnamed>: By.id: productContextInfoForm:lnkRenewals} is not enabled as expected"]
 PAS-11467:
   summary: "HO When setting Insured to Deceased, clue report needs to be reordered, cant issue an endorsement"
   reason: PROD
@@ -200,7 +200,7 @@ PAS-5529:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+      messages: ["Errors: 'Roof shape' is not in within range"]
 PAS-5102:
   summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
@@ -261,8 +261,8 @@ PAS-5437:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
-PAS-19817:
-  summary: "Regression BCT: Time Out Error during cancellation"
+PAS-21552:
+  summary: "Errors: Time out. No session available. When 2 users change/cancel a policy at the same time"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
@@ -309,8 +309,8 @@ PASBB-818:
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
   - tests: [aaa.modules.bct.service.CancelPolicyTest.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
-PAS-18349:
-  summary: "IN, OR, KS , KY State. Total premium value is reduced during Empty Endorsement"
+PASBB-855:
+  summary: "Auto Tier not locked on Home policy during endorsement"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
@@ -417,17 +417,25 @@ PAS-20851:
             aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
             aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
     messages: ["Cannot set value of RadioGroup {Chargeable"]
-PAS-20919:
-  summary: "Regression BCT: Cancel Notice flag is present after accepting payment on total due amount"
+PAS-21992:
+  summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
   failures:
-  - tests: [aaa.modules.bct.*]
-    messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
-PAS-20379:
+    - tests: [aaa.modules.e2e.home_ss.ho3.TestScenario6.TC01_createPolicy]
+      messages: ["AHRBXX"]
+PT-3048:
+  summary: "Regression: Exception on CLUE report ordering due to stub file inconsistency"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.document_fulfillment.home_ca.ho3.functional.TestCinNewBusinessHomeCAHO3.*]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
+  - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
+    messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
+PAS-22575:
   summary: "Test Min Due Is Not Recalculated After Endorsements"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas20379_testMinDueIsNotRecalculatedAfterEndorsements]
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas22575_testMinDueIsNotRecalculatedAfterEndorsements]
     messages: ["expected:"]
 PAS-21588:
   summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
@@ -441,3 +449,9 @@ PAS-22161:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
     messages: ["Waived - Accident Surcharge Waiver"]
+PAS-18273:
+  summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.renewal.RenewalTest.*]
+    messages: ["Unprepared data; Error; You must order the Membership report"]

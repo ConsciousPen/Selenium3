@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -70,7 +72,9 @@ public class HelperCommon {
 
 	private static final String DXP_BILLING_CURRENT_BILL = "/api/v1/billing/%s/current-bill";
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
+	private static final String DXP_VIEW_RFI = "/api/v1/policies/%s/endorsement/rfi?generate=%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
+	private static final String DXP_BILLING_POLICIES_TERM_INFO = "/api/v1/billing/accounts/%s/policies?effectiveDate=%s";
 
 	private static AdminApplication adminApp() {
 		return CSAAApplicationFactory.get().adminApp();
@@ -234,15 +238,20 @@ public class HelperCommon {
 		return JsonClient.sendDeleteRequest(requestUrl, ErrorResponseDto.class, request, 422);
 	}
 
+	public static <T> T revertDriver(String policyNumber, String driverOid, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	}
+
 	public static ViewDriverAssignmentResponse viewEndorsementAssignments(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, ViewDriverAssignmentResponse.class);
 	}
 
-	public static <T> T revertDriver(String policyNumber, String driverOid, Class<T> responseType, int status) {
-		RestRequestInfo<T> restRequestInfo =
-				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_DRIVERS_CANCEL_REMOVAL, policyNumber, driverOid)), responseType, status);
-		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.POST);
+	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
+		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
 	}
 
 	public static ViewDriverAssignmentResponse updateDriverAssignment(String policyNumber, String vehicleOid, List<String> driverOids) {
@@ -257,9 +266,16 @@ public class HelperCommon {
 		return JsonClient.sendPostRequest(requestUrl, request, ViewDriverAssignmentResponse.class, 200);
 	}
 
-	public static DriverAssignments viewEndorsementAssignments2(String policyNumber) {
+	public static DriverAssignments updateDriverAssignment2(String policyNumber, String vehicleOid, List<String> driverOids) {
+		log.info("Update Driver Assignment: policyNumber: " + policyNumber + ", vehicleOid: " + vehicleOid + ", driverOids: " + driverOids);
 		String requestUrl = urlBuilderDxp(String.format(DXP_POLICIES_ENDORSEMENT_ASSIGNMENTS, policyNumber));
-		return JsonClient.sendGetRequest(requestUrl, DriverAssignments.class);
+		UpdateDriverAssignmentRequest request = new UpdateDriverAssignmentRequest();
+		request.assignmentRequests = new ArrayList<>();
+		DriverAssignmentRequest assignmentDto = new DriverAssignmentRequest();
+		assignmentDto.driverOids = driverOids;
+		assignmentDto.vehicleOid = vehicleOid;
+		request.assignmentRequests.add(assignmentDto);
+		return JsonClient.sendPostRequest(requestUrl, request, DriverAssignments.class, 200);
 	}
 
 	public static <T extends DriverAssignments> T updateDriverAssignment2(String policyNumber, Class<T> response, String vehicleOid, String driverOid) {
@@ -464,6 +480,21 @@ public class HelperCommon {
 	public static AccountDetails billingAccountInfoService(String policyNumber) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_BILLING_ACCOUNT_INFO, policyNumber));
 		return JsonClient.sendGetRequest(requestUrl, AccountDetails.class);
+	}
+
+	public static RFIDocuments rfiViewService(String policyNumber, boolean generateDoc) {
+		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_RFI, policyNumber, generateDoc));
+		return JsonClient.sendGetRequest(requestUrl, RFIDocuments.class);
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, LocalDateTime termEffectiveDate, Class<T> responseType) {
+		return viewPolicyTermInfo(policyNumber, termEffectiveDate.format(DateTimeFormatter.ISO_LOCAL_DATE), responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, String termEffectiveDate, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_BILLING_POLICIES_TERM_INFO, policyNumber, termEffectiveDate)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static Installment[] billingInstallmentsInfo(String policyNumber) {

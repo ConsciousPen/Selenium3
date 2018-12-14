@@ -1,12 +1,12 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;

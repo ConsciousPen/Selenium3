@@ -32,6 +32,8 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
 	public static final String BALANCE_DUE_KEY = "Balance Due";
 	public static final String TOTAL_PREMIUM_KEY = "Total Premium";
 	public static final String REST_VALUE = "/rest";
+	public static final String FULL_PLUS_VALUE = "/full+";
+	public static final String FULL_MINUS_VALUE = "/full-";
 	public static final String FULL_TERM_VALUE = "/full_term";
 
 	public PaymentMethodAllocationControl(BaseElement<?, ?> parent, By locator, Class<? extends MetaData> metaDataClass) {
@@ -64,6 +66,10 @@ public class PaymentMethodAllocationControl extends AbstractContainer<TestData, 
 				value = full.toString();
 			} else if (value.equals(REST_VALUE)) {
 				value = due.subtract(enteredSum).toString();
+			} else if (value.contains(FULL_PLUS_VALUE)) {
+				value = full.subtract(enteredSum).subtract(new Dollar(value.replace(FULL_PLUS_VALUE, ""))).toString();
+			} else if (value.contains(FULL_MINUS_VALUE)) {
+				value = full.subtract(enteredSum).subtract(new Dollar(value.replace(FULL_MINUS_VALUE, ""))).toString();
 			} else if (value.endsWith("%")) {
 				value = due.getPercentage(Double.valueOf(value.replace("%", "").replace("/", ""))).toString();
 			}

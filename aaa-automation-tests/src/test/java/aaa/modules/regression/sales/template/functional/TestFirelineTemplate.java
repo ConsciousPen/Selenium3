@@ -4,12 +4,16 @@ import aaa.common.enums.PrivilegeEnum;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.DocumentsTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.EndorsementTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
+import aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 
@@ -19,6 +23,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 
 	private ErrorTab errorTab = new ErrorTab();
 	private ReportsTab reportsTab = new ReportsTab();
+	private EndorsementTab endorsementTab = new EndorsementTab();
 
 	protected void pas18302_SS_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
@@ -69,7 +74,6 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		reportsTab.submitTab();
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class, false);
 
-
 		if(expectedFirelineScore>2){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
@@ -82,15 +86,13 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
-
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
+	}
 
-		}
 
-
-	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege) {
+	protected void pas18914_CA_firelineRuleForWoodShingleRoof(String zipCode, String address, int expectedFirelineScore, PrivilegeEnum.Privilege userPrivilege, Boolean isFAIRplanAdded) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 			mainApp().open();
 		} else {
@@ -127,12 +129,29 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
 
 		reportsTab.submitTab();
+
 		getPolicyType().get().getDefaultView()
 				.fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
+						EndorsementTab.class, false);
+
+		if (isFAIRplanAdded) {
+			if (getPolicyType() == PolicyType.HOME_CA_DP3) {
+				//Add FPCECADP endorsement
+				endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECADP.getLabel()).click();
+			} else if (getPolicyType() == PolicyType.HOME_CA_HO3) {
+				//Add FPCECA endorsement
+				endorsementTab.getAddEndorsementLink(HomeCaMetaData.EndorsementTab.FPCECA.getLabel()).click();
+			}
+			endorsementTab.btnSaveEndo.click();
+
+			policyTd.adjust(DocumentsTab.class.getSimpleName(), testDataManager.getDefault(TestFAIRPlanEndorsement.class).getTestData("DocumentsTab_SignFairPlanEndorsement"));
+		}
+
+		getPolicyType().get().getDefaultView()
+				.fillFromTo(policyTd, EndorsementTab.class,
 				aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
 
-
-		if(expectedFirelineScore>2){
+		if(expectedFirelineScore>2 && !isFAIRplanAdded){
 			assertThat(errorTab.isVisible()).isTrue();
 			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_CA1302295);
 			if(expectedFirelineScore>4){
@@ -144,11 +163,49 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				assertThat(errorTab.buttonOverride).isDisabled();
 				assertThat(errorTab.buttonApproval).isEnabled();
 			}
-
 		} else {
 			assertThat(errorTab.isVisible()).isFalse();
 		}
-
 	}
 
+	protected void pas18296_AE5RuleNotTriggering(String zipCode, String address, int expectedFirelineScore) {
+		mainApp().open();
+		createCustomerIndividual();
+		getPolicyType().get().initiate();
+
+		TestData policyTd = getPolicyTD();
+		//Add AUTO Other active AAA policies
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.OTHER_ACTIVE_AAA_POLICIES.getLabel()),
+				getStateTestData(testDataManager.policy.get(PolicyType.HOME_CA_HO3), "DataGather", "OtherActiveAAAPolicies"));
+
+		//Override address and ZIP code. This address should return Fireline score 5 or 6.
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
+				HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), zipCode);
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
+				HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
+				HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
+
+		//Override Roof Type to anything but NOT 'Wood shingle/Wood shake'
+		policyTd.adjust(TestData.makeKeyPath(HomeCaMetaData.PropertyInfoTab.class.getSimpleName(),
+				HomeCaMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(),
+				HomeCaMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Builtup Tar & Gravel");
+
+		getPolicyType().get().getDefaultView()
+				.fillUpTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab.class, true);
+
+		assertThat(reportsTab.tblFirelineReport.getRow(1)
+				.getCell(HomeCaMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
+				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
+
+		reportsTab.submitTab();
+
+		getPolicyType().get().getDefaultView()
+				.fillFromTo(policyTd, aaa.main.modules.policy.home_ca.defaulttabs.PropertyInfoTab.class,
+						aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab.class, false);
+
+		assertThat(errorTab.isVisible()).isTrue();
+		errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline_CA02122017);
+	}
 }

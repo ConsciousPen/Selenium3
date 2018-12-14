@@ -150,6 +150,10 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (AutoOpenLCoverage coverage : vehicle.getCoverages()) {
+				//Vehicle can either have UMPD or CDW coverage, but not both. UMPD is not available with COLL coverage, however CDW is.
+				if ("UMPD".equals(coverage.getCoverageCd()) && vehicle.getCoverages().stream().anyMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+					coverage.setCoverageCd("CDW");
+				}
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -163,6 +167,10 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 			if (vehicle.getCoverages().stream().noneMatch(c -> "COMP".equals(c.getCoverageCd()))) {
 				detailedCoveragesData.put(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel(), getFormattedCoverageLimit("N", "COMP"));
 			}
+			if (vehicle.getCoverages().stream().noneMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+				detailedCoveragesData.put(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), getFormattedCoverageLimit("N", "COLL"));
+			}
+
 			detailedVehicleCoveragesList.add(new SimpleDataProvider(detailedCoveragesData));
 			detailedCoveragesData.clear();
 		}

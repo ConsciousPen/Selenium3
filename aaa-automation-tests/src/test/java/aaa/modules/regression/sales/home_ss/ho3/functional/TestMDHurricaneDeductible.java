@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestHurricaneDeductibleTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 /**
@@ -40,7 +40,7 @@ public class TestMDHurricaneDeductible extends TestHurricaneDeductibleTemplate {
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MD Hurricane Deductible")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MD Hurricane Deductible")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-6907")
 	public void pas6907_testMDHurricaneDeductible(@Optional("MD") String state) {
 

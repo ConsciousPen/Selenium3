@@ -18,7 +18,7 @@ public final class ErrorEnum {
 
 		// Property errors
 		ERROR_AAA_HO_Fireline("AAA_HO_Fireline","FireLine score is ineligible. (AAA_HO_Fireline) [for AAAFirelineDetailsMVO.fi..." ),
-		ERROR_AAA_HO_Fireline_CA02122017("Fireline_CA02122017","FireLine score is ineligible (Fireline_CA02122017) [for AAAHOCADetermineEligi..."),
+		ERROR_AAA_HO_Fireline_CA02122017("Fireline_CA02122017","FireLine score is ineligible. (Fireline_CA02122017) [for AAAHOCADetermineElig..."),
 		ERROR_AAA_HO_SS3054048("AAA_HO_SS3054048", "Order CLUE report before binding. (AAA_HO_SS3054048) [for AAAHOOrderClueRepor..."),
 		ERROR_AAA_HO_CA20180518("AAA_HO_CA20180518", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
 		ERROR_AAA_HO_CA20180517("AAA_HO_CA20180517", "Signed FAIR Plan Companion Endorsement - California is required. (AAA_HO_CA20..."),
@@ -27,6 +27,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_CSA25636985("AAA_CSA25636985", "Policy cannot be bound with Current AAA Member as Pending"),
 		ERROR_AAA_HO_CA_15011_1("AAA_HO_CA_15011_1", "Dwellings built prior to 1940 must have all four major systems fully renovated."),
 		ERROR_AAA_HO_CACovAReplacementCost("AAA_HO_CACovAReplacementCost", "Coverage A greater than 120% of replacement cost requires underwriting approval."),
+		ERROR_AAA_HO_CA1210012("AAA_HO_CA1210012", "Underwriting approval is required for claim(s) that have been modified (AAA_H..."),
 		ERROR_AAA_HO_CA12190315("AAA_HO_CA12190315", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
 		ERROR_AAA_HO_CA1219040y("AAA_HO_CA1219040y", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_AAA_HO_CA12230792("AAA_HO_CA12230792", "Risks with more than 2 resident employees are ineligible."),
@@ -54,6 +55,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS6260765("AAA_HO_SS6260765", "Cannot bind policy without underwriter approval. Risks without valid riskmete..."),
 		ERROR_AAA_HO_SS3230000("AAA_HO_SS3230000", "Policy effective date cannot be backdated more than three days from today's d..."),
 		ERROR_AAA_HO_SS10060735("AAA_HO_SS10060735", "Underwriter approval is required when Adversely Impacted is selected."),
+		ERROR_AAA_HO_SS1210011("AAA_HO_SS1210011", "Underwriting approval is required for claim(s) that have been modified (AAA_H..."),
 		ERROR_AAA_HO_SS624530_CO("AAA_HO_SS624530_CO", "Dwellings that have not had the roof replaced within the past 25 years if com..."),
 		ERROR_AAA_HO_SS10030560("AAA_HO_SS10030560", "Dwellings with a wood shake/shingle roof are unacceptable."),
 		ERROR_AAA_HO_SS10030001("AAA_HO_SS10030001", "Dwellings with a T-Lock shingle roof are unacceptable."),
@@ -67,6 +69,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS1050670_OR("AAA_HO_SS1050670_OR", "Applicants with any paid non-CAT claim and/or more than 1 paid CAT claim in t..."),
 		ERROR_AAA_HO_SS12023000("AAA_HO_SS12023000", "Applicants with any liability claims in the past 3 years are ineligible."),
 		ERROR_WM_0523("WM-0523", "Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claims in..."),
+		ERROR_AAA_HO_SS4040546("AAA_HO_SS4040546", "Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claims in..."),
 		ERROR_WM_0523_SD("WM-0523_SD", "Applicants with more than one paid non-weather claim and/or more than two pai..."),
 		ERROR_AAA_HO_SS12200234("AAA_HO_SS12200234", "Applicants with any paid claims over $25,000 in the last 3 years are ineligible."),
 		ERROR_AAA_HO_SS7160042("AAA_HO_SS7160042", "Applicants who have been cancelled, refused insurance or non-renewed in the p..."),
@@ -164,6 +167,8 @@ public final class ErrorEnum {
 		ERROR_AAA_MES_PC_0017_CA_CHOICE("MES-PC-0017_CA_CHOICE", "Rating variables stat code or Value($) is required for rating (MES-PC-0017) [..."),
 		ERROR_AAA_MVR_order_validation_SS("AAA_MVR_order_validation_SS", "Current MVR for "),
         ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to..."),
+		ERROR_AAA_200205("200205", "Vehicles with Physical Damage Coverage requires a CARCO Inspection"),
+		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),
 
 		//MEMBERSHIP Errors
