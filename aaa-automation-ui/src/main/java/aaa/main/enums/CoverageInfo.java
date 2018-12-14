@@ -68,7 +68,6 @@ public enum CoverageInfo {
 	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	UIMBI_DC("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
-	BI_DC("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_DC, "Per Person/Per Accident"),
 	BI_WV_VA_KS_DC("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_WV_VA_KS_DC, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
 	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),
