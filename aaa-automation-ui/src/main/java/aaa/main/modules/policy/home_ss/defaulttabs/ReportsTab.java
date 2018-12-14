@@ -39,6 +39,7 @@ public class ReportsTab extends Tab {
 	public Table tblRiskMeterReport = new Table(By.xpath("//table[@id='policyDataGatherForm:riskMeterReportTable']"));
 	public StaticElement lblAdversalyImpactedMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:warningMessage']"));
 	public StaticElement lblELCMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:ELCMessageText']"));
+	public StaticElement lblFirelineMessage = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:firelineValidationErrorMessage']"));
 
 	public ReportsTab() {
 		super(HomeSSMetaData.ReportsTab.class);
