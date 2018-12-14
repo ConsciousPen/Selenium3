@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -7,6 +8,7 @@ import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsHelper;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -30,6 +32,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * Verify Occasional Satatus
 	 */
 	@Parameters({"state"})
+	//@StateList(states = {Constants.States.VA, Constants.States.})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
