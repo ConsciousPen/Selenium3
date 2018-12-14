@@ -4868,7 +4868,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
 
 		//Start of the transaction: PD < UMPD, decrease PD ---> UMPD is not updated, PD is updated
-		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);//BUG: PAS-23234 If changing decreasing PD when PD < UIMPD, then UIMP is also updated
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
 
 		//Update UMPD
 		//Update PD = UMPD (precondition for next steps)
@@ -4894,7 +4894,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
 
 		//Update PD > UMPD (precondition for next steps)
-		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_10000);
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
 		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_5000);
 
 		//Start of the transaction: PD > UMPD, Update PD < UMPD (update UMPD) ---> UMPD is updated, PD doesn't change
@@ -4991,7 +4991,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
 
 		//Start of the transaction: PD < UIMPD, decrease PD ---> UIMPD is not updated, PD is updated
-		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);//BUG: PAS-23234 If changing decreasing PD when PD < UIMPD, then UIMP is also updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
 
 		//Update UIMPD
 		//Update UIMPD = No Cov (precondition for next steps)
@@ -5017,9 +5017,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//UIMPD <> No Cov, PD > UIMPD, update PD > UIMPD (update UIMPD) ---> UIMPD is updated
 		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_10000);
 
-		//Update back to PD > UMPD (to get precondition for next step)
+		//Update back to PD > UIMPD (to get precondition for next step)
 		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
-		//updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
 
 		//UIMPD <> No Cov, PD > UIMPD, update PD < UIMPD (update UIMPD) ---> UIMPD is updated
 		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
