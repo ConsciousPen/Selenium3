@@ -39,7 +39,7 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
     public void pas18311_firelineScore_GreaterThan_firelineLookupTable(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, false);
+        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
     }
 
     /**
@@ -54,9 +54,9 @@ public class TestFireline extends TestFirelineTemplate {
      * 5. Check that fireline score from report is 7 or above in Reports tab
      * 6. Verify that ADDRESS level is match in Property Info Tab
      * 7. Add Fairplan Endorsment
-     * 7. Try Purchase policy
-     * 8. Check that Error tab appeared
-     * 9. Verify the underwriting error Fireline_CA02122017 doe not  fire
+     * 8. Try Purchase policy
+     * 9. Check that Error tab appeared
+     * 10. Verify the underwriting error Fireline_CA02122017 doe not  fire
      * @details
      */
 
@@ -64,7 +64,7 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18914")
     public void pas18311_firelineScore_FairPlan_firelineLookupTable(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, true);
+        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, true,"ADDRESS");
     }
 
     /**
@@ -78,9 +78,9 @@ public class TestFireline extends TestFirelineTemplate {
     (found in a RetrievePropertyClassificationMockData)
      * 5. Check that fireline score from report is 6 or below in Reports tab
      * 6. Verify that ADDRESS level is match in Property Info Tab
-     * 6. Try Purchase policy
-     * 7. Check that Error tab appeared
-     * 8. Verify the underwriting error Fireline_CA02122017 does not fire
+     * 7. Try Purchase policy
+     * 8. Check that Error tab appeared
+     * 9. Verify the underwriting error Fireline_CA02122017 does not fire
      * @details
      */
 
@@ -88,7 +88,7 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18914")
     public void pas18311_firelineScore_equalORLess_firelineLookupTable(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("95963", "265 CHIPMAN AVE", 6,6, PrivilegeEnum.Privilege.L41, false);
+        pas18311_CA_firelineRuleForFirelineTableLookup("95963", "265 CHIPMAN AVE", 6,6, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
     }
 
 
@@ -103,9 +103,9 @@ public class TestFireline extends TestFirelineTemplate {
     (Address in a RetrievePropertyClassificationMockData and should not be in Firelinelookup table)
      * 5. Check that fireline score from report is 4 or below in Reports tab
      * 6. Verify that ADDRESS level is match in Property Info Tab
-     * 6. Try Purchase policy
-     * 7. Check that Error tab appeared
-     * 8. Verify the underwriting error Fireline_CA02122017 does not fire
+     * 7. Try Purchase policy
+     * 8. Check that Error tab appeared
+     * 9. Verify the underwriting error Fireline_CA02122017 does not fire
      * @details
      */
 
@@ -113,7 +113,7 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18914")
     public void pas18311_firelineScore_EqualORLess_notIN_firelineLookupTable(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("92676", "265 CHIPMAN AVE", 4,4, PrivilegeEnum.Privilege.L41, false);
+        pas18311_CA_firelineRuleForFirelineTableLookup("92676", "265 CHIPMAN AVE", 4,4, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
     }
 
     /**
@@ -138,14 +138,14 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
     public void pas18311_firelineScore_overridePrivileged(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, false);
+        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
     }
 
     /**
      * @author Parth Varmora
      * @name test: Fireline rules for the Fireline Lookup table  - CA
      * @scenario
-     * 1. Open application with L41
+     * 1. Open application with F35
      * 2. Create Customer
      * 3. Initiate Policy creation
      * 4. In Applicant tab fill specific address to get fireline score of 7 or above
@@ -163,9 +163,48 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
     public void pas18311_firelineScore_notOverridePrivileged(@Optional("CA") String state) {
-        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.F35, false);
+        pas18311_CA_firelineRuleForFirelineTableLookup("94940", "265 CHIPMAN AVE", 8,6, PrivilegeEnum.Privilege.F35, false,"ADDRESS");
     }
 
+    /**
+     * @author Parth Varmora
+     * @name test: Fireline rules for the Fireline Lookup table  - CA
+     * @scenario
+     * 1. Open application with L41
+     * 2. Create Customer
+     * 3. Initiate Policy creation
+     * 4. In Applicant tab fill specific address to get fireline score of 4 (found in a RetrievePropertyClassificationMockData)
+     * 5. Check that fireline score from report is 4 in Reports tab
+     * 6. Try Purchase policy
+     * 7. Check that Error tab appeared
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
+    public void pas18914_firelineRuleForWoodShingleRoofs_trigger(@Optional("CA") String state) {
+        pas18311_CA_firelineRuleForFirelineTableLookup("93711", "3680 W Shaw Ave", 4, 6, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
+    }
+
+    /**
+     * @author Parth Varmora
+     * @name test: Fireline rules for the Fireline Lookup table  - CA
+     * @scenario
+     * 1. Open application with L41
+     * 2. Create Customer
+     * 3. Initiate Policy creation
+     * 4. In Applicant tab fill specific address to get fireline score of 2 (found in a RetrievePropertyClassificationMockData)
+     * 5. Check that fireline score from report is 2 in Reports tab
+     * 6. Try Purchase policy
+     * 7. Check that Error tab did NOT appear
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
+    public void pas18914_firelineRuleForWoodShingleRoofs_noTrigger(@Optional("CA") String state) {
+        pas18311_CA_firelineRuleForFirelineTableLookup("92899", "265 CHIPMAN AVE", 2, 6, PrivilegeEnum.Privilege.L41, false,"ADDRESS");
+    }
 
     /**
      * @author Parth Varmora
@@ -178,10 +217,10 @@ public class TestFireline extends TestFirelineTemplate {
     (found in a RetrievePropertyClassificationMockData)
      * 5. Check that fireline score from report is 7 or above in Reports tab
      * 6. Verify that ADDRESS level is not match in Property Info Tab
-     * 6. Try Purchase policy
-     * 7. Check that Error tab appeared
-     * 8. Verify the underwriting error AAA_HO_Fireline does not fire
-     * 9. Verify the underwriting error AAA_HO_CA10107077 does fire
+     * 7. Try Purchase policy
+     * 8. Check that Error tab appeared
+     * 9. Verify the underwriting error AAA_HO_Fireline does not fire
+     * 10. Verify the underwriting error AAA_HO_CA10107077 does fire
      * @details
      */
 
@@ -189,8 +228,9 @@ public class TestFireline extends TestFirelineTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, description = "Fireline rules for the Fireline Lookup table  - CA")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-18311")
     public void pas18311_firelineScore_ZIP_firelineLookupTable(@Optional("CA") String state) {
-        pas18311_CA_firelineRules_addressLevelNotMatched("95925", "265 CHIPMAN AVE", 7,6, PrivilegeEnum.Privilege.L41);
+        pas18311_CA_firelineRuleForFirelineTableLookup("95925", "265 CHIPMAN AVE", 7,6, PrivilegeEnum.Privilege.L41,false,"ZIP");
     }
+
 
     /**
      * @author Rokas Lazdauskas
