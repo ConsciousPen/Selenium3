@@ -1249,9 +1249,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
 	 * 3. Hit view coverage service.
-	 * 4. Update BI coverage. (Check with all limits)
-	 * 5. Check if UMBI and UIMBI is the same.
-	 * 6. Check available limits.
+	 * 4. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 5. Check UMBI and UIMBI available limits.
+	 * 6. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 7. Check UMBI and UIMBI available limits.
+	 * 8. Update UMBI limit to be less than my BI limit.
+	 * 9. Check rate service, if any error is not displaying.
+	 * 10. Check if UM and UIM were updated with BI
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
