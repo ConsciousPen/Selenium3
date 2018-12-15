@@ -395,7 +395,7 @@ TestData_NV: {
   EndorsementTab: '@<home_ss_ho3>@DataGather@EndorsementTab',
   PremiumsAndCoveragesQuoteTab: '@PremiumsAndCoveragesQuoteTab',
   MortgageesTab: '@<home_ss_ho3>@DataGather@MortgageesTab',
-  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab_NV',
+  UnderwritingAndApprovalTab: '@<home_ss_ho4>@DataGather@UnderwritingAndApprovalTab',
   DocumentsTab: '@<home_ss_ho3>@DataGather@DocumentsTab',
   BindTab: '@<home_ss_ho3>@DataGather@BindTab'
 }
