@@ -60,7 +60,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		TestData testData = td.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.ELEVEN_PAY);
-		String policyNumber =  createPolicy(testData);
+		String policyNumber = createPolicy(testData);
 		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		SearchPage.openBilling(policyNumber);
@@ -86,7 +86,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 
 		assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
-				getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-5)));
+				getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo(new Dollar(-5));
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
 				policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 

@@ -27,7 +27,6 @@ import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
-
 public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations {
 
 	/**
@@ -61,7 +60,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 		TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData");
 		TestData testData = td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
 				HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.MONTHLY_STANDARD);
-		String policyNumber =  createPolicy(testData);
+		String policyNumber = createPolicy(testData);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 		SearchPage.openBilling(policyNumber);
 
@@ -86,7 +85,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 
 		assertThat(new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
 				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.NON_EFT_INSTALLMENT_FEE_WAIVED).
-				getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo((new Dollar(-5)));
+				getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue())).isEqualTo(new Dollar(-5));
 		assertThat(new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(BillingConstants.BillingAccountPoliciesTable.POLICY_NUM,
 				policyNumber).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue())).isEqualTo(new Dollar(0));
 
