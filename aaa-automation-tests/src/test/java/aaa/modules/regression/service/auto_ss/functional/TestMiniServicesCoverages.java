@@ -74,6 +74,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	//Scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
@@ -126,6 +127,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 3.update rreim 50/1500 and verify limits
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
 	public void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(@Optional("AZ") String state) {
@@ -137,6 +139,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	//scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
 	public void pas14693_updateCoverageRentalReimbursement(@Optional("AZ") String state) {
@@ -712,6 +715,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
 	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {

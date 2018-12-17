@@ -692,6 +692,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Validate premium with pas
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
 	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
@@ -711,6 +712,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	//coverages update on existing policy Scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
 	public void pas14540_transactionInfoAddVehicleCoveragesUpdate(@Optional("VA") String state) {
@@ -727,6 +729,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 *
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
 	public void pas13287_ViewStartEndorsementInfoService(@Optional("VA") String state) {
