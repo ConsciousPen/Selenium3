@@ -15,7 +15,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ca.dp3.functional.TestFAIRPlanEndorsement;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
@@ -26,12 +25,13 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 	private EndorsementTab endorsementTab = new EndorsementTab();
 
 	private static String firelineWarningMessageSS = "This policy is ineligible due to the FireLine score.";
-	private static String firelineWarningMessageCA = "This policy is ineligible due to the FireLine score unless the FAIRPlan endorsement is added.";
+	private static String firelineWarningMessageCA = "This policy is ineligible due to the FireLine score.";
 
 	protected static String ADDRESS = "ADDRESS";
 	protected static String ZIP = "ZIP";
 
-	protected void pas21652_SS_firelineRuleForFirelineTableLookup(String zipCode, String address, int expectedFirelineScore, int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege, String levelMatch) {
+	protected void
+	pas21652_SS_firelineRuleForFirelineTableLookup(String zipCode, String address, int expectedFirelineScore, int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege, String levelMatch) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 			mainApp().open();
 		} else {
@@ -50,27 +50,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
 				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
 
-		if(zipCode =="85713"){
-			TestData ppcReportDialog = new SimpleDataProvider()
-					.adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.BTN_OK.getLabel(), "click");
-			TestData ppcReports = new SimpleDataProvider()
-					.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.REPORT.getLabel(), "Report")
-					.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.PPC_REPORT_DIALOG.getLabel(), ppcReportDialog);
-			TestData reportTab = policyTd.getTestData(HomeSSMetaData.ReportsTab.class.getSimpleName())
-					.adjust(HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcReports);
-			policyTd.adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), reportTab).resolveLinks();
-		}
 
-		//Then you order PUBLIC_PROTECTION_CLASS new popup shows up if Address returns something, this method clicks popup OK.
-		TestData ppcReportDialog = new SimpleDataProvider()
-				.adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION.getLabel(), "Yes")
-				.adjust(HomeSSMetaData.ReportsTab.PPCReportDialog.BTN_OK.getLabel(), "click");
-		TestData ppcReports = new SimpleDataProvider()
-				.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.REPORT.getLabel(), "Report")
-				.adjust(HomeSSMetaData.ReportsTab.PublicProtectionClassRow.PPC_REPORT_DIALOG.getLabel(), ppcReportDialog);
-		TestData reportTab = policyTd.getTestData(HomeSSMetaData.ReportsTab.class.getSimpleName())
-				.adjust(HomeSSMetaData.ReportsTab.PUBLIC_PROTECTION_CLASS.getLabel(), ppcReports);
-		policyTd.adjust(HomeSSMetaData.ReportsTab.class.getSimpleName(), reportTab).resolveLinks();
 
 		//Override Roof Type to 'Wood shingle/Wood shake'
 		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(),
@@ -98,16 +78,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 				.getAsset(HomeSSMetaData.PropertyInfoTab.FireReport.PLACEMENT_OR_MATCH_TYPE)
 				.getValue()).isEqualTo(levelMatch);
 
-		//documents tab
-        if (levelMatch == ADDRESS){
-            TestData documentsToBind = new SimpleDataProvider()
-                    .adjust(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_SUBSCRIPTION_TO_FIRE_DEPARTMENT.getLabel(), "Yes");
 
-            TestData documentsTab = policyTd.getTestData(HomeSSMetaData.DocumentsTab.class.getSimpleName())
-                    .adjust(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), documentsToBind);
-
-            policyTd.adjust(HomeSSMetaData.DocumentsTab.class.getSimpleName(), documentsTab).resolveLinks();
-        }
 
 		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class,false);
 
@@ -131,69 +102,6 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 		}
 	}
 
-	protected void pas21652_SS_firelineRule_notIN_FirelineTableLookup(String zipCode, String address, int expectedFirelineScore, int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege) {
-		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-			mainApp().open();
-		} else {
-			openAppNonPrivilegedUser(userPrivilege);
-		}
-
-		createCustomerIndividual();
-		getPolicyType().get().initiate();
-
-		TestData policyTd = getPolicyTD();
-		//Override address and ZIP code. This address should return Fireline score 3 or more.
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
-				HomeSSMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel()), zipCode);
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-				HomeSSMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel(),
-				HomeSSMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel()), address);
-
-		//Override Roof Type to 'Wood shingle/Wood shake'
-		policyTd.adjust(TestData.makeKeyPath(HomeSSMetaData.PropertyInfoTab.class.getSimpleName(),
-				HomeSSMetaData.PropertyInfoTab.CONSTRUCTION.getLabel(),
-				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel()), "Wood shingle/Wood shake");
-
-		if (!userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-			policyTd.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(),
-					HomeSSMetaData.GeneralTab.PROPERTY_INSURANCE_BASE_DATE_WITH_CSAA_IG.getLabel()));
-		}
-
-		getPolicyType().get().getDefaultView().fillUpTo(policyTd, ReportsTab.class, true);
-
-		assertThat(reportsTab.tblFirelineReport.getRow(1)
-				.getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.WILDFIRE_SCORE.getLabel())
-				.getValue()).isEqualTo(String.valueOf(expectedFirelineScore));
-
-		if(expectedFirelineScore>firelineLookupTableValue){
-			assertThat(reportsTab.lblFirelineMessage.getValue()).isEqualTo(firelineWarningMessageSS);
-		}
-
-		reportsTab.submitTab();
-
-		assertThat(new PropertyInfoTab().getFireReportAssetList()
-				.getAsset(HomeSSMetaData.PropertyInfoTab.FireReport.PLACEMENT_OR_MATCH_TYPE)
-				.getValue()).isEqualTo(ADDRESS);
-
-		getPolicyType().get().getDefaultView().fillFromTo(policyTd, PropertyInfoTab.class, PurchaseTab.class,false);
-
-		if(expectedFirelineScore>2){
-			assertThat(errorTab.isVisible()).isTrue();
-			errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS2240042);
-			if(expectedFirelineScore>firelineLookupTableValue){
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_Fireline);
-			}
-			if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
-				assertThat(errorTab.buttonOverride).isEnabled();
-			} else {
-				assertThat(errorTab.buttonOverride).isDisabled();
-				assertThat(errorTab.buttonApproval).isEnabled();
-			}
-		} else {
-			assertThat(errorTab.isVisible()).isFalse();
-		}
-	}
 
 	protected void pas18311_CA_firelineRuleForFirelineTableLookup(String zipCode, String address, int expectedFirelineScore,int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege, Boolean isFAIRplanAdded,String levelMatch) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
