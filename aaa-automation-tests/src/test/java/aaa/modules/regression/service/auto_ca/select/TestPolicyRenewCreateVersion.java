@@ -27,7 +27,6 @@ import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 /**
@@ -51,9 +50,9 @@ public class TestPolicyRenewCreateVersion extends AutoCaSelectBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyRenewCreateVersion(@Optional("CA") String state) {
+
 		if(getUserGroup().equals(UserGroups.B31.get()) || getUserGroup().equals(UserGroups.F35.get()) || 
-				getUserGroup().equals(UserGroups.G36.get())) {
-			
+				getUserGroup().equals(UserGroups.G36.get())) {			
 			//login with QA user, create policy and renewal
 			mainApp().open(getLoginTD(UserGroups.QA));
 			createCustomerIndividual();

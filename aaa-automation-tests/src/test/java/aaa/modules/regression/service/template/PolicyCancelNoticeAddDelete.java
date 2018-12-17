@@ -42,17 +42,18 @@ public abstract class PolicyCancelNoticeAddDelete extends PolicyBaseTest {
 			log.info("Verifying 'Cancel Notice' action");
 			assertThat(NavigationPage.comboBoxListAction).as("Action 'Cancel Notice' is available").doesNotContainOption("Cancel Notice");	
     	}
+    	else if (getUserGroup().equals(UserGroups.F35.get()) || getUserGroup().equals(UserGroups.G36.get())) {
+    		mainApp().open();
+    		createCustomerIndividual();
+            createPolicy();
+            assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+            log.info("Verifying 'Cancel Notice' action");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Cancel Notice' is available").doesNotContainOption("Cancel Notice");            
+    	}
     	else {
     		mainApp().open();
+    		getCopiedPolicy();
            
-            if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
-            	createCustomerIndividual();
-                createPolicy();
-            }
-            else {
-            	getCopiedPolicy();
-            }
-            
             String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
             assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
