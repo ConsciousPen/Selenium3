@@ -187,7 +187,7 @@ public class TestQuoteDetermineEligibility extends HomeSSHO3BaseTest {
 				//ER-0913: Underwriting approval required. Primary home of the applicant is not insured
 				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12141800);
 				//WM-0523: Applicants with 2 or more paid non-CAT claims OR 2 or more paid CAT claim
-				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_WM_0523);
+				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS4040546);
 				//ER-1607: Applicants with any liability claims in the past 3 years are ineligible
 				errorTab.verify.errorsPresent(ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
 				break;

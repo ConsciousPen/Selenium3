@@ -1,5 +1,13 @@
 package aaa.modules.regression.sales.template.functional;
 
+
+import static aaa.common.Tab.buttonCancel;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -12,20 +20,14 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static aaa.common.Tab.buttonCancel;
 import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+
+
 
 public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods {
 
