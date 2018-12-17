@@ -34,60 +34,57 @@ VehicleTab_updateVINStub_CA: {
 
 VehicleTab_updateMSRPVehicle1_CA: {
      VIN: 'PQ2AE9QW7L3425407',
-     Year: '2017',
-     Make: 'TESLA',
-     Model: 'OTHER',
+     Year: '2022',
+     Make: 'OTHER',
+     Other Make: 'Other make',
      Other Model: 'Other model',
      Other Series: 'Other series',
      Other Body Style: 'Sedan',
      Stat Code: 'Passenger Car Small',
-     Value($): '169000',
+     Value($): '10000',
 }
 
 VehicleTab_updateMSRPVehicle2_CA: {
       VIN: 'CC2AE91R2E3425407',
-      Year: '2018',
+      Year: '2021',
       Make: 'OTHER',
       Other Make: 'Other make',
-     # Model: 'OTHER',
       Other Model: 'Other model',
       Other Series: 'Other series',
       Other Body Style: 'Sedan',
       Stat Code: 'Passenger Car Small',
-      Value($): '169000',
+      Value($): '30000',
 }
 
 VehicleTab_updateMSRPVehicle3_CA: {
      VIN: 'PQ2AE9QW7L3425407',
-     Year: '2017',
+     Year: '2022',
      Make: 'OTHER',
      Other Make: 'Other make',
-     #Model: 'OTHER',
      Other Model: 'Other model1',
      Other Series: 'Other series1',
      Other Body Style: 'Sedan',
      Stat Code: 'Passenger Car Small',
-     Value($):  '234567',
+     Value($):  '50000',
 }
 
 VehicleTab_updateMSRPVehicle4_CA: {
       VIN: 'CC2AE91R2E3425407',
-      Year: '2018',
+      Year: '2021',
       Make: 'OTHER',
       Other Make: 'Other make',
-      #Model: 'OTHER',
       Other Model: 'Other model',
       Other Series: 'Other series',
       Other Body Style: 'Sedan',
       Stat Code: 'Passenger Car Small',
-      Value($):  '169000',
+      Value($):  '30000',
 }
 
 VehicleTab_updateMSRPVehicle5_CA: {
       VIN: 'OP2AE91R5Q3425407',
-      Year: '2017',
-      Make: 'AUDI',
-      Model: 'OTHER',
+      Year: '2025',
+      Make: 'OTHER',
+      Other Make: 'Other make',
       Other Model: 'Other model',
       Other Series: 'Other series',
       Other Body Style: 'Sedan',

@@ -70,7 +70,7 @@ VehicleTab_updateMSRPVehicle1_CA: {
      Other Series: 'Other series',
      Other Body Style: 'Sedan',
      Stat Code: 'Passenger Car Small',
-     Value($): '169000',
+     Value($): '10000',
 }
 
 VehicleTab_updateMSRPVehicle2_CA: {
@@ -78,12 +78,11 @@ VehicleTab_updateMSRPVehicle2_CA: {
       Year: '2018',
       Make: 'OTHER',
       Other Make: 'Other make',
-     # Model: 'OTHER',
       Other Model: 'Other model',
       Other Series: 'Other series',
       Other Body Style: 'Sedan',
       Stat Code: 'Passenger Car Small',
-      Value($): '169000',
+      Value($): '30000',
 }
 
 VehicleTab_updateMSRPVehicle3_CA: {
@@ -91,12 +90,11 @@ VehicleTab_updateMSRPVehicle3_CA: {
      Year: '2017',
      Make: 'OTHER',
      Other Make: 'Other make',
-     #Model: 'OTHER',
      Other Model: 'Other model1',
      Other Series: 'Other series1',
      Other Body Style: 'Sedan',
      Stat Code: 'Passenger Car Small',
-     Value($):  '234567',
+     Value($):  '50000',
 }
 
 VehicleTab_updateMSRPVehicle4_CA: {
@@ -104,12 +102,11 @@ VehicleTab_updateMSRPVehicle4_CA: {
       Year: '2018',
       Make: 'OTHER',
       Other Make: 'Other make',
-      #Model: 'OTHER',
       Other Model: 'Other model',
       Other Series: 'Other series',
       Other Body Style: 'Sedan',
       Stat Code: 'Passenger Car Small',
-      Value($):  '169000',
+      Value($):  '30000',
 }
 
 VehicleTab_updateMSRPVehicle5_CA: {

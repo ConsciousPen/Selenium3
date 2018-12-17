@@ -132,20 +132,20 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 	/**
 	 * * @author Kiruthika Rajendran
 	 *
-	 * @name Current Term End Adds Vehicle:
+	 * @name Current Term End Adds MSRP Vehicle:
 	 * Make refresh correct for current and renewal terms
-	 * 1. Create CA CHOICE Quote with two vehicles: First Vehicle - VIN MATCHED, Second Vehicle - VIN NOT MATCHED
+	 * @scenario
+	 * 1. Create Auto CA Choice Quote with two vehicles: First MSRP Vehicle - VIN NOT MATCH, Second MSRP Vehicle - VIN NOT MATCHED
 	 * 2. Make policy status - Proposed
 	 * 3. Initiate Endorsement
-	 * 4. Check if new VIN stub exist.
-	 * 5. Update y/m/m/s/s for a Vehicle details.
-	 * 6. Add third Vehicle
-	 * 7. Calculate Premium and bind the endorsement
-	 * 8. Open the last renewal inscription in 'Transaction history'
+	 * 4. Update the Stated amount of first Vehicle
+	 * 5. Add third MSRP Vehicle
+	 * 6. Calculate Premium and bind the endorsement
+	 * 7. Open the last renewal inscription in 'Transaction history'
 	 * Expected Result:
-	 * The First Vehicle -
-	 * The second Vehicle -
-	 * The third Vehicle -
+	 * The First Vehicle - COMP/COLL symbol has to be updated for new version
+	 * The second Vehicle - COMP/COLL symbol has to retain the same value
+	 * The third Vehicle - COMP/COLL symbol has to be updated for new version
 	 * @details
 	 */
 	@Parameters({"state"})
@@ -161,9 +161,9 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 		pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms_bindEndorsement();
 		viewRatingDetails();
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		doSoftAssertions(softly, 2, "TESLA", "318", "334");
-		doSoftAssertions(softly, 3, "PORSCHE", "169", "169");
-		doSoftAssertions(softly, 4, "AUDI", "80", "80");
+		doSoftAssertions(softly, 2, "Other make", "185", "105");
+		doSoftAssertions(softly, 3, "Other make", "35", "35");
+		doSoftAssertions(softly, 4, "AUDI", "295", "223");
 		softly.close();
 		closeRatingDetails();
 	}

@@ -37,5 +37,4 @@ public class MsrpQueries {
 		Long uniqId = Long.parseLong(getQueryResult(SELECT_VEHICLEREFDATAVINCONTROL_MAX_ID, 5));
 		return BigInteger.valueOf(uniqId).add(BigInteger.valueOf(new Random().nextInt(100)));
 	}
-
 }
