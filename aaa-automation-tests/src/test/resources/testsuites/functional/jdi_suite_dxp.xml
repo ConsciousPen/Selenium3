@@ -937,6 +937,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
+                    <include name="pas15313_updateBiCoverageCheckUMandUIM"/>
                 </methods>
             </class>
         </classes>
