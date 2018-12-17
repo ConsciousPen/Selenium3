@@ -1162,7 +1162,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMBI COULD BE USED. Test can be adapted to any state where UMBI is single coverage (not 2 separate)
 	 *  ans state must have BI available limits be the same as UMBI available limits.
 	 * 1. Create policy in PAS
-	 * 2.Create endorsement through service
+	 * 2. Create endorsement through service
 	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
 	 * 5. Update UMBI limit ---> UMBI is not updated, BI limit is not updated
@@ -1241,6 +1241,29 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15281"})
 	public void pas15281_UMPDAndUIMPDAndCanChangeTrue(@Optional("DC") String state) {
 		pas15281_UMPDAndUIMPDAndCanChangeTrueBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update coverage - UM and UIM - DC
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Hit view coverage service.
+	 * 4. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 5. Check UMBI and UIMBI available limits.
+	 * 6. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 7. Check UMBI and UIMBI available limits.
+	 * 8. Update UMBI limit to be less than my BI limit.
+	 * 9. Check rate service, if any error is not displaying.
+	 * 10. Check if UM and UIM were updated with BI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15313"})
+	public void pas15313_updateBiCoverageCheckUMandUIM(@Optional("DC") String state) {
+
+		pas15313_updateBiCoverageCheckUMandUIMbody();
 	}
 
 	/**
