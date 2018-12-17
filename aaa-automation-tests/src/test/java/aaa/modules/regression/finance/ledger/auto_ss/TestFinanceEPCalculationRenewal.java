@@ -60,22 +60,22 @@ public class TestFinanceEPCalculationRenewal extends FinanceOperations {
 		jobDate = runEPJobUntil(jobDate, renewalImageGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
-		renewalImageGeneration(expirationDate, policyNumber);
+		renewalImageGeneration(policyNumber, expirationDate);
 
 		jobDate = runEPJobUntil(jobDate, renewalPreviewGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		renewalPreviewGeneration(expirationDate, policyNumber);
+		renewalPreviewGeneration(policyNumber, expirationDate);
 
 		jobDate = runEPJobUntil(jobDate, renewalOfferGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		renewalOfferGeneration(expirationDate, policyNumber);
+		renewalOfferGeneration(policyNumber, expirationDate);
 
 		jobDate = runEPJobUntil(jobDate, billOfferGenerationDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		generateRenewalBill(expirationDate, today, policyNumber);
+		generateRenewalBill(policyNumber, today, expirationDate);
 
 		jobDate = runEPJobUntil(jobDate, billDueDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		payRenewalBill(expirationDate, policyNumber);
+		payRenewalBill(policyNumber, expirationDate);
 
 		jobDate = runEPJobUntil(jobDate, updateStatusDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
-		updatePolicyStatus(expirationDate, today, policyNumber);
+		updatePolicyStatus(policyNumber, today, expirationDate);
 
 		runEPJobUntil(jobDate, renewalJobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 

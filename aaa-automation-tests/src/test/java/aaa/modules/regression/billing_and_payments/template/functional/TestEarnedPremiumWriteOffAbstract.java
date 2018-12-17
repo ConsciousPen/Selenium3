@@ -23,6 +23,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.composite.table.Row;
 
 public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 
@@ -292,10 +293,18 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		assertSoftly(softly -> {
 			softly.assertThat(BillingSummaryPage.labelEarnedPremiumWriteOff.isPresent()).isTrue();
 			softly.assertThat(BillingSummaryPage.labelAmountEarnedPremiumWriteOff).hasValue(endorsementAmount);
+			//in nightly parallel run with other tests adjustment row is not latest sometimes
+			Row adjustment_row = BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(TYPE, "Adjustment");
+			softly.assertThat(adjustment_row.getCell(TYPE)).hasValue("Adjustment");
+			softly.assertThat(adjustment_row.getCell(SUBTYPE_REASON)).hasValue("Earned Premium Write-off");
+			softly.assertThat(adjustment_row.getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(endorsementAmount));
+			softly.assertThat(adjustment_row.getCell(STATUS)).hasValue("Applied");		
+			/*
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(TYPE)).hasValue("Adjustment");
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(SUBTYPE_REASON)).hasValue("Earned Premium Write-off");
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(AMOUNT).getValue()).isEqualTo(toNegateAmount(endorsementAmount));
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(STATUS)).hasValue("Applied");
+			*/
 		});
 	}
 
