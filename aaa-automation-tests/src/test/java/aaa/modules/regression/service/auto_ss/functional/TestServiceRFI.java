@@ -12,8 +12,10 @@ import java.time.format.DateTimeFormatter;
 import aaa.common.enums.Constants;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.helper.HelperMiniServices;
 import aaa.utils.StateList;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -48,6 +50,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+	private boolean flag;
 
 	/**
 	 * @author Jovita Pukenaite
@@ -181,14 +184,83 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
-	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage){
+	/**
+	 * @author Megha gubbala
+	 * @name RFI View Service / Override part
+	 * @scenario 1. Create quote:
+	 * eValue = Yes, PAA = Not Sign in, Insured Motorist = Not Sign in
+	 * 2. Change UM limit, to the lower one in P&C page.
+	 * 3. Issue quote. Override all errors.
+	 * 4. Create endorsement outside of PAS.
+	 * 5. Rate and hit RFI service.
+	 * 6. Check the response.
+	 * 7. Rate and bind endorsement.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21366"})
+	public void pas21366_VirginiaAndAA52VA(@Optional("VA") String state) {
+		assertSoftly(softly -> {
+			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+			PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+
+			mainApp().open();
+		/*	createCustomerIndividual();
+			createQuote();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue("$25,000/$50,000 (-$32.00)");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).setValue("Physically Signed");
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.EVALUE_ACKNOWLEDGEMENT).setValue("Physically Signed");
+			documentsAndBindTab.saveAndExit();
+
+			String policyNumber = testEValueDiscount.simplifiedQuoteIssue(); */
+
+			String policyNumber ="VASS952918546";
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+
+			String coverageId="UMPD";
+			String newCoverage="40000";
+
+			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			RFIDocuments rfiServiceResponse1 = HelperCommon.rfiViewService(policyNumber, true);
+			String doccId= rfiServiceResponse1.documents.get(0).documentId;
+			softly.assertThat(rfiServiceResponse1.documents.get(0).documentCode).isEqualTo("RUUELLUU");
+			softly.assertThat(rfiServiceResponse1.documents.get(0).documentName).isEqualTo("IMPORTANT NOTICE - Uninsured Motorist Coverage");
+
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber,"200037_VA","A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction","attributeForRules");
+
+			//helperMiniServices.bindEndorsementWithCheck(policyNumber,);
+
+
+
+
+		});
+	}
+
+	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage ){
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-		checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
-		//TODO jpukenaite: uncomment when the story for bind error will be done
-		//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
-		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
-	}
+
+			checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
+			//TODO jpukenaite: uncomment when the story for bind error will be done
+			//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
+
+			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+		}
 
 	private void checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status){
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
