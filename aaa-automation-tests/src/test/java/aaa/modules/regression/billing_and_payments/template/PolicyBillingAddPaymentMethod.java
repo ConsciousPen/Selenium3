@@ -3,6 +3,10 @@ package aaa.modules.regression.billing_and_payments.template;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 import aaa.common.Tab;
+import aaa.common.enums.Constants.UserGroups;
+import aaa.common.pages.MainPage;
+import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -33,64 +37,81 @@ public abstract class PolicyBillingAddPaymentMethod extends PolicyBaseTest{
 	 * 9. Add one more payment method (CC-Master Card) from Accept Payment tab.
 	 * 10. Verify that added payment method CC-Master Card available on Accept Payment and Update Billing Account tabs.
 	 */
-	public void testAddPaymentMethods() {		
-		mainApp().open();
-		getCopiedPolicy();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        
-		BillingSummaryPage.open();
-        IBillingAccount billing = new BillingAccount();
-        TestData tdBilling = testDataManager.billingAccount;
-        
-        //Navigate to Update Billing Account tab and add CC and EFT payment methods
-        billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMetods"));
-        
-        //Navigate to Update Billing Account tab and verify that AutoPay Selection dropdown contains added CC-Visa and EFT payment methods
-        billing.update().start();
-        UpdateBillingAccountActionTab updateBillingAccountTab = new UpdateBillingAccountActionTab();         
-        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-        String paymentMethodVisa = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").getValue();
-        String paymentMethodEFT = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(2).getCell("Payment Method").getValue();
-        Tab.buttonBack.click();
-        
-        updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
-        
-        ComboBox autopaySelectionCombobox = updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION);
+	public void testAddPaymentMethods() {
+		if (getUserGroup().equals(UserGroups.B31.get())) {
+			mainApp().open(getLoginTD(UserGroups.QA));
+			createCustomerIndividual();
+			createPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			mainApp().close();
+			//re-login with B31 user
+			mainApp().open(getLoginTD(UserGroups.B31));
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			SearchPage.openBilling(policyNumber);
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Update' should be disabled for B31 user").doesNotContainOption("Update");
+			assertThat(BillingSummaryPage.buttonUpdateBillingAccount).as("Button 'Update Billing Account' should be disabled for B31 user").isDisabled();
+			assertThat(BillingSummaryPage.buttonAcceptPayment).as("Button 'Accept Payment' should be disabled for B31 user").isDisabled();
+		}
+		else {
+			mainApp().open();
+			getCopiedPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	        
+			BillingSummaryPage.open();
+	        IBillingAccount billing = new BillingAccount();
+	        TestData tdBilling = testDataManager.billingAccount;
+	        
+	        //Navigate to Update Billing Account tab and add CC and EFT payment methods
+	        billing.update().perform(tdBilling.getTestData("Update", "TestData_AddPaymentMetods"));
+	        
+	        //Navigate to Update Billing Account tab and verify that AutoPay Selection dropdown contains added CC-Visa and EFT payment methods
+	        billing.update().start();
+	        UpdateBillingAccountActionTab updateBillingAccountTab = new UpdateBillingAccountActionTab();         
+	        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+	        String paymentMethodVisa = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(1).getCell("Payment Method").getValue();
+	        String paymentMethodEFT = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(2).getCell("Payment Method").getValue();
+	        Tab.buttonBack.click();
+	        
+	        updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
+	        
+	        ComboBox autopaySelectionCombobox = updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.AUTOPAY_SELECTION);
 
-        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown doesn't contain Credit/Debit Card payment method").containsOption(paymentMethodVisa);
-        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
-        
-        updateBillingAccountTab.cancel();
-        
-        //Navigate to Accept Payment tab and verify that Payment Method dropdown contains added CC-Visa and EFT payment methods
-        billing.acceptPayment().start();
-        AcceptPaymentActionTab acceptPaymentTab = new AcceptPaymentActionTab(); 
-        
-        ComboBox paymentMethodCombobox = acceptPaymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
-        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card payment method").containsOption(paymentMethodVisa);
-        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
-        
-        //Add one more payment method (Credit Card - Master Card) from Accept Payment tab
-        acceptPaymentTab.fillTab(tdBilling.getTestData("AcceptPayment", "TestData_AddPaymentMethod"));
-        
-        //Verify that Payment Method dropdown on Accept Payment tab contains 3 payment methods
-        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
-        String paymentMethodMasterCard = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(3).getCell("Payment Method").getValue();
-        Tab.buttonBack.click();
-        
-        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - Visa payment method").containsOption(paymentMethodVisa);
-        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
-        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - MasterCard payment method").containsOption(paymentMethodMasterCard);       
-        acceptPaymentTab.cancel();
-        
-        //Verify that AutoPay Selection dropdown on Update Billing Account tab contains 3 payment methods
-        billing.update().start();
-        updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
-        
-        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - Visa payment method").containsOption(paymentMethodVisa);
-        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
-        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - MasterCard payment method").containsOption(paymentMethodMasterCard);
-        updateBillingAccountTab.cancel();
+	        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown doesn't contain Credit/Debit Card payment method").containsOption(paymentMethodVisa);
+	        assertThat(autopaySelectionCombobox).as("AutoPay Selection dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
+	        
+	        updateBillingAccountTab.cancel();
+	        
+	        //Navigate to Accept Payment tab and verify that Payment Method dropdown contains added CC-Visa and EFT payment methods
+	        billing.acceptPayment().start();
+	        AcceptPaymentActionTab acceptPaymentTab = new AcceptPaymentActionTab(); 
+	        
+	        ComboBox paymentMethodCombobox = acceptPaymentTab.getAssetList().getAsset(BillingAccountMetaData.AcceptPaymentActionTab.PAYMENT_METHOD);
+	        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card payment method").containsOption(paymentMethodVisa);
+	        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
+	        
+	        //Add one more payment method (Credit Card - Master Card) from Accept Payment tab
+	        acceptPaymentTab.fillTab(tdBilling.getTestData("AcceptPayment", "TestData_AddPaymentMethod"));
+	        
+	        //Verify that Payment Method dropdown on Accept Payment tab contains 3 payment methods
+	        AddPaymentMethodsMultiAssetList.buttonAddUpdateCreditCard.click();
+	        String paymentMethodMasterCard = AddPaymentMethodsMultiAssetList.tablePaymentMethods.getRow(3).getCell("Payment Method").getValue();
+	        Tab.buttonBack.click();
+	        
+	        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - Visa payment method").containsOption(paymentMethodVisa);
+	        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
+	        assertThat(paymentMethodCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - MasterCard payment method").containsOption(paymentMethodMasterCard);       
+	        acceptPaymentTab.cancel();
+	        
+	        //Verify that AutoPay Selection dropdown on Update Billing Account tab contains 3 payment methods
+	        billing.update().start();
+	        updateBillingAccountTab.getAssetList().getAsset(BillingAccountMetaData.UpdateBillingAccountActionTab.ACTIVATE_AUTOPAY).setValue(true);
+	        
+	        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - Visa payment method").containsOption(paymentMethodVisa);
+	        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Checking/Savings (ACH) payment method").containsOption(paymentMethodEFT);
+	        assertThat(autopaySelectionCombobox).as("Payment Method dropdown doesn't contain Credit/Debit Card - MasterCard payment method").containsOption(paymentMethodMasterCard);
+	        updateBillingAccountTab.cancel();
+		}
 	}
 
 }
