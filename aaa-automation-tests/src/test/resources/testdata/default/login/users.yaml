@@ -4,41 +4,43 @@ QA: {
 }
 
 B31: {
-  User: qa_security,
+  #User: qa_security,
+  User: qa_roles,
   Groups: B31,
   UW_AuthLevel: '00',
-  Billing_AuthLevel: '01',
-  Password: qa_security
+  Billing_AuthLevel: '',
+  #Password: qa_security
+  Password: qa_roles
 }
 
 E34: {
-  User: qa_security,
+  User: qa_roles,
   Groups: E34,
   UW_AuthLevel: '04',
   Billing_AuthLevel: '01',
-  Password: qa_security
+  Password: qa_roles
 }
 
 F35: {
-  User: qa_security,
+  User: qa_roles,
   Groups: F35,
   UW_AuthLevel: '01',
-  Billing_AuthLevel: '01',
-  Password: qa_security
+  Billing_AuthLevel: '',
+  Password: qa_roles
 }
 
 G36: {
-  User: qa_security,
+  User: qa_roles,
   Groups: G36,
   UW_AuthLevel: '02',
-  Billing_AuthLevel: '01',
-  Password: qa_security
+  Billing_AuthLevel: '',
+  Password: qa_roles
 }
 
 L41: {
-  User: qa_security,
+  User: qa_roles,
   Groups: L41,
   UW_AuthLevel: '04',
   Billing_AuthLevel: '04',
-  Password: qa_security
+  Password: qa_roles
 }

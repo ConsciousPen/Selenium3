@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("SubProducer","2515")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
