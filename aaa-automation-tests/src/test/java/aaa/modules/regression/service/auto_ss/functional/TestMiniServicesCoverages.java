@@ -1242,4 +1242,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas15281_UMPDAndUIMPDAndCanChangeTrue(@Optional("DC") String state) {
 		pas15281_UMPDAndUIMPDAndCanChangeTrueBody();
 	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15288"})
+	public void pas15288_ViewUpdateCoveragePIPCoverage(@Optional("DC") String state) {
+		pas15288_ViewUpdateCoveragePIPCoverageBody();
+	}
+
 }

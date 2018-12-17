@@ -5368,6 +5368,23 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		}
 		premiumAndCoveragesTab.cancel();
 	}
+
+	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		assertSoftly(softly -> {
+			Map<String, Coverage> mapPIPMEDICAL = getPIPCoverages(viewEndorsementCoverages.policyCoverages);
+
+			Map<String, Coverage> mapPIPMEDICALExpected = new LinkedHashMap<>();
+			//mapPIPMEDICALExpected.put(CoverageInfo.PIPMEDICAL.getCode(), Coverage.create(CoverageInfo.PIPMEDICAL));
+
+		});
+
+
+	}
+
 }
 
 
