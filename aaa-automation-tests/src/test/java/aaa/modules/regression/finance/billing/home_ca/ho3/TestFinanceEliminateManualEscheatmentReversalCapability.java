@@ -1,7 +1,6 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -40,9 +39,7 @@ public class TestFinanceEliminateManualEscheatmentReversalCapability extends Pol
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-19072")
 	public void pas19072_testFinanceEliminateManualEscheatmentReversalCapability(@Optional("CA") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
+		openAppAndCreatePolicy();
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		BillingSummaryPage.linkOtherTransactions.click();

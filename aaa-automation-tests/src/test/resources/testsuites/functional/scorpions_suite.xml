@@ -235,10 +235,21 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestChoiceStatCodeConversion"/>
         </classes>
     </test>
-    <test name="Offline Claims AUTO SS">
+    <test name="Offline Claims AUTO">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment"/>
+        </classes>
+    </test>
+    <test name="Offline Claims Match Logic">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
+                <methods>
+                    <include name="pas14679_CompDLMatchMore"/>
+                    <include name="pas14679_nameDobYobMatchMoreManual"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

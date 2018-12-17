@@ -254,52 +254,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	/**
 	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount and Membership Discount are removed when Membership is required for eValue and membership status = Pending.
-	 * @scenario
-	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check Membership discount is removed on NB+30
-	 * 2. Check if discount in Jeopardy email was send.
-	 * 3. Check eValue discount is removed on NB+30
-	 * 4. Check AHDRXX is produced on NB+30 and contains both eValue and Membership discount info
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928", "PAS-12822"})
-	public void pas3697_membershipEligibilityConfigurationTrueForPendingMembership(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
-			//Start PAS-12822
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true, softly);
-			//End PAS-12822
-			membershipLogicActivitiesAndNotesCheck(false, "no records created", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			//BUG PAS-11150 eValue doesnt become INACTIVE on NB+30 when Membership status is Pending
-			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue and Membership Discounts Removed - Membership", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount and Membership Discount are removed when Membership is required for eValue and membership status = Not Active.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
@@ -385,51 +339,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name eValue Discount not removed and Membership Discount is removed when Membership is NOT required for eValue and membership status = Pending.
-	 * @scenario
-	 * 0. Check email record is NOT present in admin log (no "eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check if discount in Jeopardy email wasn't send.
-	 * 2. Check Membership discount is removed on NB+30
-	 * 3. Check eValue discount is NOT removed on NB+30
-	 * 4. Check AHDRXX is produced on NB+30 and contains only Membership discount info
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-327", "PAS-1928"})
-	public void pas3697_membershipEligibilityConfigurationFalseForPendingMembership(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "FALSE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", true, false);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
-			//Start PAS-12822
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false, softly);
-			//End PAS-12822
-			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().open();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
-			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly); //BUG: PT-2171 Membership Discount wasn't removed when it should
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch, softly);
-			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
-			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
 		});
 	}
 
@@ -904,58 +813,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is required for eValue
-	 * and membership status = Pending, but PaperlessPreferences = Pending.
-	 * @scenario
-	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check if discount in Jeopardy email was send.
-	 * 2. Check Membership discount is removed on NB+30
-	 * 3. Check eValue discount removed on NB+30
-	 * 4. Check AHDRXX is produced on NB+30:
-	 * Membership discount tag - present
-	 * Evalue discount tag - present
-	 * Paperless info tag - present
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-1928", "PAS-12822"})
-	public void pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", true);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
-			//Start PAS-12822
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true, softly);
-			//End PAS-12822
-			membershipLogicActivitiesAndNotesCheck(false, "no record created", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue and Membership Discounts Removed - Membership, Paperless", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, false, softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false, softly);
-
-			deleteSinglePaperlessPreferenceRequest(stub);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is required for eValue
 	 * and membership status = Not Active, but PaperlessPreferences = Pending.
 	 * @scenario
 	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
@@ -1052,58 +909,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Discount Removed - Paperless", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false, softly);
-
-			deleteSinglePaperlessPreferenceRequest(stub);
-		});
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Test eValue Discount is removed, Membership Discount is removed when Membership is not required for eValue
-	 * and membership status = Pending, but PaperlessPreferences = Pending.
-	 * @scenario
-	 * 0. Check email record present in admin log ("eValue Discount Pending Notification Url:") on NB+15
-	 * 1. Check if discount in Jeopardy email was send.
-	 * 2. Check Membership discount is removed on NB+30
-	 * 3. Check eValue discount removed on NB+30
-	 * 4. Check AHDRXX is produced on NB+30:
-	 * Membership discount tag - present?
-	 * Evalue discount tag - present
-	 * Paperless info tag - present
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3697", "PAS-329", "PAS-12822"})
-	public void pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "FALSE";
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-
-		String policyNumber = membershipEligibilityPolicyCreation("Pending", true, false);
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
-
-		CustomSoftAssertions.assertSoftly(softly -> {
-			jobsNBplus15plus30runNoChecks();
-			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
-			//Start PAS-12822
-			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true);
-			//End PAS-12822
-			membershipLogicActivitiesAndNotesCheck(false, "no record created", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
-
-			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Membership Discount Removed; eValue Discount Removed - Paperless", softly);
-			latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, softly);
-			checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
 		});

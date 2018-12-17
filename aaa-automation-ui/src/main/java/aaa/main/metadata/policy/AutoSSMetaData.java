@@ -608,6 +608,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AdvancedRadioGroup> EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS = declare("Extraordinary Medical Expense Benefits", AdvancedRadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured/Underinsured Motorist Bodily Injury", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> UNINSURED_AND_UNDERINSURED_MOTORISTS_BODILY_INJURY = declare("Uninsured and Underinsured Motorist Bodily Injury", ComboBox.class); //NV state
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Uninsured Motorist Property Damage", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> UNDERINSURED_MOTORIST_PROPERTY_DAMAGE = declare("Underinsured Motorist Property Damage", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> UNDERINSURED_MOTORIST_CONVERSION_COVERAGE = declare("Underinsured Motorist Conversion Coverage", RadioGroup.class, Waiters.AJAX);
@@ -890,6 +891,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> NEW_YORK_AUTO_INSURANCE_APPLICATION = declare("New York Auto Insurance Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION = declare(
 					"Supplementary Uninsured/Underinsured Motorists Coverage�Rejection or Election of Lower Limits", RadioGroup.class);
+			// NV
+			public static final AssetDescriptor<RadioGroup> UNINSURED_MOTORIST_COVERAGE_AND_UNDERINSURED_MOTORIST_COVERAGE = declare("Uninsured Motorist Coverage and Underinsured Motorist Coverage -" +
+					" Election of Lower Limits / Rejection of Coverage", RadioGroup.class);
 			// PA
 			public static final AssetDescriptor<RadioGroup> UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION =
 					declare("Uninsured Motorists Coverage Selection/Rejection", RadioGroup.class, Waiters.AJAX);
@@ -933,7 +937,7 @@ public final class AutoSSMetaData {
 					declare("Photos for salvage vehicle with physical damage coverage", RadioGroup.class, Waiters.AJAX);
 			// NJ
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> CARGO_VEHICLE_INSPECTION_COMPLETED =
+			public static final AssetDescriptor<RadioGroup> CARCO_VEHICLE_INSPECTION_COMPLETED =
 					declare("CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_1 = declare("Separate Vehicle 1", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_0']"));
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));

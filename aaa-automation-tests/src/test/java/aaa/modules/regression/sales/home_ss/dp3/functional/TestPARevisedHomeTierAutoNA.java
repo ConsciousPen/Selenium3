@@ -35,7 +35,7 @@ public class TestPARevisedHomeTierAutoNA extends RevisedHomeTierPATemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestDisplayAutoTierOnApplicantTab(@Optional("PA") String state) {
 
@@ -58,7 +58,7 @@ public class TestPARevisedHomeTierAutoNA extends RevisedHomeTierPATemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6849")
     public void pas6849_TestAutoNAValueWithNonPACompanionAuto(@Optional("PA") String state) {
 

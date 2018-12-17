@@ -322,6 +322,12 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
+		if (Constants.States.KY.equals(getState())) {
+			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel());
+		} else {
+			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
+		}
+
 		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
@@ -330,7 +336,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		coveragesMap.put("EMB", AutoSSMetaData.PremiumAndCoveragesTab.EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS.getLabel());
 		coveragesMap.put("UM/SUM", AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		coveragesMap.put("OBEL", AutoSSMetaData.PremiumAndCoveragesTab.OPTIONAL_BASIC_ECONOMIC_LOSS.getLabel());
-		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
 
@@ -503,11 +508,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 
 		String formattedCoverageLimit = cLimit.toString().replaceAll("\\.00", "");
-		if ("APIP".equals(coverageCD)) {
-			// Additional PIP coverage is just a String which does not have separating commas after thousandth
-			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
-		}
-
 		if (getState().equals(Constants.States.MD) && "PIP".equals(coverageCD)) {
 			if (coverageLimit.endsWith("F")) {
 				formattedCoverageLimit = formattedCoverageLimit + " Full";
@@ -515,6 +515,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			if (coverageLimit.endsWith("G")) {
 				formattedCoverageLimit = formattedCoverageLimit + " Guest";
 			}
+		}
+		if (getState().equals(Constants.States.NY) && "APIP".equals(coverageCD)) {
+			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
 		}
 		return formattedCoverageLimit;
 	}
