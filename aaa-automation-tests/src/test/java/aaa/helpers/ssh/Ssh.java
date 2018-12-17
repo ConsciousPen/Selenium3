@@ -150,30 +150,13 @@ public class Ssh {
 
 	@SuppressWarnings("unchecked")
 	public synchronized void removeFiles(String source) {
+		removeFiles(source, false, true);
+	}
 
-		source = parseFileName(source);
-
-		try {
-			closeSession(); //added to avoid hanging during file removal
-			openSftpChannel();
-			//sftpChannel.cd("/"); //replaced with closing session above
-			sftpChannel.cd(source);
-			Vector<ChannelSftp.LsEntry> list = sftpChannel.ls("*");
-
-			if (list.isEmpty()) {
-				//closeSession();
-				log.info("SSH: No files to delete in \"{}\".", source);
-				return;
-			}
-			for (ChannelSftp.LsEntry file : list) {
-				if (!file.getAttrs().isDir()) {
-					sftpChannel.rm(file.getFilename());
-				}
-			}
-			log.info("SSH: Files were removed from the folder \"{}\".", source);
-		} catch (SftpException | RuntimeException e) {
-			throw new IstfException("SSH: Error deleting files from folder '" + source + "'", e);
-		}
+	@SuppressWarnings("unchecked")
+	public synchronized void removeFiles(String folderPath, Boolean includeSubFolders, Boolean onlyFiles) {
+		recursiveFolderClear(folderPath, includeSubFolders, onlyFiles);
+		log.info("SSH: Content has been removed from the folder \"{}\".", folderPath);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -367,13 +350,6 @@ public class Ssh {
 		}
 	}
 
-	public enum SortBy {
-		NAME,
-		DATE_ACCESS,
-		DATE_MODIFIED,
-		SIZE
-	}
-
 	private synchronized void openSftpChannel() {
 		createSession();
 		if (sftpChannel == null || sftpChannel.isClosed()) {
@@ -405,5 +381,52 @@ public class Ssh {
 				throw new IstfException("Unable to start SSH session: ", e);
 			}
 		}
+	}
+
+	private void recursiveFolderClear(String folderPath, Boolean includeSubFolders, Boolean onlyFiles) {
+		folderPath = parseFileName(folderPath);
+		openSftpChannel();
+
+		Vector<ChannelSftp.LsEntry> list;
+		try {
+			list = sftpChannel.ls(folderPath);
+		} catch (SftpException e) {
+			throw new IstfException("SSH: Unable to get files list", e);
+		}
+
+		if (list.isEmpty()) {
+			//closeSession();
+			log.info("SSH: Nothing to delete in \"{}\".", folderPath);
+			return;
+		}
+
+		for (ChannelSftp.LsEntry item : list) {
+			String itemPath = folderPath + "/" + item.getFilename();
+			try {
+				if (!item.getAttrs().isDir()) {
+					sftpChannel.rm(itemPath);
+					log.info("File is deleted: " + itemPath);
+				}
+				if (includeSubFolders) {
+					if (item.getAttrs().isDir() && !".".equals(item.getFilename()) && !"..".equals(item.getFilename())) {
+						if (!onlyFiles && getFolderContent(itemPath, false, SortBy.DATE_MODIFIED).isEmpty()) {
+							sftpChannel.rmdir(itemPath);
+							log.info("Folder is deleted: " + itemPath);
+						} else {
+							recursiveFolderClear(itemPath, includeSubFolders, onlyFiles);
+						}
+					}
+				}
+			} catch (SftpException | RuntimeException e) {
+				throw new IstfException("SSH: Unable to delete  \"" + itemPath + "\" directory", e);
+			}
+		}
+	}
+
+	public enum SortBy {
+		NAME,
+		DATE_ACCESS,
+		DATE_MODIFIED,
+		SIZE
 	}
 }

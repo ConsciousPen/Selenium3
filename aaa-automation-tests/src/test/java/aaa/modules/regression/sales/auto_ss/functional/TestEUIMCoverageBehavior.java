@@ -302,9 +302,11 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         new DocumentsAndBindTab().submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        new DocumentsAndBindTab().submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+            errorTab.override();
+            new DocumentsAndBindTab().submitTab();
+        }
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
         payTotalAmtDue(policyNum);
@@ -393,7 +395,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyUIMVRD("No");
 
         //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
-        String euimSelectedText = "Enhanced UIM Selected";
+        String euimSelectedText = "Enhanced UIM";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
@@ -424,7 +426,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyPolicySummaryPage(String value) {
-        String euim = "Enhanced UIM Selected";
+        String euim = "Enhanced UIM";
         String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
         TestData coveragesSummary = PolicySummaryPage.getAutoCoveragesSummaryTestData();
         assertThat(coveragesSummary.getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);

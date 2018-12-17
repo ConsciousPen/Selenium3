@@ -200,7 +200,7 @@ PAS-5529:
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["*Unable to locate element*", "Errors: 'Roof shape' is not in within range"]
+      messages: ["Errors: 'Roof shape' is not in within range"]
 PAS-5102:
   summary: "PAS Blank endorsement forcing user to reorder ISO360 report"
   reason: PROD
@@ -261,8 +261,8 @@ PAS-5437:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
-PAS-19817:
-  summary: "Regression BCT: Time Out Error during cancellation"
+PAS-21552:
+  summary: "Errors: Time out. No session available. When 2 users change/cancel a policy at the same time"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
@@ -309,8 +309,8 @@ PASBB-818:
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
   - tests: [aaa.modules.bct.service.CancelPolicyTest.*]
     messages: ["[Row with values {Subtype/Reason=Reinstatement Fee, Status=Applied, Type=Fee, Amount=$10.00} in table 'Payments & Other Transactions' is present.] expected:<[tru]e> but was:<[fals]e>"]
-PAS-18349:
-  summary: "IN, OR, KS , KY State. Total premium value is reduced during Empty Endorsement"
+PASBB-855:
+  summary: "Auto Tier not locked on Home policy during endorsement"
   reason: PROD
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
@@ -417,12 +417,6 @@ PAS-20851:
             aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
             aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
     messages: ["Cannot set value of RadioGroup {Chargeable"]
-PAS-20919:
-  summary: "Regression BCT: Cancel Notice flag is present after accepting payment on total due amount"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.bct.*]
-    messages: ["['Cancel Notice' flag is absent] StaticElement {<unnamed>: By.id: productContextInfoForm:cancelNoticeFlag} is not absent as expected."]
 PAS-21992:
   summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
@@ -437,11 +431,11 @@ PT-3048:
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
   - tests: [aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestCinNewBusinessHomeHO4.testCinHomeSSCluePropertyViolation]
     messages: ["Errors: Time out. No session available", "no such element: Unable to locate element"]
-PAS-20379:
+PAS-22575:
   summary: "Test Min Due Is Not Recalculated After Endorsements"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas20379_testMinDueIsNotRecalculatedAfterEndorsements]
+  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements.pas22575_testMinDueIsNotRecalculatedAfterEndorsements]
     messages: ["expected:"]
 PAS-21588:
   summary: "(AH64XX) Expiration Notice - PAS is sending incorrect trans code in doc gen XML for renewal conversion documents - Auto"
@@ -455,3 +449,25 @@ PAS-22161:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
     messages: ["Waived - Accident Surcharge Waiver"]
+PAS-18273:
+  summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.renewal.RenewalTest.*]
+    messages: ["Unprepared data; Error; You must order the Membership report"]
+PAS-21652:
+  summary: "Fireline Zipcode Level match Error msg not firing when the address level match is not returned"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched,
+    aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched,
+    aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched]
+    messages: ['CustomSoftAssertionError: The soft assertions failed']
+PAS-18311:
+  summary: "Fireline Zipcode Level match Error msg not firing when the address level match is not returned"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
+    aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
+    aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable]
+    messages: ['CustomSoftAssertionError: The soft assertions failed']

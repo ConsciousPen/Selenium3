@@ -11,8 +11,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class PropertyEndorsementsTab extends Tab {
 
-	public Table tblIncludedEndorsements;
-	public Table tblOptionalEndorsements;
+	public static Table tblIncludedEndorsements;
+	public static Table tblOptionalEndorsements;
 	public Button btnSaveForm;
 	public Button btnSaveEndo;
 	public Button btnCancelForm;
@@ -92,13 +92,13 @@ public abstract class PropertyEndorsementsTab extends Tab {
 			throw new IstfException("Can't get 'Remove' link for endorsement " + formID + ". Endorsement not added.");
 		}
 	}
-	
+
 	public Link getLinkEdit(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Edit");
 	}
-	
+
 	public Link getLinkRemove(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Remove");
 	}
-	
+
 }

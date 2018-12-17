@@ -84,9 +84,16 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [NJ] Premium Calculation Test" preserve-order="true">
+    <test name="HomeSS [NJ] Premium Calculation Test_1" preserve-order="true">
         <parameter name="fileName" value="NJTests-20180401_part1.xls"/>
-        <parameter name="policyNumbers" value="2,2012"/>
+        <parameter name="policyNumbers" value="2"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="HomeSS [NJ] Premium Calculation Test_2" preserve-order="true">
+        <parameter name="fileName" value="NJTests-20180401_part2.xls"/>
+        <parameter name="policyNumbers" value="2012"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
