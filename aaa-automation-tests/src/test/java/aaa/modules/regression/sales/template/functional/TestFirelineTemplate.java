@@ -30,8 +30,7 @@ public class TestFirelineTemplate extends PolicyBaseTest {
 	protected static String ADDRESS = "ADDRESS";
 	protected static String ZIP = "ZIP";
 
-	protected void
-	pas21652_SS_firelineRuleForFirelineTableLookup(String zipCode, String address, int expectedFirelineScore, int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege, String levelMatch) {
+	protected void pas21652_SS_firelineRuleForFirelineTableLookup(String zipCode, String address, int expectedFirelineScore, int firelineLookupTableValue, PrivilegeEnum.Privilege userPrivilege, String levelMatch) {
 		if (userPrivilege.equals(PrivilegeEnum.Privilege.L41)) {
 			mainApp().open();
 		} else {
