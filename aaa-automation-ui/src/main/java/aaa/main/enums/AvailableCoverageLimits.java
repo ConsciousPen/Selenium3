@@ -32,6 +32,20 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
 	)),
+	PIPMEDICAL_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000
+	)),
+	PIPWORKLOSS_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_12000,
+			CoverageLimits.COV_24000
+	)),
+	PIPFUNERAL_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_4000
+	)),
 	PD_IN(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_15000,
