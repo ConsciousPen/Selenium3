@@ -114,7 +114,8 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 			// The First Vehicle - Displays Updated/refreshed data according to version;
 			doSoftAssertions(softly, 2, "HYUNDAI MOTOR", "12", "17");
 			doSoftAssertions(softly, 3, "TOYOTA MOTOR", "20", "30");
-			doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
+			//doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
+			doSoftAssertions(softly, 4, "FORD", "13", "13");
 		} else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
 			// The second Vehicle - NOT updated will not change/not refresh;
 			doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
@@ -126,7 +127,8 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 			// The third Vehicle - displayed updated/refreshed data according to version;
 			doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
 			doSoftAssertions(softly, 3, "BMW MOTOR", "12", "12");
-			doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
+			//doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
+			doSoftAssertions(softly, 4, "FORD", "13", "13");
 		}
 		softly.close();
 		closeRatingDetails();
