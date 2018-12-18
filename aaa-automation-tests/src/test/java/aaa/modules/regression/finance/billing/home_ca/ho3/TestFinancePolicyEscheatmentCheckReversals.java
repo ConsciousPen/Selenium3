@@ -1,5 +1,11 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -8,15 +14,8 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Cell;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestFinancePolicyEscheatmentCheckReversals extends FinanceOperations {
 

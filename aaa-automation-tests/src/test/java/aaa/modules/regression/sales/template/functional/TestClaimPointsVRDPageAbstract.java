@@ -164,10 +164,49 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "1001", "1"));
 		}
 		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "2"));
-		PropertyQuoteTab.RatingDetailsView.close();
 
+		//PAS-6730 assert 5 years rule for Years Claim Free only for SS
+		if (!isStateCA()) {
+			navigateToPropertyInfoTab();
+			// Change Claim Dates to within or over 5 years
+			String newLossDateWithin3Years = getPropertyInfoTab().getEffectiveDate().minusMonths(35).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateWithin4Years = getPropertyInfoTab().getEffectiveDate().minusMonths(47).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateWithin5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(59).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateOver5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(61).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+			//Over 5 years YCF = 5
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("5");
+			// Within 5 years YCF=4
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin5Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("4");
+			// Within 4 years YCF=3
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin4Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("3");
+			// Within 3 years YCF=2
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin3Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("2");
+		}
 	}
 
+	//TODO Change some claims statuses to 'Open' and 'Subrogated' in mock data. The test should work the same PAS-6730
 	protected List<TestData> getClaimsTD() {
 		List<TestData> tdList = testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
@@ -234,7 +273,12 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			}
 			query = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s')) "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "' and POLICYTYPECD = '" + policyTypeCd + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "' and POLICYTYPECD = '" + policyTypeCd
+					+ "'", lookupName);
+
 			result = DBService.get().getValue(query);
 		} else {
 			if (isAAAClaim) {
@@ -244,10 +288,18 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			}
 			query = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s') and riskstatecd = '" + getState() + "') "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "'", lookupName);
+
 			String queryNoState = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s') and riskstatecd is null) "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "'", lookupName);
+
 			if (DBService.get().getValue(query).isPresent()) {
 				result = DBService.get().getValue(query);
 			} else {

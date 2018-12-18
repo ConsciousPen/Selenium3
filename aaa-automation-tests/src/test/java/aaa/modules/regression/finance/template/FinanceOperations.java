@@ -157,7 +157,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 	 * @author Reda Kazlauskiene
 	 * @name Renew policy
 	 */
-	protected void renewalImageGeneration(LocalDateTime policyExpirationDate, String policyNum) {
+	protected void renewalImageGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
@@ -169,7 +169,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		PolicyHelper.verifyAutomatedRenewalGenerated(renewDateImage);
 	}
 
-	protected void renewalPreviewGeneration(LocalDateTime policyExpirationDate, String policyNum) {
+	protected void renewalPreviewGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
@@ -180,7 +180,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
-	protected void renewalOfferGeneration(LocalDateTime policyExpirationDate, String policyNum) {
+	protected void renewalOfferGeneration(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
@@ -192,7 +192,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 	}
 
-	protected void generateRenewalBill(LocalDateTime policyExpirationDate, LocalDateTime policyEffectiveDate, String policyNum) {
+	protected void generateRenewalBill(String policyNum, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
 		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
@@ -203,7 +203,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
-	protected void payRenewalBill(LocalDateTime policyExpirationDate, String policyNum) {
+	protected void payRenewalBill(String policyNum, LocalDateTime policyExpirationDate) {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(policyExpirationDate);
 		if (getState().equals(Constants.States.CA)) {
 			billDueDate = policyExpirationDate; //avoid switch to Monday, Renewal bill should be payed before policyStatusUpdateJob
@@ -217,7 +217,7 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		new BillingPaymentsAndTransactionsVerifier().verifyManualPaymentAccepted(DateTimeUtils.getCurrentDateTime(), minDue.negate());
 	}
 
-	protected void updatePolicyStatus(LocalDateTime policyExpirationDate, LocalDateTime policyEffectiveDate, String policyNum) {
+	protected void updatePolicyStatus(String policyNum, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
 		LocalDateTime updateStatusDate = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(updateStatusDate);
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
@@ -227,6 +227,19 @@ public abstract class FinanceOperations extends PolicyBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
+		BillingSummaryPage.hidePriorTerms();
+	}
+
+	// Skip this step for CA
+	protected void renewalPremiumNotice(String policyNumber, LocalDateTime policyEffectiveDate, LocalDateTime policyExpirationDate) {
+		LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(billDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		mainApp().open();
+		SearchPage.openBilling(policyNumber);
+		BillingSummaryPage.showPriorTerms();
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyEffectiveDate);
+		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
 	}
 
 	/**
