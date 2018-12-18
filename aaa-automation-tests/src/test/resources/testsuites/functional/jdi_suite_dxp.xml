@@ -34,8 +34,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="TestMiniServicesPremiumBearingVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -49,8 +49,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="AZ"/>
     <test thread-count="1024" name="DriversAZ" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -65,8 +65,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="AZ"/>
     <test thread-count="1024" name="VehiclesAZ" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
@@ -87,8 +87,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="NV"/>
     <test thread-count="1024" name="VehiclesNV" parallel="methods">
+        <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
@@ -98,8 +98,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="AZ"/>
     <test thread-count="1024" name="CoveragesAZ" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -113,8 +113,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="GeneralVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
                 <methods>
@@ -126,8 +126,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="DriversVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -141,8 +141,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="VehiclesVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
@@ -163,8 +163,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="AssignmentsVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
                 <methods>
@@ -183,8 +183,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="CoveragesVA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -205,8 +205,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="UT"/>
     <test thread-count="1024" name="TestMiniServicesPremiumBearingUT" parallel="methods">
+        <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -218,8 +218,8 @@
         </classes>
     </test>
     <!--Disabled the test to check BackwardCompatibility for all states-->
-    <parameter name="state" value="NY"/>
     <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
+        <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -228,8 +228,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="AZ,NY,VA"/>
     <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
+        <parameter name="state" value="AZ,NY,VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
                 <methods>
@@ -241,8 +241,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="AZ"/>
     <test thread-count="1024" name="PolicySummaryService AZ" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -251,8 +251,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="VA"/>
     <test thread-count="1024" name="PolicySummaryService VA" parallel="methods">
+        <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
@@ -262,8 +262,8 @@
             </class>
         </classes>
     </test>
-    <parameter name="state" value="MD"/>
     <test thread-count="1024" name="PolicySummaryService MD" parallel="methods">
+        <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
