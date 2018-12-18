@@ -20,7 +20,9 @@ import java.time.LocalDateTime;
  * @author Tyrone Jemison
  * It should be okay for this class to extend from HO3BaseTest, as the delta should be the state and not HomeSS vs HomeCA.
  * Policy creation happens outside of this class, so getTimepoints() should return similar data as HO4, DP3, etc.
- * This means the class should workd for other Home product types.
+ * This means the class should workd for other Home product types. <br>
+ *     The following jobs are required to be in the UI (not there by default): <br>
+ *         renewalValidationAsyncTaskJob, aaaRenewalDataRefreshAsyncJob, renewalOfferAsyncTaskJob
  */
 public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 {
@@ -98,6 +100,18 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             currentTerm++;
             if(currentTerm > 10) // <-- SANITY CHECK. LIMITS RENEWALS TO 10.
                 break;
+        }
+    }
+
+    public void moveToEndOfFirstTerm(Boolean bPayBill){
+        moveThroughStage1();
+        moveThroughStage2();
+        moveThroughStage3();
+        moveThroughStage4();
+        if (bPayBill){
+            handleBillGenerationAndPayment();
+        }else{
+            handleBillGeneration();
         }
     }
 
@@ -183,6 +197,16 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
         // Manually ZERO OUT aaaTimelineRenewalInd
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
+    }
+
+    public void handleBillGeneration() {
+        // Do below chunk if state is not California
+        if (!_policyState.equalsIgnoreCase("CA")){
+            TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
+            JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+        }
     }
 
     /**
