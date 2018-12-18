@@ -1,5 +1,15 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate.SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.helpers.constants.ComponentConstant;
@@ -9,24 +19,14 @@ import aaa.helpers.rest.RestRequestInfo;
 import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://claims-assignment-pas-18300-permissive-use.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	//TODO:gunxgar - change it back, before creating a pull request
 
 	/**
 	 * @author Chris Johns
@@ -53,14 +53,18 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 	 *      --Claim 12,    17894- 1: LASTNAME_FIRSTNAME
 	 *      --Claim 13,    17894- 4: LASTNAME_FIRSTINITAL_DOB
 	 *      --Claim 14-15, 17894- 6 & 8: Unmatched (PAS-21435 Removed LASTNAME_YOB Match)
-	 *      --Claim 16-19, 18431- 1, 2, 3 & 4: PERMISSIVE_USE Match
-	 *      --Claim 16-19, 18431- 5: UNMATCHED Match
+	 *      --Claim 16-18, 18431- 1, 2, 3: PERMISSIVE_USE Match
+	 *      --Claim 19, 18431- 4: UNMATCHED Match with PU = Yes, because dateOfLoss of Claim = -1 Day of dateOfLoss Parameter
+	 *      --Claim 20, 18431- 5: UNMATCHED Match
 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14679,PAS-18391,PAS-14058,PAS-8310,PAS-17894")
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-14679,PAS-18391,PAS-14058,PAS-8310,PAS-17894,PAS-18300")
 	@StateList(states = {Constants.States.AZ})
 	public void pas14679_testMSClaimsAssignment(@Optional("AZ") String state) throws IOException {
+
+		// Toggle ON PermissiveUse Logic. NOTE: dateOfLoss parameter value is set manually in JSON request
+		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
 
 		//Define which JSON request to use
 		String claimsRequest = new String(Files.readAllBytes(Paths.get(MICRO_SERVICE_REQUESTS + "PAS14679_testMSClaimsAssignment.json")));
@@ -72,7 +76,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		log.info(microServiceResponse.toString());
 
 		//Create a list of all the expected UNMATCHED claim numbers
-		String[] expectedClaimNumbers = {"1TAZ1111OHS", "17894-2222OHS", "17894-3333OHS", "17894-55555OHS", "17894-66666OHS", "17894-77777OHS", "17894-88888OHS", "17894-99999OHS", "18431-11111OHS", "18431-22222OHS", "18431-33333OHS", "18431-44444OHS", "18431-55555OHS"};
+		String[] expectedClaimNumbers = {"1TAZ1111OHS", "17894-2222OHS", "17894-3333OHS", "17894-55555OHS", "17894-66666OHS", "17894-77777OHS", "17894-88888OHS", "17894-99999OHS", "18431-44444OHS", "18431-55555OHS"};
 		ArrayList<String> expectedUnmatchedClaims = new ArrayList<>();
 		expectedUnmatchedClaims.addAll(Arrays.asList(expectedClaimNumbers));
 
@@ -91,8 +95,8 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		//PAS-21435 - Removed LASTNAME_YOB match logic. These claims will now be unmatched
 		assertThat(actualUnmatchedClaims).isEqualTo(expectedUnmatchedClaims);
 
-		//Create a list of all the expected MATCH CODES
-		String[] expectedCodes = {"EXISTING_MATCH", "COMP", "DL", "LASTNAME_FIRSTNAME_DOB", "LASTNAME_FIRSTNAME_YOB", "LASTNAME_FIRSTNAME", "LASTNAME_FIRSTINITAL_DOB"};
+		//Create a list of all the expected MATCH CODES (Last 3: PERMISSIVE_USE to cover all possible cases of PU)
+		String[] expectedCodes = {"EXISTING_MATCH", "COMP", "DL", "LASTNAME_FIRSTNAME_DOB", "LASTNAME_FIRSTNAME_YOB", "LASTNAME_FIRSTNAME", "LASTNAME_FIRSTINITAL_DOB", "PERMISSIVE_USE", "PERMISSIVE_USE", "PERMISSIVE_USE"};
 		ArrayList<String> expectedMatchCodes = new ArrayList<>();
 		expectedMatchCodes.addAll(Arrays.asList(expectedCodes));
 

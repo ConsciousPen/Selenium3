@@ -30,12 +30,16 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 
 @StateList(states = {Constants.States.AZ})
 public class TestOffLineClaims extends TestOfflineClaimsTemplate {
+
+	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (value of Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
+	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
     private static final String CLAIM_NUMBER_1 = "1002-10-8702";
     private static final String CLAIM_NUMBER_2 = "1002-10-8703";
@@ -49,6 +53,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     private static final String INC_RATING_CLAIM_1 = "IIRatingClaim1";
     private static final String INC_RATING_CLAIM_2 = "IIRatingClaim2";
     private static final String INC_RATING_CLAIM_3 = "IIRatingClaim3";
+	private static final String INC_RATING_CLAIM_4 = "IIRatingClaim4";
 	private static final Map<String, String> CLAIM_TO_DRIVER_LICENSE = ImmutableMap.of(CLAIM_NUMBER_1, "A12345222", CLAIM_NUMBER_2, "A12345222");
 
 	private static String adminLog;
@@ -80,6 +85,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * PAS-14679 - DL # matching logic
      * PAS-14058 - COMP Claims match to FNI
      * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
+	 * PAS-18300 - PERMISSIVE_USE match to FNI when dateOfLoss param = claim dateOfLoss
      * @name Test Offline STUB/Mock Data Claims
      * @scenario Test Steps:
      * 1. Create a Policy with 3 drivers; 1 with no STUB data match, 2, and 3 with STUB data match
@@ -96,12 +102,18 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
     public void pas14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
-        createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
+
+		// Toggle ON PermissiveUse Logic
+		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
+    	createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE, null);
+		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy
@@ -113,7 +125,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-	    // Check 1st driver: FNI, has the COMP match claim
+	    // Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 	    // Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
     }
@@ -124,6 +136,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	 * PAS-14679 - DL # matching logic
 	 * PAS-14058 - COMP Claims match to FNI
 	 * PAS-18341 - Added PermissiveUse tag to Claims Service Contract
+	 * PAS-18300 - PERMISSIVE_USE match to FNI when dateOfLoss param = claim dateOfLoss
 	 * @name Test NAME and DOB Match logic Via Manual Renewal To Support Security Token Validation
 	 * @scenario Test Steps:
 	 * 1. Create a Policy with 4 drivers
@@ -138,11 +151,17 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
 	public void pas14679_CompDLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+
+		// Toggle ON PermissiveUse Logic
+		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+
 		// Create Customer and Policy with 4 drivers
 		createPolicyMultiDrivers();
 
 		// Create the claim response
-		createCasClaimResponseAndUpload(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE, null);
+		createCasClaimResponseAndUploadWithUpdatedDL(policyNumber, COMP_DL_PU_CLAIMS_DATA_MODEL, CLAIM_TO_DRIVER_LICENSE);
 
 		// Retrieve policy and generate a manual renewal image
 		createManualRenewal();
@@ -160,7 +179,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-		// Check 1st driver: FNI, has the COMP match claim
+		// Check 1st driver: FNI, has the COMP match claim & PU Match Claim. Also Making sure that Claim4: 1002-10-8704-INVALID-dateOfLoss from data model is not displayed
 		// Check 2nd driver: Has DL match claim
 		compDLPuAssertions(CLAIM_NUMBER_1, CLAIM_NUMBER_2, CLAIM_NUMBER_3);
 	}
@@ -192,7 +211,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         generateClaimRequest();        // Download claim request and assert it
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null, null);
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL);
         runRenewalClaimReceiveJob();   // Move to R-46 and run batch job part 2 and offline claims receive batch job
 
         // Retrieve policy and verify claim presence on renewal image
@@ -232,7 +251,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         createPolicyMultiDrivers();
 
         // Create the claim response
-        createCasClaimResponseAndUpload(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL, null, null);
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, NAME_DOB_CLAIMS_DATA_MODEL);
 
         // Retrieve policy and generate a manual renewal image
         createManualRenewal();
@@ -272,6 +291,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
      * 5.1 Claim1: claimNumber1 - NOT INCLUDED IN RATING dateOfLoss = Two Policy Terms - 1 day (R1-1)
      * 5.1 Claim2: claimNumber2 - INCLUDED IN RATING dateOfLoss = Two Policy Terms (R1)
      * 5.1 Claim3: claimNumber3 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46)
+	 * 5.1 Claim4: claimNumber4 - INCLUDED IN RATING dateOfLoss = Current Date (R3-46) PERMISSIVE_USE Match Assigned to FNI
      *
      * //TODO:gunxgar add one more claim on 1st Renewal for Existing match, will be implemented in other Story: PAS-22026
      * @details
@@ -281,13 +301,18 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14552")
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
+		// Toggle ON PermissiveUse Logic
+		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
+		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "01-NOV-18")); //Set Date which will be before claim dateOfLoss
+
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
         String claim2_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).toLocalDate().toString();
         String claim3_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(3).toLocalDate().toString();
 
         Map<String, String> UPDATE_CAS_RESPONSE_DATE_FIELDS =
-                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates);
+                ImmutableMap.of(INC_RATING_CLAIM_1, claim1_dates, INC_RATING_CLAIM_2, claim2_dates, INC_RATING_CLAIM_3, claim3_dates, INC_RATING_CLAIM_4, claim3_dates);
 
         TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(driverTab.getMetaKey(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "A19191911").resolveLinks();
 
@@ -310,7 +335,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         runRenewalClaimOrderJob();
 
         // Create Updated CAS Response and Upload
-        createCasClaimResponseAndUpload(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, null, UPDATE_CAS_RESPONSE_DATE_FIELDS);
+		createCasClaimResponseAndUploadWithUpdatedDates(policyNumber, INC_IN_RATING_3RD_RENEWAL_DATA_MODEL, UPDATE_CAS_RESPONSE_DATE_FIELDS);
 
         runRenewalClaimReceiveJob();
 
@@ -329,9 +354,10 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         CustomSoftAssertions.assertSoftly(softly -> {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
+			DriverTab driverTab = new DriverTab();
 
 			// Check that Policy Contains 3 Claims
-            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(3);
+            softly.assertThat(DriverTab.tableActivityInformationList.getAllRowsCount()).isEqualTo(4);
 
 			// PAS14552 - Assert that Claim IS NOT Included In Rating because Date of Loss is older than two terms
             DriverTab.tableActivityInformationList.selectRow(1);
@@ -351,6 +377,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
 
+			// PAS-18300 - Assert that Permissive Use Claim IS Included In Rating because Date of Loss is equal to current system date and assigned to FNI
+			DriverTab.tableActivityInformationList.selectRow(4);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(INC_RATING_CLAIM_4);
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT)).hasValue("1500");
+			softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER)).hasValue("Yes");
         });
     }
 }

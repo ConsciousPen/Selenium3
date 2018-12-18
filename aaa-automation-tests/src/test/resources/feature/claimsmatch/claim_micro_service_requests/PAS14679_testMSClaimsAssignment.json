@@ -4,7 +4,7 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
-        "coverageId":"cov_21",
+        "coverageId":"cov_11",
         "disposition": "Closed",
         "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
@@ -38,7 +38,7 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
-        "coverageId":"cov_21",
+        "coverageId":"cov_12",
         "disposition": "Closed",
         "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
@@ -72,7 +72,7 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
-        "coverageId":"cov_21",
+        "coverageId":"cov_13",
         "disposition": "Closed",
         "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
@@ -98,6 +98,7 @@
       "lossSummary":"collided with 10 parked vehicles",
       "amountpaid":2200,
       "isCompClaim": false,
+      "liabilityCd":"NF",
       "claimNumber":"3TAZ3333OHS",
       "status":"CLOSED"
     },
@@ -105,7 +106,7 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
-        "coverageId":"cov_21",
+        "coverageId":"cov_14",
         "disposition": "Closed",
         "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
@@ -132,25 +133,25 @@
       "amountpaid": 1056,
       "isCompClaim": true,
       "liabilityCd": "AF",
-      "claimNumber": "4TZ44444OHS",
+      "claimNumber": "4TAZ4444OHS",
       "status": "CLOSED"
     },
     {
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918541",
       "payments":[{
-         "coverageId":"cov_21",
-         "disposition":"Open",
-         "coverageName":"COLLISION_ONLY",
-         "amountPaid":1000,
-         "paymentType":"COLLISION_ONLY"
+        "coverageId":"cov_15",
+        "disposition":"Open",
+        "coverageName":"COLLISION_ONLY",
+        "amountPaid":1000,
+        "paymentType":"COLLISION_ONLY"
       },
-      {
-         "coverageId":"cov_36",
-         "disposition":"Open",
-         "coverageName":"MEDICAL_PAYMENTS",
-         "amountPaid":380,
-         "paymentType":"Medical Payment"
+        {
+          "coverageId":"cov_16",
+          "disposition":"Open",
+          "coverageName":"MEDICAL_PAYMENTS",
+          "amountPaid":380,
+          "paymentType":"Medical Payment"
         }
       ],
       "cause":"cha",
@@ -181,7 +182,7 @@
       "policyReferenceNumber":"AZSS952918541",
       "payments":[
         {
-          "coverageId":"cov_21",
+          "coverageId":"cov_17",
           "disposition":"Open",
           "coverageName":"COLLISION_ONLY",
           "amountPaid":1000,
@@ -215,7 +216,9 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
+        "coverageId":"cov_18",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -238,6 +241,7 @@
       "lossSummary":"crashed into waving inflatable arm guy",
       "amountpaid":2200,
       "isCompClaim": false,
+      "liabilityCd":"NF",
       "claimNumber":"17894-1111OHS",
       "status":"CLOSED"
     },
@@ -245,7 +249,9 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
+        "coverageId":"cov_19",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -268,6 +274,7 @@
       "lossSummary":"collided with 1 passenger bus",
       "amountpaid":2200,
       "isCompClaim": false,
+      "liabilityCd":"NF",
       "claimNumber":"17894-2222OHS",
       "status":"CLOSED"
     },
@@ -275,7 +282,9 @@
       "dateOfLoss":"2019-01-11",
       "policyReferenceNumber":"AZSS952918543",
       "payments": [{
+        "coverageId":"cov_20",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -298,6 +307,7 @@
       "lossSummary":"collided with 10 parked vehicles",
       "amountpaid":2200,
       "isCompClaim": false,
+      "liabilityCd":"NF",
       "claimNumber":"17894-3333OHS",
       "status":"CLOSED"
     },
@@ -305,7 +315,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_21",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -336,7 +348,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_22",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -367,7 +381,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_23",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -398,7 +414,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_24",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -430,7 +448,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_25",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -461,7 +481,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_26",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -489,10 +511,12 @@
       "status": "CLOSED"
     },
     {
-      "dateOfLoss": "2019-01-11",
+      "dateOfLoss": "2019-01-10",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_27",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -510,7 +534,7 @@
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Bruce Spriggstine",
-        "Permissive Use": "Y"
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Crashed into existential barricade",
@@ -524,7 +548,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_28",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -542,7 +568,7 @@
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Tony Banner",
-        "Permissive Use": "Y"
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Hail Storm caused collision",
@@ -553,10 +579,12 @@
       "status": "CLOSED"
     },
     {
-      "dateOfLoss": "2019-01-11",
+      "dateOfLoss": "2019-01-12",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_29",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -574,7 +602,7 @@
         "dateOfBirth": "1999-09-09",
         "licenseNumber": "A99999999",
         "claimDriverName": "Boolean Banner",
-        "Permissive Use": "Y"
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Fender Bender",
@@ -585,10 +613,12 @@
       "status": "CLOSED"
     },
     {
-      "dateOfLoss": "2019-01-11",
+      "dateOfLoss": "2019-01-09",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_30",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -606,7 +636,7 @@
         "dateOfBirth": "1999-09-09",
         "licenseNumber": "A99999999",
         "claimDriverName": "Boolean Banner",
-        "Permissive Use": "Y"
+        "permissiveUse": "Y"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Fender Bender",
@@ -620,7 +650,9 @@
       "dateOfLoss": "2019-01-11",
       "policyReferenceNumber": "CAAC952918542",
       "payments": [{
+        "coverageId":"cov_31",
         "disposition": "Closed",
+        "coverageName":"COLLISION_ONLY",
         "amountPaid": 1000,
         "paymentType": "COLLISION_ONLY"
       }
@@ -638,7 +670,7 @@
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Bruce Spriggstine",
-        "Permissive Use": "N"
+        "permissiveUse": "N"
       },
       "dateOpened": "2019-01-02",
       "lossSummary": "Crashed into existential barricade",
@@ -649,11 +681,12 @@
       "status": "CLOSED"
     }
   ],
-  "policy":{
-    "termEndDate":"2022-07-07",
-    "policyNumber":"AZSS952918543",
-    "termEffectiveDate":"2021-07-07",
-    "drivers":[
+  "policy": {
+    "dateOfLoss": "2019-01-10",
+    "termEndDate": "2022-07-07",
+    "policyNumber": "AZSS952918543",
+    "termEffectiveDate": "2021-07-07",
+    "drivers": [
       {
         "firstName":"Fernando-GEHJJ",
         "lastName":"Smith",
@@ -700,7 +733,6 @@
         "oid": "kV1kmMrNOAa0CEQQL61N0Q",
         "middleName":"A12345333",
         "driverType":"afr",
-        "dob": "1997-10-16",
         "existingActivities":[]
       },
       {
@@ -710,7 +742,7 @@
         "isDriverFNI":false,
         "relationshipToFNI":"SI",
         "licenseNumber":"A29801000",
-        "oid":"l_nV_jhmoTFtRNHSNXRHVg",
+        "oid":"l_nV_jhmoTFtRNHSNXR444",
         "driverType":"afr",
         "dob": "1970-09-12",
         "existingActivities":[]

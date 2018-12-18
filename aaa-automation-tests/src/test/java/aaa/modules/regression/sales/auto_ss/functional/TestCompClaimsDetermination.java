@@ -20,6 +20,9 @@ import toolkit.verification.CustomSoftAssertions;
 @StateList(states = {Constants.States.AZ})
 public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 
+	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
+	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
+
 	private static VehicleTab vehicleTab = new VehicleTab();
 	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
 
@@ -86,7 +89,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		runRenewalClaimOrderJob();
 
 		// Create the claim response
-		createCasClaimResponseAndUpload(policyNumber, COMP_CLAIMS_DATA_MODEL, null, null);
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, COMP_CLAIMS_DATA_MODEL);
 
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
 		runRenewalClaimReceiveJob();

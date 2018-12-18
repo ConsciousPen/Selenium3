@@ -68,7 +68,9 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     @SuppressWarnings("SpellCheckingInspection")
     private static final String PAS_ADMIN_LOG_PATH = System.getProperty("user.dir")
             + PropertyProvider.getProperty("test.downloadfiles.location") + "pas_admin_log";
-    public static final String SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'MatchMoreClaims'";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE = "UPDATE LOOKUPVALUE SET DISPLAYVALUE = 'TRUE' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
+    public static final String SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS = "UPDATE LOOKUPVALUE SET DATEOFLOSS = '%s' WHERE LOOKUPLIST_ID in (SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME = 'AAARolloutEligibilityLookup') and code = 'PermissiveUse'";
+
     public static final String SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY = "DELETE FROM BATCH_JOB_CONTROL_ENTRY WHERE jobname='renewalClaimReceiveAsyncJob'";
 
     public static final String CLAIMS_MICROSERICE_ENDPOINT = "select * from PROPERTYCONFIGURERENTITY where propertyname = 'aaaClaimsMicroService.microServiceUrl'";
@@ -138,8 +140,10 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
             ActivityInformationMultiAssetList activityInformationAssetList = driverTab.getActivityInformationAssetList();
             softly.assertThat(DriverTab.tableDriverList).hasRows(4);
 
-            // Check 1st driver: FNI, has COMP and Permissive Use matched claims
+            // Check 1st driver: Contains only Two Matched Claims (Verifying that PermissiveUse Claim with wrong dateOfLoss is not displayed)
             softly.assertThat(DriverTab.tableActivityInformationList).hasRows(2);
+
+            // Check 1st driver: FNI, has COMP and Permissive Use matched claims (2nd PermissiveUse Claim is not displayed, because of dateOfLoss Param > Claim dateOfLoss)
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ACTIVITY_SOURCE)).hasValue("Internal Claims");
             softly.assertThat(activityInformationAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.CLAIM_NUMBER)).hasValue(COMP_MATCH);
 
@@ -343,14 +347,14 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     }
 
     /**
-     * Method creates CAS Response file and updates required fields: policyNumber, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
+     * Method creates CAS Response file and updates required fields: Policy Number, Driver Licence, Claim Dates: Date Of Loss, Close Date, Open Date
      *
      * @param policyNumber given Policy Number
      * @param dataModelFileName given CAS Response data model
      * @param claimToDriverLicence if != null, given Driver Licence according to Claim Number
      * @param claimDatesToUpdate if != null, given Claim Dates according to Claim Number
      */
-    protected void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
+    private void createCasClaimResponseAndUpload(String policyNumber, String dataModelFileName,
             Map<String, String> claimToDriverLicence, Map<String, String> claimDatesToUpdate) {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
@@ -372,4 +376,39 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
                 Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
     }
+
+    /**
+     * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number only
+     *
+     * @param policyNumber - given Policy Number
+     * @param dataModelFileName given CAS Response data model
+     */
+    public void createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(String policyNumber, String dataModelFileName){
+        createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, null);
+    }
+
+    /**
+     * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Driver License
+     *
+     * @param policyNumber given policy number
+     * @param dataModelFileName given CAS Response data model
+     * @param claimToDriverLicence given Driver License according to Claim Number
+     */
+    public void createCasClaimResponseAndUploadWithUpdatedDL(String policyNumber, String dataModelFileName,
+            Map<String, String> claimToDriverLicence){
+        createCasClaimResponseAndUpload(policyNumber, dataModelFileName, claimToDriverLicence, null);
+    }
+
+    /**
+     * Method creates CAS Response file and Uploads to required folder: With Updated Policy Number & Claim Dates: Date Of Loss, Close Date, Open Date
+     *
+     * @param policyNumber given Policy Number
+     * @param dataModelFileName given CAS Response data model
+     * @param claimDatesToUpdate given Claim Dates according to Claim Number
+     */
+    public void createCasClaimResponseAndUploadWithUpdatedDates(String policyNumber, String dataModelFileName,
+            Map<String, String> claimDatesToUpdate){
+        createCasClaimResponseAndUpload(policyNumber, dataModelFileName, null, claimDatesToUpdate);
+    }
+
 }
