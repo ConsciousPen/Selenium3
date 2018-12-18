@@ -117,20 +117,17 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 			// The First Vehicle - Displays Updated/refreshed data according to version;
 			doSoftAssertions(softly, 2, "HYUNDAI MOTOR", "12", "17");
 			doSoftAssertions(softly, 3, "TOYOTA MOTOR", "20", "30");
-			//corresponding to PAS-18969 data should not be refreshed for VAN vehicles. 
-			//doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
+			//corresponding to PAS-18969 data should not be refreshed for VAN vehicles
 			doSoftAssertions(softly, 4, "FORD", "13", "13");
 		} else if (scenario.equals(MATCHED)) { //Assertion for scenario 2
 			// The second Vehicle - NOT updated will not change/not refresh;
 			doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
 			doSoftAssertions(softly, 3, "TOYOTA MOTOR", "20", "30");
-			//doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
 			doSoftAssertions(softly, 4, "FORD", "13", "13");
 		} else if (scenario.equals(STUB)) { //Assertion for scenario 3
 			// The third Vehicle - displayed updated/refreshed data according to version;
 			doSoftAssertions(softly, 2, "KIA MOTOR", "20", "10");
 			doSoftAssertions(softly, 3, "BMW MOTOR", "12", "12");
-			//doSoftAssertions(softly, 4, "FORD MOTOR", "25", "37");
 			doSoftAssertions(softly, 4, "FORD", "13", "13");
 		}
 		softly.close();
@@ -152,9 +149,9 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 	 * 6. Calculate Premium and bind the endorsement
 	 * 7. Open the last renewal inscription in 'Transaction history'
 	 * Expected Result:
-	 * The First Vehicle - COMP/COLL symbol has to be updated for new version
+	 * The First Vehicle - COMP/COLL symbol has to be updated for 2018 version
 	 * The second Vehicle - COMP/COLL symbol has to retain the same value
-	 * The third Vehicle - COMP/COLL symbol has to be updated for new version
+	 * The third Vehicle - COMP/COLL symbol has to be updated for 2018 version
 	 * @details
 	 */
 
