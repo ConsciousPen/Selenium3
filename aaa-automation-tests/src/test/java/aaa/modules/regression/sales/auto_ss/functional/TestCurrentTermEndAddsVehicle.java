@@ -149,9 +149,9 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 	 * 6. Calculate Premium and bind the endorsement
 	 * 7. Open the last renewal inscription in 'Transaction history'
 	 * Expected Result:
-	 * The First Vehicle - COMP/COLL symbol has to be updated for 2018 version
-	 * The second Vehicle - COMP/COLL symbol has to retain the same value
-	 * The third Vehicle - COMP/COLL symbol has to be updated for 2018 version
+	 * The First Vehicle - COMP & COLL symbols have to be updated for new version
+	 * The second Vehicle - COMP & COLL symbols have to retain the same value
+	 * The third Vehicle - COMP & COLL symbols have to be updated for new version
 	 * @details
 	 */
 
