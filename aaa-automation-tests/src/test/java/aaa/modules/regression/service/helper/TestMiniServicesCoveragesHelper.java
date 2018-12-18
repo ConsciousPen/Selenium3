@@ -5443,46 +5443,36 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		Coverage pipWorkLossExpected = Coverage.create(CoverageInfo.PIPWORKLOSS_DC);
 		Coverage pipFuneralExpected = Coverage.create(CoverageInfo.PIPFUNERAL_DC);
 
-		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertSoftly(softly -> {
 			Coverage pipMedicalActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPMEDICAL_DC.getCode());
 			Coverage pipWorklossActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPWORKLOSS_DC.getCode());
 			Coverage pipFuneralActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.PIPFUNERAL_DC.getCode());
+
 			assertThat(pipMedicalActual).isEqualToIgnoringGivenFields(pipMedicalExpected);
 			assertThat(pipWorklossActual).isEqualToIgnoringGivenFields(pipWorkLossExpected);
 			assertThat(pipFuneralActual).isEqualToIgnoringGivenFields(pipFuneralExpected);
 		});
 
-		PolicyCoverageInfo updateMedCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPMEDICAL_DC.getCode(), CoverageLimits.COV_50000.getLimit());
-		pipMedicalExpected.changeLimit(CoverageLimits.COV_50000);
-		assertSoftly(softly -> {
-			Coverage pipMedicalActual = findCoverage(updateMedCoverageResponse.policyCoverages, CoverageInfo.PIPMEDICAL_DC.getCode());
-			assertThat(pipMedicalActual).isEqualToIgnoringGivenFields(pipMedicalExpected);
-			validatePolicyLevelCoverageChangeLog(policyNumber, pipMedicalExpected);
-			SearchPage.openPolicy(policyNumber);
-			validateCoverageLimitInPASUI(pipMedicalExpected);
-		});
+        coverageUpdateAndValidate(policyNumber, pipMedicalExpected, CoverageInfo.PIPMEDICAL_DC.getCode(), CoverageLimits.COV_50000);
+        coverageUpdateAndValidate(policyNumber, pipWorkLossExpected, CoverageInfo.PIPWORKLOSS_DC.getCode(), CoverageLimits.COV_12000);
+        coverageUpdateAndValidate(policyNumber, pipFuneralExpected, CoverageInfo.PIPFUNERAL_DC.getCode(), CoverageLimits.COV_4000);
 
-		PolicyCoverageInfo updateWrkCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPWORKLOSS_DC.getCode(), CoverageLimits.COV_12000.getLimit());
-		pipWorkLossExpected.changeLimit(CoverageLimits.COV_12000);
-		assertSoftly(softly -> {
-			Coverage pipWorklossActual = findCoverage(updateWrkCoverageResponse.policyCoverages, CoverageInfo.PIPWORKLOSS_DC.getCode());
-			assertThat(pipWorklossActual).isEqualToIgnoringGivenFields(pipWorkLossExpected);
-			validatePolicyLevelCoverageChangeLog(policyNumber, pipWorkLossExpected);
-			SearchPage.openPolicy(policyNumber);
-			validateCoverageLimitInPASUI(pipWorkLossExpected);
-		});
-
-		PolicyCoverageInfo updateFunCoverageResponse = updateCoverage(policyNumber, CoverageInfo.PIPFUNERAL_DC.getCode(), CoverageLimits.COV_4000.getLimit());
-		pipFuneralExpected.changeLimit(CoverageLimits.COV_4000);
-		assertSoftly(softly -> {
-			Coverage pipFuneralActual = findCoverage(updateFunCoverageResponse.policyCoverages, CoverageInfo.PIPFUNERAL_DC.getCode());
-			assertThat(pipFuneralActual).isEqualToIgnoringGivenFields(pipFuneralExpected);
-			validatePolicyLevelCoverageChangeLog(policyNumber, pipFuneralExpected);
-			SearchPage.openPolicy(policyNumber);
-			validateCoverageLimitInPASUI(pipFuneralExpected);
-		});
+        helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
+
+	private void coverageUpdateAndValidate(String policyNumber, Coverage pipExpected, String coverageCd, CoverageLimits coverageLimits) {
+        PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, coverageCd, coverageLimits.getLimit());
+        pipExpected.changeLimit(coverageLimits);
+        assertSoftly(softly -> {
+            Coverage pipActual = findCoverage(updateCoverageResponse.policyCoverages, coverageCd);
+            assertThat(pipActual).isEqualToIgnoringGivenFields(pipExpected);
+            validatePolicyLevelCoverageChangeLog(policyNumber, pipExpected);
+            SearchPage.openPolicy(policyNumber);
+            validateCoverageLimitInPASUI(pipExpected);
+        });
+
+    }
 
 }
 
