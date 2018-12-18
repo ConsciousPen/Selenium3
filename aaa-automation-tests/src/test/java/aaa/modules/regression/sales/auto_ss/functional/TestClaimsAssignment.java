@@ -25,8 +25,7 @@ import toolkit.utils.TestInfo;
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://claims-assignment-pas-18300-permissive-use.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
-	//TODO:gunxgar - change it back, before creating a pull request
+	private static final String claimsUrl = "http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
 
 	/**
 	 * @author Chris Johns
