@@ -104,9 +104,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
 		// Toggle ON PermissiveUse Logic
+		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
 		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
 		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_RISKSTATECD, getState()));
 
     	createPolicyMultiDrivers();    // Create Customer and Policy with 4 drivers
         runRenewalClaimOrderJob();     // Move to R-63, run batch job part 1 and offline claims batch job
@@ -153,9 +155,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	public void pas14679_CompDLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
 		// Toggle ON PermissiveUse Logic
+		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
+		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
 		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
 		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "11-NOV-18"));
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_RISKSTATECD, getState()));
 
 		// Create Customer and Policy with 4 drivers
 		createPolicyMultiDrivers();
@@ -302,9 +306,11 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void pas14552_includeClaimsInRatingDetermination(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
 		// Toggle ON PermissiveUse Logic
+		// Set DATEOFLOSS Parameter in DB: NOT greater than Claim4 dateOfLoss
+		// Set RISKSTATECD in DB to get policy DATEOFLOSS working
 		DBService.get().executeUpdate(SQL_UPDATE_PERMISSIVEUSE_DISPLAYVALUE);
-		// Set dateOfLoss Parameter: Equal to Claim3 dateOfLoss
 		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_DATEOFLOSS, "01-NOV-18")); //Set Date which will be before claim dateOfLoss
+		DBService.get().executeUpdate(String.format(SQL_UPDATE_PERMISSIVEUSE_RISKSTATECD, getState()));
 
         // Claim Dates: claimDateOfLoss/claimOpenDate/claimCloseDate all are the same
         String claim1_dates = TimeSetterUtil.getInstance().getCurrentTime().plusYears(1).minusDays(1).toLocalDate().toString();
