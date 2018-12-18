@@ -52,30 +52,25 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.EndorsementActionTab.class.getSimpleName(),
-                        AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.EndorsementActionTab.class.getSimpleName(), AutoCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
                 break;
             case AUTO_SS:
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.EndorsementActionTab.class.getSimpleName(),
-                        AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.EndorsementActionTab.class.getSimpleName(), AutoSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
-                td.adjust(TestData.makeKeyPath(HomeSSMetaData.EndorsementActionTab.class.getSimpleName(),
-                        HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.EndorsementActionTab.class.getSimpleName(), HomeSSMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
-                td.adjust(TestData.makeKeyPath(HomeCaMetaData.EndorsementActionTab.class.getSimpleName(),
-                        HomeCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.EndorsementActionTab.class.getSimpleName(), HomeCaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.EndorsementActionTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.EndorsementActionTab.class.getSimpleName(), PersonalUmbrellaMetaData.EndorsementActionTab.ENDORSEMENT_DATE.getLabel()), date);
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
@@ -94,34 +89,26 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
-                        AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(),
-                        AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=2");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.CancellationActionTab.class.getSimpleName(), AutoCaMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
             case AUTO_SS:
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(),
-                        AutoSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(),
-                        AutoSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.CancellationActionTab.class.getSimpleName(), AutoSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
-                td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
-                        HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
-                td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(),
-                        HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.CancellationActionTab.class.getSimpleName(), HomeSSMetaData.CancellationActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
-                td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(),
-                        HomeCaMetaData.CancelActionTab.CANCELLATION_REASON.getLabel()), "index=1");
-                td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(),
-                        HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(), HomeCaMetaData.CancelActionTab.CANCELLATION_REASON.getLabel()), "index=1");
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.CancelActionTab.class.getSimpleName(), HomeCaMetaData.CancelActionTab.CANCELLATION_EFFECTIVE_DATE.getLabel()), date);
                 break;
             case PUP:
                 td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.CancellationActionTab.class.getSimpleName(),
@@ -185,30 +172,28 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
-                        AutoCaMetaData.DriverTab.EMPLOYEE_BENEFIT_TYPE.getLabel()), "Active employee");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.EMPLOYEE_BENEFIT_TYPE.getLabel()), "Active employee");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(), AutoCaMetaData.DriverTab.EMPLOYEE_ID.getLabel()), "123456789");
                 break;
             case AUTO_SS:
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(),
-                        AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()), "AAA Employee");
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(),AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel()), "AAA Employee");
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
-                td.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(),
-                        HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()), "Yes");
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.ApplicantTab.class.getSimpleName(), HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(),
+                        HomeSSMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
-                td.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(),
-                        HomeCaMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel()), "Yes");
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(),
+                        HomeCaMetaData.ApplicantTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             case PUP:
-                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PrefillTab.class.getSimpleName(), PersonalUmbrellaMetaData.PrefillTab.NAMED_INSURED.getLabel(),
                         PersonalUmbrellaMetaData.PrefillTab.NamedInsured.AAA_EMPLOYEE.getLabel()), "Yes");
                 break;
             default:

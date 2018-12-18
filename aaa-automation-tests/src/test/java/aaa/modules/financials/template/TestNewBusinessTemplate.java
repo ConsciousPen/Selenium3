@@ -19,12 +19,14 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     /**
      * @scenario
      * 1. Create new policy bound on or after effective date WITHOUT employee benefit
-     * 2. Advance time one week
+     * 2. Validate NB sub-ledger entries
      * 3. Perform endorsement resulting in additional premium
-     * 4. Advance time one week
+     * 4. Validate Endorsement sub-ledger entries
      * 5. Cancel policy
-     * 6. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
-     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01, PMT-06, PMT-19 (Auto CA only: FEE-01, FEE-15, FEE-06, CA HO only: FEE-04)
+     * 6. Validate Cancellation sub-ledger entries
+     * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
+     * 8. Validate Reinstatement sub-ledger entries
+     * @details NBZ-01, PMT-01, END-01, CNL-01, RST-01
      */
 	protected void testNewBusinessScenario_1() {
 
@@ -32,20 +34,28 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createFinancialPolicy();
-		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 		Dollar premTotal = getTotalTermPremium();
 
         // NB validations
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
-        Dollar addedPrem = performAPEndorsement(effDate, policyNumber);
+        // Perform AP endorsement and pay total amount due
+        Dollar addedPrem = performAPEndorsement(policyNumber);
 
         // AP endorsement validations
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
 
@@ -58,9 +68,15 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 		// Cancellation & reinstatement validations
+        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021"));
+
         assertThat(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"))
                 .isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
                         .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+
+        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1021"))
+                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1015"));
 
         assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1044"))
                 .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.REINSTATEMENT, "1022")
@@ -91,13 +107,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar premTotal = getTotalTermPremium();
 
         // NB validations
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
-                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
+        //TODO implement DB validation
 
-        performRPEndorsement(today, policyNumber);
-        assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1043"))
-                .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1042"));
+        performRPEndorsement(effDate);
+        //TODO implement DB validation
 
 		// Cancel policy
 		policy.cancel().perform(getCancellationTD(effDate));
@@ -114,11 +127,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     /**
      * @scenario
      * 1. Create new policy bound on or after effective date WITH employee benefit
-     * 2. Advance time one week
-     * 3. Perform endorsement resulting in additional premium
-     * 4. Advance time one week
-     * 5. Cancel policy
-     * 6. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
+     * 2. Validate NB sub-ledger entries
+     * 3. Perform endorsement resulting in additional premium WITH employee benefit
+     * 4. Validate Endorsement sub-ledger entries
+     * 5. Cancel policy on or after effective date WITH employee benefit
+     * 6. Validate Cancellation sub-ledger entries
+     * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
+     * 8. Validate Reinstatement sub-ledger entries
      * @details NBZ-02, PMT-01, END-03, CNL-02, RST-03, PMT-06, PMT-19
      */
 	protected void testNewBusinessScenario_3() {
@@ -127,18 +142,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
-        LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
-        Dollar premTotal;
-        if (!getPolicyType().isAutoPolicy()) {
-            premTotal = PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        } else {
-            premTotal = new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Actual Premium"));
-        }
+        Dollar premTotal = getTotalTermPremium();
 
         // NB validations
         //TODO implement
 
-        performAPEndorsement(effDate, policyNumber);
+        Dollar addedPrem = performAPEndorsement(policyNumber);
         // TODO implement DB validation
 
         // Cancel policy
@@ -174,7 +183,10 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
 
-        performRPEndorsement(today, policyNumber);
+        // NB validations
+        //TODO implement DB validation
+
+        performRPEndorsement(effDate);
         // TODO implement DB validation
 
         // Cancel policy
@@ -188,40 +200,17 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
     }
 
-    private Dollar performAPEndorsement(LocalDateTime effDate, String policyNumber) {
-        // Advance time one week and perform premium-bearing endorsement (additional premium)
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(1));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
+    private Dollar performAPEndorsement(String policyNumber) {
         policy.endorse().perform(getEndorsementTD());
         policy.getDefaultView().fill(getAddPremiumTD());
-
-        // Pay additional premium
         Dollar addedPrem = payAmountDue();
-
-        // Advance time another week and open policy
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusWeeks(2));
-        mainApp().open();
         SearchPage.openPolicy(policyNumber);
         return addedPrem;
     }
 
-    private void performRPEndorsement(LocalDateTime today, String policyNumber) {
-        // Advance time 3 days and perform premium-reducing endorsement (return premium)
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(today.plusDays(3));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        policy.endorse().perform(getEndorsementTD(today.plusWeeks(3)));
+    private void performRPEndorsement(LocalDateTime effDate) {
+        policy.endorse().perform(getEndorsementTD(effDate));
         policy.getDefaultView().fill(getReducePremiumTD());
-
-        // Advance time another week and open policy
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(today.plusWeeks(1));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
     }
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {

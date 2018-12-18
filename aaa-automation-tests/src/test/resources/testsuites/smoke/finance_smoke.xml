@@ -1,14 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
-<suite name="Financials Validation Test Suite" verbose="1" parallel="tests" thread-count="1024">
+<suite name="Finance Smoke Test" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method"/>
+    <parameter name="timeshift-scenario-mode" value="test"/>
 
-    <!--New Business Tests-->
-
-    <test name="New Business Test - SS PUP" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS PUP">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness">
@@ -19,77 +17,62 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS Auto" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS Auto">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - SS DP3" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS DP3">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO3" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS HO3">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO4" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS HO4">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO6" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - SS HO6">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA PUP" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA PUP">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness">
@@ -100,85 +83,67 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA Choice" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA Choice">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA Select" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA Select">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA DP3" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA DP3">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO3" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA HO3">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO4" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA HO4">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO6" parallel="methods" thread-count="1024">
+    <test name="Smoke Test - CA HO6">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness">
                 <methods>
                     <include name="testNewBusinessScenario_1"/>
-                    <include name="testNewBusinessScenario_2"/>
-                    <include name="testNewBusinessScenario_3"/>
-                    <include name="testNewBusinessScenario_4"/>
                 </methods>
             </class>
         </classes>
