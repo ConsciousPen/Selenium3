@@ -9,9 +9,11 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.regression.service.helper.HelperMiniServices;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -39,6 +41,8 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import javax.ws.rs.core.Response;
 
 public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -76,19 +80,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			//update UM coverage
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMBI", "25000/50000"), PolicyCoverageInfo.class);
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse2.url).isNull();
-			softly.assertThat(rfiServiceResponse2.documents.get(0).documentCode).isEqualTo("RUUELLUU");
-			softly.assertThat(rfiServiceResponse2.documents.get(0).documentName).isEqualTo("IMPORTANT NOTICE - Uninsured Motorist Coverage");
-			softly.assertThat(rfiServiceResponse2.documents.get(0).documentId).startsWith("RUUELLUU_");
-			softly.assertThat(rfiServiceResponse2.documents.get(0).parent).isEqualTo("policy");
-			softly.assertThat(rfiServiceResponse2.documents.get(0).parentOid).isNotEmpty();
-
-			RFIDocuments rfiServiceResponse3 = HelperCommon.rfiViewService(policyNumber, true);
-			softly.assertThat(rfiServiceResponse3.url).isNotEmpty();
-			softly.assertThat(rfiServiceResponse3.documents).isNotEmpty();
+			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU_", "policy", "NS");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -99,6 +92,46 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiServiceResponse4.documents.isEmpty()).isTrue();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name RFI AACSDC Form
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
+	 * 6. Hit RFI service, check if document is displaying.
+	 * 7. Try bind check error
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
+	public void pas21423_aacsdcFormRFI(@Optional("DC") String state) {
+		assertSoftly(softly -> {
+
+			TestData td = getPolicyDefaultTD();
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+					, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
+			String policyNumber = openAppAndCreatePolicy();
+
+			//update PIPMedical coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPMEDICAL", "100000");
+
+			//Update UIMPD coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMPD", "25000/50000");
+
+			//Update PIPWORKLOSS coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPWORKLOSS", "12000");
+
+			//Update FUNERAL coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "FUNERAL", "4000");
+
+			//Update UIMBI coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMBI", "-1");
 		});
 	}
 
@@ -145,6 +178,34 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage){
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
+		//TODO jpukenaite: uncomment when the story for bind error will be done
+		//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
+
+	private void checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status){
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		assertSoftly(softly -> {
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentId);
+			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
+
+			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
+			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
+			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
 		});
 	}
 

@@ -313,6 +313,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class PPCReportDialog extends MetaData {
+			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX,By.id("ppcPercentageForm:subsriptionIndicator"));
 			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.id("ppcPercentageForm:cmdBtnPublicProtectionClass"));
 		}
 
@@ -1074,7 +1075,7 @@ public final class HomeSSMetaData {
 		public static final class EndorsementHS0926 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
 		}
-		
+
 		public static final class EndorsementHS0930 extends MetaData {
 			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability Coverage Limit", ComboBox.class);
@@ -1145,7 +1146,7 @@ public final class HomeSSMetaData {
 
 		public static final class EndorsementHS1731 extends MetaData {}
 		public static final class EndorsementHS1733 extends MetaData {}
-		
+
 		public static final class EndorsementHS2383 extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY_OTHER_STRUCTURES = declare("Limit of liability - Other Structures", TextBox.class, Waiters.AJAX);
 		}

@@ -29,7 +29,7 @@ public class DifferencesActionTab extends ActionTab {
 	 * @param selectCurrentChange true -> selects all current changes for differences roll on
 	 */
 	public void applyDifferences(boolean selectCurrentChange){
-		expandsRows();
+		//expandsRows();
 		selectCurrentRollOn(selectCurrentChange);
 		submit();
 	}
