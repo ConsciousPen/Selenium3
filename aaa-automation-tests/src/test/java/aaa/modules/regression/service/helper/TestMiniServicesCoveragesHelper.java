@@ -4520,42 +4520,42 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		assertThat(uimbCoverageActual).isEqualToComparingOnlyGivenFields(uimbCoverageExpected, "coverageCd", "coverageDescription", "availableLimits");
 	}
 
-	protected void pas21363_BIAndUMBIAndCanChangeTrueBody() {
+	protected void pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo coverageInfo) {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage coverageBIActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.BI_WV_VA_KS_DC.getCode());
-		Coverage coverageUMBIActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.UMBI_VA_KS.getCode());
-		Coverage coverageBIExpected = Coverage.create(CoverageInfo.BI_WV_VA_KS_DC);
-		Coverage coverageUMBIExpected = Coverage.create(CoverageInfo.UMBI_VA_KS).removeAvailableLimitsAbove(CoverageInfo.UMBI_VA_KS.getDefaultLimit());
+		Coverage coverageBIActual = findCoverage(policyCoverageInfo.policyCoverages, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode());
+		Coverage coverageUMBIActual = findCoverage(policyCoverageInfo.policyCoverages, coverageInfo.getCode());
+		Coverage coverageBIExpected = Coverage.create(CoverageInfo.BI_WV_VA_KS_DC_DE);
+		Coverage coverageUMBIExpected = Coverage.create(coverageInfo).removeAvailableLimitsAbove(coverageInfo.getDefaultLimit());
 		assertThat(coverageUMBIActual.getCanChangeCoverage()).as("Precondition: canChangeCoverage is expected to be TRUE for UMBI for this state.").isTrue();
 		assertSoftly(softly -> {
 			softly.assertThat(coverageBIActual).isEqualToComparingFieldByField(coverageBIExpected);
 			softly.assertThat(coverageUMBIActual).isEqualToComparingFieldByField(coverageUMBIExpected);
 
 			//Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated. UMBI available limits are changed.
-			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.BI_WV_VA_KS_DC.getReversedAvailableLimits(), CoverageInfo.BI_WV_VA_KS_DC, CoverageInfo.UMBI_VA_KS);
+			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.BI_WV_VA_KS_DC_DE.getReversedAvailableLimits(), CoverageInfo.BI_WV_VA_KS_DC_DE, coverageInfo);
 
 			//Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated. UMBI available limits are changed.
-			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits(), CoverageInfo.BI_WV_VA_KS_DC, CoverageInfo.UMBI_VA_KS);
+			updateCoverageAndValidate_pas21363(softly, policyNumber, true, CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits(), CoverageInfo.BI_WV_VA_KS_DC_DE, coverageInfo);
 
 			//Update UMBI to lower limit than BI (go through all available limits) ---> BI is not updated, UMBI is updated. UMBI available limits doesn't change.
-			for (CoverageLimits coverageLimit : CoverageInfo.UMBI_VA_KS.getAvailableLimits()) {
-				PolicyCoverageInfo updateUMBIResponse = updateCoverage(policyNumber, CoverageInfo.UMBI_VA_KS.getCode(), coverageLimit.getLimit());
-				Coverage biAfterUpdateActual = findCoverage(updateUMBIResponse.policyCoverages, CoverageInfo.BI_WV_VA_KS_DC.getCode());
-				Coverage biAfterUpdateExpected = Coverage.create(CoverageInfo.BI_WV_VA_KS_DC).changeLimit(CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().size() - 1));//the same limit as after last update (highest available BI limit)
+			for (CoverageLimits coverageLimit : coverageInfo.getAvailableLimits()) {
+				PolicyCoverageInfo updateUMBIResponse = updateCoverage(policyNumber, coverageInfo.getCode(), coverageLimit.getLimit());
+				Coverage biAfterUpdateActual = findCoverage(updateUMBIResponse.policyCoverages, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode());
+				Coverage biAfterUpdateExpected = Coverage.create(CoverageInfo.BI_WV_VA_KS_DC_DE).changeLimit(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1));//the same limit as after last update (highest available BI limit)
 				softly.assertThat(biAfterUpdateActual).isEqualToComparingFieldByField(biAfterUpdateExpected);
 
-				Coverage umbiAfterUpdateActual = findCoverage(updateUMBIResponse.policyCoverages, CoverageInfo.UMBI_VA_KS.getCode());
-				Coverage umbiAfterUpdateExpected = Coverage.create(CoverageInfo.UMBI_VA_KS).changeLimit(coverageLimit);//Assert that UMBI available limits doesn't change
+				Coverage umbiAfterUpdateActual = findCoverage(updateUMBIResponse.policyCoverages, coverageInfo.getCode());
+				Coverage umbiAfterUpdateExpected = Coverage.create(coverageInfo).changeLimit(coverageLimit);//Assert that UMBI available limits doesn't change
 				softly.assertThat(umbiAfterUpdateActual).isEqualToComparingFieldByField(umbiAfterUpdateExpected);
 				validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateUMBIResponse);
 
 				//Check in UI that coverages updated as expected after last update. Validate transaction history.
-				if (CoverageInfo.UMBI_VA_KS.getAvailableLimits().indexOf(coverageLimit) + 1 == CoverageInfo.UMBI_VA_KS.getAvailableLimits().size()) {
+				if (coverageInfo.getAvailableLimits().indexOf(coverageLimit) + 1 == coverageInfo.getAvailableLimits().size()) {
 					validateCoverageLimitInPASUI(biAfterUpdateExpected, umbiAfterUpdateExpected);
 
 					validatePolicyLevelCoverageChangeLog(policyNumber, biAfterUpdateExpected);
