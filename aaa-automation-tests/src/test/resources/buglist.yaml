@@ -471,3 +471,12 @@ PAS-18311:
     aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
     aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable]
     messages: ['CustomSoftAssertionError: The soft assertions failed']
+PAS-23331:
+    summary: "UW rule fires during mid term endorsement when it was overriden for term for CA"
+    reason: PROD
+    failures:
+    - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
+    aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
+    aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
+    aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
+    messages: ['Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}', 'Errors: AAA_HO_CAWM0523EN']

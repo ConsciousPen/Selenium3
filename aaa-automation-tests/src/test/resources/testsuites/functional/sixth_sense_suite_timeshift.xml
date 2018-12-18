@@ -126,8 +126,6 @@
         </classes>
     </test>
 
-    <!--   Regression Defect should be created for CA UW Rule fire  -->
-
      <test name="Test Clue Simplification UW Rule CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
