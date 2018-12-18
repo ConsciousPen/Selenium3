@@ -89,11 +89,6 @@ public abstract class Application {
 		switchPanel();
 	}
 
-	public void reopen(TestData td) {
-		close();
-		open(td);
-	}
-	
 	public void reopen() {
 		close();
 		open();

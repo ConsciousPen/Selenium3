@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -153,7 +154,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-9370")
     public void AC01_testMembershipOverride_NonPrivlidgedUser(@Optional("") String state) {
     	
-	       mainApp().open(getLoginTD().adjust("Groups", "G36").adjust("User", "qa_security").adjust("Password", "qa_security"));
+    	   mainApp().open(getLoginTD(UserGroups.G36));
 	       
 	       createCustomerIndividual();
 	       policy.initiate();
@@ -167,7 +168,8 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 	       new ApplicantTab().saveAndExit();
 	       String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 	       
-	       mainApp().reopen(getLoginTD().adjust("Groups", "L41").adjust("User", "qa_security").adjust("Password", "qa_security"));
+	       mainApp().close();
+	       mainApp().open(getLoginTD(UserGroups.L41));
 	    	
 	       SearchPage.openQuote(quoteNumber);
 	       policy.dataGather().start();
