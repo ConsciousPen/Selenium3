@@ -35,9 +35,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			tdGenerator.autoPolicyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
 		}
-		boolean isLegacyConvPolicy = false;
-		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
-			isLegacyConvPolicy = true;
+		if (openLPolicy.isLegacyConvPolicy()) {
 			TestData renewalEntryData = tdGenerator.getRenewalEntryData(openLPolicy);
 			renewalEntryData.adjust(TestData.makeKeyPath(new InitiateRenewalEntryActionTab().getMetaKey(), CustomerMetaData.InitiateRenewalEntryActionTab.RENEWAL_POLICY_PREMIUM.getLabel()), openLPolicy.getCappingDetails().getPreviousPolicyPremium() == null ? "1000" : openLPolicy.getCappingDetails().getPreviousPolicyPremium().toString());
 
@@ -49,7 +47,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().initiate();
 		}
 
-		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy, isLegacyConvPolicy);
+		TestData quoteRatingData = tdGenerator.getRatingData(openLPolicy);
 
 		policy.get().getDefaultView().fillUpTo(quoteRatingData, PremiumsAndCoveragesQuoteTab.class, false);
 
@@ -75,7 +73,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().getDefaultView().fill(tdGenerator.getRemoveHS0490Data(openLPolicy));
 		}
 
-		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
+		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0904".equals(c.getFormCode())) && !openLPolicy.isLegacyConvPolicy()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			premiumsAndCoveragesQuoteTab.submitTab();
 
