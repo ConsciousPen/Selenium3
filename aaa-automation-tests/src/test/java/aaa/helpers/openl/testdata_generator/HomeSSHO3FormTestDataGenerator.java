@@ -321,7 +321,7 @@ public class HomeSSHO3FormTestDataGenerator {
 	};
 
 	private static BiFunction<HomeSSOpenLPolicy, String, List<TestData>> formHS0904DataFunction = (openLPolicy, policyLevel) -> {
-		if (TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(openLPolicy.getCappingDetails().getProgramCode())) {
+		if (openLPolicy.isLegacyConvPolicy()) {
 			List tdList = new ArrayList();
 			tdList.add(DataProviderFactory.dataOf(
 					"Action", isFormAdded("HS0904", policyLevel) ? "Edit" : "Add",

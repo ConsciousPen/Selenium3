@@ -12,8 +12,11 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 
 import aaa.common.Tab;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants.UserGroups;
 import aaa.common.enums.NavigationEnum.AutoCaTab;
+import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
@@ -46,48 +49,72 @@ public class TestPolicyRenewCreateVersion extends AutoCaSelectBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_CA_SELECT)
 	public void testPolicyRenewCreateVersion(@Optional("CA") String state) {
-		mainApp().open();
-		createCustomerIndividual();
-		createPolicy();
-
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
-		policy.renew().performAndFill(getTestSpecificTD("TestData"));
-		
-		assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
-		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
-		assertThat(PolicySummaryPage.buttonRenewalQuoteVersion).isAbsent();
-		
-		PolicySummaryPage.buttonRenewals.click();
-		assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
-		
-		policy.policyInquiry().start();	
-		NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
-		String premium_version1 = PremiumAndCoveragesTab.totalTermPremium.getValue();
-		
-		new PremiumAndCoveragesTab().createVersion();
-		log.info("Create Version action is initiated");		
-		new PremiumAndCoveragesTab().fillTab(getTestSpecificTD("TestData_version2"));		
-		String premium_version2 = PremiumAndCoveragesTab.totalTermPremium.getValue();
-		
-		assertThat(new Dollar(premium_version1)).isNotEqualTo(new Dollar(premium_version2));
-		
-		NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
-		
-		assertThat(PolicySummaryPage.buttonRenewalQuoteVersion).isEnabled();
-		PolicySummaryPage.buttonRenewalQuoteVersion.click();
-		
-		Map<String, String> renewal_row1 = new HashMap<>();
-		renewal_row1.put("#", "1");
-		renewal_row1.put("Trans. Premium", premium_version1);
-		
-		Map<String, String> renewal_row2 = new HashMap<>();
-		renewal_row2.put("#", "2");
-		renewal_row2.put("Trans. Premium", premium_version2);
-		
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(renewal_row1)).isPresent();
-		assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(renewal_row2)).isPresent();
-		Tab.buttonCancel.click();
+		if(getUserGroup().equals(UserGroups.B31.get())) {
+			mainApp().open(getLoginTD(UserGroups.QA));
+			createCustomerIndividual();
+			createPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			
+			policy.renew().performAndFill(getTestSpecificTD("TestData"));
+			assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
+			assertThat(PolicySummaryPage.buttonRenewals).isEnabled();			
+			mainApp().close();
+			
+			//re-login with B31 user
+			mainApp().open(getLoginTD(UserGroups.B31));
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			SearchPage.openPolicy(policyNumber);
+			assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+			PolicySummaryPage.buttonRenewals.click();
+			assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
+			
+			policy.policyInquiry().start();
+			assertThat(Tab.buttonCreateVersion).as("Button 'Create Version' is present in renewal").isAbsent();
+		}
+		else {
+			mainApp().open();
+			createCustomerIndividual();
+			createPolicy();
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			
+			policy.renew().performAndFill(getTestSpecificTD("TestData"));
+			
+			assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
+			assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+			assertThat(PolicySummaryPage.buttonRenewalQuoteVersion).isAbsent();
+			
+			PolicySummaryPage.buttonRenewals.click();
+			assertThat(PolicySummaryPage.tableRenewals.getRow(1).getCell("Status").getValue()).isEqualTo("Premium Calculated");
+			
+			policy.policyInquiry().start();	
+			NavigationPage.toViewTab(AutoCaTab.PREMIUM_AND_COVERAGES.get());
+			String premium_version1 = PremiumAndCoveragesTab.totalTermPremium.getValue();
+			
+			new PremiumAndCoveragesTab().createVersion();
+			log.info("Create Version action is initiated");		
+			new PremiumAndCoveragesTab().fillTab(getTestSpecificTD("TestData_version2"));		
+			String premium_version2 = PremiumAndCoveragesTab.totalTermPremium.getValue();
+			
+			assertThat(new Dollar(premium_version1)).isNotEqualTo(new Dollar(premium_version2));
+			
+			NavigationPage.toViewTab(AutoCaTab.DOCUMENTS_AND_BIND.get());
+			new DocumentsAndBindTab().submitTab();
+			
+			assertThat(PolicySummaryPage.buttonRenewalQuoteVersion).isEnabled();
+			PolicySummaryPage.buttonRenewalQuoteVersion.click();
+			
+			Map<String, String> renewal_row1 = new HashMap<>();
+			renewal_row1.put("#", "1");
+			renewal_row1.put("Trans. Premium", premium_version1);
+			
+			Map<String, String> renewal_row2 = new HashMap<>();
+			renewal_row2.put("#", "2");
+			renewal_row2.put("Trans. Premium", premium_version2);
+			
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(renewal_row1)).isPresent();
+			assertThat(PolicySummaryPage.tableTransactionHistory.getRowContains(renewal_row2)).isPresent();
+			Tab.buttonCancel.click();
+		}
 	}
 }

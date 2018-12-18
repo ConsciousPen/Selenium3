@@ -32,11 +32,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	@Override
-	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy) {
-		return getRatingData(openLPolicy, false);
-	}
-
-	@Override
 	public TestData getRenewalEntryData(HomeSSOpenLPolicy openLPolicy) {
 		TestData initiateRenewalEntryActionData = super.getRenewalEntryData(openLPolicy);
 		TestData td = DataProviderFactory.dataOf(
@@ -59,7 +54,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		throw new NotImplementedException("setRatingDataPattern(TestData ratingDataPattern) not implemented yet");
 	}
 
-	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
+	@Override
+	public TestData getRatingData(HomeSSOpenLPolicy openLPolicy) {
 		TestData td = DataProviderFactory.dataOf(
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new ApplicantTab().getMetaKey(), getApplicantTabData(openLPolicy),
@@ -68,7 +64,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 				//new ProductOfferingTab().getMetaKey(), getProductOfferingTabData(openLPolicy),
 				new EndorsementTab().getMetaKey(), getEndorsementTabData(openLPolicy),
 				new PersonalPropertyTab().getMetaKey(), getPersonalPropertyTabData(openLPolicy),
-				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy, isLegacyConvPolicy)
+				new PremiumsAndCoveragesQuoteTab().getMetaKey(), getPremiumsAndCoveragesQuoteTabData(openLPolicy)
 		);
 
 		if ("HO3".equals(openLPolicy.getPolicyType())) {
@@ -85,7 +81,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 
 		td = TestDataHelper.merge(ratingDataPattern, td);
-		if (isLegacyConvPolicy) {
+		if (openLPolicy.isLegacyConvPolicy()) {
 			TestData policyInformationTd = td.getTestData(new GeneralTab().getMetaKey())
 					.mask(HomeSSMetaData.GeneralTab.EFFECTIVE_DATE.getLabel(), HomeSSMetaData.GeneralTab.LEAD_SOURCE.getLabel());
 			td.adjust(TestData.makeKeyPath(new GeneralTab().getMetaKey()), policyInformationTd);
@@ -228,6 +224,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	}
 
 	public TestData getChangeCoverageCData(HomeSSOpenLPolicy openLPolicy) {
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			return DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.emptyData());
+		}
 		return DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(),
 				new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0]));
 	}
@@ -238,6 +237,10 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 						"Action", "Remove")));
 		if (openLPolicy.getForms().stream().anyMatch(c -> "HS0461".equals(c.getFormCode()))) {
 			removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PersonalPropertyTab().getMetaKey(), DataProviderFactory.emptyData()));
+		}
+
+		if ("HO4".equals(openLPolicy.getPolicyType())) {
+			return removeFormData;
 		}
 		removeFormData = removeFormData.adjust(DataProviderFactory.dataOf(new PremiumsAndCoveragesQuoteTab().getMetaKey(), DataProviderFactory.dataOf(
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit())));
@@ -789,10 +792,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return personalPropertyData;
 	}
 
-	private TestData getPremiumsAndCoveragesQuoteTabData(HomeSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
+	private TestData getPremiumsAndCoveragesQuoteTabData(HomeSSOpenLPolicy openLPolicy) {
 
 		Double covA = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovA".equals(c.getCode())).findFirst().get().getLimit());
 		Double covB = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovB".equals(c.getCode())).findFirst().get().getLimit());
+		Double covC = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit());
 		Double covD = Double.parseDouble(openLPolicy.getCoverages().stream().filter(c -> "CovD".equals(c.getCode())).findFirst().get().getLimit());
 
 		String coverageDeductible = openLPolicy.getPolicyCoverageDeductible().getCoverageDeductible().split("/")[0];
@@ -802,16 +806,16 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 
 		TestData premiumAndCoveragesQuoteTabData = DataProviderFactory.emptyData();
-		if (isLegacyConvPolicy & BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
+		if (openLPolicy.isLegacyConvPolicy() & BillingConstants.PaymentPlan.MORTGAGEE_BILL.equals(openLPolicy.getPolicyDiscountInformation().getPaymentPlan())) {
 
 			premiumAndCoveragesQuoteTabData = DataProviderFactory.dataOf(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.BILL_TO_AT_RENEWAL.getLabel(), "Mortgagee");
 		}
 
 		if ("HO3".equals(openLPolicy.getPolicyType()) || "DP3".equals(openLPolicy.getPolicyType())) {
 			premiumAndCoveragesQuoteTabData = premiumAndCoveragesQuoteTabData.adjust(DataProviderFactory.dataOf(
-					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_B.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covB * 100 / covA)),
-					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit(),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), covC,
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
@@ -821,7 +825,9 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 		if ("HO4".equals(openLPolicy.getPolicyType())) {
 			premiumAndCoveragesQuoteTabData = premiumAndCoveragesQuoteTabData.adjust(DataProviderFactory.dataOf(
-					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C_BUILDING.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covA * 100 / covC)),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covC)),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_F.getLabel(), new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovF".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.DEDUCTIBLE.getLabel(), new Dollar(coverageDeductible).toString().split("\\.")[0]
@@ -829,7 +835,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		}
 		if ("HO6".equals(openLPolicy.getPolicyType())) {
 			premiumAndCoveragesQuoteTabData = premiumAndCoveragesQuoteTabData.adjust(DataProviderFactory.dataOf(
-					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy, isLegacyConvPolicy),
+					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel(), "contains=" + getPaymentPlan(openLPolicy),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_C.getLabel(), openLPolicy.getCoverages().stream().filter(c -> "CovC".equals(c.getCode())).findFirst().get().getLimit(),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_D.getLabel(), "contains=" + String.format("%d%%", (int) Math.round(covD * 100 / covA)),
 					HomeSSMetaData.PremiumsAndCoveragesQuoteTab.COVERAGE_E.getLabel(), "contains=" + new Dollar(openLPolicy.getCoverages().stream().filter(c -> "CovE".equals(c.getCode())).findFirst().get().getLimit()).toString().split("\\.")[0],
@@ -928,7 +934,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		return "3+";
 	}
 
-	private String getPaymentPlan(HomeSSOpenLPolicy openLPolicy, boolean isLegacyConvPolicy) {
+	private String getPaymentPlan(HomeSSOpenLPolicy openLPolicy) {
 		String paymentPlan = openLPolicy.getPolicyDiscountInformation().getPaymentPlan();
 
 		switch (paymentPlan) {
@@ -941,11 +947,11 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			case "Quarterly":
 				return BillingConstants.PaymentPlan.QUARTERLY;
 			case "Monthly Zero down":
-				return isLegacyConvPolicy ? BillingConstants.PaymentPlan.ELEVEN_PAY : "Eleven Pay Low Down";
+				return openLPolicy.isLegacyConvPolicy() ? BillingConstants.PaymentPlan.ELEVEN_PAY : "Eleven Pay Low Down";
 			case "Monthly Standard":
 				return BillingConstants.PaymentPlan.ELEVEN_PAY;
 			case "Monthly Low down":
-				return isLegacyConvPolicy ? BillingConstants.PaymentPlan.ELEVEN_PAY : "HO6".equals(openLPolicy.getPolicyType()) ? BillingConstants.PaymentPlan.MONTHLY : BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
+				return openLPolicy.isLegacyConvPolicy() ? BillingConstants.PaymentPlan.ELEVEN_PAY : "HO6".equals(openLPolicy.getPolicyType()) ? BillingConstants.PaymentPlan.MONTHLY : BillingConstants.PaymentPlan.MONTHLY_LOW_DOWN;
 			default:
 				throw new IstfException("Unknown mapping for payment plan : " + paymentPlan);
 		}

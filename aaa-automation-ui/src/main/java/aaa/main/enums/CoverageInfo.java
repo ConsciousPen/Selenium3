@@ -18,6 +18,9 @@ public enum CoverageInfo {
 	PIP_OR("PIP", "Personal Injury Protection",  null, null),
 	PIP_NO_UT("PIP", "Basic Personal Injury Protection", null, null), //Reject Work Loss = NO
 	PIP_YES_UT("PIP", "Limited Personal Injury Protection", null, null), //Reject Work Loss = YES
+	PIPMEDICAL_DC("PIPMEDICAL", "PIP Medical and Rehabilitation Expense", CoverageLimits.COV_0, AvailableCoverageLimits.PIPMEDICAL_DC),
+	PIPWORKLOSS_DC("PIPWORKLOSS", "PIP Work Loss Benefits", CoverageLimits.COV_0, AvailableCoverageLimits.PIPWORKLOSS_DC),
+	PIPFUNERAL_DC("FUNERAL", "PIP Funeral Expense Benefits", CoverageLimits.COV_0, AvailableCoverageLimits.PIPFUNERAL_DC),
 	WLB_UT("WLB", "Rejection of Work Loss Benefit", CoverageLimits.COV_FALSE, AvailableCoverageLimits.WLB_UT),
 	INCOMELOSS_OR("WORKLOSS", "Income Loss", CoverageLimits.COV_3000, null, "Per Month/Max 52 Weeks"),
 	CHILDEXP_OR("CHILDEXP", "Childcare Expenses", CoverageLimits.COV_25, null, "Per Day/$750 Max"),
@@ -64,8 +67,10 @@ public enum CoverageInfo {
 	ADB("ADB", "Automobile Death Benefit", null, null, null),
 	TD("TD", "Total Disability", null, null, null),
 	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
+	UMBI_DC("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
+	UIMBI_DC("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	BI_WV_VA_KS_DC("BI", "Bodily Injury Liability", CoverageLimits.COV_100300, AvailableCoverageLimits.BI_WV_VA_KS_DC, "Per Person/Per Accident"),
 	PDWV("PD", "Property Damage Liability", CoverageLimits.COV_50000, AvailableCoverageLimits.PD, "Per Accident"),
 	UMPD_WV("UMPD", "Uninsured Motorist Property Damage", CoverageLimits.COV_50000, AvailableCoverageLimits.UMPD, "Property Damage"),

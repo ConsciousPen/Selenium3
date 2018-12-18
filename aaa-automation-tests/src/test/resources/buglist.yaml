@@ -455,3 +455,19 @@ PAS-18273:
   failures:
   - tests: [aaa.modules.bct.renewal.RenewalTest.*]
     messages: ["Unprepared data; Error; You must order the Membership report"]
+PAS-21652:
+  summary: "Fireline Zipcode Level match Error msg not firing when the address level match is not returned"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched,
+    aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched,
+    aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline.pas21652_firelineRules_addressLevelNotMatched]
+    messages: ['CustomSoftAssertionError: The soft assertions failed']
+PAS-18311:
+  summary: "Fireline Zipcode Level match Error msg not firing when the address level match is not returned"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
+    aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
+    aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable]
+    messages: ['CustomSoftAssertionError: The soft assertions failed']
