@@ -512,7 +512,7 @@ public final class PolicyActions {
 				//expand rows
 				boolean expandRows;
 				do {
-					Link linkTriangle = new Link(By.xpath("//tr[contains(@aria-expanded, 'false')]//span[contains(@class,'ui-treetable-toggler') and not(contains(@style, 'hidden'))]"));
+					Link linkTriangle = new Link(By.xpath("//tr[contains(@aria-expanded, 'false')]//span[contains(@class,'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e') and not(contains(@style, 'hidden'))]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
 						expandRows = true;
@@ -572,9 +572,10 @@ public final class PolicyActions {
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
+				
 				for (int i = 0; i < rowsCount; i++) {
 					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e')]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
 					}

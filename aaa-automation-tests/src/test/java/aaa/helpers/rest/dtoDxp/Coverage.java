@@ -80,6 +80,15 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage changeAvailableLimits(CoverageLimits... limitToAdd) {
+		availableLimits.clear();
+		for (CoverageLimits coverageLimit : limitToAdd) {
+			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
+			availableLimits.add(limit);
+		}
+		return this;
+	}
+
 	public Coverage removeAvailableLimit(CoverageLimits... coverageLimits) {
 		Arrays.stream(coverageLimits).forEach(cl -> this.availableLimits.removeIf(p -> p.coverageLimit.equals(cl.getLimit())));
 		return this;

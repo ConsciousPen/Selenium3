@@ -2,6 +2,8 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.pages.summary;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+
 import org.openqa.selenium.By;
 import aaa.common.components.Dialog;
 import aaa.common.pages.MainPage;
@@ -28,5 +30,11 @@ public class QuoteSummaryPage extends MainPage {
 		broadLineOfBusiness.setValue(PERSONAL_LINES);
 		product.setValue(policyType.getName());
 		nextBtn.click();
+	}
+	
+	public void verifyProductDoesNotContainOption(PolicyType policyType) {
+		buttonAddNewQuote.click();
+		broadLineOfBusiness.setValue(PERSONAL_LINES);
+		assertThat(product).as("User can select a product: " + policyType.getName()).doesNotContainOption(policyType.getName());
 	}
 }

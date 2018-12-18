@@ -910,13 +910,34 @@
             </class>
         </classes>
     </test>
-    <test name="RFI View Service">
+    <test name="RFI View Service VA">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas19630_ViewServiceRFI"/>
                     <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="RFI View Service DC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas21423_aacsdcFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="DC Coverages">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
+                    <include name="pas15313_updateBiCoverageCheckUMandUIM"/>
                 </methods>
             </class>
         </classes>
