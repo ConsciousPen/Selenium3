@@ -310,23 +310,23 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
-	public void pas19839_ooseConflictManualAddNamedInsuredInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
+	public void pas19839_ooseConflictManualAddNamedInsuredInformation(@Optional("CA") String state) {
 		ooseConflict(getAddNamedInsuredInformationVersion1(), getAddNamedInsuredInformationVersion2(), VersionsConflictConstants.ADD_NAMED_INSURED_INFORMATION_MANUAL,  VersionsConflictConstants.ADD_NAMED_INSURED_INFORMATION_VERSION_2, VersionsConflictConstants.ADD_NAMED_INSURED_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation", false);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
-	public void pas19839_ooseConflictAutomaticAddVehicleInformation(@Optional("AZ") String state) {
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
+	public void pas19839_ooseConflictAutomaticAddVehicleInformation(@Optional("CA") String state) {
 		ooseConflict(getAddVehicleInformationVersion1(), getAddVehicleInformationVersion2(), VersionsConflictConstants.ADD_VEHICLE_INFORMATION_AUTOMATIC,  VersionsConflictConstants.ADD_VEHICLE_INFORMATION_VERSION_2, VersionsConflictConstants.ADD_VEHICLE_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation", true);
 	}
 
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_SS, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
-	public void pas19839_renewalMergeAddDriverAndActivityInformation(@Optional("AZ") String state) {
-		renewalMerge(getAddDriverAndActivityInformationVersion1(), getAddDriverAndActivityInformationVersion2(), VersionsConflictConstants.ADD_DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.ADD_DRIVER_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
+	public void pas19839_renewalMergeAddDriverAndActivityInformation(@Optional("CA") String state) {
+		renewalMerge(getAddDriverAndActivityInformationVersion1(), getAddDriverAndActivityInformationVersion2(), VersionsConflictConstants.ADD_DRIVER_INFORMATION_AUTOMATIC, VersionsConflictConstants.ADD_DRIVER_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
 	}
 
 }
