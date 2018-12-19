@@ -10,7 +10,6 @@ PAS-0000:
   failures:
     - tests: aaa.*
       messages: 'is not applicable to this test'
-
 PAS-0001:
   summary: "Other element would receive the click"
   reason: PERF
