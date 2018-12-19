@@ -26,6 +26,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.RadioGroup;
 
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -4178,7 +4179,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		//validate view endorsement coverages
 		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 
-		Coverage rejectWorklossExpected = Coverage.create(CoverageInfo.WLB_UT);
+		Coverage rejectWorklossExpected = Coverage.create(CoverageInfo.WLB_UT).disableCanChange();
 		Coverage pipExpectedBasic = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_NO_UT);
 		Coverage pipExpectedLimited = Coverage.createWithCdAndDescriptionOnly(CoverageInfo.PIP_YES_UT);
 		Coverage medexpExpected = Coverage.create(CoverageInfo.MEDEXP_UT);
@@ -4202,7 +4203,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			List<Coverage> pipSubCovAfterUpdateActual1 = findCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_NO_UT.getCode()).getSubCoverages();
 			Coverage pipAfterUpdateActual1 = findCoverage(updateCoverageResponse1.policyCoverages, CoverageInfo.PIP_NO_UT.getCode());
 			Coverage medexpAfterUpdateExpected1 = Coverage.create(CoverageInfo.MEDEXP_UT).changeLimit(medexpNewLimit);
-			Coverage rejectWorkLossExpectedAfterUpdate1 = Coverage.create(CoverageInfo.WLB_UT);
+			Coverage rejectWorkLossExpectedAfterUpdate1 = Coverage.create(CoverageInfo.WLB_UT).disableCanChange();//remove disableCanChange() when canChangeCoverage will be enabled in future
 			Coverage rejectWorkLossActualAfterUpdate1 = findCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode());
 
 			softly.assertThat(pipAfterUpdateActual1).isEqualToIgnoringGivenFields(pipExpectedBasic, "subCoverages");
@@ -4210,14 +4211,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate1).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate1);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual1);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
-			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-false.json");
+			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update WLB to true
 			CoverageLimits rejectWorklossNewLimit = CoverageLimits.COV_TRUE;
-			PolicyCoverageInfo updateCoverageResponse2 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());
+			//PolicyCoverageInfo updateCoverageResponse2 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());//uncomment this when canChangeCoverage will be enabled in future
+			PolicyCoverageInfo updateCoverageResponse2 = updateWLBInPASUI(policyNumber, "Yes"); //remove this line when canChangeCoverage will be enabled in feature
 			List<Coverage> pipSubCovAfterUpdateActual2 = findCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_YES_UT.getCode()).getSubCoverages();
 			Coverage pipAfterUpdateActual2 = findCoverage(updateCoverageResponse2.policyCoverages, CoverageInfo.PIP_YES_UT.getCode());
-			Coverage rejectWorkLossExpectedAfterUpdate2 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit);
+			Coverage rejectWorkLossExpectedAfterUpdate2 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit).disableCanChange();//remove disableCanChange() when canChangeCoverage will be enabled in future
 			Coverage rejectWorkLossActualAfterUpdate2 = findCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode());
 
 			softly.assertThat(pipAfterUpdateActual2).isEqualToIgnoringGivenFields(pipExpectedLimited, "subCoverages");
@@ -4225,7 +4227,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate2).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual2);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_UT.getCode()));
-			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-true.json");
+			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update PIP by updating MEDEXP while WLB is true
 			medexpNewLimit = CoverageLimits.COV_5000;
@@ -4240,14 +4242,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate3).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual3);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
-			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-true.json");
+			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update WLB to false
 			rejectWorklossNewLimit = CoverageLimits.COV_FALSE;
-			PolicyCoverageInfo updateCoverageResponse4 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());
+			//PolicyCoverageInfo updateCoverageResponse4 = updateCoverage(policyNumber, CoverageInfo.WLB_UT.getCode(), rejectWorklossNewLimit.getLimit());//uncomment this when canChangeCoverage will be enabled
+			PolicyCoverageInfo updateCoverageResponse4 = updateWLBInPASUI(policyNumber, "No"); //remove this line when canChangeCoverage will be enabled in feature
 			List<Coverage> pipSubCovAfterUpdateActual4 = findCoverage(updateCoverageResponse4.policyCoverages, CoverageInfo.PIP_NO_UT.getCode()).getSubCoverages();
 			Coverage pipAfterUpdateActual4 = findCoverage(updateCoverageResponse4.policyCoverages, CoverageInfo.PIP_NO_UT.getCode());
-			Coverage rejectWorkLossExpectedAfterUpdate4 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit);
+			Coverage rejectWorkLossExpectedAfterUpdate4 = Coverage.create(CoverageInfo.WLB_UT).changeLimit(rejectWorklossNewLimit).disableCanChange();//remove disableCanChange() when canChangeCoverage will be enabled in future
 			Coverage rejectWorkLossActualAfterUpdate4 = findCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode());
 
 			softly.assertThat(pipAfterUpdateActual4).isEqualToIgnoringGivenFields(pipExpectedBasic, "subCoverages");
@@ -4255,9 +4258,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate4).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate4);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual4);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.MEDEXP_UT.getCode()));
-			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-false.json");
+			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 		});
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private PolicyCoverageInfo updateWLBInPASUI(String policyNumber, String value) {
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel(), RadioGroup.class).setValue(value);
+		premiumAndCoveragesTab.saveAndExit();
+		return HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 	}
 
 	private void validateSubCoveragesChangeLog(String policyNumber, String expectedResponse) {
