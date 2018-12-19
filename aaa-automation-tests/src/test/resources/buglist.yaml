@@ -474,7 +474,7 @@ PAS-23331:
   summary: "UW rule fires during mid term endorsement when it was overriden for term for CA"
   reason: PROD
   failures:
-    - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
+  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
     aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
     aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
     aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
