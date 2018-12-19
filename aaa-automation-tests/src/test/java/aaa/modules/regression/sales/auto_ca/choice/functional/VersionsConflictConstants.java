@@ -17,9 +17,9 @@ public class VersionsConflictConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, Los Angeles, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
-			.putAll("AAA Membership report.Order Date", "","")
-			.putAll("AAA Membership report.Receipt Date", "", "")
-			.putAll("AAA Membership report.Status", "Active","")
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Policy Information
 			.putAll("Policy Information.Agency Location","400001105","")
 			.putAll("Policy Information.Agency of Record","400001005","400000092")
@@ -112,7 +112,7 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
-			.put("AAA Membership report.Membership No.", "Membership Number")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -269,10 +269,10 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-			.put("AAA Membership report", "Membership No.")
-			.put("AAA Membership report", "Order Date")
-			.put("AAA Membership report", "Receipt Date")
-			.put("AAA Membership report", "Status")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.put("AAA Products Owned", "Current AAA Member")
 			.put("AAA Products Owned", "Membership Number")
 			.put("AAA Products Owned", "Override Type")

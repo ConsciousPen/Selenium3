@@ -63,8 +63,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
-			"AAA Membership report.Order Date",
-			"AAA Membership report.Receipt Date",
+			"Reports.AAA Membership report.Order Date",
+			"Reports.AAA Membership report.Receipt Date",
 			"Current Carrier Information.Days Lapsed",
 			"Policy Information.Renewal Term Premium - Old Rater",
 			"Drivers.VIFirstName VI VILastName.Date First Licensed",

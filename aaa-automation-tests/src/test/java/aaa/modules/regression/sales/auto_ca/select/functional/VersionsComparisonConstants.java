@@ -30,9 +30,9 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Culver City, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, CA, 90255")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Product Owned
-			.putAll("AAA Membership report.Order Date", "","")
-			.putAll("AAA Membership report.Receipt Date", "", "")
-			.putAll("AAA Membership report.Status", "Active","")
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
@@ -142,7 +142,7 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
-			.put("AAA Membership report.Membership No.", "Membership Number")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -280,10 +280,10 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "Condo Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
-			.put("AAA Membership report", "Membership No.")
-			.put("AAA Membership report", "Order Date")
-			.put("AAA Membership report", "Receipt Date")
-			.put("AAA Membership report", "Status")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
