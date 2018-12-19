@@ -706,7 +706,7 @@ TestData_AddDriverInformation_Version2: {
   DocumentsAndBindTab: {
     RequiredToIssue: {
       Proof of Good Student Discount: 'Yes',
-      Proof of New Driver Course Completion: 'Yes'
+      #Proof of New Driver Course Completion: 'Yes'
     }
   },
 }
@@ -855,16 +855,16 @@ DriverInformation_Add_Version1: {
   "Licensed in US/Canada for 18 or More Months?": 'Yes',
   License Type: 'Valid',
   "First US/Canada License Date": $<today-1y>,
-  License State: AZ,
-  "License #": A12345678,
+  License State: CA,
+  "License #": A2222222,
   Employee Benefit Type: None,
   #should be No always
   #ADB Coverage: 'Yes',
   Mature driver course completed within 36 months: 'Yes',
   Mature Driver Course Completion Date: $<today-2M>,
   "Smoker: Cigarettes, cigars or pipes": 'No',
-  Financial Responsibility Filling Needed: 'Yes',
-  Filling Type: SR-22,
+  Financial Responsibility Filling Needed: 'No',
+ #Filling Type: SR-22,
   Ridesharing Coverage: 'No',
 }
 
@@ -883,8 +883,8 @@ DriverInformation_Add_Version2: {
   "Licensed in US/Canada for 18 or More Months?": 'No',
   "First US/Canada License Date": $<today-1M>,
   License Type: 'Valid',
-  License State: AZ,
-  "License #": A12345679,
+  License State: CA,
+  "License #": A3333333,
   Employee Benefit Type: Surviving spouse,
   #should be No always
   #ADB Coverage: 'No',
