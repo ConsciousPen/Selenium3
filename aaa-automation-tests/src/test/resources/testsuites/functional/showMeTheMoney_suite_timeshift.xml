@@ -5,18 +5,6 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method" />
-    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
-        </classes>
-    </test>
-    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
-        </classes>
-    </test>
     <!-- Waive Installment fee if a Policy was Paid in full on an Installment Bill: PAS-22285-->
     <test name="CA TestFinanceWaiveInstallmentFee" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
@@ -59,55 +47,17 @@
             <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
         </classes>
     </test>
-    <!-- Earned Premium Calculation Changes: PAS-14510-->
-    <test name="PAS-14510 Earned Premium Calculation Changes - I scenario" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, KY, WV, NJ"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorsement"/>
-        </classes>
-    </test>
-    <test name="PAS-20300 Earned Premium Calculation Changes - Cancel Flag" parallel="methods" thread-count="1024">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationCancelFlagTransactions"/>
-        </classes>
-    </test>
-    <test name="PAS-14510 Earned Premium Calculation Changes - II,III,V scenarios" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, KY, WV"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSEndorseCancelReinstate"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSCancelAndReinstate"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBack"/>
-        </classes>
-    </test>
-    <test name="PAS-14510 Earned Premium Calculation Changes - IV scenario" parallel="methods" thread-count="1024">
-        <parameter name="state" value="NV, KY, WV"/>
-        <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationMultipleOOSEndorsement"/>
-        </classes>
-    </test>
-    <test name="PAS-20308, PAS-21455 - Earned Premium Calculation Negative Premium, Billing Fees" parallel="methods" thread-count="1024">
+    <!-- Policy Escheatment: PAS-19074-->
+    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationOOSEndorseNegativePremium"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueNegativePremium"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
         </classes>
     </test>
-    <test name="PAS-21446, PAS-21454, PAS-21458, PAS-21446,
-    PAS-21454, PAS-21444, PAS-21456, PAS-21457 - Test Earned Premium Calculation Changes" parallel="methods"
-          thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="CA TestFinanceCheckPermissionForReversal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackAPEndorsement"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationOOSRollBackRPEndorsement"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationSmallBalanceWriteOff"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationAPEndorsement"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationRPEndorsement"/>
-            <class name="aaa.modules.regression.finance.ledger.auto_ss.TestFinanceEPCalculationFlatCancellation"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationPremiumRefund"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ca.ho3.TestFinanceEPCalculationEPWriteOff"/>
-            <class name="aaa.modules.regression.finance.ledger.home_ss.ho3.TestFinanceEPCalculationFlagTransactions"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceCheckPermissionForReversal"/>
         </classes>
     </test>
 </suite>
