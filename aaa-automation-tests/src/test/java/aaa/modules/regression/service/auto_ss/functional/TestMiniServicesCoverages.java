@@ -1267,6 +1267,25 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	}
 
 	/**
+	 * @author RVanover
+	 * @name View/Update PIP Coverage
+	 * @scenario for DC
+	 * * @details
+	 * 1. Create a DC endorsement outside PAS.
+	 * 2. Run DXP view coverage service.
+	 * 3. Verify PIP coverage criteria.
+	 * 4. Update PIP coverages from DXP.
+	 * 5. Verify updates to PIP coverages in DXP, PAS UI & change log.
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15288"})
+	public void pas15288_ViewUpdateCoveragePIPCoverage(@Optional("DC") String state) {
+		pas15288_ViewUpdateCoveragePIPCoverageBody();
+	}
+
+	/**
 	 * @author Maris Strazds
 	 * @name Test PD and UMPD
 	 * @scenario

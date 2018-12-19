@@ -938,6 +938,7 @@
                 <methods>
                     <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
                     <include name="pas15313_updateBiCoverageCheckUMandUIM"/>
+                    <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                     <include name="pas15286_updateUMPDCoverageDC"/>
                     <include name="pas21421_updateUIMPDCoverageDC"/>
                 </methods>

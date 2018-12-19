@@ -17,6 +17,7 @@ import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -379,6 +380,16 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().getUnderwriterCode();
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(getCappingDetails().getProgramCode());
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
 	}
 
 	public Boolean isVariationRequest() {
