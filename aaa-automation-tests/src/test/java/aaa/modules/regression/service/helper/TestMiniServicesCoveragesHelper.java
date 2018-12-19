@@ -26,6 +26,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
+import toolkit.webdriver.controls.RadioGroup;
 
 import javax.ws.rs.core.Response;
 import java.io.File;
@@ -3108,8 +3109,16 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
-		premiumAndCoveragesTab.saveAndExit();
-		helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM
+		/*Next few lines be replaced with
+		 "premiumAndCoveragesTab.saveAndExit();
+		  helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM"
+		  when functionality to sign documents with service will be implemented*/
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel(), RadioGroup.class)
+				.setValue("Physically Signed");
+		documentsAndBindTab.submitTab();
 
 		//Remove COMP/COLL and check UMBI
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
