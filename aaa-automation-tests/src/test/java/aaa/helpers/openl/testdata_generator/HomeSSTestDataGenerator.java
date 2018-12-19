@@ -119,7 +119,7 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		policyIssueData = TestDataHelper.merge(getMortgageeTabData(openLPolicy), policyIssueData);
 
 		TestData documentsTabData = DataProviderFactory.dataOf(
-				DocumentsTab.class.getSimpleName(), getDocumentsToBindData(openLPolicy));
+				DocumentsTab.class.getSimpleName(), getProofData(openLPolicy));
 
 		return TestDataHelper.merge(documentsTabData, policyIssueData);
 	}
@@ -199,28 +199,36 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 	//				isVisibleProofOfPEHCR(openLPolicy);
 	//	}
 
-	public TestData getDocumentsToBindData(HomeSSOpenLPolicy openLPolicy) {
-		//		TestData documentsToBindData = DataProviderFactory.emptyData();
+	public TestData getProofData(HomeSSOpenLPolicy openLPolicy) {
 		LinkedHashMap<String, String> tdMap = new LinkedHashMap<>();
-		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()));
+		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) && openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "Yes");
 		}
-		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()));
+		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType()) && openLPolicy.getPolicyDiscountInformation().getProofCentralFireAlarm()) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "Yes");
 		}
-		//		if (isVisibleProofOfPEHCR(openLPolicy)) {
-		//			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()));
-		//		}
+		if (isVisibleProofOfPEHCR(openLPolicy) && openLPolicy.getPolicyDiscountInformation().getProofOfPEHCR()) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION.getLabel(), "Yes");
+		}
 		if (receiptIsRequired(openLPolicy)) {
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.APPRAISALS_SALES_RECEIPTS_FOR_SCHEDULED_PROPERTY.getLabel(), "Yes");
 		}
-		if ("DP3".equals(openLPolicy.getPolicyType()) && openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy()) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfTenant()));
+		//		if ("DP3".equals(openLPolicy.getPolicyType()) && openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy()) {
+		//			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfTenant()));
+		//		}
+		if (openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability() && openLPolicy.getPolicyDiscountInformation().getProofOfGreenHome()) {
+			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "Yes");
 		}
-		if (openLPolicy.getPolicyDiscountInformation().getGreenHomeDiscApplicability()) {
-			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), getYesOrNo(openLPolicy.getPolicyDiscountInformation().getProofOfGreenHome()));
+		if (tdMap.size() > 0) {
+			return DataProviderFactory.dataOf(new DocumentsTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap)));
 		}
-		return DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap));
+		return null;
+
+	}
+
+	public TestData getOverrideErrorData(HomeSSOpenLPolicy openLPolicy) {
+
+		return null;
 	}
 
 	public TestData getChangeCoverageCData(HomeSSOpenLPolicy openLPolicy) {

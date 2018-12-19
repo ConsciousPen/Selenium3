@@ -56,10 +56,18 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().getDefaultView().fillUpTo(tdGenerator.getFormHS0492Data(openLPolicy), PremiumsAndCoveragesQuoteTab.class, false);
 		}
 
-		TestData documentsToBindData = tdGenerator.getDocumentsToBindData(openLPolicy);
-		if (!documentsToBindData.equals(DataProviderFactory.emptyData())) {
+		TestData proofData = tdGenerator.getProofData(openLPolicy);
+		if (!proofData.equals(null)) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
-			policy.get().getDefaultView().fill(DataProviderFactory.dataOf(DocumentsTab.class.getSimpleName(), documentsToBindData));
+			policy.get().getDefaultView().fill(DataProviderFactory.dataOf(proofData));
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		}
+
+		TestData overrideErrorData = tdGenerator.getOverrideErrorData(openLPolicy);
+		if (!overrideErrorData.equals(null)) {
+			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
+			policy.get().getDefaultView().fill(DataProviderFactory.dataOf(overrideErrorData));
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		}
