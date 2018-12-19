@@ -82,6 +82,10 @@ public abstract class OpenLPolicy {
 
 	public abstract LocalDate getEffectiveDate();
 
+	public abstract boolean isLegacyConvPolicy();
+
+	public abstract boolean isCappedPolicy();
+
 	/**
 	 * Returns {@link MocksCollection} with required mocks to be generated and uploaded (if absent) to the application server for OpenL tests which use this OpenL policy object<p>
 	 * Override this method in child classes if this type of policy require specific mocks.

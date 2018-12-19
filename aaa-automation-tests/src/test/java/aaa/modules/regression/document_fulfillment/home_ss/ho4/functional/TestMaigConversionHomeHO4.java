@@ -319,6 +319,27 @@ public class TestMaigConversionHomeHO4 extends TestMaigConversionHomeAbstract {
     }
 
     /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSIIHNV documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSIIHNV document is generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = {States.NV})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO4, testCaseId = {"PAS-23023"})
+    public void pas18434_importantInfoRegardingYourPolicyHSIINV(@Optional("NV") String state) throws NoSuchFieldException {
+        super.pas18434_importantInfoRegardingYourPolicyHSIINV(state);
+    }
+
+    /**
      * @name Creation converted policy for checking 'Expiration Notice' letter AH64XX
      * @scenario
      * 1. Create Customer

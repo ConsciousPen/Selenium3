@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.membership.RetrieveMembershipSummaryMock;
@@ -14,6 +15,7 @@ import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.TestDataGenerator;
 import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
@@ -102,6 +104,16 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().getUnderwriterCode();
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(getCappingDetails().getProgramCode());
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return getCappingDetails().getTermCappingFactor() != null && getCappingDetails().getTermCappingFactor() != 1;
 	}
 
 	@Override

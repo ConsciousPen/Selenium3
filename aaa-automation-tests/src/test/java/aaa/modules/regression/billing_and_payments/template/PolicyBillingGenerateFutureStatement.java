@@ -3,7 +3,9 @@ package aaa.modules.regression.billing_and_payments.template;
 import static toolkit.verification.CustomAssertions.assertThat;
 
 import aaa.common.enums.Constants.UserGroups;
+import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -32,22 +34,35 @@ import toolkit.datax.TestData;
 public abstract class PolicyBillingGenerateFutureStatement extends PolicyBaseTest {
 	
 	public void testGenerateFutureStatement(TestData td) {
-		mainApp().open();
-		createCustomerIndividual();  
-		createPolicy(td);
-		
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		
-		BillingSummaryPage.open();
-		
-		if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+		if (getUserGroup().equals(UserGroups.B31.get())) {
+			mainApp().open(getLoginTD(UserGroups.QA));
+			createCustomerIndividual();
+			createPolicy(td);
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			String policyNumber = PolicySummaryPage.getPolicyNumber();
+			mainApp().close();
+			//re-login with B31 user
+			mainApp().open(getLoginTD(UserGroups.B31));
+			MainPage.QuickSearch.buttonSearchPlus.click();
+			SearchPage.openBilling(policyNumber);
 			log.info("Verifying 'Generate Future Statement' action");
-			assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Future Statement' is available").doesNotContainOption("Generate Future Statement");
+			assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Future Statement' is available").doesNotContainOption("Generate Future Statement");			
 		}
 		else {
-			generateFutureStatement();
+			mainApp().open();
+			createCustomerIndividual();  
+			createPolicy(td);			
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			
+			BillingSummaryPage.open();
+			if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+				log.info("Verifying 'Generate Future Statement' action");
+				assertThat(NavigationPage.comboBoxListAction).as("Action 'Generate Future Statement' is available").doesNotContainOption("Generate Future Statement");
+			}
+			else {
+				generateFutureStatement();
+			}
 		}
-
 	}
 	
 	public void generateFutureStatement() {

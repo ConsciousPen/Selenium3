@@ -323,4 +323,24 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto"/>
         </classes>
     </test>
+    <test name="PAS-18434 Important Information Regarding Your Policy - HO3, HO4, HO6 NV" parallel="methods">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
