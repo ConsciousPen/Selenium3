@@ -1699,18 +1699,18 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.getAvailableLimits().size()).isNotEqualTo(0);
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.getCanChangeCoverage()).isFalse();
 
-			Coverage filteredPolicyCoverageResponseUIMBI = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredPolicyCoverageResponseUIMBI = findCoverage(policyCoverageResponse.policyCoverages, "UIMBI");
 			softly.assertThat(filteredPolicyCoverageResponseUIMBI.getCoverageType()).isEqualTo("Per Person/Per Accident");
 			softly.assertThat(filteredPolicyCoverageResponseUIMBI.getAvailableLimits().size()).isNotEqualTo(0);
 			softly.assertThat(filteredPolicyCoverageResponseUIMBI.getCanChangeCoverage()).isFalse();
 
 			PolicyCoverageInfo coverageEndorsementResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredEndorsementCoverageResponseUMBI = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredEndorsementCoverageResponseUMBI = findCoverage(coverageEndorsementResponse.policyCoverages, "UMBI");
 			softly.assertThat(filteredEndorsementCoverageResponseUMBI.getCoverageType()).isEqualTo("Per Person/Per Accident");
 			softly.assertThat(filteredEndorsementCoverageResponseUMBI.getAvailableLimits().size()).isNotEqualTo(0);
 			softly.assertThat(filteredEndorsementCoverageResponseUMBI.getCanChangeCoverage()).isFalse();
 
-			Coverage filteredEndorsementCoverageResponseUIMBI = coverageEndorsementResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredEndorsementCoverageResponseUIMBI = findCoverage(coverageEndorsementResponse.policyCoverages, "UIMBI");
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.getCoverageType()).isEqualTo("Per Person/Per Accident");
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.getAvailableLimits().size()).isNotEqualTo(0);
 			softly.assertThat(filteredEndorsementCoverageResponseUIMBI.getCanChangeCoverage()).isFalse();
