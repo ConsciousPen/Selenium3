@@ -126,35 +126,33 @@
         </classes>
     </test>
 
-    <!--   Regression Defect should be created for CA UW Rule fire  -->
+     <test name="Test Clue Simplification UW Rule CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
-     <!--<test name="Test Clue Simplification UW Rule" parallel="methods" thread-count="1024">-->
-        <!--<parameter name="state" value="CA"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">-->
-                <!--<methods>-->
-                    <!--<include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">-->
-                <!--<methods>-->
-                    <!--<include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">-->
-                <!--<methods>-->
-                    <!--<include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">-->
-                <!--<methods>-->
-                    <!--<include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-        <!--</classes>-->
-    <!--</test>-->
-
-    <test name="Test Clue Simplification UW Rule" parallel="methods" thread-count="1024">
+    <test name="Test Clue Simplification UW Rule SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">

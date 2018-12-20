@@ -23,12 +23,12 @@
         </classes>
     </test>
 
-    <!--<test name="Test CARCO Task Not Created">-->
-        <!--<parameter name="state" value="NJ, NY"/>-->
-        <!--<classes>-->
-            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="Test CARCO Task Not Created">
+        <parameter name="state" value="NJ, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>
+        </classes>
+    </test>
 
     <!--Tests for Property-->
 
@@ -60,7 +60,7 @@
     </test>
 
     <test name="Test Claims display on VRD page SS">
-        <parameter name="state" value="OK"/>
+        <parameter name="state" value="AZ, OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
