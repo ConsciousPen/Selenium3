@@ -290,7 +290,11 @@ public final class BillingHelper {
 		}
 		
 		log.warn("PLIGA fee verification. Calculated total PLIGA fee amount: "+calculatedTotalPLIGAFeeAmount+". Displayed total PLIGA fee amount: "+totalPLIGAFeeAmount);
-		CustomAssertions.assertThat(calculatedTotalPLIGAFeeAmount).isEqualTo(totalPLIGAFeeAmount);
+		
+		// The PLIGA fee value can differ on 1$ due to calculation / round issue 
+		if ( !(totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount) || totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount.add(1)) || totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount.add(-1))) ) {
+			CustomAssertions.assertThat(calculatedTotalPLIGAFeeAmount).isEqualTo(totalPLIGAFeeAmount);
+		}
 		
 	}
 	
