@@ -270,7 +270,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16984_validateCoverageConstraints(PolicyType policyType) {
-		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog("UTSS952918553", Response.Status.OK.getStatusCode());
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 
