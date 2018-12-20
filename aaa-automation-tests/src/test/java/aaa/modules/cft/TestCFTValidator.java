@@ -34,7 +34,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 	private static final String FEED_FILE_EXTENSION = "fix";
 	private static final String CFT_VALIDATION_REPORT = "CFT_Validations.xls";
 
-	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') between %s and %s group by  le.LEDGERACCOUNTNO";
+	private String sqlGetLedgerData = "select le.LEDGERACCOUNTNO, sum (case when le.entrytype = 'CREDIT' then (to_number(le.entryamt) * -1) else to_number(le.entryamt) end) as AMOUNT from ledgertransaction lt, ledgerentry le where lt.id = le.ledgertransaction_id and to_char(lt.txdate, 'yyyymmdd') >= %s group by  le.LEDGERACCOUNTNO";
 	private String remoteFileLocation = PropertyProvider.getProperty(REMOTE_DOWNLOAD_FOLDER_PROP);
 
 	private SSHController sshController = new SSHController(
