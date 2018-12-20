@@ -669,6 +669,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 4. Check UMPD coverage.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.CO, Constants.States.OH})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15255"})
 	public void pas15255_UpdateCompCollCoveragesCheckUmpd(@Optional("OH") String state) {
@@ -696,6 +697,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * Note: Repeat with MotorHome
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.CO, Constants.States.OH})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15496"})
 	public void pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl(@Optional("OH") String state) {
