@@ -33,8 +33,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private static final int SECTION_NAME_ROW_INDEX = 1;
 	private static final List<String> NOT_IMPLEMENTED_YET_SECTIONS = ImmutableList.of(
 			//Auto SS
-			"Drivers.VIIFirstName VII VIILastName.AAA Claims Report Order",
-			"Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order",
 			"Drivers.NBFirstName NB NBLastName.Forms.ADBEndorsement Form",
@@ -52,10 +52,10 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"AZ_ADBEEndorsement Form",
 			"AZ_SR22FREndorsement Form",
 			//Auto CA unique
-			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
-			"Drivers.VIFirstName VI VILastName.A A A Claims Report Order",
-			"Drivers.VIFirstName VI VILastName.AAAMvr Report Order",
-			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.Reports.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.Reports.AAAMvr Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.A A A Claims Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order",
 			"Drivers.NBFirstName NB NBLastName.Forms.ADBEndorsement Form",
