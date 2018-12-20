@@ -23,30 +23,6 @@
             <class name="aaa.modules.cft.auto_ca.select.TestCFTScenario8" />
         </classes>
     </test>
-    <test name="AutoSS Scenario 7 CFT" parallel="none">
-        <parameter name="state" value="AZ, KY" />
-        <classes>
-            <class name="aaa.modules.cft.auto_ss.TestCFTScenario7" />
-        </classes>
-    </test>
-    <test name="HomeSS Scenario 19 CFT" parallel="none">
-        <parameter name="state" value="DE, NJ, OK, UT"/>
-        <classes>
-            <class name="aaa.modules.cft.home_ss.ho3.TestCFTScenario19"/>
-        </classes>
-    </test>
-    <test name="AutoSS Scenario 13 CFT" parallel="none">
-        <parameter name="state" value="AZ, KY" />
-        <classes>
-            <class name="aaa.modules.cft.auto_ss.TestCFTScenario13" />
-        </classes>
-    </test>
-    <test name="AutoSS Scenario 3 CFT" parallel="none">
-        <parameter name="state" value="AZ, MD, KY" />
-        <classes>
-            <class name="aaa.modules.cft.auto_ss.TestCFTScenario3" />
-        </classes>
-    </test>
     <test name="AutoSS Scenario 21 CFT" parallel="none">
         <parameter name="state" value="AZ"/>
         <classes>

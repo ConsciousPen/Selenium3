@@ -89,8 +89,9 @@ public class CFTHelper extends BaseTest {
 
 	public static Map<String, Double> getDataBaseValues(String sql) {
 		Map<String, Double> accountsMapSummaryFromDB = new HashMap<>();
-		String transactionDate = TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-		String query = String.format(sql, transactionDate);
+		String stertTransactionsDate = TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String endTransactionsDate = TimeSetterUtil.getInstance().getStartTime().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+		String query = String.format(sql, stertTransactionsDate, endTransactionsDate);
 		List<Map<String, String>> dbResult = DBService.get().getRows(query);
 		for (Map<String, String> dbEntry : dbResult) {
 			accountsMapSummaryFromDB.put(dbEntry.get("LEDGERACCOUNTNO"), Double.parseDouble(dbEntry.get("AMOUNT")));
