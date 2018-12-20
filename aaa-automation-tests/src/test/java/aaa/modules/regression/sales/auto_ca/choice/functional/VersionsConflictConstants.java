@@ -489,8 +489,8 @@ public class VersionsConflictConstants {
 					.put("Contact Information.Mobile Phone Number", CURRENT)
 					.put("Contact Information.Preferred Phone #", CURRENT)
 					.put("Contact Information.Email", AVAILABLE)
-					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date", CURRENT)
-					.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date", CURRENT)
+					.put("Reports.AAA Clue Order.Order Date", CURRENT)
+					.put("Reports.AAA Clue Order.Receipt Date", CURRENT)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/endorsement or Renewal
