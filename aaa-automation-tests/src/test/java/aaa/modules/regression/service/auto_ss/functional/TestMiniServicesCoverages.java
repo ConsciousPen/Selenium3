@@ -1354,4 +1354,29 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas21421_updateUIMPDCoverageDC(@Optional("DC") String state) {
 		pas21421_updateUIMPDCoverageDCBody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update BI to lower limit and check
+	 * 4. Update BI to higher limit and check
+	 * 5. Update UM/UIM to other than No Coverage (increase) and check
+	 * 6. Update UM/UIM to other than No Coverage (decrease) and check
+	 * 7. Update UM/UIM to No Coverage and check
+	 * 8. Update BI (decrease) and check
+	 * 9. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
+	 * 10. Update BI (increase) and check
+	 * 11. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
+	 * 12. Update UM/UIM to other than No Coverage and check
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399"})
+	public void pas16399_viewUpdateUmpdDE(@Optional("DE") String state) {
+		pas16399_viewUpdateUmpdDEBody();
+	}
 }
