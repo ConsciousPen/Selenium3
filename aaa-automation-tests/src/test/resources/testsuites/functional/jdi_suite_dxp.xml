@@ -945,4 +945,14 @@
             </class>
         </classes>
     </test>
+    <test name="Test BI and UMBI update - DE">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

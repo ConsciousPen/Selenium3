@@ -3,6 +3,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.CoverageInfo;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
@@ -1152,7 +1153,15 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
 	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("VA") String state) {
-		pas21363_BIAndUMBIAndCanChangeTrueBody();
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_VA_KS);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22972"})
+	public void pas22972_BIAndUMBIAndCanChangeTrue(@Optional("DE") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_DE);
 	}
 
 	/**
