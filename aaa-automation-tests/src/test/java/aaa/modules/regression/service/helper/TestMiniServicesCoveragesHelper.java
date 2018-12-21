@@ -4848,7 +4848,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas15281_UMPDAndUIMPDAndCanChangeTrueBody() {
-		String policyNumber = openAppAndCreatePolicy();
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		//update BI to highest available limit so that PD has all available limits
@@ -4903,6 +4904,248 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			coverageExpected = coverageExpected.removeAvailableLimitsAbove(pdCoverageLimit);
 		}
 		assertThat(umpdOrUimpdActual).isEqualToIgnoringGivenFields(coverageExpected, "coverageLimit", "coverageLimitDisplay");
+	}
+
+	protected void pas15286_updateUMPDCoverageDCBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//update BI to highest available limit so that PD has all available limits
+		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1).getLimit());
+
+		PolicyCoverageInfo viewCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		assertThat(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.PD_DC.getCode()).getCoverageLimit()).as("Precondition: PD = UMPD").
+				isEqualTo(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.UMPD_DC.getCode()).getCoverageLimit()).isEqualTo(CoverageLimits.COV_50000.getLimit());
+
+		//Update PD
+		//Start of the transaction: PD = UMPD, Update PD > UMPD (update PD) ---> UMPD is not updated
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_100000, CoverageLimits.COV_50000);
+
+		//Start of the transaction: PD > UMPD, Update PD = UMPD (update PD) ---> UMPD is not updated
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_50000, CoverageLimits.COV_50000);
+
+		//Start of the transaction: PD = UMPD, Update PD < UMPD (update PD) ---> UMPD = PD
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_25000);
+
+		//Update back to PD > UMPD (to get precondition for next step)
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_300000, CoverageLimits.COV_25000);
+
+		//Start of the transaction: PD > UMPD, Update PD > UMPD (update PD) ---> UMPD is not updated
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_50000, CoverageLimits.COV_25000);
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_25000);
+
+		//Start of the transaction: PD > UMPD, Update PD < UMPD (update PD) ---> UMPD = PD
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_10000);
+
+		//Update PD < UMPD (precondition for next steps)
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+
+		//Start of the transaction: PD < UMPD, decrease PD ---> UMPD is not updated, PD is updated
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
+
+		//Update UMPD
+		//Update PD = UMPD (precondition for next steps)
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_15000);
+
+		//Start of the transaction: PD = UMPD, Update PD > UMPD (update UMPD) ---> UMPD is updated, PD doesn't change
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
+
+		//Start of the transaction: PD > UMPD, Update PD = UMPD (update UMPD) ---> UMPD is updated, PD doesn't change
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_15000);
+
+		//Update PD > UMPD (precondition for next steps)
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
+
+		//Start of the transaction: PD > UMPD, Update PD > UMPD (update UMPD) ---> UMPD is updated, PD doesn't change
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_5000);
+
+		//Update PD = UMPD (precondition for next steps)
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_15000);
+
+		//Start of the transaction: PD = UMPD, Update PD < UMPD (update UMPD) ---> scenario not possible - UMPD is updated, PD doesn't change
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+
+		//Update PD > UMPD (precondition for next steps)
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_5000);
+
+		//Start of the transaction: PD > UMPD, Update PD < UMPD (update UMPD) ---> UMPD is updated, PD doesn't change
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
+
+		//Check that when PD is updated to PD < UMPD by changing BI, then UMBI is also updated
+		updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), CoverageLimits.COV_1000000.getLimit());
+		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_25000);
+		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_1000000);
+		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageLimits.COV_2550.getLimit());
+		Coverage umpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UMPD_DC.getCode());
+		Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_DC).changeLimit(CoverageLimits.COV_50000);
+		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
+		validateCoverageLimitInPASUI(umpdExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void updatePDAndValidateUMPD_pas15286(String policyNumber, CoverageLimits updatePDLimitTo, CoverageLimits expectedUMPDLimit) {
+		PolicyCoverageInfo updatePDResponse = updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), updatePDLimitTo.getLimit());
+		assertSoftly(softly -> {
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updatePDResponse);
+		});
+		validatePDAndUMPDLimits_pas15286(updatePDResponse, updatePDLimitTo, expectedUMPDLimit);
+	}
+
+	private void updateUMPDAndValidateUMPD_pas15286(String policyNumber, CoverageLimits expectedPDLimit, CoverageLimits updateUMPDLimitTo) {
+		PolicyCoverageInfo updateUMPDResponse = updateCoverage(policyNumber, CoverageInfo.UMPD_DC.getCode(), updateUMPDLimitTo.getLimit());
+		assertSoftly(softly -> {
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateUMPDResponse);
+		});
+		validatePDAndUMPDLimits_pas15286(updateUMPDResponse, expectedPDLimit, updateUMPDLimitTo);
+	}
+
+	private void validatePDAndUMPDLimits_pas15286(PolicyCoverageInfo updateCoverageResponse, CoverageLimits expectedPDLimit, CoverageLimits expectedUMPDLimit) {
+		Coverage coveragePDActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.PD_DC.getCode());
+		Coverage coverageUMPDActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UMPD_DC.getCode());
+
+		Coverage expectedPD = Coverage.create(CoverageInfo.PD_DC).changeLimit(expectedPDLimit);
+		Coverage expectedUMPD = Coverage.create(CoverageInfo.UMPD_DC).changeLimit(expectedUMPDLimit);
+
+		assertThat(coveragePDActual).isEqualToIgnoringGivenFields(expectedPD, "availableLimits");// availableLimits in scope of PAS-15281
+		assertThat(coverageUMPDActual).isEqualToIgnoringGivenFields(expectedUMPD, "availableLimits");// availableLimits in scope of PAS-15281
+
+		//Validate Change Log, if UMPD coverage Limit has changed in comparison with limit at NB (UMPD limit was 5000 at NB)
+		if (!expectedUMPD.getCoverageLimit().equals(CoverageLimits.COV_50000.getLimit())) {
+			validatePolicyLevelCoverageChangeLog(PolicySummaryPage.getPolicyNumber(), expectedUMPD);
+		}
+
+		//Validate in PAS UI
+		validateCoverageLimitInPASUI(expectedUMPD, expectedPD);
+	}
+
+	protected void pas21421_updateUIMPDCoverageDCBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		//update BI to highest available limit so that PD has all available limits
+		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1).getLimit());
+
+		PolicyCoverageInfo viewCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		assertThat(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.PD_DC.getCode()).getCoverageLimit()).as("Precondition: PD = UIMPD").
+				isEqualTo(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.UIMPD_DC.getCode()).getCoverageLimit()).isEqualTo(CoverageLimits.COV_50000.getLimit());
+
+		//UIMPD <> No Cov, PD = UIMPD, update PD > UIMPD ---> UIMPD is not updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_100000, CoverageLimits.COV_50000);
+
+		//UIMPD <> No Cov,PD > UIMPD, update PD = UIMPD ---> UIMPD is not updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_50000, CoverageLimits.COV_50000);
+
+		//UIMPD <> No Cov, PD = UIMPD, update PD < UIMPD ---> UIMPD = PD
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_25000);
+
+		//Update back to PD > UIMPD (to get precondition for next step)
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_300000, CoverageLimits.COV_25000);
+
+		//UIMPD <> No Cov, PD > UIMPD, update PD > UIMPD ---> UIMPD is not updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_50000, CoverageLimits.COV_25000);
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_500000, CoverageLimits.COV_25000);
+
+		//UIMPD <> No Cov, PD > UIMPD, update PD < UIMPD ---> UIMPD = PD
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_10000);
+
+		//Update UIMPD to No Coverage (to get precondition for next step)
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_0);
+
+		//UIMPD = No Cov, PD = Any, update PD to Any ---> UIMPD is not updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_0);
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_0);
+
+		//Update PD < UMPD (precond for next steps)
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+
+		//Start of the transaction: PD < UIMPD, decrease PD ---> UIMPD is not updated, PD is updated
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_25000);
+
+		//Update UIMPD
+		//Update UIMPD = No Cov (precondition for next steps)
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_10000, CoverageLimits.COV_0);
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_0);
+
+		//UIMPD = No Cov, PD = Any, update UIMPD to Any available ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_15000);
+
+		//UIMPD <> No Cov, PD = UIMPD, update PD > UIMPD (update UIMPD) ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
+
+		//UIMPD <> No Cov,PD > UIMPD, update PD = UIMPD (update UIMPD) ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_15000);
+
+		//UIMPD <> No Cov, PD = UIMPD, update PD < UIMPD (update UIMPD) ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+
+		//Update back to PD > UMPD (to get precondition for next step)
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_25000);
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_15000);
+
+		//UIMPD <> No Cov, PD > UIMPD, update PD > UIMPD (update UIMPD) ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_25000, CoverageLimits.COV_10000);
+
+		//Update back to PD > UIMPD (to get precondition for next step)
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_10000);
+
+		//UIMPD <> No Cov, PD > UIMPD, update PD < UIMPD (update UIMPD) ---> UIMPD is updated
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_15000, CoverageLimits.COV_25000);
+
+		//Check that when PD is updated to PD < UIMPD by changing BI, then UIMBI is also updated
+		updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), CoverageLimits.COV_1000000.getLimit());
+		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_25000);
+		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_1000000);
+		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageLimits.COV_2550.getLimit());
+		Coverage umpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UIMPD_DC.getCode());
+		Coverage umpdExpected = Coverage.create(CoverageInfo.UIMPD_DC).changeLimit(CoverageLimits.COV_50000);
+		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
+		validateCoverageLimitInPASUI(umpdExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	private void updatePDAndValidateUIMPD_pas21421(String policyNumber, CoverageLimits updatePDLimitTo, CoverageLimits expectedUIMPDLimit) {
+		PolicyCoverageInfo updatePDResponse = updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), updatePDLimitTo.getLimit());
+		assertSoftly(softly -> {
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updatePDResponse);
+		});
+		validatePDAndUIMPDLimits_pas21421(updatePDResponse, updatePDLimitTo, expectedUIMPDLimit);
+	}
+
+	private void updateUIMPDAndValidateUIMPD_pas21421(String policyNumber, CoverageLimits expectedPDLimit, CoverageLimits updateUIMPDLimitTo) {
+		PolicyCoverageInfo updateUIMPDResponse = updateCoverage(policyNumber, CoverageInfo.UIMPD_DC.getCode(), updateUIMPDLimitTo.getLimit());
+		assertSoftly(softly -> {
+			validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateUIMPDResponse);
+		});
+		validatePDAndUIMPDLimits_pas21421(updateUIMPDResponse, expectedPDLimit, updateUIMPDLimitTo);
+	}
+
+	private void validatePDAndUIMPDLimits_pas21421(PolicyCoverageInfo updateCoverageResponse, CoverageLimits expectedPDLimit, CoverageLimits expectedUIMPDLimit) {
+		Coverage coveragePDActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.PD_DC.getCode());
+		Coverage coverageUIMPDActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.UIMPD_DC.getCode());
+
+		Coverage expectedPD = Coverage.create(CoverageInfo.PD_DC).changeLimit(expectedPDLimit);
+		Coverage expectedUIMPD = Coverage.create(CoverageInfo.UIMPD_DC).changeLimit(expectedUIMPDLimit);
+
+		assertThat(coveragePDActual).isEqualToIgnoringGivenFields(expectedPD, "availableLimits");// availableLimits in scope of PAS-15281
+		assertThat(coverageUIMPDActual).isEqualToIgnoringGivenFields(expectedUIMPD, "availableLimits");// availableLimits in scope of PAS-15281
+
+		//Validate Change Log, if UIMPD coverage Limit has changed in comparison with limit at NB (UIMPD limit was 5000 at NB)
+		if (!expectedUIMPD.getCoverageLimit().equals(CoverageLimits.COV_50000.getLimit())) {
+			validatePolicyLevelCoverageChangeLog(PolicySummaryPage.getPolicyNumber(), expectedUIMPD);
+		}
+
+		//Validate in PAS UI
+		validateCoverageLimitInPASUI(expectedUIMPD, expectedPD);
 	}
 
 	protected void pas20306_viewUpdateCoveragesUmpdCompCollBody(String state, PolicyType policyType) {
@@ -5411,7 +5654,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validateVehicleLevelCoverageChangeLog(String policyNumber, String vehicleOid, Coverage... coverageExpected) {
 		HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
-		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());//TODO-mstrazds: with foreach?
+		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
 		for (Coverage coverage : coverageExpected) {
 			assertThat(changeLogResponse.vehicles.get(vehicleOid).coverages.get(coverage.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverage, "availableLimits");
 		}
