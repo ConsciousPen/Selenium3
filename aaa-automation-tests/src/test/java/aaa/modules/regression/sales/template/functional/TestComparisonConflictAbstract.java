@@ -59,6 +59,7 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.A A A Claims Report Order",
 			"Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order",
+			"Drivers.VIFirstName VI VILastName.Forms.CIPCS22Endorsement Form",
 			"Drivers.NBFirstName NB NBLastName.Forms.ADBEndorsement Form",
 			"Drivers.NBFirstName NB NBLastName.Forms.CIPCS22Endorsement Form",
 			"Forms",
