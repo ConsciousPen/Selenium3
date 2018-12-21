@@ -2,7 +2,6 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata.policy;
 
-import org.openqa.selenium.By;
 import aaa.common.pages.Page;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
@@ -11,6 +10,7 @@ import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
 import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.HomeCAEndorsementsMultiAssetList;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -107,6 +107,7 @@ public final class HomeCaMetaData {
 		public static final class AAAMembership extends MetaData {
 			public static final AssetDescriptor<ComboBox> CURRENT_AAA_MEMBER = declare("Current AAA Member", ComboBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> MEMBERSHIP_NUMBER = declare("Membership number", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> OVERRIDE_TYPE = declare("Override Type", ComboBox.class, Waiters.AJAX);
 		}
 
 		// Dwelling Address
@@ -666,8 +667,7 @@ public final class HomeCaMetaData {
 		}
 
 		public static final class ClaimHistory extends MetaData {
-			public static final AssetDescriptor<RadioGroup> ADD_A_CLAIM = declare("Add a claim", RadioGroup.class, Waiters.AJAX, false, By
-					.xpath("//table[@id='policyDataGatherForm:addOptionalQuestionFormGrid_AAAHOLossInfo']"));
+			public static final AssetDescriptor<StaticElement> LABEL_CLAIM_HISTORY = declare("Claim History", StaticElement.class, By.id("policyDataGatherForm:componentViewPanelHeaderLabel_AAAHOLossInfo"));
 			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addAAAHOLossInfo"));
 			public static final AssetDescriptor<Button> BTN_REMOVE = declare("Remove", Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:eliminate"));
 			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
@@ -685,8 +685,11 @@ public final class HomeCaMetaData {
 			public static final AssetDescriptor<RadioGroup> CATASTROPHE_LOSS = declare("Catastrophe loss", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CATASTROPHE_LOSS_CODE_REMARKS = declare("Catastrophe loss code/remarks", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LOSS_FOR = declare("Loss for", ComboBox.class);
-			public static final AssetDescriptor<RadioGroup> CHARGEABLE = declare("Chargeable", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> INCLUDED_IN_RATING_AND_ELIGIBILITY = declare("Include in Rating and Eligibility", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
+					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
+			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
 		}
 
 		public static final class RentalInformation extends MetaData {

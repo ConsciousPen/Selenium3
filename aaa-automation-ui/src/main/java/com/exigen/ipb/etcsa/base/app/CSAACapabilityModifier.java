@@ -7,6 +7,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
@@ -22,6 +23,7 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		} else {
 			downloadPath = System.getProperty(CsaaTestProperties.USER_DIR_PROP) + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP));
 		}
+		options.setHeadless(PropertyProvider.getProperty(CsaaTestProperties.BROWSER_SET_HEADLESS, false));
 		options.addArguments("disable-infobars", "--no-sandbox");
 		options.setExperimentalOption("useAutomationExtension", false);
 		HashMap<String, Object> chromePrefs = new HashMap<>();
@@ -41,12 +43,19 @@ public class CSAACapabilityModifier extends OptionsModifier {
 		} else {
 			downloadPath = System.getProperty(CsaaTestProperties.USER_DIR_PROP) + FilenameUtils.separatorsToSystem(PropertyProvider.getProperty(CsaaTestProperties.LOCAL_DOWNLOAD_FOLDER_PROP));
 		}
+		options.setHeadless(PropertyProvider.getProperty(CsaaTestProperties.BROWSER_SET_HEADLESS, false));
 		FirefoxProfile profile = new FirefoxProfile();
 		profile.setPreference("browser.download.dir", downloadPath);
 		profile.setPreference("browser.download.folderList", 2);
 		profile.setPreference("browser.download.manager.showWhenStarting", false);
 		profile.setPreference("browser.helperApps.neverAsk.saveToDisk", "application/ms-excel");
 		options.setCapability(FirefoxDriver.PROFILE, profile);
+		return allBrowsers(options);
+	}
+
+	@Override
+	public InternetExplorerOptions iexplore(InternetExplorerOptions options) {
+		options.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
 		return allBrowsers(options);
 	}
 }

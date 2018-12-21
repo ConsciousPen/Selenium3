@@ -4,8 +4,10 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.IntStream;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
@@ -16,7 +18,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -28,7 +29,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	List<String> getPolicyLevelCoverageCDs() {
-		List<String> policyLevelCoverage = Arrays.asList("BI", "PD", "UMBI", "UIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "UM/SUM", "APIP", "OBEL");
+		List<String> policyLevelCoverage = Arrays.asList("BI", "RBI", "PD", "UMBI", "UIMBI", "EUIMBI", "MP", "PIP", "ADBC", "IL", "FUNERAL", "EMB", "UIMPD", "EUIMPD", "UM/SUM", "APIP", "OBEL");
 		if (!getState().equals(Constants.States.OR)) {
 			policyLevelCoverage = new ArrayList<>(policyLevelCoverage);
 			policyLevelCoverage.add("UMPD");
@@ -71,9 +72,9 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case "J":
 				return "Domestic Partner"; // Auto CA Choice
 			case "M":
-				return getRandom("Married", "regex=.*Domestic Partner");//, "Common Law", "Civil Union");
+				return "Married"; // also possible "regex=.*Domestic Partner", "Common Law", "Civil Union"
 			case "S":
-				return getRandom("Single");
+				return "Single";
 			case "W":
 				return "Widowed";
 			default:
@@ -98,7 +99,10 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	boolean isPrivatePassengerAutoType(String statCode) {
-		List<String> codes = Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ");
+		if (statCode.matches("^BI\\d{3}$")) {
+			return true;
+		}
+		List<String> codes = new ArrayList<>(Arrays.asList("AA", "AP", "AH", "AU", "AV", "AN", "AI", "AQ", "AY", "AD", "AJ", "AC", "AK", "AE", "AR", "AO", "AX", "AZ"));
 		return codes.contains(statCode);
 	}
 
@@ -187,7 +191,17 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 	}
 
 	String getVehicleTabAntiTheft(String antiTheft) {
-		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		//		return "N".equals(antiTheft) ? "None" : "Vehicle Recovery Device";
+		switch (antiTheft) {
+			case "N":
+				return "None";
+			case "P":
+				return "VIN Etching";
+			case "Y":
+				return "Homing Device (Recovery Device)";
+			default:
+				throw new IstfException("Unknown mapping for antiTheft: " + antiTheft);
+		}
 	}
 
 	String getVehicleTabAirBags(String airBagCode) {
@@ -226,9 +240,11 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 			case Constants.States.OH:
 			case Constants.States.VA:
 			case Constants.States.KS:
-			case Constants.States.NV:
 				coveragesMap.put("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 				coveragesMap.put("UMBI-Verbal", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.NV:
+				coveragesMap.put("UMBI", "Uninsured and Underinsured Motorist Bodily Injury");
 				break;
 			case Constants.States.MT:
 			case Constants.States.WV:
@@ -270,15 +286,28 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		} else {
 			coveragesMap.put("COMP", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel());
 		}
-
 		coveragesMap.put("COLL", AutoSSMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel());
-		if (getState().equals(Constants.States.MT) || getState().equals(Constants.States.WV)) {
-			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
-		} else {
-			coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+
+		switch (getState()) {
+			case Constants.States.MT:
+			case Constants.States.WV:
+				coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_BODILY_INJURY.getLabel());
+				break;
+			case Constants.States.MD:
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
+			default:
+				coveragesMap.put("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				coveragesMap.put("EUIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+				break;
 		}
-		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
-		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+
+		if (getState().equals(Constants.States.MD)) {
+			coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		} else {
+			coveragesMap.put("EUIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		}
 
 		switch (getState()) {
 			case Constants.States.NJ:
@@ -292,13 +321,20 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				break;
 		}
 
+		if (Constants.States.KY.equals(getState())) {
+			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PERSONAL_INJURY_PROTECTION_COVERAGE.getLabel());
+		} else {
+			coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
+		}
+
+		coveragesMap.put("UMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
+		coveragesMap.put("UIMPD", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel());
 		coveragesMap.put("ADBC", AutoSSMetaData.PremiumAndCoveragesTab.ACCIDENTAL_DEATH_BENEFITS.getLabel());
 		coveragesMap.put("IL", AutoSSMetaData.PremiumAndCoveragesTab.INCOME_LOSS_BENEFIT.getLabel());
 		coveragesMap.put("FUNERAL", AutoSSMetaData.PremiumAndCoveragesTab.FUNERAL_BENEFITS.getLabel());
 		coveragesMap.put("EMB", AutoSSMetaData.PremiumAndCoveragesTab.EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS.getLabel());
 		coveragesMap.put("UM/SUM", AutoSSMetaData.PremiumAndCoveragesTab.SUPPLEMENTARY_UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel());
 		coveragesMap.put("OBEL", AutoSSMetaData.PremiumAndCoveragesTab.OPTIONAL_BASIC_ECONOMIC_LOSS.getLabel());
-		coveragesMap.put("APIP", AutoSSMetaData.PremiumAndCoveragesTab.ADDITIONAL_PIP.getLabel());
 		coveragesMap.put("TOWING", AutoSSMetaData.PremiumAndCoveragesTab.TOWING_AND_LABOR_COVERAGE.getLabel());
 		coveragesMap.put("RENTAL", AutoSSMetaData.PremiumAndCoveragesTab.RENTAL_REIMBURSEMENT.getLabel());
 
@@ -313,6 +349,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 		//AutoCa Choice
 		coveragesMap.put("UM", AutoCaMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel());
+		coveragesMap.put("CDW", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE_WAIVER.getLabel());
 
 		//AutoCa Select
 		coveragesMap.put("ETEC", AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.ENHANCED_TRASPORTATION_EXPENCE.getLabel());
@@ -340,23 +377,24 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 
 	String getPremiumAndCoveragesPaymentPlan(String paymentPlanType, int term) {
 		StringBuilder paymentPlan = new StringBuilder("regex=^");
+		String planName = term == 12 ? "Eleven Pay" : "Five Pay";
 		switch (paymentPlanType) {
 			case "A":
 				paymentPlan.append("Quarterly");
 				break;
 			case "B":
-				paymentPlan.append("Eleven Pay - Standard");
+				paymentPlan.append(planName).append(" - Standard");
 				break;
 			case "C":
 				paymentPlan.append("Semi-[aA]nnual");
 				break;
 			case "L":
-				paymentPlan.append(getRandom("Eleven Pay - Low Down", "Monthly - Low Down"));
+				paymentPlan.append(getRandom(planName + " - Low Down", "Monthly - Low Down"));
 				break;
 			case "P":
 				return getPremiumAndCoveragesPaymentPlan(term);
 			case "Z":
-				paymentPlan.append(getRandom("Eleven Pay - Zero Down", "Monthly - Zero Down"));
+				paymentPlan.append(getRandom(planName + " - Zero Down", "Monthly - Zero Down"));
 				break;
 			default:
 				throw new IstfException("Unknown mapping for paymentPlanType: " + paymentPlanType);
@@ -376,7 +414,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
 	}
 
-	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDate policyEffectiveDate) {
+	Map<String, Object> getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDate policyEffectiveDate) {
 		assertThat(autoInsurancePersistency).as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"")
 				.isGreaterThanOrEqualTo(aaaInsurancePersistency);
 
@@ -392,7 +430,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if (ChronoUnit.MONTHS.between(inceptionDate, policyEffectiveDate) <= 6) {
 			generalTabAgentInceptionAndExpirationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.MORE_THAN_6_MONTHS_TOTAL_INSURANCE_EXPERIENCE.getLabel(), "Yes");
 		}
-		return new SimpleDataProvider(generalTabAgentInceptionAndExpirationData);
+		return generalTabAgentInceptionAndExpirationData;
 	}
 
 	String getGeneralTabPriorBILimit(String priorBILimit) {
@@ -469,11 +507,6 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 
 		String formattedCoverageLimit = cLimit.toString().replaceAll("\\.00", "");
-		if ("APIP".equals(coverageCD)) {
-			// Additional PIP coverage is just a String which does not have separating commas after thousandth
-			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
-		}
-
 		if (getState().equals(Constants.States.MD) && "PIP".equals(coverageCD)) {
 			if (coverageLimit.endsWith("F")) {
 				formattedCoverageLimit = formattedCoverageLimit + " Full";
@@ -482,38 +515,81 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 				formattedCoverageLimit = formattedCoverageLimit + " Guest";
 			}
 		}
+		if (getState().equals(Constants.States.NY) && "APIP".equals(coverageCD)) {
+			formattedCoverageLimit = formattedCoverageLimit.replaceAll(",", "");
+		}
 		return formattedCoverageLimit;
 	}
 
 	String getDbRestraintsCode(String openlAirbagCode) {
 		switch (openlAirbagCode) {
 			case "N":
-				return null;
+				return "is null OR RESTRAINTSCODE = '000A'";
 			case "0":
-				return "'0002' OR RESTRAINTSCODE = 'AUTOSB'";
+				return "= '0002' OR RESTRAINTSCODE = 'AUTOSB'";
 			case "1":
-				return "'000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
+				return "= '000B' OR RESTRAINTSCODE = '000D' OR RESTRAINTSCODE = '000M' OR RESTRAINTSCODE = '0001'";
 			case "2":
-				return "'0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
+				return "= '0002' OR RESTRAINTSCODE = '000C' OR RESTRAINTSCODE = '000E' OR RESTRAINTSCODE = '000F' OR RESTRAINTSCODE = '000L' OR RESTRAINTSCODE = '000U'";
 			case "3":
-				return "'0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
+				return "= '0004' OR RESTRAINTSCODE = '000G' OR RESTRAINTSCODE = '000J' OR RESTRAINTSCODE = '000K' OR RESTRAINTSCODE = '000X' OR RESTRAINTSCODE = '0003' "
 						+ "OR RESTRAINTSCODE = '000R' OR RESTRAINTSCODE = '000S'";
 			case "4":
-				return "'0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
+				return "= '0004' OR RESTRAINTSCODE = '000H' OR RESTRAINTSCODE = '000I' OR RESTRAINTSCODE = '000Y' OR RESTRAINTSCODE = '000V' OR RESTRAINTSCODE = '000W' "
 						+ "OR RESTRAINTSCODE = '0007' OR RESTRAINTSCODE = '0006' OR RESTRAINTSCODE = '000T'";
 			default:
 				throw new IstfException("Unknown mapping for airbagCode: " + openlAirbagCode);
 		}
 	}
 
-	String getDbAntitheftCode(String openlAntiTheftString) {
-		return "N".equals(openlAntiTheftString) ? "'NONE'" : "'STD'";
-	}
-
 	String covertToValidVin(String vin) {
 		if (StringUtils.isBlank(vin)) {
 			return null;
 		}
-		return vin.replaceAll("&", RandomStringUtils.randomNumeric(1)) + RandomStringUtils.randomNumeric(7);
+
+		int vinLength = 17;
+		Map<String, Integer> transliterationMap = new HashMap<>(24);
+		transliterationMap.put("&", 0); // VIN"s check digit
+		transliterationMap.put("A", 1);
+		transliterationMap.put("B", 2);
+		transliterationMap.put("C", 3);
+		transliterationMap.put("D", 4);
+		transliterationMap.put("E", 5);
+		transliterationMap.put("F", 6);
+		transliterationMap.put("G", 7);
+		transliterationMap.put("H", 8);
+		transliterationMap.put("J", 1);
+		transliterationMap.put("K", 2);
+		transliterationMap.put("L", 3);
+		transliterationMap.put("M", 4);
+		transliterationMap.put("N", 5);
+		transliterationMap.put("P", 7);
+		transliterationMap.put("R", 9);
+		transliterationMap.put("S", 2);
+		transliterationMap.put("T", 3);
+		transliterationMap.put("U", 4);
+		transliterationMap.put("V", 5);
+		transliterationMap.put("W", 6);
+		transliterationMap.put("X", 7);
+		transliterationMap.put("Y", 8);
+		transliterationMap.put("Z", 9);
+
+		vin += RandomStringUtils.randomNumeric(7); // adding random plant digit and serial number
+		assertThat(vin).as("Invalid VIN size").hasSize(vinLength);
+
+		List<Integer> vinValues = new ArrayList<>(vinLength);
+		List<Integer> vinWeights = Arrays.asList(8, 7, 6, 5, 4, 3, 2, 10, 0, 9, 8, 7, 6, 5, 4, 3, 2);
+		for (String vinChar : vin.split("")) {
+			if (transliterationMap.containsKey(vinChar)) {
+				vinValues.add(transliterationMap.get(vinChar));
+			} else {
+				assertThat(NumberUtils.isCreatable(vinChar))
+						.as("Unknown transliteration for VIN char '%1$s', only digits and these chars are allowed: %s", vinChar, transliterationMap.keySet()).isTrue();
+				vinValues.add(Integer.valueOf(vinChar));
+			}
+		}
+		int vinSum = IntStream.range(0, vinLength).map(i -> vinValues.get(i) * vinWeights.get(i)).sum();
+		int checkDigit = vinSum % 11;
+		return vin.replaceAll("&", checkDigit == 10 ? "X" : String.valueOf(checkDigit));
 	}
 }

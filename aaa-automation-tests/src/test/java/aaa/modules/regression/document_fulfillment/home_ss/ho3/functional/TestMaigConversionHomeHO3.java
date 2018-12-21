@@ -371,6 +371,46 @@ public class TestMaigConversionHomeHO3 extends TestMaigConversionHomeAbstract {
         super.pas11772_importantNoticeRegardingFloodInsuranceHSFLD(state);
     }
 
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for Home
+     * 4. Check that HSIIHNV documents are getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that HSIIHNV document is generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = {States.NV})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-23023"})
+    public void pas18434_importantInfoRegardingYourPolicyHSIINV(@Optional("NV") String state) throws NoSuchFieldException {
+        super.pas18434_importantInfoRegardingYourPolicyHSIINV(state);
+    }
+
+    /**
+     * @name Creation converted policy for checking 'Expiration Notice' letter AH64XX
+     * @scenario
+     * 1. Create Customer
+     * 2. Create Conversion Policy
+     * 3. Generate Bill at R-20
+     * 4. Generate 'Expiration Notice' at R+10
+     * 5. Check that form is getting generated with correct content
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(statesExcept = {States.CA})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_HO3, testCaseId = {"PAS-21331"})
+    public void pas20836_expirationNoticeFormGeneration(@Optional("AZ") String state) throws NoSuchFieldException {
+        super.pas20836_expirationNoticeFormGeneration(state);
+    }
+
     @Override
     protected PolicyType getPolicyType() {
         return PolicyType.HOME_SS_HO3;

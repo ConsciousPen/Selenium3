@@ -51,6 +51,18 @@ public class AAAMembershipQueries {
     }
 
     /**
+     * Returns the AAA InsurerCd from DB. <br>
+     * InsurerCd represents the selection of Current AAA Member during Quoting in the UI. <br>
+     * If it is Yes, there should also be a fallback number available.
+     * @param quoteOrPolicyNumber is the quote or policy number to query against.
+     * @return an optional String. If no DB rows come back, will be null.
+     */
+    public static java.util.Optional<String> getAAAInsurerCdFromSQL(String quoteOrPolicyNumber) {
+        String query = getStandardMembershipQuery("OP.insurercd", quoteOrPolicyNumber);
+        return DBService.get().getValue(query);
+    }
+
+    /**
      * Returns the AAA Membership Status from DB
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
      * @return an optional AAAMembershipStatus. If no DB rows come back, will be null.
@@ -84,7 +96,7 @@ public class AAAMembershipQueries {
      * Returns the AAA Order Membership Number from DB. <br>
      * ORDERMEMBERSHIPNUMBER is the response from Elastic Search
      * @param quoteOrPolicyNumber is the quote or policy number to query against.
-     * @return an optional String. If no DB rows come back, will be null.
+     * @return an optional String. If no DB rows come back- will be null.
      */
     public static java.util.Optional<String> getAAAOrderMembershipNumberFromSQL(String quoteOrPolicyNumber) {
         String query = getStandardMembershipQuery("MS.ORDERMEMBERSHIPNUMBER", quoteOrPolicyNumber);
@@ -324,5 +336,40 @@ public class AAAMembershipQueries {
     private static String getQuoteOrPolicyNumberJoinSQL(String quoteOrPolicyNumber) {
         String quoteOrPolicyColumnName = isQuote(quoteOrPolicyNumber) ? "quotenumber" : "policynumber";
         return String.format("AND ps.%1s ='%2s' ", quoteOrPolicyColumnName, quoteOrPolicyNumber);
+    }
+
+    public static String getAaaRenewalTimelineIndicatorValue(String policyNumber) throws IllegalArgumentException {
+        String query = String.format(
+                "SELECT aaaRenewalTimelineInd " + "from PolicySummary where policynumber='" + policyNumber + "' " +
+                        "order by transactionDate DESC, revisionNo DESC ,pendingRevisionNo DESC");
+
+        Optional<String> dbResponse =  DBService.get().getValue(query);
+        String response = "No data found";
+        if(dbResponse.isPresent()){
+            response = dbResponse.get();
+
+        }
+        return response;
+    }
+
+    /**
+     * Modify the aaaRenewalTimelineInd so that Jobs.renewalImageRatingAsyncTaskJob can rate a policy pending renewal. <br>
+     * @param policyNumber is the policy number to update.
+     * @param value represents what value to update aaaRenewalTimelineInd with.
+     * @throws IllegalArgumentException When given a quote opposed to a bound policy.
+     */
+    public static void updateAaaRenewalTimelineIndicatorValue(String policyNumber, String value)
+            throws IllegalArgumentException {
+
+        if (isQuote(policyNumber)) {
+            throw new IllegalArgumentException("updateAAABestMembershipStatusInSQL() does not support Quotes. " +
+                    "Arg policyNumber: " + policyNumber);
+        }
+
+        String query = String.format("UPDATE POLICYSUMMARY " +
+                "SET aaaRenewalTimelineInd = '" + value + "' " +
+                "WHERE policynumber='" + policyNumber + "' and TXTYPE='renewal'");
+
+        DBService.get().executeUpdate(query);
     }
 }

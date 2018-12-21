@@ -309,6 +309,12 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<StaticElement> EXPIRATION_DATE = declare("Expiration Date", StaticElement.class);
 			public static final AssetDescriptor<StaticElement> STATUS = declare("Status", StaticElement.class);
 			public static final AssetDescriptor<Link> REPORT = declare("Report", Link.class);
+			public static final AssetDescriptor<DialogAssetList> PPC_REPORT_DIALOG = declare("PPCReportDialog", DialogAssetList.class, PPCReportDialog.class, false, By.xpath("//div[@id='ppcPercentagePopup_container']"));
+		}
+
+		public static final class PPCReportDialog extends MetaData {
+			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX,By.id("ppcPercentageForm:subsriptionIndicator"));
+			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.id("ppcPercentageForm:cmdBtnPublicProtectionClass"));
 		}
 
 		public static final class CLUEreportRow extends MetaData {
@@ -555,10 +561,13 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class ClaimHistory extends MetaData {
-			public static final AssetDescriptor<RadioGroup> ADD_A_CLAIM = declare("Add a claim", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
-					.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
+			//public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
+			//		.id("confirmOptionalNoSelected_AAAHOLossInfo_Dialog_container"));
+			public static final AssetDescriptor<StaticElement> LABEL_CLAIM_HISTORY = declare("Claim History", StaticElement.class, By.id("policyDataGatherForm:componentViewPanelHeaderLabel_AAAHOLossInfo"));
 			public static final AssetDescriptor<Button> BTN_ADD = declare("Add", Button.class, Waiters.AJAX, By.id("policyDataGatherForm:addAAAHOLossInfo"));
+			public static final AssetDescriptor<Button> BTN_REMOVE = declare("Remove", Button.class, Waiters.NONE, By.id("policyDataGatherForm:eliminate"));
+			public static final AssetDescriptor<AssetListConfirmationDialog> REMOVE_CONFIRMATION = declare("Remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By
+					.id("confirmEliminateInstance_Dialog_container"));
 			public static final AssetDescriptor<ComboBox> SOURCE = declare("Source", ComboBox.class);
 			public static final AssetDescriptor<TextBox> DATE_OF_LOSS = declare("Date of loss", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AdvancedComboBox> CAUSE_OF_LOSS = declare("Cause of loss", AdvancedComboBox.class);
@@ -568,8 +577,11 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<RadioGroup> CATASTROPHE_LOSS = declare("Catastrophe loss", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> CATASTROPHE_LOSS_CODE_REMARKS = declare("Catastrophe loss code/remarks", TextBox.class);
 			public static final AssetDescriptor<ComboBox> LOSS_FOR = declare("Loss for", ComboBox.class);
-			public static final AssetDescriptor<RadioGroup> CHARGEABLE = declare("Chargeable", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> INCLUDED_IN_RATING_AND_ELIGIBILITY = declare("Include in Rating and Eligibility", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
+					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
+			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -1063,7 +1075,7 @@ public final class HomeSSMetaData {
 		public static final class EndorsementHS0926 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
 		}
-		
+
 		public static final class EndorsementHS0930 extends MetaData {
 			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability Coverage Limit", ComboBox.class);
@@ -1134,7 +1146,7 @@ public final class HomeSSMetaData {
 
 		public static final class EndorsementHS1731 extends MetaData {}
 		public static final class EndorsementHS1733 extends MetaData {}
-		
+
 		public static final class EndorsementHS2383 extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY_OTHER_STRUCTURES = declare("Limit of liability - Other Structures", TextBox.class, Waiters.AJAX);
 		}
@@ -1402,9 +1414,7 @@ public final class HomeSSMetaData {
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.HURRICANE_DEDUCTIBLE.get())));
 		public static final AssetDescriptor<ComboBox> COVERAGE_C_BUILDING = declare(HomeSSCoverages.COVERAGE_C_BUILDING.get(), ComboBox.class, Waiters.AJAX, true,
 				By.xpath(String.format("//table[@id='policyDataGatherForm:coverageSummaryTable']//tr[td[.='%s']]//select", HomeSSCoverages.COVERAGE_C_BUILDING.get())));
-
-		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:premiumRecalcCov"));
-
+		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM = declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
 		public static final AssetDescriptor<DialogAssetList> OVERRRIDE_PREMIUM_DIALOG = declare("Override Premium", DialogAssetList.class, OverridePremiumDialog.class,
 				By.xpath("//form[@id='premiumOverrideInfoFormAAAHOPremiumOverride']"));
 
@@ -1477,6 +1487,13 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<Button> BUTTON_CALCULATE = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
 			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
 					false, By.id("cappingDetailsPopupPanel:cappingSave"));
+		}
+
+		public static final AssetDescriptor<Button> VIEW_RATING_DETAILS = declare("View Rating Details", Button.class,
+				By.id("policyDataGatherForm:ratingHODetailsPopup"));
+
+		public static final class ViewRatingDetailsWindow extends MetaData {
+			public static final AssetDescriptor<TextBox> MEMBERSHIP_INDICATOR = declare("Membership current AAA Member indicator", TextBox.class, By.id("horatingDetailsPopupForm_6:ratingDetailsTable:5:j_id_1_27_5b_j_2_10_7"));
 		}
 	}
 

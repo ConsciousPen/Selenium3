@@ -6,14 +6,14 @@ import java.time.format.DateTimeFormatter;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 
 public class HelperMiniServices extends PolicyBaseTest {
 
-	void createEndorsementWithCheck(String policyNumber) {
+	public void createEndorsementWithCheck(String policyNumber) {
 		String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		PolicySummary response = HelperCommon.createEndorsement(policyNumber, endorsementDate);
 		assertThat(response.policyNumber).isEqualTo(policyNumber);
@@ -36,21 +36,23 @@ public class HelperMiniServices extends PolicyBaseTest {
 	}
 
 	String vehicleAddRequestWithCheck(String policyNumber, Vehicle vehicleAddRequest) {
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, vehicleAddRequest);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, vehicleAddRequest, Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
 		return newVehicleOid;
 	}
 
-	void updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
+	public VehicleUpdateResponseDto updateVehicleUsageRegisteredOwner(String policyNumber, String newVehicleOid) {
 		printToLog("Update vehicle usage registered owner params: policyNumber: " + policyNumber + ", newVehicleOid: " + newVehicleOid);
 		//Update Vehicle with proper Usage and Registered Owner
 		VehicleUpdateDto updateVehicleUsageRequest = new VehicleUpdateDto();
 		updateVehicleUsageRequest.usage = "Pleasure";
 		updateVehicleUsageRequest.registeredOwner = true;
-		Vehicle updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
+		VehicleUpdateResponseDto updateVehicleUsageResponse = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleUsageRequest);
 		assertThat(updateVehicleUsageResponse.usage).isEqualTo("Pleasure");
+		return updateVehicleUsageResponse;
 	}
 
 	void pas14952_checkEndorsementStatusWasReset(String policyNumber, String endorsementStatus) {
@@ -60,7 +62,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.tableEndorsements.getRow(1).getCell("Status")).hasValue(endorsementStatus);
 	}
 
-	void endorsementRateAndBind(String policyNumber) {
+	public void endorsementRateAndBind(String policyNumber) {
 		assertSoftly(softly -> {
 			//Rate endorsement
 			PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
@@ -76,7 +78,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		});
 	}
 
-	void rateEndorsementWithCheck(String policyNumber) {
+	public void rateEndorsementWithCheck(String policyNumber) {
 		PolicyPremiumInfo[] endorsementRateResponse = HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		assertThat(endorsementRateResponse[0].premiumType).isEqualTo("GROSS_PREMIUM");
 		assertThat(endorsementRateResponse[0].premiumCode).isEqualTo("GWT");
@@ -100,7 +102,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(PolicySummaryPage.buttonPendedEndorsement.isEnabled()).isFalse();
 	}
 
-	void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
+	public void bindEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
 		ErrorResponseDto bindResponse = HelperCommon.endorsementBindError(policyNumber, errorCode, 422);
 		assertThat(bindResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(bindResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());

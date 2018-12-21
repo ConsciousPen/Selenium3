@@ -2,7 +2,7 @@
 <suite name="JDI DXP Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -61,6 +61,7 @@
                     <include name="pas14475_NameInsuredMaritalStatusDSS"/>
                     <include name="pas14475_NameInsuredMaritalStatus"/>
                     <include name="pas15513_ViewDriverRemoveDriverIndicator"/>
+                    <include name="pas17641_MetaDataServiceDriverAddADB"/>
                 </methods>
             </class>
         </classes>
@@ -84,7 +85,6 @@
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
                     <include name="pas9610_UpdateVehicleService"/>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
-                    <include name="pas18672_vehiclesRevertOptionForDelete"/> <!--depends on pas9546_maxVehicles-->
                 </methods>
             </class>
         </classes>
@@ -95,6 +95,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
                     <include name="pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa"/>
+                    <include name="pas9750_addVehicleServiceBlockingForPurchaseDate"/>
                 </methods>
             </class>
         </classes>
@@ -108,6 +109,8 @@
                     <include name="pas11741_ManageVehicleLevelCoveragesOtherThanVA"/>
                     <include name="pas14693_viewCoverageAndUpdateCoverageRentalReimbursement"/>
                     <include name="pas14693_updateCoverageRentalReimbursement"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
+                    <include name="pas20344_trailerMotorHomeAndGolfCartViewCoverage"/>
                 </methods>
             </class>
         </classes>
@@ -136,7 +139,6 @@
                     <include name="pas13301_validateDriverLicenseAndAgeFirstLicensed"/>
                     <include name="pas15373_uniqueDriverLicenses"/>
                     <include name="pas16551_relationToFniHardStop"/>
-                    <include name="pas18672_driversRevertOptionForDelete"/> <!--depends on pas9662_maxDrivers-->
                 </methods>
             </class>
         </classes>
@@ -176,6 +178,9 @@
                     <include name="pas14539_transactionInfoDriverAssignment"/>
                     <include name="pas14539_transactionInfoUpdateDriverAssignment"/>
                     <include name="pas14477_ViewDriverAssignment_NewDriver"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule1"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule3"/>
+                    <include name="pas21199_ViewDriverAssignmentAddRemoveActionsRule2"/>
                 </methods>
             </class>
         </classes>
@@ -197,6 +202,7 @@
                     <include name="pas14536_TransportationExpensePart2"/>
                     <include name="pas14536_TransportationExpensePart3"/>
                     <include name="pas17646_OrderOfCoverage"/>
+                    <include name="pas16984_validateCoverageConstraints"/>
                 </methods>
             </class>
         </classes>
@@ -264,6 +270,16 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
                     <include name="pas13287_ViewStartEndorsementInfoServiceForMD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="ViewPremiumService - Tax">
+        <parameter name="state" value="KY, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
+                <methods>
+                    <include name="pas19742ViewPremiumServiceTaxInformation"/>
                 </methods>
             </class>
         </classes>
@@ -343,8 +359,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas15540_RemoveDriverAssignedToTrailer">
-        <parameter name="state" value="VA"/>
+    <test name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart">
+        <parameter name="state" value="AZ, VA"/> <!--This test works for all Auto SS states-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
                 <methods>
@@ -430,6 +446,17 @@
             </class>
         </classes>
     </test>
+    <test name="ViewUpdateCoverageUMPD">
+        <parameter name="state" value="CO, OH"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15255_UpdateCompCollCoveragesCheckUmpd"/>
+                    <include name="pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas14730_UpdateCoverageUMPDAndPD">
         <parameter name="state" value="MD"/>
         <classes>
@@ -437,6 +464,8 @@
                 <methods>
                     <include name="pas14730_UpdateCoverageUMPDAndPD"/>
                     <include name="pas11654_MDEnhancedUIMBICoverage"/>
+                    <include name="pas20835_mdAndEnhancedCoverage"/>
+                    <include name="pas17642_UpdateCoverageADB"/>
                 </methods>
             </class>
         </classes>
@@ -452,7 +481,7 @@
         </classes>
     </test>
     <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
-        <parameter name="state" value="AZ, ID, KY, PA, SD, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
+        <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -526,6 +555,7 @@
                     <include name="pas15375_duiIsUnacceptableForDriverUnderTheAgeError"/>
                     <include name="pas15383_driverWithOneOrMoreFaultAccidents"/>
                     <include name="pas15374_driverWithMajorViolationsError"/>
+                    <include name="pas19673_theOrderOfViolations"/>
                 </methods>
             </class>
         </classes>
@@ -540,6 +570,7 @@
                     <include name="pas14963_remove_driver_transaction_history"/>
                     <include name="pas16578_removeDriverCheckIfTaskWasCreated"/>
                     <include name="pas17769_tooOldDriverErrorAndNoHintFromReportResponse"/>
+                    <include name="pas19768_ageFirstLicensedCannotBeGreaterThanDob"/>
                 </methods>
             </class>
         </classes>
@@ -640,6 +671,17 @@
             </class>
         </classes>
     </test>
+    <test name="View Coverages-PD Limits">
+        <parameter name="state" value="IN, KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20818_ViewPdCoverageLimits"/>
+                    <include name="pas21363_BIAndUMBIAndCanChangeFalse"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="pas16035ViewCoverageUpdateCoverage">
         <parameter name="state" value="IN"/>
         <classes>
@@ -667,6 +709,236 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
                 <methods>
                     <include name="pas17676_moreThanTwoMinorViolationsError"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas18643_CancelRemoveDriver (Revert Deleted Driver)">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithoutChangesDriverTypeChanged"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesPendingRemoval"/>
+                    <include name="pas18643_CancelRemoveDriverWithChangesDriverTypeChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Revert Deleted/Replaced Vehicle">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas18670_CancelRemoveVehicleWithoutChanges"/>
+                    <include name="pas18670_CancelRemoveVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithoutChanges"/>
+                    <include name="pas18671_CancelReplaceVehicleWithChanges"/>
+                    <include name="pas18671_CancelReplaceVehicle_oneDriver"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Named Insured marital status and the Relationship to the FNI (MD)">
+        <parameter name="state" value="MD, NJ, CO, DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16548_NamedInsuredMaritalStatus_MultipleMarital"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas20675_TortCoverage">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas20675_TortCoverage"/>
+                    <include name="pas19627_UMAndUimCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)">
+        <parameter name="state" value="MD, OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
+                <methods>
+                    <include name="pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarried"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable">
+        <parameter name="state" value="WY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas19626_biAndUMAndUIMCoverageSD">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19626_biAndUMAndUIMCoverageSD"/>
+                    <include name="pas22037_updateBiCoverage"/>
+                    <include name="pas19625_TotalDisabilitySD"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="View Coverage - UMPD and UIMPD">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas17083_ViewUmpdAndUimpdCoverages"/>
+                    <include name="pas20292_updateCoverageBIPDWv"/>
+                    <include name="pas21364_PDAndUMPDAndCanChangeFalse"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas19195_viewUpdatePIPCoverage_KY">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas19195_viewUpdatePIPCoverage_KY"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15358_viewUpdatePIPCoverage_KS">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15358_viewUpdatePIPCoverage_KS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15365_viewUpdatePIPCoverage_OR">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15365_viewUpdatePIPCoverage_OR"/>
+                    <include name="pas16112_umpdOregonViewCoverage"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="viewUpdateCoverages_UT">
+        <parameter name="state" value="UT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15368_viewUpdatePIPCoverage_UT"/>
+                    <include name="pas20306_updateCoveragesUmpdCompColl"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas12942_GaragingAddressConsistencyDXP">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12942_GaragingAddressConsistencyDXP"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="pas15499_RegisteredOwner">
+        <parameter name="state" value="CT, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas15499_RegisteredOwnerDifferent"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Underinsured Conversion Coverage - CT">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15265_WithUnderInsuredConversionCoverageCT"/>
+                    <include name="pas15265_WithOutUnderInsuredConversionCoverageCT"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Moratoriums - VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratorium"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Moratoriums - AZ">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
+                <methods>
+                    <include name="pas21466_GarageAddressUnderTheMoratoriumPart2"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage">
+        <parameter name="state" value="VA, KS, WV"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas21363_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas21364_PDAndUMPDandCanChangeTrue"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="RFI View Service VA">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas19630_ViewServiceRFI"/>
+                    <include name="pas19631_OverrideRulesCheckViewServiceRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="RFI View Service DC">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas21423_aacsdcFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="DC Coverages">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
+                    <include name="pas15313_updateBiCoverageCheckUMandUIM"/>
+                    <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
                 </methods>
             </class>
         </classes>

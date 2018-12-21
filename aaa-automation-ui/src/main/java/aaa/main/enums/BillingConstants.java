@@ -26,12 +26,14 @@ public final class BillingConstants {
 		public static final String MORTGAGEE_BILL = "Mortgagee Bill";
 		public static final String MORTGAGEE_BILL_RENEWAL = "Mortgagee Bill (Renewal)";
 		public static final String ELEVEN_PAY = "Eleven Pay Standard";
+		public static final String AUTO_ELEVEN_PAY = "Eleven Pay - Standard";
 		public static final String ELEVEN_PAY_RENEWAL = "Eleven Pay Standard (Renewal)";
 		public static final String ANNUAL = "Annual";
 		public static final String MONTHLY = "Monthly";
 		public static final String MONTHLY_RENEWAL = "Monthly (Renewal)";
 		public static final String MONTHLY_STANDARD_RENEWAL = "Monthly Standard (Renewal)"; //HO
 		public static final String STANDARD_MONTHLY_RENEWAL = "Standard Monthly (Renewal)"; //AU
+		public static final String STANDARD_MONTHLY = "Standard Monthly"; //AU Select
 		public static  final String ELEVEN_PAY_LOW_DOWN = "Eleven Pay Low Down";
 	}
 

@@ -73,6 +73,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		//Change system date to get policy reinstated with lapse
+		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(reinstatementDate);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

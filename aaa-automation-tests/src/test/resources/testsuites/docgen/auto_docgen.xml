@@ -98,6 +98,13 @@
             <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenario5" />
         </classes>
     </test>
+	
+	<test name="Document_Fulfillment_CA_Select_TestScenarioManualReinstate">
+        <parameter name="state" value="CA" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ca.select.TestScenarioManualReinstate" />
+        </classes>
+    </test>
      
 	<test name="Document_Fulfillment_CA_Choice_TestScenario1">
         <parameter name="state" value="CA" />

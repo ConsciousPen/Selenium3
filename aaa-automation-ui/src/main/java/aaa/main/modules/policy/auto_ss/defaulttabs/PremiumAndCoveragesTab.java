@@ -23,6 +23,7 @@ import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.table.Cell;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -45,7 +46,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-	public static Table tableStateAndLocalTaxesSummary = new Table(By.id("policyDataGatherForm:taxTable"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable' or @id='policyDataGatherForm:taxSurchargeSummaryTable']"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
@@ -82,6 +83,10 @@ public class PremiumAndCoveragesTab extends Tab {
 		super(AutoSSMetaData.PremiumAndCoveragesTab.class);
 		assetList.applyConfiguration(COVERAGES_CONFIGURATION_NAME);
 		assetList.getAsset(AutoSSMetaData.PremiumAndCoveragesTab.POLICY_LEVEL_PERSONAL_INJURY_PROTECTION_COVERAGES).applyConfiguration(COVERAGES_CONFIGURATION_NAME);
+	}
+
+	public AssetList getMoratoriumInformationAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.MORATORIUM_INFORMATION.getLabel(), AssetList.class);
 	}
 
 	public static Dollar getPreEndorsementPremium() {

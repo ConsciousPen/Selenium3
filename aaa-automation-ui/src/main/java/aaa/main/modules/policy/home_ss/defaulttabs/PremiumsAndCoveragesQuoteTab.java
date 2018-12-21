@@ -27,7 +27,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * procedure has to be customized, extra asset list to be added, custom testdata
  * key to be defined, etc.
  *
- * @category Generated
+ * @category GeneratedPremiumsAndCoveragesQuoteTab
  */
 public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 
@@ -79,5 +79,9 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 		Map<String, String> query = new HashMap<>();
 		query.put("Discounts Applied", discount);
 		return !tableDiscounts.getRowsThatContain(query).isEmpty();
+	}
+
+	public void openViewRatingDetails() {
+		getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_RATING_DETAILS.getLabel()).getWebElement().click();
 	}
 }

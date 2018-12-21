@@ -84,10 +84,12 @@ public class TestScenario4 extends AutoSSBaseTest {
 			termEffDt = DocGenHelper.convertToZonedDateTime(policyEffectiveDate);
 
 			//		verify the xml file AASR22 and AAGCAZ
+			//SR22 is tested in Scenario2
+			/*
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AASR22).verify.mapping(getTestSpecificTD("TestData_AASR22")
 							.adjust(TestData.makeKeyPath("AASR22", "form", "PlcyNum", "TextField"), policyNumber)
 							.adjust(TestData.makeKeyPath("AASR22", "form", "TermEffDt", "DateTimeField"), termEffDt),
-					policyNumber, softly);
+					policyNumber, softly);*/
 			DocGenHelper.verifyDocumentsGenerated(softly, policyNumber, AAGCAZ).verify.mapping(getTestSpecificTD("TestData_VerificationEDOne")
 							.adjust(TestData.makeKeyPath("AAGCAZ", "form", "PlcyNum", "TextField"), policyNumber),
 					policyNumber, softly);
@@ -172,7 +174,7 @@ public class TestScenario4 extends AutoSSBaseTest {
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
-		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
+		//new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 	}
 
 	@Parameters({"state"})

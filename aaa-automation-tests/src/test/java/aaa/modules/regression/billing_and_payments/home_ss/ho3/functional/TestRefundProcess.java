@@ -20,6 +20,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -33,7 +34,6 @@ import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditi
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
@@ -233,7 +233,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	private String preconditionPolicyCreationHo() {
 		mainApp().open();
 		createCustomerIndividual();
-		String policyNumber = getCopiedPolicy();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}

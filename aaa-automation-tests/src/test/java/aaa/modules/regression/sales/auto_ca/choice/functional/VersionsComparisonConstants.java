@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("Captive Branch Agents","2507")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
@@ -77,6 +76,8 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Model","CARAVAN","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Series","GRAND CARAVAN SE/SPORT","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style","SPORT VAN","ROADSTER")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Comp Symbol", "7","27")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Coll Symbol", "7","27")
 			//TODO should be return to TD when True/False vs Yes/No is fixed
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true","false")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "","false")
@@ -89,7 +90,7 @@ public class VersionsComparisonConstants {
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, VII ownership address 2, Bell, CA, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, MINNEAPOLIS, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
@@ -252,7 +253,6 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAAMembership Order", "Last Name")
 			.put("AA59 Existing Damage Endorsement Form", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
@@ -425,6 +425,8 @@ public class VersionsComparisonConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")

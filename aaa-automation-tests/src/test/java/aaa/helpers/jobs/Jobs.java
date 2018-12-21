@@ -2,6 +2,7 @@ package aaa.helpers.jobs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import aaa.config.CsaaTestProperties;
@@ -9,6 +10,10 @@ import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
+
+	private static final String CLAIM_ORDER_JOB_FOLDER_TEMPLATE = "%SPAS_B_EXGPAS_PASHUB_4001_D/outbound";
+
+	private static final String CLAIM_RECEIVE_JOB_FOLDER_TEMPLATE = "%SPAS_B_PASHUB_EXGPAS_4001_D/inbound";
 
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
@@ -22,12 +27,19 @@ public class Jobs {
 				"%sPAS_B_EXGPAS_DMVFED_3051_D/outbound",
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/inbound",
 				"%sPAS_B_EXGPAS_PASHUB_4001_D/outbound");
+		return getFormattedJobFolders(foldersTemplate);
+	}
 
-		List<String> result = new ArrayList<>();
+	private static List<String> getClaimOrderJobFolders() {
+		return Collections.singletonList(getClaimOrderJobFolder());
+	}
 
-		foldersTemplate.forEach(template -> result.add(String.format(template, jobFolderPrefix)));
+	public static String getClaimOrderJobFolder() {
+		return getFormattedFolderPath(CLAIM_ORDER_JOB_FOLDER_TEMPLATE);
+	}
 
-		return result;
+	public static String getClaimReceiveJobFolder() {
+		return getFormattedFolderPath(CLAIM_RECEIVE_JOB_FOLDER_TEMPLATE);
 	}
 
 	public static Job renewalOfferGenerationPart2 = new Job("Renewal_Offer_Generation_Part2");
@@ -146,9 +158,25 @@ public class Jobs {
 
 	public static Job aaaRecurringPaymentsResponseProcessAsyncJob = new Job("aaaRecurringPaymentsResponseProcessAsyncJob");
 
-	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob");
+	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob", getClaimOrderJobFolders());
 
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
+
+	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
+
+	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");
+
+	public static Job aaaInsuranceScoreRenewBachOrder = new Job("aaaInsuranceScoreRenewBachOrder");
+
+	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
+
+	public static Job aaaInsuranceScoreRenewalBatchReceiveJob = new Job("aaaInsuranceScoreRenewalBatchReceiveJob");
+
+	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
+
+	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
+
+	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
@@ -169,6 +197,16 @@ public class Jobs {
 
 	public static void clearJobsState() {
 		jobsState = new ConcurrentHashMap<>();
+	}
+
+	private static List<String> getFormattedJobFolders(List<String> foldersTemplate) {
+		List<String> result = new ArrayList<>();
+		foldersTemplate.forEach(template -> result.add(getFormattedFolderPath(template)));
+		return result;
+	}
+
+	private static String getFormattedFolderPath(String template) {
+		return String.format(template, jobFolderPrefix);
 	}
 
 }

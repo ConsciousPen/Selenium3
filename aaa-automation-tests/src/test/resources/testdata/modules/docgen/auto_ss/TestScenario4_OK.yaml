@@ -24,28 +24,13 @@ TestData_EndorsementOne: {
       Change Policy Type Confirmation: 'Continue'
     }
   },
-  DriverTab: '@DriverInformation',
+  DriverTab: {},
   RatingDetailReportsTab: {},
   VehicleTab: {},
-  FormsTab: '@FormsTab',
+  FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
   DocumentsAndBindTab: '@DocumentsAndBindTab'
-}
-
-DriverInformation: {
-  Financial Responsibility Filing Needed: 'Yes',
-  Filling State: Arizona
-}
-
-FormsTab: { 
-  Driver Forms: {
-    SR22: {
-      Action: Edit,
-      Case Number: 123,
-      State: OK
-    }
-  }
 }
 
 DocumentsAndBindTab: {

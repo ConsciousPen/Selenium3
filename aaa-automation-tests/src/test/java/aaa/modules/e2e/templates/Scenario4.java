@@ -1,10 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -30,9 +25,16 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class Scenario4 extends ScenarioBaseTest {
 
@@ -306,6 +308,7 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_EXPIRED).verifyRowWithEffectiveDate(policyEffectiveDate);
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.PROPOSED).verifyRowWithEffectiveDate(policyExpirationDate);
+		
 	}
 
 	protected void customerDeclineRenewal() {
@@ -369,7 +372,8 @@ public class Scenario4 extends ScenarioBaseTest {
 		BillingSummaryPage.showPriorTerms();
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).verifyRowWithEffectiveDate(policyExpirationDate);
 
-		if (!getPolicyType().isAutoPolicy()) {
+		if (!getPolicyType().isAutoPolicy() &&
+				!(getPolicyType().equals(PolicyType.PUP) && getState().equals(Constants.States.CA))) { //PASBB-775
 			// TODO Possible problems with MD and MT state. See QC 35220 for details.
 			//if (!getState().equals(Constants.States.MD) && !getState().equals(Constants.States.MT)) {
 			new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getPayLapsedRenewLong(policyExpirationDate)).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)

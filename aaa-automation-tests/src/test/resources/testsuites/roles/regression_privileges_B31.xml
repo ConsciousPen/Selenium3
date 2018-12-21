@@ -1,0 +1,89 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Privileges Tests B31" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+	<test name="CA Select Auto Regression Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <parameter name="login" value="B31"/>
+        <classes>
+        	<class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyInquiry"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyEndorsementAdd"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCopy"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancellation"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.auto_ca.select.TestPolicyRenewCreateVersion"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdateBillingAccountForUserB31"/>
+            	</methods>
+            </class>
+        </classes>
+    </test>    
+    <test name="CA HSS Regression Tests" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <parameter name="login" value="B31"/>
+        <classes>
+        	<class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyCreation"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyInquiry"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.TestPolicyNoteCreateUpdate"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyEndorsement"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCopy"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelNoticeAddDelete"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelReinstate"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyCancelRewrite"/>
+            <class name="aaa.modules.regression.service.home_ca.ho3.TestPolicyRenewCreateVersion"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBilling"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdateBillingAccountForUserB31"/>
+            	</methods>
+            </class>
+        </classes>
+    </test>  
+      
+    <test name="AZ Auto Regression Tests" parallel="methods">
+    	<parameter name="state" value="AZ"/>
+    	<parameter name="login" value="B31"/>
+    	<classes>
+    		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>
+    		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyInquiry"/>
+    		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNoteCreateUpdate"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyEndorsementAdd"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCopy"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelNoticeAddDelete"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelReinstate"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewCreateVersion"/>
+    	</classes>
+    </test>
+    <test name="UT HSS Regression Tests" parallel="methods">
+    	<parameter name="state" value="UT"/>
+    	<parameter name="login" value="B31"/>
+    	<classes>
+    		<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreation"/>
+    		<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyInquiry"/>
+    		<class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyNoteCreateUpdate"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyEndorsement"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCopy"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelNoticeAddDelete"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewCreateVersion"/>
+    	</classes>
+    </test>
+</suite>

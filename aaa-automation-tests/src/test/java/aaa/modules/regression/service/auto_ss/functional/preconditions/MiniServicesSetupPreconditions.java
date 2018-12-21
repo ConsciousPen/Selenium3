@@ -3,9 +3,15 @@ package aaa.modules.regression.service.auto_ss.functional.preconditions;
 public class MiniServicesSetupPreconditions {
 
 	public static final String AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT = "INSERT ALL\n"
-			+ " INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
-			+ " values ('BaseProductLookupValue', 'MyPolicy', '3', 'AAA_SS', 'AZ', null, null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id) \n"
+			+ "        values ('BaseProductLookupValue', 'MyPolicy', '0', 'AAA_SS', 'AZ',(select to_char(to_date(SYSDATE, 'DD-MM-YYYY')) from dual), (select to_char(to_date(SYSDATE+10, 'DD-MM-YYYY')) from dual),(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
+			+ "    INTO LOOKUPVALUE (dtype, code, displayValue, productCd, riskStateCd, EFFECTIVE, EXPIRATION, lookuplist_id)\n"
+			+ "        values ('BaseProductLookupValue', 'MyPolicy', '5', 'AAA_SS', 'AZ',(select to_char(to_date(SYSDATE+10, 'DD-MM-YYYY')) from dual), null ,(SELECT ID FROM LOOKUPLIST WHERE LOOKUPNAME='AAACustomerEndorsementDays'))\n"
 			+ "Select * from dual";
+
+	public static final String AAA_PREMIUM_TAX_RATE_URI_UPDATE = "update propertyconfigurerentity\n"
+			+ "set value = 'http://prod-virtualservices.tent.trt.csaa.pri:80/RetrievePremiumTaxRateV2'\n"
+			+ "where propertyname = 'retrievePremiumTaxRateServiceImpl.retrievePremiumTaxRateUri'";
 
 	public static final String AAA_CUSTOMER_ENDORSMENT_DAYS_DEFAULD_CONFIG_UPDATE = "update lookupvalue\n"
 			+ "set displayvalue = 2\n"

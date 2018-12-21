@@ -1,13 +1,5 @@
 package aaa.modules.regression.document_fulfillment.home_ss.dp3.functional;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.List;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -17,8 +9,18 @@ import aaa.main.enums.DocGenEnum;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.document_fulfillment.template.functional.TestMaigSpecificFormsGenerationTemplate;
 import aaa.utils.StateList;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.PRE_RENEWAL;
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenerationTemplate {
 
@@ -75,8 +77,24 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@Parameters({STATE_PARAM})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9816"})
-	public void pas9816_BillingPacketGeneration(@Optional("MD") String state) throws NoSuchFieldException {
-		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks());
+	public void pas9816_BillingPacketGeneration_autopay(@Optional("MD") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks(), true);
+	}
+
+	/**
+	 * Specific Billing Packet Generation for CW, DE, VA , MD, PA
+	 * @author Rokas Lazdauskas
+	 * PAS-9816
+	 * PAS-9607
+	 * PAS-9650
+	 * @throws NoSuchFieldException
+	 * See detailed steps in template file
+	 */
+	@Parameters({STATE_PARAM})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-9816"})
+	public void pas9816_BillingPacketGeneration_nonAutopay(@Optional("MD") String state) throws NoSuchFieldException {
+		verifyBillingFormsSequence(getConversionPolicyDefaultTD().adjust(TestData.makeKeyPath("PremiumsAndCoveragesQuoteTab", "Payment plan"), "Monthly (Renewal)").resolveLinks(), false);
 	}
 
 	/**

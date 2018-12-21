@@ -10,7 +10,6 @@ import aaa.common.components.Dialog;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 /**
  * Implementation of a specific tab in a workspace. Tab classes from the default
@@ -23,8 +22,7 @@ import toolkit.webdriver.controls.waiters.Waiters;
  */
 public class BindTab extends Tab {
 	public Button btnPurchase = new Button(
-			By.xpath("//input[@id='policyDataGatherForm:moveToBilling_footer' or @id='policyDataGatherForm:moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:moveToBilling_RenewalPropose_footer' or @id='policyDataGatherForm:moveToBilling_EndorsementBind_footer']"),
-			Waiters.AJAX);
+			By.xpath("//input[@id='policyDataGatherForm:overridenActionButton_PurchaseAction_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalSave_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementPurchase_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_RenewalPropose_footer' or @id='policyDataGatherForm:actionButton_moveToBilling_EndorsementBind_footer' or @id='policyDataGatherForm:actionButton_PurchaseAction_footer']"));
 	public Dialog confirmPurchase = new Dialog("//div[@id='policyDataGatherForm:confirmPurchaseDialog_container']");
 	public Dialog confirmEndorsementPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialogA_container']");
 	public Dialog confirmRenewPurchase = new Dialog("//div[@id='policyDataGatherForm:ConfirmDialog-1_container']");

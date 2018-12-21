@@ -3,9 +3,10 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN_PENDING;
+import static aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static aaa.main.enums.DocGenEnum.Documents.AHEVAXX;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_IN;
-import static aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData.OPT_OUT;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -35,6 +36,8 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -49,8 +52,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestEValueDiscountPreConditions;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import toolkit.config.PropertyProvider;
@@ -328,7 +329,6 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 			softly.assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValue", "FALSE", "AAARolloutEligibilityLookup"))).isPresent();
 			softly.assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eRefunds", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
-			softly.assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "pcDisbursementEngine", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
 			softly.assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "eValueNotification", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
 			softly.assertThat(DBService.get().getValue(String.format(lookupCheckNoStateNoProduct, "AAARolloutEligibilityLookupValue", "vinRefresh", "TRUE", "AAARolloutEligibilityLookup"))).isPresent();
 
@@ -437,7 +437,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			documentsAndBindTab.getAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GENERAL_INFORMATION.getLabel(), AssetList.class)
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).setValue("");
 			DocumentsAndBindTab.btnPurchase.click();
-			softly.assertThat(errorTab.getErrorsControl().getTable().getColumn("Message").getValue().toString().contains("'Email' is required")).isTrue();
+			assertThat(documentsAndBindTab.getGeneralInformationAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.GeneralInformation.EMAIL).getWarning().get()).contains("'Email' is required");
 			//PAS-276 end
 		});
 	}
@@ -1687,7 +1687,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-3693", "PAS-2794"})
 	public void pas3693_eValueConfiguration4(@Optional("OR") String state) {
 		eValueAcknowledgementConfigCheck();
@@ -1842,7 +1842,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-12294", "PAS-3008"})
 	public void pas12294_PriorCarrierLessThanSixMonthsPriorCarrierNotRequired(@Optional("OR") String state) {
 		eValueQuoteCreation();

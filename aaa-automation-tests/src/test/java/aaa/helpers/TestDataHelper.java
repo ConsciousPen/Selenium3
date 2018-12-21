@@ -229,10 +229,11 @@ public class TestDataHelper {
 	/**
 	 * Use to simplify adjusting test data.
 	 * @param td The input test data to be adjusted.
-	 * @param tabElementIsOn Tab class object. Element adjusted to the test data lives on this tab.
+	 * @param tabElementIsOn Tab class object. Element adjusted lives on this tab.
 	 * @param elementLabel getLabel() for MetaData element being manipulated via adjustment.
 	 * @param value The new value he element should contain.
-	 * @return
+	 * @return Adjusted Test Data Object
+	 * @author Tyrone Jemison
 	 */
 	public TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel, String value){
 		td.adjust(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), elementLabel), value);
@@ -242,11 +243,12 @@ public class TestDataHelper {
 	/**
 	 * Use to simplify adjusting test data.
 	 * @param td The input test data to be adjusted.
-	 * @param tabElementIsOn Tab class object. Element adjusted to the test data lives on this tab.
+	 * @param tabElementIsOn Tab class object. Element adjusted lives on this tab.
 	 * @param subChunkLabel getLabel() for AssetList that contains sub Assets.
 	 * @param elementLabel getLabel() for MetaData element being manipulated via adjustment.
 	 * @param value The new value he element should contain.
-	 * @return
+	 * @return Adjusted Test Data Object
+	 * @author Tyrone Jemison
 	 */
 	public TestData adjustTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel, String value){
 		String result = TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel);
@@ -257,10 +259,11 @@ public class TestDataHelper {
 	/**
 	 * Use to simplify adjusting masking/removing test data.
 	 * @param td The input test data to be adjusted.
-	 * @param tabElementIsOn Tab class object. Element adjusted to the test data lives on this tab.
+	 * @param tabElementIsOn Tab class object. Element adjusted lives on this tab.
 	 * @param subChunkLabel getLabel() for AssetList that contains sub Assets.
 	 * @param elementLabel getLabel() for MetaData element being removed from the test data.
-	 * @return
+	 * @return Adjusted Test Data Object
+	 * @author Tyrone Jemison
 	 */
 	public TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String subChunkLabel, String elementLabel){
 		td.mask(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), subChunkLabel, elementLabel));
@@ -270,9 +273,10 @@ public class TestDataHelper {
 	/**
 	 * Use to simplify adjusting masking/removing test data.
 	 * @param td The input test data to be adjusted.
-	 * @param tabElementIsOn Tab class object. Element adjusted to the test data lives on this tab.
+	 * @param tabElementIsOn Tab class object. Element adjusted lives on this tab.
 	 * @param elementLabel getLabel() for MetaData element being removed from the test data.
-	 * @return
+	 * @return Adjusted Test Data Object
+	 * @author Tyrone Jemison
 	 */
 	public TestData maskTD(TestData td, Class<? extends Tab> tabElementIsOn, String elementLabel){
 		td.mask(TestData.makeKeyPath(tabElementIsOn.getSimpleName(), elementLabel));

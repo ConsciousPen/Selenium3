@@ -15,9 +15,13 @@ public class MiniServicesSetup extends MiniServicesSetupPreconditions {
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void miniServicesEndorsementDeleteDelayConfigInsert() {
-		//Commented because this line should be executed before the test, otherwise its gonna failed because of the time changing
-		//DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT);
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_INSERT);
 		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSMENT_DAYS_DEFAULD_CONFIG_UPDATE);
+	}
+
+	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
+	public static void premiumTaxRateUri() {
+		DBService.get().executeUpdate(MiniServicesSetupPreconditions.AAA_PREMIUM_TAX_RATE_URI_UPDATE);
 	}
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})

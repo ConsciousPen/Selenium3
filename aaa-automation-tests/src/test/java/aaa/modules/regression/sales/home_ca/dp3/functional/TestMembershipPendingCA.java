@@ -1,14 +1,17 @@
 package aaa.modules.regression.sales.home_ca.dp3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestMembershipTemplate;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
+@StateList(states = Constants.States.CA)
 public class TestMembershipPendingCA extends TestMembershipTemplate {
     @Override
     protected PolicyType getPolicyType() {return PolicyType.HOME_CA_DP3;}
@@ -24,7 +27,7 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-17784")
     public void pas17784_AC1_CA_DP3_Pending_Option(@Optional("") String state) {
         setKeyPathsAndGenerateQuote();
@@ -41,7 +44,7 @@ public class TestMembershipPendingCA extends TestMembershipTemplate {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "17784: Align Current AAA Member for CA products (Auto and Property) with SS")
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-17784")
     public void pas17784_AC4_AC5_CA_Pending_Removed_Endorsement_DP3(@Optional("") String state) {
         addEndorsementAndCheckForMSPending();

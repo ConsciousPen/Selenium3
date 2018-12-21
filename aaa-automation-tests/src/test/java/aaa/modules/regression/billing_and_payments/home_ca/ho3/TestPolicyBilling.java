@@ -38,9 +38,16 @@ public class TestPolicyBilling extends PolicyBilling {
 	@StateList(states =  States.CA)
 	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
-	public void testBilling(@Optional("CA") String state) {
-
-		super.testBilling();
+	public void testBillingPayments(@Optional("CA") String state) {
+		super.testBillingPayments();
+	}
+	
+	@Parameters({"state"})
+	@StateList(states =  States.CA)
+	@Test(groups = {Groups.REGRESSION, Groups.BLOCKER})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.HOME_CA_HO3)
+	public void testBillingRefund(@Optional("CA") String state) {
+		super.testBillingRefund();
 	}
 
 }

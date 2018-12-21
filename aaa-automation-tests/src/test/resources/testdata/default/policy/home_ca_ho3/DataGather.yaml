@@ -37,7 +37,7 @@ GeneralTab: {
     Carrier name: 'AAA - NCNU',
     Policy type: 'HO3',
     Continuous years with HO insurance: '5',
-    Base date with AAA: '$<today:MM/dd/yyyy>'
+    #Base date with AAA: '$<today:MM/dd/yyyy>'
     }
 }
 
@@ -50,6 +50,22 @@ ApplicantTab: {
   NamedInsuredInformation: '@NamedInsuredInformation',
   AgentInfo: '@AgentInfo',
   OtherActiveAAAPolicies: {}
+}
+
+OtherActiveAAAPolicies: {
+  Other active AAA policies: "Yes",
+  Add: 'click',
+  ActiveUnderlyingPoliciesSearch: {},
+  ActiveUnderlyingPoliciesManual: '@OtherCompanionAutoPolicy'
+}
+
+OtherCompanionAutoPolicy: {
+  Policy type: Auto,
+  'Companion Auto pending with discount?':"No",
+  Auto policy state: CA,
+  Policy number: '345345345',
+  Effective date: '$<today:MM/dd/yyyy>',
+  Auto policy BI limit: '$50,000/$100,000',
 }
 
 NamedInsured: {
@@ -82,7 +98,8 @@ AgentInfo: {
 
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
-  AAAMembershipReport: [{Report: 'Order report'}],
+   AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
   CLUEreport: [{Report: 'Order report'}]

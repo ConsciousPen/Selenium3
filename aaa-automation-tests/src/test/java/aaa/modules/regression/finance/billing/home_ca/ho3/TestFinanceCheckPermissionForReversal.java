@@ -1,19 +1,18 @@
 package aaa.modules.regression.finance.billing.home_ca.ho3;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.finance.template.FinanceOperations;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.composite.table.Cell;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 
@@ -45,7 +44,7 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 
 		String policyNumber = createEscheatmentTransaction();
 
-		openAppNonPrivilegedUser("L41");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.L41);
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions
@@ -72,10 +71,9 @@ public class TestFinanceCheckPermissionForReversal extends FinanceOperations {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Finance.BILLING, testCaseId = "PAS-18992")
 	public void pas18992_testFinancePolicyEscheatmentCheckReversals_C32(@Optional("CA") String state) {
-
 		String policyNumber = createEscheatmentTransaction();
 
-		openAppNonPrivilegedUser("C32");
+		openAppNonPrivilegedUser(PrivilegeEnum.Privilege.C32);
 		SearchPage.openBilling(policyNumber);
 
 		Cell escheatmentActions = BillingSummaryPage.tablePaymentsOtherTransactions

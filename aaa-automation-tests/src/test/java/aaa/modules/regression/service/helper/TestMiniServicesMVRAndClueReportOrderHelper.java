@@ -1,15 +1,19 @@
 package aaa.modules.regression.service.helper;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
+import java.util.Comparator;
+import java.util.List;
+import javax.ws.rs.core.Response;
+import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ComparisonChain;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -18,20 +22,23 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import aaa.modules.regression.service.helper.dtoDxp.*;
+import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import javax.ws.rs.core.Response;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import org.apache.commons.lang.StringUtils;
 
 public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest {
 	private DriverTab driverTab = new DriverTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	DriverActivityReportsTab driverActivityReportsTab = new DriverActivityReportsTab();
+
+	private static final String CLUE_RECORD_TYPE = "CLUE";
+	private static final String MVR_RECORD_TYPE = "MVR";
+	private static final Comparator<DrivingRecord> DRIVING_RECORDS_COMPARATOR = (record1, record2) -> ComparisonChain.start()
+			.compareTrueFirst(MVR_RECORD_TYPE.equals(record1.activitySource), MVR_RECORD_TYPE.equals(record2.activitySource))
+			.compareTrueFirst(CLUE_RECORD_TYPE.equals(record1.activitySource), CLUE_RECORD_TYPE.equals(record2.activitySource))
+			.compare(record2.accidentDate, record1.accidentDate) // newest first
+			.result();
 
 	protected void pas16694_orderReports_not_Named_Insured_endorsementBody(PolicyType policyType) {
 		mainApp().open();
@@ -42,8 +49,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Add driver
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
-
+		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		//Update driver
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "CH", "MSS");
 		DriverWithRuleSets updateDriverResponse = HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
@@ -77,7 +83,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 
 		//Add driver
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver2 = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver2 = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//Update driver
 		updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860597", 18, "VA", "CH", "MSS");
@@ -115,7 +121,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> softly.assertThat(response.transactionEffectiveDate).isEqualTo(endorsementDate));
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("ClueNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//And update missing info for the driver
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("male", "995860596", 18, "VA", "SP", null);
@@ -149,7 +155,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> softly.assertThat(response2.transactionEffectiveDate).isEqualTo(endorsementDate));
 
 		addDriverRequest = DXPRequestFactory.createAddDriverRequest("MvrNonChargeable", "Doc", "Activity", "1999-01-31", "III");
-		addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		addedDriver =  HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 
 		//And update missing info for the driver
 
@@ -375,6 +381,38 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getCode(), ErrorDxpEnum.Errors.DRIVER_WITH_NARCOTICS_DRUGS_OR_FELONY_CONVICTIONS.getMessage(), "attributeForRules");
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
+
+	protected void pas19673_theOrderOfViolationsBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		//MVR
+		String oidDriver1 = addAndUpdateDriver(policyNumber, "Twenty", "Points", "1970-01-01", "B16848001", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList = response.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
+		//CLUE
+		String oidDriver2 = addAndUpdateDriver(policyNumber, "Three", "Claims", "1970-01-01", "B19673001", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response2 = HelperCommon.orderReports(policyNumber, oidDriver2, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList2 = response2.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList2).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
+		//CLUE and MVR
+		String oidDriver3 = addAndUpdateDriver(policyNumber, "Claims", "AndMVR", "1970-01-01", "B19673002", "CH", "VA", "male");
+
+		//Order reports through service
+		OrderReportsResponse response3 = HelperCommon.orderReports(policyNumber, oidDriver3, OrderReportsResponse.class, 200);
+		List<DrivingRecord> drivingRecordList3 = response3.drivingRecords;
+		assertSoftly(softly ->
+				softly.assertThat(drivingRecordList3).isSortedAccordingTo(DRIVING_RECORDS_COMPARATOR)
+		);
 	}
 
 	private void checkThatClueIsOrdered(int tableRowIndex, String expectedClueResponse) {
@@ -671,7 +709,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 	private String addAndUpdateDriver(String policyNumber, String firstName, String lastName, String birthDate, String licenceNumber, String relationship, String stateLicensed, String gender) {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest(firstName, null, lastName, birthDate, null);
-		DriversDto addedDriver = HelperCommon.executeEndorsementAddDriver(policyNumber, addDriverRequest);
+		DriversDto addedDriver =  HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class);
 		UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest(gender, licenceNumber, 16, stateLicensed, relationship, "SSS");
 		HelperCommon.updateDriver(policyNumber, addedDriver.oid, updateDriverRequest);
 		return addedDriver.oid;
@@ -683,7 +721,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
 		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.NAME_ON_LICENSE).getValue()).isEqualTo(name);
-		assertThat((DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue()).contains(status)).isTrue();
+		assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell(PolicyConstants.MVRReportTable.LICENSE_STATUS).getValue().contains(status)).isTrue();
 		driverActivityReportsTab.saveAndExit();
 	}
 
@@ -694,6 +732,17 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		DriverTab.tableDriverList.selectRow(2);
 		String convicDate = getAccidentViolationDate(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE);
+		driverTab.saveAndExit();
+		return convicDate;
+	}
+
+	private String pasDriverActivityReportOccurrenceDate(String policyNumber) {
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+		DriverTab.tableDriverList.selectRow(2);
+		String convicDate = getAccidentViolationDate(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE);
 		driverTab.saveAndExit();
 		return convicDate;
 	}

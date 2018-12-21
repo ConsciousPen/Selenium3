@@ -10,6 +10,8 @@ public final class ErrorDxpEnum {
 		POLICY_TERM_DOES_NOT_EXIST("Cannot endorse policy - policy term does not exist for endorsement date", "Cannot endorse policy - policy term does not exist for endorsement date"),
 		ACTION_IS_NOT_AVAILABLE("PFW093", "Action is not available"),
 		OOSE_OR_FUTURE_DATED_ENDORSEMENT("OOSE or Future Dated Endorsement Exists", "OOSE or Future Dated Endorsement Exists"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_MT("200010_MT", "Driver under the age of 21 years with a DUI is unacceptable"),
+		DUI_IS_UNACCEPTABLE_FOR_DRIVER_UNDER_THE_AGE_21_NO_VA("200010", "Driver under the age of 21 years with a DUI is unacceptable"),
 		POLICY_IS_LOCKED("Policy is locked", "Policy is locked"),
 		ENTITY_IS_LOCKED_BY_OTHER_USER("ERROR_SERVICE_INTERNAL_ERROR", "The requested entity is currently locked by other user"),
 		COULD_NOT_ACQUIRE_LOCK("Could not acquire a new lock: the requested entity is currently locked", "Could not acquire a new lock: the requested entity is currently locked"),
@@ -26,6 +28,7 @@ public final class ErrorDxpEnum {
 		MAX_NUMBER_OF_DRIVERS("AAA_SS4100066", "This policy already has 7 drivers that are not excluded.  Please contact underwriting to create a continuation policy."),
 		USAGE_IS_BUSINESS("AAA_SS1007147", "Usage is Business"),
 		REGISTERED_OWNERS("AAA_SS1007148", "Registered Owners"),
+		MORATORIUM_EXIST("AAA_SS181109", "Moratorium Exists"),
 
 		//Mvr and Clue Errors
 		ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS("OP-01", "Error occurred while executing operations"),
@@ -66,6 +69,7 @@ public final class ErrorDxpEnum {
 		MUST_HAVE_PPA("200016", "Policy must cover at least one Private Passenger Automobile"),
 		EXPENSIVE_VEHICLE("200022", "Vehicle value exceeds acceptable coverage limit"),
 		TOO_OLD_DRIVER_ERROR("AAA_SS7120048", "The date of birth provided for the Driver Available for Rating should be between 01/01/1900 and today's date"),
+		AGE_FIRST_LICENSED_GREATER_THAN_DOB("AAA_CSA10260784", "Age First Licensed is greater than Current Age"),
 
 		DRIVER_UNDER_AGE_COMMON("AAA_CSA6220000", "Drivers under age 16 must be excluded or not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_VA("AAA_CSA6220000_VA", "Drivers under age 16 must be not available for rating"), //the same as in PAS
@@ -87,6 +91,11 @@ public final class ErrorDxpEnum {
 		VERIFY_PUP_POLICY("AAA_SS180824-g8oKe", "Verify PUP Policy"),
 		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION("200103", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
 		DRIVER_WITH_THREE_OR_MORE_SPEEDING_VIOLATION_C("200103_C", "Driver with 3 or more Minor or Speeding violations are unacceptable"),
+		REVERT_DELETE_DRIVER_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on driver."),
+		REVERT_DELETE_VEHICLE_ERROR("ERROR_SERVICE_VALIDATION", "Removal can not be cancelled. Revert option is not available on vehicle."),
+		VEHICLE_CANNOT_BE_REMOVED_ERROR("ERROR_SERVICE_VALIDATION", "Vehicle cannot be removed. Remove action is not available on vehicle."),
+		VEHICLE_CANNOT_BE_ADDED_ERROR("AAA_SS181009-lwY5B", "Vehicles cannot be added with a purchase date within 30 days from the transaction effective date."),
+		DRIVER_WITH_MORE_THAN_TWO_AT_FAULT_VIOLATION_C("200105_C", "Driver with 3 or more Non-fault accidents are unacceptable."),
 	;
 
 		private final String code;
@@ -114,7 +123,6 @@ public final class ErrorDxpEnum {
 		public String getCode() {
 			return code;
 		}
-
 
 		public String getMessage() {
 			return message;

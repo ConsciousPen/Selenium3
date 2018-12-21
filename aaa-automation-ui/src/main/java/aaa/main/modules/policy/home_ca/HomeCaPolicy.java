@@ -298,9 +298,7 @@ public class HomeCaPolicy implements IPolicy {
 	}
 
 	@Override
-	public PolicyActions.RollOn rollOn() {
-		throw new NotImplementedException();
-	}
+	public PolicyActions.RollOn rollOn() {return new HomeCaPolicyActions.RollOn();}
 
 	@Override
 	public PolicyActions.UpdateRulesOverride updateRulesOverride() {

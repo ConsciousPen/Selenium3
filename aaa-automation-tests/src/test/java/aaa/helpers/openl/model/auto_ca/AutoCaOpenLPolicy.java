@@ -3,11 +3,14 @@ package aaa.helpers.openl.model.auto_ca;
 import java.util.List;
 import java.util.Map;
 import aaa.common.enums.Constants;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.helpers.openl.model.OpenLVehicle;
 
 public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends OpenLVehicle> extends OpenLPolicy {
 	protected Boolean multiCar;
+
+	@RequiredField
 	protected String nanoPolicyType;
 
 	public String getNanoPolicyType() {
@@ -29,6 +32,16 @@ public abstract class AutoCaOpenLPolicy<D extends AutoCaOpenLDriver, V extends O
 	@Override
 	public String getUnderwriterCode() {
 		return null;
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return false;
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
 	}
 
 	@Override

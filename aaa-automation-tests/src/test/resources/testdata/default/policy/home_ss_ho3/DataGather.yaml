@@ -22,7 +22,7 @@ GeneralTab: {
   Extraordinary Life Circumstance: null,
   Immediate prior carrier: 'index=2',
   Continuous years with immediate prior carrier: '5',
-  Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
+  #Property insurance base date with CSAA IG: '$<today:MM/dd/yyyy>',
 }
 
 ApplicantTab: {
@@ -39,6 +39,7 @@ ApplicantTab: {
 ReportsTab: {
   Sales Agent Agreement: 'I Agree',
   AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -415,6 +416,7 @@ AgentInfo_CT: {
 ReportsTab_CT: {
   Sales Agent Agreement: 'I Agree',
   AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   RiskMeterReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],
@@ -485,6 +487,7 @@ AgentInfo_DC: {
 ReportsTab_DC: {
   Sales Agent Agreement: 'I Agree',
   AAAMembershipReport: [{Report: 'Order report'}],
+  #AAAMembershipReport: [{Report: 'Re-order report'}],
   InsuranceScoreReport: [{Customer Agreement: 'Customer agrees', Report: 'Order report'}],
   #FirelineReport: [{Report: 'Order Report'}],
   PublicProtectionClass: [{Report: 'Order Report'}],

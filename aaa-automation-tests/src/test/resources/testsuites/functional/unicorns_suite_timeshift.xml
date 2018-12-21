@@ -1,11 +1,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Unicorns Functional Timeshift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="method" />
-    <test name="PAS-10453 Provide courtesy membership discount" parallel="methods" thread-count="1024">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="PAS-10453 Provide courtesy membership discount" parallel="methods">
         <parameter name="state" value="VA, DE, NJ, AZ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalMembershipDiscount"/>
@@ -14,17 +14,33 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalMembershipDiscount"/>
         </classes>
     </test>
-    <test name="PAS-10703 Fire related fields on the Property info tab - CW" parallel="methods" thread-count="1024">
+    <test name="PAS-10703 Fire related fields on the Property info tab - CW" parallel="methods">
         <parameter name="state" value="VA, DE, NJ, AZ, PA, MD"/>
         <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab"/>
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab"/>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <include name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <include name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <include name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestVerifyFireRelatedFieldsOnThePropertyInfoTab">
+                <methods>
+                    <include name="testVerifyFireRelatedFieldsOnThePropertyInfoTabSecondRenewal" />
+                </methods>
+            </class>
         </classes>
     </test>
 
-    <test name="PAS-12808 : Insurance Renewal Bill - Mortgagee billed versions - MD/PA" parallel="methods" thread-count="1024">
+    <test name="PAS-12808 : Insurance Renewal Bill - Mortgagee billed versions - MD/PA" parallel="methods">
         <parameter name="state" value="PA, MD"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -45,7 +61,7 @@
         </classes>
     </test>
 
-    <test name="PAS-6235: Notice of Non-Renewal Letter - Pennsylvania (PA)" parallel="methods" thread-count="1024">
+    <test name="PAS-6235: Notice of Non-Renewal Letter - Pennsylvania (PA)" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -65,7 +81,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-2662: Notice of Non-Renewal Letter - MD" parallel="methods" thread-count="1024">
+    <test name="PAS-2662: Notice of Non-Renewal Letter - MD" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -90,7 +106,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-12344: Insurance Renewal Bill - MD/PA" parallel="methods" thread-count="1024">
+    <test name="PAS-12344: Insurance Renewal Bill - MD/PA" parallel="methods">
         <parameter name="state" value="MD, PA"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
@@ -120,7 +136,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-18431: Important Notice Regarding Flood Insurance - IN, CT, MD, WV" parallel="methods" thread-count="1024">
+    <test name="PAS-18431: Important Notice Regarding Flood Insurance - IN, CT, MD, WV" parallel="methods">
         <parameter name="state" value="IN, CT, MD, WV"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
@@ -145,7 +161,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-10704, PAS-10512 Enable Fuel related and Masonry Vaneer fields on the Property info tab " parallel="methods" thread-count="1024">
+    <test name="PAS-10704, PAS-10512 Enable Fuel related and Masonry Vaneer fields on the Property info tab " parallel="methods">
         <parameter name="state" value="VA, DE, NJ, MD, PA, CT"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
@@ -154,7 +170,7 @@
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRenewalManualEntryFieldsPropertyInfoTab"/>
         </classes>
     </test>
-    <test name="PAS-13304 Home, Auto: Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement - CA Home" parallel="methods" thread-count="1024">
+    <test name="PAS-13304 Home, Auto: Renewal Premium and Minimum Due to be accurately updated after an Return Premium endorsement - CA Home" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestPremiumAndMinDueAfterRP"/>
@@ -162,13 +178,13 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestPremiumAndMinDueAfterRP"/>
         </classes>
     </test>
-    <test name="PAS-14087 Implement Subsequent Renewal Capping for Home Converted policies - CW" parallel="methods" thread-count="1024">
+    <test name="PAS-14087 Implement Subsequent Renewal Capping for Home Converted policies - CW" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestCappingForSubsequentRenewals"/>
         </classes>
     </test>
-    <test name="PAS-16526, PAS-16401 Test Renewal Bill discard and message on Bind page on Payment plan change" parallel="methods" thread-count="1024">
+    <test name="PAS-16526, PAS-16401 Test Renewal Bill discard and message on Bind page on Payment plan change" parallel="methods">
         <parameter name="state" value="DE, PA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
@@ -179,7 +195,7 @@
             <class name="aaa.modules.regression.sales.pup.functional.TestRenewalBillDiscardAndMessageOnPaymentPlanChange"/>
         </classes>
     </test>
-    <test name="PAS-16526, PAS-16401 Test Renewal message on Bind page on Payment plan change" parallel="methods" thread-count="1024">
+    <test name="PAS-16526, PAS-16401 Test Renewal message on Bind page on Payment plan change" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestRenewalMessageOnBindPageOnPaymentPlanChange"/>
@@ -188,9 +204,10 @@
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestRenewalMessageOnBindPageOnPaymentPlanChange"/>
         </classes>
     </test>
-    <test name="PAS-17479 earthquake endorsement OK" parallel="methods" thread-count="1024">
+    <test name="PAS-17479 earthquake endorsement OK" parallel="methods">
         <parameter name="state" value="OK"/>
         <classes>
+            <!-- Organic -->
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
                     <include name="pas17498_checkDocGenTrigger_Renewal"/>
@@ -211,6 +228,7 @@
                     <include name="pas17498_checkDocGenTrigger_Renewal"/>
                 </methods>
             </class>
+            <!-- Conversion -->
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestEarthquakeEndorsements">
                 <methods>
                     <exclude name="pas17479_Conversion_Privileged_NewBusiness"/>
@@ -233,7 +251,7 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-14059 Check that Conversion Specific Special Non-renewal letter is triggered on R-80" parallel="methods" thread-count="1024">
+    <test name="PAS-14059 Check that Conversion Specific Special Non-renewal letter is triggered on R-80" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestSpecialNonRenewalLetterKY"/>
@@ -243,7 +261,7 @@
             <class name="aaa.modules.regression.conversions.pup.functional.TestSpecialNonRenewalLetterKY"/>
         </classes>
     </test>
-    <test name="PAS-18432 Policy Information Sheet - KY" parallel="methods" thread-count="1024">
+    <test name="PAS-18432 Policy Information Sheet - KY" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
@@ -268,10 +286,61 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-19559 Send conversion specific print order sequence - IN" parallel="methods" thread-count="1024">
+    <test name="PAS-19559 Send conversion specific print order sequence - IN" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigSpecificFormsGeneration"/>
+        </classes>
+    </test>
+    <test name="PAS-20836 Home - Expiration Notice (AH64XX)" parallel="methods">
+        <parameter name="state" value="AZ, NY, OH, DE, CT"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.dp3.functional.TestMaigConversionHomeDP3">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas20836_expirationNoticeFormGeneration" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="PAS-20836 Auto - Expiration Notice (AH64XX)" parallel="methods">
+        <parameter name="state" value="AZ, NY, OH, KY"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto"/>
+        </classes>
+    </test>
+    <test name="PAS-18434 Important Information Regarding Your Policy - HO3, HO4, HO6 NV" parallel="methods">
+        <parameter name="state" value="NV"/>
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho3.functional.TestMaigConversionHomeHO3">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho4.functional.TestMaigConversionHomeHO4">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.document_fulfillment.home_ss.ho6.functional.TestMaigConversionHomeHO6">
+                <methods>
+                    <include name="pas18434_importantInfoRegardingYourPolicyHSIINV" />
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

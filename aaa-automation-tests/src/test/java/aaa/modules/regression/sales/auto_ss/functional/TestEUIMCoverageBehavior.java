@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -13,20 +14,14 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -65,7 +60,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
@@ -120,15 +115,12 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-11620")
     public void pas11620_PremiumChangeBetweenEnhancedAndStandardUIM(@Optional("MD") String state) {
 
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(getPolicyTD(), PremiumAndCoveragesTab.class);
 
         // Save Standard UIM Total Premium value NB
         Dollar standardUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
@@ -145,6 +137,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
+        setDoNotRenewFlag(PolicySummaryPage.getPolicyNumber());
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -159,11 +152,13 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Initiate Renewal navigate to P&C and calculate premium
         premiumAndCoveragesTab.saveAndExit();
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+        mainApp().close();
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(expDate));
         mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
 
         // Save Standard UIM Total Premium value
@@ -189,7 +184,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
@@ -228,7 +223,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
@@ -236,9 +231,12 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         mainApp().open();
         getCopiedPolicy();
         String policyNum = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+		mainApp().close();
+        setDoNotRenewFlag(policyNum);
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
+        TimeSetterUtil.getInstance().nextPhase(expDate);
 
         // open app search for policy
         mainApp().open();
@@ -248,6 +246,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyPolicySummaryPage("No");
 
         // Initiate Renewal
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
@@ -257,7 +256,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
-        purchaseRenewal(policyNum);
+        payTotalAmtDue(policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -280,7 +279,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-11620, PAS-11204, PAS-11448, PAS-11209")
     public void pas11620_testEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
@@ -303,12 +302,14 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().submitTab();
         policy.getDefaultView().fillFromTo(getConversionPolicyDefaultTD(), DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         new DocumentsAndBindTab().submitTab();
-        errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
-        errorTab.override();
-        new DocumentsAndBindTab().submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_CSACN0100);
+            errorTab.override();
+            new DocumentsAndBindTab().submitTab();
+        }
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
-        purchaseRenewal(policyNum);
+        payTotalAmtDue(policyNum);
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");
@@ -394,7 +395,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         verifyUIMVRD("No");
 
         //PAS-11204. Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
-        String euimSelectedText = "Enhanced UIM Selected";
+        String euimSelectedText = "Enhanced UIM";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
@@ -425,7 +426,7 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
     }
 
     private void verifyPolicySummaryPage(String value) {
-        String euim = "Enhanced UIM Selected";
+        String euim = "Enhanced UIM";
         String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
         TestData coveragesSummary = PolicySummaryPage.getAutoCoveragesSummaryTestData();
         assertThat(coveragesSummary.getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);
@@ -433,15 +434,5 @@ public class TestEUIMCoverageBehavior extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
-    }
-
-    private void purchaseRenewal(String policyNumber){
-        // Open Billing account and Pay min due for the renewal
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = BillingHelper.getPolicyMinimumDueAmount(policyNumber);
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-        // Open Policy
-        SearchPage.openPolicy(policyNumber);
     }
 }

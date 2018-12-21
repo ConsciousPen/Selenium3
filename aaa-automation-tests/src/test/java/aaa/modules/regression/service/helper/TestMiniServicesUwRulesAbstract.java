@@ -4,17 +4,19 @@ import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionT
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.USAGE;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.VIN;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import javax.ws.rs.core.Response;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.ErrorDxpEnum;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.*;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssertions;
@@ -275,7 +277,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			updateVehicleGaraging.garagingAddress.stateProvCd = state;
 			HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleGaraging);
 
-			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle);
+			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicle,VehicleUpdateResponseDto.class, Response.Status.OK.getStatusCode());
 			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicle);
 			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 
@@ -301,7 +303,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12852_MustHavePPA200016Body(TestData motorhomeData) {
+	protected void pas12852_MustHavePPA200016Body(TestData motorHomeData) {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
@@ -315,7 +317,7 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-			vehicleTab.fillTab(motorhomeData);
+			vehicleTab.fillTab(motorHomeData);
 			premiumAndCoveragesTab.calculatePremium();
 			premiumAndCoveragesTab.saveAndExit();
 			//TODO Adding below steps makes PAS-15483 non-reproducible
@@ -332,18 +334,22 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 			String newVehicleOid2 = helperMiniServices.vehicleAddRequestWithCheck(policyNumber, vehicleAddRequest2);
 			helperMiniServices.updateVehicleUsageRegisteredOwner(policyNumber, newVehicleOid2);*/
 
-			VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid);
-			softly.assertThat(deleteVehicleResponse.oid).isEqualTo(originalVehicleOid);
-			softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
+			ErrorResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, originalVehicleOid, ErrorResponseDto.class, 422);
 
-			ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
-			softly.assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-			softly.assertThat(rateResponse.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).errorCode).contains(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode());
-			softly.assertThat(rateResponse.errors.get(0).message).startsWith(ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage());
-			softly.assertThat(rateResponse.errors.get(0).field).isEqualTo("attributeForRules");
+			softly.assertThat(deleteVehicleResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getCode());
+			softly.assertThat(deleteVehicleResponse.message).isEqualTo(ErrorDxpEnum.Errors.VEHICLE_CANNOT_BE_REMOVED_ERROR.getMessage());
 
-			rateEndorsementInPas(policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			SearchPage.openPolicy(policyNumber);
+			PolicySummaryPage.buttonPendedEndorsement.click();
+			policy.dataGather().start();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+			VehicleTab.tableVehicleList.getRow(1).getCell(5).controls.links.get(2).click();
+			Page.dialogConfirmation.confirm();
+			premiumAndCoveragesTab.calculatePremium();
+			premiumAndCoveragesTab.saveAndExit();
+
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorDxpEnum.Errors.MUST_HAVE_PPA.getCode(), ErrorDxpEnum.Errors.MUST_HAVE_PPA.getMessage(), "attributeForRules");
 
 			SearchPage.openPolicy(policyNumber);
@@ -362,5 +368,4 @@ public abstract class TestMiniServicesUwRulesAbstract extends PolicyBaseTest {
 		premiumAndCoveragesTab.calculatePremium();
 		premiumAndCoveragesTab.saveAndExit();
 	}
-
 }

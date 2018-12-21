@@ -9,7 +9,6 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 
 @ExcelTableElement(sheetName = OpenLFile.FORM_SHEET_NAME, headerRowIndex = HomeCaHO3OpenLFile.FORM_HEADER_ROW_NUMBER)
 public class HomeCaHO3OpenLForm extends HomeCaOpenLForm {
-
 	private List<HomeCaOpenLScheduledPropertyItem> scheduledPropertyItems;
 	private Integer age;
 	private Double deductible;

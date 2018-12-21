@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -15,18 +16,11 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -74,17 +68,14 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_PremiumChangeBetweenEnhancedAndStandardUIMNanoPolicy(@Optional("MD") String state) {
 
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
 
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(tdPolicy, PremiumAndCoveragesTab.class);
 
         // Save Standard UIM Total Premium value NB
         Dollar standardUIMNBvalue = new Dollar(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getValue("Total Vehicle Term Premium"));
@@ -145,16 +136,13 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorNB(@Optional("MD") String state) {
 
         TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
+        createQuoteAndFillUpTo(tdPolicy, PremiumAndCoveragesTab.class);
 
         // Verify Behavior of EUIM/BI and EUIM/PD fields
         verifyEnhancedUIMCoverage();
@@ -191,15 +179,13 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorEndorsement(@Optional("MD") String state) {
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Initiate Policy, calculate premium
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(tdPolicy);
+        openAppAndCreatePolicy(tdPolicy);
 
         // Initiate Mid-Term Endorsement and Navigate to P&C Page.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -232,20 +218,20 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorRenewal(@Optional("MD") String state) {
 
 	    TestData tdPolicy = getTestSpecificTD("TestData_MD");
         // Create customer & policy
-        mainApp().open();
-        createCustomerIndividual();
-        createPolicy(tdPolicy);
+        String policyNum = openAppAndCreatePolicy(tdPolicy);
 
-        String policyNum = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expDate = PolicySummaryPage.getExpirationDate();
+        setDoNotRenewFlag(policyNum);
+		mainApp().close();
 
         // Change Date to policies renewals proposal date
-        TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(35));
+        TimeSetterUtil.getInstance().nextPhase(expDate);
 
         // open app search for policy
         mainApp().open();
@@ -255,6 +241,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         verifyPolicySummaryPage("No");
 
         // Initiate Renewal
+		policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 
@@ -264,7 +251,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         // Issue Policy.
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
-        purchaseRenewal(policyNum);
+        payTotalAmtDue(policyNum);
 
         // Navigate to Renewal
         PolicySummaryPage.buttonRenewals.click();
@@ -287,7 +274,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
      *@details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+    @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-12202")
     public void pas12202_testNanoPolicyEUIMCoverageBehaviorConversion(@Optional("MD") String state) {
 
@@ -319,7 +306,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
 		}
         PolicySummaryPage.buttonBackFromRenewals.click();
         String policyNum = PolicySummaryPage.getPolicyNumber();
-        purchaseRenewal(policyNum);
+        payTotalAmtDue(policyNum);
 
         // AC2 PAS-11209. Display EUIM UIPD/UIMBI in Policy Consolidated view Coverages section.
         verifyPolicySummaryPage("Yes");
@@ -388,8 +375,8 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         // Display EUIM UIMPD/UIMBI in VRD page.
         verifyUIMVRD("No");
 
-        // Display 'Enhanced UIM Selected' in 'Total Term Premium' section P&C Page.
-        String euimSelectedText = "Enhanced UIM Selected";
+        // Display 'Enhanced UIM' in 'Total Term Premium' section P&C Page.
+        String euimSelectedText = "Enhanced UIM";
         assertThat(premiumAndCoveragesTab.getTermPremiumByVehicleData().get(0).getKeys()).doesNotContain(euimSelectedText);
         enhancedUIM.setValue(true);
         premiumAndCoveragesTab.calculatePremium();
@@ -420,7 +407,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
     }
 
     private void verifyPolicySummaryPage(String value) {
-        String euim = "Enhanced UIM Selected";
+        String euim = "Enhanced UIM";
         String firstVehicle = PolicySummaryPage.getAutoCoveragesSummaryTextAt(1, 1);
         TestData coveragesSummary = PolicySummaryPage.getAutoCoveragesSummaryTestData();
         assertThat(coveragesSummary.getTestData(firstVehicle).getTestData(euim).getValue("Limit")).isEqualTo(value);
@@ -428,17 +415,5 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, summaryKeys.size() - 1).filter(i -> summaryKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(summaryKeys.get(euimIndex + 1)).isEqualTo("Uninsured/Underinsured Motorist Bodily Injury");
         assertThat(summaryKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage");
-    }
-
-    private void purchaseRenewal(String policyNumber){
-        // Open Billing account and Pay min due for the renewal
-        SearchPage.openBilling(policyNumber);
-        Dollar minDue = new Dollar(BillingSummaryPage.tableBillsStatements
-                .getRowContains(BillingConstants.BillingBillsAndStatmentsTable.TYPE, BillingConstants.BillsAndStatementsType.BILL)
-                .getCell(BillingConstants.BillingBillsAndStatmentsTable.MINIMUM_DUE).getValue());
-        new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
-
-        // Open Policy
-        SearchPage.openPolicy(policyNumber);
     }
 }

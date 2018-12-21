@@ -9,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 import org.apache.commons.io.FilenameUtils;
@@ -35,7 +34,6 @@ import aaa.helpers.openl.model.home_ca.ho4.HomeCaHO4OpenLPolicy;
 import aaa.helpers.openl.model.home_ca.ho6.HomeCaHO6OpenLPolicy;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.helpers.openl.model.pup.PUPOpenLPolicy;
-import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.ExcelUnmarshaller;
 import aaa.utils.excel.io.celltype.CellType;
 import aaa.utils.excel.io.entity.area.ExcelCell;
@@ -45,7 +43,7 @@ import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public final class OpenLTestsManager {
 	private static final Logger log = LoggerFactory.getLogger(OpenLTestsManager.class);
-	private List<OpenLTestInfo<? extends OpenLPolicy>> openLTests;
+	private final List<OpenLTestInfo<? extends OpenLPolicy>> openLTests;
 
 	public OpenLTestsManager(ITestContext context) {
 		XmlSuite parentSuite = TestNGUtils.getRootSuite(context.getSuite());
@@ -94,7 +92,7 @@ public final class OpenLTestsManager {
 	@SuppressWarnings("unchecked")
 	public <P extends OpenLPolicy> OpenLTestInfo<P> getTestInfo(String filePath) {
 		return (OpenLTestInfo<P>) this.openLTests.stream().filter(t -> Objects.equals(t.getOpenLFilePath(), filePath)).findFirst()
-				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with \"%s\" filePath", filePath)));
+				.orElseThrow(() -> new IstfException(String.format("There is no OpenLTestInfo object with [%s] filePath", filePath)));
 	}
 
 	public static String getFilePath(XmlTest test) {
@@ -109,9 +107,13 @@ public final class OpenLTestsManager {
 				//TODO-dchubkov: try to split OpenLPolicy objects creation to multi threads (just several ones due to huge memory consumption)
 				OpenLTestInfo<? extends OpenLPolicy> testInfo = new OpenLTestInfo<>();
 				try {
-					testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
+					boolean isLocalFile = Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test));
+					testInfo.setLocalFile(isLocalFile);
+					if (!isLocalFile) {
+						testInfo.setOpenLFileBranch(TestParams.TESTS_BRANCH.getValue(test));
+					}
 					testInfo.setOpenLFilePath(getFilePath(test));
-					testInfo.setOpenLPolicies(getOpenLPolicies(test));
+					testInfo.setOpenLPolicies(getOpenLPolicies(test, isLocalFile));
 				} catch (Throwable e) {
 					testInfo.setException(e);
 				}
@@ -122,38 +124,43 @@ public final class OpenLTestsManager {
 		return openLTests;
 	}
 
-	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test) throws Throwable {
-		String filePath = getFilePath(test);
-		File openLFile;
-
-		boolean deleteFileAfterUnmarshalling = false;
-		if (Boolean.valueOf(TestParams.LOCAL_TESTS.getValue(test))) {
-			openLFile = new File(filePath);
-		} else {
-			openLFile = downloadOpenLFile(filePath, TestParams.TESTS_BRANCH.getValue(test));
-			deleteFileAfterUnmarshalling = true;
-		}
-
+	private <P extends OpenLPolicy> List<P> getOpenLPolicies(XmlTest test, boolean isLocalFile) throws Throwable {
 		List<P> openLPolicies;
 		List<OpenLTest> openLTests;
 		List<CellType<?>> cellTypes = Arrays.asList(ExcelCell.INTEGER_TYPE, ExcelCell.DOUBLE_TYPE, ExcelCell.BOOLEAN_TYPE, ExcelCell.LOCAL_DATE_TYPE, ExcelCell.STRING_TYPE, ExcelCell.DOLLAR_CELL_TYPE);
 		List<Integer> policyNumbers = parsePolicyNumbers(TestParams.POLICY_NUMBERS.getValue(test));
-		Class<P> openLPolicyModel = OpenLPolicyType.of(test).getOpenLPolicyModel();
+		Class<?> openLPolicyModel = getOpenLPolicyModel(test);
+		assertThat(OpenLPolicy.class).as("OpenL policy model class should extend OpenL base class", openLPolicyModel.getName(), OpenLPolicy.class.getName())
+				.isAssignableFrom(openLPolicyModel);
 
-		log.info("Getting OpenLPolicy objects from \"{}\" file", openLFile);
+		File openLFile = isLocalFile ? new File(getFilePath(test)) : downloadOpenLFile(getFilePath(test), TestParams.TESTS_BRANCH.getValue(test));
+		log.info("Getting {} objects from \"{}\"{} file", openLPolicyModel.getSimpleName(), openLFile, isLocalFile ? " local" : "");
 		try (ExcelUnmarshaller excelUnmarshaller = new ExcelUnmarshaller(openLFile, false, cellTypes)) {
-			openLPolicies = excelUnmarshaller.unmarshalRows(openLPolicyModel, policyNumbers);
+			//noinspection unchecked
+			openLPolicies = excelUnmarshaller.unmarshalRows((Class<P>) openLPolicyModel, policyNumbers);
 			openLTests = excelUnmarshaller.unmarshalRows(OpenLTest.class, policyNumbers);
 		} finally {
-			if (deleteFileAfterUnmarshalling) {
+			if (!isLocalFile) {
 				deleteTempFile(openLFile);
 			}
 		}
 
 		for (OpenLPolicy policy : openLPolicies) {
+			assertThat(policy.isProper()).as("%1$s object has null value(s) in required mandatory openl field(s). Check test [%2$s] within suite [%3$s] with policy number %4$s.\n"
+							+ "Possible reasons:\n"
+							+ "1) Incorrect policy model class used for excel file unmarshalling. Please double check [%5$s] parameter (or [%6$s] and [%7$s] parameters if you rely on them for correct policy model class detection);\n"
+							+ "2) Provided openl excel file has incompatible test data;\n"
+							+ "3) Policy model class has field with @RequiredField annotation which value can be null (or empty list)\n"
+							+ "Please double check warnings in this test log with such field names",
+					openLPolicyModel.getSimpleName(), test.getName(), test.getSuite().getFileName(), policy.getNumber(),
+					TestParams.POLICY_MODEL_CLASS.getNameInXml(), TestParams.TESTS_DIR.getNameInXml(), TestParams.TEST_FILENAME.getNameInXml())
+					.isTrue();
+
 			OpenLTest openLTest = openLTests.stream().filter(t -> Objects.equals(t.getPolicy(), policy.getNumber())).findFirst()
 					.orElseThrow(() -> new IstfException("There is no test for policy number " + policy.getNumber()));
-			Dollar expectedPremium = policy.getTerm() == 6 ? openLTest.getTotalPremium().divide(2) : openLTest.getTotalPremium();
+			Dollar totalPremium = openLTest.getTotalPremium();
+			assertThat(totalPremium).as("Total Premium is null for policy number %1$s in test '%2$s' within suite '%3$s'", policy.getNumber(), test.getName(), test.getSuite().getFileName()).isNotNull();
+			Dollar expectedPremium = policy.getTerm() == 6 ? totalPremium.divide(2) : totalPremium;
 			policy.setExpectedPremium(expectedPremium);
 			if (policy.getState() == null) {
 				policy.setState(openLTest.getState());
@@ -161,6 +168,61 @@ public final class OpenLTestsManager {
 		}
 
 		return openLPolicies;
+	}
+
+	private Class<?> getOpenLPolicyModel(XmlTest test) {
+		String modelClassPath = TestParams.POLICY_MODEL_CLASS.getValue(test);
+		if (StringUtils.isNotBlank(modelClassPath)) {
+			log.info("Getting policy model class by \"{}\" parameter", TestParams.POLICY_MODEL_CLASS.getNameInXml());
+			try {
+				return Class.forName(modelClassPath);
+			} catch (ClassNotFoundException e) {
+				throw new IstfException(String.format("Class [%1$s] cannot be located, double check [%2$s] parameter in test [%3$s] within suite [%4$s]",
+						modelClassPath, TestParams.POLICY_MODEL_CLASS.getNameInXml(), test.getName(), test.getSuite().getFileName()));
+			}
+		}
+
+		log.info("Trying to identify policy model class by \"{}\" and \"{}\" parameters", TestParams.TESTS_DIR.getNameInXml(), TestParams.TEST_FILENAME.getNameInXml());
+		String testsDir = TestParams.TESTS_DIR.getValue(test);
+		String fileName = TestParams.TEST_FILENAME.getValue(test);
+		if (testsDir.startsWith("aaa-rating-rules-ss") || testsDir.contains("auto_ss")) {
+			return AutoSSOpenLPolicy.class;
+		}
+
+		if (testsDir.startsWith("aaa-rating-rules-ca") || testsDir.contains("auto_ca")) {
+			if (fileName.contains("CASelect")) {
+				return AutoCaSelectOpenLPolicy.class;
+			}
+			if (fileName.contains("CAChoice")) {
+				return AutoCaChoiceOpenLPolicy.class;
+			}
+		}
+
+		if (testsDir.startsWith("aaa-rating-rules-home-ca") || testsDir.contains("home_ca")) {
+			if (fileName.startsWith("HO3")) {
+				return HomeCaHO3OpenLPolicy.class;
+			}
+			if (fileName.startsWith("HO4")) {
+				return HomeCaHO4OpenLPolicy.class;
+			}
+			if (fileName.startsWith("HO6")) {
+				return HomeCaHO6OpenLPolicy.class;
+			}
+			if (fileName.startsWith("DP3")) {
+				return HomeCaDP3OpenLPolicy.class;
+			}
+		}
+
+		if (testsDir.startsWith("aaa-rating-rules-home") || testsDir.contains("home_ss")) {
+			return HomeSSOpenLPolicy.class;
+		}
+
+		if (testsDir.startsWith("aaa-rating-rules-pup") || testsDir.contains("pup")) {
+			return PUPOpenLPolicy.class;
+		}
+
+		throw new IstfException(String.format("Unable to retrieve appropriate policy model class by %1$s=[%2$s] and %3$s=[%4$s] parameters in test [%5$s] within suite [%6$s]",
+				TestParams.TESTS_DIR.getNameInXml(), testsDir, TestParams.TEST_FILENAME.getNameInXml(), fileName, test.getName(), test.getSuite().getFileName()));
 	}
 
 	private File downloadOpenLFile(String filePath, String branchName) throws Throwable {
@@ -185,7 +247,7 @@ public final class OpenLTestsManager {
 				} catch (RuntimeException ignore) {
 				}
 
-				throw new IstfException(String.format("Error occurs while reading file from URL \"%1$s\". Status %2$s, reason \"%3$s\", response mesage: \"%4$s\"",
+				throw new IstfException(String.format("Error occurs while reading file from URL [%1$s]. Status %2$s, reason [%3$s], response mesage: [%4$s]",
 						url, response.getStatusInfo().getStatusCode(), response.getStatusInfo().getReasonPhrase(), responseMessage));
 			}
 
@@ -215,12 +277,12 @@ public final class OpenLTestsManager {
 					}
 				} else {
 					deleteTempFile(openLFile);
-					throw new IstfException(String.format("Error occurs while reading from an input stream to a \"%s\" temp file", openLFile), e);
+					throw new IstfException(String.format("Error occurs while reading from an input stream to a [%s] temp file", openLFile), e);
 				}
 			}
 		}
 
-		throw new IstfException(String.format("Reading from an input stream of \"%1$s\" file has been failed after %2$s attempts", filePath, maxInputStreamAttemptsNumber));
+		throw new IstfException(String.format("Reading from an input stream of [%1$s] file has been failed after %2$s attempts", filePath, maxInputStreamAttemptsNumber));
 	}
 
 	private void deleteTempFile(File openLFile) {
@@ -247,7 +309,7 @@ public final class OpenLTestsManager {
 			try {
 				policyNumber = Integer.parseInt(p.trim());
 			} catch (NumberFormatException e) {
-				throw new IstfException(String.format("Unable get policy number from \"%s\" string.", p), e);
+				throw new IstfException(String.format("Unable get policy number from [%s] string.", p), e);
 			}
 			policyNumbers.add(policyNumber);
 		}
@@ -269,7 +331,7 @@ public final class OpenLTestsManager {
 		TESTS_DIR("testsDir", null, true, ""),
 		LOCAL_TESTS("localTests", null, false, "false"), TESTS_BRANCH("testsBranch", CsaaTestProperties.RATING_REPO_BRANCH, false, "master"),
 		TEST_FILENAME("fileName", null, true, ""),
-		POLICY_TYPE("policyType", null, true, ""),
+		POLICY_MODEL_CLASS("policyModelClass", null, false, ""),
 		POLICY_NUMBERS("policyNumbers", null, false, "");
 
 		private final String nameInXml;
@@ -307,59 +369,12 @@ public final class OpenLTestsManager {
 			}
 
 			if (isMandatory()) {
-				assertThat(value).as("There is no \"%1$s\" parameter neither in test \"%2$s\" nor in its suite \"%3$s\"", getNameInXml(), test.getName(), test.getSuite().getFileName()).isNotNull();
+				assertThat(value).as("There is no [%1$s] parameter neither in test [%2$s] nor in its suite [%3$s]", getNameInXml(), test.getName(), test.getSuite().getFileName()).isNotNull();
 			}
 			if (StringUtils.isBlank(value)) {
 				return getDefaultValue();
 			}
 			return value;
-		}
-	}
-
-	private enum OpenLPolicyType {
-		AUTO_CA_SELECT(PolicyType.AUTO_CA_SELECT.getShortName(), AutoCaSelectOpenLPolicy.class),
-		AUTO_CA_CHOICE(PolicyType.AUTO_CA_CHOICE.getShortName(), AutoCaChoiceOpenLPolicy.class),
-		AUTO_SS(PolicyType.AUTO_SS.getShortName(), AutoSSOpenLPolicy.class),
-		HOME_SS("HomeSS", HomeSSOpenLPolicy.class),
-		HOME_SS_HO3(PolicyType.HOME_SS_HO3.getShortName(), HomeSSOpenLPolicy.class),
-		HOME_SS_HO4(PolicyType.HOME_SS_HO4.getShortName(), HomeSSOpenLPolicy.class),
-		HOME_SS_HO6(PolicyType.HOME_SS_HO6.getShortName(), HomeSSOpenLPolicy.class),
-		HOME_SS_DP3(PolicyType.HOME_SS_DP3.getShortName(), HomeSSOpenLPolicy.class),
-		HOME_CA_HO3(PolicyType.HOME_CA_HO3.getShortName(), HomeCaHO3OpenLPolicy.class),
-		HOME_CA_HO4(PolicyType.HOME_CA_HO4.getShortName(), HomeCaHO4OpenLPolicy.class),
-		HOME_CA_HO6(PolicyType.HOME_CA_HO6.getShortName(), HomeCaHO6OpenLPolicy.class),
-		HOME_CA_DP3(PolicyType.HOME_CA_DP3.getShortName(), HomeCaDP3OpenLPolicy.class),
-		PUP(PolicyType.PUP.getShortName(), PUPOpenLPolicy.class);
-
-		private final String name;
-		private final Class<? extends OpenLPolicy> openLPolicyModel;
-
-		OpenLPolicyType(String name, Class<? extends OpenLPolicy> openLPolicyModel) {
-			this.name = name;
-			this.openLPolicyModel = openLPolicyModel;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		@SuppressWarnings("unchecked")
-		public <P extends OpenLPolicy> Class<P> getOpenLPolicyModel() {
-			return (Class<P>) openLPolicyModel;
-		}
-
-		public static OpenLPolicyType of(XmlTest test) {
-			String typeName = TestParams.POLICY_TYPE.getValue(test);
-			OpenLPolicyType type = of(typeName);
-
-			assertThat(type).as("\"%1$s\" parameter has unknown value \"%2$s\" in test \"%3$s\" within suite \"%4$s\". Only these policy type values are allowed: %5$s",
-					TestParams.POLICY_TYPE.getNameInXml(), typeName, test.getName(), test.getSuite().getFileName(), Arrays.stream(OpenLPolicyType.values()).map(OpenLPolicyType::getName).collect(Collectors.toList()))
-					.isNotNull();
-			return type;
-		}
-
-		private static OpenLPolicyType of(String name) {
-			return Arrays.stream(OpenLPolicyType.values()).filter(type -> type.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
 		}
 	}
 }

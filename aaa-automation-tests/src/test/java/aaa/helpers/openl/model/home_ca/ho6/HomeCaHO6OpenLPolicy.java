@@ -4,24 +4,38 @@ import static aaa.helpers.openl.model.OpenLFile.POLICY_HEADER_ROW_NUMBER;
 import static aaa.helpers.openl.model.OpenLFile.POLICY_SHEET_NAME;
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.home_ca.HomeCaOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.HomeCaHO6TestDataGenerator;
+import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, HomeCaHO6OpenLDwelling> {
+	@RequiredField
 	private HomeCaHO6OpenLDwelling dwelling;
+
+	@RequiredField
 	private List<HomeCaHO6OpenLForm> forms;
+
+	@RequiredField
 	private List<HomeCaHO6OpenLCoverage> coverages;
 
+	@RequiredField
 	private Double covALimit;
+
+	@RequiredField
 	private Double covELimit;
+
+	@RequiredField
 	private Double deductible;
 	private Boolean hasEmployeeDiscount;
 	private Integer ageOfOldestInsured;
 	private Boolean hasPolicySupportingForm;
 	private Boolean hasSeniorDiscount;
+
+	@RequiredField
 	private Boolean hasAutoPolicy;
 	private Boolean hasCeaPolicy;
 	private Boolean isRented;
@@ -139,6 +153,11 @@ public class HomeCaHO6OpenLPolicy extends HomeCaOpenLPolicy<HomeCaHO6OpenLForm, 
 
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
+	}
+
+	@Override
+	public PolicyType getTestPolicyType() {
+		return PolicyType.HOME_CA_HO6;
 	}
 
 	@Override

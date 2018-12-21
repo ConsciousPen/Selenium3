@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.pup.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,19 +20,12 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.pup.defaulttabs.BindTab;
-import aaa.main.modules.policy.pup.defaulttabs.ErrorTab;
-import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
-import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksAutoTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderlyingRisksPropertyTab;
-import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
+import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.PA)
 public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTest {
@@ -413,7 +407,7 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
 	 */
 	@Parameters({"state"})
 	@StateList(states = Constants.States.NY)
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-14037")
 	public void pas14037_testNYMarketTierLockVRD(@Optional("NY") String state) {
 
@@ -535,4 +529,3 @@ public class TestPupInfoSectionViewRatingDetails extends PersonalUmbrellaBaseTes
     }
 
 }
-

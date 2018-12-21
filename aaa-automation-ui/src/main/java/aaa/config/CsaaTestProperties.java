@@ -4,6 +4,8 @@ import toolkit.config.TestProperties;
 
 public class CsaaTestProperties extends TestProperties {
 
+	public static final String BROWSER_SET_HEADLESS = "browser.headless";
+
 	public static final String AD_PORT = "app.ad.port";            //	e.g. "9082"
 	public static final String AD_PATH = "app.ad.path";            //	e.g. "/aaa-admin/admin/login.xhtml"
 	public static final String OR_PATH = "app.or.path";
@@ -43,4 +45,8 @@ public class CsaaTestProperties extends TestProperties {
 	public static final String OPENL_RATING_LOGS_FILENAME_REGEXP = "openl.rating.logs.filename.regexp"; // for openl tests only - regexp which matches with all rating log filenames including initial one (e.g. "aaa-rating-engine-app.log, aaa-rating-engine-app.log.1, etc...")
 	public static final String OPENL_ATTACH_RATING_LOGS = "openl.attach.rating.logs"; // for openl tests only, available values: "true|always|all" to attach logs always and "failed" to attach only if test fails
 	public static final String OPENL_ARCHIVE_RATING_LOGS = "openl.archive.rating.logs"; // for openl tests only - make zip archive of grabbed logs, available values: true, false
+	public static final String PAS_ADMIN_LOG_FOLDER = "pas.admin.logs.folder";
+	public static final String JIRA_URL = "jira.url";
+	public static final String JIRA_LOGIN = "jira.login";
+	public static final String JIRA_PASSWORD = "jira.password";
 }

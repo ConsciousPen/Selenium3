@@ -1,23 +1,5 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
-import static aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -27,17 +9,22 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.wiremock.HelperWireMockStub;
+import aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
+import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
-import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import aaa.modules.regression.service.helper.wiremock.HelperWireMockStub;
-import aaa.modules.regression.service.helper.wiremock.dto.LastPaymentTemplateData;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -48,7 +35,22 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 
-public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
+public class TestRefundProcess extends PolicyBaseTest implements TestRefundProcessPreConditions {
 
 	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static final String MESSAGE_CREDIT_CARD = "Credit Card Visa-4113 expiring 01/22";
@@ -89,11 +91,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
-	public static void refundDocumentGenerationConfigCheck() {
-		assertThat(DBService.get().getValue(REFUND_DOCUMENT_GENERATION_CONFIGURATION_CHECK_SQL))
-				.as("The configuration is missing, run refundDocumentGenerationConfigInsert and restart the env.").isNotEmpty();
-	}
-
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void pendingRefundPaymentMethodConfigCheck() {
 		assertThat(DBService.get().getValue(PENDING_REFUND_PAYMENT_METHOD_CONFIG_CHECK))
@@ -101,8 +98,7 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	public static void eRefundLastPaymentMethodConfigCheck() {
-		assertThat(DBService.get().getValue(REFUND_CONFIG_CHECK)).as("eRefunds lookup value is not true, please run REFUND_CONFIG_INSERT").isPresent();
-		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
+			assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
 		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
 				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);
@@ -112,7 +108,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2186", "PAS-1936", "PAS-7057"})
 	public void pas2186_ManualRefundUnissuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -136,7 +131,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
 	public void pas2719_ManualRefundUnissuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -166,7 +160,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
 	public void pas2719_ManualRefundUnissuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate1 = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "22";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate1, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -196,7 +189,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
 	public void pas2719_ManualRefundUnissuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -226,7 +218,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
@@ -251,7 +242,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10";
@@ -282,7 +272,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1939", "PAS-7231"})
 	public void pas7231_AutomatedRefundUnissuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
@@ -313,7 +302,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7063", "PAS-1936", "PAS-7231"})
 	public void pas7063_AutomatedRefundUnissuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
@@ -343,7 +331,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732", "PAS-450"})
 	public void pas1939_ManualRefundUnissuedIssuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) throws IOException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -370,7 +357,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732", "PAS-450"})
 	public void pas1939_ManualRefundUnissuedIssuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IOException, IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -404,7 +390,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732", "PAS-450"})
 	public void pas1936_ManualRefundUnissuedIssuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IOException, IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -438,7 +423,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-1939", "PAS-6152", "PAS-2732", "PAS-450"})
 	public void pas1936_ManualRefundUnissuedIssuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IOException, IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -473,7 +457,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedCheck(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
@@ -505,7 +488,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
@@ -538,7 +520,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
@@ -571,7 +552,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-6144", "PAS-7193", "PAS-6415"})
 	public void pas6415_AutomatedRefundUnissuedIssuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
@@ -604,7 +584,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2727")
 	public void pas2727_ManualRefundUnissuedIssuedProcessedCheck(@org.testng.annotations.Optional("VA") String state) {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -623,10 +602,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2728")
 	public void pas2728_ManualRefundUnissuedIssuedProcessedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -654,7 +632,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2728")
 	public void pas2728_ManualRefundUnissuedIssuedProcessedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -682,7 +659,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-2728")
 	public void pas2728_ManualRefundUnissuedIssuedProcessedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -710,7 +686,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-4251")
 	public void pas4251_AutomatedRefundUnissuedIssuedProcessedCheck(@org.testng.annotations.Optional("VA") String state) {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.01";
@@ -733,7 +708,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "10.00";
@@ -762,7 +736,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.99";
@@ -791,7 +764,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-6144")
 	public void pas6144_AutomatedRefundUnissuedIssuedProcessedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "30.01";
@@ -820,7 +792,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas455_ManualRefundVoidedWithAllocationCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "9.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -844,10 +815,9 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, priority = 1)
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas5743_EnterTooMuchAndGetMessage(@org.testng.annotations.Optional("VA") String state) {
-		refundDocumentGenerationConfigCheck();
 		String policyNumber = policyCreation();
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		assertSoftly(softly -> {
@@ -885,7 +855,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas455_ManualRefundVoidedWithAllocationDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -912,7 +881,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-455", "PAS-456"})
 	public void pas455_ManualRefundVoidedWithAllocationACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33.00";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
@@ -939,7 +907,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationCreditCard(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "9.00";
@@ -967,7 +934,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationDebitCard(@org.testng.annotations.Optional("AZ") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "21.00";
@@ -994,7 +960,6 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = "PAS-456")
 	public void pas456_AutomatedRefundVoidedWithAllocationACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-		refundDocumentGenerationConfigCheck();
 		LocalDateTime refundTimePoint = getTimePoints().getRefundDate(TimeSetterUtil.getInstance().getCurrentTime());
 		String refundDate = refundTimePoint.format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33.00";
@@ -1297,7 +1262,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 
 	private String policyCreation() {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
+		createCustomerIndividual();
+		String policyNumber = createPolicy();
 		log.info("policyNumber: {}", policyNumber);
 		return policyNumber;
 	}

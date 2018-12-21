@@ -7,6 +7,9 @@ package aaa.main.modules.policy.auto_ca.defaulttabs;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import toolkit.datax.TestData;
+import org.openqa.selenium.By;
+import toolkit.webdriver.controls.Button;
+import static aaa.admin.modules.IAdmin.log;
 
 /**
  * Implementation of a specific tab in a workspace.
@@ -17,6 +20,8 @@ import toolkit.datax.TestData;
 public class MembershipTab extends Tab {
 
 	private static final Object lock = new Object();
+
+	public static Button orderReportButton = new Button(By.xpath("" + "//input[@id='policyDataGatherForm:submitReports']"));
 
 	public MembershipTab() {
 		super(AutoCaMetaData.MembershipTab.class);
@@ -34,5 +39,17 @@ public class MembershipTab extends Tab {
 			super.fillTab(td);
 		}
 		return this;
+	}
+
+	/**
+	 * Simply evaluates if the 'Order Report' button is present. If present, it clicks it.
+	 * @author Tyrone Jemison
+	 */
+	public void orderMembershipReport() {
+		if(orderReportButton.isPresent()) {
+			orderReportButton.click();
+		}else {
+			log.error("[QADEBUG] orderMembershipReport() failed! Button present = false");
+		}
 	}
 }

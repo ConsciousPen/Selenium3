@@ -2,6 +2,7 @@ package aaa.helpers.openl.model.auto_ss;
 
 import java.util.ArrayList;
 import java.util.List;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.OpenLVehicle;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
@@ -9,17 +10,26 @@ import aaa.utils.excel.bind.annotation.ExcelTableElement;
 @ExcelTableElement(containsSheetName = OpenLFile.VEHICLE_SHEET_NAME, headerRowIndex = OpenLFile.VEHICLE_HEADER_ROW_NUMBER)
 public class AutoSSOpenLVehicle extends OpenLVehicle {
 
+	@RequiredField
 	protected List<AutoSSOpenLCoverage> coverages;
 	private AutoSSOpenLDriver ratedDriver;
+
+	@RequiredField
 	private String airbagCode;
+
+	@RequiredField
 	private String antiTheftString;
 	private Boolean isHybrid;
 	private Boolean isTelematic; // OR specific
 	private Boolean isTeenTelematic; // CT specific ?
 	private Boolean newCarAddedProtection;
 	private Integer safetyScore;
+	@RequiredField
 	private String usage;
+
+	@RequiredField
 	private Integer vehicleAge;
+
 	private Boolean isABS; // NY specific
 	private Boolean isDaytimeRunning; // NY specific
 	private String firstOrAddlVehicle; // NJ specific

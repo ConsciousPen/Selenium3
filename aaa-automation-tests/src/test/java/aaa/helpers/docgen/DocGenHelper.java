@@ -34,7 +34,7 @@ public class DocGenHelper {
 	public static final String DOCGEN_BATCH_SOURCE_FOLDER = DOCGEN_SOURCE_FOLDER + "Batch/";
 	public static final String JOBS_DOCGEN_SOURCE_FOLDER = "/home/mp2/pas/sit/PAS_B_EXGPAS_DCMGMT_6500_D/outbound/";
 	public static final DateTimeFormatter DATE_TIME_FIELD_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T00:00:00.000'XXX");
-	private static final int DOCUMENT_GENERATION_TIMEOUT = 30;
+	private static final int DOCUMENT_GENERATION_TIMEOUT = 40;
 
 	private static Logger log = LoggerFactory.getLogger(DocGenHelper.class);
 
@@ -336,7 +336,7 @@ public class DocGenHelper {
 				document = null;
 			}
 			if (document != null) {
-				return document;
+				break;
 			}
 			try {
 				TimeUnit.SECONDS.sleep(conditionCheckPoolingIntervalInSeconds);
@@ -348,7 +348,9 @@ public class DocGenHelper {
 		long searchTime = System.currentTimeMillis() - searchStart;
 
 		if (assertExists) {
-			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotNull();
+			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" not found. Search time:  \"{1}\"", docId.getId(), searchTime)).isNotNull();
+		} else {
+			assertThat(document).as(MessageFormat.format("Xml document \"{0}\" found. Document should not exist", docId.getId())).isNull();
 		}
 		log.info(MessageFormat.format((document == null ? "Document not found " : "Found document ") + "\"{0}\" after {1} milliseconds", docId.getId(), searchTime));
 		return document;

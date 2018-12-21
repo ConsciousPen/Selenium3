@@ -17,6 +17,9 @@ public class VersionsConflictConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, Los Angeles, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
+			.putAll("AAA Membership report.Order Date", "","")
+			.putAll("AAA Membership report.Receipt Date", "", "")
+			.putAll("AAA Membership report.Status", "Active","")
 			//Policy Information
 			.putAll("Policy Information.Agency Location","400001105","")
 			.putAll("Policy Information.Agency of Record","400001005","400000092")
@@ -52,16 +55,14 @@ public class VersionsConflictConstants {
 			.putAll("Drivers.NBFirstName NB NBLastName.Good Driver Discount", "false","true")
 			.putAll("Drivers.NBFirstName NB NBLastName.Smoker: Cigarettes, cigars or pipes", "true","false")
 			.putAll("Drivers.NBFirstName NB NBLastName.Financial Responsibility Filling Needed", "false","true")
-			//TODO return when Activity section is done
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points","","0")
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points","0","")
-			//.putAll("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?","false","true")
 			//Vehicle Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Year","1998","2003")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Make","DODG","MERZ")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Model","CARAVAN","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Series","GRAND CARAVAN SE/SPORT","SL500R")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Body Style","SPORT VAN","ROADSTER")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Comp Symbol", "7","27")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Coll Symbol", "7","27")
 			//TODO should be return to TD when True/False vs Yes/No is fixed
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Salvaged?", "true","false")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is the vehicle used in any commercial business operations?", "","false")
@@ -70,17 +71,13 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Alternative Fuel Vehicle","true","false")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "false", "true")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Bell, CA, 90201","VII garaging address 1, VII garaging address 2, Culver City, CA, 90232")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "NB residence address 1, NB residence address 2, Bell, Los Angeles, CA, 90201","VII garaging address 1, VII garaging address 2, Culver City, CA, 90232")
 			//Usage Based Insurance
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", "false","true")
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, VII ownership address 2, Bell, CA, 55440-0674","")
-			//Ownership address
-			/*			.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Ownership Type", "Financed","Owned")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).First Name", "LI011","")
-						.putAll("Vehicle Information (1998, DODGE, CARAVAN, SPORT VAN).Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")*/
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, MINNEAPOLIS, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).First Name", "First Name version1", "First Name version2")
 			.putAll("Additional Interest Information (First Name version2, Second Name version2).Second Name", "Second Name version1", "Second Name version2")
@@ -115,6 +112,7 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -178,14 +176,6 @@ public class VersionsConflictConstants {
 			.put("Drivers.NBFirstName NB NBLastName.New Driver Certification Number", "New Driver Certification Number")
 			.put("Drivers.NBFirstName NB NBLastName.Mature Driver Course Completion Date", "Mature Driver Course Completion Date")
 			.put("Drivers.NBFirstName NB NBLastName.Filling Type", "Filling Type")
-			//TODO return when Activity section is done
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", "Type")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", "Description")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", "Occurrence Date")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", "Loss Payment Amount")
-			//TODO should be returned after implementing story for Clean up for Activity Information
-			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			//.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
@@ -208,20 +198,16 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> NAMED_INSURED_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.VIFirstName VI VILastName.A A A Claims Report Order.First Name", CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.A A A Claims Report Order.Last Name", CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.AAAMvr Report Order.First Name",CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.AAAMvr Report Order.Last Name",CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.First Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Title", AVAILABLE)
-					.put("Named Insureds.VIFirstName VI VILastName.First Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Middle Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Last Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Suffix", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Base Date",CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Residential Address", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Move-In Date", AVAILABLE)
-					.put("Named Insureds.VIFirstName VI VILastName.Mailing Address", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order.First Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order.Last Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order.First Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order.Last Name",CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Title", AVAILABLE)
+					.put("Named Insureds.VIIFirstName VII VIILastName.First Name", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Base Date",CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Residential Address", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", AVAILABLE)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", CURRENT)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -252,12 +238,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAAMembership Order.Member Since", CURRENT)
-					.put("AAAMembership Order.Order Date", CURRENT)
-					.put("AAAMembership Order.Receipt Date", CURRENT)
-					.put("AAAMembership Order.Status", CURRENT)
-					.put("AAAMembership Order.Membership Total Years", CURRENT)
-					.put("AAAMembership Order.Total ERS Usage", CURRENT)
 					.put("AAA Products Owned.Current AAA Member", CURRENT)
 					.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 					.put("AAA Products Owned.Life Policy #", CURRENT)
@@ -289,7 +269,10 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> AAA_PRODUCT_OWNED_VERSION_1 = ImmutableListMultimap.<String, String>builder()
-			.put("AAAMembership Order", "Receipt Date")
+			.put("AAA Membership report", "Membership No.")
+			.put("AAA Membership report", "Order Date")
+			.put("AAA Membership report", "Receipt Date")
+			.put("AAA Membership report", "Status")
 			.put("AAA Products Owned", "Current AAA Member")
 			.put("AAA Products Owned", "Membership Number")
 			.put("AAA Products Owned", "Override Type")
@@ -302,7 +285,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> CONTACT_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
 					.put("Contact Information.Home Phone Number", CURRENT)
 					.put("Contact Information.Work Phone Number", AVAILABLE)
 					.put("Contact Information.Mobile Phone Number", CURRENT)
@@ -414,15 +396,6 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Gender", AVAILABLE)
-					//TODO return when Activity section is done
-					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Claim Points", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Violation points", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Include in Points and/or Tier?", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
@@ -433,26 +406,11 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Date of Birth", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
-					//TODO return when Activity section is done
-					/*					.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Type", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Description", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Occurrence Date", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Loss Payment Amount", AVAILABLE)
-										.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating).Not Included in Points and/or Tier - Reason Codes", AVAILABLE)*/
 					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_2 = ImmutableListMultimap.<String, String>builder()
-			//TODO return when Activity section is done
-			/*			.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Type")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Description")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Occurrence Date")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Loss Payment Amount")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Claim Points")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Violation points")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Include in Points and/or Tier?")
-						.put("Activity Information (Comprehensive Claim, 06/20/2018, Included in Rating)", "Not Included in Points and/or Tier - Reason Codes")*/
 			.build();
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
@@ -485,15 +443,15 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.VIN", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.VIN", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.VIN", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.VIN", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE
@@ -511,6 +469,8 @@ public class VersionsConflictConstants {
 			.put("Vehicles.1998, DODGE, CARAVAN", "Model")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Series")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Body Style")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Comp Symbol")
+			.put("Vehicles.1998, DODGE, CARAVAN", "Coll Symbol")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Primary Use")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Is the vehicle used in any commercial business operations?")
 			.put("Vehicles.1998, DODGE, CARAVAN", "Business Use Description")

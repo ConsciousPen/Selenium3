@@ -1,10 +1,8 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
@@ -14,6 +12,7 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -21,8 +20,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMethods {
 
@@ -93,27 +90,13 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         documentsAndBindTab.submitTab();
 
-        //Conflicts page
-        Table tableDifferences = PolicySummaryPage.tableDifferences;
-        int columnsCount = tableDifferences.getColumnsCount();
-
-        Link linkTriangle = provideLinkExpandComparisonTree(Collections.singletonList(0));
-        if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
-            linkTriangle.click();
-
-            Link linkSetCurrent = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Current");
-            Link linkSetAvailable = tableDifferences.getRow(2).getCell(columnsCount).controls.links.get("Available");
-
+        //Conflicts/differences page
+	    DifferencesActionTab differencesActionTab = new DifferencesActionTab();
             if (scenario.equals(NOT_MATCHED) || scenario.equals(STUB)) { //scenario 1 or scenario 3
-                linkSetCurrent.click();
-                policy.rollOn().submit();
+               differencesActionTab.applyDifferences(true);
             } else if (scenario.equals(MATCHED)) { //scenario 2
-                linkSetAvailable.click();
-                policy.rollOn().submit();
+	           differencesActionTab.applyDifferences(false);
             }
-        } else {
-            log.info("Conflict page not found. Please enable renewal merge");
-        }
     }
 
     private void updateControlTable(LocalDateTime expirationDate, LocalDateTime effectiveDate) {

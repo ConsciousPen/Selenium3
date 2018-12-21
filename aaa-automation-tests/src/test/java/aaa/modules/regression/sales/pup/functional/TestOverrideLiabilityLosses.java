@@ -1,5 +1,3 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.pup.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -40,7 +38,7 @@ public class TestOverrideLiabilityLosses extends PersonalUmbrellaBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-6963")
 	public void pas6963_OverrideLiabilityLosses(@Optional("NJ") String state) {
 
@@ -72,8 +70,4 @@ private void overrideAndBind() {
 	}
 	assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 }
-
-
 }
-
-

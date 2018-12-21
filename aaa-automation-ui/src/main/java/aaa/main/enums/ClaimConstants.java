@@ -242,4 +242,36 @@ public final class ClaimConstants {
         public static final String ROLE_TYPE = "Role Type";
         public static final String PARTY_NAME = "Party Name";
     }
+
+    public static final class ClaimsRatingDetails {
+        public static  final  String NUMBER_OF_YEARS_CLAIMS_FREE = "Number of years claims free";
+        public static final String PRIOR_CLAIMS = "Prior claims";
+        public static final String PRIOR_CLAIMS_POINTS = "Prior claims points";
+        public static final String AAA_CLAIMS = "AAA claims";
+        public static final String AAA_CLAIMS_POINTS = "AAA claims points";
+        public static final String POINTS = "Points";
+        public static final String DATE = "Date";
+        public static final String CLAIM = "Claim";
+        public static final String CLAIM_1 = "Claim 1";
+        public static final String CLAIM_2 = "Claim 2";
+        public static final String CLAIM_3 = "Claim 3";
+        public static final String CLAIM_4 = "Claim 4";
+    }
+
+    public static final class CauseOfLoss {
+        public static final String HAIL = "Hail";
+        public static final String POINTS = "Points";
+        public static final String FIRE = "Fire";
+        public static final String WATER = "Water";
+        public static final String WIND = "Wind";
+        public static final String THEFT = "Theft";
+        public static final String LIABILITY = "Liability";
+    }
+
+    public static final class LossFor {
+        public static final String APPLICANT = "Applicant";
+        public static final String PROPERTY = "Property";
+        public static final String APPLICANT_PROPERTY = "Applicant and Property";
+        public static final String NEITHER = "Neither";
+    }
 }

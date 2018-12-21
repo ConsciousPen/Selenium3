@@ -1,0 +1,156 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Sixth Sense CLUE Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+
+    <test name="Test CLUE Simplification for CA DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for CA HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for CA HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Test CLUE Simplification for CA HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for SS DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for SS HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for SS HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification for SS HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">
+                <methods>
+                    <exclude name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                    <exclude name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification Manually Entered Claims Renewal - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Test CLUE Simplification Manually Entered Claims Renewal - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">
+                <methods>
+                    <include name="pas6759_AbilityToRemoveManuallyEnteredClaimsRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

@@ -4,23 +4,33 @@ import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.*;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import javax.ws.rs.core.Response;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.main.enums.ErrorDxpEnum;
+import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
+import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.enums.*;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.billing.account.BillingAccount;
+import aaa.main.modules.billing.account.IBillingAccount;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.dtoDxp.*;
+import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
@@ -29,6 +39,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 	private VehicleTab vehicleTab = new VehicleTab();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	protected void pas9997_paymentMethodsLookupBody() {
 		assertSoftly(softly -> {
@@ -126,7 +137,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			ViewVehicleResponse viewVehicleResponse = HelperCommon.viewPolicyVehicles(policyNumber);
 			String oid = viewVehicleResponse.vehicleList.get(0).oid;
 
-			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oid);
 			AttributeMetadata metaDataFieldResponseVehTypeCd = getAttributeMetadata(metaDataResponse, "vehTypeCd", true, true, true, null, "String");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("PPA")).isEqualTo("Private Passenger Auto");
 			softly.assertThat(metaDataFieldResponseVehTypeCd.valueRange.get("Conversion")).isEqualTo("Conversion Van");
@@ -191,7 +202,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 			vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME).setValue("GMAC");
 			vehicleTab.saveAndExit();
 
-			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndoresmentVehiclesMetaData(policyNumber, oid);
+			AttributeMetadata[] metaDataResponse2 = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oid);
 			getAttributeMetadata(metaDataResponse2, "garagingDifferent", true, true, false, null, "Boolean");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.postalCode", true, true, true, "10", "String");
 			getAttributeMetadata(metaDataResponse2, "garagingAddress.addressLine1", true, true, true, "40", "String");
@@ -341,8 +352,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		String originalDriver = responseViewDrivers.driverList.get(0).oid;
 
 		//get all coverages
-		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null)).isNotNull();
+		PolicyCoverageInfo coverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
+		softly.assertThat(coverageResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null)).isNotNull();
 
 		//get all discounts
 		DiscountSummary policyDiscountsResponse = HelperCommon.viewDiscounts(policyNumber, "policy", 200);
@@ -386,7 +397,8 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 
 		//Add new vehicle
 		//BUG PAS-14688, PAS-14689, PAS-14690, PAS-14691 - Add Vehicle for DC, KS, NY, OR
-		Vehicle responseAddVehicle = HelperCommon.executeEndorsementAddVehicle(policyNumber, purchaseDate, vin);
+		Vehicle responseAddVehicle =
+				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 		assertThat(responseAddVehicle.oid).isNotEmpty();
 		String newVehicleOid = responseAddVehicle.oid;
 		printToLog("newVehicleOid: " + newVehicleOid);
@@ -496,9 +508,9 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd = "COMPDED";
 		String compDedAvailableLimits = "100";
-		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredCoverageResponse.coverageLimit).isEqualTo("100");
+		PolicyCoverageInfo coverageResponseCompDedResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd, compDedAvailableLimits), PolicyCoverageInfo.class);
+		Coverage filteredCoverageResponse = coverageResponseCompDedResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredCoverageResponse.getCoverageLimit()).isEqualTo("100");
 
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
 		//Rate endorsement
@@ -518,14 +530,14 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		//update coverages
 		String compDedCovCd2 = "COMPDED";
 		String compDedAvailableLimits2 = "500";
-		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredUpdateCoverageResponse2.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo coverageCompDedResponse2 = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, DXPRequestFactory.createUpdateCoverageRequest(compDedCovCd2, compDedAvailableLimits2), PolicyCoverageInfo.class);
+		Coverage filteredUpdateCoverageResponse2 = coverageCompDedResponse2.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredUpdateCoverageResponse2.getCoverageLimit()).isEqualTo("500");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewEndorsementCoverageResponse.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo viewEndorsementCoveragesByVehicleResponse = HelperCommon.viewEndorsementCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
+		Coverage filteredViewEndorsementCoverageResponse = viewEndorsementCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewEndorsementCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		//BUG not reset status
 		helperMiniServices.pas14952_checkEndorsementStatusWasReset(policyNumber, "Gathering Info");
@@ -542,9 +554,9 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		assertThat(responseUnlock.status).isEqualTo("Unlocked");
 
 		//View endorsement Coverage
-		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
-		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.coverageCd)).findFirst().orElse(null);
-		assertThat(filteredViewPolicyCoverageResponse.coverageLimit).isEqualTo("500");
+		PolicyCoverageInfo viewPolicyCoveragesByVehicleResponse = HelperCommon.viewPolicyCoveragesByVehicle(policyNumber, newVehicleOid, PolicyCoverageInfo.class);
+		Coverage filteredViewPolicyCoverageResponse = viewPolicyCoveragesByVehicleResponse.vehicleLevelCoverages.get(0).coverages.stream().filter(cov -> "COMPDED".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		assertThat(filteredViewPolicyCoverageResponse.getCoverageLimit()).isEqualTo("500");
 
 		SearchPage.openPolicy(policyNumber);
 		//BUG PAS-13652 When Endorsement screen shows Endorsement Date field twice, if creating endorsement after endorsement created/issued through service
@@ -555,7 +567,7 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid);
+		VehicleUpdateResponseDto deleteVehicleResponse = HelperCommon.deleteVehicle(policyNumber, newVehicleOid,VehicleUpdateResponseDto.class,Response.Status.OK.getStatusCode());
 		softly.assertThat(deleteVehicleResponse.oid).isEqualTo(newVehicleOid);
 		softly.assertThat(deleteVehicleResponse.vehicleStatus).isEqualTo("pendingRemoval");
 		softly.assertThat(deleteVehicleResponse.vehIdentificationNo).isEqualTo(vin);
@@ -571,6 +583,87 @@ public class TestMiniServicesGeneralHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas22548_isRenewalOfferGeneratedBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();//this is also renewal Effective date
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		LocalDateTime renewPreviewGenDateDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
+		LocalDateTime renewalProposalDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		LocalDateTime renewalBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
+		List<LocalDateTime> renewalTimePoints = Arrays.asList(renewImageGenDate, renewPreviewGenDateDate, renewalProposalDate);
+
+		//Go through renewal Time Points till Renewal Offer generation date (Proposal date), run renewal jobs and validate Renewal Offer Indicator
+		for (LocalDateTime renewalTimePoint : renewalTimePoints) {
+			TimeSetterUtil.getInstance().nextPhase(renewalTimePoint);
+			runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+		}
+		TimeSetterUtil.getInstance().nextPhase(renewalProposalDate.plusDays(3)); //set date few days after renewal proposal date
+
+		//Revise renewal image by making endorsement to current term and validate renewal Offer Indicator
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		endorsementSteps_pas22548(policyNumber, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), renewalProposalDate, policyExpirationDate);
+
+		//Revise renewal image by making endorsement to Renewal term and validate renewal Offer Indicator
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		endorsementSteps_pas22548(policyNumber, AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE.getLabel(), renewalProposalDate, policyExpirationDate);
+
+		//Generate Renewal Bill
+		TimeSetterUtil.getInstance().nextPhase(renewalBillGenDate);
+		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+
+		//Change time to Renewal effective date and make renewal payment
+		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		Dollar totalDue = BillingSummaryPage.getTotalDue();
+		IBillingAccount billing = new BillingAccount();
+		TestData tdBilling = testDataManager.billingAccount;
+		TestData cashPayment = tdBilling.getTestData("AcceptPayment", "TestData_Cash");
+		billing.acceptPayment().perform(cashPayment, totalDue);
+		new BillingPaymentsAndTransactionsVerifier().setType("Payment").setSubtypeReason("Manual Payment").setAmount(totalDue.negate()).setStatus("Cleared").verifyPresent();
+
+		//Make second renewal image and validate that isRenewalOffered = false
+		LocalDateTime policyExpirationDate2 = policyExpirationDate.plusYears(1);
+		LocalDateTime renewImageGenDate2 = getTimePoints().getRenewImageGenerationDate(policyExpirationDate2);
+		LocalDateTime renewalProposalDate2 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate2);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate2);
+		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(policyNumber, renewalProposalDate2, policyExpirationDate2);
+	}
+
+	private void endorsementSteps_pas22548(String policyNumber, String coverageField, LocalDateTime renewalProposalDate, LocalDateTime policyExpirationDate) {
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageField, "-"); //updates to lower limit
+		premiumAndCoveragesTab.calculatePremium();
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		new BindTab().submitTab();
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+	}
+
+	private void isRenewalOfferGenerated_pas22548(String policyNumber, LocalDateTime renewalProposalDate, LocalDateTime renewalEffectiveDate) {
+		PolicyTerm[] renewalTermInfo = HelperCommon.viewPolicyTermInfo(policyNumber, renewalEffectiveDate, PolicyTerm[].class);
+		LocalDateTime currentDate = DateTimeUtils.getCurrentDateTime();
+		if (currentDate.isEqual(renewalProposalDate) || currentDate.isAfter(renewalProposalDate)) {
+			assertThat(renewalTermInfo.length).isEqualTo(1);
+		} else {
+			assertThat(renewalTermInfo.length).isEqualTo(0);
+		}
+	}
+
+	private void runRenewalJobsAndValidateIsRenewOfferGeneratedDXP_pas22548(String policyNumber, LocalDateTime renewalProposalDate, LocalDateTime policyExpirationDate) {
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		isRenewalOfferGenerated_pas22548(policyNumber, renewalProposalDate, policyExpirationDate);
+	}
 }
 
 

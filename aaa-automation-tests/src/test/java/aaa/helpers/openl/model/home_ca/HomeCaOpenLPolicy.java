@@ -7,6 +7,7 @@ import aaa.common.enums.Constants;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
 import aaa.helpers.mock.model.property_classification.RetrievePropertyClassificationMock;
+import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeCaMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
@@ -18,10 +19,10 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	protected Integer expClaimPoints;
 	protected Boolean isAaaMember;
 	protected Integer yearsOfPriorInsurance;
-	protected Integer yearsWithCsaa;
+	protected LocalDate effectiveDate;
 
-	@ExcelTransient
-	private LocalDate effectiveDate;
+	@RequiredField
+	protected Integer yearsWithCsaa;
 
 	public Integer getClaimPoints() {
 		return claimPoints;
@@ -113,6 +114,16 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	@Override
 	public String getUnderwriterCode() {
 		return null;
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return false;
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
 	}
 
 	public abstract List<F> getForms();

@@ -6,15 +6,18 @@ import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.modules.policy.HomeSSDP3BaseTest;
+import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.RevisedHomeTierPATemplate;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.PA)
-public class TestPAViewRatingDetails extends HomeSSDP3BaseTest {
+public class TestPAViewRatingDetails extends RevisedHomeTierPATemplate {
 
-	private RevisedHomeTierPATemplate template = new RevisedHomeTierPATemplate();
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.HOME_SS_DP3;
+	}
 
 	/**
 	 * @author Dominykas Razgunas
@@ -36,11 +39,11 @@ public class TestPAViewRatingDetails extends HomeSSDP3BaseTest {
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "PA Revised Home Tier  - UI Change : View Rating Details screen")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-6676, PAS-7025, PAS-7024")
 	public void pas6676_testPAViewRatingDetails(@Optional("PA") String state) {
 
-		template.pas6676_TestPAViewRatingDetails(getPolicyType());
+		pas6676_TestPAViewRatingDetails();
 
 	}
 }

@@ -5,19 +5,24 @@
 package aaa.main.modules.policy.abstract_tabs;
 
 import java.text.DecimalFormat;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
+import aaa.main.enums.ClaimConstants;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
+import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
+import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
 
@@ -34,11 +39,12 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnOverridePremium = new Button(By.xpath("//a[@id='policyDataGatherForm:overridePremiumLinkHo' or @id='policyDataGatherForm:overridePremiumLinkPup']"));
-	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:premiumRecalcCov"), Waiters.AJAX);
+	public static Button btnCalculatePremium = new Button(By.xpath("//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
 	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
 	public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));
 	public static Table tableTotalDwellingSummary = new Table(By.id("policyDataGatherForm:dwellingSummaryTable"));
+	public static Table tablePremiumSummaryActualEndorsementPremium = new Table(By.id("policyDataGatherForm:premiumSummaryTable"));
 	public static Table tableDiscounts = new Table(By.id("policyDataGatherForm:discountInfoTable"));
 	public static Link linkViewRatingDetails = new Link(By.id("policyDataGatherForm:ratingHODetailsPopup"), Waiters.AJAX);
 	public static Link linkViewRatingDetailsPUP = new Link(By.id("policyDataGatherForm:ratingPUPDetailsPopupLink"), Waiters.AJAX);
@@ -73,6 +79,10 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static Dollar getEndorsedPolicyTermPremium() {
 		return new Dollar(tableTotalPremiumSummary.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount() - 2).getValue());
+	}
+
+	public static Dollar getEndorsedPolicyActualPremium() {
+		return new Dollar(tablePremiumSummaryActualEndorsementPremium.getRow(1).getCell(tableTotalPremiumSummary.getColumnsCount()).getValue());
 	}
 
 	public static Dollar getPreEndorsementPremium() {
@@ -146,6 +156,7 @@ public abstract class PropertyQuoteTab extends Tab {
 	}
 
 	public static class RatingDetailsView {
+		public static Table claims = new Table(By.xpath("//*[@id='horatingDetailsPopupForm_3']/table"));
 		public static RatingDetailsTable propertyInformation = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_1:ratingDetailsTable']");
 		public static RatingDetailsTable discounts = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_6:ratingDetailsTable']");
 		public static RatingDetailsTable values = new RatingDetailsTable("//table[@id='horatingDetailsPopupForm_5:ratingDetailsTable']");
@@ -160,6 +171,34 @@ public abstract class PropertyQuoteTab extends Tab {
 			btn_Ok.click();
 		}
 
+		/**
+		 * @return TestData object containing all claims information in VRD page
+		 */
+		public static TestData getClaims() {
+			Map<String, Object> claimsInfo = new LinkedHashMap<>();
+			Map<String, Object> priorClaimsInfo = getClaimInfoByType(claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS), claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS_POINTS));
+			Map<String, Object> aaaClaimsInfo = getClaimInfoByType(claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS), claims.getRowContains(1, ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS_POINTS));
+			claimsInfo.put(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS, priorClaimsInfo);
+			claimsInfo.put(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS, aaaClaimsInfo);
+			return new SimpleDataProvider(claimsInfo);
+		}
+
+		private static Map<String, Object> getClaimInfoByType(Row claimDateRow, Row claimPtsRow) {
+			Map<String, Object> claimsInfo = new LinkedHashMap<>();
+			int c = 1;
+			for (int i = 2; i <= claimDateRow.getCellsCount(); i++) {
+				Map<String, String> thisClaim = new LinkedHashMap<>();
+				String thisDate = claimDateRow.getCell(i).getValue();
+				String thisPts = claimPtsRow.getCell(i).getValue();
+				if (!thisDate.isEmpty()) {
+					thisClaim.put(ClaimConstants.ClaimsRatingDetails.DATE, thisDate);
+					thisClaim.put(ClaimConstants.ClaimsRatingDetails.POINTS, thisPts);
+					claimsInfo.put(ClaimConstants.ClaimsRatingDetails.CLAIM + " " + c, thisClaim);
+					c++;
+				}
+			}
+			return claimsInfo;
+		}
 	}
 
 	public static class RatingDetailsViewPUP {
