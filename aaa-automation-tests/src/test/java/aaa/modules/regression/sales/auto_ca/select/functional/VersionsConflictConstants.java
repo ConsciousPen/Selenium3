@@ -203,10 +203,12 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> NAMED_INSURED_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order.First Name", CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order.Last Name", CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order.First Name",CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order.Last Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order.First Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order.Last Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.First Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Last Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Name on License", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Name on License",CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Title", AVAILABLE)
 					.put("Named Insureds.VIIFirstName VII VIILastName.First Name", CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Base Date",CURRENT)
