@@ -270,7 +270,6 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas16984_validateCoverageConstraints(PolicyType policyType) {
-		ComparablePolicy policyResponse = HelperCommon.viewEndorsementChangeLog("UTSS952918553", Response.Status.OK.getStatusCode());
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab")).resolveLinks();
 
@@ -1694,7 +1693,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		assertSoftly(softly -> {
 			PolicyCoverageInfo policyCoverageResponse = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
-			Coverage filteredPolicyCoverageResponseUMBI = policyCoverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+			Coverage filteredPolicyCoverageResponseUMBI = findCoverage(policyCoverageResponse.policyCoverages, "UMBI");
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.getCoverageType()).isEqualTo("Per Person/Per Accident");
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.getAvailableLimits().size()).isNotEqualTo(0);
 			softly.assertThat(filteredPolicyCoverageResponseUMBI.getCanChangeCoverage()).isFalse();
@@ -3109,22 +3108,28 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
-		/*Next few lines be replaced with
-		 "premiumAndCoveragesTab.saveAndExit();
-		  helperMiniServices.endorsementRateAndBind(policyNumber); //Policy without UM/UIM"
-		  when functionality to sign documents with service will be implemented*/
-		premiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel(), RadioGroup.class)
-				.setValue("Physically Signed");
-		documentsAndBindTab.submitTab();
+		bind_pas15255(policyNumber);
 
 		//Remove COMP/COLL and check UMBI
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdComp, availableLimitsChange, oid, false, false, limitDisplayNoCov, state);
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		updateCoverageAndCheckUmbi_pas15255(policyNumber, coverageCdColl, availableLimitsChange, oid, false, false, limitDisplayNoCov, state);
+	}
+
+	private void bind_pas15255(String policyNumber) {
+		//if state must have signed RUMBI document, sign it. Currently not possible to sign through service
+		if (Constants.States.CO.equals(getState())) {
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel(), RadioGroup.class)
+					.setValue("Physically Signed");
+			documentsAndBindTab.submitTab();
+		} else {
+			premiumAndCoveragesTab.saveAndExit();
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		}
 	}
 
 	private void updateCoverageAndCheckUmbi_pas15255(String policyNumber, String coverageCdChange, String availableLimitsChange, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state) {
@@ -3689,8 +3694,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "No Coverage");
-		premiumAndCoveragesTab.saveAndExit();
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		bind_pas15255(policyNumber);
+
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, vehicleOid, DXPRequestFactory.createUpdateCoverageRequest(coverageCdComp, availableLimitsChange), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
 		helperMiniServices.endorsementRateAndBind(policyNumber);

@@ -6,10 +6,12 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsHelper;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelper {
@@ -21,8 +23,9 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 
 
 	@Parameters({"state"})
+	@StateList(states = Constants.States.CA)
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_CA_CHOICE, testCaseId = {"PAS-11684"})
 	public void pas11684_DriverAssignmentExistsForState(@Optional("CA") String state) {
 		assertSoftly(softly ->
 				pas11684_DriverAssignmentExistsForStateBody(state, softly)
