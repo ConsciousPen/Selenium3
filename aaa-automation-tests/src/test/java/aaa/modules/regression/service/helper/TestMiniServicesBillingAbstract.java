@@ -106,11 +106,11 @@ public abstract class TestMiniServicesBillingAbstract extends PolicyBaseTest {
 
 		AccountDetails billingAccountInfoResponse = HelperCommon.billingAccountInfoService(policyNumber);
 		softly.assertThat(billingAccountInfoResponse.accountNumber).isEqualTo(accountNumberUi);
-		softly.assertThat(billingAccountInfoResponse.minimumDue).isEqualTo(amountMinDueUi);
-		softly.assertThat(billingAccountInfoResponse.pastDue).isEqualTo(amountPastDueUi);
-		softly.assertThat(billingAccountInfoResponse.totalDue).isEqualTo(amountTotalDueUi);
-		softly.assertThat(billingAccountInfoResponse.totalPaid).isEqualTo(amountTotalPaidUi);
-		softly.assertThat(billingAccountInfoResponse.billableAmount).isEqualTo(billableAmountUi);
+		softly.assertThat(billingAccountInfoResponse.minimumDue.totalAmount).isEqualTo(amountMinDueUi);
+		softly.assertThat(billingAccountInfoResponse.pastDue.totalAmount).isEqualTo(amountPastDueUi);
+		softly.assertThat(billingAccountInfoResponse.totalDue.totalAmount).isEqualTo(amountTotalDueUi);
+		softly.assertThat(billingAccountInfoResponse.totalPaid.totalAmount).isEqualTo(amountTotalPaidUi);
+		softly.assertThat(billingAccountInfoResponse.billableAmount.totalAmount).isEqualTo(billableAmountUi);
 		softly.assertThat(dateOnly(billingAccountInfoResponse.latestInvoiceDueDate)).isEqualTo(latestBillDueDate);
 	}
 
