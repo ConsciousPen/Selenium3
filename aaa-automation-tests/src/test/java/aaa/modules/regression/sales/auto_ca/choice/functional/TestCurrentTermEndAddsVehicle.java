@@ -129,6 +129,44 @@ public class TestCurrentTermEndAddsVehicle extends TestCurrentTermEndAddsVehicle
 		closeRatingDetails();
 	}
 
+	/**
+	 * * @author Kiruthika Rajendran
+	 *
+	 * @name Current Term End Adds MSRP Vehicle:
+	 * Make refresh correct for current and renewal terms
+	 * @scenario
+	 * 1. Create Auto CA Choice Quote with two vehicles: First MSRP Vehicle - VIN NOT MATCH, Second MSRP Vehicle - VIN NOT MATCHED
+	 * 2. Make policy status - Proposed
+	 * 3. Initiate Endorsement
+	 * 4. Update the Stated amount of first Vehicle
+	 * 5. Add third MSRP Vehicle
+	 * 6. Calculate Premium and bind the endorsement
+	 * 7. Open the last renewal inscription in 'Transaction history'
+	 * Expected Result:
+	 * The First Vehicle - COMP & COLL symbols have to be updated for new version
+	 * The second Vehicle - COMP & COLL symbols have to retain the same value
+	 * The third Vehicle - COMP & COLL symbols have to be updated for new version
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-16522")
+	public void pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms(@Optional("CA") String state) {
+		pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms();
+	}
+
+	public void pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms() {
+		pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms_initiateEndorsement();
+
+		pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms_bindEndorsement();
+		viewRatingDetails();
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		doSoftAssertions(softly, 2, "Other make", "185", "105");
+		doSoftAssertions(softly, 3, "Other make", "35", "35");
+		doSoftAssertions(softly, 4, "AUDI", "295", "223");
+		softly.close();
+		closeRatingDetails();
+	}
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
 		cleanup();

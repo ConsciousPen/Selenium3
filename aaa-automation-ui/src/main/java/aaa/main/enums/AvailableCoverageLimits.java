@@ -260,7 +260,19 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10001000
 	)),
 
-	BI_WV_VA_KS_DC(ImmutableList.of(
+	UMBI_DE(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_2550,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+
+	BI_WV_VA_KS_DC_DE(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_50100,
 			CoverageLimits.COV_100300,
