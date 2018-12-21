@@ -942,12 +942,13 @@
             </class>
         </classes>
     </test>
-    <test name="Test BI and UMBI update - DE">
+    <test thread-count="1024" name="DE Coverages" parallel="methods">
         <parameter name="state" value="DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
                     <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas16399_viewUpdateUmpdDE"/>
                 </methods>
             </class>
         </classes>

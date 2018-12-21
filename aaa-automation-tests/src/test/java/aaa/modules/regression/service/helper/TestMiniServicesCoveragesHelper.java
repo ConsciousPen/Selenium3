@@ -5164,6 +5164,73 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateCoverageLimitInPASUI(expectedUIMPD, expectedPD);
 	}
 
+	protected void pas16399_viewUpdateUmpdDEBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		PolicyCoverageInfo viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		Coverage covUMPDActual = findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMPD_DE.getCode());
+		Coverage covUMPDExpected = Coverage.create(CoverageInfo.UMPD_DE).disableCanChange();
+		assertThat(covUMPDActual).isEqualToIgnoringGivenFields(covUMPDExpected);
+
+		//Update BI to lower limit
+		assertThat(findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMBI_DE.getCode()).getCoverageLimit()).isNotEqualTo(CoverageLimits.COV_00);
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE, CoverageLimits.COV_2550, false);
+
+		//Update BI to higher limit
+		assertThat(findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMBI_DE.getCode()).getCoverageLimit()).isNotEqualTo(CoverageLimits.COV_00);
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE, CoverageLimits.COV_10001000, false);
+
+		//Update UM/UIM to other than No Coverage (increase)
+		assertThat(findCoverage(viewEndorsementCoverages.policyCoverages, CoverageInfo.UMBI_DE.getCode()).getCoverageLimit()).isNotEqualTo(CoverageLimits.COV_00);
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_10001000, false);
+
+		//Update UM/UIM to other than No Coverage (decrease)
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_2550, false);
+
+		//Update UM/UIM to No Coverage
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_00, true);
+
+		//Update BI (decrease)
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE, CoverageLimits.COV_2550, false);
+
+		//Update UM/UIM to No Coverage (precondition for next step) (repeated step)
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_00, true);
+
+		//Update BI (increase)
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE, CoverageLimits.COV_5001000, false);
+
+		//Update UM/UIM to No Coverage (precondition for next step) (repeated step)
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_00, true);
+
+		//Update UM/UIM to other than No Coverage
+		updateBiOrUmbiAndValidate_pas16399(policyNumber, CoverageInfo.UMBI_DE, CoverageLimits.COV_2550, false);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	private void updateBiOrUmbiAndValidate_pas16399(String policyNumber, CoverageInfo covBiOrUmbi, CoverageLimits updateToLimit, boolean umpdExpectedNoCoverage) {
+		PolicyCoverageInfo updateBiOrUmbiResponse = updateCoverage(policyNumber, covBiOrUmbi.getCode(), updateToLimit.getLimit());
+		Coverage covBiOrUmbiActual = findCoverage(updateBiOrUmbiResponse.policyCoverages, covBiOrUmbi.getCode());
+		assertThat(covBiOrUmbiActual.getCoverageLimit()).isEqualTo(updateToLimit.getLimit());
+		Coverage covUMPDActual = findCoverage(updateBiOrUmbiResponse.policyCoverages, CoverageInfo.UMPD_DE.getCode());
+		Coverage covUMPDExpected = Coverage.create(CoverageInfo.UMPD_DE).disableCanChange();//limit = 10000
+		if (umpdExpectedNoCoverage) {
+			covUMPDExpected.changeLimit(CoverageLimits.COV_0);//limit = 0
+		}
+		assertThat(covUMPDActual).isEqualToIgnoringGivenFields(covUMPDExpected, "availableLimits");
+
+		//Check change log if UMPD is updated to different value as before endorsement. (otherwise it is not in log)
+		if (!covUMPDExpected.getCoverageLimit().equals(CoverageLimits.COV_10000.getLimit())) {
+			validatePolicyLevelCoverageChangeLog(policyNumber, covUMPDExpected);
+		}
+		assertSoftly(softly -> validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(softly, policyNumber, updateBiOrUmbiResponse));
+		validateCoverageLimitInPASUI(covUMPDExpected, covBiOrUmbiActual);
+	}
+
 	protected void pas20306_viewUpdateCoveragesUmpdCompCollBody(String state, PolicyType policyType) {
 		TestData td = getPolicyDefaultTD();
 
