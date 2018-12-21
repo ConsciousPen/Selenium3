@@ -31,4 +31,62 @@ VehicleTab_updateVINStub_AZ: {
      Odometer Reading: 3,
      Odometer Reading Date: '12/01/18'
 }
+VehicleTab_updateMSRPVehicle1_AZ: {
+     VIN: 'PQ2AE9QW7L3425407',
+     Year: '2017',
+     Make: 'TESLA',
+     Model: 'OTHER',
+     Other Model: 'Other model',
+     Other Series: 'Other series',
+     Other Body Style: 'Sedan',
+     Stat Code: 'Small car',
+     Stated Amount: '169000',
+}
 
+VehicleTab_updateMSRPVehicle2_AZ: {
+      VIN: 'CC2AE91R2E3425407',
+      Year: '2018',
+      Make: 'PORSCHE',
+      Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Large car',
+      Stated Amount: '169000',
+}
+
+VehicleTab_updateMSRPVehicle3_AZ: {
+     VIN: 'PQ2AE9QW7L3425407',
+     Year: '2016',
+     Make: 'TESLA',
+     Model: 'OTHER',
+     Other Model: 'Other model1',
+     Other Series: 'Other series1',
+     Other Body Style: 'Sedan',
+     Stat Code: 'Small car',
+     Stated Amount: '234567',
+}
+
+VehicleTab_updateMSRPVehicle4_AZ: {
+      VIN: 'CC2AE91R2E3425407',
+      Year: '2018',
+      Make: 'PORSCHE',
+      Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Large car',
+      Stated Amount: '169000',
+      }
+
+VehicleTab_updateMSRPVehicle5_AZ: {
+      VIN: 'OP2AE91R5Q3425407',
+      Year: '2017',
+      Make: 'AUDI',
+      Model: 'OTHER',
+      Other Model: 'Other model',
+      Other Series: 'Other series',
+      Other Body Style: 'Sedan',
+      Stat Code: 'Large car',
+      Stated Amount: '80000',
+}
