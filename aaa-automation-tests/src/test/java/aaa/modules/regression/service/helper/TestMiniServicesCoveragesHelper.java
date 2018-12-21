@@ -4913,7 +4913,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		//update BI to highest available limit so that PD has all available limits
-		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().size() - 1).getLimit());
+		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1).getLimit());
 
 		PolicyCoverageInfo viewCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertThat(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.PD_DC.getCode()).getCoverageLimit()).as("Precondition: PD = UMPD").
@@ -4980,7 +4980,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), CoverageLimits.COV_1000000.getLimit());
 		updatePDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_25000);
 		updateUMPDAndValidateUMPD_pas15286(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_1000000);
-		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageLimits.COV_2550.getLimit());
+		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageLimits.COV_2550.getLimit());
 		Coverage umpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UMPD_DC.getCode());
 		Coverage umpdExpected = Coverage.create(CoverageInfo.UMPD_DC).changeLimit(CoverageLimits.COV_50000);
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
@@ -5031,7 +5031,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		//update BI to highest available limit so that PD has all available limits
-		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC.getAvailableLimits().size() - 1).getLimit());
+		updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().get(CoverageInfo.BI_WV_VA_KS_DC_DE.getAvailableLimits().size() - 1).getLimit());
 
 		PolicyCoverageInfo viewCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		assertThat(findCoverage(viewCoveragesResponse.policyCoverages, CoverageInfo.PD_DC.getCode()).getCoverageLimit()).as("Precondition: PD = UIMPD").
@@ -5103,7 +5103,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		updateCoverage(policyNumber, CoverageInfo.PD_DC.getCode(), CoverageLimits.COV_1000000.getLimit());
 		updatePDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_25000);
 		updateUIMPDAndValidateUIMPD_pas21421(policyNumber, CoverageLimits.COV_1000000, CoverageLimits.COV_1000000);
-		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC.getCode(), CoverageLimits.COV_2550.getLimit());
+		PolicyCoverageInfo updateBIResponse = updateCoverage(policyNumber, CoverageInfo.BI_WV_VA_KS_DC_DE.getCode(), CoverageLimits.COV_2550.getLimit());
 		Coverage umpdActual = findCoverage(updateBIResponse.policyCoverages, CoverageInfo.UIMPD_DC.getCode());
 		Coverage umpdExpected = Coverage.create(CoverageInfo.UIMPD_DC).changeLimit(CoverageLimits.COV_50000);
 		assertThat(umpdActual).isEqualToIgnoringGivenFields(umpdExpected, "availableLimits"); //Available coverage limits are in scope of PAS-15281 tests
