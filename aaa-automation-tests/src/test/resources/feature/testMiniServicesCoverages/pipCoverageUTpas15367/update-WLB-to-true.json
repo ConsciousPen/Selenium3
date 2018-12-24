@@ -27,7 +27,7 @@
             "coverageLimitDisplay": "Yes",
             "coverageType": null,
             "customerDisplayed": true,
-            "canChangeCoverage": true
+            "canChangeCoverage": false
           },
           "modifiedAttributes": {
             "coverageLimit": {
