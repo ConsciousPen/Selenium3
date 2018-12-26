@@ -315,7 +315,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> DATA_GATHER_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
-			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
+			.put("Forms.CIPCS22Endorsement Form", "Automobile Death Benefit")
 			.put("Drivers.VIFirstName VI VILastName", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Age")
 			.put("Drivers.VIFirstName VI VILastName", "Gender")
