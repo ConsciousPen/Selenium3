@@ -316,8 +316,8 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private TestData getCaSelectReducePremiumTd() {
         return getEmptyTestDataCaAuto().adjust(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "contains=$25,000/$50,000",
-                AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "contains=$10,000"));
+                AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "index=1",
+                AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "index=1"));
     }
 
     private TestData getCaChoiceReducePremiumTd() {
@@ -328,8 +328,8 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private TestData getSSAutoReducePremiumTd() {
         return getEmptyTestDataSSAuto().adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "contains=$25,000/$50,000",
-                AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "contains=$10,000"));
+                AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "index=1",
+                AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "index=1"));
     }
 
     private TestData getSSHomeAddPremiumTd() {
