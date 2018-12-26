@@ -41,7 +41,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2")));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
-	private static List<TestData> driversTD = Collections.synchronizedList(new ArrayList<>());
+	private static final List<TestData> driversTD = Collections.synchronizedList(new ArrayList<>());
 
 	/**
 	 * @author Igor Garkusha
