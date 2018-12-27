@@ -40,7 +40,6 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		premiumsAndCoveragesQuoteTab.calculatePremium();
 
 		validateDiscountAndPremiumChange();
-		payTotalAmtDue("test");
 
 	}
 
@@ -82,6 +81,11 @@ public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.DATE_OF_LOSS).setValue(dateOfLoss);
 		premium = validateDiscountRemovedAndPremiumIncreases(premium);
+
+		// Change claim amount to less than $1000 and validate discount/premium is added/decreased
+		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
+		propertyInfoTab.getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.AMOUNT_OF_LOSS).setValue("1000");
+		validateDiscountAddedAndPremiumIsDecreased(premium);
 
 	}
 
