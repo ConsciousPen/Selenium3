@@ -376,4 +376,19 @@
         </classes>
     </test>
 
+    <test name="Test Renewal Effective On Rewrite CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite"/>
+        </classes>
+    </test>
+
+    <test name="Test Renewal Effective On Rewrite SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRenewalEffectiveOnRewrite"/>
+        </classes>
+    </test>
+
 </suite>
