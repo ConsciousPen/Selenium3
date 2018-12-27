@@ -52,7 +52,7 @@ public class TestRenewalEffectiveOnRewrite extends AutoSSBaseTest {
 		policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
 		String renewalEffective = PolicySummaryPage.getExpirationDate().format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		policy.dataGather().start();
-		policy.getDefaultView().fillFromTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), PrefillTab.class, DocumentsAndBindTab.class, true);
+		policy.getDefaultView().fillUpTo(getPolicyTD("Rewrite", "TestDataForBindRewrittenPolicy"), DocumentsAndBindTab.class, true);
 		new DocumentsAndBindTab().submitTab();
 
 		// Need to override error during the end of December when the cancellation date and base dates have different years
