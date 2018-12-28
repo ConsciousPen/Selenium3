@@ -401,7 +401,8 @@ public final class DocGenEnum {
 		_61_6528_HO4("61 6528", "Renters Insurance Quote Page"),
 		_61_6528_HO6("61 6528", "Condominium Owners Insurance Quote Page"),
 		_61_6530("61 6530", "California Residential Property Insurance Disclosure"),
-		_62_6500("62 6500", "CA Evidence of Property Insurance");
+		_62_6500("62 6500", "CA Evidence of Property Insurance"),
+		AACSDC("District of Columbia Coverage Selection/Rejection Form");
 
 
 		private String id;

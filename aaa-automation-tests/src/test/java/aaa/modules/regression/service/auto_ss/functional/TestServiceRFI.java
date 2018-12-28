@@ -8,18 +8,18 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import aaa.common.enums.Constants;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
 import aaa.main.modules.policy.auto_ca.defaulttabs.ErrorTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 
 import aaa.modules.regression.service.helper.HelperMiniServices;
-import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+
 import aaa.utils.StateList;
-import org.assertj.core.api.Assertions;
+
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -29,7 +29,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.docgen.DocGenHelper;
+
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.SearchEnum;
@@ -50,13 +50,13 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 
 import javax.ws.rs.core.Response;
 
-
 public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
-
 	private static final String UNINSURED_MOTORIST = "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received";
+	private static final String ESIGNEDOCUMENTRULE = "A signed Coverage Selection/Rejection Form must be received prior to issuing";
 	private ErrorTab errorTab = new ErrorTab();
 
 	/**
@@ -122,26 +122,25 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
 	public void pas21423_aacsdcFormRFI(@Optional("DC") String state) {
 		assertSoftly(softly -> {
-
-			TestData td = getPolicyDefaultTD();
+			String policyNumber = "DCSS952918541";
+		 	/*TestData td = getPolicyDefaultTD();
 			td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
-					, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
-			String policyNumber = openAppAndCreatePolicy();
+				, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
+			String policyNumber =openAppAndCreatePolicy();
 
 			//update PIPMedical coverage
-			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPMEDICAL", "100000");
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPMEDICAL", "100000"); */
 
-			//Update UIMPD coverage
-			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMPD", "25000/50000");
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSDC", "ENDORSEMENT_ISSUE");
 
-			//Update PIPWORKLOSS coverage
-			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPWORKLOSS", "12000");
+			verifyDoccInDb(softly, query, DocGenEnum.Documents.AACSDC);
 
-			//Update FUNERAL coverage
-			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "FUNERAL", "4000");
+			//Go to pas and and verify
+			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, "AACSDC");
 
-			//Update UIMBI coverage
-			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMBI", "-1");
+			//DB check docc is not there
+
+
 		});
 	}
 
@@ -208,27 +207,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21366"})
 	public void pas21366_VirginiaAndAA52VA(@Optional("VA") String state) {
 		assertSoftly(softly -> {
-			mainApp().open();
-			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
-			PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
-
-		    createCustomerIndividual();
-			createQuote();
-			policy.dataGather().start();
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-
-			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue("$25,000/$50,000 (-$32.00)");
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
-			documentsAndBindTab.saveAndExit();
-
-			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-
-			helperMiniServices.createEndorsementWithCheck(policyNumber);
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+			String policyNumber = createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Physically Signed");
 
 			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 			softly.assertThat(rfiServiceResponse.url).isNull();
@@ -237,75 +217,119 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "40000"), PolicyCoverageInfo.class);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			RFIDocuments rfiServiceResponse1 = HelperCommon.rfiViewService(policyNumber, true);
-			String doccId= rfiServiceResponse1.documents.get(0).documentId;
-			softly.assertThat(rfiServiceResponse1.documents.get(0).documentCode).isEqualTo("RUUELLUU");
-			softly.assertThat(rfiServiceResponse1.documents.get(0).documentName).isEqualTo("IMPORTANT NOTICE - Uninsured Motorist Coverage");
+			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", "policy", "NS");
 
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber,"200037_VA","A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction","attributeForRules");
+			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction", "attributeForRules");
 
-			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(),doccId);
+			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
 
-			policy.policyInquiry().start();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			verifyDoccInDb(softly, query, DocGenEnum.Documents.AA52VA);
 
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,"AA52VA","ENDORSEMENT_ISSUE");
+			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, "AA52VA");
 
-			Document thankYouLetter615121 = DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query);
-			String name  = DocGenHelper.getDocumentDataElemByName("DocSignedBy", thankYouLetter615121).getDataElementChoice().getTextField();
+		/*	String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,"AA52VA","ENDORSEMENT_ISSUE");
+
+			Document aa52VA = DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1);
+
 			String date  = DocGenHelper.getDocumentDataElemByName("DocSignedDate", thankYouLetter615121).getDataElementChoice().getDateTimeField();
-			softly.assertThat(name).isEqualTo("Megha Gubbala");
-			softly.assertThat(date).isNotNull();
-
-			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue().equals("Electronically Signed");
-
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
-
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue().equals("Not Signed");
-
-			documentsAndBindTab.submitTab();
-
-			softly.assertThat(errorTab.tableErrors.getRowContains("Code", "200037_VA").getCell("Message").getValue().toLowerCase().contains(UNINSURED_MOTORIST.toLowerCase().substring(0, 30))).isTrue();
-			errorTab.cancel();
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
-
-			/*String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber,"AA52VA","ENDORSEMENT_ISSUE");
-
-			Document thankYouLetter615121 = DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query);
-			String name  = DocGenHelper.getDocumentDataElemByName("DocSignedBy", thankYouLetter615121).getDataElementChoice().getTextField();
-			String date  = DocGenHelper.getDocumentDataElemByName("DocSignedDate", thankYouLetter615121).getDataElementChoice().getDateTimeField();
-			softly.assertThat(name).isEqualTo("Megha Gubbala");
-			softly.assertThat(date).isNotNull(); */
+			softly.assertThat(DocGenHelper.getDocumentDataElemByName("DocSignedBy", aa52VA).getDataElementChoice().getTextField()).isNull();
+			softly.assertThat(DocGenHelper.getDocumentDataElemByName("DocSignedDate", aa52VA).getDataElementChoice().getDateTimeField()).isNull();*/
 
 		});
 	}
 
-	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage ){
+	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber, String formName) {
+		//create endorsement from pas go to bind page verify document is electronically signed
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+		if (formName.equals("AA52VA")) {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue().equals("Electronically Signed");
+			//From P&C page change coverage again to verify signed by is resetting to  not signedNavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.submitTab();
+			softly.assertThat(errorTab.tableErrors.getRowContains("Code", "200037_VA").getCell("Message").getValue().toLowerCase().contains(UNINSURED_MOTORIST.toLowerCase().substring(0, 30))).isTrue();
+			errorTab.cancel();
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
+		} else {
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM).getValue().equals("Electronically Signed");
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.submitTab();
+			softly.assertThat(errorTab.tableErrors.getRowContains("Code", "200900").getCell("Message").getValue().toLowerCase().contains(ESIGNEDOCUMENTRULE.toLowerCase().substring(0, 30))).isTrue();
+			errorTab.cancel();
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM).setValue("Physically Signed");
+		}
+		documentsAndBindTab.submitTab();
+	}
+
+	private void verifyDoccInDb(ETCSCoreSoftAssertions softly, String query, DocGenEnum.Documents aa52va) {
+		Document thankYouLetter615121 = DocGenHelper.getDocument(aa52va, query);
+		String name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", thankYouLetter615121).getDataElementChoice().getTextField();
+		String date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", thankYouLetter615121).getDataElementChoice().getDateTimeField();
+		softly.assertThat(name).isEqualTo("Megha Gubbala");
+		softly.assertThat(date).isNotNull();
+	}
+
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21366"})
+	public void pas23511_VirginiaAndAA52VA(@Optional("VA") String state) {
+		assertSoftly(softly -> {
+			mainApp().open();
+			String policyNumber = createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Electronically Signed");
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue().equals("Physically Signed");
+
+		});
+	}
+
+	String createPolicyForAA52VA(String limit, String signType) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue(limit);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue(signType);
+		documentsAndBindTab.saveAndExit();
+
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		return policyNumber;
+	}
+
+	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage) {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-
-			checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
-			//TODO jpukenaite: uncomment when the story for bind error will be done
-			//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
-
-			HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
-		}
-
-	private void checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status){
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		String doccId = checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC", "policy", "NS");
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction", "attributeForRules");
+		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
+	}
 
+	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status) {
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		String doccId = rfiServiceResponse.documents.get(0).documentId;
 		assertSoftly(softly -> {
-			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 			softly.assertThat(rfiServiceResponse.url).isNull();
 			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
 			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
@@ -317,7 +341,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
 			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
 			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+
 		});
+		return doccId;
 	}
 
 	/**
@@ -469,14 +495,14 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS)).hasValue("Not Signed");
 		}
 
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER)).hasValue("No");
-        assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_CURRENT_INSURANCE_FOR)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_SMART_DRIVER_COURSE_COMPLETION)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PRIOR_INSURANCE)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_PURCHASE_DATE_BILL_OF_SALE_FOR_NEW_VEHICLES)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_EQUIVALENT_NEW_CAR_ADDED_PROTECTION_WITH_PRIOR_CARRIER_FOR_NEW_VEHICLES)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.CANADIAN_MVR_FOR_DRIVER)).hasValue("No");
+		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PHOTOS_FOR_SALVATAGE_VEHICLE_WITH_PHYSICAL_DAMAGE_COVERAGE)).hasValue("No");
 		assertThat(documentsAndBindTab.getRequiredToIssueAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_DEFENSIVE_DRIVER_COURSE_COMPLETION)).hasValue("No");
 
 		documentsAndBindTab.saveAndExit();
@@ -566,7 +592,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
 
-	private void createPolicyForDocumentGeneration(String state) {
+	private void createPolicyForDocumentGeneration(String state, String limit, String signedType) {
 
 	}
 }
