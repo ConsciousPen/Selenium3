@@ -4370,6 +4370,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		softly.assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
 	}
 
+	private void validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(String policyNumber, PolicyCoverageInfo updateCoverageResponse) {
+		PolicyCoverageInfo viewEndorsementCoverages;
+		viewEndorsementCoverages = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
+		assertThat(updateCoverageResponse).isEqualToComparingFieldByFieldRecursively(viewEndorsementCoverages);
+	}
+
 	protected Map<String, Coverage> getPIPCoverages(List<Coverage> policyCoverages) {
 		Map<String, Coverage> mapPIPCoverages = new LinkedHashMap<>();
 		mapPIPCoverages.put(CoverageInfo.BPIP.getCode(), findCoverage(policyCoverages, CoverageInfo.BPIP.getCode()));
@@ -5516,6 +5522,52 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas15272_viewUpdatePipDEBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covPIPExpected1 = Coverage.create(CoverageInfo.PIP_1530_DE);
+		Coverage covPIPDEDExpected1 = Coverage.create(CoverageInfo.PIPDED_DE);
+		Coverage covPIPDEDAppliesToExpected1 = Coverage.create(CoverageInfo.PIPDEDAPPTO_DE);
+		Coverage covFUNEXPExpected = Coverage.create(CoverageInfo.FUNEXP_DE).disableCanChange(); //always the same
+		Coverage covPPCExpected = Coverage.create(CoverageInfo.PROPERTY_DE).disableCanChange();//always the same
+
+		//Check viewEndorsementCoverages response
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covPIPExpected1, covPIPDEDExpected1, covPIPDEDAppliesToExpected1, covFUNEXPExpected, covPPCExpected);
+
+		//Update PIP
+		Coverage covPIPExpected2 = Coverage.create(CoverageInfo.PIP_OTHER_THAN_1530_DE);
+		updateCoverageAndCheck_pas15272(policyNumber, covPIPExpected2, covPIPExpected2, covPIPDEDExpected1, covPIPDEDAppliesToExpected1, covFUNEXPExpected, covPPCExpected);
+		//Update PIP to initial value
+		updateCoverageAndCheck_pas15272(policyNumber, covPIPExpected1, covPIPExpected1, covPIPDEDExpected1, covPIPDEDAppliesToExpected1, covFUNEXPExpected, covPPCExpected);
+		//Update PIPDED
+		Coverage covPIPDEDExpected2 = Coverage.create(CoverageInfo.PIPDED_DE).changeLimit(CoverageLimits.COV_10000);
+		updateCoverageAndCheck_pas15272(policyNumber, covPIPDEDExpected2, covPIPDEDExpected2, covPIPExpected1, covPIPDEDAppliesToExpected1, covFUNEXPExpected, covPPCExpected);
+		//Update 'PIP Deductible Applies To'
+		Coverage covPIPDEDAppliesToExpected2 = Coverage.create(CoverageInfo.PIPDEDAPPTO_DE).changeLimit(CoverageLimits.COV_PIPDEDAPPTO_NIAHF);
+		updateCoverageAndCheck_pas15272(policyNumber, covPIPDEDAppliesToExpected2, covPIPDEDAppliesToExpected2, covPIPExpected1, covPIPDEDExpected2, covFUNEXPExpected, covPPCExpected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	private void updateCoverageAndCheck_pas15272(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
+		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
+		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		//Modify list of coverages before checking in PAS UI
+		List<Coverage> covToCheckInUIList = Arrays.stream(expectedCoveragesToCheck).collect(Collectors.toList());
+		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PIPDEDAPPTO_DE.getCode()));//not checking PIPDEDAPPTO in PAS UI as in Inquiry value is not displayed (probably existing defect)
+		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.FUNEXP_DE.getCode()));//Doesn't exist in PAS UI
+		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PROPERTY_DE.getCode()));//Doesn't exist in PAS UI
+		covToCheckInUIList.stream().filter(coverage -> coverage.getCoverageCd().equals(CoverageInfo.PIP_OTHER_THAN_1530_DE.getCode())).findFirst().orElse(null)
+				.changeDescription(CoverageInfo.PIP_1530_DE.getDescription());//Changing PIP description before check in PAS UI, as it is always the same in PAS UI
+		validateCoverageLimitInPASUI(covToCheckInUIList);
+	}
+
 	private void updateUmpdAndVerify(ETCSCoreSoftAssertions softly, String policyNumber, String oidPPA, String s, CoverageLimits cov50000,String coverageCdUmpd) {
 		String availableLimitsChange1 = s;
 		PolicyCoverageInfo updateCoverageResponse = HelperCommon.updateEndorsementCoveragesByVehicle(policyNumber, oidPPA, DXPRequestFactory.createUpdateCoverageRequest(coverageCdUmpd, availableLimitsChange1), PolicyCoverageInfo.class, Response.Status.OK.getStatusCode());
@@ -5746,8 +5798,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validatePolicyLevelCoverageChangeLog(String policyNumber, Coverage... coverageExpected) {
 		HelperCommon.endorsementRate(policyNumber, Response.Status.OK.getStatusCode());
 		ComparablePolicy changeLogResponse = HelperCommon.viewEndorsementChangeLog(policyNumber, Response.Status.OK.getStatusCode());
+		PolicyCoverageInfo policyCoverageInfo = HelperCommon.viewPolicyCoverages(policyNumber, PolicyCoverageInfo.class);
+		PolicyCoverageInfo endorsementCoverageInfo = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
 		for (Coverage coverage : coverageExpected) {
-			assertThat(changeLogResponse.policyCoverages.get(coverage.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverage, "availableLimits");
+			Coverage originalCoverage = findCoverage(policyCoverageInfo.policyCoverages, coverage.getCoverageCd());
+			Coverage modifiedCoverage = findCoverage(endorsementCoverageInfo.policyCoverages, coverage.getCoverageCd());
+
+			if (!originalCoverage.equals(modifiedCoverage)) {
+				assertThat(changeLogResponse.policyCoverages.get(coverage.getCoverageCd()).data).isEqualToIgnoringGivenFields(coverage, "availableLimits");
+			} else {
+				if (changeLogResponse.policyCoverages != null) {
+					assertThat(changeLogResponse.policyCoverages.get(coverage.getCoverageCd())).isNull();
+				}
+			}
 		}
 	}
 
@@ -5762,11 +5825,31 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void validateCoverageLimitInPASUI(Coverage... coverageExpected) {
+		validateCoverageLimitInPASUI(Arrays.asList(coverageExpected));
+	}
+
+	private void validateCoverageLimitInPASUI(List<Coverage> coverageExpected) {
 		openPendedEndorsementInquiryAndNavigateToPC();
 		for (Coverage coverage : coverageExpected) {
 			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
 		}
 		premiumAndCoveragesTab.cancel();
+	}
+
+	private void validateCoveragesDXP(List<Coverage> actualCoverages, Coverage... expectedCoverages) {
+		for (Coverage expectedCoverage : expectedCoverages) {
+			Coverage actualCoverage = findCoverage(actualCoverages, expectedCoverage.getCoverageCd());
+			assertThat(actualCoverage).isEqualToComparingFieldByField(expectedCoverage);
+		}
+	}
+
+	//TODO-mstrazds: This method can be used in every typical Coverage US. Use it.
+	private void updateCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
+		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
+		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
 	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {
