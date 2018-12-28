@@ -11,11 +11,7 @@
     <test name="Test Min Due is not Recalculated After Endorsements" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements">
-                <methods>
-                    <include name="pas20379_testMinDueIsNotRecalculatedAfterEndorsements"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements"/>
         </classes>
     </test>
 
