@@ -670,15 +670,7 @@ TestData_AddDriverInformation_Version1: {
   MembershipTab: {},
   VehicleTab: {},
   AssignmentTab: {},
-  FormsTab: {
-    Driver Forms: {
-      CIPCSR22: {
-        Action: Edit,
-        Case Number: 123456789,
-        State: CA
-      }
-    }
-  },
+  FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {
     Sales Agent Agreement: I Agree,
