@@ -239,6 +239,7 @@ NamedInsuredInformation2_CT: {
   First Name: Jenny,
   Last Name: Smith,
   Base Date: $<today>,
+  Insured Date of Birth: 12/05/1962,
   Social Security Number: 223456789,
   "County / Township": 'New Haven / Middlebury',
   "Has lived here for less than three years?": 'No',

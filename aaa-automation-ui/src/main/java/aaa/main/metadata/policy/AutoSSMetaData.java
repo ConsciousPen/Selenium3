@@ -75,7 +75,6 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<Button> CONFIRM_REMOVE = declare("Confirm Remove", Button.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_form:buttonYes"));
 		}
 
-		// By.xpath(".//div[@id='policyDataGatherForm:componentView_ExistingPolicies']"));
 		public static final class NamedInsuredInformation extends MetaData {
 			public static final AssetDescriptor<JavaScriptButton> ADD_INSURED = declare("Add", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:addInsured"));
 			public static final AssetDescriptor<SingleSelectSearchDialog> INSURED_SEARCH_DIALOG =
@@ -86,6 +85,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 			public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
 			public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
+			public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare ("Insured Date of Birth", TextBox.class);
 			public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ADDRESS_TYPE = declare("Address Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
