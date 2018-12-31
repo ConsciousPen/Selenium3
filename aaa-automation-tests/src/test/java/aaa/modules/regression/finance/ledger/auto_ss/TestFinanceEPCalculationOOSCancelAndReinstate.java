@@ -22,10 +22,10 @@ import toolkit.utils.TestInfo;
 
 public class TestFinanceEPCalculationOOSCancelAndReinstate extends FinanceOperations {
 
-    @Override
-    protected PolicyType getPolicyType() {
-        return PolicyType.AUTO_SS;
-    }
+	@Override
+	protected PolicyType getPolicyType() {
+		return PolicyType.AUTO_SS;
+	}
 
 	/**
 	 * @author Maksim Piatrouski

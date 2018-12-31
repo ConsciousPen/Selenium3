@@ -32,6 +32,20 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_0
 	)),
+	PIPMEDICAL_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000
+	)),
+	PIPWORKLOSS_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_12000,
+			CoverageLimits.COV_24000
+	)),
+	PIPFUNERAL_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_4000
+	)),
 	PD_IN(ImmutableList.of(
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_15000,
@@ -58,8 +72,30 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500000,
 			CoverageLimits.COV_1000000
 	)),
+	PD_DC(ImmutableList.of(
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
 	UIMPD(ImmutableList.of(
 			CoverageLimits.COV_0,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
+	UIMPD_DC(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000,
 			CoverageLimits.COV_100000,
@@ -119,6 +155,17 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_20000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_40000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000,
+			CoverageLimits.COV_300000,
+			CoverageLimits.COV_500000,
+			CoverageLimits.COV_1000000
+	)),
+	UMPD_DC(ImmutableList.of(
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000,
 			CoverageLimits.COV_100000,
 			CoverageLimits.COV_300000,
@@ -212,8 +259,18 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_5001000,
 			CoverageLimits.COV_10001000
 	)),
-
-	BI_WV_VA_KS(ImmutableList.of(
+	UMBI_DE(ImmutableList.of(
+			CoverageLimits.COV_00,
+			CoverageLimits.COV_2550,
+			CoverageLimits.COV_50100,
+			CoverageLimits.COV_100300,
+			CoverageLimits.COV_250500,
+			CoverageLimits.COV_300500,
+			CoverageLimits.COV_500500,
+			CoverageLimits.COV_5001000,
+			CoverageLimits.COV_10001000
+	)),
+	BI_WV_VA_KS_DC_DE(ImmutableList.of(
 			CoverageLimits.COV_2550,
 			CoverageLimits.COV_50100,
 			CoverageLimits.COV_100300,
@@ -286,9 +343,11 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_500,
 			CoverageLimits.COV_750,
 			CoverageLimits.COV_1000
-
 	)),
-
+	UMPD_DE(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_10000
+	)),
 	UMPD_OR(ImmutableList.of(
 			CoverageLimits.COV_0,
 			CoverageLimits.COV_20000,

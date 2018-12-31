@@ -53,10 +53,6 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
     String purchaseDate3 = "2014-01-01";
     String vin3 = "1HGCD5603VA139404";
 
-    String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    String endorsementDateBack = TimeSetterUtil.getInstance().getCurrentTime().minusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    String endorsementDateFuture = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
     VehicleUpdateDto updateVehReqUnderTheMoratorium_VA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "Valhalla Square", "Ashburn", "20147", "VA");
     VehicleUpdateDto updateVehReqNotUnderTheMoratorium_VA = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "501 E Broad St", "Richmond", "23219", "VA");
     VehicleUpdateDto updateVehReqNotUnderTheMoratorium_AZ = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "24250 N 23rd Ave", "Phoenix", "85085", "AZ");
@@ -91,6 +87,9 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21466"})
     @StateList(states = {Constants.States.VA, Constants.States.AZ})
     public void pas21466_GarageAddressUnderTheMoratorium(@Optional("VA") String state) {
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String endorsementDateBack = TimeSetterUtil.getInstance().getCurrentTime().minusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         TestData td_CA = getTestSpecificTD("TestData_Moratorium_DXP_Config_1");
         MoratoriumRule moratoriumRule = getMoratoriumRule(td_CA);
         TestData td_VA = getTestSpecificTD("TestData_Moratorium_DXP_Config_2");
@@ -178,6 +177,9 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
     @StateList(states = {Constants.States.VA, Constants.States.AZ})
     @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21466"})
     public void pas21466_GarageAddressUnderTheMoratoriumPart2(@Optional("AZ") String state) {
+        String endorsementDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String endorsementDateBack = TimeSetterUtil.getInstance().getCurrentTime().minusDays(2).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String endorsementDateFuture = TimeSetterUtil.getInstance().getCurrentTime().plusDays(10).format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         TestData td_CA = getTestSpecificTD("TestData_Moratorium_DXP_Config_1");
         MoratoriumRule moratoriumRule = getMoratoriumRule(td_CA);

@@ -1,6 +1,8 @@
 package aaa.modules.regression.service.helper;
 
 import static aaa.admin.modules.IAdmin.log;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -72,6 +74,7 @@ public class HelperCommon {
 	private static final String DXP_BILLING_ACCOUNT_INFO = "/api/v1/accounts/%s";
 	private static final String DXP_VIEW_RFI = "/api/v1/policies/%s/endorsement/rfi?generate=%s";
 	private static final String DXP_BILLING_INSTALLMENTS_INFO = "/api/v1/accounts/%s/installments";
+	private static final String DXP_BILLING_POLICIES_TERM_INFO = "/api/v1/billing/accounts/%s/policies?effectiveDate=%s";
 
 	private static AdminApplication adminApp() {
 		return CSAAApplicationFactory.get().adminApp();
@@ -482,6 +485,16 @@ public class HelperCommon {
 	public static RFIDocuments rfiViewService(String policyNumber, boolean generateDoc) {
 		String requestUrl = urlBuilderDxp(String.format(DXP_VIEW_RFI, policyNumber, generateDoc));
 		return JsonClient.sendGetRequest(requestUrl, RFIDocuments.class);
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, LocalDateTime termEffectiveDate, Class<T> responseType) {
+		return viewPolicyTermInfo(policyNumber, termEffectiveDate.format(DateTimeFormatter.ISO_LOCAL_DATE), responseType, Response.Status.OK.getStatusCode());
+	}
+
+	public static <T> T viewPolicyTermInfo(String policyNumber, String termEffectiveDate, Class<T> responseType, int status) {
+		RestRequestInfo<T> restRequestInfo =
+				JsonClient.buildRequest(urlBuilderDxp(String.format(DXP_BILLING_POLICIES_TERM_INFO, policyNumber, termEffectiveDate)), responseType, status);
+		return JsonClient.sendJsonRequest(restRequestInfo, RestRequestMethodTypes.GET);
 	}
 
 	public static Installment[] billingInstallmentsInfo(String policyNumber) {

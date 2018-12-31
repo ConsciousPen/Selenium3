@@ -41,21 +41,21 @@ public class TestDddViolation extends AutoSSBaseTest {
 
 	private static final List<String> DRIVERS_WITHOUT_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor2", "DriverInformationAlcohol2")));
 	private static final List<String> DRIVERS_WITH_DISCOUNT = Collections.synchronizedList(new ArrayList<>(Arrays.asList("DriverInformationMajor1", "DriverInformationAlcohol1")));
-	private List<TestData> driversTD;
+	private static final List<TestData> driversTD = Collections.synchronizedList(new ArrayList<>());
 
 	/**
-	* * @author Igor Garkusha
-	* @name Test NB - Defensive Driver Discount, Minor Violation
-	* @scenario
+	 * @author Igor Garkusha
+	 * @name Test NB - Defensive Driver Discount, Minor Violation
+	 * @scenario
 	 * 1. Create Customer.
-	* 2. Create Auto SS PA Quote.
-	* 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
+	 * 2. Create Auto SS PA Quote.
+	 * 3. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-1y).
 	 * 4. Add 3 drivers and select 'Defensive Driver Course Completed?' Yes (completion date CSD-6M).
-	* 5. Fill All other required data up to Driver Activity Reports Tab.
-	* 6. Order Reports.
-	* 7. Navigate to P&C Tab.
+	 * 5. Fill All other required data up to Driver Activity Reports Tab.
+	 * 6. Order Reports.
+	 * 7. Navigate to P&C Tab.
 	 * 8. Validate that 3 drivers who had DDDCC CSD-1y are with Defensive driver discount
-	* @details
+	 * @details
 	*/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
@@ -67,9 +67,8 @@ public class TestDddViolation extends AutoSSBaseTest {
 	    mainApp().open();
 		createCustomerIndividual(getCustomerTD());
 
-		driversTD = getDriversTd();
 		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		policy.initiate();
@@ -95,9 +94,11 @@ public class TestDddViolation extends AutoSSBaseTest {
 	* @details
 	*/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsEndorsement(@Optional("PA") String state) {
+
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -127,9 +128,11 @@ public class TestDddViolation extends AutoSSBaseTest {
 	* @details
 	*/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsRenewal(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
@@ -159,15 +162,17 @@ public class TestDddViolation extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS, testCaseId = "PAS-2450, PAS-3819")
 	public void pas2450_testDriversWithViolationsConversion(@Optional("PA") String state) {
+
+        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(540));
 
 		mainApp().open();
         createCustomerIndividual(getCustomerTD());
 
 		TestData testData = getConversionPolicyDefaultTD()
-                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD)
+                .adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd())
                 .adjust(TestData.makeKeyPath(DriverActivityReportsTab.class.getSimpleName()), getTestSpecificTD(DriverActivityReportsTab.class.getSimpleName()));
 
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
@@ -180,7 +185,7 @@ public class TestDddViolation extends AutoSSBaseTest {
 	}
 
 	private void renewAndEndorsementSteps() {
-		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), driversTD);
+		TestData testData = getPolicyTD().adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName()), getDriversTd());
 		RadioGroup saleAgentAgreement = new DriverActivityReportsTab().getAssetList().getAsset(SALES_AGENT_AGREEMENT);
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
@@ -226,15 +231,15 @@ public class TestDddViolation extends AutoSSBaseTest {
         return fullName;
 	}
 
-	private List<TestData> getDriversTd() {
-		List<TestData> drivers = new ArrayList<>();
-		getTestSpecificTD("TestData").getTestDataList(DriverTab.class.getSimpleName()).forEach(v -> drivers.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
-
-		DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(drivers, v));
-		DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(drivers, v));
-		DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
-        DRIVERS_WITHOUT_DISCOUNT.add(0, "DriverInformationMinor2");
-		return drivers;
+	private synchronized List<TestData> getDriversTd() {
+		if (driversTD.isEmpty()) {
+            getTestSpecificTD("TestData").getTestDataList(DriverTab.class.getSimpleName()).forEach(v -> driversTD.add(DataProviderFactory.emptyData().adjust(v).resolveLinks()));
+            DRIVERS_WITH_DISCOUNT.forEach(v -> prepareData(driversTD, v));
+            DRIVERS_WITHOUT_DISCOUNT.forEach(v -> prepareData(driversTD, v));
+            DRIVERS_WITH_DISCOUNT.add(0, "DriverInformationMinor1");
+            DRIVERS_WITHOUT_DISCOUNT.add(0, "DriverInformationMinor2");
+        }
+		return driversTD;
 	}
 
 	private TestData getCustomerTD() {

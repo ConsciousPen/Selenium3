@@ -9,10 +9,7 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
-import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
-import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.*;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -733,6 +730,21 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<AdvancedComboBox> VEHICLE_LOAN_OR_LEASE_PROTECTION = declare("Vehicle Loan/Lease Protection", AdvancedComboBox.class);
 			// *** DO NOT DECLARE "Waive Liability" and "Vehicle Coverage" controls in this MetaData. They are added within DetailedVehicleCoveragesRepeatAssetList.class ***
 		}
+
+		public static final AssetDescriptor<DialogAssetList> VIEW_CAPPING_DETAILS_DIALOG = declare("View Capping Details", DialogAssetList.class, ViewCappingDetailsDialog.class, By.xpath("//form[@id='cappingDetailsPopupPanel']"));
+
+		public static final class ViewCappingDetailsDialog extends MetaData {
+			private static final By CLOSE_CAPPING_POPUP_LOCATOR = By.id("cappingDetailsPopupPanel:cappingSave");
+			public static final AssetDescriptor<Button> VIEW_CAPPING_DETAILS = declare(AbstractDialog.DEFAULT_POPUP_OPENER_NAME, Button.class, Waiters.AJAX, false, By.id("policyDataGatherForm:viewCappingDetails_Link_1"));
+			public static final AssetDescriptor<TextBox> MANUAL_CAPPING_FACTOR = declare("Manual Capping Factor (%)", TextBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<ComboBox> CAPPING_OVERRIDE_REASON = declare("Capping Override Reason", ComboBox.class, Waiters.AJAX);
+			public static final AssetDescriptor<Button> BUTTON_TO_PREMIUM_AND_COVERAGES = declare("Return to Premium & Coverages", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingReturnTo"));
+			public static final AssetDescriptor<Button> BUTTON_CALCULATE = declare("Calculate", Button.class, Waiters.AJAX, false, By.id("cappingDetailsPopupPanel:cappingCalculate"));
+			public static final AssetDescriptor<Button> BUTTON_SAVE_AND_RETURN_TO_PREMIUM_AND_COVERAGES = declare("Save and Return to Premium & Coverages", Button.class, Waiters.AJAX,
+					false, CLOSE_CAPPING_POPUP_LOCATOR);
+			public static final AssetDescriptor<Button> SUBMIT_CAPPING_DETAILS = declare(AbstractDialog.DEFAULT_POPUP_SUBMITTER_NAME, Button.class, Waiters.AJAX,
+					false, CLOSE_CAPPING_POPUP_LOCATOR);
+		}
 	}
 
 	public static final class MoratoriumInformationSection extends MetaData {
@@ -862,6 +874,8 @@ public final class AutoSSMetaData {
 					declare("Auto Insurance Application", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:document_PAA']"));
 			public static final AssetDescriptor<RadioGroup> MEDICAL_PAYMENTS_REJECTION_OF_COVERAGE =
 					declare("Medical Payments Rejection of Coverage", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:document_RMPC']"));
+			public static final AssetDescriptor<RadioGroup> REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE =
+					declare("Rejection of Uninsured/Underinsured Motorists Coverage", RadioGroup.class, Waiters.AJAX, false, By.xpath("//table[@id='policyDataGatherForm:document_RUMBIC']"));
 			public static final AssetDescriptor<RadioGroup> PERSONAL_AUTO_APPLICATION = declare("Personal Auto Application", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> AAA_INSURANCE_WITH_SMARTTRECK_ACKNOWLEDGEMENT_OF_TERMS =
 					declare("AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies", RadioGroup.class, Waiters.AJAX, false,
@@ -937,7 +951,7 @@ public final class AutoSSMetaData {
 					declare("Photos for salvage vehicle with physical damage coverage", RadioGroup.class, Waiters.AJAX);
 			// NJ
 			public static final AssetDescriptor<RadioGroup> PROOF_OF_ANTI_THEFT_RECOVERY_DEVICE = declare("Proof of Anti-Theft Recovery Device", RadioGroup.class, Waiters.AJAX);
-			public static final AssetDescriptor<RadioGroup> CARGO_VEHICLE_INSPECTION_COMPLETED =
+			public static final AssetDescriptor<RadioGroup> CARCO_VEHICLE_INSPECTION_COMPLETED =
 					declare("CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_1 = declare("Separate Vehicle 1", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_0']"));
 			public static final AssetDescriptor<RadioGroup> SEPARATE_VEHICLE_2 = declare("Separate Vehicle 2", RadioGroup.class, By.xpath("//table[@id='policyDataGatherForm:driverName_1']"));

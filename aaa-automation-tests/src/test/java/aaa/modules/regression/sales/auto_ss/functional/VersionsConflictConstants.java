@@ -18,10 +18,10 @@ public class VersionsConflictConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
-			.putAll("AAA Membership report.Member Since Date", "2005-01-01", "")
-			.putAll("AAA Membership report.Order Date", "","")
-			.putAll("AAA Membership report.Receipt Date", "", "")
-			.putAll("AAA Membership report.Status", "Active","")
+			.putAll("Reports.AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Policy Information
 			.putAll("Policy Information.Renewal Term Premium - Old Rater","","2532")
 			.putAll("Policy Information.Override ASD Level","true","false")
@@ -104,7 +104,7 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
-			.put("AAA Membership report.Membership No.", "Membership Number")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -173,22 +173,20 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> NAMED_INSURED_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.VIFirstName VI VILastName.AAA Claims Report Order.First Name", CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.AAA Claims Report Order.Last Name", CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.AAAMvr Report Order.First Name",CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.AAAMvr Report Order.Last Name",CURRENT)
-					.put("Drivers.VIFirstName VI VILastName.First Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Prefix", AVAILABLE)
-					.put("Named Insureds.VIFirstName VI VILastName.First Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Middle Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Last Name", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Suffix", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Social Security Number", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Base Date",CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Residential Address", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Move-In Date", AVAILABLE)
-					.put("Named Insureds.VIFirstName VI VILastName.Mailing Address", CURRENT)
-					.put("Named Insureds.VIFirstName VI VILastName.Residence", AVAILABLE)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.First Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Last Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.First Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Last Name",CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Name on License", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Name on License",CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Prefix", AVAILABLE)
+					.put("Named Insureds.VIIFirstName VII VIILastName.First Name", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Social Security Number", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Base Date",CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Residential Address", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", AVAILABLE)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", CURRENT)
+					.put("Named Insureds.VIIFirstName VII VIILastName.Residence", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -221,7 +219,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> AAA_PRODUCT_OWNED_MANUAL = ArrayListMultimap.create(
 					ImmutableListMultimap.<String, String>builder()
-							.put("AAA Membership report.Membership No.", CURRENT)
 							.put("AAA Products Owned.Current AAA Member", CURRENT)
 							.put("AAA Products Owned.Motorcycle Policy #", AVAILABLE)
 							.put("AAA Products Owned.Life Policy #", CURRENT)
@@ -261,11 +258,11 @@ public class VersionsConflictConstants {
 			.put("AAA Products Owned", "Life Policy #")
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
-			.put("AAA Membership report", "Membership No.")
-			.put("AAA Membership report", "Member Since Date")
-			.put("AAA Membership report", "Order Date")
-			.put("AAA Membership report", "Receipt Date")
-			.put("AAA Membership report", "Status")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Member Since Date")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.build();
 
 	/**
@@ -273,7 +270,6 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> CONTACT_INFORMATION = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("AAAPolicy Issue Summary.Insured Email", AVAILABLE)
 					.put("Contact Information.Home Phone Number", CURRENT)
 					.put("Contact Information.Work Phone Number", AVAILABLE)
 					.put("Contact Information.Mobile Phone Number", CURRENT)
@@ -365,15 +361,15 @@ public class VersionsConflictConstants {
 	 */
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.NBFirstName NB NBLastName.AAA Claims Report Order.Date of Birth", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAA Claims Report Order.License Number", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAA Claims Report Order.License State", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAA Claims Report Order.Gender", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.Date of Birth", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License Number", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.License State", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order.Gender", AVAILABLE)
 					.put("Vehicles.2008, ACURA, MDX.Coverages.AAAADBCoverage.Automobile Death Benefit", CURRENT)
-					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Date of Birth", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License Number", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.License State", AVAILABLE)
-					.put("Drivers.NBFirstName NB NBLastName.AAAMvr Report Order.Gender", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.Date of Birth", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License Number", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.License State", AVAILABLE)
+					.put("Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order.Gender", AVAILABLE)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_ADBEEndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_ADBEEndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_ADBEEndorsement Form", CURRENT)
@@ -422,19 +418,19 @@ public class VersionsConflictConstants {
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_MANUAL = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Enroll in Usage Based Insurance?", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Ownership Type",CURRENT)
-					.put("AALPXXEndorsement Form", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Usage", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Enroll in Usage Based Insurance?", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Ownership Type",CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> VEHICLE_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Usage", CURRENT)
-					.put("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version2, Second Name version2).First Name", AVAILABLE)
+					.put("Vehicles.1998, DODGE, CARAVAN.Usage", CURRENT)
+					.put("Vehicles.1998, DODGE, CARAVAN.Garaging Address", AVAILABLE)
 					.build());
 
 	//all components/attributes that should be on Comparison page Rolled on/OOSE

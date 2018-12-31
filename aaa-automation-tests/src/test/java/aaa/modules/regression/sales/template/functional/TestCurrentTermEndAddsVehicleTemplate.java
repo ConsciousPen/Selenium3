@@ -1,18 +1,18 @@
 package aaa.modules.regression.sales.template.functional;
 
+
 import static aaa.common.Tab.buttonCancel;
 import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
-import static aaa.main.pages.summary.PolicySummaryPage.TransactionHistory.provideLinkExpandComparisonTree;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.db.queries.MsrpQueries;
 import aaa.helpers.db.queries.VehicleQueries;
 import aaa.helpers.product.DatabaseCleanHelper;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -24,8 +24,10 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
-import toolkit.webdriver.controls.composite.table.Table;
+
+import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
+
+
 
 public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods {
 
@@ -44,12 +46,21 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     protected static final String SYMBOL_2018 = "SYMBOL_2018";
     protected static final String SYMBOL_2000_CHOICE = "SYMBOL_2000_CHOICE";
     protected static final String SYMBOL_2018_CHOICE = "SYMBOL_2018_CHOICE";
+    protected static final int VEHICLEYEARMIN_CHOICE = 2011;
+    protected static final int VEHICLEYEARMIN_SELECT = 1997;
+    protected static final int VEHICLEYEARMAX = 9999;
+    protected static final String VEHICLETYPE = "Regular";
+    protected static final String MSRP_2018_SELECT = "MSRP_2018_SELECT";
+    protected static final String MSRP_2018_CHOICE = "MSRP_2018_CHOICE";
+    protected static final int KEY = 49;
+
 
     protected TestData testDataThreeVehicles;
 
     protected static final String NOT_MATCHED = "NOT_MATCHED";
     protected static final String MATCHED = "MATCHED";
     protected static final String STUB = "STUB";
+
 
     protected void pas14532_refreshForCurrentAndRenewalTerms_initiateEndorsement(String scenario) {
         UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
@@ -146,7 +157,6 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     protected TestData modifyVehicleTabVinStub(TestData testData) {
         return testData.getTestData(vehicleTab.getMetaKey()).adjust(getTestSpecificTD("VehicleTab_updateVINStub")).resolveLinks();
     }
-
 
     protected TestData getThreeAssignmentsTestData() {
         TestData testData = getTwoAssignmentsTestData();
@@ -247,6 +257,125 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(vehicleCellIndex).getValue()).isEqualTo(vehicleCollSymbol);
     }
 
+    protected void pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms_initiateEndorsement() {
+        UploadToVINTableTab uploadToControlTableTab = new UploadToVINTableTab();
+        String controlTableMSRPFile = "controlTable_updateMSRPVersion_CA.xlsx";
+        TestData testDataTwoMSRPVehicles = getTestDataWithTwoMSRPVehicles(getPolicyTD());
+
+        //1. Create CA auto policy with two vehicles and save the expiration date
+        mainApp().open();
+        createCustomerIndividual();
+        policy.initiate();
+        PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+        DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
+
+        policy.getDefaultView().fillUpTo(testDataTwoMSRPVehicles, PremiumAndCoveragesTab.class, true);
+        premiumAndCoveragesTab.submitTab();
+        policy.getDefaultView().fillFromTo(testDataTwoMSRPVehicles, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
+        documentsAndBindTab.submitTab();
+        new PurchaseTab().fillTab(testDataTwoMSRPVehicles).submitTab();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        log.info("policy number: " + policyNumber);
+
+        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+        //2. control table file upload for changing the effective date and expiration date
+        adminApp().open();
+        uploadToControlTableTab.uploadControlTable(controlTableMSRPFile);
+
+        LocalDateTime expirationDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(360);
+        LocalDateTime effectiveDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(361);
+        log.info("expirationDate:" + expirationDate);
+        log.info("effectiveDate:" + effectiveDate);
+        updateControlTable(expirationDate, effectiveDate);
+
+        //3. Change system date to R-35 and renew it
+        moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(35));
+
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLEYEARMIN_CHOICE, VEHICLEYEARMAX, VEHICLETYPE, MSRP_2018_CHOICE, KEY));
+        } else {
+            DBService.get().executeUpdate(String.format(INSERT_MSRPCOMPCOLLCONTROL_VERSION, VEHICLEYEARMIN_SELECT, VEHICLEYEARMAX, VEHICLETYPE, MSRP_2018_SELECT, KEY));
+        }
+
+        //4. Initiate endorsement
+        initiateEndorsement();
+    }
+
+    public void pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms_bindEndorsement() {
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
+
+        TestData testDataThreeMSRPVehicles = getTestDataWithThreeMSRPVehicles(getPolicyTD());
+
+        //6. Calculate Premium and bind the endorsement.
+        if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT))
+            policy.getDefaultView().fillFromTo(testDataThreeMSRPVehicles, VehicleTab.class, PremiumAndCoveragesTab.class, true); //select
+        else if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE))
+            policy.getDefaultView().fillFromTo(testDataThreeMSRPVehicles, VehicleTab.class, DocumentsAndBindTab.class, true); //choice
+
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
+        documentsAndBindTab.submitTab();
+    }
+
+    public TestData getTestDataWithTwoMSRPVehicles(TestData testData) {
+        // Build Assignment Tab
+        TestData testDataAssignmentTab = getTwoAssignmentsTestData();
+        TestData firstMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle1")).resolveLinks();
+        TestData secondMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle2")).resolveLinks();
+
+        // Build Vehicle Tab old version vin + updated vehicle
+        List<TestData> testDataVehicleTab = new ArrayList<>();
+        testDataVehicleTab.add(firstMSRPVehicle);
+        testDataVehicleTab.add(secondMSRPVehicle);
+
+        TestData twoVehicleData = null;
+        // add 2 vehicles
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            twoVehicleData = testData.adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
+                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
+                    .adjust(documentsAndBindTab.getMetaKey(), getTestSpecificTD("DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicle")).resolveLinks();
+        } else {
+            twoVehicleData = testData.adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
+                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks();
+        }
+        return twoVehicleData;
+    }
+
+    public TestData getTestDataWithThreeMSRPVehicles(TestData testData) {
+        TestData modifiedfirstMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle3")).resolveLinks();
+        TestData modifiedsecondMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle4")).resolveLinks();
+        TestData thirdMSRPVehicle = getPolicyTD().getTestData(vehicleTab.getMetaKey())
+                .adjust(getTestSpecificTD("VehicleTab_updateMSRPVehicle5")).resolveLinks();
+        // Build Assignment Tab for endorsement
+        TestData testDataAssignmentTab = getThreeAssignmentsTestData();
+        TestData threeVehicleData = null;
+
+        // Build Vehicle Tab old version vin + updated vehicle
+        List<TestData> testDataVehicleTab = new ArrayList<>();
+        testDataVehicleTab.add(modifiedfirstMSRPVehicle);
+        testDataVehicleTab.add(modifiedsecondMSRPVehicle);
+        testDataVehicleTab.add(thirdMSRPVehicle);
+
+        // add 3 vehicles
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            threeVehicleData = testData
+                    .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
+                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
+                    .adjust(driverActivityReportsTab.getMetaKey(), getTestSpecificTD("DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks()
+                    .adjust(documentsAndBindTab.getMetaKey(), getTestSpecificTD("DocumentsAndBindTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks();
+        } else {
+            threeVehicleData = testData
+                    .adjust(vehicleTab.getMetaKey(), testDataVehicleTab).resolveLinks()
+                    .adjust(assignmentTab.getMetaKey(), testDataAssignmentTab).resolveLinks()
+                    .adjust(driverActivityReportsTab.getMetaKey(), getTestSpecificTD("DriverActivityReportsTab_TestDataCurrentTermEndAddsVehicleEndorsement")).resolveLinks();
+        }
+        return threeVehicleData;
+    }
+
     protected void cleanup() {
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE1_VIN, SYMBOL_2018);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable(VEHICLE2_VIN, SYMBOL_2018);
@@ -263,6 +392,8 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2GTEC19V%3", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("2HNYD2H6%C", SYMBOL_2018_CHOICE);
         DatabaseCleanHelper.cleanVehicleRefDataVinTable("WBSAK031%M", SYMBOL_2018_CHOICE);
+        DBService.get().executeUpdate(String.format(MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, MSRP_2018_CHOICE, KEY, VEHICLETYPE));
+        DBService.get().executeUpdate(String.format(MsrpQueries.DELETE_FROM_MSRPCompCollCONTROL_BY_VERSION_KEY, MSRP_2018_SELECT, KEY, VEHICLETYPE));
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018));
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "CA", SYMBOL_2018_CHOICE));
         DBService.get().executeUpdate(String.format(VehicleQueries.DELETE_FROM_VEHICLEREFDATAVINCONTROL_BY_STATECD_VERSION, "AZ", SYMBOL_2018));

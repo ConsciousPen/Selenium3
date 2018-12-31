@@ -313,6 +313,7 @@ public final class HomeSSMetaData {
 		}
 
 		public static final class PPCReportDialog extends MetaData {
+			public static final AssetDescriptor<RadioGroup> SUBSCRIPTION_TO_FIRE_DEPARTMENT_STATION = declare("Subscription to fire department/station", RadioGroup.class, Waiters.AJAX,By.id("ppcPercentageForm:subsriptionIndicator"));
 			public static final AssetDescriptor<Button> BTN_OK = declare("OK", Button.class, By.id("ppcPercentageForm:cmdBtnPublicProtectionClass"));
 		}
 
@@ -580,6 +581,7 @@ public final class HomeSSMetaData {
 			public static final AssetDescriptor<TextBox> REASON_CLAIM_IS_NOT_CHARGEABLE = declare("Reason claim is not chargeable", TextBox.class, Waiters.AJAX);
 			public static final AssetDescriptor<AssetListConfirmationDialog> ACTIVITY_REMOVE_CONFIRMATION =
 					declare("Activity remove confirmation", AssetListConfirmationDialog.class, Waiters.AJAX, false, By.id("confirmEliminateInstance_Dialog_container"));
+			public static final AssetDescriptor<StaticElement> CLAIM_MODIFIED_WARNING_MESSAGE = declare("Underwriting approval is required for claim(s) that have been modified", StaticElement.class, By.id("policyDataGatherForm:warningMsg"));
 		}
 
 		public static final class RentalInformation extends MetaData {
@@ -1073,7 +1075,7 @@ public final class HomeSSMetaData {
 		public static final class EndorsementHS0926 extends MetaData {
 			public static final AssetDescriptor<ComboBox> COVERAGE_LIMIT = declare("Coverage limit", ComboBox.class);
 		}
-		
+
 		public static final class EndorsementHS0930 extends MetaData {
 			public static final AssetDescriptor<ComboBox> PROPERTY_COVERAGE_LIMIT = declare("Property Coverage Limit", ComboBox.class);
 			public static final AssetDescriptor<ComboBox> LIABILITY_COVERAGE_LIMIT = declare("Liability Coverage Limit", ComboBox.class);
@@ -1144,7 +1146,7 @@ public final class HomeSSMetaData {
 
 		public static final class EndorsementHS1731 extends MetaData {}
 		public static final class EndorsementHS1733 extends MetaData {}
-		
+
 		public static final class EndorsementHS2383 extends MetaData {
 			public static final AssetDescriptor<TextBox> LIMIT_OF_LIABILITY_OTHER_STRUCTURES = declare("Limit of liability - Other Structures", TextBox.class, Waiters.AJAX);
 		}

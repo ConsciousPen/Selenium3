@@ -375,4 +375,29 @@ public class TestMaigConversionHomeDP3 extends TestMaigConversionHomeAbstract {
     public void pas20836_expirationNoticeFormGeneration(@Optional("AZ") String state) throws NoSuchFieldException {
         super.pas20836_expirationNoticeFormGeneration(state);
     }
+
+
+    /**
+     * @name Test Conversion Document generation
+     * @scenario
+     * 1. Create Customer
+     * 2. Initiate Renewal Entry
+     * 3. Fill Conversion Policy data for DP3
+     * 4. Check that DSIIDNV0512 document is getting generated
+     * 5. Buy Conversion Policy
+     * 6. Move time to 2nd Renewals Offer Generation date (usually R-35)
+     * 7. Check that DSIIDNV0512 document is NOT generated
+     * @details
+     */
+    @Override
+    @Parameters({STATE_PARAM})
+    @StateList(states = States.NV)
+    @Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.DocumentFulfillment.HOME_SS_DP3, testCaseId = {"PAS-18433"})
+    public void pas18433_importantInformationRegardingYourNewDwellingFirePolicyDSIIDNV0512(@Optional("NV") String state) throws NoSuchFieldException {
+        super.pas18433_importantInformationRegardingYourNewDwellingFirePolicyDSIIDNV0512(state);
+    }
+
+
+
 }

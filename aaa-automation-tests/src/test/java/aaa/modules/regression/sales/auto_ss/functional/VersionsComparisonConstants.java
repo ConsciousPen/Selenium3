@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("SubProducer","2515")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
@@ -31,10 +30,10 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Product Owned
-			.putAll("AAA Membership report.Member Since Date", "2005-01-01", "")
-			.putAll("AAA Membership report.Order Date", "","")
-			.putAll("AAA Membership report.Receipt Date", "", "")
-			.putAll("AAA Membership report.Status", "Active","")
+			.putAll("Reports.AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
@@ -134,7 +133,7 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
-			.put("AAA Membership report.Membership No.", "Membership Number")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -286,11 +285,11 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "Condo Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
-			.put("AAA Membership report", "Membership No.")
-			.put("AAA Membership report", "Member Since Date")
-			.put("AAA Membership report", "Order Date")
-			.put("AAA Membership report", "Receipt Date")
-			.put("AAA Membership report", "Status")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Member Since Date")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
