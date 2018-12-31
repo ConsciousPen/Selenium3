@@ -2,6 +2,8 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.ProductConstants.PolicyStatus.PREMIUM_CALCULATED;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.myPolicyUserAddedConfigCheck;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.DELETE_INSERT_EFFECTIVE_DATE;
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -81,6 +83,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected abstract AssetDescriptor<JavaScriptButton> getCalculatePremium();
 
 	protected void pas6560_endorsementValidateAllowedNoEffectiveDate() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		mainApp().close();
@@ -96,6 +100,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6560_endorsementValidateAllowed() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -114,6 +120,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedNano(PolicyType policyType, String state) {
+
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(testDataManager.getDefault(TestPolicyNano.class).getTestData("TestData_" + state));
@@ -132,6 +141,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6560_endorsementValidateAllowedPendedEndorsementUser(PolicyType policyType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -154,6 +165,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedPendedEndorsementSystem(PolicyType policyType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -191,6 +204,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedFutureDatedEndorsement(PolicyType policyType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -215,6 +230,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedUBI(PolicyType policyType) {
+
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createQuote(getPolicyTD());
@@ -243,6 +261,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas6562_endorsementValidateNotAllowedOutOfBound(PolicyType policyType) {
+
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -377,6 +398,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas7332_deletePendingEndorsementStartNewEndorsementThroughService(PolicyType policyType, String endorsementType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
+
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -633,6 +657,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForFuturePolicy(PolicyType policyType) {
+
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 
@@ -665,6 +692,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9337_CheckStartEndorsementInfoServerResponseForCancelPolicy(PolicyType policyType) {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -1424,6 +1453,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas9456_9455_PolicyLockUnlockServicesBody() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		mainApp().close();
@@ -1482,6 +1513,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas508_BindManualEndorsement() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		String authorizedBy = "Osi Testas Insured";
 
 		mainApp().open();
@@ -1516,6 +1549,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	protected void pas508_BindServiceEndorsement() {
 		String authorizedBy = "Osi Testas Insured";
 
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1559,6 +1594,9 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas10227_ViewPremiumServiceForPolicy() {
+
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1578,6 +1616,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas10227_ViewPremiumServiceForPendedEndorsement() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		String policyNumber = createPolicy(getPolicyTD());
@@ -1916,6 +1956,8 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 	}
 
 	protected void pas13287_ViewStartEndorsementInfoServiceAZBody() {
+		myPolicyUserAddedConfigCheck();
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
