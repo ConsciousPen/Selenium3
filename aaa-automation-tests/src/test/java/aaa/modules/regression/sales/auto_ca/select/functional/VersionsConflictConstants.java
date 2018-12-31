@@ -514,9 +514,10 @@ public class VersionsConflictConstants {
 			.put("Contact Information", "Mobile Phone Number")
 			.put("Contact Information", "Preferred Phone #")
 			.put("Drivers", "Driver (New Driver Version2)")
-			.put("Named Insureds.NBFirstName NB NBLastName", "AAA Clue Order")
-			.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","Order Date")
-			.put("Named Insureds.NBFirstName NB NBLastName.AAA Clue Order","Receipt Date")
+			.put("Reports", "AAA Clue Order")
+			.put("Reports.AAA Clue Order","Order Date")
+			.put("Reports.AAA Clue Order","Receipt Date")
+			.put("Reports.AAA Clue Order","Select")
 			.build();
 
 
