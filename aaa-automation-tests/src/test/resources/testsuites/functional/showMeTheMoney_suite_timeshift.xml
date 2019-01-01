@@ -34,7 +34,7 @@
         </classes>
     </test>
     <test name="AZ TestFinanceWaiveInstallmentFee" parallel="methods">
-        <parameter name="state" value="AZ" />
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
