@@ -6,30 +6,11 @@
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
-    <test thread-count="1024" name="TestEValueDiscountJobAdding" parallel="methods">
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test thread-count="1024" name="TestEValueMembershipProcessJobAdding" parallel="methods">
-        <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
-                <methods>
-                    <include name="precondJobAdding"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
     <test thread-count="1024" name="pas5743_EnterTooMuchAndGetMessage MD VA" parallel="methods">
         <parameter name="state" value="MD, VA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
-                    <include name="refundDocumentGenerationConfigCheck"/>
                     <include name="pas5743_EnterTooMuchAndGetMessage"/>
                 </methods>
             </class>
@@ -40,12 +21,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValuePriorBiCurrentBiConfigCheck"/>
-                    <include name="eValuePriorBiConfigCheck"/>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueConfigCheck"/>
-                    <include name="paperlessPreferencesConfigCheck"/>
-                    <include name="precondJobAdding"/>
                     <include name="pas265_MinimumStateLimitsForBIPreBind"/>
                     <include name="pas278_eValueeSignedPledgeDocumentAHEVAXX"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingVa"/>
@@ -74,10 +49,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValuePriorBiConfigCheck"/>
-                    <include name="eValueAcknowledgementConfigCheck"/>
-                    <include name="eValueMembershipConfigCheck"/>
-                    <include name="eValueTerritoryChannelForORConfigCheck"/>
                     <include name="pas232_eValuePriorBiConfigurationDependency"/>
                     <include name="pas3693_eValueConfiguration1"/>
                     <include name="pas3693_eValueConfiguration2"/>
@@ -98,7 +69,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValueConfigCheck"/>
                     <include name="pas300_eValueStatusConsViewPaperPrefPendingDc"/>
                 </methods>
             </class>
@@ -109,7 +79,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValueConfigCheck"/>
                     <include name="pas305_eValueNotApplicableForState"/>
                     <include name="pas3708_eValueStatusConsViewNotConfigured"/>
                     <include name="pas12972_defaultConfigPA"/>
@@ -122,7 +91,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
                 <methods>
-                    <include name="eValueConfigCheck"/>
                     <include name="pas3097_PaperlessPreferencesOnBindPageFinalCleanUp"/>
                 </methods>
             </class>
@@ -133,7 +101,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestPaperlessPreferences">
                 <methods>
-                    <include name="eValueConfigCheck"/>
                     <include name="pas283_eValuePaperlessPreferences"/>
                 </methods>
             </class>
@@ -149,7 +116,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMessagingVerification">
                 <methods>
-                    <include name="eValueAcknowledgementConfigCheck"/>
                     <include name="pas7185_messagingConfigurablePayPlan1"/>
                     <include name="pas7185_messagingConfigurablePayPlan2"/>
                     <include name="pas7185_messagingConfigurablePayPlan3"/>
@@ -198,7 +164,6 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
-                    <include name="eValueConfigCheck"/>
                     <include name="pas294_PaperlessBillingPreferencesOtherThanOptIn"/>
                 </methods>
             </class>
