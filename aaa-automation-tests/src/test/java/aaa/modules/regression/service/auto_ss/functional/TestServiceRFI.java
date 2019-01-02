@@ -39,7 +39,7 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
+
 import toolkit.verification.ETCSCoreSoftAssertions;
 import javax.ws.rs.core.Response;
 
@@ -99,7 +99,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @author Jovita Pukenaite
+	 * @author Megha Gubbala
 	 * @name RFI AACSDC Form
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
@@ -108,6 +108,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
 	 * 6. Hit RFI service, check if document is displaying.
 	 * 7. Try bind check error
+	 * 8.Go to pas verify its electronically signed
+	 * 9. go to p and c page and change coverage from pas
+	 * 10.Verify Bind tab
+	 * 11. Try to bind without sign  and verify rule triggers
+	 * 12. verify DB for documentwhen we sign document electronically signed by is there in xml
+	 * 13.verify DB for documentwhen we sign document physically signed by is not there in xml
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
