@@ -58,6 +58,7 @@ public enum CoverageLimits {
 	DED_500("500", "$500"),
 	DED_1000("1000", "$1,000"),
 	DED_3500("3500", "$3500/$250 Ded"),
+	DED_10000("10000", "$10,000"),
 	COV_750("750", "$750"),
 	COV_500("500", "$500"),
 	COV_50("50", "$50"),
@@ -68,6 +69,8 @@ public enum CoverageLimits {
 	COV_40_1200("40/1200", "$40/$1,200"),
 	COV_50_1500("50/1500", "$50/$1,500"),
 	COV_50_300("50/300", "$50/$300"),
+	COV_PIPDEDAPPTO_NIAHF("F", "NI and Household Family"),
+	COV_PIPDEDAPPTO_NIO("P", "Named Insured Only"),
 	SP_EQ_0("0", "$0.00");
 
 	private final String limit;
