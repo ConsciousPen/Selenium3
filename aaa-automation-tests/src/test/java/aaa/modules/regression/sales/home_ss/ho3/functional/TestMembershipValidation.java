@@ -79,19 +79,13 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         errorTab.cancel();
 
         // Change ONLY First Name data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("John", "XYZ", "01/01/1942", true);
 
         // Change ONLY Last Name data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(false);
+        ChangeDataOrderReportsBind("ABC", "Smith", "01/01/1942", false);
 
         // Change ONLY DOB data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "11/10/1968");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("ABC", "XYZ", "11/10/1968", true);
 
         // Change ALL data to match an active member from STUB.
         GoToApplicantTabAndChangeApplicantData("John", "Smith", "11/10/1968");
@@ -122,14 +116,10 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         // Change NOTHING so that NO DATA MATCHES Stub.
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("ABC", "XYZ", "01/01/1942", true);
 
         // Change ONLY First Name data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("John", "XYZ", "01/01/1942", true);
 
         // Change ONLY Last Name data to match an active member from STUB.
         GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
@@ -172,14 +162,10 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
         // Change NOTHING so that NO DATA MATCHES Stub.
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("ABC", "XYZ", "01/01/1942", true);
 
         // Change ONLY First Name data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("John", "XYZ", "01/01/1942", true);
 
         // Change ONLY Last Name data to match an active member from STUB.
         GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
@@ -234,19 +220,10 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         Page.dialogConfirmation.buttonOk.click();
 
         // Change NOTHING so that NO DATA MATCHES Stub.
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
-
-        // Change NOTHING so that NO DATA MATCHES Stub.
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("ABC", "XYZ", "01/01/1942", true);
 
         // Change ONLY First Name data to match an active member from STUB.
-        GoToApplicantTabAndChangeApplicantData("John", "XYZ", "01/01/1942");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("John", "XYZ", "01/01/1942", true);
 
         // Change ONLY Last Name data to match an active member from STUB.
         GoToApplicantTabAndChangeApplicantData("ABC", "Smith", "01/01/1942");
@@ -258,9 +235,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Change ONLY DOB data to match an active member from STUB.
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData")); // Reopen Endorsement From Binding
-        GoToApplicantTabAndChangeApplicantData("ABC", "XYZ", "11/10/1968");
-        ReorderReportsFromReportsTab();
-        AttemptToBindValidateResults(true);
+        ChangeDataOrderReportsBind("ABC", "XYZ", "11/10/1968", true);
 
         // Change ALL data to match an active member from STUB.
         GoToApplicantTabAndChangeApplicantData("John", "Smith", "11/10/1968");
@@ -317,6 +292,12 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
         new PremiumsAndCoveragesQuoteTab().calculatePremium();
         AttemptToBindValidateResults(false);
+    }
+
+    public void ChangeDataOrderReportsBind(String in_firstName, String in_lastName, String in_dateOfBirth, boolean in_bErrorShouldOccur) {
+        GoToApplicantTabAndChangeApplicantData(in_firstName, in_lastName, in_dateOfBirth);
+        ReorderReportsFromReportsTab();
+        AttemptToBindValidateResults(in_bErrorShouldOccur);
     }
 
     public void ReorderReportsFromReportsTab(){
