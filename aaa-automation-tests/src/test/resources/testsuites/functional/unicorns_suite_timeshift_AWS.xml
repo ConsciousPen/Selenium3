@@ -152,4 +152,11 @@
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestCappingForSubsequentRenewals"/>
         </classes>
     </test>
+    <test name="PAS-23139 Prevent Fireline scoring from ordering at Renewal" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, CO, ID, NV, OR, UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyFirelineReportsOnRenewal"/>
+        </classes>
+    </test>
+
 </suite>

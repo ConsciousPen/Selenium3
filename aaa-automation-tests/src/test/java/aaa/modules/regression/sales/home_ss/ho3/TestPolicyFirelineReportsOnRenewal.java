@@ -2,7 +2,7 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
-import aaa.common.enums.Constants.States;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
@@ -43,8 +43,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * 2. Initiate HSS quote creation.
  * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
  * 4. Purchase policy.
- * 5. Verify policy status is Active on Consolidated policy view.
- *
+ * 5. Verify policy status is Active on Consolidated policy view. *
  * 6. Run iso batch recieve job at R-63
  * 7. Move policy to first renewal
  * 8. Assert Fireline and PPC reports are not ordered at renewal batch
@@ -63,71 +62,50 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	TestData tdBilling = testDataManager.billingAccount;
 	ReportsTab reportsTab = new ReportsTab();
 	@Parameters({"state"})
-	@StateList(states = {States.AZ, States.CO, States.ID,States.NV, States.OR,States.UT})
+	@StateList(states = {Constants.States.AZ, Constants.States.CO, Constants.States.ID,Constants.States.NV, Constants.States.OR,Constants.States.UT})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3)
-	public void testPolicyCreation(@Optional("AZ") String state) {
+	public void testPolicyCreation(@Optional("") String state) {
 
 		//open app and create policy
 		createNewPolicy();
-
 		//get fireline order date in inquiry mode
 		getReportDate();
-
 		//Move time to R-(35-28) = R-63 and run Offline iso batch jobs and renewal part 1 jobs
-
         runISOOfflineJobs();
-
 		//validate fire line order date remains the same as new business creation
-		mainApp().reopen();
-		MainPage.QuickSearch.buttonSearchPlus.click();
-		SearchPage.openPolicy(policyNumber);
-		policy.policyInquiry().start();
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		assertThat(FirelineOrderDateAtNewBusiness.equals(firelineOrderDatePostRenewal()));
-		mainApp().close();
-
+		validateFirelineAtIssue();
 		//Move policy to R-35 and generate renewal images
 		renewPolicy();
-
 		//Pay renewal premium
 		payTotalAmtDue(policyNumber);
-
 		//update PolicyStatus
 		updatePolicyStatus();
-
 		//Validate fireline order d
-		mainApp().reopen();
-		MainPage.QuickSearch.buttonSearchPlus.click();
-		SearchPage.openPolicy(policyNumber);
-		policy.policyInquiry().start();
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		assertThat(FirelineOrderDateAtNewBusiness.equals(firelineOrderDatePostRenewal()));
-		mainApp().close();
+		validateFirelineAtIssue();
+		//get policy expiration date
+		getExpirationDateOfPolicy();
+		//run iso jobs
+		runISOOfflineJobs();
+		//validate fire line order date remains the same as new business creation for 2R
+		validateFirelineAtIssue();
+		//renew policy
+		renewPolicy();
+		//take total policy payment
+		payTotalAmtDue(policyNumber);
+		//update policy status
+		updatePolicyStatus();
+		//assert fireline order date does not change
+		validateFirelineAtIssue();
+	}
 
-
+	private void getExpirationDateOfPolicy() {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+	}
 
-
-
-		runISOOfflineJobs();
-
-		//validate fire line order date remains the same as new business creation for 2R
-		mainApp().reopen();
-		MainPage.QuickSearch.buttonSearchPlus.click();
-		SearchPage.openPolicy(policyNumber);
-		policy.policyInquiry().start();
-		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.REPORTS.get());
-		assertThat(FirelineOrderDateAtNewBusiness.equals(firelineOrderDatePostRenewal()));
-		mainApp().close();
-
-		renewPolicy();
-
-		payTotalAmtDue(policyNumber);
-		updatePolicyStatus();
-
+	private void validateFirelineAtIssue() {
 		mainApp().reopen();
 		MainPage.QuickSearch.buttonSearchPlus.click();
 		SearchPage.openPolicy(policyNumber);
@@ -202,18 +180,16 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		return reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.ORDER_DATE.getLabel()).getValue();
 	}
 
-	protected void payTotalAmtDue(String policyNumber) {
+	@Override
+    protected void payTotalAmtDue(String policyNumber) {
 		// Open Billing account and Pay min due for the renewal
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
-
 		// Open Policy (Renewal)
 		SearchPage.openPolicy(policyNumber);
-
 	}
-
 
 }
 
