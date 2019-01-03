@@ -196,7 +196,7 @@ NamedInsuredInformation_Version2: {
  Last Name: VIILastName,
  Suffix: II,
  Social Security Number: 123456222,
- Insured Date of Birth: $<today-18y>,
+ Insured Date of Birth: $<today-57y>,
  Base Date: $<today-2M>,
  Zip Code: 85245,
  Address Line 1: VII residence address 1,
@@ -553,7 +553,6 @@ TestData_DriverInformation_Version2: {
 }
 
 DriverInformation: {
- #Date of Birth: $<today-35y>,
  Gender: Female,
  Marital Status: Divorced,
  Occupation: 'Farmer',
@@ -577,7 +576,6 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
-# Date of Birth: $<today-55y>,
  Gender: Male,
  Marital Status: Married,
  Occupation: 'Clergy',
@@ -603,7 +601,6 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
- #Date of Birth: $<today-18y>,
  Gender: Female,
  Marital Status: Single,
  Occupation: 'Student',

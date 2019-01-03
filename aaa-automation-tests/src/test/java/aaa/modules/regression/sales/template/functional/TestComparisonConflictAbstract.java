@@ -77,6 +77,8 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Policy Information.Renewal Term Premium - Old Rater",
 			"Drivers.VIFirstName VI VILastName.Date First Licensed",
 			"Drivers.NBFirstName NB NBLastName.Date First Licensed",
+			"Drivers.VIIFirstName VII VIILastName.Date First Licensed",
+			"Drivers.VIIFirstName VII VIILastName.Total Years Driving Experience",
 			"Drivers.VIFirstName VI VILastName.New Driver Course Completion Date",
 			"Drivers.NBFirstName NB NBLastName.New Driver Course Completion Date",
 			"Drivers.VIFirstName VI VILastName.Smart Driver Course Completion Date",
