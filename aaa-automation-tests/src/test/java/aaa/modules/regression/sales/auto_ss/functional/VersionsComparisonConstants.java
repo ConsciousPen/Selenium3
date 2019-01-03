@@ -43,6 +43,8 @@ public class VersionsComparisonConstants {
 			.putAll("Policy Information.Agent Number","500034992","500012749")
 			//Driver Tab
 			//data gather data
+			.putAll("Named Insureds.VIFirstName VI VILastName.Insured Date of Birth", "01/03/2001","01/03/1964")
+			.putAll("Drivers.VIFirstName VI VILastName.Date of Birth", "01/03/2001","01/03/1964")
 			.putAll("Drivers.VIFirstName VI VILastName.Age", "18","55")
 			.putAll("Drivers.VIFirstName VI VILastName.Total Years Driving Experience", "3","39")
 			.putAll("Drivers.VIFirstName VI VILastName.Smart Driver Course Completed?", "true","false")
@@ -168,7 +170,7 @@ public class VersionsComparisonConstants {
 			.put("Policy Information.Suppress Print","Suppress Print")
 			//Driver Tab
 			//data gather
-			.put("Drivers.VIFirstName VI VILastName.Date of Birth", "Date of Birth")
+			//.put("Drivers.VIFirstName VI VILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName.Gender", "Gender")
 			.put("Drivers.VIFirstName VI VILastName.Marital Status", "Marital Status")
 			.put("Drivers.VIFirstName VI VILastName.Occupation", "Occupation")
@@ -337,6 +339,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> DATA_GATHER_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.VIFirstName VI VILastName", "Insured Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Age")
 			.put("Drivers.VIFirstName VI VILastName", "Gender")
