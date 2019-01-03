@@ -161,7 +161,7 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	private void runISOOfflineJobs() {
 		LocalDateTime timePoint1 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusDays(28);
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
-		JobUtils.executeJob(Jobs.AAAIsoRenewBatchOrderJob);
+		JobUtils.executeJob(Jobs.isoRenewBatchOrderJob);
 		HttpStub.executeAllBatches();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_ISO_BATCH);
 		Waiters.SLEEP(5000).go();

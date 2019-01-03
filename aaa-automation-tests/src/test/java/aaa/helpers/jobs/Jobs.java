@@ -1,12 +1,13 @@
 package aaa.helpers.jobs;
 
+import aaa.config.CsaaTestProperties;
+import toolkit.config.PropertyProvider;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import aaa.config.CsaaTestProperties;
-import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
@@ -18,8 +19,6 @@ public class Jobs {
 	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
-
-	public static Job AAAIsoRenewBatchOrderJob = new Job("AAAIsoRenewBatchOrderJob", getJobFoldersPath());
 
 	private static List<String> getJobFoldersPath() {
 		List<String> foldersTemplate = Arrays.asList(
@@ -179,6 +178,8 @@ public class Jobs {
 	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
 
 	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
+
+	public static Job isoRenewBatchOrderJob = new Job("isoRenewBatchOrderJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
