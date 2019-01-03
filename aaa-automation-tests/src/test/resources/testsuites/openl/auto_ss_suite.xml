@@ -65,6 +65,20 @@
             <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
         </classes>
     </test>
+    <test name="AutoSS [KY ACAIC] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="KYTests-ACAIC-20190121_part1.xls"/>
+        <parameter name="policyNumbers" value="2, 23"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <test name="AutoSS [KY WUIC] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="KYTests-WUIC-20190121_part1.xls"/>
+        <parameter name="policyNumbers" value="15, 27"/>
+        <classes>
+            <class name="aaa.modules.openl.AutoSSPremiumCalculationTest"/>
+        </classes>
+    </test>
     <test name="AutoSS [MD - ACAIC] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="MDTests-ACAIC-20181201_UI_part1.xls"/>
         <parameter name="policyNumbers" value="1, 2"/>
