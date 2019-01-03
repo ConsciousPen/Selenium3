@@ -179,8 +179,6 @@ public class Jobs {
 
 	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
 
-	public static Job isoRenewBatchOrderJob = new Job("isoRenewBatchOrderJob");
-
 	public enum JobState {
 		TRUE, FALSE, FAILED
 	}
