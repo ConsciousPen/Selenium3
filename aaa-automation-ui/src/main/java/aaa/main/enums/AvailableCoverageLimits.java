@@ -344,6 +344,39 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_00,
 			CoverageLimits.COV_50_300
 	)),
+	FPB_PA(ImmutableList.of(
+			CoverageLimits.COV_FPB_5K_BASIC,
+			CoverageLimits.COV_FPB_50K_TOTAL,
+			CoverageLimits.COV_FPB_100K_TOTAL,
+			CoverageLimits.COV_FPB_177_5K_TOTAL,
+			CoverageLimits.COV_FPB_ADDED
+	)),
+	MEDPM_PA(ImmutableList.of(
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_10000,
+			CoverageLimits.COV_25000,
+			CoverageLimits.COV_50000,
+			CoverageLimits.COV_100000
+
+	)),
+	IL_PA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_IL_5000_MAX_PA,
+			CoverageLimits.COV_IL_15000_MAX_PA,
+			CoverageLimits.COV_IL_25000_MAX_PA,
+			CoverageLimits.COV_IL_5000_MAX_PA
+	)),
+	FUNERAL_PA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_1500,
+			CoverageLimits.COV_2500
+	)),
+	ADBC_PA(ImmutableList.of(
+			CoverageLimits.COV_0,
+			CoverageLimits.COV_5000,
+			CoverageLimits.COV_15000,
+			CoverageLimits.COV_25000
+	)),
 	COLLDEDNONPPA(ImmutableList.of(
 			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_100,

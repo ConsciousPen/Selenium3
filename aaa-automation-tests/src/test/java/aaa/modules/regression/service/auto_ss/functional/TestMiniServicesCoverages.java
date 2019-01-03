@@ -1404,4 +1404,28 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with FPB Coverage = Basic
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Go in PAS and Change FPB to $50,000
+	 * 5. Run viewEndorsementCoverages service and validate response
+	 * 6. Go in PAS and Change FPB to $100,000
+	 * 7. Run viewEndorsementCoverages service and validate response
+	 * 8. Go in PAS and Change FPB to $177,500
+	 * 9. Run viewEndorsementCoverages service and validate response
+	 * 10. Go in PAS and Change FPB to 'Added'
+	 * 11. Run viewEndorsementCoverages service and validate response
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15350", "PAS-23243", "PAS-22601", "PAS-23252", "PAS-23255"})
+	public void pas15350_firstPartyBenefitsPA(@Optional("PA") String state) {
+		pas15350_firstPartyBenefitsPABody();
+	}
 }
