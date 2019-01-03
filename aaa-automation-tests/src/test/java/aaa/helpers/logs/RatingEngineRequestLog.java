@@ -7,7 +7,6 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.google.gson.JsonElement;
@@ -22,14 +21,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.verification.CustomAssertions;
 
 public final class RatingEngineRequestLog extends RatingEngineLog {
-	private static final String ARCHIVE_EXTENSION = ".zip";
-
-	private String logSectionId;
-	private String logContent;
-	private String formattedLogContent;
-	private JsonElement jsonElement;
-	private Map<String, String> openLFieldsMap;
-
 	RatingEngineRequestLog(String logContent, String logSectionId) {
 		super(logContent, logSectionId);
 	}
