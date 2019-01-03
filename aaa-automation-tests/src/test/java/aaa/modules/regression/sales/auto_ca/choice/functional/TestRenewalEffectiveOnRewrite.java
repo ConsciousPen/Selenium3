@@ -40,8 +40,8 @@ public class TestRenewalEffectiveOnRewrite extends AutoCaChoiceBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-22502")
 	public void pas22502_TestRenewalEffectiveOnRewrite(@Optional("CA") String state) {
 
-		LocalDateTime policyEffective = TimeSetterUtil.getInstance().getCurrentTime();
 		String policyNumber = openAppAndCreatePolicy();
+		LocalDateTime policyEffective = PolicySummaryPage.getEffectiveDate();
 
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		TimeSetterUtil.getInstance().nextPhase(policyEffective.plusDays(10));
