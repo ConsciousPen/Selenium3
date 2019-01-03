@@ -44,6 +44,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
  * 4. Purchase policy.
  * 5. Verify policy status is Active on Consolidated policy view.
+ *
  * 6. Run iso batch recieve job at R-63
  * 7. Move policy to first renewal
  * 8. Assert Fireline and PPC reports are not ordered at renewal batch
@@ -74,7 +75,8 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		getReportDate();
 
 		//Move time to R-(35-28) = R-63 and run Offline iso batch jobs and renewal part 1 jobs
-		runISOOfflineJobs();
+
+        runISOOfflineJobs();
 
 		//validate fire line order date remains the same as new business creation
 		mainApp().reopen();
@@ -107,6 +109,8 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+
 
 		runISOOfflineJobs();
 
@@ -181,6 +185,8 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 	private void runISOOfflineJobs() {
 		LocalDateTime timePoint1 = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate).minusDays(28);
 		TimeSetterUtil.getInstance().nextPhase(timePoint1);
+		JobUtils.executeJob(Jobs.AAAIsoRenewBatchOrderJob);
+		HttpStub.executeAllBatches();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_ISO_BATCH);
 		Waiters.SLEEP(5000).go();
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);

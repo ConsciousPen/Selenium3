@@ -19,6 +19,8 @@ public class Jobs {
 
 	public static Job renewalOfferGenerationPart1 = new Job("Renewal_Offer_Generation_Part1", getJobFoldersPath());
 
+	public static Job AAAIsoRenewBatchOrderJob = new Job("AAAIsoRenewBatchOrderJob", getJobFoldersPath());
+
 	private static List<String> getJobFoldersPath() {
 		List<String> foldersTemplate = Arrays.asList(
 				"%sPAS_B_EXGPAS_PASHUB_4004_D/inbound",
