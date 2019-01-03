@@ -343,4 +343,10 @@
             </class>
         </classes>
     </test>
+    <test name="PAS-23139 Prevent Fireline scoring from ordering at Renewal">
+        <parameter name="state" value="AZ, CO, ID, NV, OR, UT"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyFirelineReportsOnRenewal"/>
+        </classes>
+    </test>
 </suite>

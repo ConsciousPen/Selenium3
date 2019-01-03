@@ -158,5 +158,4 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyFirelineReportsOnRenewal"/>
         </classes>
     </test>
-
 </suite>
