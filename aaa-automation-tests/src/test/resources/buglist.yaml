@@ -476,6 +476,7 @@ PAS-23331:
   failures:
   - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
     aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
-    aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
     aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
-    messages: ['Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}', 'Errors: AAA_HO_CAWM0523EN']
+    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0523EN"]
+  - tests: [aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
+    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0518EN"]

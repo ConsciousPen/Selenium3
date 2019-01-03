@@ -332,6 +332,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 7. Try to revert Replaced vehicle when there already is max count of vehicles ----> Revert option is available and I do not receive error
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-9546", "PAS-18672", "PAS-18670"})
 	public void pas9546_maxVehicles(@Optional("VA") String state) {
@@ -469,7 +470,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	//@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14952", "PAS-15152"})
-	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("VA") String state) {
+	public void pas14952_StatusResetsForNewlyAddedVehicle(@Optional("NY") String state) {
 		pas14952_StatusResetsForNewlyAddedVehicleBody();
 	}
 
@@ -728,6 +729,7 @@ public class TestMiniServicesVehicles extends TestMiniServicesVehiclesHelper {
 	 * 11. Issue and Bind.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ,Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16113"})
 	public void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVa(@Optional("NV") String state) {

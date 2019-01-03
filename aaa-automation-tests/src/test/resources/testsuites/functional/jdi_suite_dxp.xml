@@ -5,14 +5,13 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
-    <test name="TestMiniServicesPremiumBearingAZ">
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingAZ" parallel="methods">
+        <!--<test name="TestMiniServicesPremiumBearingAZ">-->
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
                 <methods>
-                    <include name="myPolicyUserAddedConfigCheck"/>
-                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
                     <include name="pas6560_endorsementValidateAllowed"/>
                     <include name="pas6560_endorsementValidateAllowedPendedEndorsementUser"/>
                     <include name="pas6560_endorsementValidateAllowedNoEffectiveDate"/>
@@ -35,7 +34,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestMiniServicesPremiumBearingVA">
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -50,7 +49,7 @@
             </class>
         </classes>
     </test>
-    <test name="DriversAZ">
+    <test thread-count="1024" name="DriversAZ" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -66,12 +65,11 @@
             </class>
         </classes>
     </test>
-    <test name="VehiclesAZ">
+    <test thread-count="1024" name="VehiclesAZ" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
                 <methods>
-                    <include name="miniServicesEndorsementDeleteDelayConfigCheck"/>
                     <include name="pas7082_AddVehicle"/>
                     <include name="pas8275_vinValidate"/>
                     <include name="pas9490_ViewVehicleServiceCheckVehiclesStatus"/>
@@ -89,7 +87,7 @@
             </class>
         </classes>
     </test>
-    <test name="VehiclesNV">
+    <test thread-count="1024" name="VehiclesNV" parallel="methods">
         <parameter name="state" value="NV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -100,7 +98,7 @@
             </class>
         </classes>
     </test>
-    <test name="CoveragesAZ">
+    <test thread-count="1024" name="CoveragesAZ" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -115,7 +113,7 @@
             </class>
         </classes>
     </test>
-    <test name="GeneralVA">
+    <test thread-count="1024" name="GeneralVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
@@ -128,7 +126,7 @@
             </class>
         </classes>
     </test>
-    <test name="DriversVA">
+    <test thread-count="1024" name="DriversVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -143,7 +141,7 @@
             </class>
         </classes>
     </test>
-    <test name="VehiclesVA">
+    <test thread-count="1024" name="VehiclesVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -165,7 +163,7 @@
             </class>
         </classes>
     </test>
-    <test name="AssignmentsVA">
+    <test thread-count="1024" name="AssignmentsVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
@@ -185,7 +183,7 @@
             </class>
         </classes>
     </test>
-    <test name="CoveragesVA">
+    <test thread-count="1024" name="CoveragesVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -207,7 +205,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestMiniServicesPremiumBearingUT">
+    <test thread-count="1024" name="TestMiniServicesPremiumBearingUT" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -220,7 +218,7 @@
         </classes>
     </test>
     <!--Disabled the test to check BackwardCompatibility for all states-->
-    <test name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective">
+    <test thread-count="1024" name="pas9489_GreenButtonServiceStateAndProductConfigurationEffective" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -230,7 +228,7 @@
             </class>
         </classes>
     </test>
-    <test name="UpdateDriverServiceSS">
+    <test thread-count="1024" name="UpdateDriverServiceSS" parallel="methods">
         <parameter name="state" value="AZ,NY,VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -243,7 +241,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicySummaryService AZ">
+    <test thread-count="1024" name="PolicySummaryService AZ" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -253,7 +251,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicySummaryService VA">
+    <test thread-count="1024" name="PolicySummaryService VA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -264,7 +262,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicySummaryService MD">
+    <test thread-count="1024" name="PolicySummaryService MD" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -274,7 +272,7 @@
             </class>
         </classes>
     </test>
-    <test name="ViewPremiumService - Tax">
+    <test thread-count="1024" name="iewPremiumService - Tax" parallel="methods">
         <parameter name="state" value="KY, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -284,7 +282,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicySummaryService DC">
+    <test thread-count="1024" name="PolicySummaryService DC" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing">
@@ -294,7 +292,7 @@
             </class>
         </classes>
     </test>
-    <test name="PolicySummaryService CA">
+    <test thread-count="1024" name="PolicySummaryService CA" parallel="methods">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesPremiumBearing">
@@ -304,7 +302,7 @@
             </class>
         </classes>
     </test>
-    <test name="DXP E2E">
+    <test thread-count="1024" name="DXP E2E" parallel="methods">
         <parameter name="state" value="VA, UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
@@ -314,7 +312,7 @@
             </class>
         </classes>
     </test>
-    <test name="DXP E2E BCT">
+    <test thread-count="1024" name="DXP E2E BCT" parallel="methods">
         <!--<parameter name="state" value="UT"/> - not in the Golden DB Dump-->
         <parameter name="state" value="VA, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>
         <classes>
@@ -325,7 +323,7 @@
             </class>
         </classes>
     </test>
-    <test name="DriverAssignmentExistsForState CA">
+    <test thread-count="1024" name="DriverAssignmentExistsForState" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.service.auto_ca.choice.functional.TestMiniServicesAssignments">
                 <methods>
@@ -339,7 +337,7 @@
             </class>
         </classes>
     </test>
-    <test name="DriverAssignmentExistsForState SS">
+    <test thread-count="1024" name="DriverAssignmentExistsForState SS" parallel="methods">
         <parameter name="state" value="AZ, KY, MD, NY, NJ, VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
@@ -349,7 +347,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas9495_miniServicesDiscounts">
+    <test thread-count="1024" name="pas9495_miniServicesDiscounts" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDiscounts">
@@ -359,7 +357,7 @@
             </class>
         </classes>
     </test>
-    <test name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart">
+    <test thread-count="1024" name="Remove Driver that is Primary operator of Trailer, Motor Home, Golf Cart" parallel="methods">
         <parameter name="state" value="AZ, VA"/> <!--This test works for all Auto SS states-->
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments">
@@ -369,7 +367,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14501_garagingDifferent">
+    <test thread-count="1024" name="pas14501_garagingDifferent" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -380,7 +378,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas13663_CurrentBillServiceVA">
+    <test thread-count="1024" name="pas13663_CurrentBillServiceVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesBilling">
@@ -390,7 +388,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14648_MedpmDelimiter">
+    <test thread-count="1024" name="pas14648_MedpmDelimiter" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -401,7 +399,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas12852_UW_rules">
+    <test thread-count="1024" name="pas12852_UW_rules" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesUwRules">
@@ -416,7 +414,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14646_UimDelimiter">
+    <test thread-count="1024" name="pas14646_UimDelimiter" parallel="methods">
         <parameter name="state" value="VA, CT, DE, IN, KS, MD, NV, OH, OR, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -426,8 +424,8 @@
             </class>
         </classes>
     </test>
-    <test name="pas15228_UmUimDelimiter">
-        <parameter name="state" value="AZ, DC, ID, KY, PA, SD, MT"/>
+    <test thread-count="1024" name="pas15228_UmUimDelimiter" parallel="methods">
+        <parameter name="state" value="AZ, ID, KY, PA, SD, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
                 <methods>
@@ -436,7 +434,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15824_UmpdDelimiter">
+    <test thread-count="1024" name="pas15824_UmpdDelimiter" parallel="methods">
         <parameter name="state" value="DE, MD, VA, NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -446,7 +444,7 @@
             </class>
         </classes>
     </test>
-    <test name="ViewUpdateCoverageUMPD">
+    <test thread-count="1024" name="ViewUpdateCoverageUMPD" parallel="methods">
         <parameter name="state" value="CO, OH"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -457,7 +455,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14730_UpdateCoverageUMPDAndPD">
+    <test thread-count="1024" name="pas14730_UpdateCoverageUMPDAndPD" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -470,7 +468,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15325_UmpdNotExist">
+    <test thread-count="1024" name="pas15325_UmpdNotExist" parallel="methods">
         <parameter name="state" value="AZ, CT, KS, KY, MT, NY, OK, PA, SD, WY, ID"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -480,7 +478,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15254_14733_UpdateCoveragesBI_UM_UIM">
+    <test thread-count="1024" name="pas15254_14733_UpdateCoveragesBI_UM_UIM" parallel="methods">
         <parameter name="state" value="AZ, ID, KY, PA, UT, WV, VA, DE, IN, KS, MD, NV, NJ, OH, OR, MT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -490,7 +488,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14721_UpdateCoveragesServiceBIPD">
+    <test thread-count="1024" name="pas14721_UpdateCoveragesServiceBIPD" parallel="methods">
         <parameter name="state" value="AZ, VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -500,7 +498,7 @@
             </class>
         </classes>
     </test>
-    <test name="Replace vehiclesVA">
+    <test thread-count="1024" name="Replace vehiclesVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -518,7 +516,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14680_TrailersCoveragesThatDoNotApply">
+    <test thread-count="1024" name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -528,7 +526,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas14591_AddDriversUnhappyAge">
+    <test thread-count="1024" name="pas14591_AddDriversUnhappyAge" parallel="methods">
         <!--Can be run for all states time by time-->
         <!--<parameter name="state" value="VA, UT, KY, AZ, CO, CT, DC, DE, ID, IN, KS, MD, MT, NV, NY, OH, OK, OR, SD, WV, WY, PA, NJ"/>-->
         <!---->
@@ -541,7 +539,7 @@
             </class>
         </classes>
     </test>
-    <test name="Report Order and Endorsement">
+    <test thread-count="1024" name="Report Order and Endorsement" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -560,7 +558,7 @@
             </class>
         </classes>
     </test>
-    <test name="Name Insured And Driver">
+    <test thread-count="1024" name="name Insured And Driver" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -575,7 +573,7 @@
             </class>
         </classes>
     </test>
-    <test name="Remove Driver">
+    <test thread-count="1024" name="remove Driver" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -588,7 +586,7 @@
             </class>
         </classes>
     </test>
-    <test name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)">
+    <test thread-count="1024" name="-Death and Specific Disability Coverage- and -Total Disability Coverage- (VA only)" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -600,7 +598,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas17629_Umuim_Update_coverage">
+    <test thread-count="1024" name="pas17629_Umuim_Update_coverage" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -610,7 +608,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15369_reportOrderAndDriverPA">
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverPA" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -620,7 +618,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15369_reportOrderAndDriverNJ">
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverNJ" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -630,7 +628,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15369_reportOrderAndDriverNY">
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverNY" parallel="methods">
         <parameter name="state" value="NY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -640,7 +638,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15369_reportOrderAndDriverCO">
+    <test thread-count="1024" name="pas15369_reportOrderAndDriverCO" parallel="methods">
         <parameter name="state" value="CO"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -650,7 +648,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits">
+    <test thread-count="1024" name="pas15379_ValidatePUPErrorRelatedWithBiPdLimits" parallel="methods">
         <!--can run for all states (Except CA)-->
         <parameter name="state" value="VA, OH"/>
         <classes>
@@ -661,7 +659,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas18624_CustomisedEquipment">
+    <test thread-count="1024" name="pas18624_CustomisedEquipment" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -671,7 +669,7 @@
             </class>
         </classes>
     </test>
-    <test name="View Coverages-PD Limits">
+    <test thread-count="1024" name="View Coverages-PD Limits" parallel="methods">
         <parameter name="state" value="IN, KS"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -682,7 +680,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas16035ViewCoverageUpdateCoverage">
+    <test thread-count="1024" name="pas16035ViewCoverageUpdateCoverage" parallel="methods">
         <parameter name="state" value="IN"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -693,7 +691,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15376_3OrMoreMinorOrSpeedingViolations">
+    <test thread-count="1024" name="pas15376_3OrMoreMinorOrSpeedingViolations" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -703,7 +701,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas17676_moreThanTwoMinorViolationsError">
+    <test thread-count="1024" name="pas17676_moreThanTwoMinorViolationsError" parallel="methods">
         <parameter name="state" value="MD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMVRAndClueReportOrder">
@@ -713,7 +711,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas18643_CancelRemoveDriver (Revert Deleted Driver)">
+    <test thread-count="1024" name="pas18643_CancelRemoveDriver (Revert Deleted Driver)" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -726,7 +724,7 @@
             </class>
         </classes>
     </test>
-    <test name="Revert Deleted/Replaced Vehicle">
+    <test thread-count="1024" name="Revert Deleted/Replaced Vehicle" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -740,7 +738,7 @@
             </class>
         </classes>
     </test>
-    <test name="Named Insured marital status and the Relationship to the FNI (MD)">
+    <test thread-count="1024" name="Named Insured marital status and the Relationship to the FNI (MD)" parallel="methods">
         <parameter name="state" value="MD, NJ, CO, DE"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -750,7 +748,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas20675_TortCoverage">
+    <test thread-count="1024" name="pas20675_TortCoverage" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -761,7 +759,7 @@
             </class>
         </classes>
     </test>
-    <test name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)">
+    <test thread-count="1024" name="Named Insured and the Relationship to the FNI - FNI is Equivalent to Married(MD, OR)" parallel="methods">
         <parameter name="state" value="MD, OR"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesDriver">
@@ -771,7 +769,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable">
+    <test thread-count="1024" name="pas15788_PDAvailableLimitsWhenBIisTheLowestAvailable" parallel="methods">
         <parameter name="state" value="WY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -781,7 +779,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas19626_biAndUMAndUIMCoverageSD">
+    <test thread-count="1024" name="pas19626_biAndUMAndUIMCoverageSD" parallel="methods">
         <parameter name="state" value="SD"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -793,7 +791,7 @@
             </class>
         </classes>
     </test>
-    <test name="View Coverage - UMPD and UIMPD">
+    <test thread-count="1024" name="View Coverage - UMPD and UIMPD" parallel="methods">
         <parameter name="state" value="WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -805,7 +803,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas19195_viewUpdatePIPCoverage_KY">
+    <test thread-count="1024" name="pas19195_viewUpdatePIPCoverage_KY" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -815,7 +813,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15358_viewUpdatePIPCoverage_KS">
+    <test thread-count="1024" name="pas15358_viewUpdatePIPCoverage_KS" parallel="methods">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -825,7 +823,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15365_viewUpdatePIPCoverage_OR">
+    <test thread-count="1024" name="pas15365_viewUpdatePIPCoverage_OR" parallel="methods">
         <parameter name="state" value="OR"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -836,7 +834,7 @@
             </class>
         </classes>
     </test>
-    <test name="viewUpdateCoverages_UT">
+    <test thread-count="1024" name="viewUpdateCoverages_UT" parallel="methods">
         <parameter name="state" value="UT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -847,7 +845,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas12942_GaragingAddressConsistencyDXP">
+    <test thread-count="1024" name="pas12942_GaragingAddressConsistencyDXP" parallel="methods">
         <parameter name="state" value="CT"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -857,7 +855,7 @@
             </class>
         </classes>
     </test>
-    <test name="pas15499_RegisteredOwner">
+    <test thread-count="1024" name="pas15499_RegisteredOwner" parallel="methods">
         <parameter name="state" value="CT, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
@@ -867,8 +865,7 @@
             </class>
         </classes>
     </test>
-
-    <test name="Underinsured Conversion Coverage - CT">
+    <test thread-count="1024" name="Underinsured Conversion Coverage - CT" parallel="methods">
         <parameter name="state" value="KS"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -879,7 +876,7 @@
             </class>
         </classes>
     </test>
-    <test name="Moratoriums - VA">
+    <test thread-count="1024" name="Moratoriums - VA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
@@ -889,7 +886,7 @@
             </class>
         </classes>
     </test>
-    <test name="Moratoriums - AZ">
+    <test thread-count="1024" name="Moratoriums - az" parallel="methods">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesMoratorium">
@@ -899,7 +896,7 @@
             </class>
         </classes>
     </test>
-    <test name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage">
+    <test thread-count="1024" name="BI and UMBI canChangeCoverage - PD and UMPD canChangeCoverage" parallel="methods">
         <parameter name="state" value="VA, KS, WV"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -910,7 +907,7 @@
             </class>
         </classes>
     </test>
-    <test name="RFI View Service VA">
+    <test thread-count="1024" name="RFI View Service" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
@@ -921,7 +918,7 @@
             </class>
         </classes>
     </test>
-    <test name="RFI View Service DC">
+    <test thread-count="1024" name="RFI View Service DC" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
@@ -931,7 +928,7 @@
             </class>
         </classes>
     </test>
-    <test name="DC Coverages">
+    <test thread-count="1024" name="DC Coverages" parallel="methods">
         <parameter name="state" value="DC"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
@@ -939,6 +936,19 @@
                     <include name="pas15281_UMPDAndUIMPDAndCanChangeTrue"/>
                     <include name="pas15313_updateBiCoverageCheckUMandUIM"/>
                     <include name="pas15288_ViewUpdateCoveragePIPCoverage"/>
+                    <include name="pas15286_updateUMPDCoverageDC"/>
+                    <include name="pas21421_updateUIMPDCoverageDC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DE Coverages" parallel="methods">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas16399_viewUpdateUmpdDE"/>
                 </methods>
             </class>
         </classes>
