@@ -1,5 +1,3 @@
-/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.sales.home_ss.ho3;
 
 import aaa.common.enums.Constants;
@@ -43,13 +41,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
  * 2. Initiate HSS quote creation.
  * 3. Fill all mandatory fields on all tabs, order reports, calculate premium.
  * 4. Purchase policy.
- * 5. Verify policy status is Active on Consolidated policy view. *
+ * 5. Verify policy status is Active on Consolidated policy view.
  * 6. Run iso batch recieve job at R-63
  * 7. Move policy to first renewal
  * 8. Assert Fireline and PPC reports are not ordered at renewal batch
  * 9. Run iso batch recieve job at 2R-63
- * 8. move policy to second renewal
- * 9.Assert Fireline is not ordered and PPC is ordered
+ * 10. move policy to second renewal
+ * 11.Assert Fireline is not ordered
  * @details
  */
 public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
@@ -179,7 +177,6 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.HomeSSTab.REPORTS.get());
 		return reportsTab.tblFirelineReport.getRow(1).getCell(HomeSSMetaData.ReportsTab.FirelineReportRow.ORDER_DATE.getLabel()).getValue();
 	}
-
 	@Override
     protected void payTotalAmtDue(String policyNumber) {
 		// Open Billing account and Pay min due for the renewal
@@ -190,6 +187,5 @@ public class TestPolicyFirelineReportsOnRenewal extends HomeSSHO3BaseTest {
 		// Open Policy (Renewal)
 		SearchPage.openPolicy(policyNumber);
 	}
-
 }
 
