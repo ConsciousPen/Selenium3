@@ -71,7 +71,7 @@ public class TestGenderExpansionNonConformingCAAS extends AutoCaSelectBaseTest {
 
         policy.getDefaultView().fillFromTo(td, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
@@ -215,9 +215,8 @@ public class TestGenderExpansionNonConformingCAAS extends AutoCaSelectBaseTest {
     private void  validateAndBind(TestData testData) {
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender").equals("X"));
+        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).equals("X");
         //assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
-
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
@@ -233,8 +232,7 @@ public class TestGenderExpansionNonConformingCAAS extends AutoCaSelectBaseTest {
 
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
-
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();

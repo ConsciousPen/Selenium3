@@ -65,7 +65,7 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
 
         policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
@@ -203,7 +203,6 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
-
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
@@ -214,20 +213,16 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
             documentsAndBindTab.submitTab();
         }
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
-
     }
 
     private void renewalValidations(String policyNumber){
 
-        TestData td = getPolicyTD();
-        LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
-
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
-
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
+        LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renEffective));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);

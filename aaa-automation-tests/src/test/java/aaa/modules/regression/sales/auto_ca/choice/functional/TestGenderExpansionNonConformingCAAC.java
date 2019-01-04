@@ -67,7 +67,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
         policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
@@ -190,7 +190,6 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal1(@Optional("") String state) {
 
-//        TestData td = getPolicyTD();
         TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
                 .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
                 .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
@@ -211,9 +210,8 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
     private void  validateAndBind(TestData testData) {
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender").equals("X"));
+        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).equals("X");
         //assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
-
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
@@ -229,8 +227,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue().equals("X"));
-
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
