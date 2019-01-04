@@ -30,6 +30,14 @@
         </classes>
     </test>
 
+    <test name="est Additional options available for 'Rel to First Named Insured' field on Driver Tab">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRelToFNICAAS"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRelToFNICAAC"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
