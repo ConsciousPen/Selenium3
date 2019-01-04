@@ -5947,7 +5947,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateCoveragesDXP(List<Coverage> actualCoverages, Coverage... expectedCoverages) {
 		for (Coverage expectedCoverage : expectedCoverages) {
 			Coverage actualCoverage = findCoverage(actualCoverages, expectedCoverage.getCoverageCd());
-			assertThat(actualCoverage).isEqualToComparingFieldByField(expectedCoverage);
+			assertThat(actualCoverage).isEqualToIgnoringGivenFields(expectedCoverage, "subCoverages");
 		}
 	}
 
