@@ -5,7 +5,7 @@
         <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
     <test thread-count="1024" name="TestEValueMembershipProcessJobAdding" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
