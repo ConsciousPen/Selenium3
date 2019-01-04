@@ -124,6 +124,7 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingEnd1Tx(@Optional("") String state) {
+
         TestData td = getPolicyTD();
         openAppAndCreatePolicy(td);
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
@@ -157,10 +158,11 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal(@Optional("") String state) {
 
+        String policyNumber = openAppAndCreatePolicy();
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).setValue("X");
-        renewalValidations();
+        renewalValidations(policyNumber);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
@@ -189,11 +191,11 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
                 .adjust(AutoSSMetaData.DriverTab.GENDER.getLabel(), "X")
                 .adjust(AutoSSMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
 
-        openAppAndCreatePolicy();
+        String policyNumber = openAppAndCreatePolicy();
         policy.renew().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
-        renewalValidations();
+        renewalValidations(policyNumber);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
     }
 
@@ -215,10 +217,9 @@ public class TestGenderExpansionNonConformingSS extends AutoSSBaseTest {
 
     }
 
-    private void renewalValidations(){
+    private void renewalValidations(String policyNumber){
 
         TestData td = getPolicyTD();
-        String policyNumber = openAppAndCreatePolicy(td);
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
 
         premiumAndCoveragesTab.calculatePremium();
