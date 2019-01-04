@@ -1,0 +1,13 @@
+  TD_Renewal_Actions_NY: {
+    InitiateRenewalEntryActionTab: {Product Name: Homeowners Signature Series,
+    Policy Type: HO4,
+    Previous Policy Number: '$<rx:123\d{5}>',
+    Previous Source System: SIS,
+    Risk State: NY,
+    Renewal Effective Date: '$<today+10d:MM/dd/yyyy>',
+    Inception Date: '$<today-10d:MM/dd/yyyy>',
+    Renewal Policy Premium: 1000,
+    Policy Term: Annual,
+    Program Code: LegacyConv,
+    Enrolled in Autopay: 'No'}
+  }
