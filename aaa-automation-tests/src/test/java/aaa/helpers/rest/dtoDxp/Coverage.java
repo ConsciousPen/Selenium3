@@ -118,6 +118,11 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage changeDescription(String newDescription) {
+		this.coverageDescription = newDescription;
+		return this;
+	}
+
 	public Coverage addAvailableDrivers(String... driverOids) {
 		if(this.availableDrivers == null) {
 			this.availableDrivers = new LinkedHashSet<>();

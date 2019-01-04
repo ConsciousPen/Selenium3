@@ -42,10 +42,10 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, dependsOnMethods = "eValueConfigCheck")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-283")
     public void pas283_eValuePaperlessPreferences(@Optional("VA") String state) {
-
+        eValueConfigCheck();
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
         testEValueDiscount.eValueQuoteCreation();
 
@@ -157,10 +157,10 @@ public class TestPaperlessPreferences extends AutoSSBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, dependsOnMethods = "eValueConfigCheck")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-3097")
     public void pas3097_PaperlessPreferencesOnBindPageFinalCleanUp(@Optional("MD") String state) {
-
+        eValueConfigCheck();
         TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
         testEValueDiscount.eValueQuoteCreation();
 

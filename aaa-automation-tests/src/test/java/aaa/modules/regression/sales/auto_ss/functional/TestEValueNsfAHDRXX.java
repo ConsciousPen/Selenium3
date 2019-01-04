@@ -95,9 +95,10 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "precondJobAdding")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454", "PAS-314", "PAS-244"})
 	public void pas7454_eValueRemovedAutopayNsfDeclineRecurringPaymentResponse(@Optional("VA") String state) {
+		precondJobAdding();
 		pas7454_eValueRemovedAutopayNsfDecline("SUCC");
 	}
 
@@ -121,9 +122,10 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "precondJobAdding")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7454", "PAS-314", "PAS-244"})
 	public void pas7454_eValueRemovedAutopayNsfDeclinePaymentCentralReject(@Optional("VA") String state) {
+		precondJobAdding();
 		pas7454_eValueRemovedAutopayNsfDecline("ERR");
 	}
 
