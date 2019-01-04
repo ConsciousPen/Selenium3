@@ -80,8 +80,25 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage changeAvailableLimits(CoverageLimits... limitToAdd) {
+		availableLimits.clear();
+		for (CoverageLimits coverageLimit : limitToAdd) {
+			CoverageLimit limit = new CoverageLimit().setCoverageLimit(coverageLimit.getLimit()).setCoverageLimitDisplay(coverageLimit.getDisplay());
+			availableLimits.add(limit);
+		}
+		return this;
+	}
+
 	public Coverage removeAvailableLimit(CoverageLimits... coverageLimits) {
 		Arrays.stream(coverageLimits).forEach(cl -> this.availableLimits.removeIf(p -> p.coverageLimit.equals(cl.getLimit())));
+		return this;
+	}
+
+	public Coverage removeAvailableLimitsAbove(CoverageLimits removeAboveLimit) {
+		int removeFromLimitIndex = availableLimits.stream().map(CoverageLimit::getCoverageLimit).collect(Collectors.toList()).indexOf(removeAboveLimit.getLimit()) + 1;
+		int lastElementIndex = availableLimits.size();
+		List<CoverageLimit> limitsToRemove = availableLimits.subList(removeFromLimitIndex, lastElementIndex);
+		availableLimits.removeAll(limitsToRemove);
 		return this;
 	}
 
@@ -98,6 +115,11 @@ public class Coverage {
 
 	public Coverage disableCanChange() {
 		this.canChangeCoverage = false;
+		return this;
+	}
+
+	public Coverage changeDescription(String newDescription) {
+		this.coverageDescription = newDescription;
 		return this;
 	}
 

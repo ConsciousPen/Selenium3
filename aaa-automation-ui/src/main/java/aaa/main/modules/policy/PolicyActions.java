@@ -4,6 +4,7 @@ package aaa.main.modules.policy;
 
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import org.openqa.selenium.By;
@@ -436,6 +437,16 @@ public final class PolicyActions {
 		public String getName() {
 			return "Roll Back Endorsement";
 		}
+
+		@Override
+		public AbstractAction start() {
+			log.info(getName() + " action initiated.");
+			NavigationPage.setActionAndGo(getName());
+			if (Page.dialogConfirmation.isPresent()) {
+				Page.dialogConfirmation.confirm();
+			}
+			return this;
+		}
 	}
 
 	public abstract static class RollOn extends AbstractAction {
@@ -494,33 +505,22 @@ public final class PolicyActions {
 
 			int rowsCount;
 			int columnsCount;
-			int maxRowsCount = 5;
-			String linkTriangleXPathPart1 = "//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_";
-			String linkTriangleXPathPart2 = "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]";
 
 			if (tableDifferences.isPresent()) {
-				rowsCount = tableDifferences.getRowsCount();
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
-				for (int i = 0; i < rowsCount; i++) {
-					Link linkTriangle = new Link(By.xpath(linkTriangleXPathPart1 + i + linkTriangleXPathPart2));
+				boolean expandRows;
+				do {
+					Link linkTriangle = new Link(By.xpath("//tr[contains(@aria-expanded, 'false')]//span[contains(@class,'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e') and not(contains(@style, 'hidden'))]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
-						for (int j = 0; j < maxRowsCount; j++) {
-							Link linkTriangle2 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + linkTriangleXPathPart2));
-							if (linkTriangle2.isPresent() && linkTriangle2.isVisible()) {
-								linkTriangle2.click();
-								for (int z = 0; z < maxRowsCount; z++) {
-									Link linkTriangle3 = new Link(By.xpath(linkTriangleXPathPart1 + i + "_" + j + "_" + z + linkTriangleXPathPart2));
-									if (linkTriangle3.isPresent() && linkTriangle3.isVisible()) {
-										linkTriangle3.click();
-									}
-								}
-							}
-						}
+						expandRows = true;
+						continue;
 					}
+					expandRows = false;
 				}
+				while (expandRows);
 
 				//apply values
 				Link linkSetValue;
@@ -537,6 +537,7 @@ public final class PolicyActions {
 			}
 			return this; //submit();
 		}
+
 		public void openConflictPage(boolean isAutomatic) {
 			start();
 
@@ -545,14 +546,19 @@ public final class PolicyActions {
 			int columnsCount = tableOosEndorsements.getColumnsCount();
 
 			for (int i = 1; i <= rowsCount; i++) {
-				tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(
-						isAutomatic ? 1 : 2).click();
+				if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Automatic") &&
+						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).isPresent()) {
+					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.get(isAutomatic ? 1 : 2).click();
+				} else if (tableOosEndorsements.getRow(i).getCell(columnsCount).getValue().contains("Roll On") &&
+						tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().isPresent()) {
+					tableOosEndorsements.getRow(i).getCell(columnsCount).controls.links.getFirst().click();
+				}
 				if (Page.dialogConfirmation.isPresent()) {
 					Page.dialogConfirmation.confirm();
 				}
 			}
 		}
-		
+
 		/**
 		 * Perform RollOn action without fill Conflict page. 
 		 * Fill opened Differences tab 
@@ -566,9 +572,10 @@ public final class PolicyActions {
 				columnsCount = tableDifferences.getColumnsCount();
 
 				//expand rows
+				
 				for (int i = 0; i < rowsCount; i++) {
 					Link linkTriangle = new Link(By.xpath("//div[@id='comparisonTreeForm:comparisonTree']//tr[@id='comparisonTreeForm:comparisonTree_node_" + i
-							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler')]"));
+							+ "']/td[1]/span[contains(@class, 'ui-treetable-toggler ui-icon ui-c ui-icon-triangle-1-e')]"));
 					if (linkTriangle.isPresent() && linkTriangle.isVisible()) {
 						linkTriangle.click();
 					}
@@ -693,8 +700,6 @@ public final class PolicyActions {
 	public abstract static class PolicyChangeRenewalLapse extends AbstractAction {
 	}
 
-
-
 	public abstract static class InitiateHOQuote extends AbstractAction {
 
 		@Override
@@ -709,7 +714,6 @@ public final class PolicyActions {
 		public AbstractAction perform() {
 			return perform(new SimpleDataProvider());
 		}
-}
-
+	}
 
 }

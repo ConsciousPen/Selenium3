@@ -490,7 +490,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarriedBody(){
+	protected void pas16610_NamedInsuredAndTheRelationshipWhenFniEquivalentToMarriedBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -549,8 +549,8 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		});
 	}
 
-	private void checkSpAndFniMaritalStatus_pas16610 (String policyNumber, String fniDriverOid, String fniMaritalStatus, String relationshipToFni,
-													  String maritalStatusDisplay){
+	private void checkSpAndFniMaritalStatus_pas16610(String policyNumber, String fniDriverOid, String fniMaritalStatus, String relationshipToFni,
+			String maritalStatusDisplay) {
 		assertSoftly((ETCSCoreSoftAssertions softly) -> {
 			AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Spouse", null, "Driver", "1960-02-08", "III");
 			DriversDto addDriver = HelperCommon.addDriver(policyNumber, addDriverRequest, DriversDto.class, 201);
@@ -781,7 +781,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 			//Add D8
 			AddDriverRequest addDriverRequest3 = DXPRequestFactory.createAddDriverRequest("Vadym", null, "Smith", "1990-05-01", null);
-			ErrorResponseDto addDriver8 =  HelperCommon.addDriver(policyNumber, addDriverRequest3, ErrorResponseDto.class,422);
+			ErrorResponseDto addDriver8 = HelperCommon.addDriver(policyNumber, addDriverRequest3, ErrorResponseDto.class, 422);
 
 			softly.assertThat(addDriver8.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(addDriver8.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
@@ -801,11 +801,22 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			ViewDriversResponse responseViewDriverEndorsement4 = HelperCommon.viewEndorsementDrivers(policyNumber);
 			assertThat(responseViewDriverEndorsement4.canAddDriver).isEqualTo(false);
 
-			ErrorResponseDto addDriver9 = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class,422);
+			ErrorResponseDto addDriver9 = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class, 422);
 			softly.assertThat(addDriver9.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 			softly.assertThat(addDriver9.message).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 			softly.assertThat(addDriver9.errors.get(0).errorCode).isEqualTo(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getCode());
 			softly.assertThat(addDriver9.errors.get(0).message).contains(ErrorDxpEnum.Errors.MAX_NUMBER_OF_DRIVERS.getMessage());
+
+			//Remove one driver and check if user can be able to add driver after
+			HelperCommon.removeDriver(policyNumber, driverOid7, DXPRequestFactory.createRemoveDriverRequest("RD1001"));
+			ViewDriversResponse responseViewDriverEndorsement5 = HelperCommon.viewEndorsementDrivers(policyNumber);
+			assertThat(responseViewDriverEndorsement5.canAddDriver).isEqualTo(true);
+
+			DriversDto addDriver10 = HelperCommon.addDriver(policyNumber, addDriverRequest3, DriversDto.class);
+			ViewDriversResponse responseViewDriverEndorsement6 = HelperCommon.viewEndorsementDrivers(policyNumber);
+			assertThat(responseViewDriverEndorsement6.canAddDriver).isEqualTo(false);
+			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest("male", "T32325892", 18, "VA", "CH", "SSS");
+			HelperCommon.updateDriver(policyNumber, addDriver10.oid, updateDriverRequest3);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			policyNumber7Drivers = policyNumber;
@@ -1037,7 +1048,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		AddDriverRequest addDriverRequest = DXPRequestFactory.createAddDriverRequest("Young", "Driver", "Jill", birthDateError, "III");
-		ErrorResponseDto errorResponseDto = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class,422);
+		ErrorResponseDto errorResponseDto = HelperCommon.addDriver(policyNumber, addDriverRequest, ErrorResponseDto.class, 422);
 		ViewDriversResponse responseViewDrivers1 = HelperCommon.viewEndorsementDrivers(policyNumber);
 
 		assertSoftly(softly -> {
@@ -2554,7 +2565,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 	}
 
-	protected void pas19768_ageFirstLicensedCannotBeGreaterThanDobBody(){
+	protected void pas19768_ageFirstLicensedCannotBeGreaterThanDobBody() {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();

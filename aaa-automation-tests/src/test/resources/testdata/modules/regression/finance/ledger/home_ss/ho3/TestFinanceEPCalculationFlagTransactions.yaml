@@ -1,0 +1,53 @@
+TestData_EndorsementAPRemoveCoverage: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Pay in Full,
+    Coverage C - Personal Property limit: '115000',
+    Coverage E - Personal Liability Each Occurrence: 'contains=$100,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {
+    Underwriter-selected inspection type: 'index=1'
+  },
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+TestData_EndorsementAddCoverage: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Pay in Full,
+    Coverage F - Medical Payments to Others: 'contains=$25,000',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}
+
+TestData_EndorsementAddSecondCoverage: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Payment plan: Pay in Full,
+    Deductible: 'contains=$10,000',
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {},
+}

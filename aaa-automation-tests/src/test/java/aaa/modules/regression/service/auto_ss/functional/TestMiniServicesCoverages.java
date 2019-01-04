@@ -3,6 +3,7 @@ package aaa.modules.regression.service.auto_ss.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.CoverageInfo;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesCoveragesHelper;
 import aaa.utils.StateList;
@@ -74,6 +75,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	//Scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11741", "PAS-11852", "PAS-12601"})
 	public void pas11741_ManageVehicleLevelCoveragesOtherThanVA(@Optional("AZ") String state) {
@@ -126,6 +128,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 3.update rreim 50/1500 and verify limits
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
 	public void pas14693_viewCoverageAndUpdateCoverageRentalReimbursement(@Optional("AZ") String state) {
@@ -137,6 +140,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	//scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14693"})
 	public void pas14693_updateCoverageRentalReimbursement(@Optional("AZ") String state) {
@@ -343,7 +347,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UM/UIM delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.DC, Constants.States.ID, Constants.States.KY, Constants.States.PA,
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA,
 			Constants.States.SD, Constants.States.MT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
@@ -476,9 +480,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS,
-			Constants.States.CT, Constants.States.WV, Constants.States.UT, Constants.States.NV})
+			Constants.States.CT, Constants.States.WV, Constants.States.UT, Constants.States.NV, Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -602,7 +606,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 	 **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas11654", "PAS-22550"})
 	public void pas11654_MDEnhancedUIMBICoverage(@Optional("MD") String state) {
 		assertSoftly(softly ->
 				pas11654_MDEnhancedUIMBICoverageBody(softly, getPolicyType())
@@ -666,6 +670,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 4. Check UMPD coverage.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.CO, Constants.States.OH})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15255"})
 	public void pas15255_UpdateCompCollCoveragesCheckUmpd(@Optional("OH") String state) {
@@ -693,6 +698,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * Note: Repeat with MotorHome
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.CO, Constants.States.OH})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15496"})
 	public void pas15496_viewCoveragesUmpdWhenYouDontHaveCompColl(@Optional("OH") String state) {
@@ -712,6 +718,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Update Coverage Service add adb coverage for 2 AFR driver verify Premium should increased
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ, Constants.States.MD})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"pas17642"})
 	public void pas17642_UpdateCoverageADB(@Optional("AZ") String state) {
@@ -850,11 +857,13 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5 Update PIP by updating MEDEXP coverage while "Rejection of Work Loss Benefit" is "true" and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
 	 * 6. Update "Rejection of Work Loss Benefit" to "false" and validate response and compare it with PAS UI. Validate that updateCoverage response is the same as viewCoverages response.
 	 * Note: validate subCoverages in changeLog after each update
+	 *
+	 * Important: disabled canChangeCoverage for WLB (PAS-23320). Will be enabled in future and then changes will be needed to revert.
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.UT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15368", "PAS-21918"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15368", "PAS-21918", "PAS-23320"})
 	public void pas15368_viewUpdatePIPCoverage_UT(@Optional("UT") String state) {
 		pas15368_viewUpdatePIPCoverage_UTBody();
 	}
@@ -970,10 +979,11 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 5. Run the View Coverage service my label for UMBI is "Standard Uninsured/Underinsured Motorist Bodily Injury"and canChangeCoverage = false .
 	 * 6. and my label for UMPD is "Standard Uninsured Motorist Property Damage"
 	 * 7.Update any Coverage and verify if update showing same label
+	 * 8. PAS-22550 - check that EUIM description is as expected in transaction history
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20835", "PAS-22550"})
 	public void pas20835_mdAndEnhancedCoverage(@Optional("MD") String state) {
 		pas20835_mdAndEnhancedCoverageBody(getPolicyType());
 	}
@@ -1056,15 +1066,33 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas20306_viewUpdateCoveragesUmpdCompCollBody(state, getPolicyType());
 	}
 
-/**
- * @author Megha Gubbala
- * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
- * @scenario1
- * 1. Create policy with trailer Motor home and ppa vehicle
- * 2. Create endorsement outside of PAS.
- * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
- * 4. And Trailer customerDisplayed canChangeCoverage false
- * */
+	/**
+	 * @author Sabra Domeika
+	 * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+	 * @scenario1 Create policy in PAS
+	 * 1. Create endorsement through service
+	 * 2. Update UMPD through service and check response
+	 * 3. Open PAS UI and validate Coverage tab
+	 * 4. Update BI to 100000/300000 and COLLDED to -1 through service and check response
+	 * 5. Update UMPD to 3500 and check response
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.NV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15344", "PAS-18198"})
+	public void pas15344_ViewUpdateUmpdNV(@Optional("NV") String state) {
+		pas15344_ViewUpdateUMPD_NV();
+	}
+
+	/**
+	 * @author Megha Gubbala
+	 * @name View Coverages Update coverage  - UMPD (Update Comp/Coll)
+	 * @scenario1
+	 * 1. Create policy with trailer Motor home and ppa vehicle
+	 * 2. Create endorsement outside of PAS.
+	 * 3. DXP View  Coverage: PPA and motor home should have customerDisplayed canChangeCoverage true
+	 * 4. And Trailer customerDisplayed canChangeCoverage false
+	 * */
 
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.OR})
@@ -1072,8 +1100,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16112"})
 	public void pas16112_umpdOregonViewCoverage(@Optional("OR") String state) {
 		assertSoftly(softly ->
-				pas16112_umpdOregonViewCoverageBody(softly,getPolicyType())
-		);	}
+				pas16112_umpdOregonViewCoverageBody(softly, getPolicyType())
+		);
+	}
 
 	/**
 	 * @author Megha Gubbala
@@ -1090,8 +1119,9 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-20344"})
 	public void pas20344_trailerMotorHomeAndGolfCartViewCoverage(@Optional("AZ") String state) {
 		assertSoftly(softly ->
-		pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly,getPolicyType())
-		);	}
+				pas20344_trailerMotorHomeAndGolfCartViewCoverageBody(softly, getPolicyType())
+		);
+	}
 
 	/**
 	 * @author Maris Strazds
@@ -1110,5 +1140,268 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19625"})
 	public void pas19625_TotalDisabilitySD(@Optional("SD") String state) {
 		pas19625_TotalDisabilitySDBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test BI and UMBI update when canChangeCoverage = TRUE for UMBI
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = TRUE for UMBI COULD BE USED. Test can be adapted to any state where UMBI is single coverage (not 2 separate)
+	 *  ans state must have BI available limits be the same as UMBI available limits.
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
+	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
+	 * 5. Update UMBI limit ---> UMBI is updated, BI limit is not updated
+	 * 6. Check in PAS UI that limits are updated
+	 * 7. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
+	public void pas21363_BIAndUMBIAndCanChangeTrue(@Optional("VA") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_VA_KS);
+	}
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-22972"})
+	public void pas22972_BIAndUMBIAndCanChangeTrue(@Optional("DE") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_DE);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test BI and UMBI update when canChangeCoverage = FALSE for UMBI
+	 * @scenario
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMBI COULD BE USED. Test can be adapted to any state where UMBI is single coverage (not 2 separate)
+	 *  ans state must have BI available limits be the same as UMBI available limits.
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
+	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UMBI is updated, UMBI availableLimits are not greater than BI limit
+	 * 5. Update UMBI limit ---> UMBI is not updated, BI limit is not updated
+	 * 6. Check in PAS UI that limits are/are not updated
+	 * 7. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.KS})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21363"})
+	public void pas21363_BIAndUMBIAndCanChangeFalse(@Optional("KS") String state) {
+		pas21363_BIAndUMBIAndCanChangeFalseBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 5. Update UMPD limit ---> UMPD is updated, PD limit is not updated
+	 * 6. Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
+	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
+	 * 8. Check in PAS UI that limits are updated
+	 * 9. Check transaction change log
+	 * @NOTE: functionality related with pas15824_UmpdDelimiter (needed to update)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	public void pas21364_PDAndUMPDandCanChangeTrue(@Optional("VA") String state) {
+		pas21364_PDAndUMPDAndCanChangeTrueBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = FALSE for UMPD
+	 * @scenario
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 5. Update UMPD limit ---> UMPD is not updated, PD limit is not updated
+	 * 6. Update BI to lower limit so that PD limit and available limits also are updated ---> PD is updated, PD availableLimits are updated, UMPD is updated. UMPD available limits are updated.
+	 * 7. Update BI to higher limit so that PD limit and available limits also are updated ---> PD is not updated, PD availableLimits are updated, UMPD is not updated. UMPD available limits are not updated.
+	 * 8. Check in PAS UI that limits are updated
+	 * 9. Check transaction change log
+	 * @NOTE: functionality related with pas20292_updateCoverageBIPDWv (needed to update)
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.WV})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21364"})
+	public void pas21364_PDAndUMPDAndCanChangeFalse(@Optional("WV") String state) {
+		pas21364_PDAndUMPDAndCanChangeFalseBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD and UIMPD
+	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update PD from higher Limit to lower limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 * 4. Update PD from lower Limit to higher limit (go through all available limits) ---> PD and UMPD is updated, UMPD availableLimits are not greater than PD limit
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15281"})
+	public void pas15281_UMPDAndUIMPDAndCanChangeTrue(@Optional("DC") String state) {
+		pas15281_UMPDAndUIMPDAndCanChangeTrueBody();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update coverage - UM and UIM - DC
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Hit view coverage service.
+	 * 4. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 5. Check UMBI and UIMBI available limits.
+	 * 6. Update BI from higher Limit to lower limit (go through all available limits)
+	 * 7. Check UMBI and UIMBI available limits.
+	 * 8. Update UMBI limit to be less than my BI limit.
+	 * 9. Check rate service, if any error is not displaying.
+	 * 10. Check if UM and UIM were updated with BI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15313"})
+	public void pas15313_updateBiCoverageCheckUMandUIM(@Optional("DC") String state) {
+
+		pas15313_updateBiCoverageCheckUMandUIMbody();
+	}
+
+	/**
+	 * @author RVanover
+	 * @name View/Update PIP Coverage
+	 * @scenario for DC
+	 * * @details
+	 * 1. Create a DC endorsement outside PAS.
+	 * 2. Run DXP view coverage service.
+	 * 3. Verify PIP coverage criteria.
+	 * 4. Update PIP coverages from DXP.
+	 * 5. Verify updates to PIP coverages in DXP, PAS UI & change log.
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15288"})
+	public void pas15288_ViewUpdateCoveragePIPCoverage(@Optional("DC") String state) {
+		pas15288_ViewUpdateCoveragePIPCoverageBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UMPD
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update PD accordingly to table below and validate UMPD
+	 * 4. Check that viewEndorsementCoverages response is the same as updateCoverage response
+	 * 5. Update UMPD and validate that UMPD is updated
+	 * 6. Check that viewEndorsementCoverages response is the same as updateCoverage response
+	 * 7. Check UMPD in Transaction Change Log
+	 * 8. Check that when PD is updated to PD < UMPD by changing BI, then UMBI is also updated
+	 *
+	 * |Start of the transaction|Transaction|   Impact on UMPD     |
+	 * |    PD = UMPD           |PD > UMPD  |   UMPD is not updated|
+	 * |    PD = UMPD           |PD < UMPD  |   UMPD = PD          |
+	 * |    PD > UMPD           |PD = UMPD  |   UMPD is not updated|
+	 * |    PD > UMPD           |PD > UMPD  |   UMPD is not updated|
+	 * |    PD > UMPD           |PD < UMPD  |   UMPD = PD          |
+	 * |    PD < UMPD           |PD < UMPD  |   UMPD is not updated|
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15286"})
+	public void pas15286_updateUMPDCoverageDC(@Optional("DC") String state) {
+		pas15286_updateUMPDCoverageDCBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test PD and UIMPD
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update PD accordingly to table below and validate UIMPD
+	 * 4. Check that viewEndorsementCoverages response is the same as updateCoverage response
+	 * 5. Update UIMPD and validate that UIMPD is updated
+	 * 6. Check that viewEndorsementCoverages response is the same as updateCoverage response
+	 * 7. Check UMPD in Transaction Change Log
+	 * 8. Check that when PD is updated to PD < UIMPD by changing BI, then UIMBI is also updated
+	 *
+	 * ||UIMPD - Beginning||  PD - Beginning  ||  Transaction  ||   Impact on UMPD     ||
+	 * |  IMPD <> No Cov   |  PD = UIMPD      |   PD > UIMPD    |   UIMPD is not updated|
+	 * |  UIMPD <> No Cov  |  PD = UIMPD      |   PD < UIMPD    |   UIMPD = PD          |
+	 * |  UIMPD <> No Cov  |  PD > UIMPD      |   PD = UIMPD    |   UIMPD is not updated|
+	 * |  UIMPD <> No Cov  |  PD > UIMPD      |   PD > UIMPD    |   UIMPD is not updated|
+	 * |  UIMPD <> No Cov  |  PD > UIMPD      |   PD < UIMPD    |   UIMPD = PD          |
+	 * |  UIMPD = No Cov   |  Any             |   Any           |   UIMPD is not updated|
+	 * |  UIMPD <> No Cov  |  PD < UIMPD      |   PD < UIMPD    |   UIMPD is not updated|
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21421"})
+	public void pas21421_updateUIMPDCoverageDC(@Optional("DC") String state) {
+		pas21421_updateUIMPDCoverageDCBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update BI to lower limit and check
+	 * 4. Update BI to higher limit and check
+	 * 5. Update UM/UIM to other than No Coverage (increase) and check
+	 * 6. Update UM/UIM to other than No Coverage (decrease) and check
+	 * 7. Update UM/UIM to No Coverage and check
+	 * 8. Update BI (decrease) and check
+	 * 9. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
+	 * 10. Update BI (increase) and check
+	 * 11. Update UM/UIM to No Coverage (precondition for next step) (repeated step) and check
+	 * 12. Update UM/UIM to other than No Coverage and check
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16399"})
+	public void pas16399_viewUpdateUmpdDE(@Optional("DE") String state) {
+		pas16399_viewUpdateUmpdDEBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name View/Update Coverage - PIP in Delaware
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update PIP, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 3. Update PIPDED, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 3. Update PIPDEDAPPTO, check response, check viewCoverages response, check Change Log response, check in PAS UI
+	 * 3. Check FUNEXP and PROPERTY details
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272"})
+	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
+		pas15272_viewUpdatePipDEBody();
 	}
 }

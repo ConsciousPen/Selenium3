@@ -125,7 +125,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
 	@Override
-	protected RadioGroup getClaimChargeableAsset() {
+	protected RadioGroup getClaimIncludedInRatingAsset() {
 		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 
@@ -337,7 +337,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationNB(@Optional("") String state) {
 		pas6695_testClueClaimsReconciliationNB();
 
@@ -357,7 +357,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationEndorsement(@Optional("") String state) {
 		pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -377,7 +377,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRenewal(@Optional("") String state) {
 		pas6695_testClueClaimsReconciliationRenewal();
 
@@ -398,7 +398,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRewrite(@Optional("") String state) {
 		pas6695_testClueClaimsReconciliationRewrite();
 
@@ -468,6 +468,29 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-22075")
 	public void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement(@Optional("") String state) {
 		pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test Require UW approval when CAT indicator and/or 'Include in Rating and Eligibility' field are changed
+	 * @scenario
+	 * 1. Create quote with default test data (including customer)
+	 * 2. Add 2 named insured with claims (Virat and Silvia Kohli)
+	 * 3. Order CLUE.
+	 * 4. Set CAT = YES and chargeable = NO.
+	 * 5. Select 10588 chargeable = NO.
+	 * 6. Select 11000 Claim and set CAT = NO.
+	 * 7. Issue Policy Override added rule ERROR_AAA_HO_XX1210012 for term.
+	 * 8. Endorse Policy Issue Endorsement no Rules fired.
+	 * 9. Change time Renew Policy Override added rule ERROR_AAA_HO_XX1210012 for life.
+	 * 10. Renew Policy no rules are fired.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-21557")
+	public void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged(@Optional("") String state) {
+		pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged();
 
 	}
 

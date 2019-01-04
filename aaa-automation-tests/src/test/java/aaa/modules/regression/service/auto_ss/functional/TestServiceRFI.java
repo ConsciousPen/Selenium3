@@ -4,8 +4,16 @@ package aaa.modules.regression.service.auto_ss.functional;
 
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import aaa.common.enums.Constants;
+import aaa.helpers.rest.dtoDxp.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.modules.regression.service.helper.HelperMiniServices;
+import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,9 +42,172 @@ import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
+import javax.ws.rs.core.Response;
+
 public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
 	private final TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+	private HelperMiniServices helperMiniServices = new HelperMiniServices();
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name RFI View Service
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update UM coverage.
+	 * 6. Rate. Hit RFI service, generate doc = false.
+	 * 7. Hit RFI service again, generate doc = true, check url.
+	 * 8. Check if document is displaying.
+	 * 9. Rate and bind.
+	 * 10. Create a new endorsement.
+	 * 11. Rate. Hit RFI service.
+	 * 12. Check the response.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19630", "PAS-19632"})
+	public void pas19630_ViewServiceRFI(@Optional("VA") String state) {
+		assertSoftly(softly -> {
+			String policyNumber = openAppAndCreatePolicy();
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+
+			//update UM coverage
+			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMBI", "25000/50000"), PolicyCoverageInfo.class);
+
+			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU_", "policy", "NS");
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			RFIDocuments rfiServiceResponse4 = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse4.url).isNotNull();
+			softly.assertThat(rfiServiceResponse4.documents.isEmpty()).isTrue();
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name RFI AACSDC Form
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
+	 * 6. Hit RFI service, check if document is displaying.
+	 * 7. Try bind check error
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
+	public void pas21423_aacsdcFormRFI(@Optional("DC") String state) {
+		assertSoftly(softly -> {
+
+			TestData td = getPolicyDefaultTD();
+			td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+					, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
+			String policyNumber = openAppAndCreatePolicy();
+
+			//update PIPMedical coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPMEDICAL", "100000");
+
+			//Update UIMPD coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMPD", "25000/50000");
+
+			//Update PIPWORKLOSS coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "PIPWORKLOSS", "12000");
+
+			//Update FUNERAL coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "FUNERAL", "4000");
+
+			//Update UIMBI coverage
+			checkRfiResponseAfterCovWasUpdated_pas21423(policyNumber, "UIMBI", "-1");
+		});
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name RFI View Service / Override part
+	 * @scenario 1. Create quote:
+	 * eValue = Yes, PAA = Not Sign in, Insured Motorist = Not Sign in
+	 * 2. Change UM limit, to the lower one in P&C page.
+	 * 3. Issue quote. Override all errors.
+	 * 4. Create endorsement outside of PAS.
+	 * 5. Rate and hit RFI service.
+	 * 6. Check the response.
+	 * 7. Rate and bind endorsement.
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19631"})
+	public void pas19631_OverrideRulesCheckViewServiceRFI(@Optional("VA") String state) {
+		assertSoftly(softly -> {
+			TestEValueDiscount testEValueDiscount = new TestEValueDiscount();
+			PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
+
+			mainApp().open();
+			createCustomerIndividual();
+			createQuote();
+			policy.dataGather().start();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue("$25,000/$50,000 (-$32.00)");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.AUTO_INSURANCE_APPLICATION).setValue("Not Signed");
+			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.EVALUE_ACKNOWLEDGEMENT).setValue("Not Signed");
+			documentsAndBindTab.saveAndExit();
+
+			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+
+			helperMiniServices.createEndorsementWithCheck(policyNumber);
+			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+
+			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage){
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
+		//TODO jpukenaite: uncomment when the story for bind error will be done
+		//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
+		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
+	}
+
+	private void checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status){
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+
+		assertSoftly(softly -> {
+			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentId);
+			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
+
+			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
+			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
+			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+		});
+	}
 
 	/**
 	 * @author Oleg Stasyuk
@@ -57,7 +228,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * Proof of Current Insurance for all "Not Available for Rating" drivers
 	 *
 	 * Driver4 - Not Available for Rating
-	 *
 	 *
 	 * Vehicle1 -
 	 * Photos showing all 4 sides of salvaged vehicles	select salvaged

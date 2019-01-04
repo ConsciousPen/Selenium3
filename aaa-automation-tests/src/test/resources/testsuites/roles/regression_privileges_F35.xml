@@ -23,7 +23,13 @@
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingGenerateFutureStatement"/>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingHoldPolicies"/>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdate_enableAutoPay"/>
+            		<include name="testUpdate_addPaymentMetodAndEnableAutoPay"/>
+            		<include name="testUpdate_disableAutoPay"/>
+            	</methods>
+            </class>
         </classes>
     </test>
     
@@ -44,12 +50,18 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingAddPaymentMethod"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingGenerateFutureStatement"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingHoldPolicies"/>
-            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate"/>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.TestPolicyBillingUpdate">
+            	<methods>
+            		<include name="testUpdate_enableAutoPay"/>
+            		<include name="testUpdate_addPaymentMetodAndEnableAutoPay"/>
+            		<include name="testUpdate_disableAutoPay"/>
+            	</methods>
+            </class>
         </classes>
     </test>
     
-    <test name="UT Auto Regression Tests" parallel="methods">
-    	<parameter name="state" value="UT"/>
+    <test name="AZ Auto Regression Tests" parallel="methods">
+    	<parameter name="state" value="AZ"/>
     	<parameter name="login" value="F35"/>
     	<classes>
     		<class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreation"/>

@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("Captive Branch Agents","2507")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
@@ -316,7 +315,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> DATA_GATHER_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
-			.put("CIPCS22Endorsement Form", "Automobile Death Benefit")
+			.put("Forms.CIPCS22Endorsement Form", "Automobile Death Benefit")
 			.put("Drivers.VIFirstName VI VILastName", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Age")
 			.put("Drivers.VIFirstName VI VILastName", "Gender")

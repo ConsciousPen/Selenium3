@@ -1,8 +1,8 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Unicorns Functional Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
-       <!-- <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>-->
-     <!--   <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>-->
+       <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
+     <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method" />
 
@@ -131,16 +131,16 @@
             </class>
         </classes>
     </test>
-    <test name="PAS-18302 Fire rule for roof type - wood shingle/wood shake for 3 and above - SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-21652 Fireline rules for the Fireline Lookup table  - SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ, UT"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestFireline"/>
         </classes>
     </test>
-    <test name="PAS-18914 Fire rule for roof type - wood shingle/wood shake for 3 and above - CA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
+    <test name="PAS-18311 Fireline rules for the Fireline Lookup table  - CA" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline"/>

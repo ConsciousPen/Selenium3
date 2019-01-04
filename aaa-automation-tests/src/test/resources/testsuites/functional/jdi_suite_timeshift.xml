@@ -2,7 +2,7 @@
 <suite name="JDI Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
     <listeners>
         <!-- Listener commented out for local runs-->
-        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener2"/>
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
     <parameter name="timeshift-scenario-mode" value="test"/>
@@ -119,15 +119,12 @@
                     <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
 
                     <include name="pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
 
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15"/>
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30"/>
@@ -375,6 +372,16 @@
                 <methods>
                     <include name="pas9716_policySummaryForActiveRenewal"/>
                     <include name="pas9716_policySummaryForConversion"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Policy Summary Service - Renewal Offer Indicator">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesGeneral">
+                <methods>
+                    <include name="pas22548_isRenewalOfferGenerated"/>
                 </methods>
             </class>
         </classes>

@@ -60,6 +60,15 @@ public final class RemoteHelper {
 		return this;
 	}
 
+	public RemoteHelper clearFolder(String folder, Boolean includeSubFolders, Boolean onlyFiles) {
+		if (isPathExist(folder)) {
+			ssh.removeFiles(folder, includeSubFolders, onlyFiles);
+		} else {
+			log.warn("SSH: Folder \"{}\" doesn't exist.", folder);
+		}
+		return this;
+	}
+
 	public RemoteHelper clearFolder(String folder) {
 		if (isPathExist(folder)) {
 			ssh.removeFiles(folder);

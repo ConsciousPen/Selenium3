@@ -325,7 +325,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
         setDoNotRenewFlag(policyNum);
 
 		// Change system date
-		LocalDateTime renewalEff = effDate.plusYears(1);
+        LocalDateTime renewalEff = effDate.plusYears(1);
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
