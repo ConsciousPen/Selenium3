@@ -27,7 +27,6 @@ public class VersionsComparisonConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
-			.putAll("Drivers.VIIFirstName VII VIILastName.Date of Birth", "01/03/1962","01/03/1964")
 			.putAll("Drivers.VIIFirstName VII VIILastName.Age", "57","55")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
@@ -45,8 +44,6 @@ public class VersionsComparisonConstants {
 			.putAll("Policy Information.Agent Number","500034992","500012749")
 			//Driver Tab
 			//data gather data
-			.putAll("Named Insureds.VIFirstName VI VILastName.Insured Date of Birth", "01/03/2001","01/03/1964")
-			.putAll("Drivers.VIFirstName VI VILastName.Date of Birth", "01/03/2001","01/03/1964")
 			.putAll("Drivers.VIFirstName VI VILastName.Age", "18","55")
 			.putAll("Drivers.VIFirstName VI VILastName.Total Years Driving Experience", "3","39")
 			.putAll("Drivers.VIFirstName VI VILastName.Smart Driver Course Completed?", "true","false")
@@ -114,6 +111,7 @@ public class VersionsComparisonConstants {
 			.put("Drivers.VIIFirstName VII VIILastName.Middle Name", "Middle Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Last Name", "Last Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Suffix", "Suffix")
+			.put("Drivers.VIIFirstName VII VIILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Drivers.VIIFirstName VII VIILastName.Date First Licensed", "Date First Licensed")
 			.put("Drivers.VIIFirstName VII VIILastName.Total Years Driving Experience", "Total Years Driving Experience")
@@ -175,7 +173,8 @@ public class VersionsComparisonConstants {
 			.put("Policy Information.Suppress Print","Suppress Print")
 			//Driver Tab
 			//data gather
-			//.put("Drivers.VIFirstName VI VILastName.Date of Birth", "Date of Birth")
+			.put("Named Insureds.VIFirstName VI VILastName.Insured Date of Birth", "Insured Date of Birth")
+			.put("Drivers.VIFirstName VI VILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName.Gender", "Gender")
 			.put("Drivers.VIFirstName VI VILastName.Marital Status", "Marital Status")
 			.put("Drivers.VIFirstName VI VILastName.Occupation", "Occupation")
@@ -200,6 +199,7 @@ public class VersionsComparisonConstants {
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
 			.put("Drivers.VIFirstName VI VILastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//endorsement/renewal data
+			.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Date of Birth", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Gender", "Gender")
 			.put("Drivers.NBFirstName NB NBLastName.Marital Status", "Marital Status")
@@ -384,6 +384,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> ENDORSEMENT_RENEWAL_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.NBFirstName NB NBLastName", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Age")
 			.put("Drivers.NBFirstName NB NBLastName", "Gender")
