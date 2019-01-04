@@ -163,6 +163,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="VehiclesPA" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="AssignmentsVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
