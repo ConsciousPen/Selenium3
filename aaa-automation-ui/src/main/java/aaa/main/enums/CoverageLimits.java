@@ -77,7 +77,7 @@ public enum CoverageLimits {
 	COV_FPB_5K_BASIC("Basic", "$5K Basic Coverage Package"),
 	COV_FPB_50K_TOTAL("Combo1", "$50K Total Coverage Package"),
 	COV_FPB_100K_TOTAL("Combo2", "$100K Total Coverage Package"),
-	COV_FPB_177_5K_TOTAL("Combo3", "$177.5KTotal Coverage Package"),
+	COV_FPB_177_5K_TOTAL("Combo3", "$177.5K Total Coverage Package"),
 	COV_FPB_ADDED("Added", "Added"),
 	COV_IL_5000_MAX_PA("$1,000/month ($5,000 max)", "$1,000/month ($5,000 max)"),
 	COV_IL_15000_MAX_PA("$1,000/month ($15,000 max) ", "$1,000/month ($15,000 max) "),
