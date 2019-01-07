@@ -38,7 +38,7 @@ public class TestPolicyCreation extends AutoSSBaseTest {
 	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
-	public void testPolicyCreation(@Optional("UT") String state) {
+	public void testPolicyCreation(@Optional("") String state) {
 		
 		if(getUserGroup().equals(UserGroups.B31.get())) {
 			mainApp().open(getLoginTD(UserGroups.QA));
