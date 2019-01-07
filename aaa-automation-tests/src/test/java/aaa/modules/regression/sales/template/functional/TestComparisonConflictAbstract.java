@@ -33,10 +33,15 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 	private static final int SECTION_NAME_ROW_INDEX = 1;
 	private static final List<String> NOT_IMPLEMENTED_YET_SECTIONS = ImmutableList.of(
 			//Auto SS
-			"Drivers.VIIFirstName VII VIILastName.AAA Claims Report Order",
-			"Drivers.VIIFirstName VII VIILastName.AAAMvr Report Order",
-			"Drivers.NBFirstName NB NBLastName.AAA Claims Report Order",
-			"Drivers.NBFirstName NB NBLastName.AAAMvr Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order",
+			"Drivers.NBFirstName NB NBLastName.Reports.AAA Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order",
+			"Drivers.NBFirstName NB NBLastName.Forms.ADBEndorsement Form",
+			"Drivers.NBFirstName NB NBLastName.Forms.CIPCS22Endorsement Form",
+			"Forms.CSAAEEndorsement Form",
+			"Forms.ENOCCEndorsement Form",
+			"Reports.AAA Clue Order",
 			"Named Insureds.VIFirstName VI VILastName.AAA Credit History Order",
 			"Named Insureds.VIIFirstName VII VIILastName.AAA Credit History Order",
 			"Named Insureds.NBFirstName NB NBLastName.AAA Credit History Order",
@@ -48,23 +53,26 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"AZ_ADBEEndorsement Form",
 			"AZ_SR22FREndorsement Form",
 			//Auto CA unique
-			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
-			"Drivers.VIFirstName VI VILastName.A A A Claims Report Order",
-			"Drivers.VIFirstName VI VILastName.AAAMvr Report Order",
-			"Drivers.VIIFirstName VII VIILastName.A A A Claims Report Order",
-			"Drivers.NBFirstName NB NBLastName.A A A Claims Report Order",
-			"Drivers.NBFirstName NB NBLastName.AAAMvr Report Order",
-			"ADBEndorsement Form",
-			"CIPCS22Endorsement Form",
+			"Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.Reports.A A A Claims Report Order",
+			"Drivers.VIFirstName VI VILastName.Reports.AAAMvr Report Order",
+			"Drivers.VIIFirstName VII VIILastName.Reports.A A A Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.Reports.A A A Claims Report Order",
+			"Drivers.NBFirstName NB NBLastName.Reports.AAAMvr Report Order",
+			"Drivers.VIFirstName VI VILastName.Forms.CIPCS22Endorsement Form",
+			"Drivers.NBFirstName NB NBLastName.Forms.ADBEndorsement Form",
+			"Drivers.NBFirstName NB NBLastName.Forms.CIPCS22Endorsement Form",
 			"Forms",
-			"ENOCCEndorsement Form",
+			"Forms.CIPCS22Endorsement Form",
+			"Forms.ENOCCEndorsement Form",
+			"Forms.CSAAEEndorsement Form",
 			"LSOPCEndorsement Form",
 			"AA59 Existing Damage Endorsement Form"
 	);
 
 	private static final List<String> NOT_IMPLEMENTED_YET_FIELDS = ImmutableList.of(
-			"AAA Membership report.Order Date",
-			"AAA Membership report.Receipt Date",
+			"Reports.AAA Membership report.Order Date",
+			"Reports.AAA Membership report.Receipt Date",
 			"Current Carrier Information.Days Lapsed",
 			"Policy Information.Renewal Term Premium - Old Rater",
 			"Drivers.VIFirstName VI VILastName.Date First Licensed",
@@ -80,7 +88,9 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Vehicles.1998, DODGE, CARAVAN.AAA UBI Device Status Date",
 			"Vehicles.1998, DODGE, CARAVAN.Safety Score Date",
 			"Vehicles.1998, DODGE, CARAVAN.Garaging Address",
-			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form"
+			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date"
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 

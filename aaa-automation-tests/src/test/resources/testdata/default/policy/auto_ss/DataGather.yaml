@@ -791,12 +791,12 @@ DriverTab_NJ: {
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
-    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed
+    #Acknowledgement of Requirement for Insurance Inspection: Physically Signed
   },
   RequiredToIssue: {
-    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
-    Separate Vehicle 1: 'Yes',
+    #CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
+    #Separate Vehicle 1: 'Yes',
     Proof of Prior Insurance: 'Yes'
   },
   Agreement: I agree
@@ -895,8 +895,8 @@ DriverTab_NY: {
 VehicleTab_NY: {
   Type: 'Private Passenger Auto',
   Usage: Pleasure,
-  VIN: 1GNWGPFG8B6548273,
-  "Less Than 3,000 Miles": 'No'
+  VIN: 1GNWGPFG8B6548273
+  #"Less Than 3,000 Miles": 'No'
 }
 
 DocumentsAndBindTab_NY: {

@@ -78,10 +78,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	 * *@details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan1(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -92,10 +92,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan2(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		CustomSoftAssertions.assertSoftly(softly -> {
 			creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", true, "Debit", softly);
 			updatePaymentMethodBillingAccount(true, false, Optional.empty(), Optional.empty(), softly);
@@ -104,10 +104,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan3(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -118,10 +118,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan4(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -132,10 +132,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan5(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		CustomSoftAssertions.assertSoftly(softly -> {
 			creationPolicyWithDiffPayPlan("Annual", "Annual", true, "Debit", softly);
 			updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty(), softly);
@@ -144,10 +144,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan6(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData ccVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(0);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -158,10 +158,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan7(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData eft = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(1);
 
 		CustomSoftAssertions.assertSoftly(softly -> {
@@ -172,10 +172,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan8(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		CustomSoftAssertions.assertSoftly(softly -> {
 			creationPolicyWithDiffPayPlan("Semi-annual", "Five Pay - Standard", false, "ACH", softly);
 			updatePaymentMethodBillingAccount(false, false, Optional.empty(), Optional.empty(), softly);
@@ -184,10 +184,10 @@ public class TestMessagingVerification extends AutoSSBaseTest implements TestEVa
 	}
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "eValueAcknowledgementConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-7185", "PAS-7192", "PAS-273", "PAS-274"})
 	public void pas7185_messagingConfigurablePayPlan9(@org.testng.annotations.Optional("OR") String state) {
-
+		eValueAcknowledgementConfigCheck();
 		TestData dcVisa = getTestSpecificTD("TestData_UpdateBilling").getTestData("UpdateBillingAccountActionTab").getTestDataList("PaymentMethods").get(2);
 
 		CustomSoftAssertions.assertSoftly(softly -> {

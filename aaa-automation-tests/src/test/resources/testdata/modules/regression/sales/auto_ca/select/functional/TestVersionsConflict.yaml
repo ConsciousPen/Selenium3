@@ -161,6 +161,40 @@ TestData_NamedInsuredInformation_Version2: {
   DocumentsAndBindTab: {},
 }
 
+TestData_AddNamedInsuredInformation_Version1: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_Version1'],
+    ContactInformation: '@ContactInformation_Version1'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
+TestData_AddNamedInsuredInformation_Version2: {
+  GeneralTab: {
+    NamedInsuredInformation: ['@NamedInsuredInformation','@NamedInsuredInformation_Version2'],
+    ContactInformation: '@ContactInformation_Version2'
+  },
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Validate Driving History: click,
+  },
+  DocumentsAndBindTab: {},
+}
+
 NamedInsuredInformation: {
   Title: MR,
   First Name: NBFirstName,
@@ -192,6 +226,7 @@ NamedInsuredInformation: {
 }
 
 NamedInsuredInformation_Version1: {
+  InsuredSearchDialog: {},
   Title: MRS,
   First Name: VIFirstName,
   Middle Name: VI,
@@ -222,6 +257,7 @@ NamedInsuredInformation_Version1: {
 }
 
 NamedInsuredInformation_Version2: {
+  InsuredSearchDialog: {},
   Title: MISS,
   First Name: VIIFirstName,
   Middle Name: VII,
@@ -614,6 +650,53 @@ TestData_DriverInformation_Version2: {
   },
 }
 
+TestData_AddDriverInformation_Version1: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version1'},
+  DriverTab: ['@DriverInformation_AddActivity1','@DriverInformation_Add_Version1'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {
+    Driver Forms: {
+      CIPCSR22: {
+        Action: Edit,
+        Case Number: 123456789,
+        State: CA
+      }
+    }
+  },
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToIssue:{
+      Proof of Mature Driver Course Completion: 'Yes',
+    }
+  },
+}
+
+TestData_AddDriverInformation_Version2: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version2'},
+  DriverTab: ['@DriverInformation','@DriverInformation_Add_Version2'],
+  MembershipTab: {},
+  VehicleTab: {},
+  AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {
+    Sales Agent Agreement: I Agree,
+    Validate Driving History: click
+  },
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Proof of Good Student Discount: 'Yes',
+      Proof of New Driver Course Completion: 'Yes'
+    }
+  },
+}
+
 DriverInformation: {
   Date of Birth: $<today-35y>,
   Gender: Female,
@@ -643,6 +726,93 @@ DriverInformation: {
   #  "Include in Points and/or YAF?": 'No',
   #  Not Included in Points and/or YAF - Reason Codes: 'Report errors',
   #}
+}
+
+DriverInformation_AddActivity1: {
+  Date of Birth: $<today-35y>,
+  Gender: Female,
+  Marital Status: Divorced,
+  Occupation: 'Farmer',
+  Age First Licensed: 18,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-2M>,
+  License State: UT,
+  "License #": 111111111,
+  Employee Benefit Type: Active employee,
+  Employee ID: 111222333,
+  ADB Coverage: 'Yes',
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'Yes',
+  Filling Type: SR-1P,
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
+  ActivityInformation: {
+    Activity Source: Company Input,
+    Type: '10-yr Major Violation',
+    Occurrence Date: '06/06/2017',
+    Description: 'Driving under the influence of drugs',
+    Conviction Date: '06/06/2017',
+    "Include in Points and/or YAF?": 'No',
+    Not Included in Points and/or YAF - Reason Codes: 'Report errors',
+  }
+}
+
+DriverInformation_Add_Version1: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version1',
+  Date of Birth: $<today-55y>,
+  Gender: Male,
+  Marital Status: Married,
+  Occupation: 'Dentist',
+  Age First Licensed: 17,
+  Permit Before License: 'No',
+  "Licensed in US/Canada for 18 or More Months?": 'Yes',
+  License Type: 'Valid',
+  "First US/Canada License Date": $<today-1y>,
+  License State: AZ,
+  "License #": A12345678,
+  Employee Benefit Type: None,
+  ADB Coverage: 'Yes',
+  Mature driver course completed within 36 months: 'Yes',
+  Mature Driver Course Completion Date: $<today-2M>,
+  "Smoker: Cigarettes, cigars or pipes": 'No',
+  Financial Responsibility Filling Needed: 'Yes',
+  Filling Type: SR-22,
+  Ridesharing Coverage: 'No',
+}
+
+DriverInformation_Add_Version2: {
+  DriverSearchDialog: {},
+  Driver Type: Available for Rating,
+  'Rel. to First Named Insured': Spouse,
+  First Name: 'New Driver',
+  Last Name: 'Version2',
+  Date of Birth: $<today-18y>,
+  Gender: Female,
+  Marital Status: Single,
+  Occupation: 'Student',
+  Age First Licensed: 16,
+  Permit Before License: 'Yes',
+  "Licensed in US/Canada for 18 or More Months?": 'No',
+  "First US/Canada License Date": $<today-1M>,
+  License Type: 'Valid',
+  License State: AZ,
+  "License #": A12345679,
+  Employee Benefit Type: Surviving spouse,
+  ADB Coverage: 'No',
+  Most Recent GPA: 'A Student',
+  New Driver Course Completed: 'Yes',
+  New Driver Course Completion Date: $<today>,
+  New Driver Certification Number: 33333,
+  "Smoker: Cigarettes, cigars or pipes": 'Yes',
+  Financial Responsibility Filling Needed: 'No',
+  Ridesharing Coverage: 'Yes',
+  "Is the income from Ridesharing or TNC activities the sole source of income?": 'No',
 }
 
 DriverInformation_Version1: {
@@ -749,6 +919,50 @@ TestData_VehicleInformation_Version2: {
   MembershipTab: {},
   VehicleTab: '@VehicleInformation_Version2',
   AssignmentTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToIssue: {
+      Photos for salvage vehicle with physical damage coverage: 'Yes'
+    }
+  },
+}
+
+TestData_AddVehicleInformation_Version1: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version1'},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version1'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{
+      Vehicle: '2003, MERCEDES-BENZ, SL500R',
+      Primary Driver: index=1,
+      Manually Rated Driver: index=1
+    }]
+  },
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {
+    RequiredToBind: {
+      AAA Insurance with SMARTtrek Acknowledgement of Terms and Conditions and Privacy Policies: Physically Signed,
+    },
+  },
+}
+
+TestData_AddVehicleInformation_Version2: {
+  GeneralTab: {ContactInformation: '@ContactInformation_Version2'},
+  DriverTab: {},
+  MembershipTab: {},
+  VehicleTab: ['@VehicleInformation', '@VehicleInformation_Version2'],
+  AssignmentTab: {
+    DriverVehicleRelationshipTable: [{
+      Vehicle: '1998, DODGE, CARAVAN',
+      Primary Driver: index=1,
+      Manually Rated Driver: index=1
+      }]
+  },
   FormsTab: {},
   PremiumAndCoveragesTab: {},
   DriverActivityReportsTab: {},
