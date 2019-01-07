@@ -54,6 +54,8 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 
 		checkFormHS0492(tdGenerator, openLPolicy);
 
+		policy.get().getDefaultView().fillUpTo(tdGenerator.getPremiumsAndCoveragesQuoteTabData(openLPolicy), PremiumsAndCoveragesQuoteTab.class, true);
+
 		TestData proofData = tdGenerator.getProofData(openLPolicy);
 		if (!proofData.equals(DataProviderFactory.emptyData())) {
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.DOCUMENTS.get());
