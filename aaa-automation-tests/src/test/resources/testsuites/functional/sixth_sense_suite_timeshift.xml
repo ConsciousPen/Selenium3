@@ -11,11 +11,7 @@
     <test name="Test Min Due is not Recalculated After Endorsements" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements">
-                <methods>
-                    <include name="pas20379_testMinDueIsNotRecalculatedAfterEndorsements"/>
-                </methods>
-            </class>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestMinDueIsNotRecalculatedAfterEndorsements"/>
         </classes>
     </test>
 
@@ -85,58 +81,6 @@
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestReplacementCostReasonEndorsement"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestReplacementCostReasonEndorsement"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestReplacementCostReasonEndorsement"/>
-        </classes>
-    </test>
-
-     <test name="Test Clue Simplification UW Rule CA" parallel="methods" thread-count="1024">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
-    <test name="Test Clue Simplification UW Rule SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="OK"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
-            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification">
-                <methods>
-                    <include name="pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged"/>
-                </methods>
-            </class>
         </classes>
     </test>
 

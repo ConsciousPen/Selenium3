@@ -88,7 +88,9 @@ public abstract class TestComparisonConflictAbstract extends PolicyBaseTest {
 			"Vehicles.1998, DODGE, CARAVAN.AAA UBI Device Status Date",
 			"Vehicles.1998, DODGE, CARAVAN.Safety Score Date",
 			"Vehicles.1998, DODGE, CARAVAN.Garaging Address",
-			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form"
+			"Vehicles.1998, DODGE, CARAVAN.Forms.AALPXXEndorsement Form",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Order Date",
+			"Named Insureds.NBFirstName NB NBLastName.AAA Clue Order.Receipt Date"
 	);
 	private final ErrorTab errorTab = new ErrorTab();
 
