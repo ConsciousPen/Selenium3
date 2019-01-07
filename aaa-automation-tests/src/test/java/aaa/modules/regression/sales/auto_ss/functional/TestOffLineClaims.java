@@ -101,7 +101,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-    public void pas14679_CompDLMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
+    public void pas14679_CompDLPUMatchMore(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
 		// Toggle ON PermissiveUse Logic
 		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss
@@ -152,7 +152,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14679")
-	public void pas14679_CompDLMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
+	public void pas14679_CompDLPUMatchMoreManual(@Optional("AZ") @SuppressWarnings("unused") String state) {
 
 		// Toggle ON PermissiveUse Logic
 		// Set DATEOFLOSS Parameter in DB: Equal to Claim3 dateOfLoss

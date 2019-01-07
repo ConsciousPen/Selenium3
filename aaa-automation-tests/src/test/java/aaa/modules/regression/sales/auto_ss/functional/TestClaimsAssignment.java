@@ -25,7 +25,7 @@ import toolkit.utils.TestInfo;
 public class TestClaimsAssignment extends AutoSSBaseTest {
 	@SuppressWarnings("SpellCheckingInspection")
 	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://permissive-claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1";
+	private static final String claimsUrl = "https://permissive-claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
 
 	/**
 	 * @author Chris Johns
@@ -84,7 +84,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		int x = 0;
 		while (x < microServiceResponse.getUnmatchedClaims().size())
 		{
-			String claimNumber = microServiceResponse.getUnmatchedClaims().get(0+x).getClaimNumber();
+			String claimNumber = microServiceResponse.getUnmatchedClaims().get(x).getClaimNumber();
 			log.info(claimNumber);
 			actualUnmatchedClaims.add(claimNumber);
 			x++;
@@ -104,7 +104,7 @@ public class TestClaimsAssignment extends AutoSSBaseTest {
 		int y = 0;
 		while (y < microServiceResponse.getMatchedClaims().size())
 		{
-			String matchcode = microServiceResponse.getMatchedClaims().get(0+y).getMatchCode();
+			String matchcode = microServiceResponse.getMatchedClaims().get(y).getMatchCode();
 			log.info(matchcode);
 			actualMatchCodes.add(matchcode);
 			y++;
