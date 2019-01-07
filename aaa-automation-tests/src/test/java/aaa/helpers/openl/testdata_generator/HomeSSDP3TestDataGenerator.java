@@ -38,6 +38,9 @@ public class HomeSSDP3TestDataGenerator extends HomeSSTestDataGenerator {
 			if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType())) {
 				tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_THEFT_ALARM.getLabel(), "Yes");
 			}
+			if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType())) {
+				tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_CENTRAL_FIRE_ALARM.getLabel(), "Yes");
+			}
 			if (openLPolicy.getPolicyDiscountInformation().isUnderlyingRenterPolicy()) {
 				tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_UNDERLYING_INSURANCE_POLICY.getLabel(), "Yes");
 			}
