@@ -189,6 +189,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
 	public void pas2719_ManualRefundUnissuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");
