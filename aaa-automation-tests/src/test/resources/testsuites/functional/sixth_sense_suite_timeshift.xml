@@ -53,15 +53,15 @@
     <test name="Test Gender Expansion for Non Conforming X-SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="OR, NY, PA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGenderExpansionNonConformingSS"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestGenderExpansionNonConforming"/>
         </classes>
     </test>
 
     <test name="Test Gender Expansion for Non Conforming X-CA" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGenderExpansionNonConformingCAAS"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGenderExpansionNonConformingCAAC"/>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestGenderExpansionNonConforming"/>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestGenderExpansionNonConforming"/>
         </classes>
     </test>
 

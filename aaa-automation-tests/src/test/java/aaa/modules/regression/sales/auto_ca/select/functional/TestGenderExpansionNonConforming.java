@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.auto_ca.choice.functional;
+package aaa.modules.regression.sales.auto_ca.select.functional;
 
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -10,11 +10,10 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoCaChoiceBaseTest;
-import aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig;
+import aaa.modules.policy.AutoCaSelectBaseTest;
+import aaa.modules.regression.sales.auto_ca.select.TestPolicyCreationBig;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -27,7 +26,8 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
+public class TestGenderExpansionNonConforming extends AutoCaSelectBaseTest {
+
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private DriverTab driverTab = new DriverTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
@@ -51,10 +51,13 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingNB(@Optional("CA") String state) {
 
         String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
+        TestData td = getPolicyTD();
+
+
         TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
                 .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X");
 
@@ -62,26 +65,22 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
         createCustomerIndividual(customerTd);
 
         policy.initiate();
-        policy.getDefaultView().fillUpTo(getPolicyTD(), DriverTab.class, true);
+        policy.getDefaultView().fillUpTo(td, DriverTab.class, true);
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.GENDER).getValue()).isEqualTo("X");
         driverTab.submitTab();
 
-        policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);
+        policy.getDefaultView().fillFromTo(td, MembershipTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
+
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
-        PurchaseTab.btnApplyPayment.click();
-        PurchaseTab.confirmPurchase.confirm();
-
-        TestData tdSurvey = DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.class.getSimpleName(), DataProviderFactory.dataOf(
-                PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.GENDER.getLabel(), "X",
-                PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.RACE_OF_ORIGIN.getLabel(), "index=1"));
-        purchaseTab.dialogComunityServiceSurveyPromt.fill(tdSurvey);
+        purchaseTab.submitTab();
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
+
     /**
      * @author Sreekanth Kopparapu
      * @name Test Gender Expansion for NonConforming value of X on Applicable Pages - Create Customer, Driver page,
@@ -95,7 +94,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingEndTx(@Optional("CA") String state) {
 
         TestData td = getPolicyTD();
@@ -111,13 +110,13 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
         td.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()))
-                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel()));
+                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel()));
 
         validateAndBind(td);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
+
     /**
      * @author Sreekanth Kopparapu
      * @name Test Gender Expansion for NonConforming value of X on Applicable Pages - Create Customer, Driver page,
@@ -131,7 +130,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingEnd1Tx(@Optional("CA") String state) {
 
         TestData td = getPolicyTD();
@@ -154,7 +153,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
      * @author Sreekanth Kopparapu
      * @name Test Gender Expansion for NonConforming value of X on Applicable Pages - Create Customer, Driver page,
      * Quote/Policy Summary page, VRD page
-     * @scenario 1. Create a policy for Auto CA Choice State and Bind the policy - one NI with gender as Male
+     * @scenario 1. Create a policy for Auto CA Select State and Bind the policy - one NI with gender as Male
      * 2. Initiate an Renewal and change the gender 'Male' to Gender 'X' in Gender combo box
      * 3. Fill mandatory fields and navigate to P*C, calculate premium
      * 6. Validate VRD Page - Gender X Is displayed in the proposed new driver column
@@ -165,7 +164,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal(@Optional("") String state) {
 
         String policyNumber = openAppAndCreatePolicy();
@@ -182,7 +181,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
      * @author Sreekanth Kopparapu
      * @name Test Gender Expansion for NonConforming value of X on Applicable Pages - Create Customer, Driver page,
      * Quote/Policy Summary page, VRD page
-     * @scenario 1. Create a policy for Auto CA Choice State and Bind the policy - one NI with gender as Male
+     * @scenario 1. Create a policy for Auto CA Select State and Bind the policy - one NI with gender as Male
      * 2. Initiate an Renewal and add a new driver on the Driver tab with Gender 'X'
      * 3. Fill mandatory fields and navigate to P*C, calculate premium
      * 6. Validate VRD Page - Gender X Is displayed in the proposed new driver column
@@ -193,7 +192,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
-    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23040")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_CA_SELECT, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal1(@Optional("") String state) {
 
         TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
@@ -216,11 +215,11 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
     private void  validateAndBind(TestData testData) {
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).equals("X");
+        assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
         //assertThat(premiumAndCoveragesTab.getRatingDetailsDriversData().get(1).getValue("Gender")).isEqualTo("X");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
-        policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
+        policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
         if (errorTab.tableErrors.isPresent()) {
             errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_10006002_CA);
@@ -233,7 +232,7 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
 
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).equals("X");
+        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
@@ -247,6 +246,5 @@ public class TestGenderExpansionNonConformingCAAC extends AutoCaChoiceBaseTest {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
     }
-
 
 }
