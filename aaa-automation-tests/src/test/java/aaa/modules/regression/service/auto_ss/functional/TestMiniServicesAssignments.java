@@ -1,5 +1,6 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
@@ -7,6 +8,7 @@ import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsHelper;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -30,6 +32,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * Verify Occasional Satatus
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
@@ -51,6 +54,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 9. Verify Occasional Status
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14477, PAS-10484"})
 	public void pas14477_ViewDriverAssignment_NewDriver(@Optional("VA") String state) {
@@ -69,6 +73,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * Verify primary for first vehicle and ocasional for 2nd vehicle
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
 	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
@@ -104,6 +109,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
@@ -138,6 +144,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
@@ -161,6 +168,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529", "PAS-15253"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
@@ -169,6 +177,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.MD,Constants.States.AZ,Constants.States.KY,Constants.States.NY,Constants.States.NJ,Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
 	public void pas11684_DriverAssignmentExistsForState(@Optional("UT") String state) {
@@ -186,6 +195,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 4.Verify if transaction history shows change type added and driver assignment.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14539"})
 	public void pas14539_transactionInfoDriverAssignment(@Optional("VA") String state) {
@@ -205,6 +215,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 7.Verify new driver assignment added and existing is removed
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14539,PAS-16589"})
 	public void pas14539_transactionInfoUpdateDriverAssignment(@Optional("VA") String state) {
@@ -250,6 +261,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 13. Check DA: D1-->V1, D2-->V2.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule1(@Optional("VA") String state) {
@@ -308,6 +320,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 15. Check DA: V1-->D1, V2-->D2, V3-->D3 rate and bind.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule3(@Optional("VA") String state) {
@@ -359,6 +372,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 9. Bind and rate.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
 	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule2(@Optional("VA") String state) {

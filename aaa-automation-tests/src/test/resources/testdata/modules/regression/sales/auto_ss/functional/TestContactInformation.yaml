@@ -30,6 +30,7 @@ NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Jenny,
   Last Name: Smith,
+  Insured Date of Birth: 12/05/1962,
   Base Date: $<today>,
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
