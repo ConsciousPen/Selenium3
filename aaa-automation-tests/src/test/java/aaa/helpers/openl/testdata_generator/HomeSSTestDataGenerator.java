@@ -193,12 +193,6 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		);
 	}
 
-	//	public boolean isProofAvailable(HomeSSOpenLPolicy openLPolicy) {
-	//		return "Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) ||
-	//				"Central".equals(openLPolicy.getPolicyDiscountInformation().getFireAlarmType()) ||
-	//				isVisibleProofOfPEHCR(openLPolicy);
-	//	}
-
 	public TestData getProofData(HomeSSOpenLPolicy openLPolicy) {
 		LinkedHashMap<String, String> tdMap = new LinkedHashMap<>();
 		if ("Central".equals(openLPolicy.getPolicyDiscountInformation().getTheftAlarmType()) && openLPolicy.getPolicyDiscountInformation().getProofCentralTheftAlarm()) {
@@ -220,15 +214,21 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 			tdMap.put(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_ENERGY_STAR_APPLIANCES.getLabel(), "Yes");
 		}
 		if (tdMap.size() > 0) {
-			return DataProviderFactory.dataOf(new DocumentsTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap)));
+			return DataProviderFactory.dataOf(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND.getLabel(), new SimpleDataProvider(tdMap));
 		}
-		return null;
+		return DataProviderFactory.emptyData();
+	}
 
+	public TestData getCappingData(HomeSSOpenLPolicy openLPolicy) {
+		double manualCappingFactor = openLPolicy.isCappedPolicy() ? openLPolicy.getCappingDetails().getTermCappingFactor() * 100 : 100;
+		return DataProviderFactory.dataOf(AutoSSMetaData.PremiumAndCoveragesTab.VIEW_CAPPING_DETAILS_DIALOG.getLabel(), DataProviderFactory.dataOf(
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
+				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
 	}
 
 	public TestData getOverrideErrorData(HomeSSOpenLPolicy openLPolicy) {
-
-		return null;
+		return DataProviderFactory.emptyData();
 	}
 
 	public TestData getChangeCoverageCData(HomeSSOpenLPolicy openLPolicy) {
@@ -492,7 +492,8 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 		TestData propertyValueData = getPropertyValueData(openLPolicy);
 
 		TestData constructionData = DataProviderFactory.dataOf(
-				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
+				//				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), String.format("%d", openLPolicy.getEffectiveDate().minusYears(openLPolicy.getPolicyDwellingRatingInfo().getHomeAge()).getYear()),
+				HomeSSMetaData.PropertyInfoTab.Construction.YEAR_BUILT.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().getYearBuilt(),
 				HomeSSMetaData.PropertyInfoTab.Construction.ROOF_TYPE.getLabel(), openLPolicy.getPolicyDwellingRatingInfo().getRoofType(),
 				HomeSSMetaData.PropertyInfoTab.Construction.CONSTRUCTION_TYPE.getLabel(), "contains=" + openLPolicy.getPolicyConstructionInfo().getConstructionType().split(" ")[0],
 				HomeSSMetaData.PropertyInfoTab.Construction.MASONRY_VENEER.getLabel(), "Masonry Veneer".equals(openLPolicy.getPolicyConstructionInfo().getConstructionType()) ? "Yes" : "No"//,
@@ -1073,13 +1074,14 @@ public class HomeSSTestDataGenerator extends TestDataGenerator<HomeSSOpenLPolicy
 
 	private boolean isVisibleProofOfPEHCR(HomeSSOpenLPolicy openLPolicy) {
 		boolean isVisibleProofOfPEHCR = false;
-		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10 &&
-				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
-						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 ||
-						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
-						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10)) {
-			isVisibleProofOfPEHCR = true;
-		}
+		//TODO clarify logic of proof
+		//		if (openLPolicy.getPolicyDwellingRatingInfo().getHomeAge() >= 10 &&
+		//				(openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovPlumbing() < 10 ||
+		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovHeatOrCooling() < 10 ||
+		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovElectrical() < 10 ||
+		//						openLPolicy.getPolicyDiscountInformation().getTimeSinceRenovRoof() < 10)) {
+		//			isVisibleProofOfPEHCR = true;
+		//		}
 		return isVisibleProofOfPEHCR;
 	}
 
