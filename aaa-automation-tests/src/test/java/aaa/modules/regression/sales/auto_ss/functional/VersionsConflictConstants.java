@@ -158,6 +158,7 @@ public class VersionsConflictConstants {
 			.put("Policy Information.TollFree Number","TollFree Number")
 			.put("Policy Information.Suppress Print","Suppress Print")
 			//Driver Information
+			.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Date of Birth", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Gender", "Gender")
 			.put("Drivers.NBFirstName NB NBLastName.Marital Status", "Marital Status")
@@ -430,12 +431,13 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
-					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", CURRENT)
+
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -444,6 +446,7 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.NBFirstName NB NBLastName", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Age")
 			.put("Drivers.NBFirstName NB NBLastName", "Gender")
