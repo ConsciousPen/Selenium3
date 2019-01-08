@@ -5,11 +5,10 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
-import aaa.helpers.TestDataManager;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.testdata_generator.AutoSSTestDataGenerator;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
@@ -67,7 +66,9 @@ public class AutoSSPremiumCalculationTest extends OpenLRatingBaseTest<AutoSSOpen
 
 	@Override
 	protected String createCustomerIndividual(AutoSSOpenLPolicy openLPolicy) {
-		AutoSSTestDataGenerator tdGenerator = openLPolicy.getTestDataGenerator(getStateTestData(new TestDataManager().customer.get(CustomerType.INDIVIDUAL), "DataGather", "TestData"));
-		return createCustomerIndividual(tdGenerator.getCustomerData(openLPolicy));
+		TestData td = getCustomerIndividualTD("DataGather", "TestData")
+				.adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel()),
+						AutoSSTestDataGenerator.getDriverTabDateOfBirth(openLPolicy.getDrivers().get(0).getDriverAge(), openLPolicy.getEffectiveDate()));
+		return createCustomerIndividual(td);
 	}
 }
