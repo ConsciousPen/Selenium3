@@ -1,7 +1,5 @@
 package aaa.helpers.rest.dtoClaim;
 
-import java.util.Date;
-
 public class DriverInformation {
 
     private String firstName;
@@ -16,6 +14,7 @@ public class DriverInformation {
 
     private String dateOfBirth;
 	private  String  claimDriverName;
+    private  String  permissiveUse;
 
     public String getFirstName() {
         return firstName;
@@ -73,6 +72,15 @@ public class DriverInformation {
 		this.claimDriverName = claimDriverName;
 	}
 
+    public String getPermissiveUse() {
+        return permissiveUse;
+    }
+
+    public void setPermissiveUse(String permissiveUse) {
+        this.permissiveUse = permissiveUse;
+    }
+
+
     @Override
     public String toString() {
         return "DriverInformation{" +
@@ -82,7 +90,8 @@ public class DriverInformation {
                 ", issuedState='" + issuedState + '\'' +
                 ", relationToNamedInsured='" + relationToNamedInsured + '\'' +
                 ", dateOfBirth=" + dateOfBirth + '\'' +
-                ", claimDriverName=" + claimDriverName +
+                ", claimDriverName=" + claimDriverName + '\'' +
+                ", permissiveUse=" + permissiveUse +
                 '}';
     }
 }
