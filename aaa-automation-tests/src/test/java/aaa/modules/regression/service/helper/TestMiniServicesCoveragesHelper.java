@@ -4277,9 +4277,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private PolicyCoverageInfo updateWLBInPASUI(String policyNumber, String value) {
-		PolicySummaryPage.buttonPendedEndorsement.click();
-		policy.dataGather().start();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		openPendedEndorsementDataGatherAndNavigateToPC();
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.REJECTION_OF_WORK_LOSS_BENEFIT.getLabel(), RadioGroup.class).setValue(value);
 		premiumAndCoveragesTab.saveAndExit();
 		return HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
@@ -4494,6 +4492,12 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void openPendedEndorsementInquiryAndNavigateToPC() {
 		PolicySummaryPage.buttonPendedEndorsement.click();
 		policy.quoteInquiry().start();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+	}
+
+	private void openPendedEndorsementDataGatherAndNavigateToPC() {
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 	}
 
@@ -5560,12 +5564,33 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
 		//Modify list of coverages before checking in PAS UI
 		List<Coverage> covToCheckInUIList = Arrays.stream(expectedCoveragesToCheck).collect(Collectors.toList());
-		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PIPDEDAPPTO_DE.getCode()));//not checking PIPDEDAPPTO in PAS UI as in Inquiry value is not displayed (probably existing defect)
+		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PIPDEDAPPTO_DE.getCode()));//not checking PIPDEDAPPTO in PAS UI as in Inquiry value is not displayed (probably existing defect)//TODO-mstrazds: update to check when have fix of BUG:
 		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.FUNEXP_DE.getCode()));//Doesn't exist in PAS UI
 		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PROPERTY_DE.getCode()));//Doesn't exist in PAS UI
 		covToCheckInUIList.stream().filter(coverage -> coverage.getCoverageCd().equals(CoverageInfo.PIP_OTHER_THAN_1530_DE.getCode())).findFirst().orElse(null)
 				.changeDescription(CoverageInfo.PIP_1530_DE.getDescription());//Changing PIP description before check in PAS UI, as it is always the same in PAS UI
 		validateCoverageLimitInPASUI(covToCheckInUIList);
+	}
+
+	protected void pas15304_tortCoveragePABody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covTortLimitedExpected = Coverage.create(CoverageInfo.TORT_PA);
+
+		//Check viewEndorsementCoverages response
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covTortLimitedExpected);
+
+		//Update to Full Tort and check
+		Coverage covTortFullExpected = Coverage.create(CoverageInfo.TORT_PA).changeLimit(CoverageLimits.COV_FULL_TORT);
+		updateCoverageAndCheckDataGather(policyNumber, covTortFullExpected, covTortFullExpected);//TODO-mstrazds:can be changed to updateCoverageAndCheck when has fix of BUG:
+		//Update back to Limited Tort and check
+		updateCoverageAndCheckDataGather(policyNumber, covTortLimitedExpected, covTortLimitedExpected); //TODO-mstrazds:can be changed to updateCoverageAndCheck when has fix of BUG:
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void updateUmpdAndVerify(ETCSCoreSoftAssertions softly, String policyNumber, String oidPPA, String s, CoverageLimits cov50000,String coverageCdUmpd) {
@@ -5843,10 +5868,32 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validateCoverageLimitInPASUI(List<Coverage> coverageExpected) {
 		openPendedEndorsementInquiryAndNavigateToPC();
+		checkLimitInPAndCTab(coverageExpected);
+		premiumAndCoveragesTab.cancel();
+	}
+
+	/**
+	 * It is better to use validateCoverageLimitInPASUI (will open in Inquiry mode) instead to be sure that nothing is updating when navigating to P&C Tab
+	 * Use in cases when it is not possible to check in Inquiry mode.
+	 */
+	private void validateCoverageLimitInPASUIDataGather(Coverage... coverageExpected) {
+		validateCoverageLimitInPASUIDataGather(Arrays.asList(coverageExpected));
+	}
+
+	/**
+	 * It is better to use validateCoverageLimitInPASUI (will open in Inquiry mode) instead to be sure that nothing is updating when navigating to P&C Tab.
+	 * Use in cases when it is not possible to check in Inquiry mode.
+	 */
+	private void validateCoverageLimitInPASUIDataGather(List<Coverage> coverageExpected) {
+		openPendedEndorsementDataGatherAndNavigateToPC();
+		checkLimitInPAndCTab(coverageExpected);
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
 			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
 		}
-		premiumAndCoveragesTab.cancel();
 	}
 
 	private void validateCoveragesDXP(List<Coverage> actualCoverages, Coverage... expectedCoverages) {
@@ -5858,11 +5905,24 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	//TODO-mstrazds: This method can be used in every typical Coverage US. Use it.
 	private void updateCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
+		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
+	}
+
+	/**
+	 * It is better to use updateCoverageAndCheck instead to be sure that nothing is updating when navigating to P&C Tab.
+	 * Use in cases when it is not possible to check in Inquiry mode.
+	 */
+	private void updateCoverageAndCheckDataGather(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
+		validateCoverageLimitInPASUIDataGather(expectedCoveragesToCheck);
+	}
+
+	private void updateCoverageAndCheckResponses(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
 		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
 		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
-		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
 	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {
