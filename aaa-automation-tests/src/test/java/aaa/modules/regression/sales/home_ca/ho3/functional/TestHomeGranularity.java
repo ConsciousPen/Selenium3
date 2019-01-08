@@ -9,10 +9,10 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestCaptureLatitudeLongitudeAbstract;
+import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstract;
 
 @StateList(states = Constants.States.CA)
-public class TestCaptureLatitudeLongitude extends TestCaptureLatitudeLongitudeAbstract {
+public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
     protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO3; }
@@ -28,8 +28,8 @@ public class TestCaptureLatitudeLongitude extends TestCaptureLatitudeLongitudeAb
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23203")
-    public void pas23203_validateIsLatLongPresent(@Optional("CA") String state) {
-        pas23203_validateLatLong("90048", "10 Danbrook Drive", true);
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
+    public void pas23235_validateCensesBlockGroupAndLatLong(@Optional("CA") String state) {
+        pas23203_validateCensusBlockGroupAndLatLong("1276 S California Blvd", "123456789113");
     }
 }
