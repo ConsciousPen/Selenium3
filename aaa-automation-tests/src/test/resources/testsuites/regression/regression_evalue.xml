@@ -219,19 +219,21 @@
                     <include name="pas3697_membershipEligibilityConfigurationFalseForActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationFalseForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationFalseForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForActiveMembership"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForCancelledMembershipRenewal"/>
                     <include name="pas3697_membershipEligibilityConfigurationTrueForNotActiveMembership"/>
-                    <include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
                     <include name="pas3697_membershipEligConfFalseForActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfFalseForNotActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB15"/>
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30"/>
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless"/>
-                    <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/>
+					<!-- Outdated tests: PAS-17662 Prevent bind of policies where Current AAA Member = Pending
+                    <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/> 
+					<include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
+					<include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
+					<include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
+					-->
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48"/>
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63"/>
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48"/>

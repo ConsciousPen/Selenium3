@@ -39,7 +39,7 @@ public class TestCFTValidator extends ControlledFinancialBaseTest {
 
 		checkReportNotExist(CFT_VALIDATION_DIRECTORY, CFT_VALIDATION_REPORT);
 
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusMonths(13));
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getStartTime().plusDays(391));
 		runCFTJobs();
 
 		String postfix = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("yyyy_MMM_d"));

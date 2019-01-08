@@ -44,7 +44,7 @@
                         <systemPropertyVariables>
                             <timeshift.report.dir>${timeshift.report.dir}</timeshift.report.dir>
                         </systemPropertyVariables>
-                        <argLine>-Xmx1024m</argLine>
+                        <argLine>-Xms1024m -Xmx1548m</argLine>
                     </configuration>
                 </plugin>
             </plugins>

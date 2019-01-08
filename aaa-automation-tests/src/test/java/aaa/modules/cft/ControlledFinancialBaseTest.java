@@ -969,7 +969,10 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 		log.info("PLIGA fee validation on {}", genOfferDate);
 		mainApp().open();
 		SearchPage.openBilling(BillingAccountInformationHolder.getCurrentBillingAccountDetails().getCurrentPolicyDetails().getPolicyNumber());
-		Dollar pligaFee = BillingHelper.calculatePligaFee(TimeSetterUtil.getInstance().getStartTime(), BillingSummaryPage.getTotalPaid());
+		Dollar pligaFee = BillingHelper.calculatePligaFee(TimeSetterUtil.getInstance().getStartTime(), 
+				new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, 
+				BillingConstants.PaymentsAndOtherTransactionSubtypeReason.RENEWAL_POLICY_RENEWAL_PROPOSAL)
+				.getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()));
 		new BillingPaymentsAndTransactionsVerifier()
 				.setType(BillingConstants.PaymentsAndOtherTransactionType.FEE)
 				.setSubtypeReason(BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE)

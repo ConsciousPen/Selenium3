@@ -21,7 +21,7 @@
             "coverageLimitDisplay": "No",
             "coverageType": null,
             "customerDisplayed": true,
-            "canChangeCoverage": true
+            "canChangeCoverage": false
           }
         },
         "MEDEXP": {
