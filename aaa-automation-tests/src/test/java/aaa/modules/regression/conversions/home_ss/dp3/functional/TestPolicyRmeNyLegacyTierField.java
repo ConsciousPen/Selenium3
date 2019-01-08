@@ -1,6 +1,8 @@
 package aaa.modules.regression.conversions.home_ss.dp3.functional;
 
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.CustomerMetaData;
@@ -43,6 +45,11 @@ public class TestPolicyRmeNyLegacyTierField extends HomeSSDP3BaseTest {
         //Verify "Legacy Tier" Text Box is exist on RME screen
         assertThat(initiateRenewalEntryActionTab.getAssetList().getAsset(CustomerMetaData
                 .InitiateRenewalEntryActionTab.LEGACY_TIER)).isPresent();
+
+        initiateRenewalEntryActionTab.submitTab();
+
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.HomeSSTab.GENERAL.get());
 
     }
 }
