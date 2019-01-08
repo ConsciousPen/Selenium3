@@ -167,17 +167,23 @@ public class Jobs {
 
 	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");
 
-	public static Job aaaInsuranceScoreRenewBachOrder = new Job("aaaInsuranceScoreRenewBachOrder");
+	public static Job aaaInsuranceScoreRenewalBatchOrderAsyncJob = new Job("aaaInsuranceScoreRenewalBatchOrderAsyncJob");
+
+	public static Job aaaInsuranceScoreRenewalBatchReceiveAsyncJob = new Job("aaaInsuranceScoreRenewalBatchReceiveAsyncJob");
 
 	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
-
-	public static Job aaaInsuranceScoreRenewalBatchReceiveJob = new Job("aaaInsuranceScoreRenewalBatchReceiveJob");
 
 	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
 
 	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
 
 	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
+
+	public static Job aaaTelematicSafetyScoreOrderAsyncJob = new Job("aaaTelematicSafetyScoreOrderAsyncJob");
+
+	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
+
+	public static Job aaaMvrRenewAsyncBatchReceiveJob = new Job("aaaMvrRenewAsyncBatchReceiveJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED
