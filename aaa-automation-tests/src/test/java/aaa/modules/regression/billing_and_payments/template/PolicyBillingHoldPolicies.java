@@ -53,7 +53,8 @@ public abstract class PolicyBillingHoldPolicies extends PolicyBaseTest {
 	        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
 	        BillingSummaryPage.open();
-	        if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+	        if (getUserGroup().equals(UserGroups.E34.get()) || getUserGroup().equals(UserGroups.F35.get()) 
+	        		|| getUserGroup().equals(UserGroups.G36.get())) {
 	        	verifyNoButtonAddUpdateHold();
 	        }
 	        else {

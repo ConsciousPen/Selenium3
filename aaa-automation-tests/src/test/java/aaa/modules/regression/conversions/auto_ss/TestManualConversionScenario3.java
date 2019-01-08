@@ -24,7 +24,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
-import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -51,7 +50,6 @@ public class TestManualConversionScenario3 extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void manualConversionDocsScenario3(@Optional("CT") String state) {
 		List<LocalDateTime> installmentDueDates;
-		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime billGenDate;
 		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(45);
 		LocalDateTime secondRenewalDate = renewalDate.plusYears(1);
@@ -77,9 +75,6 @@ public class TestManualConversionScenario3 extends AutoSSBaseTest {
 		//Open the renewal image in Data Gathering mode. Enter mandatory data on all pages
 		//Rate the policy. Navigate to the Bind tab and 'Save and Exit'
 		policy.getDefaultView().fill(policyTd);
-		errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_200037);
-		errorTab.override();
-		policy.getDefaultView().getTab(DocumentsAndBindTab.class).submitTab();
 		//Navigate to policy consolidated view
 		Tab.buttonBack.click();
 		String policyNum = PolicySummaryPage.getPolicyNumber();

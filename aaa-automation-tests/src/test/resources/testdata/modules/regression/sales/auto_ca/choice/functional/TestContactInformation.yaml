@@ -50,7 +50,7 @@ DriverTab1: {
   Occupation: Driver,
   Age First Licensed: 30,
   Permit Before License: 'Yes',
-  License Type: 'Licensed (US)',
+  License Type: 'Valid',
   License State: CA,
   "License #": D5435431
 }
@@ -66,7 +66,7 @@ DriverTab2: {
   Occupation: Editor,
   Age First Licensed: 17,
   Permit Before License: 'Yes',
-  License Type: 'Licensed (US)',
+  License Type: 'Valid',
   License State: CA,
   "License #": D5435437
 }
@@ -82,7 +82,7 @@ DriverTab3: {
   Occupation: Editor,
   Age First Licensed: 17,
   Permit Before License: 'Yes',
-  License Type: 'Licensed (US)',
+  License Type: 'Valid',
   License State: CA,
   "License #": D5435435
 }

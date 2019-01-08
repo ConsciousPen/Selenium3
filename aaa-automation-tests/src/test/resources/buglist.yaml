@@ -480,3 +480,15 @@ PAS-23331:
     messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0523EN"]
   - tests: [aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
     messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0518EN"]
+PAS-23890:
+  summary: "Regression BCT: UI error: 'Roof shape' is not in within range doesn't allow to make endorsement"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
+    messages: ["Errors: 'Roof shape' is not in within range"]
+PAS-23891:
+  summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
+    messages: ["['Cancel Notice' flag is absent]"]
