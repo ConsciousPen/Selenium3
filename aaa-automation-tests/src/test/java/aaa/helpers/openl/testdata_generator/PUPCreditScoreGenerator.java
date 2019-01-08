@@ -14,33 +14,39 @@ public class PUPCreditScoreGenerator {
 
 	PUPCreditScoreGenerator() {
 		cs = new ArrayList<>();
-		cs.add(CreditScores.of(Constants.States.AZ).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.AZ).and("A", 100, 400).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.CO).and("A", 100, 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.CT).and("A", 100).and("C", 500, 600).and("D", 610).and("E", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.DC).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 
-		//TODO-dchubkov: add for remaining states
-		cs.add(CreditScores.of(Constants.States.CO).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.CT).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.DC).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.DE).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.ID).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.IN).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.KS).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.KY).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.MD).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.MT).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.NJ).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.NV).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
+		cs.add(CreditScores.of(Constants.States.DE).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0)); // <=== TODO-dchubkov: find values for this state
 
+		cs.add(CreditScores.of(Constants.States.ID).and("D", 100, 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.IN).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.KS, PolicyType.HOME_SS_HO6).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750, 800).and("I", 900));
+		cs.add(CreditScores.of(Constants.States.KY).and("A", 100).and("C", 500).and("D", 600).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+
+		cs.add(CreditScores.of(Constants.States.MD).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0)); // <=== TODO-dchubkov: find values for this state
+
+		cs.add(CreditScores.of(Constants.States.MT).and("A", 100).and("C", 500, 600).and("D", 610).and("E", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.NJ).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.NV).and("A", 100, 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.NY).and("A", 100).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.OH).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.OK).and("A", 100, 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.OR).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 
-		cs.add(CreditScores.of(Constants.States.OH).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.OK).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.OR).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.PA).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.SD).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.UT).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.VA).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.WV).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
-		cs.add(CreditScores.of(Constants.States.WY).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));
+		cs.add(CreditScores.of(Constants.States.PA).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0)); // <=== TODO-dchubkov: find values for this state
+
+		cs.add(CreditScores.of(Constants.States.SD).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.UT).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+
+		cs.add(CreditScores.of(Constants.States.VA).and("A", 0).and("C", 0).and("D", 0).and("E", 0).and("F", 0).and("G", 0).and("H", 0).and("I", 0).and("J", 0));  // <=== TODO-dchubkov: find values for this state
+
+		cs.add(CreditScores.of(Constants.States.WV).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.WY).and("A", 100, 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+
+		//TODO-dchubkov: find values for remaining homeTiers for each state
 	}
 
 	public int get(PUPOpenLPolicy openLPolicy) {
@@ -70,7 +76,11 @@ public class PUPCreditScoreGenerator {
 		}
 
 		CreditScores and(String homeTier, int creditScoreValue) {
-			creditScores.add(new Entry(homeTier, creditScoreValue));
+			return and(homeTier, creditScoreValue, creditScoreValue);
+		}
+
+		CreditScores and(String homeTier, int creditScoreMinValue, int creditScoreMaxValue) {
+			creditScores.add(new Entry(homeTier, creditScoreMinValue, creditScoreMaxValue));
 			return this;
 		}
 
@@ -85,10 +95,6 @@ public class PUPCreditScoreGenerator {
 			String homeTier;
 			int creditScoreMinValue;
 			int creditScoreMaxValue;
-
-			Entry(String homeTier, int creditScoreValue) {
-				this(homeTier, creditScoreValue, creditScoreValue);
-			}
 
 			Entry(String homeTier, int creditScoreMinValue, int creditScoreMaxValue) {
 				this.homeTier = homeTier;
