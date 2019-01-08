@@ -33,10 +33,6 @@ import toolkit.utils.datetime.DateTimeUtils;
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	private static PUPCreditScoreGenerator creditScoreGenerator = new PUPCreditScoreGenerator();
 
-	public PUPTestDataGenerator(String state) {
-		super(state);
-	}
-
 	public PUPTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
 	}
@@ -131,14 +127,17 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getPrimaryPolicyData(PUPOpenLPolicy openLPolicy, TestData primaryPolicyTd) {
-		TestData insuranceScoreOverrideData = DataProviderFactory.dataOf(
-				HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
-				HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
-						HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.SCORE_AFTER_OVERRIDE.getLabel(), creditScoreGenerator.get(openLPolicy),
-						HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
-						HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click"
-				)
-		);
+		TestData insuranceScoreOverrideData = null;
+		if (!Constants.States.MD.equals(getState())) {
+			insuranceScoreOverrideData = DataProviderFactory.dataOf(
+					HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
+					HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.SCORE_AFTER_OVERRIDE.getLabel(), creditScoreGenerator.get(openLPolicy),
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click"
+					)
+			);
+		}
 
 		TestData td = DataProviderFactory.dataOf(
 				new ApplicantTab().getMetaKey(), getApplicantTabPrimaryPolicyData(openLPolicy),
@@ -444,7 +443,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 					antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 					if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 						antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
-
 					} else {
 						antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
 					}
@@ -475,12 +473,13 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (tdAutomobiles.size() < 1) {
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
-				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
-				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.POLICY_NUM.getLabel(), String.format("%sSS123456", getState()));
+				if (!Constants.States.PA.equals(getState())) { //autoTier for PA has different values and looks like does not affect rating
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
+					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.POLICY_NUM.getLabel(), String.format("%sSS123456", getState()));
+				}
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 				if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
-
 				} else {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
 				}
