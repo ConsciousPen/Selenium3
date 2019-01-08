@@ -744,7 +744,6 @@ DriverInformation_Version2: {
 }
 
 DriverInformation_AddActivity1: {
-  Date of Birth: $<today-35y>,
   Gender: Female,
   Marital Status: Divorced,
   Occupation: 'Farmer',
