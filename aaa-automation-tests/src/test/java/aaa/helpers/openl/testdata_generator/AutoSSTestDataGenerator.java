@@ -17,6 +17,7 @@ import aaa.helpers.openl.model.auto_ss.AutoSSOpenLCoverage;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLDriver;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLPolicy;
 import aaa.helpers.openl.model.auto_ss.AutoSSOpenLVehicle;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
@@ -92,6 +93,13 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.MANUAL_CAPPING_FACTOR.getLabel(), manualCappingFactor,
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.CAPPING_OVERRIDE_REASON.getLabel(), "index=1",
 				HomeSSMetaData.PremiumsAndCoveragesQuoteTab.ViewCappingDetailsDialog.BUTTON_CALCULATE.getLabel(), "click"));
+	}
+
+	public TestData getCustomerData(AutoSSOpenLPolicy openLPolicy) {
+		TestData customerData = getRatingDataPattern();
+		return TestDataHelper.merge(customerData, DataProviderFactory.dataOf("GeneralTab", DataProviderFactory.dataOf(
+				CustomerMetaData.GeneralTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(openLPolicy.getDrivers().get(0).getDriverAge(), openLPolicy.getEffectiveDate()))));
+
 	}
 
 	private TestData getPrefillTabData() {
@@ -234,7 +242,9 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			Map<String, Object> driverData = new HashMap<>();
 			driverData.put(AutoSSMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()));
 			driverData.put(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), martialStatus);
-			driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()));
+			if (!isFirstDriver) {
+				driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()));
+			}
 			driverData.put(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde());
 			driverData.put(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()));
 			driverData.put(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None");

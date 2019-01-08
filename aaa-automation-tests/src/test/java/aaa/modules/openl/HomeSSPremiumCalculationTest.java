@@ -19,7 +19,6 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.exceptions.IstfException;
 
 public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpenLPolicy> {
 
@@ -119,6 +118,11 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 	protected Dollar calculatePremium(HomeSSOpenLPolicy openLPolicy) {
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
+	}
+
+	@Override
+	protected String createCustomerIndividual(HomeSSOpenLPolicy openLPolicy) {
+		return createCustomerIndividual();
 	}
 
 	private void checkFormHS0492(HomeSSTestDataGenerator tdGenerator, HomeSSOpenLPolicy openLPolicy) {
