@@ -1,16 +1,16 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import aaa.helpers.RenewalHelper_HomeSS;
+import aaa.common.pages.SearchPage;
+import aaa.helpers.renewal.RenewalHelper_Home;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.helpers.renewal.RenewalHelper_Profile;
+import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
 
 public class TestFutureTerms extends HomeSSHO3BaseTest {
     final String STATE = "AZ"; // <-- Control here to ensure test and helper class are working with same state data.
@@ -27,8 +27,11 @@ public class TestFutureTerms extends HomeSSHO3BaseTest {
         createCustomerIndividual();
         createPolicy(getPolicyDefaultTD());
 
-        RenewalHelper_HomeSS renewalHelper = new RenewalHelper_HomeSS(STATE,  true);
+        RenewalHelper_Home renewalHelper = new RenewalHelper_Home(STATE,  true);
         mainApp().close();
-        renewalHelper.moveToGivenTerm(2);
+        renewalHelper.moveToGivenTerm(1, RenewalHelper_Profile.Membership, false);
+
+        mainApp().open();
+        SearchPage.openPolicy(renewalHelper.getCreatedPolicyNumber());
     }
 }
