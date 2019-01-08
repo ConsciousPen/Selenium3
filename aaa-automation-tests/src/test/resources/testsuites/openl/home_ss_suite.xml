@@ -157,8 +157,8 @@
         </classes>
     </test>
     <test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="VATests-20171101.xls"/>
-        <parameter name="policyNumbers" value="6012"/>
+        <parameter name="fileName" value="VATests-20181101_part2.xls"/>
+        <parameter name="policyNumbers" value="714,779"/>
         <classes>
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
