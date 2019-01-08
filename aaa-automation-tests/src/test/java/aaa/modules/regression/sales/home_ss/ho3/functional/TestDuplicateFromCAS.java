@@ -19,6 +19,10 @@ import toolkit.utils.TestInfo;
 
 import java.time.LocalDateTime;
 
+/**
+ * Functional Test Case
+ * @author Tyrone Jemison (CIO)
+ */
 public class TestDuplicateFromCAS extends AutoSSBaseTest
 {
     // Scenario Level Parameters
@@ -39,13 +43,9 @@ public class TestDuplicateFromCAS extends AutoSSBaseTest
 
     private void commonTestFlow(TestData td, Long timePointAsRMinus) {
 
-        mainApp().open();
-        createCustomerIndividual();
 
         // 1 - Create SS HO policy. // 2 - No Claims will be retrieved at NB.
-        //policy.initiate();
-        //policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class, true);
-        createPolicy(td);
+        openAppAndCreatePolicy(td);
 
         // Get Timepoint Data
         LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();

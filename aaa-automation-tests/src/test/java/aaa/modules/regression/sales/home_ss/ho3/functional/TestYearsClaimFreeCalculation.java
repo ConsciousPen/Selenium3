@@ -58,11 +58,8 @@ public class TestYearsClaimFreeCalculation extends HomeSSDP3BaseTest
      */
     private void commonTestFlow(TestData td, Long timePointAsRMinus) {
 
-        mainApp().open();
-        createCustomerIndividual();
-
         // 1 - Create SS HO policy. // 2 - No Claims will be retrieved at NB.
-        createPolicy(td);
+        openAppAndCreatePolicy(td);
 
         // Get Timepoint Data
         LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
