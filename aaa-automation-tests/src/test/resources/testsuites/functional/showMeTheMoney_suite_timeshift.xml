@@ -11,10 +11,6 @@
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull"/>
             <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
-            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeForRenewal"/>
-            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
-            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
         </classes>
     </test>
     <test name="WV TestFinanceWaiveInstallmentFee" parallel="methods">
@@ -22,15 +18,39 @@
         <classes>
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid"/>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
-            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeForRenewal"/>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
         </classes>
     </test>
-    <test name="KY TestFinanceWaiveInstallmentFee" parallel="methods">
+    <test name="CA TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeForRenewal"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY NJ TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="KY, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount" parallel="methods">
         <parameter name="state" value="KY"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
         </classes>
     </test>
     <test name="AZ TestFinanceWaiveInstallmentFee" parallel="methods">
@@ -40,11 +60,10 @@
             <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
         </classes>
     </test>
-    <test name="NJ TestFinanceWaiveInstallmentFee" parallel="methods">
+    <test name="NJ TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount" parallel="methods">
         <parameter name="state" value="NJ"/>
         <classes>
             <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
-            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
         </classes>
     </test>
 </suite>
