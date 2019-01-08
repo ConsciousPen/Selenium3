@@ -167,7 +167,7 @@ BCT_ONL_040_CopyQuote: {
 }
 
 BCT_ONL_047_ManualRenewal: {
-  SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and riskstatecd ='/STATE/' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and IMPORTED='CONV' and currentrevisionind = 1 and (donotrenewind is null or donotrenewind = 0) and (manualrenewind is null or manualrenewind = 0) and EXPIRATION - 75 <= '/EXECDATE/'  and expiration - 50 >= '/EXECDATE/' and inceptiondate + 366 <= '/EXECDATE/' and rownum = 1 ORDER BY POLICYNUMBER DESC"
+  SelectPolicy: "select policynumber from pasadm.policysummary where LOB = 'AUTO' and riskstatecd ='/STATE/' and txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and policystatuscd = 'issued' and timedpolicystatuscd in ('inForce') and IMPORTED='CONV' and currentrevisionind = 1 and (donotrenewind is null or donotrenewind = 0) and (manualrenewind is null or manualrenewind = 0) and EXPIRATION - 75 <= '/EXECDATE/'  and expiration - 50 >= '/EXECDATE/' and inceptiondate + 366 <= '/EXECDATE/' and rownum = 1"
 }
 
 BCT_ONL_048_NonRenewal: {
