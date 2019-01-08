@@ -501,7 +501,6 @@ PolicyInformation_Version2: {
 #Driver Tab - Driver Information section
 
 TestData_DriverInformation_Version1: {
- #GeneralTab: {},
  GeneralTab: {
   NamedInsuredInformation: {
     Insured Date of Birth: $<today-55y>,
@@ -530,7 +529,6 @@ TestData_DriverInformation_Version1: {
 }
 
 TestData_DriverInformation_Version2: {
- #GeneralTab: {},
  GeneralTab: {
    NamedInsuredInformation: {
      Insured Date of Birth: $<today-18y>,
