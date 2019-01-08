@@ -5586,9 +5586,9 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 		//Update to Full Tort and check
 		Coverage covTortFullExpected = Coverage.create(CoverageInfo.TORT_PA).changeLimit(CoverageLimits.COV_FULL_TORT);
-		updateCoverageAndCheckDataGather(policyNumber, covTortFullExpected, covTortFullExpected);//TODO-mstrazds:change to updateCoverageAndCheck when has fix of BUG:
+		updateCoverageAndCheckDataGather(policyNumber, covTortFullExpected, covTortFullExpected);//TODO-mstrazds:can be changed to updateCoverageAndCheck when has fix of BUG:
 		//Update back to Limited Tort and check
-		updateCoverageAndCheckDataGather(policyNumber, covTortLimitedExpected, covTortLimitedExpected); //TODO-mstrazds:change to updateCoverageAndCheck when has fix of BUG:
+		updateCoverageAndCheckDataGather(policyNumber, covTortLimitedExpected, covTortLimitedExpected); //TODO-mstrazds:can be changed to updateCoverageAndCheck when has fix of BUG:
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -5868,9 +5868,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validateCoverageLimitInPASUI(List<Coverage> coverageExpected) {
 		openPendedEndorsementInquiryAndNavigateToPC();
-		for (Coverage coverage : coverageExpected) {
-			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
-		}
+		checkLimitInPAndCTab(coverageExpected);
 		premiumAndCoveragesTab.cancel();
 	}
 
@@ -5888,10 +5886,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	 */
 	private void validateCoverageLimitInPASUIDataGather(List<Coverage> coverageExpected) {
 		openPendedEndorsementDataGatherAndNavigateToPC();
+		checkLimitInPAndCTab(coverageExpected);
+		premiumAndCoveragesTab.saveAndExit();
+	}
+
+	private void checkLimitInPAndCTab(List<Coverage> coverageExpected) {
 		for (Coverage coverage : coverageExpected) {
 			assertThat(premiumAndCoveragesTab.getPolicyCoverageDetailsValue(coverage.getCoverageDescription())).isEqualTo(coverage.getCoverageLimitDisplay());
 		}
-		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	private void validateCoveragesDXP(List<Coverage> actualCoverages, Coverage... expectedCoverages) {
@@ -5903,10 +5905,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	//TODO-mstrazds: This method can be used in every typical Coverage US. Use it.
 	private void updateCoverageAndCheck(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
-		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
-		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
-		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
-		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
 		validateCoverageLimitInPASUI(expectedCoveragesToCheck);
 	}
 
@@ -5915,11 +5914,15 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	 * Use in cases when it is not possible to check in Inquiry mode.
 	 */
 	private void updateCoverageAndCheckDataGather(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
+		validateCoverageLimitInPASUIDataGather(expectedCoveragesToCheck);
+	}
+
+	private void updateCoverageAndCheckResponses(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
 		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
 		validatePolicyLevelCoverageChangeLog(policyNumber, expectedCoveragesToCheck);
 		validateCoveragesDXP(updateCoverageResponse.policyCoverages, expectedCoveragesToCheck);
 		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
-		validateCoverageLimitInPASUIDataGather(expectedCoveragesToCheck);
 	}
 
 	protected void pas15288_ViewUpdateCoveragePIPCoverageBody() {

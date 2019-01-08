@@ -954,4 +954,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PA Coverages" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15304_tortCoveragePA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
