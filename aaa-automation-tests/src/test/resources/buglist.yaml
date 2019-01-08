@@ -390,32 +390,6 @@ PAS-21025:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
     messages: ["PAS Driver should be 2nd Driver of Policy"]
-PAS-20880:
-  summary: "Cannot save and exit on property info tab"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
-    messages: ["AAA_HO_SS11260016", "Cannot set value of ComboBox"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
-    messages: ["Errors: AAA_HO_SS10141728", "Cannot set value of ComboBox"]
-PAS-20851:
-  summary: "Chargeable indicator disabled with more than 2 named insured (upcoming story)"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal]
-    messages: ["Cannot set value of TextBox {Reason claim is not chargeable"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
-    messages: ["Cannot set value of RadioGroup {Chargeable"]
 PAS-21992:
   summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
