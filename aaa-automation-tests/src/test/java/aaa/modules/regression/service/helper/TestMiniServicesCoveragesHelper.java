@@ -5556,7 +5556,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void updateCoverageAndCheck_pas15272(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
-		updateCoverageAndCheckResponses(policyNumber,covToUpdate,expectedCoveragesToCheck);
+		updateCoverageAndCheckResponses(policyNumber, covToUpdate, expectedCoveragesToCheck);
 		//Modify list of coverages before checking in PAS UI
 		List<Coverage> covToCheckInUIList = Arrays.stream(expectedCoveragesToCheck).collect(Collectors.toList());
 		covToCheckInUIList.remove(findCoverage(covToCheckInUIList, CoverageInfo.PIPDEDAPPTO_DE.getCode()));//not checking PIPDEDAPPTO in PAS UI as in Inquiry value is not displayed (probably existing defect)//TODO-mstrazds: update to check when have fix of BUG: PIPDEDAPPTO Tort coverage not displayed in Inquiry mode
