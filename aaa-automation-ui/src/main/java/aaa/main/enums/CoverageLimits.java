@@ -47,7 +47,7 @@ public enum CoverageLimits {
 	COV_10001000("1000000/1000000", "$1,000,000/$1,000,000"),
 	COV_10002000("1000000/2000000", "$1,000,000/$2,000,000"),
 	COV_20002000("2000000/2000000", "$2,000,000/$2,000,000"),
-	COV_INCLUDED("Included", "Included"),
+	COV_INCLUDED("Included"),
 	COV_0("0", "No Coverage"),
 	COV_00("0/0", "No Coverage"),
 	COV_1("1", "Yes"),
@@ -79,10 +79,10 @@ public enum CoverageLimits {
 	COV_FPB_100K_TOTAL("Combo2", "$100K Total Coverage Package"),
 	COV_FPB_177_5K_TOTAL("Combo3", "$177.5K Total Coverage Package"),
 	COV_FPB_ADDED("Added", "Added"),
-	COV_IL_5000_MAX_PA("$1,000/month ($5,000 max)", "$1,000/month ($5,000 max)"),
-	COV_IL_15000_MAX_PA("$1,000/month ($15,000 max) ", "$1,000/month ($15,000 max) "),
-	COV_IL_25000_MAX_PA("$1,500/month ($25,000 max)", "$1,500/month ($25,000 max)"),
-	COV_IL_50000_MAX_PA("$2,500/month ($50,000 max)", "$2,500/month ($50,000 max)"),
+	COV_IL_5000_MAX_PA("1000/5000", "$1,000/month ($5,000 max)"),
+	COV_IL_15000_MAX_PA("1000/15000", "$1,000/month ($15,000 max)"),
+	COV_IL_25000_MAX_PA("1500/25000", "$1,500/month ($25,000 max)"),
+	COV_IL_50000_MAX_PA("2500/50000", "$2,500/month ($50,000 max)"),
 	SP_EQ_0("0", "$0.00");
 
 	private final String limit;
@@ -90,6 +90,11 @@ public enum CoverageLimits {
 
 	CoverageLimits(String limit, String display) {
 		this.limit = limit;
+		this.display = display;
+	}
+
+	CoverageLimits(String display) {
+		this.limit = null;
 		this.display = display;
 	}
 
