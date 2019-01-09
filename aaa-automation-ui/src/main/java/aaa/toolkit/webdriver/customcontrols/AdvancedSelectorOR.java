@@ -1,8 +1,9 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import java.util.ArrayList;
+import static org.apache.commons.collections.CollectionUtils.disjunction;
+import static org.apache.commons.collections.CollectionUtils.subtract;
 import java.util.List;
-import org.apache.commons.collections.CollectionUtils;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.controls.AdvancedSelector;
@@ -51,13 +52,13 @@ public class AdvancedSelectorOR extends AdvancedSelector {
 
 		List<String> selected = getRawValue();
 
-		if (CollectionUtils.disjunction(selected, value).isEmpty()) {
+		if (disjunction(selected, value).isEmpty()) {
 			return;
 		}
 
 		open();
-		removeValue((List<String>) CollectionUtils.subtract(selected, value));
-		addValue((List<String>) CollectionUtils.subtract(value, selected));
+		removeValue((List<String>) subtract(selected, value));
+		addValue((List<String>) subtract(value, selected));
 		save();
 	}
 
@@ -78,12 +79,7 @@ public class AdvancedSelectorOR extends AdvancedSelector {
 	}
 
 	private void excludeValuesIfExist(List<String> values) {
-		List<String> excludedValues = new ArrayList<>();
-		for (String value : values) {
-			if (StringUtils.containsIgnoreCase(value, "EXCLUDE")) {
-				excludedValues.add(value.replaceFirst("EXCLUDE", "").trim());
-			}
-		}
+		List<String> excludedValues = values.stream().filter(value -> StringUtils.containsIgnoreCase(value, "EXCLUDE")).map(value -> value.replaceFirst("EXCLUDE", "").trim()).collect(Collectors.toList());
 		if (!excludedValues.isEmpty()) {
 			removeValue(excludedValues);
 		}
