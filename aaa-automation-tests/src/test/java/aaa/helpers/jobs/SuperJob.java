@@ -1,6 +1,8 @@
 package aaa.helpers.jobs;
 
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class SuperJob extends Job{
@@ -44,6 +46,66 @@ public class SuperJob extends Job{
         sameDayDependencies = jobSameDayDependancies;
     }
 
+    /**
+     * Executes the job schedule.
+     * @param baseDateTime is the time before offsets applied. Usually New Business or Renewal date
+     * @param scheduledJobMap is the job schedule to execute against.
+     * @param simulateOutputOnly when true does not shift time or run the jobs. Useful for debugging.
+     * @return Output of timeshifts as well as job executions.
+     */
+    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime,
+                                                           TreeMap<Integer, ArrayList<SuperJob>> scheduledJobMap,
+                                                           boolean simulateOutputOnly){
+
+        // Prepare to Iterate treemap
+        Set set = scheduledJobMap.entrySet();
+
+        Iterator iter = set.iterator();
+
+        ArrayList<String> output = new ArrayList<String>();
+
+        DateTimeFormatter outputTimeFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+
+        // Iterate treemap
+        while(iter.hasNext()) {
+
+            Map.Entry me = (Map.Entry)iter.next();
+
+            Integer daysOffset = (Integer) me.getKey();
+
+            LocalDateTime targetDate = baseDateTime.plusDays(daysOffset);
+
+            if (simulateOutputOnly) {
+                output.add("Simulate | Timeshift - " + outputTimeFormat.format(targetDate));
+            }
+            else {
+                output.add("Execute | Timeshift - " + outputTimeFormat.format(targetDate));
+                TimeSetterUtil.getInstance().nextPhase(targetDate);
+            }
+
+            ArrayList<SuperJob> todaysJobs = scheduledJobMap.get(daysOffset);
+
+            // Execute all jobs for current time point
+            for (SuperJob job : todaysJobs){
+                if (simulateOutputOnly) {
+
+                    output.add("Simulate | Job Execute " + outputTimeFormat.format(targetDate) + " " + job.getJobName());
+                }
+                else {
+                    output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + job.getJobName());
+                    JobUtils.executeJob(job);
+                }
+            }
+        }
+        return output;
+    }
+
+    /**
+     * Builds a Treemap where key represents timeoffsets and value is jobs to run on that offset/day.
+     * @param jobList which jobs you want to create a schedule from. N/A states are filtered out at this stage.
+     * @return Treemap representing a job schedule
+     * @throws IllegalArgumentException if a job is scheduled before it's required job is scheduled
+     */
     public static TreeMap<Integer, ArrayList<SuperJob>> getScheduledJobsList(ArrayList<SuperJob> jobList)
             throws IllegalArgumentException{
 
@@ -93,7 +155,12 @@ public class SuperJob extends Job{
         return jobScheduleMap;
     }
 
-    public static ArrayList<SuperJob> getAutoRenewalJobList(String state){
+    /**
+     * Gets a list of all required jobs to perform an auto renewal for both CA and SS.
+     * @param state is used to set correct time offsets and filter out N/A jobs
+     * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
+     */
+    public static ArrayList<SuperJob> getAutoRenewalJobList(String state, boolean makePayment){
         ArrayList<SuperJob> jobList = new ArrayList<>();
 
         //Initiate Renewal
@@ -113,6 +180,30 @@ public class SuperJob extends Job{
 
         jobList.add(SuperJobs.aaaInsuranceScoreRenewalBatchReceiveAsyncJob(state,
                 SuperJobs.TimePoint.First, aaaInsuranceScoreRenewalBatchOrderAsyncJob));
+
+        //Order MVR/CLUE
+
+        //Order Internal Claims
+
+        //Membership Revalidation
+
+        //Renewal Image Available to all users
+
+        //Premium Calculate
+
+        //Non-Renewal Notice
+
+        //Propose/Renewal Offer
+
+        //Renewal Bill
+
+        if (makePayment) {
+            //Special Make Payment job
+        }
+
+        //Renewal Reminder
+
+        //R+1 Update Status (policyStatusUpdateJob)
 
         return jobList;
     }
