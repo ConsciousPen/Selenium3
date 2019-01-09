@@ -31,7 +31,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	public TestData getRatingData(AutoCaSelectOpenLPolicy openLPolicy) {
-		TestData ratingDataPattern = getRatingDataPattern().resolveLinks();
+		TestData ratingDataPattern = getRatingDataPattern().resolveLinks().adjust(new PrefillTab().getMetaKey(), DataProviderFactory.emptyData());
 		if (Boolean.FALSE.equals(openLPolicy.isAaaMember())) {
 			ratingDataPattern
 					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()))
@@ -39,6 +39,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		TestData td = DataProviderFactory.dataOf(
+				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
@@ -93,7 +94,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected int getDriverAge(AutoCaSelectOpenLDriver openLDriver) {
+	public int getDriverAge(AutoCaSelectOpenLDriver openLDriver) {
 		int driverAge;
 		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
 			assertThat(openLDriver.isNewDriver()).as("Driver's \"newDriver\" field should not be TRUE if field \"matureDriver\" is also TRUE").isFalse();

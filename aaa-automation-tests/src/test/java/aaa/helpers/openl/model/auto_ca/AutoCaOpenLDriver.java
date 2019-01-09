@@ -10,6 +10,8 @@ public class AutoCaOpenLDriver extends OpenLDriver {
 	@RequiredField
 	protected Boolean matureDriver;
 
+	protected int driverAge;
+
 	public void setGoodDriver(Boolean goodDriver) {
 		this.goodDriver = goodDriver;
 	}
@@ -17,6 +19,10 @@ public class AutoCaOpenLDriver extends OpenLDriver {
 	public void setMatureDriver(Boolean matureDriver) {
 		this.matureDriver = matureDriver;
 	}
+
+	public int getDriverAge() {return driverAge;}
+
+	public void setDriverAge(int driverAge) { this.driverAge = driverAge;}
 
 	public Boolean isGoodDriver() {
 		return goodDriver;

@@ -30,12 +30,14 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 				new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
 		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
 
+		TestData ratingDataPattern = getRatingDataPattern().resolveLinks().adjust(new PrefillTab().getMetaKey(), DataProviderFactory.emptyData());
 		TestData td = DataProviderFactory.dataOf(
+				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
-		return TestDataHelper.merge(getRatingDataPattern(), td);
+		return TestDataHelper.merge(ratingDataPattern, td);
 	}
 
 	@Override
@@ -75,7 +77,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
+	public int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
 		int driverAge;
 		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
 			driverAge = getRandomAge(50, 80, openLDriver.getTyde());

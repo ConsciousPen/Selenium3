@@ -20,12 +20,20 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
-abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends OpenLVehicle, P extends AutoCaOpenLPolicy<D, V>> extends AutoTestDataGenerator<P> {
+public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends OpenLVehicle, P extends AutoCaOpenLPolicy<D, V>> extends AutoTestDataGenerator<P> {
 	protected static final String DRIVER_FN_POSTFIX = "_FN";
 	protected static final String DRIVER_LN_POSTFIX = "_LN";
 
 	AutoCaTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
+	}
+
+	protected TestData getPrefillTabData() {
+		return DataProviderFactory.dataOf(
+				AutoCaMetaData.PrefillTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",
+				AutoCaMetaData.PrefillTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
+				AutoCaMetaData.PrefillTab.ORDER_PREFILL.getLabel(), "click"
+		);
 	}
 
 	protected List<TestData> getDriverTabData(P openLPolicy) {
@@ -40,7 +48,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 	}
 
 	protected TestData getDriverTabInformationData(D openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
-		int driverAge = getDriverAge(openLDriver);
+		int driverAge = isFirstDriver ? openLDriver.getDriverAge() : getDriverAge(openLDriver);
 
 		TestData driverData = DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), isFirstDriver ? null : DataProviderFactory.emptyData(),
@@ -55,7 +63,6 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
 				AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "C$<rx:\\d{7}>",
-				AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, policyEffectiveDate),
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(openLDriver.isMatureDriver()) : null,
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(openLDriver.isMatureDriver())
 						? policyEffectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
@@ -75,7 +82,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected abstract List<TestData> getDriverTabActivityInformationData(D openLDriver, LocalDate policyEffectiveDate);
 
-	protected abstract int getDriverAge(D openLDriver);
+	public abstract int getDriverAge(D openLDriver);
 
 	protected List<TestData> getVehicleTabData(P openLPolicy) {
 		List<TestData> vehiclesTestDataList = new ArrayList<>(openLPolicy.getVehicles().size());
