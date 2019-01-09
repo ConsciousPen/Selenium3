@@ -30,14 +30,13 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 				new GeneralTab().getMetaKey(), AutoCaMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), AutoCaMetaData.GeneralTab.PolicyInformation.EFFECTIVE_DATE.getLabel());
 		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
 
-		TestData ratingDataPattern = getRatingDataPattern().resolveLinks().adjust(new PrefillTab().getMetaKey(), DataProviderFactory.emptyData());
 		TestData td = DataProviderFactory.dataOf(
 				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
 				new PremiumAndCoveragesTab().getMetaKey(), getPremiumAndCoveragesTabData(openLPolicy));
-		return TestDataHelper.merge(ratingDataPattern, td);
+		return TestDataHelper.merge(getRatingDataPattern(), td);
 	}
 
 	@Override
@@ -80,14 +79,14 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	public int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
 		int driverAge;
 		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
-			driverAge = getRandomAge(50, 80, openLDriver.getTyde());
+			driverAge = calculateAge(50, 80, openLDriver.getTyde());
 		} else {
 			if (Boolean.TRUE.equals(openLDriver.isOccasionalUse())) {
 				assertThat(openLDriver.getMaritalStatus()).as("Unable to generate driver's test data for occasionalUse=true if marital status is not single").isEqualTo("S");
 				assertThat(openLDriver.getTyde()).as("Unable to generate driver's test data for occasionalUse=true if total years of driving experience is less than 8").isLessThan(8);
-				driverAge = getRandomAge(16, 24, openLDriver.getTyde());
+				driverAge = calculateAge(16, 24, openLDriver.getTyde());
 			} else {
-				driverAge = getRandomAge(25, 49, openLDriver.getTyde());
+				driverAge = calculateAge(25, 49, openLDriver.getTyde());
 			}
 		}
 		return driverAge;

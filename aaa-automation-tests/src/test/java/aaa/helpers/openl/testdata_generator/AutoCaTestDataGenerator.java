@@ -48,7 +48,7 @@ public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V ext
 	}
 
 	protected TestData getDriverTabInformationData(D openLDriver, boolean isFirstDriver, LocalDate policyEffectiveDate) {
-		int driverAge = isFirstDriver ? openLDriver.getDriverAge() : getDriverAge(openLDriver);
+		int driverAge = getDriverAge(openLDriver);
 
 		TestData driverData = DataProviderFactory.dataOf(
 				AutoCaMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), isFirstDriver ? null : DataProviderFactory.emptyData(),
@@ -63,6 +63,7 @@ public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V ext
 				AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
 				AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "C$<rx:\\d{7}>",
+				AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), isFirstDriver ? null : getDriverTabDateOfBirth(driverAge, policyEffectiveDate),
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(openLDriver.isMatureDriver()) : null,
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(openLDriver.isMatureDriver())
 						? policyEffectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
@@ -195,9 +196,9 @@ public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V ext
 
 	protected abstract String getVehicleTabStatCode(String statCode, int modelYear);
 
-	protected int getRandomAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
+	protected int calculateAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
 		assertThat(minAgeInclusive)
-				.as("Can't get random driver's age for minAgeInclusive=%1$s and maxAgeInclusive=%2$s; minAgeInclusive should be positive and less than maxAgeInclusive argument", minAgeInclusive, maxAgeInclusive)
+				.as("Can't calculate driver's age for minAgeInclusive=%1$s and maxAgeInclusive=%2$s; minAgeInclusive should be positive and less than maxAgeInclusive argument", minAgeInclusive, maxAgeInclusive)
 				.isPositive().isLessThan(maxAgeInclusive);
 
 		int minimalAgeFirstLicensed = 16;
@@ -205,10 +206,10 @@ public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V ext
 		if (ageFirstLicensed < minimalAgeFirstLicensed) {
 			minAgeInclusive += Math.abs(minAgeInclusive - ageFirstLicensed);
 			assertThat(minAgeInclusive)
-					.as("Can't get random driver's age for minAgeInclusive=%1$s, maxAgeInclusive=%2$s and tyde=%3$s; new minAgeInclusive with tyde consideration should be less than maxAgeInclusive argument",
+					.as("Can't calculate driver's age for minAgeInclusive=%1$s, maxAgeInclusive=%2$s and tyde=%3$s; new minAgeInclusive with tyde consideration should be less than maxAgeInclusive argument",
 							minAgeInclusive, maxAgeInclusive, tyde).isLessThan(maxAgeInclusive);
 		}
-		return RandomUtils.nextInt(minAgeInclusive, maxAgeInclusive + 1);
+		return minAgeInclusive;
 	}
 
 	protected TestData get3ViolationPointsActivityInformationData(LocalDate effectiveDate, Integer totalYearsAaccidentsFree) {
