@@ -160,14 +160,16 @@ public class SuperJob extends Job{
      * @param state is used to set correct time offsets and filter out N/A jobs
      * @return ArrayList of Jobs that can be used to build a schedule for Auto Renewals
      */
-    public static ArrayList<SuperJob> getAutoRenewalJobList(String state, boolean makePayment){
+    public static ArrayList<SuperJob> getAutoRenewalJobList(
+            String state, SuperJobs.PolicyTerm policyTerm, boolean makePayment){
+
         ArrayList<SuperJob> jobList = new ArrayList<>();
 
         //Initiate Renewal
         jobList.add(SuperJobs.policyAutomatedRenewalAsyncTaskGenerationJob(state));
 
         //UBI SafetyScore
-        jobList.addAll(SuperJobs.getTelematicSafetyScoreJobs(state, SuperJobs.PolicyTerm.Annual));
+        jobList.addAll(SuperJobs.getTelematicSafetyScoreJobs(state, policyTerm));
 
         //Order Membership
         jobList.add(SuperJobs.aaaMembershipRenewalBatchOrderAsyncJob(state, SuperJobs.TimePoint.First));
