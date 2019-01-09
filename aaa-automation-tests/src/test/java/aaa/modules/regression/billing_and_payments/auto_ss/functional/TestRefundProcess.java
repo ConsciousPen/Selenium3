@@ -55,7 +55,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static final String MESSAGE_CREDIT_CARD = "Credit Card Visa-4113 expiring 01/22";
 	private static final String MESSAGE_DEBIT_CARD = "Debit Card MasterCard-4444 expiring 05/20";
-	private static final String MESSAGE_ACH = "Checking/Savings (ACH) #,1542";
+	private static final String MESSAGE_ACH = "Checking/Savings (ACH) #1542";
 	private static final String AMOUNT_CREDIT_CARD = "10";
 	private static final String AMOUNT_DEBIT_CARD = "22";
 	private static final String AMOUNT_ACH = "33";
@@ -189,6 +189,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-2719", "PAS-1939", "PAS-7057"})
 	public void pas2719_ManualRefundUnissuedVoidedACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+
 		String refundDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY);
 		String refundAmount = "33";
 		Map<String, String> refund = refundProcessHelper.getRefundMap(refundDate, "Refund", "Manual Refund", new Dollar(refundAmount), "Approved");

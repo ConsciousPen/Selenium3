@@ -74,6 +74,8 @@ public enum CoverageLimits {
 	COV_50_300("50/300", "$50/$300"),
 	COV_PIPDEDAPPTO_NIAHF("F", "NI and Household Family"),
 	COV_PIPDEDAPPTO_NIO("P", "Named Insured Only"),
+	COV_FULL_TORT("TRUE", "Full Tort"),
+	COV_LIMITED_TORT("FALSE", "Limited Tort"),
 	COV_FPB_5K_BASIC("Basic", "$5K Basic Coverage Package"),
 	COV_FPB_50K_TOTAL("Combo1", "$50K Total Coverage Package"),
 	COV_FPB_100K_TOTAL("Combo2", "$100K Total Coverage Package"),

@@ -111,7 +111,8 @@ public abstract class PolicyBilling extends PolicyBaseTest {
             IBillingAccount billing = new BillingAccount();
             billing.acceptPayment().perform(cash_payment, new Dollar(150));
             
-            if(getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+            if(getUserGroup().equals(UserGroups.E34.get()) || getUserGroup().equals(UserGroups.F35.get())
+            		|| getUserGroup().equals(UserGroups.G36.get())) {
             	log.info("Verifying 'Refund' action");
     			assertThat(NavigationPage.comboBoxListAction).as("Action 'Refund' is available").doesNotContainOption("Refund");
     		}

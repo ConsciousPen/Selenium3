@@ -73,6 +73,7 @@ public enum CoverageInfo {
 	UMBI_CT_YES("UMBI", "Uninsured/Underinsured Motorist Bodily Injury With UIM Conversion Coverage", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_CT), //when UIMCONV  = Yes
 	ADB("ADB", "Automobile Death Benefit", null, null, null),
 	TD("TD", "Total Disability", null, null, null),
+	TORT_PA("TORT", "Tort Threshold", CoverageLimits.COV_LIMITED_TORT, AvailableCoverageLimits.TORT_PA, null),
 	UMBI("UMBI", "Uninsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UMBI_DC("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),

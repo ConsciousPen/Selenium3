@@ -202,7 +202,7 @@ PropertyValue: {
 }
 
 Construction: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -226,11 +226,11 @@ HomeRenovation: {
   Plumbing renovation: '100% Copper', 
   "Plumbing % complete": '100', 
   "Plumbing Month of completion": 3, 
-  "Plumbing Year of completion": '2009', 
+  "Plumbing Year of completion": '2011', 
   Electrical renovation: '100% Circuit/Romex',
   "Electrical % complete": '90', 
   "Electrical Month of completion": 10, 
-  "Electrical Year of completion": '2010', 
+  "Electrical Year of completion": '2011', 
   Roof renovation: '100% Replace', 
   "Roof % complete": '100', 
   "Roof Month of completion": 6, 
