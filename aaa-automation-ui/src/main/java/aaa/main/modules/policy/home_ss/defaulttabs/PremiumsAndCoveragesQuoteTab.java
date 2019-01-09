@@ -14,6 +14,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
@@ -46,6 +47,8 @@ public class PremiumsAndCoveragesQuoteTab extends PropertyQuoteTab {
 	public static RatingDetailsTable tableCappedPolicyPremium = new RatingDetailsTable("//div[@id='cappingDetailsPopupPanel:vehicleCapPanel_body']//table");
 	public static Table autoPaySetupSavingMessage = new Table(By.id("policyDataGatherForm:installmentFeeAmountSavedPanel"));
 	public static Table tableCoverages = new Table(By.xpath("//table[@id='policyDataGatherForm:coverageSummaryTable']"));
+
+	public static Button buttonViewCappingDetails = new Button(By.id("policyDataGatherForm:viewCappingDetails_Link_1"), Waiters.AJAX);
 
 	public static Link linkPaymentPlan = new Link(By.id("policyDataGatherForm:paymentPlansTogglePanel:header"), Waiters.AJAX);
 	public static Table tablePaymentPlans = new Table(By.id("policyDataGatherForm:paymentPlansTable"));

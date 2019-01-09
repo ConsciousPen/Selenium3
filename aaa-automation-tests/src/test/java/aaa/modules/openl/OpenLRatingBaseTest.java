@@ -116,7 +116,7 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 
 		TimeSetterUtil.getInstance().confirmDateIsAfter(openLPolicy.getEffectiveDate().atStartOfDay());
 		mainApp().open();
-		createOrOpenExistingCustomer(testInfo);
+		createOrOpenExistingCustomer(testInfo, policyNumber);
 
 		log.info("Premium calculation verification initiated for test #{} and expected premium {} from \"{}\" OpenL {}",
 				policyNumber, expectedPremium, filePath, testInfo.isLocalFile() ? "local file" : "remote file, pas-rating branch: " + testInfo.getOpenLFileBranch());
@@ -142,9 +142,10 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	 *
 	 * @param testInfo OpenL tests holder with customer number and policy objects to be executed using this customer number
 	 */
-	protected void createOrOpenExistingCustomer(OpenLTestInfo<P> testInfo) {
+	protected void createOrOpenExistingCustomer(OpenLTestInfo<P> testInfo, int policyNumber) {
 		if (testInfo.getCustomerNumber() == null) {
-			String customerNumber = createCustomerIndividual();
+			P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+			String customerNumber = createCustomerIndividual(openLPolicy);
 			testInfo.setCustomerNumber(customerNumber);
 		} else {
 			MainPage.QuickSearch.buttonSearchPlus.click();
@@ -154,6 +155,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 			SearchPage.openCustomer(testInfo.getCustomerNumber());
 		}
 	}
+
+	protected abstract String createCustomerIndividual(P openLPolicy);
 
 	/**
 	 * This method should generate appropriate test data to create quote or policy (and/or perform endorsement(s), renewal(s) if needed)
