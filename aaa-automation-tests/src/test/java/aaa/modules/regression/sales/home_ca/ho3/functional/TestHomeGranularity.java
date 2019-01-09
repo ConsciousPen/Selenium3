@@ -17,7 +17,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Override
     protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO3; }
     /**
-     * @name test: Capture Latitude and Longitude when address is validated
+     * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
      * @scenario
      * 1. Create Customer
      * 2. Initiate Policy creation
