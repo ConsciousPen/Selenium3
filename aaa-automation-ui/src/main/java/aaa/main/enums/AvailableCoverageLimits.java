@@ -344,6 +344,10 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_00,
 			CoverageLimits.COV_50_300
 	)),
+	TORT_PA(ImmutableList.of(
+			CoverageLimits.COV_FULL_TORT,
+			CoverageLimits.COV_LIMITED_TORT
+	)),
 	COLLDEDNONPPA(ImmutableList.of(
 			CoverageLimits.COV_NO_COV,
 			CoverageLimits.COV_100,
