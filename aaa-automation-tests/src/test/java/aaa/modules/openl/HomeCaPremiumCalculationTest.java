@@ -30,4 +30,9 @@ public class HomeCaPremiumCalculationTest<P extends HomeCaOpenLPolicy<?, ?>> ext
 		new PremiumsAndCoveragesQuoteTab().calculatePremium();
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
+
+	@Override
+	protected String createCustomerIndividual(HomeCaOpenLPolicy openLPolicy) {
+		return createCustomerIndividual();
+	}
 }
