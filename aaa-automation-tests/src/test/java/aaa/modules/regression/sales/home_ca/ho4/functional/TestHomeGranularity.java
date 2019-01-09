@@ -1,4 +1,4 @@
-package aaa.modules.regression.sales.home_ca.ho3.functional;
+package aaa.modules.regression.sales.home_ca.ho4.functional;
 
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
@@ -15,7 +15,7 @@ import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstr
 public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
-    protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO3; }
+    protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO4; }
     /**
      * @name test: Capture Latitude and Longitude when address is validated
      * @scenario
