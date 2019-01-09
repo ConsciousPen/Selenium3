@@ -360,8 +360,7 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_10000,
 			CoverageLimits.COV_25000,
 			CoverageLimits.COV_50000,
-			CoverageLimits.COV_100000,
-			CoverageLimits.COV_177500
+			CoverageLimits.COV_100000
 
 	)),
 	IL_PA(ImmutableList.of(
