@@ -103,9 +103,13 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		policy.policyCopy().perform(td_quote);		
 		policy.dataGather().start();
 		
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get()); 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		new GeneralTab().fillTab(td_quote); 
+		new GeneralTab().submitTab();
+		
 		new DriverTab().fillTab(td_quote); 
 		new DriverTab().submitTab();
+		
         new RatingDetailReportsTab().fillTab(td_quote).submitTab();
         
         if (getState().equals(Constants.States.NY)) {
