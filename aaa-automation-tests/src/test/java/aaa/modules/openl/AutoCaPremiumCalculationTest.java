@@ -32,4 +32,10 @@ public class AutoCaPremiumCalculationTest<P extends AutoCaOpenLPolicy<?, ?>> ext
 		new PremiumAndCoveragesTab().calculatePremium();
 		return new Dollar(PremiumAndCoveragesTab.totalTermPremium.getValue());
 	}
+
+	@Override
+	protected String createCustomerIndividual(AutoCaOpenLPolicy openLPolicy) {
+		return createCustomerIndividual();
+	}
+
 }

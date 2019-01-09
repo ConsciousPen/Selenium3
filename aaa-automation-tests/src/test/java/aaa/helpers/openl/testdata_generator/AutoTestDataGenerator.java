@@ -82,7 +82,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getDriverTabDateOfBirth(Integer driverAge, LocalDate policyEffectiveDate) {
+	public static String getDriverTabDateOfBirth(Integer driverAge, LocalDate policyEffectiveDate) {
 		LocalDate dateOfBirth = policyEffectiveDate.minusYears(driverAge);
 		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
 		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
