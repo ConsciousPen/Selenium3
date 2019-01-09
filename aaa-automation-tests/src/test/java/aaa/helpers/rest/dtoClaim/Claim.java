@@ -1,7 +1,6 @@
 package aaa.helpers.rest.dtoClaim;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public class Claim {
@@ -40,8 +39,6 @@ public class Claim {
     private Boolean isCompClaim;
 
     private String cause;
-
-    private String permissiveUse;
 
     private List<Payment> payments;
 
@@ -186,10 +183,6 @@ public class Claim {
         this.cause = cause;
     }
 
-    public String getPermissiveUse() {return permissiveUse;}
-
-    public void setPermissiveUse(String permissiveUse) {this.cause = permissiveUse;}
-
     @Override
     public String toString() {
         return "Claim{" +
@@ -211,7 +204,6 @@ public class Claim {
                 ", payments=" + payments +
                 ", isCompClaim=" + isCompClaim +
                 ", cause=" + cause +
-                ", permissiveUse=" + permissiveUse +
                 '}';
     }
 }

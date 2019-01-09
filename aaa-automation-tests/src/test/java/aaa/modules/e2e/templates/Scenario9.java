@@ -242,14 +242,18 @@ public class Scenario9 extends ScenarioBaseTest {
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium();
+		
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		if (getState().equals(Constants.States.NJ)) {
-			Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount);
+			//Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount);
+			Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate);
 			currentTermDueAmount = currentTermDueAmount.add(pligaFeeEndorse);
 		}
 		if (getState().equals(Constants.States.NY)) {
 			currentTermDueAmount = currentTermDueAmount.add(10);
 		}
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setTotalDue(currentTermDueAmount).verifyPresent();
 
 		// Endorsement transaction displayed on billing in Payments & Other transactions section

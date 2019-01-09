@@ -14,12 +14,14 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 
 @StateList(states = {Constants.States.AZ})
 public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
+
+	// NOTE: Claims Matching Logic: e2e tests should use HTTP instead of HTTPS in DB (Microservice propertyname ='aaaClaimsMicroService.microServiceUrl')
+	// Example: http://claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1
 
 	private static VehicleTab vehicleTab = new VehicleTab();
 	private static PasAdminLogGrabber pasAdminLogGrabber = new PasAdminLogGrabber();
@@ -69,9 +71,6 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-20361")
 	public void pas20361_compClaimDeterminationBeforeMS(@Optional("AZ") String state) {
 
-		// Toggle ON MatchMoreClaims Logic
-		DBService.get().executeUpdate(SQL_UPDATE_MATCHMORECLAIMS_DISPLAYVALUE);
-
 		TestData testData = getTestSpecificTD("TestData_DriverTab_CompClaimsDetermination_AZ").resolveLinks();
 		TestData td = getPolicyTD().adjust(testData);
 
@@ -90,7 +89,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 		runRenewalClaimOrderJob();
 
 		// Create the claim response
-		createCasClaimResponseAndUpload(policyNumber, COMP_CLAIMS_DATA_MODEL, null);
+		createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, COMP_CLAIMS_DATA_MODEL);
 
 		// Move to R-46 and run batch job part 2 and renewalClaimReceiveAsyncJob to generate Microservice Request/Response and Analytic logs
 		runRenewalClaimReceiveJob();
@@ -115,7 +114,7 @@ public class TestCompClaimsDetermination extends TestOfflineClaimsTemplate {
 			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_1, policyNumber, pasDriverNameKey))
 					.as("PAS Driver should be First Named Insured").isEqualTo(pasFirstNamedInsured);
 			softly.assertThat(retrieveClaimValueFromAnalytics(listOfClaims, CLAIM_NUMBER_5, policyNumber, pasDriverNameKey))
-					.as("PAS Driver should be 2nd Driver of Policy").isEqualTo(pas2ndDriver); //BUG PAS-21025 - driverInformation in Response and Analytics of Microservice contains CAS Driver Information instead of PAS
+					.as("PAS Driver should be 2nd Driver of Policy").isEqualTo(pas2ndDriver);
 
 		});
 	}

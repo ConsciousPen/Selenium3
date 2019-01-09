@@ -1404,4 +1404,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
 	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with Tort Threshold = Limited Tort
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update Tort Threshold to Full Tort, check update, view, change log responses and in PAS UI
+	 * 5. Update Tort Threshold back to Limited Tort, check update, view, change log responses and in PAS UI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15304"})
+	public void pas15304_tortCoveragePA(@Optional("PA") String state) {
+		pas15304_tortCoveragePABody();
+	}
 }

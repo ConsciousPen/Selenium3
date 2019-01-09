@@ -71,6 +71,8 @@ public enum CoverageLimits {
 	COV_50_300("50/300", "$50/$300"),
 	COV_PIPDEDAPPTO_NIAHF("F", "NI and Household Family"),
 	COV_PIPDEDAPPTO_NIO("P", "Named Insured Only"),
+	COV_FULL_TORT("TRUE", "Full Tort"),
+	COV_LIMITED_TORT("FALSE", "Limited Tort"),
 	SP_EQ_0("0", "$0.00");
 
 	private final String limit;
