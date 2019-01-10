@@ -102,6 +102,11 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 		return PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().subtract(getSpecificFees(openLPolicy));
 	}
 
+	@Override
+	protected String createCustomerIndividual(HomeSSOpenLPolicy openLPolicy) {
+		return createCustomerIndividual();
+	}
+
 	private Dollar getSpecificFees(HomeSSOpenLPolicy openLPolicy) {
 		Dollar specificFees = new Dollar(0);
 		if (PremiumsAndCoveragesQuoteTab.tableTaxes.isPresent()) {
