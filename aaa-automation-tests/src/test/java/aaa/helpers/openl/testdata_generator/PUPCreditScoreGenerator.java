@@ -31,7 +31,7 @@ public class PUPCreditScoreGenerator {
 		cs.add(CreditScores.of(Constants.States.NV).and("A", 100, 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.NY).and("A", 100).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.OH).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
-		cs.add(CreditScores.of(Constants.States.OK).and("A", 100, 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.OK).and("A", 100, 500).and("C", 510).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.OR).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.PA).and("A", 100, 600).and("B", 610).and("C", 650).and("D", 700).and("E", 750).and("H", 800).and("I", 900));
 		cs.add(CreditScores.of(Constants.States.SD).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
