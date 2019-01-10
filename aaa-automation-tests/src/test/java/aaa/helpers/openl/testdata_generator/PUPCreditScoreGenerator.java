@@ -14,7 +14,7 @@ public class PUPCreditScoreGenerator {
 
 	PUPCreditScoreGenerator() {
 		cs = new ArrayList<>();
-		//TODO-dchubkov: find values for remaining homeTiers for each state
+		//TODO-dchubkov: find values for remaining homeTiers for each state/policy type
 		cs.add(CreditScores.of(Constants.States.AZ).and("A", 100, 400).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.CO).and("A", 100, 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.CO, PolicyType.HOME_SS_HO6).and("A", 100, 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("I", 900));
@@ -38,7 +38,7 @@ public class PUPCreditScoreGenerator {
 		cs.add(CreditScores.of(Constants.States.UT).and("A", 100).and("C", 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 		cs.add(CreditScores.of(Constants.States.VA, PolicyType.HOME_SS_HO6).and("A", 500).and("C", 600).and("D", 610).and("E", 650).and("F", 700).and("G", 750).and("H", 800).and("I", 900));
 		cs.add(CreditScores.of(Constants.States.WV).and("A", 100).and("C", 500).and("E", 600).and("F", 610, 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
-		cs.add(CreditScores.of(Constants.States.WY).and("A", 100, 500).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
+		cs.add(CreditScores.of(Constants.States.WY).and("A", 100, 500).and("C", 510).and("D", 600).and("E", 610).and("F", 650).and("G", 700).and("H", 750).and("I", 800).and("J", 900));
 	}
 
 	public int get(PUPOpenLPolicy openLPolicy) {
@@ -78,7 +78,7 @@ public class PUPCreditScoreGenerator {
 
 		int getScore(String homeTier) {
 			Entry entry = creditScores.stream().filter(e -> Objects.equals(e.homeTier, homeTier)).findFirst()
-					.orElseThrow(() -> new IstfException(String.format("Unknown credit score mapping for homeTier=%1$s", homeTier)));
+					.orElseThrow(() -> new IstfException(String.format("Unknown credit score mapping for homeTier=%s", homeTier)));
 
 			return ThreadLocalRandom.current().nextInt(entry.creditScoreMinValue, entry.creditScoreMaxValue + 1);
 		}
