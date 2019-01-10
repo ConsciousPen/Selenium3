@@ -464,5 +464,5 @@ PAS-23995:
   summary: "ASW Waiver not being given correctly"
   reason: PROD
   failures:
-    - tests: [aaa\modules\regression\sales\auto_ss\functional\TestAccidentSurchargeWaiver.*]
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
       messages: ["Expected"]
