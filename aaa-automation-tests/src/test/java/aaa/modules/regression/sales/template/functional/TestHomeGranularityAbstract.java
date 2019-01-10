@@ -26,7 +26,7 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
 
     protected void validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup) {
         Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP,policyNumber));
-        String CensusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
-        assertThat(CensusBlockGroupDbValue).as("Wrong Census Block Group, Expecting %1%s but found %2%s", censusBlockGroup, CensusBlockGroupDbValue).isEqualTo(censusBlockGroup);
+        String censusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
+        assertThat(censusBlockGroupDbValue).as("Wrong Census Block Group, Expecting %1%s but found %2%s", censusBlockGroup, censusBlockGroupDbValue).isEqualTo(censusBlockGroup);
     }
 }
