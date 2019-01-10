@@ -85,7 +85,9 @@ public enum CoverageLimits {
 	COV_IL_15000_MAX_PA("1000/15000", "$1,000/month ($15,000 max)"),
 	COV_IL_25000_MAX_PA("1500/25000", "$1,500/month ($25,000 max)"),
 	COV_IL_50000_MAX_PA("2500/50000", "$2,500/month ($50,000 max)"),
-	SP_EQ_0("0", "$0.00");
+	SP_EQ_0("0", "$0.00"),
+	COV_EMB_0("0", "No"),
+	COV_EMB_1000("1000", "Yes");
 
 	private final String limit;
 	private final String display;
