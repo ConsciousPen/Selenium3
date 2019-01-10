@@ -127,7 +127,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getPrimaryPolicyData(PUPOpenLPolicy openLPolicy, TestData primaryPolicyTd) {
-		TestData insuranceScoreOverrideData = null;
+		TestData insuranceScoreOverrideData = DataProviderFactory.emptyData();
 		if (!Constants.States.MD.equals(getState())) {
 			insuranceScoreOverrideData = DataProviderFactory.dataOf(
 					HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
