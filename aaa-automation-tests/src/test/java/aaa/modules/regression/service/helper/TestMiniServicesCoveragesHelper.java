@@ -6040,6 +6040,26 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
         helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
+	protected void pas23299_EMBCoveragePABody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covTortLimitedExpected = Coverage.create(CoverageInfo.EMB);
+
+		//Check viewEndorsementCoverages response
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covTortLimitedExpected);
+
+		//Update to Full Tort and check
+		Coverage covTortFullExpected = Coverage.create(CoverageInfo.EMB).changeLimit(CoverageLimits.COV_EMB_1000);
+		updateCoverageAndCheck(policyNumber, covTortFullExpected, covTortFullExpected);
+		//Update back to Limited Tort and check
+		updateCoverageAndCheck(policyNumber, covTortLimitedExpected, covTortLimitedExpected);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	private void coverageUpdateAndValidate(String policyNumber, Coverage pipExpected, String coverageCd, CoverageLimits coverageLimits) {
         PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, coverageCd, coverageLimits.getLimit());
         pipExpected.changeLimit(coverageLimits);
