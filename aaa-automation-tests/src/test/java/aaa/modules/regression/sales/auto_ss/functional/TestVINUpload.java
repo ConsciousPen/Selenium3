@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-import aaa.main.enums.ProductConstants;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
@@ -42,7 +42,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
@@ -121,13 +121,22 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 		// Start PAS-2714 NB
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
-		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
+		HashMap<String,String> policySymbols = new HashMap<>(); // in fact it is duplication of symbols from NewVIN_UT_SS.xlsx
+		policySymbols.put("BI Symbol","BI001");
+		policySymbols.put("PD Symbol","PD001");
+		policySymbols.put("UM Symbol","UM001");
+		policySymbols.put("MP Symbol","MP001");
+
+		CustomSoftAssertions.assertSoftly(softly -> {
+			// Verify that eash symbol present
+			policySymbols.keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
+			// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
+			// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
+			policySymbols.forEach((key, value) -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(2).getValue())
+					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(policySymbols.get(key)));
+		});
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
