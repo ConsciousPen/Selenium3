@@ -143,8 +143,8 @@ public abstract class OpenLRatingBaseTest<P extends OpenLPolicy> extends BaseTes
 	 * @param testInfo OpenL tests holder with customer number and policy objects to be executed using this customer number
 	 */
 	protected void createOrOpenExistingCustomer(OpenLTestInfo<P> testInfo, int policyNumber) {
-		if (testInfo.getCustomerNumber() == null) {
-			P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		P openLPolicy = testInfo.getOpenLPolicy(policyNumber);
+		if (testInfo.getCustomerNumber() == null || openLPolicy.getTestPolicyType().isAutoPolicy()) {
 			String customerNumber = createCustomerIndividual(openLPolicy);
 			testInfo.setCustomerNumber(customerNumber);
 		} else {
