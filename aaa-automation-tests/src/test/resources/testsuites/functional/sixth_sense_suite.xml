@@ -23,6 +23,13 @@
         </classes>
     </test>
 
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Claims points on VRD page for CA DP3 policies during NB Applicant/Applicant And Property">
