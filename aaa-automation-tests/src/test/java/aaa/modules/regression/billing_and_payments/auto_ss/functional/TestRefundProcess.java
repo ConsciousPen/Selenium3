@@ -55,7 +55,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private static final String APP_HOST = PropertyProvider.getProperty(CsaaTestProperties.APP_HOST);
 	private static final String MESSAGE_CREDIT_CARD = "Credit Card Visa-4113 expiring 01/22";
 	private static final String MESSAGE_DEBIT_CARD = "Debit Card MasterCard-4444 expiring 05/20";
-	private static final String MESSAGE_ACH = "Checking/Savings (ACH) #,1542";
+	private static final String MESSAGE_ACH = "Checking/Savings (ACH) #1542";
 	private static final String AMOUNT_CREDIT_CARD = "10";
 	private static final String AMOUNT_DEBIT_CARD = "22";
 	private static final String AMOUNT_ACH = "33";
@@ -97,8 +97,8 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 				.as("The configuration is missing, run pendingRefundConfigurationUpdate and restart the env.").isEqualTo("pendingRefund");
 	}
 
-	public static void eRefundLastPaymentMethodConfigCheck() {
-			assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
+	private static void eRefundLastPaymentMethodConfigCheck() {
+		assertThat(DBService.get().getValue(String.format(LAST_PAYMENT_METHOD_STUB_END_POINT_CHECK, APP_HOST)).orElse(""))
 				.as("eRefund stub point is set incorrect, please run LAST_PAYMENT_METHOD_STUB_POINT_UPDATE").contains(APP_HOST);
 		assertThat(DBService.get().getValue(String.format(AUTHENTICATION_STUB_END_POINT_CHECK, APP_HOST, APP_STUB_URL)).orElse(""))
 				.as("Authentication stub point is set incorrect, please run AUTHENTICATION_STUB_POINT_UPDATE").contains(APP_HOST);

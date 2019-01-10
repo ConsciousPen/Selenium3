@@ -41,6 +41,9 @@ import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 import javax.ws.rs.core.Response;
 
@@ -52,6 +55,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 	private static final String UNINSURED_MOTORIST = "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received";
 	private static final String ESIGNEDOCUMENTRULE = "A signed Coverage Selection/Rejection Form must be received prior to issuing";
+	private static final String DESIGNATUREERROR = "Delaware Motorists Protection Act form must be received prior to issuing";
 
 	/**
 	 * @author Jovita Pukenaite
@@ -85,7 +89,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//update UM coverage
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMBI", "25000/50000"), PolicyCoverageInfo.class);
 
-			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU_", "policy", "NS");
+			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU_", "NS");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -100,7 +104,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	}
 
 	/**
-	 * @author Jovita Pukenaite
+	 * @author Megha Gubbala
 	 * @name RFI AACSDC Form
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
@@ -108,52 +112,94 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * 4. Check the response.
 	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
 	 * 6. Hit RFI service, check if document is displaying.
-	 * 7. Try bind check error
+	 * 7. Run bind service without signing document and verify error. and policy is not bound.
+	 * 8. Run bind service with doccument id verify no error and we can bind the policy.
+	 * 9. go to pas UI and verify if policy is bound
+	 * 10 Go to doccument and bind page and verify if document is electronically signed.
+	 * 11. go to the DB and verify doccument signed by is there in xml
+	 * 12 .create and endorsement on policy from pas change  umbi and rate the policy
+	 * 13. go to doccument and bind page verify if its reset to doccument not signed
+	 * 14 Try to bind policy from pas and verify error.
+	 * 14 Select document physically signed
+	 * 15 Verify in db that we are not sending doccument signed by
+	 * 16  Bind the policy verify there is no error message.
 	 */
+	//Scenario 1.  PIPMEDICAL
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
 	public void pas21423_aacsdcFormRFI(@Optional("DC") String state) {
+		assertSoftly(softly -> {
+			String policyNumber = policyCreationForAASCDC("PIPMEDICAL", "100000");
 
-		policyCreationForAASCDC("PIPMEDICAL", "100000");
+			verifyRateBindPasForAACSDC(softly, policyNumber);
 
+		});
 	}
 
+	//Scenario 2.  UIMPD
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
 	public void pas21423_aacsdcFormRFIUIMPD(@Optional("DC") String state) {
-		policyCreationForAASCDC("UIMPD", "25000");
-
+		assertSoftly(softly -> {
+			String policyNumber = policyCreationForAASCDC("UIMPD", "25000");
+			verifyRateBindPasForAACSDC(softly, policyNumber);
+		});
 	}
 
+	//Scenario 3.  PIPWORKLOSS
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
 	public void pas21423_aacsdcFormRFIPIPWORKLOSS(@Optional("DC") String state) {
-		policyCreationForAASCDC("PIPWORKLOSS", "24000");
-
+		assertSoftly(softly -> {
+			String policyNumber = policyCreationForAASCDC("PIPWORKLOSS", "24000");
+			verifyRateBindPasForAACSDC(softly, policyNumber);
+		});
 	}
 
+	//Scenario 4.  FUNERAL
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21423"})
 	public void pas21423_aacsdcFormRFIFUNERAL(@Optional("DC") String state) {
-		policyCreationForAASCDC("FUNERAL", "4000");
+		assertSoftly(softly -> {
+			String policyNumber = policyCreationForAASCDC("FUNERAL", "4000");
+			verifyRateBindPasForAACSDC(softly, policyNumber);
 
+		});
 	}
 
+	private void verifyRateBindPasForAACSDC(ETCSCoreSoftAssertions softly, String policyNumber) {
+		//Verify RFI service and verify it returns doccid
+		String doccId = checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "policy", "NS");
+
+		//Verify Bind service
+		bindEndorsement(policyNumber, doccId, "200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction", "attributeForRules");
+		//Verify DB Endorsement xml Signed by field is there
+		String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSDC", "ENDORSEMENT_ISSUE");
+		verifyDoccInDb(softly, query, DocGenEnum.Documents.AACSDC);
+
+		//Go to pas and and verify
+		goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM,
+				AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", "200900", ESIGNEDOCUMENTRULE);
+	}
+
+	//Verify Electronically  Signed enabled on pas too
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21366"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23511"})
 	public void pas23511_VirginiaAndAA52VA(@Optional("VA") String state) {
 		assertSoftly(softly -> {
 			mainApp().open();
 			String policyNumber = createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Electronically Signed");
+			// TO DO add db check no signed by in db
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -161,7 +207,55 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			premiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue()).isEqualTo("Physically Signed");
+			// TO DO add db check no signed by in db
+		});
+	}
 
+	/**
+	 * @author Megha Gubbala
+	 * @name RFI AACSDC Form
+	 * @scenario 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Rate. Hit RFI service.
+	 * 4. Check the response.
+	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
+	 * 6. Hit RFI service, check if document is displaying.
+	 * 7. Run bind service without signing document and verify error. and policy is not bound.
+	 * 8. Run bind service with doccument id verify no error and we can bind the policy.
+	 * 9. go to pas UI and verify if policy is bound
+	 * 10 Go to doccument and bind page and verify if document is electronically signed.
+	 * 11. go to the DB and verify doccument signed by is there in xml
+	 * 12 .create and endorsement on policy from pas change  umbi and rate the policy
+	 * 13. go to doccument and bind page verify if its reset to doccument not signed
+	 * 14 Try to bind policy from pas and verify error.
+	 * 14 Select document physically signed
+	 * 15 Verify in db that we are not sending doccument signed by
+	 * 16  Bind the policy verify there is no error message.
+	 */
+	//Scenario 1.  BI
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.DE})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21596,PAS-21591"})
+	public void pas21596_aadnde1FormRFI(@Optional("DE") String state) {
+		assertSoftly(softly -> {
+			//String policyNumber = policyCreationForAASCDC("BI", "25000/50000");
+			//String policyNumber = policyCreationForAASCDC("PD", "15000");
+			//String policyNumber = policyCreationForAASCDC("UMBI", "25000/50000");
+			String policyNumber = policyCreationForAASCDC("UMPD", "10000");
+
+			String doccId = checkDocumentInRfiService(policyNumber, "AADNDE1", "Delaware Motorists Protection Act", "policy", "NS");
+
+			bindEndorsement(policyNumber, doccId, "200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction", "attributeForRules");
+			//It not working right now Karen will have story to fix it
+			//String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AADNDE1", "ENDORSEMENT_ISSUE");
+			//verifyDoccInDb(softly, query, DocGenEnum.Documents.AADNDE1);
+
+			//Go to pas and and verify
+			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT,
+					AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY, "$25,000", "200123", DESIGNATUREERROR);
+
+			//Add db check where no doccument
 		});
 	}
 
@@ -192,7 +286,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "40000"), PolicyCoverageInfo.class);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", "policy", "NS");
+			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", "NS");
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction", "attributeForRules");
 
@@ -200,12 +294,15 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
 			verifyDoccInDb(softly, query, DocGenEnum.Documents.AA52VA);
-			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, "AA52VA");
+
+			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE,
+					AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY, "$50,000/$100,000", "200037_VA", UNINSURED_MOTORIST);
 
 			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
 			Document aa52VA = DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1);
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1).toString().contains("DocSignedBy")).isFalse();
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1).toString().contains("DocSignedDate")).isFalse();
+
 		});
 	}
 
@@ -278,13 +375,13 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void checkRfiResponseAfterCovWasUpdated_pas21423(String policyNumber, String coverageId, String newCoverage) {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-		checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "policy", "NS");
+		checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC_h", "NS");
 		//TODO jpukenaite: uncomment when the story for bind error will be done
 		//helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "", "", "");
 		HelperCommon.deleteEndorsement(policyNumber, Response.Status.NO_CONTENT.getStatusCode());
 	}
 
-	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String documentId, String parent, String status) {
+	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String parent, String status) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 		String doccId = rfiServiceResponse.documents.get(0).documentId;
@@ -293,7 +390,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			softly.assertThat(rfiServiceResponse.url).isNull();
 			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
 			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentId);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
 			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
 			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
 			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
@@ -552,31 +649,27 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
 
-	private void policyCreationForAASCDC(String coverageId, String newCoverage) {
-		assertSoftly(softly -> {
+	private void bindEndorsement(String policyNumber, String doccId, String errorCode, String errorMessage, String field) {
+		//Verify Error Code and Error message on bind
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, errorCode, errorMessage, field);
+		//Bind policy with doccId for successful bind and doccument is electronically signed
+		HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
 
-			TestData td = getPolicyDefaultTD();
-			td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
-					, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
-			String policyNumber = openAppAndCreatePolicy();
+	}
 
-			helperMiniServices.createEndorsementWithCheck(policyNumber);
-			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
+	private String policyCreationForAASCDC(String coverageId, String newCoverage) {
+		//Create Policy
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName()
+				, AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$50,000/$100,000");
+		String policyNumber = openAppAndCreatePolicy();
 
-			String doccId = checkDocumentInRfiService(policyNumber, "AACSDC", "District of Columbia Coverage Selection/Rejection Form", "AACSDC", "policy", "NS");
-
-			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction", "attributeForRules");
-			HelperCommon.endorsementBind(policyNumber, "Megha Gubbala", Response.Status.OK.getStatusCode(), doccId);
-
-			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AACSDC", "ENDORSEMENT_ISSUE");
-
-			verifyDoccInDb(softly, query, DocGenEnum.Documents.AACSDC);
-
-			//Go to pas and and verify
-			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, "AACSDC");
-		});
-
+		//Create endorsement
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		//update coverage
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, newCoverage), PolicyCoverageInfo.class);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		return policyNumber;
 	}
 
 	private void verifyDoccInDb(ETCSCoreSoftAssertions softly, String query, DocGenEnum.Documents aa52va) {
@@ -587,35 +680,30 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		softly.assertThat(date).isNotNull();
 	}
 
-	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber, String formName) {
+	private void goToPasAndVerifyRuleAndSignedBy(ETCSCoreSoftAssertions softly, String policyNumber,
+			AssetDescriptor<RadioGroup> documentAsset, AssetDescriptor<ComboBox> coverageAsset,
+			String coverageLimit, String ruleCode, String ruleMessage) {
 		//create endorsement from pas go to bind page verify document is electronically signed
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
 
-		if ("AA52VA".equals(formName)) {
-			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).getValue()).isEqualTo("Electronically Signed");
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			//From P&C page change coverage again to verify signed by is resetting to  not signedNavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			documentsAndBindTab.submitTab();
-			softly.assertThat(errorTab.tableErrors.getRowContains("Code", "200037_VA").getCell("Message").getValue().toLowerCase().contains(UNINSURED_MOTORIST.toLowerCase().substring(0, 30))).isTrue();
-			errorTab.cancel();
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
-		} else {
-			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM).getValue()).isEqualTo("Electronically Signed");
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-			premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY.getLabel(), "$50,000/$100,000");
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			documentsAndBindTab.submitTab();
-			softly.assertThat(errorTab.tableErrors.getRowContains("Code", "200900").getCell("Message").getValue().toLowerCase().contains(ESIGNEDOCUMENTRULE.toLowerCase().substring(0, 30))).isTrue();
-			errorTab.cancel();
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM).setValue("Physically Signed");
-		}
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		//From P&C page change coverage again to verify signed by is resetting to  not signed
+		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(coverageAsset.getLabel(), coverageLimit);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		//add line to verify not signed
+		softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
 		documentsAndBindTab.submitTab();
+		//On bind verify error message
+		softly.assertThat(errorTab.tableErrors.getRowContains("Code", ruleCode).getCell("Message").getValue().toLowerCase().contains(ruleMessage.toLowerCase().substring(0, 30))).isTrue();
+		errorTab.cancel();
+		//Physically sign the doccument and bind policy
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
+		documentsAndBindTab.submitTab();
+
 	}
 }
