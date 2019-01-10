@@ -6046,17 +6046,17 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
-		Coverage covTortLimitedExpected = Coverage.create(CoverageInfo.EMB);
+		Coverage covEMBNo = Coverage.create(CoverageInfo.EMB);
 
-		//Check viewEndorsementCoverages response
+		//Check viewEndorsementCoverages default response
 		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covTortLimitedExpected);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covEMBNo);
 
-		//Update to Full Tort and check
-		Coverage covTortFullExpected = Coverage.create(CoverageInfo.EMB).changeLimit(CoverageLimits.COV_EMB_1000);
-		updateCoverageAndCheck(policyNumber, covTortFullExpected, covTortFullExpected);
-		//Update back to Limited Tort and check
-		updateCoverageAndCheck(policyNumber, covTortLimitedExpected, covTortLimitedExpected);
+		//Update EMB=Yes and check
+		Coverage covEMBYes = Coverage.create(CoverageInfo.EMB).changeLimit(CoverageLimits.COV_EMB_1000);
+		updateCoverageAndCheck(policyNumber, covEMBYes, covEMBYes);
+		//Update EMB=No and check again
+		updateCoverageAndCheck(policyNumber, covEMBNo, covEMBNo);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
