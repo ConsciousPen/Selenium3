@@ -1621,9 +1621,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	private void validateOrderOfAllLevelCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfPolicyCoveragesExpected, List<String> orderOfVehicleCoveragesExpected, List<String> orderOfDriverCoveragesExpected, PolicyCoverageInfo coverageEndorsementResponse) {
 		validateOrderOfCoverages(softly, orderOfPolicyCoveragesExpected, coverageEndorsementResponse.policyCoverages);
 		validateOrderOfCoverages(softly, orderOfVehicleCoveragesExpected, coverageEndorsementResponse.vehicleLevelCoverages.get(0).coverages);
-		if (!orderOfDriverCoveragesExpected.isEmpty()) { //do not have requirements regarding to driver coverages for all states
-			validateOrderOfCoverages(softly, orderOfDriverCoveragesExpected, coverageEndorsementResponse.driverCoverages);
-		}
+		validateOrderOfCoverages(softly, orderOfDriverCoveragesExpected, coverageEndorsementResponse.driverCoverages);
+
 	}
 
 	private void validateOrderOfCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfCoveragesExpected, List<Coverage> coveragesActual) {
