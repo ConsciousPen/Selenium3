@@ -20,8 +20,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
      * @scenario
      * 1. Create Customer
-     * 2. Initiate Policy creation
-     * 3. Validate  Census Block Group, Latitude and Longitude
+     * 2. Create Quote up to Premium and Coverages Tab
+     * 3. Calculate premium then validate Census Block Group, Latitude and Longitude in the DB
+     * 4. Open View Rating Details screen and verify Census Block ID is present and matches what is in the DB
      *
      * @details
      */
@@ -29,7 +30,8 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
+    //TODO Add Zip Code (possibly the county), lat/long (currently only showing 3 numbers after decimal)
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        pas23203_validateCensusBlockGroupAndLatLong("1276 S California Blvd", "123456789113");
+        pas23203_validateCensusBlockGroupAndLatLong("10 Danbrook Drive", "060290022002");
     }
 }

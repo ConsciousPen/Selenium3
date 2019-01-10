@@ -28,7 +28,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23235")
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
         pas23203_validateCensusBlockGroupAndLatLong("1276 S California Blvd", "123456789113");
     }
