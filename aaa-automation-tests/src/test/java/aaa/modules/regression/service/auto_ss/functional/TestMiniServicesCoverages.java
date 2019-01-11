@@ -481,7 +481,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
 			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
 			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
-			Constants.States.PA, Constants.States.WV, Constants.States.WY})
+			Constants.States.PA, Constants.States.WY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
