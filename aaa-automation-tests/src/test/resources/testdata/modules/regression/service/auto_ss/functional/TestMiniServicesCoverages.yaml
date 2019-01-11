@@ -453,7 +453,7 @@ TestData_OrderOfCoverages_CO: {
 
 TestData_OrderOfCoverages_ID: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"]
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages:["ADB"]
 }
 
