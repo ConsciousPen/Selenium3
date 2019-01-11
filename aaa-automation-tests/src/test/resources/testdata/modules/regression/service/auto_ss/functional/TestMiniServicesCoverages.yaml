@@ -362,7 +362,7 @@ TestData_OrderOfCoverages: {
 }
 
 TestData_OrderOfCoverages_AZ: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM", "IL"],
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages:["ADB"]
 }
