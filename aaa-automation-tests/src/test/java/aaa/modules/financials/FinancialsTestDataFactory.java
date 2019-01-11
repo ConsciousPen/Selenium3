@@ -41,10 +41,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
-    protected TestData getEndorsementTD() {
-        return getEndorsementTD(TimeSetterUtil.getInstance().getCurrentTime());
-    }
-
     protected TestData getEndorsementTD(LocalDateTime effDate) {
         TestData td =  getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Endorsement"), "TestData");
         String type = getPolicyType().getShortName();
@@ -202,6 +198,40 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData adjustTdMonthlyPaymentPlan(TestData td) {
+        String type = getPolicyType().getShortName();
+        switch (type) {
+            case CA_SELECT:
+            case CA_CHOICE:
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                break;
+            case AUTO_SS:
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                break;
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
+                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                break;
+            case HOME_CA_HO3:
+            case HOME_CA_HO4:
+            case HOME_CA_HO6:
+            case HOME_CA_DP3:
+                td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
+                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                break;
+            case PUP:
+                td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(),
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
     protected TestData getAddPremiumTD() {
         TestData td;
         String type = getPolicyType().getShortName();
@@ -316,8 +346,8 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private TestData getCaSelectReducePremiumTd() {
         return getEmptyTestDataCaAuto().adjust(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "contains=$25,000/$50,000",
-                AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "contains=$10,000"));
+                AutoCaMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "index=1",
+                AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "index=1"));
     }
 
     private TestData getCaChoiceReducePremiumTd() {
@@ -328,8 +358,8 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private TestData getSSAutoReducePremiumTd() {
         return getEmptyTestDataSSAuto().adjust(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), DataProviderFactory.dataOf(
-                AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "contains=$25,000/$50,000",
-                AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "contains=$10,000"));
+                AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel(), "index=1",
+                AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY.getLabel(), "index=1"));
     }
 
     private TestData getSSHomeAddPremiumTd() {

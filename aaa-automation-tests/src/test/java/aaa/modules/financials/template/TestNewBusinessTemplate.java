@@ -60,8 +60,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
 
 		// Cancel policy
-		policy.cancel().perform(getCancellationTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+		cancelPolicy();
 
 		// Reinstate policy without lapse
 		policy.reinstate().perform(getReinstatementTD());
@@ -113,8 +112,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         //TODO implement DB validation
 
 		// Cancel policy
-		policy.cancel().perform(getCancellationTD(effDate));
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+        cancelPolicy();
 
 		// Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
@@ -151,8 +149,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // TODO implement DB validation
 
         // Cancel policy
-        policy.cancel().perform(getCancellationTD());
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+        cancelPolicy();
         // TODO implement DB validation
 
         // Reinstate policy without lapse
@@ -190,27 +187,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // TODO implement DB validation
 
         // Cancel policy
-        policy.cancel().perform(getCancellationTD(effDate));
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.CANCELLATION_PENDING);
+        cancelPolicy();
 
         // Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
         // TODO implement DB validation
 
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
-    }
-
-    private Dollar performAPEndorsement(String policyNumber) {
-        policy.endorse().perform(getEndorsementTD());
-        policy.getDefaultView().fill(getAddPremiumTD());
-        Dollar addedPrem = payAmountDue();
-        SearchPage.openPolicy(policyNumber);
-        return addedPrem;
-    }
-
-    private void performRPEndorsement(LocalDateTime effDate) {
-        policy.endorse().perform(getEndorsementTD(effDate));
-        policy.getDefaultView().fill(getReducePremiumTD());
     }
 
     private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
@@ -230,11 +213,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
     private Dollar getTotalTermPremium() {
         if (!getPolicyType().isAutoPolicy()) {
             return PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        } else if (isStateCA()){
-            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
-        } else {
-            return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
         }
+        if (isStateCA()){
+            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
+        }
+        return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
     }
 
 }
