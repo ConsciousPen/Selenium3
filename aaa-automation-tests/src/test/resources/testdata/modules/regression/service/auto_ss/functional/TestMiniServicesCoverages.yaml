@@ -487,11 +487,10 @@ TestData_OrderOfCoverages_OK: {
   DriverLevelCoverages:["ADB"]
 }
 
-#todo PA
 TestData_OrderOfCoverages_PA: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"]
+  PolicyLevelCoverages: ["TORT", "BI", "PD", "UMBI", "UMSU", "UIMBI", "UIMSU", "FPB", "MEDPM", "ADBC", "FUNERAL", "IL", "EMB"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: [],
 }
 
 VehicleTab_Motor_Home: {
