@@ -92,14 +92,17 @@ public class BaseTest {
 	protected final Map<String, String> getPrimaryPoliciesForPup() {
 		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
 		//getState()), "COH3927438929");
-		if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
-			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
-		}
+
 		//remember customer that was created in test
 		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
 		Map<String, String> returnValue = new LinkedHashMap<>();
 		String state = getState().intern();
+		mainApp().close();
 		synchronized (state) {
+			mainApp().open();
+			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
+				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
+			}
 			PolicyType type;
 			PolicyType typeAuto = null;
 			if (state.equals(Constants.States.CA)) {
@@ -131,8 +134,9 @@ public class BaseTest {
 			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
 				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
 			}
-			return returnValue;
 		}
+			return returnValue;
+
 	}
 
 	protected TimePoints getTimePoints() {
