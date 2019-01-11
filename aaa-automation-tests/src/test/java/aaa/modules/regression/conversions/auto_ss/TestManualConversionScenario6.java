@@ -17,7 +17,7 @@ import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -38,9 +38,8 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.AUTO_SS)
 	public void manualConversionDocsScenario6(@Optional("MT") String state) {
-		ErrorTab errorTab = new ErrorTab();
 		LocalDateTime renewalDate = TimeSetterUtil.getInstance().getCurrentTime().plusDays(55);
-		TestData policyTd = getConversionPolicyDefaultTD();
+		TestData policyTd = getConversionPolicyDefaultTD().adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab"));
 		//1. Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above.
 		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
 		createCustomerIndividual();
@@ -48,8 +47,6 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalDate);
 		//3. Open the renewal image in Data Gathering mode. Enter mandatory data on all pages.
 		policy.getDefaultView().fill(policyTd);
-		errorTab.overrideAllErrors();
-		errorTab.submitTab();
 		Tab.buttonBack.click();
 		//6. Navigate to policy consolidated view, click on the renewal image Button
 		String policyNum = PolicySummaryPage.getPolicyNumber();

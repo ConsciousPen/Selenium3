@@ -6,6 +6,7 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ClaimConstants;
 import aaa.main.enums.ErrorEnum;
+import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -279,7 +280,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     protected void pas6695_testClueClaimsReconciliationNB() {
         TestData tdSilviaKohli;
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("ViratDP", "Kohli");
             tdSilviaKohli = getNamedInsuredTd("SilviaDP", "Kohli");
         } else {
@@ -375,7 +376,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationClaimantOnly() {
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("AgustinDP", "Miras");
         } else {
             createSpecificCustomerIndividual("Agustin", "Miras");
@@ -387,7 +388,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant() {
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("MARSHADP", "LACKEYDP");
         } else {
             createSpecificCustomerIndividual("MARSHA", "LACKEY");
@@ -399,7 +400,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     }
 
     protected void pas6703_testCatastropheIndicatorUnknownNB() {
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("SachinDP", "Kohli");
         } else {
             createSpecificCustomerIndividual("Sachin", "Kohli");
@@ -433,7 +434,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         TestData tdBruceKohli;
 
         // Create customer with CLUE claims and initiate policy
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("SilviaDP", "Kohli");
             tdBruceKohli = getNamedInsuredTd("BruceDP", "Kohli");
         } else {
@@ -491,7 +492,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     protected void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged() {
         TestData tdSilviaKohli;
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             createSpecificCustomerIndividual("ViratDP", "Kohli");
             tdSilviaKohli = getNamedInsuredTd("SilviaDP", "Kohli");
         } else {
@@ -558,6 +559,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         PropertyQuoteTab.RatingDetailsView.close();
         navigateToBindTab();
         getBindTab().submitTab();
+        if(isStateCA()){
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
+            getBindTab().submitTab();
+        }
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         //Change Date renew policy and no override same UW rules
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
@@ -592,6 +598,50 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         getBindTab().submitTab();
         assertThat(PolicySummaryPage.getPolicyNumber()).contains(policyNumber);
 
+    }
+
+    protected void pas23639_testClueMappingForIncludedInRatingFieldNB() {
+        if (isDP3()) {
+            createSpecificCustomerIndividual("TestDP", "IIRE");
+        } else {
+            createSpecificCustomerIndividual("Test", "IIRE");
+        }
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(getPolicyTD(), getPropertyInfoTab().getClass(), true);
+        validateClaimsIIRE();
+
+    }
+
+    protected void pas23639_testClueMappingForIncludedInRatingFieldEndorsement() {
+        openAppAndCreatePolicy();
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+        addNamedInsuredWithClaimsForIIRE();
+        validateClaimsIIRE();
+
+    }
+
+    protected void pas23639_testClueMappingForIncludedInRatingFieldRenewal() {
+        openAppAndCreatePolicy();
+        policy.renew().perform();
+        addNamedInsuredWithClaimsForIIRE();
+        validateClaimsIIRE();
+    }
+
+    protected void pas23639_testClueMappingForIncludedInRatingFieldRewrite() {
+        openAppAndCreatePolicy();
+        policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
+        policy.rewrite().perform(getPolicyTD("Rewrite", "TestDataSameDate"));
+        policy.dataGather().start();
+        addNamedInsuredWithClaimsForIIRE();
+        validateClaimsIIRE();
+    }
+
+    private void validateClaimsIIRE() {
+        for (int i = 1; i <= 4; i++) {
+            getClaimHistoryTable().getRow(i).getCell(PolicyConstants.PropertyInfoClaimHistoryTable.MODIFY).controls.links.getFirst().click();
+            assertThat(getClaimHistoryTable().getRow(i).getCell(PolicyConstants.PropertyInfoClaimHistoryTable.INCLUDED_IN_RATING_AND_ELIGIBILITY).getValue()).isEqualTo("Yes");
+            assertThat(getClaimIncludedInRatingAsset().getValue()).isEqualTo("Yes");
+        }
     }
 
     private void pas6742_pas20851_CheckRemovedDependencyForCATAndIncludedInRatingFields(){
@@ -688,7 +738,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
     private void addNamedInsuredWithClaims() {
         List<TestData> tdNamedInsured = new ArrayList<>();
-        if (getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
+        if (isDP3()) {
             tdNamedInsured.add(getNamedInsuredTd("ViratDP", "Kohli"));
             tdNamedInsured.add(getNamedInsuredTd("SilviaDP", "Kohli").mask(getBtnAddInsuredLabel()));
         } else {
@@ -698,6 +748,21 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
 
         TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(),
                 DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
+
+        navigateToApplicantTab();
+        getApplicantTab().fillTab(tdApplicantTab).submitTab();
+        reorderClueReport();
+        navigateToPropertyInfoTab();
+    }
+
+    private void addNamedInsuredWithClaimsForIIRE() {
+        List<TestData> tdNamedInsured = new ArrayList<>();
+        if (isDP3()) {
+            tdNamedInsured.add(getNamedInsuredTd("TestDP", "IIRE"));
+        } else {
+            tdNamedInsured.add(getNamedInsuredTd("Test", "IIRE"));
+        }
+        TestData tdApplicantTab = DataProviderFactory.dataOf(getApplicantTab().getClass().getSimpleName(), DataProviderFactory.dataOf(getNamedInsuredLabel(), tdNamedInsured));
 
         navigateToApplicantTab();
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
@@ -901,6 +966,10 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
             assertThat(getPropertyInfoTab().getAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.CLAIM_HISTORY.getLabel(), MultiInstanceAfterAssetList.class).getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_MODIFIED_WARNING_MESSAGE)).hasValue(pas6739WarningMsg);
         }
 
+    }
+    
+    private boolean isDP3() {
+        return getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3);
     }
 
 }
