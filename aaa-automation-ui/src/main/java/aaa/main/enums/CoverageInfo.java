@@ -105,7 +105,8 @@ public enum CoverageInfo {
 	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None"),
 	UMPD_NV_NOCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_NOCOLL, "Per Accident"),
 	UMPD_NV_WITHCOLL("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WITHCOLL, "Per Accident"),
-	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident");
+	UMPD_NV_WOUM("UMPD", "Uninsured Motorist Property Damage or Collision Deductible Waived", null, AvailableCoverageLimits.UMPD_NV_WOUM, "Per Accident"),
+	EMB("EMB", "Extraordinary Medical Expense Benefits", CoverageLimits.COV_EMB_0, AvailableCoverageLimits.EMB, null);
 
 	private final String code;
 	private final String description;

@@ -971,6 +971,7 @@
                 <methods>
                     <include name="pas15304_tortCoveragePA"/>
                     <include name="pas15350_firstPartyBenefitsPA"/>
+                    <include name="pas23299_EMBCoveragePA"/>
                 </methods>
             </class>
         </classes>

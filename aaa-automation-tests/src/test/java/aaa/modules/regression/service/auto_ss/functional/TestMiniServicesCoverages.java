@@ -1446,4 +1446,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	public void pas15350_firstPartyBenefitsPA(@Optional("PA") String state) {
 		pas15350_firstPartyBenefitsPABody();
 	}
+
+	/**
+	 * @author Nauris Ivanans
+	 * @name View/Update EMB Coverage for PA state
+	 * @scenario
+	 * 1. Create a PA endorsement outside PAS.
+	 * 2. Run DXP view coverage service.
+	 * 3. Verify EMB coverage criteria.
+	 * 4. Update EMB coverages from DXP.
+	 * 5. Verify updates to EMB coverages in DXP, PAS UI & change log.
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23299"})
+	public void pas23299_EMBCoveragePA(@Optional("PA") String state) {
+		pas23299_EMBCoveragePABody();
+	}
 }
