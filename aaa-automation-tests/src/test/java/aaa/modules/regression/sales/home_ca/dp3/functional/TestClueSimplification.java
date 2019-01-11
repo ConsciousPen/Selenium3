@@ -495,4 +495,71 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 
 	}
 
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for NB quotes
+	 * @scenario
+	 * 1. Create customer 'Test IIRE'
+	 * 2. Fill policy up to Property Info tab (including order of CLUE)
+	 * 3. Validate all 4 claims show IIR & E = 'Yes'
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingNB(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldNB();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for endorsements
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Initiate endorsement, add named insured with claims ('Test IIRE')
+	 * 3. Reorder CLUE, validate IIRE = Yes for all claims
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingEndorsement(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldEndorsement();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for endorsements
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Create renewal image, add named insured with claims ('Test IIRE')
+	 * 3. Reorder CLUE, validate IIRE = Yes for all claims
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingRenewal(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldRenewal();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Create policy, cancel, and rewrite policy
+	 * 3. Add 2 named insured with claims ('Test IIRE')
+	 * 4. Reorder CLUE, validate IIRE = Yes for all claims
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingRewrite(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldRewrite();
+
+	}
+
 }

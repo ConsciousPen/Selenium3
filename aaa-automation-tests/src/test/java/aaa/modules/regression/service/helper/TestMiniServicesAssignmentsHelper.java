@@ -526,10 +526,10 @@ public class TestMiniServicesAssignmentsHelper extends PolicyBaseTest {
 			DriverAssignments updDriverAssignee2 = HelperCommon.updateDriverAssignment2(policyNumber, vehicleOid4, Arrays.asList(driver2.oid));
 			DriverAssignments driverAssignmentResponse2 = HelperCommon.viewEndorsementAssignments2(policyNumber);
 			DriverAssignments toMatch2 = new DriverAssignments()
-					.addAssignment(driver2.oid, vehicle2.oid)
-					.addAssignment(driver2.oid, vehicle2.oid)
-					.addAssignment(driver3.oid, vehicleOid3)
-					.addAssignment(driver4.oid, vehicleOid4)
+					.addAssignment(driver1.oid, vehicleOid3)
+					.addAssignment(driver2.oid, vehicleOid4)
+					.addAssignment(driver4.oid, vehicle2.oid)
+					.addAssignment(driver3.oid, vehicle2.oid)
 					.addUnassignedVehicles(vehicle1.oid);
 			softly.assertThat(updDriverAssignee2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");
 			softly.assertThat(driverAssignmentResponse2).isEqualToComparingOnlyGivenFields(toMatch2, "driverVehicleAssignments", "unassignedVehicles");

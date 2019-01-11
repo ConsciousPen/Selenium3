@@ -16,14 +16,12 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeSSMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.helpers.openl.testdata_generator.HomeSSTestDataGenerator;
+import aaa.helpers.openl.testdata_generator.*;
 import aaa.main.modules.policy.PolicyType;
 import aaa.utils.excel.bind.annotation.ExcelColumnElement;
 import aaa.utils.excel.bind.annotation.ExcelTableElement;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
-
-//import aaa.helpers.openl.testdata_builder.HomeSSHO4TestDataGenerator;
 
 @ExcelTableElement(sheetName = POLICY_SHEET_NAME, headerRowIndex = POLICY_HEADER_ROW_NUMBER)
 public class HomeSSOpenLPolicy extends OpenLPolicy {
@@ -322,7 +320,18 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public HomeSSTestDataGenerator getTestDataGenerator(TestData baseTestData) {
-		return new HomeSSTestDataGenerator(this.getState(), baseTestData);
+		switch (getPolicyType()) {
+			case "HO3":
+				return new HomeSSHO3TestDataGenerator(this.getState(), baseTestData);
+			case "HO4":
+				return new HomeSSHO4TestDataGenerator(this.getState(), baseTestData);
+			case "HO6":
+				return new HomeSSHO6TestDataGenerator(this.getState(), baseTestData);
+			case "DP3":
+				return new HomeSSDP3TestDataGenerator(this.getState(), baseTestData);
+			default:
+				throw new IstfException("Unknown policy type: " + getPolicyType());
+		}
 	}
 
 	@Override
@@ -379,6 +388,16 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 	@Override
 	public String getUnderwriterCode() {
 		return getCappingDetails().getUnderwriterCode();
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return TestDataGenerator.LEGACY_CONV_PROGRAM_CODE.equals(getCappingDetails().getProgramCode());
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
 	}
 
 	public Boolean isVariationRequest() {

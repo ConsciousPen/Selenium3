@@ -272,4 +272,14 @@ public class PUPOpenLPolicy extends OpenLPolicy {
 	public String getUnderwriterCode() {
 		return null;
 	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return false;
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
+	}
 }

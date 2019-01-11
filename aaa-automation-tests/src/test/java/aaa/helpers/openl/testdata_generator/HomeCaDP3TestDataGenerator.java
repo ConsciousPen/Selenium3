@@ -55,7 +55,8 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 	}
 	
 	private TestData getGeneralTabData(HomeCaDP3OpenLPolicy openLPolicy) {
-		TestData policyInfo = DataProviderFactory.emptyData();
+		TestData policyInfo = DataProviderFactory.dataOf(
+				HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 		TestData currentCarrier = DataProviderFactory.dataOf(
 				HomeCaMetaData.GeneralTab.CurrentCarrier.CONTINUOUS_YEARS_WITH_HO_INSURANCE.getLabel(), openLPolicy.getYearsOfPriorInsurance(),
 				HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel(),

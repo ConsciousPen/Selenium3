@@ -101,7 +101,10 @@ public class TestPolicyGoodStudentDiscount extends AutoCaSelectBaseTest {
 		policy.policyCopy().perform(td_quote);		
 		policy.dataGather().start();
 		
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get()); 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		new GeneralTab().fillTab(td_quote); 
+		new GeneralTab().submitTab();
+		
 		new DriverTab().fillTab(td_quote); 
 		new DriverTab().submitTab();
         new MembershipTab().fillTab(td_quote).submitTab();

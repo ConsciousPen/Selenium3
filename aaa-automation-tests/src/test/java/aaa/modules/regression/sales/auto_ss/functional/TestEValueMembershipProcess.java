@@ -568,6 +568,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
 	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
+		preconditionsClearFolders();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "No";
 		boolean eValueSet = false;
