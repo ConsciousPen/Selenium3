@@ -356,7 +356,7 @@ DriverTab_AFR: {
 }
 
 TestData_OrderOfCoverages: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"], #remove IL
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
   DriverLevelCoverages:["ADB"]
 }
@@ -422,6 +422,12 @@ TestData_OrderOfCoverages_UT: {
 }
 
 TestData_OrderOfCoverages_NV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_PA: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages: ["ADB"]
