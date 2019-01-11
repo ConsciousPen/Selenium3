@@ -358,7 +358,19 @@ DriverTab_AFR: {
 TestData_OrderOfCoverages: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
-  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_NJ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:[]
+}
+
+TestData_OrderOfCoverages_VA: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:["DISD, TD"]
 }
 
 TestData_OrderOfCoverages_KY: {
@@ -394,7 +406,7 @@ TestData_OrderOfCoverages_WV: {
 TestData_OrderOfCoverages_MD: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
-  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+  DriverLevelCoverages:["ADB"]
 }
 
 TestData_OrderOfCoverages_DE: {
