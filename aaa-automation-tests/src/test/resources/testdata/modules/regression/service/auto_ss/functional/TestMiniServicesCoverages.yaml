@@ -361,6 +361,12 @@ TestData_OrderOfCoverages: {
   DriverLevelCoverages:["ADB"]
 }
 
+TestData_OrderOfCoverages_AZ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
 TestData_OrderOfCoverages_OH: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM", "IL"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
