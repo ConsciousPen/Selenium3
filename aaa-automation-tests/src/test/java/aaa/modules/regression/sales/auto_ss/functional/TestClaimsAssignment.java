@@ -15,11 +15,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-/*public class TestClaimsAssignment extends AutoSSBaseTest {
-	@SuppressWarnings("SpellCheckingInspection")
-	private static final String MICRO_SERVICE_REQUESTS = "src/test/resources/feature/claimsmatch/claim_micro_service_requests/";
-	private static final String claimsUrl = "https://permissive-claims-assignment.apps.prod.pdc.digital.csaa-insurance.aaa.com/pas-claims/v1"; //Post-Permissive Use
-*/
 
 /**
  * @author Chris Johns
