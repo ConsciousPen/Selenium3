@@ -415,6 +415,18 @@ TestData_OrderOfCoverages_DE: {
   DriverLevelCoverages:["ADB"],
 }
 
+TestData_OrderOfCoverages_UT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_NV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
 VehicleTab_Motor_Home: {
          Add Vehicle: Click,
          Type: Motor Home,
@@ -437,15 +449,3 @@ VehicleTab_GolfCart: {
    Other Model: GRX100,
    Stated Amount: 1500
  }
-
-TestData_OrderOfCoverages_UT: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages:["ADB"]
-}
-
-TestData_OrderOfCoverages_NV: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"]
-}
