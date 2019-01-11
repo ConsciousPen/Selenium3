@@ -421,12 +421,6 @@ TestData_OrderOfCoverages_MD: {
   DriverLevelCoverages:["ADB"]
 }
 
-TestData_OrderOfCoverages_WV: {
-  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"]
-}
-
 TestData_OrderOfCoverages_DE: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
