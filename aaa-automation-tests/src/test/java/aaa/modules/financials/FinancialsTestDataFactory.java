@@ -203,28 +203,28 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         switch (type) {
             case CA_SELECT:
             case CA_CHOICE:
-                td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Monthly");
+                td.adjust(TestData.makeKeyPath(AutoCaMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
                 break;
             case AUTO_SS:
-                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Monthly");
+                td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
                 break;
             case HOME_SS_HO3:
             case HOME_SS_HO4:
             case HOME_SS_HO6:
             case HOME_SS_DP3:
                 td.adjust(TestData.makeKeyPath(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Monthly");
+                        HomeSSMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
                 break;
             case HOME_CA_HO3:
             case HOME_CA_HO4:
             case HOME_CA_HO6:
             case HOME_CA_DP3:
                 td.adjust(TestData.makeKeyPath(HomeCaMetaData.PremiumsAndCoveragesQuoteTab.class.getSimpleName(),
-                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Monthly");
+                        HomeCaMetaData.PremiumsAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
                 break;
             case PUP:
                 td.adjust(TestData.makeKeyPath(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(),
-                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Monthly");
+                        PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PAYMENT_PLAN.getLabel()), "Standard Monthly");
                 break;
             default:
                 throw new IstfException("No Policy Type was matched!");
