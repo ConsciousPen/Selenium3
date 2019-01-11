@@ -3,6 +3,7 @@ package aaa.helpers;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.main.modules.customer.CustomerType;
 import aaa.main.modules.policy.PolicyType;
 
@@ -37,11 +38,11 @@ public class EntitiesHolder {
 	}
 	
 	public static String makeDefaultPolicyKey(PolicyType policyType, String state) {
-		String pattern = "%s_default_%s";
+		String pattern = "%s_default_%s_%s";
 		String policyTypeStr = policyType == null ? "" : policyType.getShortName();
 		String stateStr = state == null ? "" : state;
 
-		return String.format(pattern, policyTypeStr, stateStr).intern();
+		return String.format(pattern, policyTypeStr, stateStr, TimeSetterUtil.getInstance().getCurrentTime().toLocalDate().toString()).intern();
 	}
 	
 	public static void addNewEntity(String key, String value) {
@@ -55,58 +56,5 @@ public class EntitiesHolder {
 	public static String getEntity(String key) {
 		return singleEntities.get(key);
 	}
-
-	/*
-	 * public static void addNewCustomer(String key, String customerID) { if
-	 * (entities.get(key) == null) { LinkedMap entityList = new LinkedMap();
-	 * entities.put(key, entityList); } Entity entity = new Entity();
-	 * entity.customerID = customerID; entities.get(key).put(customerID,
-	 * entity); }
-	 * 
-	 * public static String getLastCustomerID(String key) { return ((String)
-	 * entities.get(key).lastKey()); }
-	 * 
-	 * public static String getPolicyID(String key, String customerNumber) {
-	 * return ((Entity)
-	 * entities.get(key).get(customerNumber)).policyNumbers.get(0); }
-	 * 
-	 * public static boolean isCustomerNotPresent(String key) { if
-	 * (entities.get(key) == null || entities.get(key).size() == 0) { return
-	 * true; } if (((Entity)
-	 * entities.get(key).get(getLastCustomerID(key))).policyNumbers.size() >=
-	 * LIMIT_ENTITY) { return true; } return false; }
-	 * 
-	 * public static boolean isPolicyNotPresent(String key, String
-	 * customerNumber) { if (entities.get(key) == null ||
-	 * entities.get(key).size() == 0 || ((Entity)
-	 * entities.get(key).get(customerNumber)).policyNumbers.size() == 0) {
-	 * return true; } return false; }
-	 * 
-	 * public static void addPolicy(String key, String customerNumber, String
-	 * policyNumber) { ((Entity)
-	 * entities.get(key).get(customerNumber)).policyNumbers.add(policyNumber); }
-	 * 
-	 * public static String getKey(CustomerType customerType, PolicyType
-	 * policyType, String state) { String pattern = "%s_%s_%s"; String
-	 * customerTypeStr = customerType == null ? "" : customerType.getName();
-	 * String policyTypeStr = policyType == null ? "" :
-	 * policyType.getShortName(); String stateStr = state == null ? "" : state;
-	 * 
-	 * return String.format(pattern, customerTypeStr, policyTypeStr, stateStr);
-	 * }
-	 * 
-	 * 
-	 * 
-	 * public static Map<String, LinkedMap> getEntities() { Map<String,
-	 * LinkedMap> returnValue = entities; return returnValue; }
-	 */
-
-	/*
-	 * public static class Entity { public String customerID; public
-	 * List<String> policyNumbers;
-	 * 
-	 * private Entity() { policyNumbers = new ArrayList<>(); customerID = new
-	 * String(); } }
-	 */
 
 }

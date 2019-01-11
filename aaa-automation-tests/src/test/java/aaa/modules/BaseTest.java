@@ -30,7 +30,6 @@ import aaa.helpers.EntitiesHolder;
 import aaa.helpers.TestDataManager;
 import aaa.helpers.TimePoints;
 import aaa.helpers.listeners.AaaTestListener;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.customer.Customer;
 import aaa.main.modules.customer.CustomerActions;
@@ -151,9 +150,11 @@ public class BaseTest {
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
-		openDefaultPolicy(getPolicyType(), getState());
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		String policyNumber = getDefaultPolicy(getPolicyType(), getState());
 		synchronized (key) {
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
 			log.info("Quote copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.QUOTE));
 		}
@@ -167,9 +168,11 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
-		openDefaultPolicy(getPolicyType(), getState());
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
+		String policyNumber = getDefaultPolicy(getPolicyType(), getState());
 		synchronized (key) {
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
 			log.info("Policy copied {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.POLICY));
 		}
@@ -233,7 +236,7 @@ public class BaseTest {
 	public void stateConfiguration(@Optional("") String login, Method method, ITestContext context) {
 		this.context = context;
 		if (method.isAnnotationPresent(Test.class)) {
-			String state = new String();
+			String state = "";
 			if (StringUtils.isNotBlank(context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM))) {
 				state = context.getCurrentXmlTest().getParameter(Constants.STATE_PARAM);
 			} else {
@@ -498,10 +501,11 @@ public class BaseTest {
 		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-	private String openDefaultPolicy(PolicyType policyType, String state) {
+	private String getDefaultPolicy(PolicyType policyType, String state) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
 		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
-		String policyNumber;
+		String policyNumber = "";
+		mainApp().close();
 		synchronized (key) {
 			Integer count = policyCount.get(key);
 			if (count == null) {
@@ -510,13 +514,12 @@ public class BaseTest {
 			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
 				count++;
 				policyNumber = EntitiesHolder.getEntity(key);
-				SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-				if (!PolicySummaryPage.labelPolicyStatus.getValue().equals(ProductConstants.PolicyStatus.POLICY_ACTIVE)) {
-					policyNumber = createNewDefaultPolicy(key);
-				}
+
 			} else {
 				count = 1;
+				mainApp().open();
 				policyNumber = createNewDefaultPolicy(key);
+				mainApp().close();
 			}
 			policyCount.put(key, count);
 		}
