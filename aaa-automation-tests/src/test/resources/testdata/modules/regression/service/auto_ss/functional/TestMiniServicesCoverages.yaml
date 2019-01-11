@@ -437,6 +437,12 @@ TestData_OrderOfCoverages_NV: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
   DriverLevelCoverages: ["ADB"]
+
+TestData_OrderOfCoverages_DC: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "PIPMEDICAL", "PIPWORKLOSS", "FUNERAL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+    }
 }
 
 #todo PA
