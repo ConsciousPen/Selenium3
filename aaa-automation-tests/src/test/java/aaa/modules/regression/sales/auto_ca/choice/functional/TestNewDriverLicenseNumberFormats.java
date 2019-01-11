@@ -37,9 +37,9 @@ public class TestNewDriverLicenseNumberFormats extends AutoCaSelectBaseTest {
 
 	@Parameters({"state"})
 	@StateList(states = {States.CA})
-	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats MO/AL")
+	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats MO")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
-	public void pas23888_NewLicenceNumberFormatALandMO(@Optional("") String state) {
+	public void pas23888_NewLicenceNumberFormatMO(@Optional("") String state) {
 
 		String licenseNumberMO = "123F321654";
 		String licenseNumberAL = "87456321";
@@ -48,33 +48,35 @@ public class TestNewDriverLicenseNumberFormats extends AutoCaSelectBaseTest {
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "MO")
 				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
 						AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberMO);
+
+		assertDriverLicenseNumberFormat(policyTD1, "AL", licenseNumberAL);
+	}
+
+	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats AL")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
+	public void pas23888_NewLicenceNumberFormatAL(@Optional("") String state) {
+
+		String licenseNumberMO = "123F321654";
+		String licenseNumberAL = "87456321";
+
 		//TestData for AL license policy
 		TestData policyTD2 = getPolicyTD().adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "AL")
 				.adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
 						AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel()), licenseNumberAL);
 
+		assertDriverLicenseNumberFormat(policyTD2, "MO", licenseNumberMO);
+	}
+
+	private void assertDriverLicenseNumberFormat(TestData policyTD, String stateChange, String licenseNumber){
 		mainApp().open();
 		createCustomerIndividual();
-		// Create Policy with MO drivers licence format
-		createPolicy(policyTD1);
+		createPolicy(policyTD);
 
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_STATE).setValue("AL");
-		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_NUMBER).setValue(licenseNumberAL);
-		new PremiumAndCoveragesTab().calculatePremium();
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
-		new DocumentsAndBindTab().submitTab();
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-		// Create Policy with AL drivers licence format
-		createPolicy(policyTD2);
-
-		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
-		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_STATE).setValue("MO");
-		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_NUMBER).setValue(licenseNumberMO);
+		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_STATE).setValue(stateChange);
+		new DriverTab().getAssetList().getAsset(AutoCaMetaData.DriverTab.LICENSE_NUMBER).setValue(licenseNumber);
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
