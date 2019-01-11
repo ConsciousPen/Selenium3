@@ -63,8 +63,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		cancelPolicy();
 
 		// Reinstate policy without lapse
-		policy.reinstate().perform(getReinstatementTD());
-		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        performReinstatement();
 
 		// Cancellation & reinstatement validations
         assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"))
@@ -153,8 +152,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // TODO implement DB validation
 
         // Reinstate policy without lapse
-        policy.reinstate().perform(getReinstatementTD());
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        performReinstatement();
         // TODO implement DB validation
 
     }
@@ -194,30 +192,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // TODO implement DB validation
 
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
-    }
-
-    private void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
-        mainApp().close();
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
-        JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
-        TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
-        policy.reinstate().perform(getReinstatementTD());
-        if (Page.dialogConfirmation.buttonYes.isPresent()) {
-            Page.dialogConfirmation.buttonYes.click();
-        }
-        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-    }
-
-    private Dollar getTotalTermPremium() {
-        if (!getPolicyType().isAutoPolicy()) {
-            return PolicySummaryPage.getTotalPremiumSummaryForProperty();
-        }
-        if (isStateCA()){
-            return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
-        }
-        return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
     }
 
 }

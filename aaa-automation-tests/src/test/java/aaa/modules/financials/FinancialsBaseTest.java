@@ -4,6 +4,7 @@ import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -13,6 +14,7 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
+import toolkit.utils.datetime.DateTimeUtils;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -27,6 +29,16 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		String policyNum = createPolicy(td);
 		ALL_POLICIES.add(policyNum);
 		return policyNum;
+	}
+
+	protected Dollar getTotalTermPremium() {
+		if (!getPolicyType().isAutoPolicy()) {
+			return PolicySummaryPage.getTotalPremiumSummaryForProperty();
+		}
+		if (isStateCA()){
+			return new Dollar(PolicySummaryPage.tableCoveragePremiumSummaryCA.getRow(3).getCell(2).getValue());
+		}
+		return new Dollar(PolicySummaryPage.getAutoCoveragesSummaryTestData().getValue("Total Term Premium"));
 	}
 
 	protected Dollar payTotalAmountDue(){
@@ -57,6 +69,25 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	protected void cancelPolicy(LocalDateTime cxDate) {
 		policy.cancel().perform(getCancellationTD(cxDate));
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+	}
+
+	protected void performReinstatement() {
+		policy.reinstate().perform(getReinstatementTD());
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+	}
+
+	protected void performReinstatementWithLapse(LocalDateTime effDate, String policyNumber) {
+		mainApp().close();
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusMonths(1).minusDays(20).with(DateTimeUtils.closestPastWorkingDay));
+		JobUtils.executeJob(Jobs.changeCancellationPendingPoliciesStatus);
+		TimeSetterUtil.getInstance().nextPhase(effDate.plusDays(20));
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		policy.reinstate().perform(getReinstatementTD());
+		if (Page.dialogConfirmation.buttonYes.isPresent()) {
+			Page.dialogConfirmation.buttonYes.click();
+		}
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected Dollar performAPEndorsement(String policyNumber) {
