@@ -983,7 +983,7 @@ public class ControlledFinancialBaseTest extends PolicyBaseTest {
 
 	protected void runCFTJobs() {
 		JobUtils.executeJob(Jobs.cftDcsEodJob);
-		JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		//JobUtils.executeJob(Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		JobUtils.executeJob(Jobs.policyTransactionLedgerJob_NonMonthly);
 	}
 
