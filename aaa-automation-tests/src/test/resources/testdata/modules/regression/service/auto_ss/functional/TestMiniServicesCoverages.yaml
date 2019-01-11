@@ -363,7 +363,7 @@ TestData_OrderOfCoverages: {
 
 TestData_OrderOfCoverages_OH: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM", "IL"],
-  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
   DriverLevelCoverages:["ADB"]
 }
 
@@ -376,7 +376,7 @@ TestData_OrderOfCoverages_NJ: {
 TestData_OrderOfCoverages_VA: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
-  DriverLevelCoverages:["DISD, TD"]
+  DriverLevelCoverages:["DISD", "TD"]
 }
 
 TestData_OrderOfCoverages_KY: {
