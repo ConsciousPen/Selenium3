@@ -35,15 +35,19 @@ public class TestRenewalTemplate extends FinancialsBaseTest {
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dueDate));
         JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dueDate));
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
         Dollar installmentAmt = payMinAmountDue();
 
         // TODO Validate PMT-02
 
         // Pay off remaining balance on policy
+        SearchPage.openPolicy(policyNumber);
         payTotalAmountDue();
 
-        // Perform AP Endorsement effective today+2days and AP OOS Endorsement effective today+1day
-        Dollar endorsementAmt = performAPEndorsement(policyNumber, dueDate.plusDays(2));
+        // Perform Endorsement effective today+2days and AP OOS Endorsement effective today+1day
+        SearchPage.openPolicy(policyNumber);
+        performNPBEndorsement(policyNumber, dueDate.plusDays(2));
         Dollar endorsementOosAmt = performAPEndorsement(policyNumber, dueDate.plusDays(1));
 
         // TODO Validate END-05

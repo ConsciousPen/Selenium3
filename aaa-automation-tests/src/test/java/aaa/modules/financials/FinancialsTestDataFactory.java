@@ -74,10 +74,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
-    protected TestData getCancellationTD() {
-        return getCancellationTD(TimeSetterUtil.getInstance().getCurrentTime());
-    }
-
     protected TestData getCancellationTD(LocalDateTime effDate) {
         TestData td = getStateTestData(testDataManager.policy.get(getPolicyType()).getTestData("Cancellation"), "TestData");
         String type = getPolicyType().getShortName();
@@ -300,6 +296,46 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         return td;
     }
 
+    protected TestData getNPBEndorsementTD() {
+        TestData td;
+        String type = getPolicyType().getShortName();
+        switch (type) {
+            case CA_SELECT:
+            case CA_CHOICE:
+                td = getEmptyTestDataCaAuto().adjust(AutoCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoCaMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), DataProviderFactory.dataOf(
+                                AutoCaMetaData.GeneralTab.NamedInsuredInformation.MIDDLE_NAME.getLabel(), "Test")));
+                break;
+            case AUTO_SS:
+                td = getEmptyTestDataSSAuto().adjust(AutoSSMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), DataProviderFactory.dataOf(
+                                AutoSSMetaData.GeneralTab.NamedInsuredInformation.MIDDLE_NAME.getLabel(), "Test")));
+                break;
+            case HOME_SS_HO3:
+            case HOME_SS_HO4:
+            case HOME_SS_HO6:
+            case HOME_SS_DP3:
+                td = getEmptyTestDataSSHome().adjust(HomeSSMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeSSMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
+                                HomeSSMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")));
+                break;
+            case HOME_CA_HO3:
+            case HOME_CA_HO4:
+            case HOME_CA_HO6:
+            case HOME_CA_DP3:
+                td = getEmptyTestDataCaHome().adjust(HomeCaMetaData.ApplicantTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                        HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel(), DataProviderFactory.dataOf(
+                                HomeCaMetaData.ApplicantTab.NamedInsured.MIDDLE_NAME.getLabel(), "Test")));
+                break;
+            case PUP:
+                td = getPupNonPremiumBearingTd();
+                break;
+            default:
+                throw new IstfException("No Policy Type was matched!");
+        }
+        return td;
+    }
+
     private Map<String, String> getPupUnderlyingPolicies() {
         Map<String, String> policies = new LinkedHashMap<>();
         PolicyType type;
@@ -415,6 +451,18 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
         }
         return td.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.class.getSimpleName(), DataProviderFactory.dataOf(
                     PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), "contains=$2,000,000"));
+    }
+
+    private TestData getPupNonPremiumBearingTd() {
+        TestData td;
+        if (getState().equals(Constants.States.CA)) {
+            td = getEmptyTestDataCAPup();
+        } else {
+            td = getEmptyTestDataSSPup();
+        }
+        return td.adjust(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.dataOf(
+                TestData.makeKeyPath(PersonalUmbrellaMetaData.GeneralTab.class.getSimpleName(), PersonalUmbrellaMetaData.GeneralTab.NAMED_INSURED_CONTACT_INFORMATION.getLabel(),
+                PersonalUmbrellaMetaData.GeneralTab.NamedInsuredContactInformation.MOBILE_PHONE.getLabel()), "6025551212"));
     }
 
     private TestData getEmptyTestDataCaAuto() {

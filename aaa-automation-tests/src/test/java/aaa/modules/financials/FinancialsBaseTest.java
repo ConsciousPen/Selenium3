@@ -107,4 +107,14 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		policy.getDefaultView().fill(getReducePremiumTD());
 	}
 
+	protected void performNPBEndorsement(String policyNumber) {
+		performNPBEndorsement(policyNumber, TimeSetterUtil.getInstance().getCurrentTime());
+	}
+
+	protected void performNPBEndorsement(String policyNumber, LocalDateTime effDate) {
+		policy.endorse().perform(getEndorsementTD(effDate));
+		policy.getDefaultView().fill(getNPBEndorsementTD());
+		SearchPage.openPolicy(policyNumber);
+	}
+
 }
