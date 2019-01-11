@@ -376,7 +376,7 @@ TestData_OrderOfCoverages_OH: {
 TestData_OrderOfCoverages_OR: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "CHILDEXP", "PIPDED"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_NJ: {
@@ -406,19 +406,19 @@ TestData_OrderOfCoverages_SD: {
 TestData_OrderOfCoverages_KS: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "REHABEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "SURVLOSS"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_CT: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_WV: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
 
 TestData_OrderOfCoverages_MD: {
@@ -430,7 +430,7 @@ TestData_OrderOfCoverages_MD: {
 TestData_OrderOfCoverages_DE: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages:["ADB"],
+  DriverLevelCoverages:["ADB"]
 }
 
 TestData_OrderOfCoverages_UT: {
@@ -484,7 +484,7 @@ TestData_OrderOfCoverages_OK: {
 TestData_OrderOfCoverages_PA: {
   PolicyLevelCoverages: ["TORT", "BI", "PD", "UMBI", "UMSU", "UIMBI", "UIMSU", "FPB", "MEDPM", "ADBC", "FUNERAL", "IL", "EMB"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
-  DriverLevelCoverages: [],
+  DriverLevelCoverages: []
 }
 
 TestData_OrderOfCoverages_WV: {
