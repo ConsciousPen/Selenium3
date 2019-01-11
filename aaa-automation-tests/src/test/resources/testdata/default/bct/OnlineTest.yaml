@@ -55,7 +55,7 @@ BCT_ONL_011_ReinstatePolicy: {
 }
 
 BCT_ONL_012_CancelPolicy: {
-  SelectPolicy: "select bpt.policynumber from BillablePolicyTerm bpt inner join BalanceInfo bi on bpt.balanceInfo_id=bi.id inner join BalanceAmount ba on ba.id=bi.balancedue_id inner join PolicySummary ps on bpt.policynumber=ps.policynumber and bpt.renewalCycleNo=ps.renewalCycle where ba.amount > 0 and ps.cancelnoticeind = 1 and ps.currentrevisionind = 1 and ps.txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.timedpolicystatuscd = 'inForce' and ps.LOB = 'HOME' and ps.riskstatecd = '/STATE/' and rownum=1"
+  SelectPolicy: "select bpt.policynumber from BillablePolicyTerm bpt inner join BalanceInfo bi on bpt.balanceInfo_id=bi.id inner join BalanceAmount ba on ba.id=bi.balancedue_id inner join PolicySummary ps on bpt.policynumber=ps.policynumber and bpt.renewalCycleNo=ps.renewalCycle where ba.amount > 0 and ps.cancelnoticeind = 1 and ps.currentrevisionind = 1 and ps.txtype in ('policy', 'renewal', 'reinstatement', 'endorsement') and ps.policystatuscd = 'issued' and ps.lastactionreasoncd in ('20', '00020') and ps.cancelnoticedate + ps.cancelnoticedays <= /EXECDATE/ and ps.timedpolicystatuscd = 'inForce' and ps.LOB = 'HOME' and ps.riskstatecd = '/STATE/' and rownum=1"
 }
 
 BCT_ONL_013_CancelPolicy: {
