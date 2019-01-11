@@ -35,14 +35,15 @@ import toolkit.utils.TestInfo;
  */
 public class TestNewDriverLicenseNumberFormats extends AutoCaSelectBaseTest {
 
+	private String licenseNumberMO = "123F321654";
+	private String licenseNumberAL = "87456321";
+
 	@Parameters({"state"})
 	@StateList(states = {States.CA})
 	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats MO")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
 	public void pas23888_NewLicenceNumberFormatMO(@Optional("") String state) {
 
-		String licenseNumberMO = "123F321654";
-		String licenseNumberAL = "87456321";
 		// TestData for MO license policy
 		TestData policyTD1 = getPolicyTD().adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel()), "MO")
@@ -55,9 +56,6 @@ public class TestNewDriverLicenseNumberFormats extends AutoCaSelectBaseTest {
 	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats AL")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
 	public void pas23888_NewLicenceNumberFormatAL(@Optional("") String state) {
-
-		String licenseNumberMO = "123F321654";
-		String licenseNumberAL = "87456321";
 
 		//TestData for AL license policy
 		TestData policyTD2 = getPolicyTD().adjust(TestData.makeKeyPath(AutoCaMetaData.DriverTab.class.getSimpleName(),
