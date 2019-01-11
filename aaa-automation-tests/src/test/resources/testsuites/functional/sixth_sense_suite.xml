@@ -19,7 +19,6 @@
     <test name="Test newly added Driver License number formats MO/AL">
         <parameter name="state" value="CA"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestNewDriverLicenseNumberFormats"/>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormats"/>
         </classes>
     </test>
