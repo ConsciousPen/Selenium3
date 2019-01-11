@@ -559,6 +559,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         PropertyQuoteTab.RatingDetailsView.close();
         navigateToBindTab();
         getBindTab().submitTab();
+        if(isStateCA()){
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().overrideAllErrors(ErrorEnum.Duration.TERM, ErrorEnum.ReasonForOverride.OTHER);
+            new aaa.main.modules.policy.home_ca.defaulttabs.ErrorTab().override();
+            getBindTab().submitTab();
+        }
         String policyNumber = PolicySummaryPage.getPolicyNumber();
         //Change Date renew policy and no override same UW rules
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
