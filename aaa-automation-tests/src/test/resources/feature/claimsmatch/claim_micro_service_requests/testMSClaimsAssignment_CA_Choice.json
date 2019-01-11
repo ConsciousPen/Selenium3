@@ -2,7 +2,7 @@
   "claims":[
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_11",
         "disposition": "Closed",
@@ -20,7 +20,7 @@
         "relationToNamedInsured":"INSURED",
         "firstName":"Bilbo",
         "lastName":"Baggins",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1997-05-09",
         "licenseNumber":"A98769878",
         "claimDriverName":"Bilbo Baggins",
@@ -36,7 +36,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_12",
         "disposition": "Closed",
@@ -54,7 +54,7 @@
         "relationToNamedInsured":"BROTHER",
         "firstName":"Bruce",
         "lastName":"Banner",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1997-08-30",
         "licenseNumber":"A12345222",
         "claimDriverName":"Bruce Banner",
@@ -70,7 +70,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_13",
         "disposition": "Closed",
@@ -88,7 +88,7 @@
         "relationToNamedInsured":"SISTER",
         "firstName":"Tony",
         "lastName":"Stark",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1997-08-30",
         "licenseNumber":"A12345333",
         "permissiveUse": "Y",
@@ -104,7 +104,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_14",
         "disposition": "Closed",
@@ -138,7 +138,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918541",
+      "policyReferenceNumber":"CAAC952918549",
       "payments":[{
         "coverageId":"cov_15",
         "disposition":"Open",
@@ -163,7 +163,7 @@
         "relationToNamedInsured":"BROTHER",
         "firstName":"Shirley",
         "lastName":"Larson",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "claimDriverName":"Shirley Larson",
         "dateOfBirth":"1970-09-12",
         "licenseNumber":"A29801002",
@@ -179,7 +179,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918541",
+      "policyReferenceNumber":"CAAC952918549",
       "payments":[
         {
           "coverageId":"cov_17",
@@ -198,7 +198,7 @@
         "relationToNamedInsured":"BROTHER",
         "firstName":"JOSHUA",
         "lastName":"FUSSELL",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "claimDriverName":"JOSHUA FUSSELL",
         "dateOfBirth":"1997-10-14",
         "licenseNumber":"A12345225",
@@ -214,7 +214,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_18",
         "disposition": "Closed",
@@ -232,7 +232,7 @@
         "relationToNamedInsured":"INSURED",
         "firstName":"Tony",
         "lastName":"Stark",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1990-05-09",
         "claimDriverName":"Tony Stark",
         "permissiveUse": "Y"
@@ -247,7 +247,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_19",
         "disposition": "Closed",
@@ -265,7 +265,7 @@
         "relationToNamedInsured":"BROTHER",
         "firstName":"Leeroy",
         "lastName":"Stark",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1990-05-09",
         "licenseNumber":"A99999999",
         "claimDriverName":"Leeroy Stark"
@@ -280,7 +280,7 @@
     },
     {
       "dateOfLoss":"2019-01-11",
-      "policyReferenceNumber":"AZSS952918543",
+      "policyReferenceNumber":"CAAC952918549",
       "payments": [{
         "coverageId":"cov_20",
         "disposition": "Closed",
@@ -298,7 +298,7 @@
         "relationToNamedInsured":"SISTER",
         "firstName":"Tony",
         "lastName":"Steerk",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "dateOfBirth":"1990-05-09",
         "licenseNumber":"A99999999",
         "claimDriverName":"Tony Steerk"
@@ -313,7 +313,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_21",
         "disposition": "Closed",
@@ -331,7 +331,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Trory",
         "lastName": "Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-10-16",
         "claimDriverName":"Trory Stark",
         "permissiveUse": "Y"
@@ -346,7 +346,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_22",
         "disposition": "Closed",
@@ -364,7 +364,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Trory",
         "lastName": "Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1980-10-16",
         "licenseNumber": "A99999999",
         "claimDriverName":"Trory Stark"
@@ -379,7 +379,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_23",
         "disposition": "Closed",
@@ -397,7 +397,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Rory",
         "lastName": "Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-10-16",
         "licenseNumber": "A99999999",
         "claimDriverName":"Rrory Stark"
@@ -412,7 +412,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_24",
         "disposition": "Closed",
@@ -430,7 +430,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Trory",
         "lastName": "Lark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-10-16",
         "licenseNumber": "A99999999",
         "claimDriverName":"Trory Lark",
@@ -446,7 +446,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_25",
         "disposition": "Closed",
@@ -464,7 +464,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Leeroy",
         "lastName": "Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-01-01",
         "licenseNumber": "A99999999",
         "claimDriverName":"Trory Stark"
@@ -479,7 +479,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_26",
         "disposition": "Closed",
@@ -497,7 +497,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Trory",
         "lastName": "Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1980-10-16",
         "licenseNumber": "A99999999",
         "claimDriverName":"Trory Stark"
@@ -512,7 +512,7 @@
     },
     {
       "dateOfLoss": "2019-01-10",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_27",
         "disposition": "Closed",
@@ -530,7 +530,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Bruce",
         "lastName": "Spriggstine",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Bruce Spriggstine",
@@ -546,7 +546,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_28",
         "disposition": "Closed",
@@ -564,7 +564,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Tony",
         "lastName": "Banner",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Tony Banner",
@@ -580,7 +580,7 @@
     },
     {
       "dateOfLoss": "2019-01-12",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_29",
         "disposition": "Closed",
@@ -598,7 +598,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Boolean",
         "lastName": "Banner",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1999-09-09",
         "licenseNumber": "A99999999",
         "claimDriverName": "Boolean Banner",
@@ -614,7 +614,7 @@
     },
     {
       "dateOfLoss": "2019-01-09",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_30",
         "disposition": "Closed",
@@ -632,7 +632,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Boolean",
         "lastName": "Banner",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1999-09-09",
         "licenseNumber": "A99999999",
         "claimDriverName": "Boolean Banner",
@@ -648,7 +648,7 @@
     },
     {
       "dateOfLoss": "2019-01-11",
-      "policyReferenceNumber": "CAAC952918542",
+      "policyReferenceNumber": "CAAC952918549",
       "payments": [{
         "coverageId":"cov_31",
         "disposition": "Closed",
@@ -666,7 +666,7 @@
         "relationToNamedInsured": "INSURED",
         "firstName": "Bruce",
         "lastName": "Spriggstine",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "dateOfBirth": "1997-08-30",
         "licenseNumber": "A99999999",
         "claimDriverName": "Bruce Spriggstine",
@@ -684,13 +684,13 @@
   "policy": {
     "dateOfLoss": "2019-01-10",
     "termEndDate": "2022-07-07",
-    "policyNumber": "AZSS952918543",
+    "policyNumber": "CAAC952918549",
     "termEffectiveDate": "2021-07-07",
     "drivers": [
       {
         "firstName":"Fernando-GEHJJ",
         "lastName":"Smith",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "isDriverFNI": true,
         "relationshipToFNI":"IN",
         "licenseNumber":"A12345678",
@@ -703,7 +703,7 @@
       {
         "firstName":"Bruce",
         "lastName":"Banner",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "isDriverFNI": false,
         "relationshipToFNI":"SI",
         "licenseNumber":"A12345222",
@@ -725,7 +725,7 @@
       {
         "firstName":"Tony",
         "lastName":"Stark",
-        "issuedState": "AZ",
+        "issuedState": "CA",
         "isDriverFNI": false,
         "relationshipToFNI":"SI",
         "dob": "1997-10-16",
@@ -738,7 +738,7 @@
       {
         "firstName":"Shirley",
         "lastName":"Larson",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "isDriverFNI":false,
         "relationshipToFNI":"SI",
         "licenseNumber":"A29801000",
@@ -751,7 +751,7 @@
       {
         "firstName":"JOSHUA",
         "lastName":"FUSSELL",
-        "issuedState":"AZ",
+        "issuedState":"CA",
         "isDriverFNI":false,
         "relationshipToFNI":"SI",
         "licenseNumber":"A29801000",
