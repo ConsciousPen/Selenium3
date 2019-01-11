@@ -416,12 +416,6 @@ PAS-21588:
   failures:
   - tests: [aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto.pas20836_expirationNoticeFormGeneration]
     messages: ["expected:<\"[CANC]\"> but was:<\"[STMT]\">"]
-PAS-22161:
-  summary: "ASW Reason is not being displayed after adding second accident"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
-    messages: ["Waived - Accident Surcharge Waiver"]
 PAS-18273:
   summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
   reason: PROD
@@ -444,16 +438,6 @@ PAS-18311:
     aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
     aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable]
     messages: ['CustomSoftAssertionError: The soft assertions failed']
-PAS-23331:
-  summary: "UW rule fires during mid term endorsement when it was overriden for term for CA"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
-    aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
-    aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
-    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0523EN"]
-  - tests: [aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
-    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0518EN"]
 PAS-23890:
   summary: "Regression BCT: UI error: 'Roof shape' is not in within range doesn't allow to make endorsement"
   reason: PROD
@@ -466,3 +450,9 @@ PAS-23891:
   failures:
   - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
     messages: ["['Cancel Notice' flag is absent]"]
+PAS-23995:
+  summary: "ASW Waiver not being given correctly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
+      messages: ["Expecting"]
