@@ -1627,22 +1627,19 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private void validateOrderOfCoverages(ETCSCoreSoftAssertions softly, List<String> orderOfCoveragesExpected, List<Coverage> coveragesActual) {
 		//Put Coverages and SubCoverages (if exist) in the same list
-		List<Coverage> coverageWithSubCoveragesActual = new ArrayList<>();
+		List<String> coverageWithSubCoveragesActual = new ArrayList<>();
 		for (Coverage coverage : coveragesActual) {
-			coverageWithSubCoveragesActual.add(coverage);
+			coverageWithSubCoveragesActual.add(coverage.getCoverageCd());
 			List<Coverage> subCoverages = coverage.getSubCoverages();
 			if (subCoverages != null) {
 				for (Coverage subCoverage : subCoverages) {
-					coverageWithSubCoveragesActual.add(subCoverage);
+					coverageWithSubCoveragesActual.add(subCoverage.getCoverageCd());
 				}
 			}
 		}
 
 		softly.assertThat(coverageWithSubCoveragesActual.size()).isEqualTo(orderOfCoveragesExpected.size());
-		for (String coverageCD : orderOfCoveragesExpected) {
-			int index = orderOfCoveragesExpected.indexOf(coverageCD);
-			softly.assertThat(coverageWithSubCoveragesActual.get(index).getCoverageCd()).as(coverageCD + " is expected to be at index " + index).isEqualTo(coverageCD);
-		}
+		softly.assertThat(coverageWithSubCoveragesActual).isEqualTo(orderOfCoveragesExpected);
 	}
 
 	protected void pas14646_UimDelimiter(String state, ETCSCoreSoftAssertions softly) {
