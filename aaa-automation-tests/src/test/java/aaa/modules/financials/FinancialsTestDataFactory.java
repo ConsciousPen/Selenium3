@@ -465,6 +465,28 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
                 PersonalUmbrellaMetaData.GeneralTab.NamedInsuredContactInformation.MOBILE_PHONE.getLabel()), "6025551212"));
     }
 
+    private TestData getCaAutoAssignmentTabTd() {
+        List<TestData> driverRelationshipTable = new ArrayList<>();
+        TestData primaryDriver = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
+        driverRelationshipTable.add(primaryDriver);
+        driverRelationshipTable.add(primaryDriver);
+        return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverRelationshipTable);
+    }
+
+    private TestData getCaSelectVehicleTabTd() {
+        return DataProviderFactory.dataOf(
+                AutoCaMetaData.VehicleTab.ADD_VEHICLE.getLabel(), "Click",
+                AutoCaMetaData.VehicleTab.VIN.getLabel(), "WAUKJAFM8C6314628",
+                AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)",
+                AutoCaMetaData.VehicleTab.EXISTING_DAMEGE.getLabel(), "None",
+                AutoCaMetaData.VehicleTab.SALVAGED.getLabel(), "No",
+                AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "5000");
+    }
+
+    private TestData getCaChoiceVehicleTabTd() {
+        return getCaSelectVehicleTabTd().adjust(AutoCaMetaData.VehicleTab.ARE_THERE_ANY_ADDITIONAL_INTERESTS.getLabel(), "No");
+    }
+
     private TestData getEmptyTestDataCaAuto() {
         return DataProviderFactory.emptyData()
                 .adjust(AutoCaMetaData.GeneralTab.class.getSimpleName(), DataProviderFactory.emptyData())
@@ -540,28 +562,6 @@ public class FinancialsTestDataFactory extends PolicyBaseTest {
 
     private TestData getEmptyTestDataSSPup() {
         return getEmptyTestDataCAPup().mask(PersonalUmbrellaMetaData.UnderlyingRisksAllResidentsTab.class.getSimpleName());
-    }
-
-    private TestData getCaAutoAssignmentTabTd() {
-        List<TestData> driverRelationshipTable = new ArrayList<>();
-        TestData primaryDriver = DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DriverVehicleRelationshipTableRow.PRIMARY_DRIVER.getLabel(), "index=1");
-        driverRelationshipTable.add(primaryDriver);
-        driverRelationshipTable.add(primaryDriver);
-        return DataProviderFactory.dataOf(AutoCaMetaData.AssignmentTab.DRIVER_VEHICLE_RELATIONSHIP.getLabel(), driverRelationshipTable);
-    }
-
-    private TestData getCaSelectVehicleTabTd() {
-        return DataProviderFactory.dataOf(
-                AutoCaMetaData.VehicleTab.ADD_VEHICLE.getLabel(), "Click",
-                AutoCaMetaData.VehicleTab.VIN.getLabel(), "WAUKJAFM8C6314628",
-                AutoCaMetaData.VehicleTab.PRIMARY_USE.getLabel(), "Pleasure (recreational driving only)",
-                AutoCaMetaData.VehicleTab.EXISTING_DAMEGE.getLabel(), "None",
-                AutoCaMetaData.VehicleTab.SALVAGED.getLabel(), "No",
-                AutoCaMetaData.VehicleTab.ODOMETER_READING.getLabel(), "5000");
-    }
-
-    private TestData getCaChoiceVehicleTabTd() {
-        return getCaSelectVehicleTabTd().adjust(AutoCaMetaData.VehicleTab.ARE_THERE_ANY_ADDITIONAL_INTERESTS.getLabel(), "No");
     }
 
 }
