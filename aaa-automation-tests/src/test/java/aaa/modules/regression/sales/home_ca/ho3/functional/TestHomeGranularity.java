@@ -30,8 +30,8 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
-    //TODO Add Zip Code (possibly the county), lat/long (currently only showing 3 numbers after decimal)
+    //Note: If the coordinates become more precise then we need to refactor this test
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        pas23203_validateCensusBlockGroupAndLatLong("10 Danbrook Drive", "060290022002");
+        pas23203_validateCensusBlockGroupAndLatLong("13.637", "-102.176", "060290022002");
     }
 }
