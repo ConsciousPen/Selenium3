@@ -5,10 +5,7 @@ import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONT
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
@@ -497,4 +494,13 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 
+	public HashMap<String, String> getPolicySymbols() {
+		HashMap<String,String> policySymbols = new HashMap<>(); // in fact it is duplication of symbols from NewVIN_UT_SS.xlsx, New3VIN_UT_SS.xlsx
+
+		policySymbols.put("BI Symbol","BI001");
+		policySymbols.put("PD Symbol","PD001");
+		policySymbols.put("UM Symbol","UM001");
+		policySymbols.put("MP Symbol","MP001");
+		return policySymbols;
+	}
 }
