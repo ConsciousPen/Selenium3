@@ -38,7 +38,8 @@ PremiumAndCoveragesTab: {
 DocumentsAndBindTab: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    Named Driver Exclusion Endorsement: Physically Signed
+    Named Driver Exclusion Endorsement: Physically Signed,
+    Election of Lower Limits for Uninsured Motorists Coverage: Physically Signed
   },
   RequiredToIssue: {
     Proof of Prior Insurance: 'Yes'
