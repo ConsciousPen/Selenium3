@@ -682,7 +682,7 @@
     }
   ],
   "policy": {
-    "dateOfLoss": "2019-01-10",
+    "permissiveUseDateOfLoss": "2019-01-10",
     "termEndDate": "2022-07-07",
     "policyNumber": "AZSS952918543",
     "termEffectiveDate": "2021-07-07",
