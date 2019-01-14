@@ -16,17 +16,31 @@
         </classes>
     </test>
 
-    <test name="Test Defensive Driver Discount">
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestDddViolation"/>
-        </classes>
-    </test>
+    <!--<test name="Test newly added Driver License number formats MO/AL">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormatsCA"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <!--<test name="Test newly added Driver License number formats MO/AL">-->
+        <!--<parameter name="state" value="AZ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestNewDriverLicenseNumberFormatsSS"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <test name="Test CARCO Task Not Created">
         <parameter name="state" value="NJ, NY"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCARCOTaskCreation"/>
+        </classes>
+    </test>
+
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ, NY"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
         </classes>
     </test>
 
@@ -60,7 +74,7 @@
     </test>
 
     <test name="Test Claims display on VRD page SS">
-        <parameter name="state" value="OK"/>
+        <parameter name="state" value="AZ, OK"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestClaimPointsVRDPage"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestClaimPointsVRDPage"/>
@@ -114,21 +128,6 @@
     </test>
 
     <!--Tests for Defects-->
-
-    <test name="Test Renewal Effective On Rewrite CA">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRenewalEffectiveOnRewrite"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRenewalEffectiveOnRewrite"/>
-        </classes>
-    </test>
-
-    <test name="Test Renewal Effective On Rewrite SS">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestRenewalEffectiveOnRewrite"/>
-        </classes>
-    </test>
 
     <test name="Test Endorsement Premium Database Entries DP3">
         <parameter name="state" value="CA"/>

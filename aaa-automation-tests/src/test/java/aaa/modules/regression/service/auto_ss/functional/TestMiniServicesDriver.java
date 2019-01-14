@@ -5,10 +5,12 @@ import java.text.ParseException;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesDriversHelper;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -49,6 +51,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 5.Not a Named Insured = a driver who is not a named insured on the policy
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14463"})
 	public void pas14463_ViewDriverService(@Optional("AZ") String state) {
@@ -65,6 +68,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 2. hit view vehicle service and check order of drivers.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482"})
 	public void pas482_ViewDriverServiceOrderOfDriver(@Optional("AZ") String state) {
@@ -426,6 +430,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatus(@Optional("VA") String state) {
@@ -454,6 +459,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusDSS(@Optional("AZ") String state) {
@@ -482,6 +488,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusWSS(@Optional("AZ") String state) {
@@ -510,6 +517,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 10. Check the FNI driver status.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14475", "PAS-17503"})
 	public void pas14475_NameInsuredMaritalStatusPSS(@Optional("AZ") String state) {
@@ -631,6 +639,7 @@ public class TestMiniServicesDriver extends TestMiniServicesDriversHelper {
 	 * 	 *      |============================================
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.AZ})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-482,Pas-15495"})
 	public void pas15513_ViewDriverRemoveDriverIndicator(@Optional("AZ") String state) {

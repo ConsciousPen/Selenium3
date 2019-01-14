@@ -18,7 +18,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
 
@@ -83,7 +82,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		}
 	}
 
-	String getDriverTabDateOfBirth(Integer driverAge, LocalDate policyEffectiveDate) {
+	public static String getDriverTabDateOfBirth(Integer driverAge, LocalDate policyEffectiveDate) {
 		LocalDate dateOfBirth = policyEffectiveDate.minusYears(driverAge);
 		// If driver's age is 24 and his birthday is within 30 days of the policy effective date, then driver's age is mapped as 25
 		if (driverAge == 24 && dateOfBirth.isAfter(policyEffectiveDate) && dateOfBirth.isBefore(policyEffectiveDate.plusDays(30))) {
@@ -415,7 +414,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		return getRandom("Rents Multi-Family Dwelling", "Rents Single-Family Dwelling", "Lives with Parent", "Other");
 	}
 
-	TestData getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDate policyEffectiveDate) {
+	Map<String, Object> getGeneralTabAgentInceptionAndExpirationData(Integer autoInsurancePersistency, Integer aaaInsurancePersistency, LocalDate policyEffectiveDate) {
 		assertThat(autoInsurancePersistency).as("\"autoInsurancePersistency\" openL field should be equal or greater than \"aaaInsurancePersistency\"")
 				.isGreaterThanOrEqualTo(aaaInsurancePersistency);
 
@@ -431,7 +430,7 @@ abstract class AutoTestDataGenerator<P extends OpenLPolicy> extends TestDataGene
 		if (ChronoUnit.MONTHS.between(inceptionDate, policyEffectiveDate) <= 6) {
 			generalTabAgentInceptionAndExpirationData.put(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.MORE_THAN_6_MONTHS_TOTAL_INSURANCE_EXPERIENCE.getLabel(), "Yes");
 		}
-		return new SimpleDataProvider(generalTabAgentInceptionAndExpirationData);
+		return generalTabAgentInceptionAndExpirationData;
 	}
 
 	String getGeneralTabPriorBILimit(String priorBILimit) {

@@ -2,11 +2,16 @@ package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 
+import aaa.common.Tab;
 import aaa.common.enums.Constants.UserGroups;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.home_ca.actiontabs.ReinstatementActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 
@@ -44,25 +49,41 @@ public class PolicyCancelReinstate extends PolicyBaseTest {
 		}
 		else {
 			mainApp().open();
-			if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
-	        	createCustomerIndividual();
-	            createPolicy();
-	        }
-	        else {
-	        	getCopiedPolicy();
-	        }
+			//getCopiedPolicy();
+			createCustomerIndividual();
+			createPolicy();
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-
-
 			String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+			
 			policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
 
-
-			log.info("TEST: Reinstate Policy #" + policyNumber);
-
-			policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			log.info("TEST: Reinstate Policy #" + policyNumber);			
+			if (getUserGroup().equals(UserGroups.F35.get())||getUserGroup().equals(UserGroups.G36.get())) {
+				policy.reinstate().start();
+				policy.reinstate().getView().fill(getPolicyTD("Reinstatement", "TestData"));
+				if(getPolicyType().equals(PolicyType.HOME_CA_HO3)) {
+					assertThat(new ReinstatementActionTab().getAssetList().getAsset(HomeCaMetaData.ReinstatementActionTab.REINSTATE_DATE))
+						.hasWarningWithText("User does not have the authority to reinstate the policy.");
+					Tab.buttonCancel.click();
+					assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+				}
+				else if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
+					assertThat(new aaa.main.modules.policy.home_ss.actiontabs.ReinstatementActionTab().getAssetList().getAsset(HomeSSMetaData.ReinstatementActionTab.REINSTATE_DATE)).hasWarning();
+						//.hasWarningWithText("User does not have the authority to reinstate the policy without the required payment.; User does not have the authority to reinstate the policy.");
+					Tab.buttonCancel.click();
+					assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_CANCELLED);
+				}
+				else {
+					policy.reinstate().submit();
+					assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+				}
+			}
+			else {
+				policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
+				assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+			}
 		}
 	}
+
 }

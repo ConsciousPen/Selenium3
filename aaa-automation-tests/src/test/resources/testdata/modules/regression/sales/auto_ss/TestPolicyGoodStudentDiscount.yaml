@@ -1,5 +1,6 @@
 TestData_1: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  GeneralTab: '@GeneralTab_1',
   DriverTab: '@DriverTab_1', 
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
@@ -9,6 +10,7 @@ TestData_1: {
 
 TestData_2: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  GeneralTab: '@GeneralTab_2',
   DriverTab: '@DriverTab_2', 
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
@@ -18,6 +20,7 @@ TestData_2: {
 
 TestData_3: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  GeneralTab: '@GeneralTab_3',
   DriverTab: '@DriverTab_3', 
  # RatingDetailReportsTab: {
  #   Order Report: click
@@ -31,6 +34,7 @@ TestData_3: {
 
 TestData_4: {
   CopyFromPolicyActionTab: '@CopyFromPolicyActionTab', 
+  GeneralTab: '@GeneralTab_4',
   DriverTab: '@DriverTab_4', 
   RatingDetailReportsTab: '@RatingDetailReportsTab',
   DriverActivityReportsTab: '@<auto_ss>@DataGather@DriverActivityReportsTab',
@@ -43,39 +47,66 @@ CopyFromPolicyActionTab: {
   Quote Effective Date: '$<today>'
 }
 
+GeneralTab_1: {
+  NamedInsuredInformation: [{
+   Social Security Number: 123456789,
+   "Has lived here for less than three years?": 'No',
+   Insured Date of Birth: $<today-24y>,
+   Residence: Own Home,
+ }],
+}
+
 DriverTab_1: { 
-  Date of Birth: $<today-24y>, 
+  #Date of Birth: $<today-24y>, 
   Marital Status: Separated, 
   Occupation: Homemaker, 
   Most Recent GPA: College Graduate  
 }
 
+GeneralTab_2: {
+  NamedInsuredInformation: [{
+   Social Security Number: 123456789,
+   "Has lived here for less than three years?": 'No',
+   Insured Date of Birth: $<today-23y>,
+   Residence: Own Home,
+ }],
+}
+
 DriverTab_2: { 
-  Date of Birth: $<today-23y>, 
+  #Date of Birth: $<today-23y>, 
   Marital Status: Single, 
   Occupation: Farmer, 
   Most Recent GPA: College Graduate  
 }
 
+GeneralTab_3: {
+  NamedInsuredInformation: [{
+   Social Security Number: 123456789,
+   "Has lived here for less than three years?": 'No',
+   Insured Date of Birth: $<today-16y>,
+   Residence: Own Home,
+ }],
+}
+
 DriverTab_3: { 
-  #Add Driver: Click,
-  #DriverSearchDialog: {},
-  #Driver Type: Available for Rating, 
-  #'Rel. to First Named Insured': Sibling,
-  #First Name: Second,
-  #Last Name: Driver,
-  Date of Birth: $<today-16y>, 
-  #Gender: Male,
+  #Date of Birth: $<today-16y>, 
   Marital Status: Single, 
   Occupation: Student, 
   Age First Licensed: 16, 
-  #License Type: 'Licensed (US)',
-  #License Number: 400064774,
   Most Recent GPA: B Student
 }
 
+GeneralTab_4: {
+  NamedInsuredInformation: [{
+   Social Security Number: 123456789,
+   "Has lived here for less than three years?": 'No',
+   Insured Date of Birth: $<today-25y>,
+   Residence: Own Home,
+ }],
+}
+
 DriverTab_4: { 
-  Date of Birth: $<today-25y>, 
+  #Date of Birth: $<today-25y>, 
   Marital Status: Divorced, 
   Occupation: Student, 
   Most Recent GPA: Pass  

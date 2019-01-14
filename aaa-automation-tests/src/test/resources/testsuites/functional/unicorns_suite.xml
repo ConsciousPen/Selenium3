@@ -132,7 +132,7 @@
         </classes>
     </test>
     <test name="PAS-21652 Fireline rules for the Fireline Lookup table  - SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ, UT"/>
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestFireline"/>
@@ -145,6 +145,16 @@
             <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline"/>
+        </classes>
+    </test>
+
+    <test name="PAS-23185 Implement Legacy Tier field on the RME screen" parallel="methods" thread-count="1024">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestPolicyRmeNyLegacyTierField"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestPolicyRmeNyLegacyTierField"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestPolicyRmeNyLegacyTierField"/>
+            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestPolicyRmeNyLegacyTierField"/>
         </classes>
     </test>
 </suite>
