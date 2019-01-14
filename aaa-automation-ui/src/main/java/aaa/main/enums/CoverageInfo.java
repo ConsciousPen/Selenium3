@@ -78,6 +78,8 @@ public enum CoverageInfo {
 	UMBI_DC("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UMBI_PA("UMBI", "Uninsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI_PA,"Per Person/Per Accident"),
 	UIMBI_PA("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI_PA,"Per Person/Per Accident"),
+	UMSU_PA("UMSU", "Uninsured Motorist Stacked/Unstacked", CoverageLimits.COV_STACKED, AvailableCoverageLimits.UMSU_PA, null),
+	UIMSU_PA("UIMSU", "Underinsured Motorist Stacked/Unstacked", CoverageLimits.COV_STACKED, AvailableCoverageLimits.UIMSU_PA, null),
 	UMBI_VA_KS("UMBI", "Uninsured/Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UMBI,"Per Person/Per Accident"),
 	UIMBI("UIMBI", "Underinsured Motorist Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),
 	UIMBI_DC("UIMBI", "Underinsured Motorists Bodily Injury", CoverageLimits.COV_100300, AvailableCoverageLimits.UIMBI,"Per Person/Per Accident"),

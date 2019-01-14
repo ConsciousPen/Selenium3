@@ -445,6 +445,14 @@ public enum AvailableCoverageLimits {
 			CoverageLimits.COV_3500,
 			CoverageLimits.COV_CDW
 	)),
+	UMSU_PA(ImmutableList.of(
+			CoverageLimits.COV_STACKED,
+			CoverageLimits.COV_UNSTACKED
+	)),
+	UIMSU_PA(ImmutableList.of(
+			CoverageLimits.COV_STACKED,
+			CoverageLimits.COV_UNSTACKED
+	)),
 	EMB(ImmutableList.of(
 			CoverageLimits.COV_EMB_0,
 			CoverageLimits.COV_EMB_1000

@@ -1225,6 +1225,22 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 
 	/**
 	 * @author Maris Strazds
+	 * @name Test UMBI an UIMB Stacked/Unstacked coverage
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create endorsement through service
+	 * 3. Update UMSU, UIMSU, UMBI, UIMBI and check update, view, changeLog responses and in PAS UI.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-16038"})
+	public void pas16038_umbiUimbiStackedUnstacked(@Optional("PA") String state) {
+		pas16038_umbiUimbiStackedUnstackedBody();
+	}
+
+	/**
+	 * @author Maris Strazds
 	 * @name Test PD and UMPD update when canChangeCoverage = TRUE for UMPD
 	 * @NOTE FOR THIS TEST ANY STATE WHERE canChangeCoverage = FALSE for UMPD COULD BE USED. Test can be adapted to any state where PD available limits are the same as UMPD available limits.
 	 * @scenario
