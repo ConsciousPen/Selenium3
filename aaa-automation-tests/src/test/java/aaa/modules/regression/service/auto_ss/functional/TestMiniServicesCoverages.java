@@ -1173,6 +1173,34 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_DE);
 	}
 
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23057"})
+	public void pas23057_BIAndUMBIAndCanChangeTrue(@Optional("PA") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_PA);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test BI and UIMBI update when canChangeCoverage = TRUE for UIMBI
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
+	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
+	 * 5. Update UMBI limit ---> UIMBI is updated, BI limit is not updated
+	 * 6. Check in PAS UI that limits are updated
+	 * 7. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23057"})
+	public void pas23057_BIAndUIMBIAndCanChangeTrue(@Optional("PA") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UIMBI_PA);
+	}
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test BI and UMBI update when canChangeCoverage = FALSE for UMBI
