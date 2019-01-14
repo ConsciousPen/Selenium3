@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho6.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -30,7 +31,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO6, testCaseId = "PAS-23235")
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        pas23203_validateCensusBlockGroupAndLatLong("13.637", "-102.176", "060290022002");
+        pas23203_validateCensusBlockGroupAndLatLong(HomeGranularityConstants.MOCK_LATITUDE, HomeGranularityConstants.MOCK_LONGITUDE, HomeGranularityConstants.MOCK_CENSUS_BLOCK);
     }
 }
 
