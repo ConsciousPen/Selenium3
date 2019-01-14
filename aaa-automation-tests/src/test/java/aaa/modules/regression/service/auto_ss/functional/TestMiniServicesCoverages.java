@@ -1189,7 +1189,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 2.Create endorsement through service
 	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
 	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
-	 * 5. Update UMBI limit ---> UIMBI is updated, BI limit is not updated
+	 * 5. Update UIMBI limit ---> UIMBI is updated, BI limit is not updated
 	 * 6. Check in PAS UI that limits are updated
 	 * 7. Check transaction change log
 	 */
