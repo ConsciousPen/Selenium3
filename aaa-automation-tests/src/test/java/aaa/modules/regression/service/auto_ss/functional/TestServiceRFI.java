@@ -241,8 +241,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		assertSoftly(softly -> {
 			//String policyNumber = policyCreationForAASCDC("BI", "25000/50000");
 			//String policyNumber = policyCreationForAASCDC("PD", "15000");
-			//String policyNumber = policyCreationForAASCDC("UMBI", "25000/50000");
-			String policyNumber = policyCreationForAASCDC("UMPD", "10000");
+			String policyNumber = policyCreationForAASCDC("UMBI", "25000/50000");
+			//String policyNumber = policyCreationForAASCDC("UMPD", "10000");
 
 			String doccId = checkDocumentInRfiService(policyNumber, "AADNDE1", "Delaware Motorists Protection Act", "policy", "NS");
 
@@ -687,6 +687,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
 
