@@ -135,7 +135,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 				.adjust(PremiumAndCoveragesTab.class.getSimpleName(), getTestSpecificTD("PremiumAndCoveragesTab"))
 				.adjust(DocumentsAndBindTab.class.getSimpleName(), getTestSpecificTD("DocumentsAndBindTab"));
 		//2. (R-45) Login with user role = E34 having privilege 'Initiate Renewal Entry' and retrieve the customer created above -> Renewal entry is initiated
-		mainApp().open(loginUsers.getTestData(Constants.UserGroups.L41.get()).adjust(LoginPageMeta.STATES.getLabel(), state));
+		mainApp().open();
 		//1. Create a new customer in PAS
 		createCustomerIndividual();
 		//3. Select the action "Initiate Renewal Entry" from 'Select Action:' dropdown box on Customer UI and click on the Go button.
@@ -159,7 +159,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
 		//11. Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal offer is generated and the policy is in 'Proposed' status
-		mainApp().open();
+		mainApp().open(getLoginTD(Constants.UserGroups.E34));
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//12. (R-20) Run the batch job - aaaRenewalNoticeBillAsyncJob
