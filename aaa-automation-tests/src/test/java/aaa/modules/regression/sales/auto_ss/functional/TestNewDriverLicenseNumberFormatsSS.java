@@ -33,15 +33,15 @@ import toolkit.utils.TestInfo;
  * 7. Bind Policy
  * @details
  */
-public class TestNewDriverLicenseNumberFormats extends AutoSSBaseTest {
+public class TestNewDriverLicenseNumberFormatsSS extends AutoSSBaseTest {
 
 	private String licenseNumberMO = "123F321654";
 	private String licenseNumberAL = "87456321";
 
 	@Parameters({"state"})
-	@StateList(states = {States.CA})
+	@StateList(statesExcept = {States.CA})
 	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats MO")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23888")
 	public void pas23888_NewLicenceNumberFormatMO(@Optional("") String state) {
 
 		// TestData for MO license policy
@@ -53,8 +53,9 @@ public class TestNewDriverLicenseNumberFormats extends AutoSSBaseTest {
 		assertDriverLicenseNumberFormat(policyTD1, "AL", licenseNumberAL);
 	}
 
+	@Parameters({"state"})
 	@Test(groups = {Groups.HIGH, Groups.FUNCTIONAL}, description = "Test newly added Driver License number formats AL")
-	@TestInfo(component = ComponentConstant.Sales.AUTO_CA_CHOICE, testCaseId = "PAS-23888")
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23888")
 	public void pas23888_NewLicenceNumberFormatAL(@Optional("") String state) {
 
 		//TestData for AL license policy
