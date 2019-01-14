@@ -3,6 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -20,8 +21,9 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
      * @scenario
      * 1. Create Customer
-     * 2. Initiate Policy creation
-     * 3. Validate  Census Block Group, Latitude and Longitude
+     * 2. Create Quote up to Premium and Coverages Tab
+     * 3. Calculate premium then validate Census Block Group, Latitude and Longitude in the DB
+     * 4. Open View Rating Details screen and verify Census Block ID is present and matches what is in the DB
      *
      * @details
      */
@@ -29,7 +31,8 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Parameters({STATE_PARAM})
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
+    //Note: If the coordinates become more precise then we need to refactor this test
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        pas23203_validateCensusBlockGroupAndLatLong("1276 S California Blvd", "123456789113");
+        pas23203_validateCensusBlockGroupAndLatLong(HomeGranularityConstants.MOCK_LATITUDE, HomeGranularityConstants.MOCK_LONGITUDE, HomeGranularityConstants.MOCK_CENSUS_BLOCK);
     }
 }
