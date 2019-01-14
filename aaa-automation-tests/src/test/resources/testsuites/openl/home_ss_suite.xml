@@ -156,13 +156,13 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">
-        <parameter name="fileName" value="VATests-20181101_part2.xls"/>
-        <parameter name="policyNumbers" value="714,779"/>
-        <classes>
-            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
-        </classes>
-    </test>
+    <!--<test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">-->
+    <!--<parameter name="fileName" value="VATests-20181101_part2.xls"/>-->
+    <!--<parameter name="policyNumbers" value="714,779"/>-->
+    <!--<classes>-->
+    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
+    <!--</classes>-->
+    <!--</test>-->
     <test name="HomeSS [WV] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="WVTests-20181201.xls"/>
         <parameter name="policyNumbers" value="3,9"/>
