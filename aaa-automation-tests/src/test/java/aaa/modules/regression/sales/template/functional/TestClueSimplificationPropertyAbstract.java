@@ -565,8 +565,9 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
             getBindTab().submitTab();
         }
         String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime renewEffDate = PolicySummaryPage.getExpirationDate();
         //Change Date renew policy and no override same UW rules
-        TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
+        TimeSetterUtil.getInstance().nextPhase(renewEffDate);
         searchForPolicy(policyNumber);
         policy.renew().perform();
         calculatePremiumAndOpenVRD();
