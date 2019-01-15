@@ -18,8 +18,8 @@ import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
@@ -203,7 +203,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
     }
 
     protected void closeRatingDetails() {
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.buttonCancel.click();
     }
 

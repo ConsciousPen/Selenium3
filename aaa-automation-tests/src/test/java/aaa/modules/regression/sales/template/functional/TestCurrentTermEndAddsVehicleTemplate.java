@@ -19,6 +19,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -247,7 +248,7 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
     }
 
     protected void closeRatingDetails() {
-        buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
         buttonCancel.click();
     }
 

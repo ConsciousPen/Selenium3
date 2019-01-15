@@ -20,7 +20,7 @@ public class DeclineActionTab extends ActionTab {
 
 //    @Override
 //    public Tab submitTab() {
-//        buttonOk.click();
+//        buttonRatingDetailsOk.click();
 //        return this;
 //    }
 }

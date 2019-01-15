@@ -15,6 +15,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -132,7 +133,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
               
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().submitTab();
 
         if (new ErrorTab().buttonOverride.isPresent()) {
@@ -176,7 +177,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		goodStudentDiscount.put("Proposed Changes", discountApplied);
 
 		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRowContains(goodStudentDiscount)).isPresent();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
@@ -205,7 +206,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
         new PremiumAndCoveragesTab().saveAndExit();
 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -223,7 +224,7 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		}
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();	        
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click(); 
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
 		new PremiumAndCoveragesTab().cancel();	
 	}
 	

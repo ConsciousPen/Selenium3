@@ -14,6 +14,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -40,7 +41,6 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement labelProductMessageInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentRegion_AAAProductOverride']"));
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
@@ -139,5 +139,9 @@ public class PremiumAndCoveragesTab extends Tab {
 			pageNumber++;
 		}
 		return testDataList;
+	}
+
+	public static class RatingDetailsView extends RatingDetailsViewPage {
+
 	}
 }

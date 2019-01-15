@@ -19,6 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -28,7 +29,6 @@ import toolkit.verification.CustomAssertions;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 /**
  * This template is used to test Best Membership Logic (BML) operations. BML is only used in cases where either No
@@ -789,7 +789,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        new PremiumAndCoveragesTab().buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
     }
 
     private void homeSSSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
@@ -962,7 +962,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab().buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
     }
 
     private void CAHomeSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {

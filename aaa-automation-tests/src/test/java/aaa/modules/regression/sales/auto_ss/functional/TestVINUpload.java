@@ -8,16 +8,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -33,6 +32,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
@@ -44,7 +44,6 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
 
 @StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
@@ -132,7 +131,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		// Covers 2716 NB vin refresh case.
 		vehicleTabChecks_527_533_2716();
@@ -205,7 +204,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -286,38 +285,38 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
-
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
-		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
+
+			premiumAndCoveragesTab.calculatePremium();
+			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
 
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue())
-				.as("First Vehicle : Make should be \"Other Make\"").isEqualToIgnoringCase("Other Make");
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue())
-				.as("First Vehicle : Model should be \"Model\"").isEqualToIgnoringCase("Model");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue())
+					.as("First Vehicle : Make should be \"Other Make\"").isEqualToIgnoringCase("Other Make");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue())
+					.as("First Vehicle : Model should be \"Model\"").isEqualToIgnoringCase("Model");
 
-		new PremiumAndCoveragesTab.RatingDetailsView().openVehicleSummaryPage(2);
+			new PremiumAndCoveragesTab.RatingDetailsView().openVehicleSummaryPage(2);
 
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue())
-				.as("Second Vehicle : Make should be \"TOYOTA\"").isEqualToIgnoringCase("TOYOTA");
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue())
-				.as("Second Vehicle : Model should be \"Gt\"").isEqualToIgnoringCase("Gt");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue())
+					.as("Second Vehicle : Make should be \"TOYOTA\"").isEqualToIgnoringCase("TOYOTA");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue())
+					.as("Second Vehicle : Model should be \"Gt\"").isEqualToIgnoringCase("Gt");
 
-			// Verify that eash symbol present
-			getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
-			// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
-			// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-			getPolicySymbols().forEach((key, value) -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(3).getValue())
-					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
+				// Verify that eash symbol present
+				getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
+				// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
+				// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
+				getPolicySymbols().forEach((key, value) -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(3).getValue())
+						.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		premiumAndCoveragesTab.saveAndExit();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		Tab.buttonSaveAndExit.click();
 	}
 
 	/**
@@ -416,7 +415,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("Other Make");
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("Other Model");
-		  PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		  RatingDetailsViewPage.buttonRatingDetailsOk.click();
   	 }
 
 
@@ -885,7 +884,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new PremiumAndCoveragesTab().calculatePremium();
 		buttonViewRatingDetails.click();
-		buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -904,7 +903,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("CHEVROLET AUTO");
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("CHEVROLET MALIBU");
 
-		buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 		softly.close();
 	}
 

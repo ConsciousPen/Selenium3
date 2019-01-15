@@ -24,6 +24,7 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestMSRPRefreshTemplate;
@@ -154,7 +155,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).setValueByRegex("No Coverage.*");
 

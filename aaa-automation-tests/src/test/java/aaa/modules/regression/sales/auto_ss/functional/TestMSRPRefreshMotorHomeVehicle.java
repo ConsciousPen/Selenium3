@@ -14,6 +14,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.template.VinUploadAutoSSHelper;
 import toolkit.datax.DataProviderFactory;
@@ -64,7 +65,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();

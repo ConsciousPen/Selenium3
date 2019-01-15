@@ -20,6 +20,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -736,7 +737,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 		}
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
 	}
 
@@ -757,7 +758,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
     }
 

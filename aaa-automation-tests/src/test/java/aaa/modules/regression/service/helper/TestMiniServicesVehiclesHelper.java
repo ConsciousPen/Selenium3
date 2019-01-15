@@ -28,29 +28,18 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
 
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -1004,7 +993,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			RatingDetailsViewPage.buttonRatingDetailsOk.click();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//remove/replace vehicle
@@ -1080,7 +1069,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//check coverages in UI
 			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			RatingDetailsViewPage.buttonRatingDetailsOk.click();
 			//order of Vehicles is changed after revert, hence reordering list
 			Collections.reverse(vehicleCoverageDetailsUIExpected);
 			if (testWithUpdates) {

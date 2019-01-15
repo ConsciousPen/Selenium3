@@ -8,6 +8,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
+import aaa.main.pages.RatingDetailsViewPage;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
@@ -110,7 +111,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(compCollSymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Special Hazard Surcharge").getCell(2).getValue()).isEqualTo(specialHazardSurchargeValue);
         });
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        RatingDetailsViewPage.buttonRatingDetailsOk.click();
 
     }
 }
