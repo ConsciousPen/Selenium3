@@ -974,6 +974,7 @@
                     <include name="pas23299_EMBCoveragePA"/>
                     <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
+                    <include name="pas16038_umbiUimbiStackedUnstackedBody"/>
                 </methods>
             </class>
         </classes>

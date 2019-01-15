@@ -4633,6 +4633,65 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber); //US has note not to bind
 	}
 
+	protected void pas16038_umbiUimbiStackedUnstackedBody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covUMSUStackedExpected = Coverage.create(CoverageInfo.UMSU_PA);
+		Coverage covUIMSUStackedExpected = Coverage.create(CoverageInfo.UIMSU_PA);
+		Coverage covUMSUUnstackedExpected = Coverage.create(CoverageInfo.UMSU_PA).changeLimit(CoverageLimits.COV_UNSTACKED);
+		Coverage covUIMSUUnstackedExpected = Coverage.create(CoverageInfo.UIMSU_PA).changeLimit(CoverageLimits.COV_UNSTACKED);
+		Coverage covUMSUStackedDisabledExpected = Coverage.create(CoverageInfo.UMSU_PA).disableCustomerDisplay().disableCanChange();
+		Coverage covUIMSUStackedDisabledExpected = Coverage.create(CoverageInfo.UIMSU_PA).disableCustomerDisplay().disableCanChange();
+		Coverage covUIMSUUnstackedDisabledExpected = Coverage.create(CoverageInfo.UIMSU_PA).changeLimit(CoverageLimits.COV_UNSTACKED).disableCustomerDisplay().disableCanChange();
+		Coverage covUMSUUnstackedDisabledExpected = Coverage.create(CoverageInfo.UMSU_PA).changeLimit(CoverageLimits.COV_UNSTACKED).disableCustomerDisplay().disableCanChange();
+
+		//Check viewEndorsementCoverages response
+		PolicyCoverageInfo viewEndorsementCoveragesResponse = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
+		validateCoveragesDXP(viewEndorsementCoveragesResponse.policyCoverages, covUMSUStackedExpected, covUIMSUStackedExpected);
+
+		//Update UMSU to Unstacked (Enabled)
+		updateCoverageAndCheck(policyNumber, covUMSUUnstackedExpected, covUMSUUnstackedExpected, covUIMSUStackedExpected);
+
+		//Update UMBI to No Coverage ---> UMSU = Unstacked (Disabled)
+		Coverage covUMBINoCovExpected = Coverage.create(CoverageInfo.UMBI_PA).changeLimit(CoverageLimits.COV_00).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
+		updateCoverageAndCheckResponses(policyNumber, covUMBINoCovExpected, covUMBINoCovExpected, covUMSUUnstackedDisabledExpected, covUIMSUStackedExpected);
+		validateCoverageLimitInPASUI(covUMBINoCovExpected, covUIMSUStackedExpected);
+
+		//Update UIMBI to No Coverage ---> UIMSU = Stacked (Disabled)
+		Coverage covUIMBINoCovExpected = Coverage.create(CoverageInfo.UIMBI_PA).changeLimit(CoverageLimits.COV_00).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
+		updateCoverageAndCheckResponses(policyNumber, covUIMBINoCovExpected, covUIMBINoCovExpected, covUMSUUnstackedDisabledExpected, covUIMSUStackedDisabledExpected);
+		//Not checking in PAS UI as UMSU and UIMSU are not present there when UMBI/UIMBI = No Coverage
+
+		//Update UMBI to other than No Coverage ---> UMSU = Unstacked (Enabled)
+		Coverage covUMBIExpected = Coverage.create(CoverageInfo.UMBI_PA).changeLimit(CoverageLimits.COV_1530).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
+		updateCoverageAndCheckResponses(policyNumber, covUMBIExpected, covUMBIExpected, covUMSUUnstackedExpected, covUIMSUStackedDisabledExpected);
+		validateCoverageLimitInPASUI(covUMBIExpected, covUMSUUnstackedExpected);
+
+		//Update UMSU to Stacked ---> UMSU = Stacked (Enabled)
+		updateCoverageAndCheckResponses(policyNumber, covUMSUStackedExpected, covUMSUStackedExpected, covUIMSUStackedDisabledExpected);
+		validateCoverageLimitInPASUI(covUMSUStackedExpected);
+
+		//Update UIMBI to other than No Coverage ---> UIMSU = Stacked (Enabled)
+		Coverage covUIMBIExpected = Coverage.create(CoverageInfo.UIMBI_PA).changeLimit(CoverageLimits.COV_1530).removeAvailableLimitsAbove(CoverageLimits.COV_100300);
+		updateCoverageAndCheck(policyNumber, covUIMBIExpected, covUIMBIExpected, covUMSUStackedExpected, covUIMSUStackedExpected);
+
+		//Update UIMSU to Unstacked ---> UIMSU = Unstacked (Enabled)
+		updateCoverageAndCheck(policyNumber, covUIMSUUnstackedExpected, covUMSUStackedExpected, covUIMSUUnstackedExpected);
+
+		//Update UMBI to No Coverage ---> UMSU = Stacked (Disabled)
+		updateCoverageAndCheckResponses(policyNumber, covUMBINoCovExpected, covUMBINoCovExpected, covUMSUStackedDisabledExpected, covUIMSUUnstackedExpected);
+		validateCoverageLimitInPASUI(covUIMSUUnstackedExpected);
+
+		//Update UIMBI to No Coverage ---> UIMSU = Unstacked (Disabled)
+		updateCoverageAndCheckResponses(policyNumber, covUIMBINoCovExpected, covUIMBINoCovExpected, covUMSUStackedDisabledExpected, covUIMSUUnstackedDisabledExpected);
+		//Not checking in PAS UI as UMSU and UIMSU are not present there when UMBI/UIMBI = No Coverage
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
 	protected void pas21364_PDAndUMPDAndCanChangeTrueBody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
