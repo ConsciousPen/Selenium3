@@ -18,7 +18,6 @@ DriverTab2: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
-      Date of Birth: '$<today-21y:MM/dd/yyyy>',
       License Type: 'Licensed (US)',
       License Number: 407378541
     }
@@ -89,7 +88,6 @@ DriverTab1_MD: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
-      Date of Birth: '$<today-21y:MM/dd/yyyy>',
       License Type: 'Licensed (US)',
       License Number: S123456789999
 }
@@ -330,7 +328,6 @@ Driver_FNI: {
   'Driver Rejects Limitation on Right to Sue?': 'Yes', #important!
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }

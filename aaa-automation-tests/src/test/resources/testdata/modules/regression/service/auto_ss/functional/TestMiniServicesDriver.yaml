@@ -176,7 +176,6 @@ DriverTab1: {
   Rel. to First Named Insured: Spouse,
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-25y:MM/dd/yyyy>',
   Gender: 'Female',
   Marital Status: Single,
   Occupation: 'index=1',
@@ -190,7 +189,6 @@ DriverTab2: {
   DriverSearchDialog: {},
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
@@ -416,7 +414,6 @@ TestData_DeathAndSpecificDisabilityCoverage3: {
 Driver_one_withDeathIndemnityAndSpecificDisabilityCov: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773,
   Death Indemnity and Specific Disability: "Yes",
@@ -488,7 +485,6 @@ Driver_NAFR: {
 Driver_one: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773
   }
