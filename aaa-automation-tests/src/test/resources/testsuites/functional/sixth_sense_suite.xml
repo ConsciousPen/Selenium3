@@ -37,14 +37,6 @@
         </classes>
     </test>
 
-    <test name="Test Additional options available for 'Rel to First Named Insured' field on Driver Tab">
-        <parameter name="state" value="CA"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRelToFNICAAS"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRelToFNICAAC"/>
-        </classes>
-    </test>
-
     <test name="Test Accident Surcharge Waiver">
         <parameter name="state" value="AZ, NY"/>
         <classes>

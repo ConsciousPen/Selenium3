@@ -1,5 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -14,6 +15,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
+import aaa.utils.StateList;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@StateList(statesExcept = {Constants.States.CA})
 public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
     private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
     private DriverTab driverTab = new DriverTab();
@@ -157,7 +160,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
      **/
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT}, description = "Test Gender Expansion for NonConforming value of X")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal(@Optional("") String state) {
 
@@ -187,7 +190,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
      **/
 
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Test Gender Expansion for NonConforming value of X")
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT}, description = "Test Gender Expansion for NonConforming value of X")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23040")
     public void pas23040_ValidateGenderExpansionNonConformingRenewal1(@Optional("") String state) {
 

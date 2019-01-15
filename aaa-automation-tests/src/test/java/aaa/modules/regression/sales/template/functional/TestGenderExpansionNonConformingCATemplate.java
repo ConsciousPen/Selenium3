@@ -14,8 +14,12 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.assertj.core.api.Assertions;
+import org.testng.annotations.Optional;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.webdriver.controls.ComboBox;
+
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -134,6 +138,47 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
     }
+
+    protected void pas23279_ValidateRelToFirstNamedInsuredListNBEndTx() {
+
+        TestData testData = getPolicyTD();
+        TestData addDriver = getStateTestData(testDataManager.getDefault(TestPolicyCreationBig.class), "TestData").getTestDataList(DriverTab.class.getSimpleName()).get(1)
+                .mask(AutoCaMetaData.DriverTab.NAMED_INSURED.getLabel())
+                .adjust(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), "Parent")
+                .adjust(AutoCaMetaData.DriverTab.FIRST_NAME.getLabel(), "Seriously")
+                .adjust(AutoCaMetaData.DriverTab.LAST_NAME.getLabel(), "Yes")
+                .adjust(AutoCaMetaData.DriverTab.GENDER.getLabel(), "X")
+                .adjust(AutoCaMetaData.DriverTab.ADD_DRIVER.getLabel(), "Click");
+
+
+        createQuoteAndFillUpTo(testData, DriverTab.class);
+        Assertions.assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED.getLabel(), ComboBox.class).getAllValues()).contains("Employee");
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
+        driverTab.submitTab();
+        policy.getDefaultView().fillFromTo(testData, MembershipTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
+        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue()).as("Value should be displayed - Parent").isEqualTo("Parent");
+
+        //Endorse the policy and change the value for second Driver "Rel to Named Insured" to Sibling from Parent
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
+        NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DRIVER.get());
+        DriverTab.tableDriverList.getRow(2).getCell(5).controls.links.getFirst().click();
+        driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.REL_TO_FIRST_NAMED_INSURED).setValue("Sibling");
+        driverTab.submitTab();
+        testData.mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_POLICY.getLabel()))
+                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()))
+                .mask(TestData.makeKeyPath(AutoCaMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoCaMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT.getLabel()))
+                .mask(TestData.makeKeyPath(AutoCaMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoCaMetaData.DocumentsAndBindTab.VEHICLE_INFORMATION.getLabel()));
+        policy.getDefaultView().fillFromTo(testData, MembershipTab.class,DocumentsAndBindTab.class, true);
+        documentsAndBindTab.submitTab();
+        if (errorTab.tableErrors.isPresent()) {
+            errorTab.overrideErrors(ErrorEnum.Errors.ERROR_AAA_10006002_CA);
+            errorTab.override();
+            documentsAndBindTab.submitTab();
+        }
+        Assertions.assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Rel. to First Named Insured").getValue()).as("Value should be displayed - Sibling").isEqualTo("Sibling");
+    }
+
     private void validateAndBind(TestData testData) {
 
         PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
