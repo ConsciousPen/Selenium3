@@ -39,6 +39,7 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		}
 
 		TestData td = DataProviderFactory.dataOf(
+				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new GeneralTab().getMetaKey(), getGeneralTabData(openLPolicy),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
@@ -93,17 +94,17 @@ public class AutoCaSelectTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected int getDriverAge(AutoCaSelectOpenLDriver openLDriver) {
+	public int getDriverAge(AutoCaSelectOpenLDriver openLDriver) {
 		int driverAge;
 		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
 			assertThat(openLDriver.isNewDriver()).as("Driver's \"newDriver\" field should not be TRUE if field \"matureDriver\" is also TRUE").isFalse();
-			driverAge = getRandomAge(50, 80, openLDriver.getTyde());
+			driverAge = calculateAge(50, 80, openLDriver.getTyde());
 		} else {
 			if (Boolean.TRUE.equals(openLDriver.isNewDriver())) {
 				assertThat(openLDriver.getMaritalStatus()).as("Unable to generate driver's test data for newDriver=true if marital status is not single").isEqualTo("S");
-				driverAge = getRandomAge(16, 25, openLDriver.getTyde());
+				driverAge = calculateAge(16, 25, openLDriver.getTyde());
 			} else {
-				driverAge = getRandomAge(26, 49, openLDriver.getTyde());
+				driverAge = calculateAge(26, 49, openLDriver.getTyde());
 			}
 		}
 		return driverAge;

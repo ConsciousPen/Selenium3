@@ -163,6 +163,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="VehiclesPA" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas14952_StatusResetsForNewlyAddedVehicle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="AssignmentsVA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
@@ -950,6 +960,20 @@
                     <include name="pas22972_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas16399_viewUpdateUmpdDE"/>
                     <include name="pas15272_viewUpdatePipDEBody"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PA Coverages" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesCoverages">
+                <methods>
+                    <include name="pas15304_tortCoveragePA"/>
+                    <include name="pas15350_firstPartyBenefitsPA"/>
+                    <include name="pas23299_EMBCoveragePA"/>
+                    <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
+                    <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
                 </methods>
             </class>
         </classes>

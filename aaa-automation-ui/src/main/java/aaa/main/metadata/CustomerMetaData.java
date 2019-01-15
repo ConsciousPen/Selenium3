@@ -2,13 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata;
 
-import org.openqa.selenium.By;
+import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
 import com.exigen.ipb.etcsa.controls.ComboList;
 import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
 import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
-import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
-import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
+import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
@@ -314,5 +314,6 @@ public final class CustomerMetaData {
 		public static final AssetDescriptor<ComboBox> PROGRAM_CODE = declare("Program Code", ComboBox.class);
 		public static final AssetDescriptor<RadioGroup> ENROLLED_IN_AUTOPAY = declare("Enrolled in Autopay", RadioGroup.class);
 		public static final AssetDescriptor<RadioGroup> LEGACY_POLICY_HAD_MULTI_POLICY_DISCOUNT = declare("Legacy policy had Multi-Policy discount", RadioGroup.class);
+		public static final AssetDescriptor<TextBox> LEGACY_TIER = declare("Legacy Tier", TextBox.class);
 	}
 }

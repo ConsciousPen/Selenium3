@@ -72,6 +72,7 @@
     		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelNoticeAddDelete"/>
     		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelReinstate"/>
     		<class name="aaa.modules.regression.service.auto_ss.TestPolicyCancelRewrite"/>
+    		<class name="aaa.modules.regression.service.auto_ss.TestPolicyRenewCreateVersion"/>
     	</classes>
     </test>
     <test name="UT HSS Regression Tests" parallel="methods">
@@ -86,6 +87,7 @@
     		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelNoticeAddDelete"/>
     		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelReinstate"/>
     		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyCancelRewrite"/>
+    		<class name="aaa.modules.regression.service.home_ss.ho3.TestPolicyRenewCreateVersion"/>
     	</classes>
     </test>
 </suite>

@@ -478,11 +478,12 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Verify Policy and Vehicle level coverages Order + Driver level coverages order for states where we have requirements
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
-			Constants.States.MD, Constants.States.NV, Constants.States.NJ, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD, Constants.States.KS,
-			Constants.States.CT, Constants.States.WV, Constants.States.UT, Constants.States.NV, Constants.States.DE})
+	@StateList(states = {Constants.States.AZ, Constants.States.VA, Constants.States.DE, Constants.States.IN, Constants.States.KS,
+			Constants.States.MD, Constants.States.NV, Constants.States.OH, Constants.States.OR, Constants.States.CT, Constants.States.KY, Constants.States.SD,
+			Constants.States.WV, Constants.States.UT, Constants.States.DC, Constants.States.CO, Constants.States.ID, Constants.States.MT, Constants.States.OK,
+			Constants.States.PA, Constants.States.WY})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-17646", "PAS-19013", "PAS-19042", "PAS-19016", "PAS-19024", "PAS-19044", "PAS-18202", "PAS-19055", "PAS-19052", "PAS-18350", "PAS-23057"})
 	public void pas17646_OrderOfCoverage(@Optional("VA") String state) {
 		assertSoftly(softly ->
 				pas17646_OrderOfCoverageBody(softly)
@@ -1172,6 +1173,34 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_DE);
 	}
 
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23057"})
+	public void pas23057_BIAndUMBIAndCanChangeTrue(@Optional("PA") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UMBI_PA);
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name Test BI and UIMBI update when canChangeCoverage = TRUE for UIMBI
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2.Create endorsement through service
+	 * 3. Update BI from higher Limit to lower limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
+	 * 4. Update BI from lower Limit to higher limit (go through all available limits) ---> BI and UIMBI is updated, UIMBI availableLimits are not greater than BI limit
+	 * 5. Update UIMBI limit ---> UIMBI is updated, BI limit is not updated
+	 * 6. Check in PAS UI that limits are updated
+	 * 7. Check transaction change log
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23057"})
+	public void pas23057_BIAndUIMBIAndCanChangeTrue(@Optional("PA") String state) {
+		pas21363_BIAndUMBIAndCanChangeTrueBody(CoverageInfo.UIMBI_PA);
+	}
+
 	/**
 	 * @author Maris Strazds
 	 * @name Test BI and UMBI update when canChangeCoverage = FALSE for UMBI
@@ -1403,5 +1432,65 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15272"})
 	public void pas15272_viewUpdatePipDE(@Optional("DE") String state) {
 		pas15272_viewUpdatePipDEBody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with Tort Threshold = Limited Tort
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Update Tort Threshold to Full Tort, check update, view, change log responses and in PAS UI
+	 * 5. Update Tort Threshold back to Limited Tort, check update, view, change log responses and in PAS UI
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15304"})
+	public void pas15304_tortCoveragePA(@Optional("PA") String state) {
+		pas15304_tortCoveragePABody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS with FPB Coverage = Basic
+	 * 2. Create endorsement through service
+	 * 3. Run viewEndorsementCoverages service and validate response
+	 * 4. Go in PAS and Change FPB to $50,000
+	 * 5. Run viewEndorsementCoverages service and validate response
+	 * 6. Go in PAS and Change FPB to $100,000
+	 * 7. Run viewEndorsementCoverages service and validate response
+	 * 8. Go in PAS and Change FPB to $177,500
+	 * 9. Run viewEndorsementCoverages service and validate response
+	 * 10. Go in PAS and Change FPB to 'Added'
+	 * 11. Run viewEndorsementCoverages service and validate response
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15350", "PAS-23243", "PAS-22601", "PAS-23252", "PAS-23255"})
+	public void pas15350_firstPartyBenefitsPA(@Optional("PA") String state) {
+		pas15350_firstPartyBenefitsPABody();
+	}
+
+	/**
+	 * @author Nauris Ivanans
+	 * @name View/Update EMB Coverage for PA state
+	 * @scenario
+	 * 1. Create a PA endorsement outside PAS.
+	 * 2. Run DXP view coverage service.
+	 * 3. Verify EMB coverage criteria.
+	 * 4. Update EMB coverages from DXP.
+	 * 5. Verify updates to EMB coverages in DXP, PAS UI & change log.
+	 * */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23299"})
+	public void pas23299_EMBCoveragePA(@Optional("PA") String state) {
+		pas23299_EMBCoveragePABody();
 	}
 }

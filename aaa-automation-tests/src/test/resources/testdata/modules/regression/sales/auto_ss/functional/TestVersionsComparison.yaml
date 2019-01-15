@@ -122,6 +122,7 @@ NamedInsuredInformation: {
  Last Name: NBLastName,
  Suffix: Jr,
  Social Security Number: 123456789,
+ Insured Date of Birth: $<today-35y>,
  Base Date: $<today>,
  Zip Code: 85118,
  Address Line 1: NB residence address 1,
@@ -158,6 +159,7 @@ NamedInsuredInformation_Version1: {
  Last Name: VILastName,
  Suffix: Sr,
  Social Security Number: 123456111,
+ Insured Date of Birth: $<today-55y>,
  Base Date: $<today-1M>,
  Zip Code: 85085,
  Address Line 1: VI residence address 1,
@@ -194,6 +196,7 @@ NamedInsuredInformation_Version2: {
  Last Name: VIILastName,
  Suffix: II,
  Social Security Number: 123456222,
+ Insured Date of Birth: $<today-57y>,
  Base Date: $<today-2M>,
  Zip Code: 85245,
  Address Line 1: VII residence address 1,
@@ -498,7 +501,11 @@ PolicyInformation_Version2: {
 #Driver Tab - Driver Information section
 
 TestData_DriverInformation_Version1: {
- GeneralTab: {},
+ GeneralTab: {
+  NamedInsuredInformation: {
+    Insured Date of Birth: $<today-55y>,
+    }
+  },
  DriverTab: '@DriverInformation_Version1',
  RatingDetailReportsTab: {},
  VehicleTab: {},
@@ -522,7 +529,11 @@ TestData_DriverInformation_Version1: {
 }
 
 TestData_DriverInformation_Version2: {
- GeneralTab: {},
+ GeneralTab: {
+   NamedInsuredInformation: {
+     Insured Date of Birth: $<today-18y>,
+     }
+   },
  DriverTab: '@DriverInformation_Version2',
  RatingDetailReportsTab: {},
  VehicleTab: {},
@@ -540,7 +551,6 @@ TestData_DriverInformation_Version2: {
 }
 
 DriverInformation: {
- Date of Birth: $<today-35y>,
  Gender: Female,
  Marital Status: Divorced,
  Occupation: 'Farmer',
@@ -564,7 +574,6 @@ DriverInformation: {
 }
 
 DriverInformation_Version1: {
- Date of Birth: $<today-55y>,
  Gender: Male,
  Marital Status: Married,
  Occupation: 'Clergy',
@@ -590,7 +599,6 @@ DriverInformation_Version1: {
 }
 
 DriverInformation_Version2: {
- Date of Birth: $<today-18y>,
  Gender: Female,
  Marital Status: Single,
  Occupation: 'Student',

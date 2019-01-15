@@ -18,10 +18,12 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenario4 extends AutoSSBaseTest {
@@ -163,8 +165,21 @@ public class TestScenario4 extends AutoSSBaseTest {
 			/* Copy from policy and make some update */
 			policy.policyCopy().perform(getPolicyTD("CopyFromPolicy", "TestData"));
 			policy.dataGather().start();
-			policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_CopyFromPolicy1"), GeneralTab.class, true);
-			policy.getDefaultView().fillFromTo(getTestSpecificTD("TestData_CopyFromPolicy1"), DriverTab.class, DocumentsAndBindTab.class);
+			
+			TestData td = getTestSpecificTD("TestData_CopyFromPolicy1");
+			//order membership report
+			NavigationPage.toViewTab(AutoSSTab.RATING_DETAIL_REPORTS.get());
+			new RatingDetailReportsTab().fillTab(td);
+			
+			NavigationPage.toViewTab(AutoSSTab.GENERAL.get());
+			new GeneralTab().removeInsured(2);
+
+			//policy.getDefaultView().fillUpTo(td, GeneralTab.class, true);
+			//policy.getDefaultView().fillFromTo(td, DriverTab.class, DocumentsAndBindTab.class);
+			
+			//policy.getDefaultView().fillFromTo(td, GeneralTab.class, DocumentsAndBindTab.class);
+			
+			policy.getDefaultView().fillFromTo(td, DriverTab.class, DocumentsAndBindTab.class);
 			documentsAndBindTab.saveAndExit();
 			String copiedQuoteNumber = PolicySummaryPage.getPolicyNumber();
 

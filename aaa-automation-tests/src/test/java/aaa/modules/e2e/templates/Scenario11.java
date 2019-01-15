@@ -98,18 +98,19 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		endorseAmount1 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 		
+		// Endorsement transaction displaying on billing in Payments & Other transactions section
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+				
 		Dollar pligaOrMvleFee = new Dollar(0);
 		if (getState().equals(Constants.States.NJ)) {
-			pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount1)); 
+			//pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount1)); 
+			pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate)); 
 			endorseAmount1 = endorseAmount1.add(pligaOrMvleFee);
 		}
 		if (getState().equals(Constants.States.NY)) {
 			pligaOrMvleFee = new Dollar(10); 
 			endorseAmount1 = endorseAmount1.add(pligaOrMvleFee);
 		}
-
-		// Endorsement transaction displaying on billing in Payments & Other transactions section
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount1).verifyPresent();
 		
@@ -169,14 +170,15 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		endorseAmount2 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 		
+		// Endorsement transaction displaying on billing in Payments & Other transactions section
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		Dollar pligaFee = new Dollar(0);
 		if (getState().equals(Constants.States.NJ)) {
-			pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount2)); 
+		//	pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount2));
+			pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate));
 			endorseAmount2 = endorseAmount2.add(pligaFee);
 		}
-
-		// Endorsement transaction displaing on billing in Payments & Other transactions section
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount2).verifyPresent();
 		

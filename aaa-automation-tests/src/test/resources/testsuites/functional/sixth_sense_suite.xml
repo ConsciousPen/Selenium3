@@ -16,6 +16,20 @@
         </classes>
     </test>
 
+    <!--<test name="Test newly added Driver License number formats MO/AL">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormatsCA"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <!--<test name="Test newly added Driver License number formats MO/AL">-->
+        <!--<parameter name="state" value="AZ"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ss.functional.TestNewDriverLicenseNumberFormatsSS"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
     <test name="Test CARCO Task Not Created">
         <parameter name="state" value="NJ, NY"/>
         <classes>
@@ -23,11 +37,10 @@
         </classes>
     </test>
 
-    <test name="est Additional options available for 'Rel to First Named Insured' field on Driver Tab">
-        <parameter name="state" value="CA"/>
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ, NY"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRelToFNICAAS"/>
-            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestRelToFNICAAC"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver"/>
         </classes>
     </test>
 

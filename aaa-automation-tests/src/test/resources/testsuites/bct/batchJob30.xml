@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="BCT Batch Tests - groupaaaRefundDisbursementAsyncJob" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="test"/>
+    <test name="BCT Batch Tests aaaGenerateEscheatmentReportJob" preserve-order="true">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.bct.batch.BatchTest">
+                <methods>
+                    <include name="BCT_BTCH_aaaGenerateEscheatmentReportJob"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
