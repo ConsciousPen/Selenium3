@@ -21,7 +21,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -404,7 +404,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, vrdKeys.size() - 1).filter(i -> vrdKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(vrdKeys.get(euimIndex + 1)).isEqualTo("Uninsured Motorist/Underinsured Motorist");
         assertThat(vrdKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage Limit");
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
     }
 
     private void verifyPolicySummaryPage(String value) {

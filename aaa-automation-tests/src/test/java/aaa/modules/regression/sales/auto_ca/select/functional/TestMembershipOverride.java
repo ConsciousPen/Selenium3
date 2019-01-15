@@ -18,7 +18,7 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoCaSelectBaseTest;
 import aaa.utils.StateList;
@@ -631,7 +631,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program")).exists();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(2).getValue().contains(Value1)).isTrue();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(3).getValue().contains(Value2)).isTrue();
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
 	}
 

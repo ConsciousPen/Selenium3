@@ -32,7 +32,7 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
@@ -131,7 +131,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
 		// Covers 2716 NB vin refresh case.
 		vehicleTabChecks_527_533_2716();
@@ -204,7 +204,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		// End PAS-2714 Renewal Update Vehicle
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -315,7 +315,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 						.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		Tab.buttonSaveAndExit.click();
 	}
 
@@ -415,7 +415,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("Other Make");
 		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("Other Model");
-		  RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		  ViewRatingDetailsPage.buttonRatingDetailsOk.click();
   	 }
 
 
@@ -884,7 +884,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new PremiumAndCoveragesTab().calculatePremium();
 		buttonViewRatingDetails.click();
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 
@@ -903,7 +903,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("CHEVROLET AUTO");
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("CHEVROLET MALIBU");
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		softly.close();
 	}
 

@@ -15,7 +15,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
@@ -242,8 +242,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (RatingDetailsViewPage.buttonRatingDetailsOk.isPresent() && RatingDetailsViewPage.buttonRatingDetailsOk.isVisible()) {
-			RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		if (ViewRatingDetailsPage.buttonRatingDetailsOk.isPresent() && ViewRatingDetailsPage.buttonRatingDetailsOk.isVisible()) {
+			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		}
 		buttonContinue.click();
 		return this;
@@ -367,7 +367,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		return testDataList;
 	}
 
-	public static class RatingDetailsView extends RatingDetailsViewPage {
+	public static class RatingDetailsView extends ViewRatingDetailsPage {
 
 	}
 }

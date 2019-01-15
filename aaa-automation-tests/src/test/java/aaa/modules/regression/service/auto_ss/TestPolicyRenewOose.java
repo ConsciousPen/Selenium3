@@ -15,7 +15,7 @@ import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.template.PolicyRenewOose;
 import aaa.utils.StateList;
@@ -79,7 +79,7 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
 	   	   PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	   	   PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	   	   assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Bodily Injury Liability").getCell(2)).hasValue("$250,000/$500,000");
-	   	   RatingDetailsViewPage.buttonRatingDetailsOk.click();
+	   	   ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	    	   
     	   Tab.buttonCancel.click();
     	   

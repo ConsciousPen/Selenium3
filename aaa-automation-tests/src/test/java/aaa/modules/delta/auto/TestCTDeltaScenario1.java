@@ -13,7 +13,7 @@ import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import org.testng.annotations.Optional;
@@ -380,7 +380,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
 
         assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("No");
 
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
                 .setValue("Yes");
@@ -411,7 +411,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().calculatePremium();
 
         assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("Yes");
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
         //Go to Driver Reports tab, check message
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());

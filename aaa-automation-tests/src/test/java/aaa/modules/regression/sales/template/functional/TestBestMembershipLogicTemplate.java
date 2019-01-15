@@ -19,7 +19,7 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -789,7 +789,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
     }
 
     private void homeSSSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
@@ -962,7 +962,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
     }
 
     private void CAHomeSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {

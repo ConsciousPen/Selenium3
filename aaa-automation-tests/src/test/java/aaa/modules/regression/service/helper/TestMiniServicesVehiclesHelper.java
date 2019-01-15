@@ -28,7 +28,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -993,7 +993,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			RatingDetailsViewPage.buttonRatingDetailsOk.click();
+			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//remove/replace vehicle
@@ -1069,7 +1069,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//check coverages in UI
 			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			RatingDetailsViewPage.buttonRatingDetailsOk.click();
+			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 			//order of Vehicles is changed after revert, hence reordering list
 			Collections.reverse(vehicleCoverageDetailsUIExpected);
 			if (testWithUpdates) {

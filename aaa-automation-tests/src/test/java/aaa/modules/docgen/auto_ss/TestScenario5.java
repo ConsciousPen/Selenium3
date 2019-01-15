@@ -16,7 +16,7 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
@@ -135,7 +135,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 			vehSpclEqpmtDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Limit"))));
 		}
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
 			vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));

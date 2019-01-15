@@ -22,7 +22,7 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -116,7 +116,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -141,7 +141,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -394,7 +394,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
 			}
 		});
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	/**

@@ -18,7 +18,7 @@ import aaa.main.enums.DefaultVinVersions;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -101,7 +101,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 			log.info("CONDITION TO JUST MAKE RENEWAL PREP or post.");
 		}
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	protected void checkVehicleInfo_pas2716() {
@@ -112,7 +112,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).as("Row with VALID=Y and oldest Entry Date should be used").hasValue("Gt");
 		});
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	protected void vehicleTabChecks_527_533_2716() {
@@ -165,7 +165,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue(expectedMake);
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue(expectedModel);
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	protected void pas18969_restrictVehicleRefreshOnRenewal(TestData testData, String vinTableFile) {
@@ -221,7 +221,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
 			}
 		});
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	protected void verifyVehicleInfo_pas2453(ETCSCoreSoftAssertions softly) {

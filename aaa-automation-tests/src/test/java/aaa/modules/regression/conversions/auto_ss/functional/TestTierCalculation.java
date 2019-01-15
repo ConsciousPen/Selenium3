@@ -22,7 +22,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -81,7 +81,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         Map<String, String> nbParams = paramMapToCompere();
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
@@ -92,7 +92,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumCovTab.submitTab();
 
         //Finish policy and save/exit
@@ -161,7 +161,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
-        RatingDetailsViewPage.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsTab.submitTab();
         return result;

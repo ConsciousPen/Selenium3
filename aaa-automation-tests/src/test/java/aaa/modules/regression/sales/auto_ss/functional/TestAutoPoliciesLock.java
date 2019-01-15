@@ -17,7 +17,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.preconditions.TestAutoPolicyLockPreConditions;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
@@ -102,7 +102,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 			softly.assertThat(getComprehensiveClaimsValue()).isNotEqualTo(previousCCValue);
 		});
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
 
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -265,7 +265,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 	private void closeViewAndBind(TestData testData) {
 		//Close rating details pop-up
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);

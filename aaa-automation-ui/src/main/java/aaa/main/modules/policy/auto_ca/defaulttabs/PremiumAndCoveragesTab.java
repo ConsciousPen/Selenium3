@@ -14,7 +14,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
@@ -141,7 +141,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		return testDataList;
 	}
 
-	public static class RatingDetailsView extends RatingDetailsViewPage {
+	public static class RatingDetailsView extends ViewRatingDetailsPage {
 
 	}
 }

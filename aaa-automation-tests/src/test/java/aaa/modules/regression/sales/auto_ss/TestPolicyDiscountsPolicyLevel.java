@@ -7,7 +7,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.RatingDetailsViewPage;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -377,7 +377,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsQuoteInfoData().getValue(discountName));
 		}
 		
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 	
 	private void checkPolicyLevelUnderwritingValueRatingDetails(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
@@ -388,7 +388,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsUnderwritingValueData().getValue(discountName));
 		}
 		
-		RatingDetailsViewPage.buttonRatingDetailsOk.click();
+		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
 	}
 	
 	private void checkDiscountsDisplayed(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
