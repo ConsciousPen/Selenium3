@@ -105,7 +105,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
         premiumAndCoveragesTab.calculatePremium();
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        new PremiumAndCoveragesTab().getRatingDetailsDriversData();
+        premiumAndCoveragesTab.getRatingDetailsDriversData();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
         td.mask(TestData.makeKeyPath(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
                 .mask(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(),AutoSSMetaData.DocumentsAndBindTab.AGREEMENT.getLabel()));
