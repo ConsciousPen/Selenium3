@@ -288,7 +288,7 @@ public class DocGenHelper {
 						.anyMatch(elem -> elem.getName().equals(dataElemName))).collect(Collectors.toList());
 		assertThat(sections.size()).as(MessageFormat.format("More than one element \"{0}\" found.", dataElemName)).isLessThanOrEqualTo(1);
 
-		return sections.stream().findFirst().get().getDocumentDataElements().stream().filter(elem -> elem.getName().equals(dataElemName)).findFirst().get();
+		return sections.stream().findFirst().get().getDocumentDataElements().stream().filter(elem -> elem.getName().equals(dataElemName)).findFirst().orElse(null);
 	}
 
 	/**
