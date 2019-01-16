@@ -22,6 +22,7 @@ public class PUPOpenLRiskItem implements Comparable<PUPOpenLRiskItem> {
 	@RequiredField
 	private String riskItemCd;
 
+	@MatchingField
 	private Integer riskItemCount;
 
 	public Integer getNumber() {
@@ -58,8 +59,9 @@ public class PUPOpenLRiskItem implements Comparable<PUPOpenLRiskItem> {
 
 	@Override
 	public int compareTo(PUPOpenLRiskItem otherRiskItem) {
-		return Comparator.comparing(PUPOpenLRiskItem::getRiskItemCd)
-				.thenComparingInt(PUPOpenLRiskItem::getRiskItemCount)
+		return Comparator
+				.comparing(PUPOpenLRiskItem::getRiskItemCd, Comparator.nullsFirst(Comparator.naturalOrder()))
+				.thenComparing(PUPOpenLRiskItem::getRiskItemCount, Comparator.nullsFirst(Comparator.naturalOrder()))
 				.compare(this, otherRiskItem);
 	}
 }

@@ -26,7 +26,6 @@ Driver_First: {
   DriverSearchDialog: {},
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
