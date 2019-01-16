@@ -19,6 +19,11 @@ public class SuperJob {
     public final Job job;
 
     /**
+     * A select few jobs actually do run on weekends. Setting true will ignore the weekend check.
+     */
+    private boolean supportsWeekend = false;
+
+    /**
      * Uses JobOffsetType to add or substract number of days.
      */
     protected int jobOffsetDays = 0;
@@ -156,5 +161,22 @@ public class SuperJob {
         //R+1 Update Status (policyStatusUpdateJob)
 
         return jobList;
+    }
+
+    /**
+     * Job can be overridden to support weekends even if JobSchedule(allowWeekendDates = false).
+     * This is false by default since most jobs do not.
+     * @param jobSupportsWeekends what setting to use.
+     */
+    public void setSupportsWeekend(boolean jobSupportsWeekends){
+        supportsWeekend = jobSupportsWeekends;
+    }
+
+    /**
+     * Accessor to check weekend support even if JobSchedule(allowWeekendDates = false).
+     * @return whether or not job supports running on the weekends.
+     */
+    public boolean getSupportsWeekends(){
+        return supportsWeekend;
     }
 }

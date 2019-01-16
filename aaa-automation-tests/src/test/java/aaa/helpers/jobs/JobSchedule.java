@@ -48,7 +48,7 @@ public class JobSchedule {
             }
 
             // Weekend adjustment
-            if (!allowWeekendDates){
+            if (!superJob.getSupportsWeekends() && !allowWeekendDates){
                 trueOffset = adjustForWeekend(trueOffset, targetDate, superJob.job.getJobName());
             }
 
