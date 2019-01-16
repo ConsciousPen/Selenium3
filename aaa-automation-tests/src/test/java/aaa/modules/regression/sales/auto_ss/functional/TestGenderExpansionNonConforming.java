@@ -12,6 +12,7 @@ import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
@@ -67,7 +68,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
@@ -214,7 +215,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void  validateAndBind(TestData testData) {
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
@@ -227,7 +228,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void renewalValidations(String policyNumber){
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();

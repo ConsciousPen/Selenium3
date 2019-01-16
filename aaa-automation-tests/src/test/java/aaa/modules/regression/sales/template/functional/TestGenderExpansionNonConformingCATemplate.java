@@ -10,6 +10,7 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
+import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig;
@@ -46,7 +47,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
     assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         PurchaseTab.btnApplyPayment.click();
@@ -181,7 +182,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     private void validateAndBind(TestData testData) {
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
         documentsAndBindTab.submitTab();
@@ -194,7 +195,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     private void renewalValidations(String policyNumber){
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();
