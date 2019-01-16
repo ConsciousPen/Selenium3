@@ -17,6 +17,7 @@ public class OpenLForm implements Comparable<OpenLForm> {
 	@RequiredField
 	protected String formCode;
 
+	@MatchingField
 	protected Double limit;
 
 	public Integer getNumber() {
@@ -45,8 +46,9 @@ public class OpenLForm implements Comparable<OpenLForm> {
 
 	@Override
 	public int compareTo(OpenLForm otherForm) {
-		return Comparator.comparing(OpenLForm::getFormCode)
-				.thenComparingDouble(OpenLForm::getLimit)
+		return Comparator
+				.comparing(OpenLForm::getFormCode, Comparator.nullsFirst(Comparator.naturalOrder()))
+				.thenComparing(OpenLForm::getLimit, Comparator.nullsFirst(Comparator.naturalOrder()))
 				.compare(this, otherForm);
 	}
 }

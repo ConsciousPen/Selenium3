@@ -240,7 +240,31 @@
     <test name="Offline Claims AUTO">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+            <methods>
+                <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Select"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Choice"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="Offline Claims Match Logic">

@@ -41,7 +41,9 @@ public class Customer implements ICustomer {
 
     @Override
     public void createViaUI(TestData td) {
-        MainPage.QuickSearch.buttonSearchPlus.click();
+        if (!SearchPage.buttonSearch.isPresent()) {
+            MainPage.QuickSearch.buttonSearchPlus.click();
+        }
         SearchPage.buttonCreateCustomer.click();
         getDefaultView().fill(td);
 	    log.info("Created {}", EntityLogger.getEntityHeader(EntityLogger.EntityType.CUSTOMER));
