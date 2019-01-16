@@ -5,6 +5,7 @@ import org.apache.commons.lang.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * SuperJobs are Jobs with additional metadata to be able to call a list of jobs and have them run at the appropriate
@@ -102,8 +103,6 @@ public class SuperJobs {
 
         return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
     }
-
-
 
     public static SuperJob aaaMembershipRenewalBatchOrderAsyncJob(String state, TimePoint timePoint){
         Job baseJob = Jobs.aaaMembershipRenewalBatchOrderAsyncJob;
@@ -219,6 +218,33 @@ public class SuperJobs {
 
         return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset,
                 aaaInsuranceScoreRenewalBatchOrderAsyncJob);
+    }
+
+    public static SuperJob aaaMvrRenewBatchOrderAsyncJob(String state){
+        Job baseJob = Jobs.aaaMvrRenewBatchOrderAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+
+        //BondToDo: Updated this map. Has not been edited yet.
+        timePointMap.stateOffsetMap.put(defaultStateKey, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.CA, jobNotApplicableValue);
+        timePointMap.stateOffsetMap.put(Constants.States.CO, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.DE, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.KY, 90);
+        timePointMap.stateOffsetMap.put(Constants.States.MD, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.MT, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.NJ, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.NV, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.NY, jobNotApplicableValue);
+        timePointMap.stateOffsetMap.put(Constants.States.OK, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.OR, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, jobNotApplicableValue);
+        timePointMap.stateOffsetMap.put(Constants.States.VA, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.WV, 63);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     /**

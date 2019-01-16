@@ -50,19 +50,28 @@ public class SuperJob extends Job{
      * Executes the job schedule.
      * @param baseDateTime is the time before offsets applied. Usually New Business or Renewal date
      * @param scheduledJobMap is the job schedule to execute against.
+     * @return Output of timeshifts as well as job executions.
+     */
+    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime, JobSchedule scheduledJobMap){
+        return executeScheduledJobMap(baseDateTime,scheduledJobMap,false);
+    }
+
+    /**
+     * Executes the job schedule with ability to simulate only.
+     * @param baseDateTime is the time before offsets applied. Usually New Business or Renewal date
+     * @param scheduledJobMap is the job schedule to execute against.
      * @param simulateOutputOnly when true does not shift time or run the jobs. Useful for debugging.
      * @return Output of timeshifts as well as job executions.
      */
-    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime,
-                                                           TreeMap<Integer, ArrayList<SuperJob>> scheduledJobMap,
+    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime,JobSchedule scheduledJobMap,
                                                            boolean simulateOutputOnly){
 
         // Prepare to Iterate treemap
-        Set set = scheduledJobMap.entrySet();
+        Set set = scheduledJobMap.getJobScheduleMap().entrySet();
 
         Iterator iter = set.iterator();
 
-        ArrayList<String> output = new ArrayList<String>();
+        ArrayList<String> output = new ArrayList<>();
 
         DateTimeFormatter outputTimeFormat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
@@ -83,7 +92,7 @@ public class SuperJob extends Job{
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
             }
 
-            ArrayList<SuperJob> todaysJobs = scheduledJobMap.get(daysOffset);
+            ArrayList<SuperJob> todaysJobs = scheduledJobMap.getJobScheduleMap().get(daysOffset);
 
             // Execute all jobs for current time point
             for (SuperJob job : todaysJobs){
@@ -98,61 +107,6 @@ public class SuperJob extends Job{
             }
         }
         return output;
-    }
-
-    /**
-     * Builds a Treemap where key represents timeoffsets and value is jobs to run on that offset/day.
-     * @param jobList which jobs you want to create a schedule from. N/A states are filtered out at this stage.
-     * @return Treemap representing a job schedule
-     * @throws IllegalArgumentException if a job is scheduled before it's required job is scheduled
-     */
-    public static TreeMap<Integer, ArrayList<SuperJob>> getScheduledJobsList(ArrayList<SuperJob> jobList)
-            throws IllegalArgumentException{
-
-        TreeMap<Integer, ArrayList<SuperJob>> jobScheduleMap = new TreeMap<>();
-
-        for (SuperJob job : jobList) {
-
-            // Eliminate Job_Not_Applicable
-            if (job.offsetType == JobOffsetType.Job_Not_Applicable){
-                continue;
-            }
-
-            // True Offset = 0 represents target date, negative values being subtract, and positive values being add.
-            int trueOffset = 0;
-
-            if (job.offsetType == JobOffsetType.Add_Days){
-                trueOffset = job.jobOffsetDays;
-            }
-            else {
-                trueOffset = job.jobOffsetDays * -1;
-            }
-
-            // Add new KVP when needed
-            if ( !jobScheduleMap.containsKey(trueOffset)){
-                jobScheduleMap.put(trueOffset, new ArrayList<SuperJob>());
-            }
-
-            // Dependency check.
-            for ( SuperJob dependentJob : job.sameDayDependencies) {
-
-                if ( !jobScheduleMap.get(trueOffset).contains(dependentJob)){
-
-                    String msg = "Job '" + dependentJob.getJobName() +
-                            "' must be added *BEFORE* '" + job.getJobName() +
-                            "' is added. Check your list order.";
-
-                    throw new IllegalArgumentException(msg);
-                }
-            }
-
-            // Only add a same day job if it does not exist.
-            if ( !jobScheduleMap.get(trueOffset).contains(job) ){
-                jobScheduleMap.get(trueOffset).add(job);
-            }
-        }
-
-        return jobScheduleMap;
     }
 
     /**
@@ -184,6 +138,7 @@ public class SuperJob extends Job{
                 SuperJobs.TimePoint.First, aaaInsuranceScoreRenewalBatchOrderAsyncJob));
 
         //Order MVR/CLUE
+        jobList.add(SuperJobs.aaaMvrRenewBatchOrderAsyncJob(state));
 
         //Order Internal Claims
 
