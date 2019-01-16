@@ -124,7 +124,7 @@ NamedInsuredInformation3: {
   Last Name: Smith,
   Base Date: $<today>,
   Social Security Number: 785411263,
-  Date of Birth: '$<today-25y:MM/dd/yyyy>',
+  Insured Date of Birth: '$<today-25y:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
 }
