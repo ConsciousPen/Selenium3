@@ -896,6 +896,9 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> MARYLAND_NOTICE_AND_WAIVER_OF_PIP_COVERAGE =
 					declare("Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> MARYLAND_AUTO_INSURANCE_APPLICATION = declare("Maryland Auto Insurance Application", RadioGroup.class);
+			// MT
+			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_REJECTION =
+					declare("Uninsured and Underinsured Motorists Coverage - Rejection or Election of Lower Limits", RadioGroup.class, Waiters.AJAX);
 			// NJ
 			public static final AssetDescriptor<RadioGroup> NJ_AUTO_STANDARD_POLICY_COVERAGE_SELECTION_FORM = declare("NJ Auto Standard Policy Coverage Selection Form", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> ACNOWLEDGEMENT_OF_REQUIREMENT_FOR_INSURANCE_INSPECTION =
@@ -936,6 +939,8 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE = declare("IMPORTANT NOTICE - Uninsured Motorist Coverage", RadioGroup.class, Waiters.AJAX);
 			// OK
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.AJAX);
+			// OR
+			public static final AssetDescriptor<RadioGroup> ELECTION_OF_LOWER_LIMITS_FOR_UNINSURED_MOTORISTS_COVERAGE = declare("Election of Lower Limits for Uninsured Motorists Coverage", RadioGroup.class, Waiters.AJAX);
 			// AZ
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =
 					declare("Uninsured and Underinsured Motorist Coverage Selection", RadioGroup.class, Waiters.AJAX);

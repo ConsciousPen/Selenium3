@@ -1,16 +1,99 @@
 ############### 4 Drivers
 TestData_DriverTab: {
-  DriverTab: ['@Driver2','@Driver3','@Driver4']
+  GeneralTab: '@GeneralTab',
+  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4']
+}
+
+TestData_DriverTab_Endorsement: {
+  GeneralTab: '@GeneralTab_Endorsement',
+  DriverTab: ['@Driver1','@Driver2','@Driver3','@Driver4'],
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click,
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: { 
+     Calculate Premium: 'click'
+  },
+  DriverActivityReportsTab: {
+  Validate Driving History: click
+ }
+}
+
+GeneralTab: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+GeneralTab_Endorsement: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4'],
+}
+
+NamedInsuredInformation1: {
+  First Name: DriverOne,
+  Last Name: LastNameOne,
+  Insured Date of Birth: "01/01/1990",
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Woman1,
+  Last Name: LastName1,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Man3,
+  Last Name: LastName3,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 323456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: Woman4,
+  Last Name: LastName3,
+  Insured Date of Birth: $<today-26y>,
+  Base Date: $<today>,
+  Social Security Number: 323456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
 }
 
   ######  For exceeding OK threshold you need a driver age x < 27y , driving exp  5< y <15 , male, single. Driver 1 and Driver 4 meets criteria
+  
+Driver1: {
+  Age First Licensed: 18,
+  Marital Status: Single,
+  Occupation: Clergy,
+  Gender: Male,
+  License Type: 'Licensed (US)',
+  License Number: 156773434
+}
+
 Driver2: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman1,
-  Last Name: LastName1,
+  Named Insured: 'Woman1 LastName1',
+  #First Name: Woman1,
+  #Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -23,10 +106,11 @@ Driver2: {
 Driver3: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Man3,
-  Last Name: LastName3,
+  Named Insured: 'Man3 LastName3',
+  #First Name: Man3,
+  #Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -39,10 +123,11 @@ Driver3: {
 Driver4: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman4,
-  Last Name: LastName3,
+  Named Insured: 'Woman4 LastName3',
+  #First Name: Woman4,
+  #Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-26y>,
+  #Date of Birth: $<today-26y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Clergy,
@@ -56,16 +141,117 @@ Driver4: {
 ############### Drivers With Violations
 
 TestData_DriverTabViolations: {
-  DriverTab: ['@Driver2v','@Driver3v','@Driver4v','@Driver5v','@Driver6v']
+  GeneralTab: '@GeneralTabV',
+  DriverTab: ['@Driver1v','@Driver2v','@Driver3v','@Driver4v','@Driver5v','@Driver6v']
+}
+
+TestData_DriverTabViolations_Endorsement: {
+  GeneralTab: '@GeneralTab_Violations_Endorsement',
+  DriverTab: ['@Driver1v','@Driver2v','@Driver3v','@Driver4v','@Driver5v','@Driver6v'],
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click,
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: { 
+     Calculate Premium: 'click'
+  },
+  DriverActivityReportsTab: {
+  Validate Driving History: click
+ }
+}
+
+GeneralTabV: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1v', '@NamedInsuredInformation2v', '@NamedInsuredInformation3v', '@NamedInsuredInformation4v', '@NamedInsuredInformation5v', '@NamedInsuredInformation6v'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+GeneralTab_Violations_Endorsement: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1v', '@NamedInsuredInformation2v', '@NamedInsuredInformation3v', '@NamedInsuredInformation4v', '@NamedInsuredInformation5v', '@NamedInsuredInformation6v'],
+}
+
+NamedInsuredInformation1v: {
+  First Name: DriverOne,
+  Last Name: LastNameOne,
+  Insured Date of Birth: "01/01/1933",
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation2v: {
+  InsuredSearchDialog: {},
+  First Name: Woman1,
+  Last Name: LastName1,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation3v: {
+  InsuredSearchDialog: {},
+  First Name: Man3,
+  Last Name: LastName3,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 323456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation4v: {
+  InsuredSearchDialog: {},
+  First Name: Woman4,
+  Last Name: LastName4,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 423456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation5v: {
+  InsuredSearchDialog: {},
+  First Name: Woman5,
+  Last Name: LastName5,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 523456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation6v: {
+  InsuredSearchDialog: {},
+  First Name: Woman6,
+  Last Name: LastName6,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 623456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+Driver1v: {
+  Age First Licensed: 18,
+  Marital Status: Single,
+  Occupation: Clergy,
+  Gender: Female,
+  License Type: 'Licensed (US)',
+  License Number: 156773434
 }
 
 Driver2v: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman1,
-  Last Name: LastName1,
+  Named Insured: 'Woman1 LastName1',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -84,10 +270,9 @@ Driver2v: {
 Driver3v: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Man3,
-  Last Name: LastName3,
+  Named Insured: 'Man3 LastName3',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -106,10 +291,9 @@ Driver3v: {
 Driver4v: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman4,
-  Last Name: LastName4,
+  Named Insured: 'Woman4 LastName4',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -128,10 +312,9 @@ Driver4v: {
 Driver5v: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman5,
-  Last Name: LastName5,
+  Named Insured: 'Woman5 LastName5',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -150,10 +333,9 @@ Driver5v: {
 Driver6v: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman6,
-  Last Name: LastName6,
+  Named Insured: 'Woman6 LastName6',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -172,16 +354,120 @@ Driver6v: {
 ############### Drivers With Accidents
 
 TestData_DriverTabAccidents: {
-  DriverTab: ['@Driver2a','@Driver3a','@Driver4a','@Driver5a','@Driver6a']
+  GeneralTab: '@GeneralTabA',
+  DriverTab: ['@Driver1a', '@Driver2a','@Driver3a','@Driver4a','@Driver5a','@Driver6a']
+}
+
+TestData_DriverTabAccidents_Endorsement: {
+  GeneralTab: '@GeneralTab_Accidents_Endorsement',
+  DriverTab: ['@Driver1a', '@Driver2a','@Driver3a','@Driver4a','@Driver5a','@Driver6a'],
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click,
+  },
+  VehicleTab: {},
+  FormsTab: {},
+  PremiumAndCoveragesTab: { 
+     Calculate Premium: 'click'
+  },
+  DriverActivityReportsTab: {
+  Validate Driving History: click
+ }
+}
+
+GeneralTabA: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1a', '@NamedInsuredInformation2a', '@NamedInsuredInformation3a', '@NamedInsuredInformation4a', '@NamedInsuredInformation5a', '@NamedInsuredInformation6a'],
+  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+GeneralTab_Accidents_Endorsement: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1a', '@NamedInsuredInformation2a', '@NamedInsuredInformation3a', '@NamedInsuredInformation4a', '@NamedInsuredInformation5a', '@NamedInsuredInformation6a'],
+}
+
+NamedInsuredInformation1a: {
+  First Name: DriverOne,
+  Last Name: LastNameOne,
+  Insured Date of Birth: "01/01/1933",
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2a: {
+  InsuredSearchDialog: {},
+  First Name: Woman1,
+  Last Name: LastName1,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation3a: {
+  InsuredSearchDialog: {},
+  First Name: Man3,
+  Last Name: LastName3,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 323456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation4a: {
+  InsuredSearchDialog: {},
+  First Name: Woman4,
+  Last Name: LastName3,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 423456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation5a: {
+  InsuredSearchDialog: {},
+  First Name: Woman6,
+  Last Name: LastName1,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 523456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation6a: {
+  InsuredSearchDialog: {},
+  First Name: Woman6,
+  Last Name: LastName6,
+  Insured Date of Birth: $<today-84y>,
+  Base Date: $<today>,
+  Social Security Number: 623456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+Driver1a: {
+  Age First Licensed: 18,
+  Marital Status: Married,
+  Occupation: Clergy,
+  Gender: Female,
+  License Type: 'Licensed (US)',
+  License Number: 156773434
 }
 
 Driver2a: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman1,
-  Last Name: LastName1,
+  Named Insured: 'Woman1 LastName1',
+  #First Name: Woman1,
+  #Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -201,10 +487,11 @@ Driver2a: {
 Driver3a: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Man3,
-  Last Name: LastName3,
+  Named Insured: 'Man3 LastName3',
+  #First Name: Man3,
+  #Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -225,10 +512,11 @@ Driver3a: {
 Driver4a: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman4,
-  Last Name: LastName3,
+  Named Insured: 'Woman4 LastName3',
+  #First Name: Woman4,
+  #Last Name: LastName3,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -247,10 +535,11 @@ Driver4a: {
 Driver5a: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman6,
-  Last Name: LastName1,
+  Named Insured: 'Woman6 LastName1',
+  #First Name: Woman6,
+  #Last Name: LastName1,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,
@@ -269,10 +558,11 @@ Driver5a: {
 Driver6a: {
   Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: Woman6,
-  Last Name: LastName6,
+  Named Insured: 'Woman6 LastName6',
+  #First Name: Woman6,
+  #Last Name: LastName6,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-84y>,
+  #Date of Birth: $<today-84y>,
   Gender: Female,
   Marital Status: Married,
   Occupation: Clergy,

@@ -85,7 +85,16 @@ public class TestPolicyRenewCreateVersion extends HomeSSHO3BaseTest {
 			createPolicy();			
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 			
-			policy.renew().performAndFill(getTestSpecificTD("TestData"));
+			if (getUserGroup().equals(UserGroups.E34.get())) {
+				policy.renew().start();
+				NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+				NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+				new PremiumsAndCoveragesQuoteTab().calculatePremium();
+				new PremiumsAndCoveragesQuoteTab().saveAndExit();
+			}
+			else {
+				policy.renew().performAndFill(getTestSpecificTD("TestData"));
+			}
 			
 			assertThat(NotesAndAlertsSummaryPage.alert).valueContains("This Policy is Pending Renewal");
 			assertThat(PolicySummaryPage.buttonRenewals).isEnabled();

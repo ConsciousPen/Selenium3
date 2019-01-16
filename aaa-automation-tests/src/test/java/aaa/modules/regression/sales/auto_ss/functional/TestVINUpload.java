@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-import aaa.main.enums.ProductConstants;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
@@ -42,7 +42,7 @@ import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
@@ -121,13 +121,16 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 		// Start PAS-2714 NB
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
-		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AC"));
+		CustomSoftAssertions.assertSoftly(softly -> {
+			// Verify that eash symbol present
+			getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
+			// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
+			// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
+			getPolicySymbols().forEach((key, value) -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(2).getValue())
+					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
+		});
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 		// End PAS-2714 NB
@@ -283,31 +286,38 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
+		CustomSoftAssertions.assertSoftly(softly -> {
+
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
+		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
 		premiumAndCoveragesTab.calculatePremium();
-
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Model");
 
-		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
-		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue())
+				.as("First Vehicle : Make should be \"Other Make\"").isEqualToIgnoringCase("Other Make");
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue())
+				.as("First Vehicle : Model should be \"Model\"").isEqualToIgnoringCase("Model");
 
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("TOYOTA");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("Gt");
+		new PremiumAndCoveragesTab.RatingDetailsView().openVehicleSummaryPage(2);
 
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("AC"));
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue())
+				.as("Second Vehicle : Make should be \"TOYOTA\"").isEqualToIgnoringCase("TOYOTA");
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue())
+				.as("Second Vehicle : Model should be \"Gt\"").isEqualToIgnoringCase("Gt");
+
+			// Verify that eash symbol present
+			getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
+			// PAS-2714 using Oldest Entry Date, PAS-2716 Entry date overlap between VIN versions
+			// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
+			getPolicySymbols().forEach((key, value) -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(3).getValue())
+					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
+		});
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
 		premiumAndCoveragesTab.saveAndExit();
-
 	}
 
 	/**
