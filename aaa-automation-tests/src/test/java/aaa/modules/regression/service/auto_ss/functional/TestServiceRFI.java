@@ -45,7 +45,6 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
 import javax.ws.rs.core.Response;
 
 public class TestServiceRFI extends AutoSSBaseTest {
@@ -199,12 +198,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	/**
 	 * @author Megha Gubbala
-	 * @name RFI AACSDC Form
+	 * @name RFI AADNDE1 Form
 	 * @scenario 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
 	 * 3. Rate. Hit RFI service.
 	 * 4. Check the response.
-	 * 5. Update UIMBI/PIPMedical/UIMPD/PIPWORKLOSS/FUNERAL coverage. Rate.
+	 * 5. Update BI/PD/UMBI/PIP/PIPDED coverage. Rate.
 	 * 6. Hit RFI service, check if document is displaying.
 	 * 7. Run bind service without signing document and verify error. and policy is not bound.
 	 * 8. Run bind service with doccument id verify no error and we can bind the policy.

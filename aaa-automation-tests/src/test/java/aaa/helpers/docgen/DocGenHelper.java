@@ -417,8 +417,6 @@ public class DocGenHelper {
 		return XmlHelper.xmlToModelByPartOfXml(xmlDocData, Document.class);
 	}
 
-
-
 	public static List<Document> getDocuments(DocGenEnum.Documents value, String query) {
 		String xmlDocData = DbXmlHelper.getXmlByDocName(value, query);
 		List<Document> docs = new ArrayList<>();
