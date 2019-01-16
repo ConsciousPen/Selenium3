@@ -101,6 +101,7 @@ AAAProductOwned: {
 }
 
 NamedInsuredInformation1: {
+  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
   Social Security Number: 123456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -111,6 +112,7 @@ NamedInsuredInformation2: {
   First Name: Jenny,
   Last Name: Smith,
   Base Date: $<today>,
+  Insured Date of Birth: '$<today-29y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -122,6 +124,7 @@ NamedInsuredInformation3: {
   Last Name: Smith,
   Base Date: $<today>,
   Social Security Number: 785411263,
+  Date of Birth: '$<today-25y:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
 }
@@ -241,7 +244,6 @@ DriverTab5: {
     Rel. to First Named Insured: Parent,
     Occupation: Self-Employed,
     Age First Licensed: 18,
-    Date of Birth: '$<today-29y:MM/dd/yyyy>',
     Gender: 'Female',
     Marital Status: Single,
     Occupation: 'index=1',
