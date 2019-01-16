@@ -84,7 +84,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(policyTerm).get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     /**
@@ -101,7 +101,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(stateOffset.stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SuperJob aaaMembershipRenewalBatchOrderAsyncJob(String state, TimePoint timePoint){
@@ -131,7 +131,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SuperJob aaaInsuranceScoreRenewalBatchOrderAsyncJob(String state, TimePoint timePoint){
@@ -173,7 +173,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     public static SuperJob aaaInsuranceScoreRenewalBatchReceiveAsyncJob(String state, TimePoint timePoint,
@@ -216,7 +216,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset,
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset,
                 aaaInsuranceScoreRenewalBatchOrderAsyncJob);
     }
 
@@ -244,7 +244,7 @@ public class SuperJobs {
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
-        return new SuperJob(baseJob.getJobName(), SuperJob.JobOffsetType.Subtract_Days, offset);
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
     }
 
     /**

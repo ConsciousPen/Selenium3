@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class SuperJob extends Job{
+public class SuperJob {
 
     /**
      * Determines how to calculate job offset date.
@@ -15,6 +15,8 @@ public class SuperJob extends Job{
     }
 
     public JobOffsetType offsetType;
+
+    public final Job job;
 
     /**
      * Uses JobOffsetType to add or substract number of days.
@@ -26,16 +28,10 @@ public class SuperJob extends Job{
      */
     protected SuperJob[] sameDayDependencies;
 
-    public SuperJob(String jobName){
-        super(jobName);
-    }
 
-    public SuperJob(String jobName, List<String> jobFolders){
-        super(jobName, jobFolders);
-    }
+    public SuperJob(Job jobToSchedule, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
 
-    public SuperJob(String jobName, JobOffsetType jobOffsetOperationType, int jobOffsetByDays, SuperJob ... jobSameDayDependancies){
-        super(jobName);
+        job = jobToSchedule;
 
         if (jobOffsetByDays == SuperJobs.jobNotApplicableValue){
             offsetType = JobOffsetType.Job_Not_Applicable;
@@ -48,26 +44,23 @@ public class SuperJob extends Job{
 
     /**
      * Executes the job schedule.
-     * @param baseDateTime is the time before offsets applied. Usually New Business or Renewal date
-     * @param scheduledJobMap is the job schedule to execute against.
+     * @param jobSchedule is the job schedule to execute against.
      * @return Output of timeshifts as well as job executions.
      */
-    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime, JobSchedule scheduledJobMap){
-        return executeScheduledJobMap(baseDateTime,scheduledJobMap,false);
+    public static ArrayList<String> executeJobSchedule(JobSchedule jobSchedule){
+        return executeJobSchedule(jobSchedule,false);
     }
 
     /**
      * Executes the job schedule with ability to simulate only.
-     * @param baseDateTime is the time before offsets applied. Usually New Business or Renewal date
-     * @param scheduledJobMap is the job schedule to execute against.
+     * @param jobSchedule is the job schedule to execute against.
      * @param simulateOutputOnly when true does not shift time or run the jobs. Useful for debugging.
      * @return Output of timeshifts as well as job executions.
      */
-    public static ArrayList<String> executeScheduledJobMap(LocalDateTime baseDateTime,JobSchedule scheduledJobMap,
-                                                           boolean simulateOutputOnly){
+    public static ArrayList<String> executeJobSchedule(JobSchedule jobSchedule, boolean simulateOutputOnly){
 
         // Prepare to Iterate treemap
-        Set set = scheduledJobMap.getJobScheduleMap().entrySet();
+        Set set = jobSchedule.getJobScheduleMap().entrySet();
 
         Iterator iter = set.iterator();
 
@@ -82,7 +75,7 @@ public class SuperJob extends Job{
 
             Integer daysOffset = (Integer) me.getKey();
 
-            LocalDateTime targetDate = baseDateTime.plusDays(daysOffset);
+            LocalDateTime targetDate = jobSchedule.scheduledTargetDate.plusDays(daysOffset);
 
             if (simulateOutputOnly) {
                 output.add("Simulate | Timeshift - " + outputTimeFormat.format(targetDate));
@@ -92,17 +85,17 @@ public class SuperJob extends Job{
                 TimeSetterUtil.getInstance().nextPhase(targetDate);
             }
 
-            ArrayList<SuperJob> todaysJobs = scheduledJobMap.getJobScheduleMap().get(daysOffset);
+            ArrayList<SuperJob> todaysJobs = jobSchedule.getJobScheduleMap().get(daysOffset);
 
             // Execute all jobs for current time point
-            for (SuperJob job : todaysJobs){
+            for (SuperJob superJob : todaysJobs){
                 if (simulateOutputOnly) {
 
-                    output.add("Simulate | Job Execute " + outputTimeFormat.format(targetDate) + " " + job.getJobName());
+                    output.add("Simulate | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.job.getJobName());
                 }
                 else {
-                    output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + job.getJobName());
-                    JobUtils.executeJob(job);
+                    output.add("Execute | Job Execute " + outputTimeFormat.format(targetDate) + " " + superJob.job.getJobName());
+                    JobUtils.executeJob(superJob.job);
                 }
             }
         }
