@@ -150,6 +150,11 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 		new ReportsTab().getAssetList().getAsset(HomeSSMetaData.ReportsTab.CLUE_REPORT).getTable().getRow(1).getCell("Report").controls.links.getFirst().click();
 	}
 
+	@Override
+	protected ComboBox getClaimStatusAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeSSMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS);
+	}
+
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test Ability To Remove Manually Added Claims NB
