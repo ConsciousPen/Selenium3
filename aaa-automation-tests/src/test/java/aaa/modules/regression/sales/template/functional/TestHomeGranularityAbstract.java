@@ -1,8 +1,12 @@
 package aaa.modules.regression.sales.template.functional;
 
+import aaa.common.Tab;
 import aaa.common.pages.QuoteDataGatherPage;
 import aaa.helpers.db.queries.HomeGranularityQueries;
+import aaa.main.metadata.policy.HomeCaMetaData;
+import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.modules.policy.PolicyBaseTest;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -16,13 +20,29 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
     private QuoteDataGatherPage quoteDataGatherPage = new QuoteDataGatherPage();
     private PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
-    protected void pas23203_validateCensusBlockGroupAndLatLong(String latitude, String longitude, String censusBlockGroup) {
+    String keypathDwellingAddress = TestData.makeKeyPath(ApplicantTab.class.getSimpleName(), HomeCaMetaData.ApplicantTab.DWELLING_ADDRESS.getLabel());
+    String keypathZipCode = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.ZIP_CODE.getLabel());
+    String keypathAddress1 = TestData.makeKeyPath(keypathDwellingAddress, HomeCaMetaData.ApplicantTab.DwellingAddress.STREET_ADDRESS_1.getLabel());
+
+    protected void validateCensusBlockGroupAndLatLong(String latitude, String longitude, String censusBlockGroup) {
         TestData policyTd = getPolicyTD();
         createQuoteAndFillUpTo(policyTd, PremiumsAndCoveragesQuoteTab.class);
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        premiumsAndCoveragesQuoteTab.calculatePremium();
         String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, censusBlockGroup, latitude, longitude);
         checkVRD(censusBlockGroupID);
+    }
+
+    protected void validateCensusBlockGroupAndLatLongFromEADS(String latitude, String longitude, String censusBlockGroup) {
+        TestData policyTd = getPolicyTD()
+                .adjust(keypathZipCode, "91789")
+                .adjust(keypathAddress1, "586 EAGLE RD");
+        createQuoteAndFillUpTo(policyTd, ApplicantTab.class);
+        Tab.buttonTopSave.click();
+        String quoteNumber = quoteDataGatherPage.getQuoteNumber();
+        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null);
+        Tab.buttonNext.click();
+        policy.getDefaultView().fillFromTo(policyTd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        validateCensusBlockGroupAndLatLong(quoteNumber, censusBlockGroup, latitude, longitude);
     }
 
     protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude) {
