@@ -223,27 +223,68 @@ public class SuperJobs {
         Job baseJob = Jobs.aaaMvrRenewBatchOrderAsyncJob;
 
         StateOffset timePointMap = getStateOffsetMap();
-
-        //BondToDo: Updated this map. Has not been edited yet.
-        timePointMap.stateOffsetMap.put(defaultStateKey, 75);
-        timePointMap.stateOffsetMap.put(Constants.States.CA, jobNotApplicableValue);
-        timePointMap.stateOffsetMap.put(Constants.States.CO, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.DE, 63);
+        timePointMap.stateOffsetMap.put(defaultStateKey, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.CT, 75);
         timePointMap.stateOffsetMap.put(Constants.States.KY, 90);
-        timePointMap.stateOffsetMap.put(Constants.States.MD, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.MT, 63);
         timePointMap.stateOffsetMap.put(Constants.States.NJ, 75);
         timePointMap.stateOffsetMap.put(Constants.States.NV, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.NY, jobNotApplicableValue);
-        timePointMap.stateOffsetMap.put(Constants.States.OK, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.OR, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.PA, jobNotApplicableValue);
-        timePointMap.stateOffsetMap.put(Constants.States.VA, 63);
-        timePointMap.stateOffsetMap.put(Constants.States.WV, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.SD, 75);
 
         int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
 
         return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob aaaMvrRenewAsyncBatchReceiveJob(String state){
+        Job baseJob = Jobs.aaaMvrRenewAsyncBatchReceiveJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.CT, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.KY, 90);
+        timePointMap.stateOffsetMap.put(Constants.States.NJ, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.NV, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.SD, 75);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset, aaaMvrRenewBatchOrderAsyncJob(state));
+    }
+
+    public static SuperJob aaaClueRenewBatchOrderAsyncJob(String state){
+        Job baseJob = Jobs.aaaClueRenewBatchOrderAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.CT, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.KY, 90);
+        timePointMap.stateOffsetMap.put(Constants.States.NJ, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.NV, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.SD, 75);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob aaaClueRenewAsyncBatchReceiveJob(String state){
+        Job baseJob = Jobs.aaaClueRenewAsyncBatchReceiveJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.CT, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.KY, 90);
+        timePointMap.stateOffsetMap.put(Constants.States.NJ, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.NV, 63);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.SD, 75);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset, aaaClueRenewBatchOrderAsyncJob(state));
     }
 
     /**

@@ -137,6 +137,9 @@ public class SuperJob {
 
         //Order MVR/CLUE
         jobList.add(SuperJobs.aaaMvrRenewBatchOrderAsyncJob(state));
+        jobList.add(SuperJobs.aaaMvrRenewAsyncBatchReceiveJob(state));
+        jobList.add(SuperJobs.aaaClueRenewBatchOrderAsyncJob(state));
+        jobList.add(SuperJobs.aaaClueRenewAsyncBatchReceiveJob(state));
 
         //Order Internal Claims
 

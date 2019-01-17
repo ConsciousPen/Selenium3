@@ -28,8 +28,7 @@ public class JobSchedule {
         scheduledTargetDate = targetDate;
     }
 
-    private void sharedConstructor(ArrayList<SuperJob> jobList, LocalDateTime targetDate, boolean allowWeekendDates)
-            throws IllegalArgumentException {
+    private void sharedConstructor(ArrayList<SuperJob> jobList, LocalDateTime targetDate, boolean allowWeekendDates){
 
         for (SuperJob superJob : jobList) {
 
@@ -59,21 +58,41 @@ public class JobSchedule {
 
             // Dependency check.
             for (SuperJob dependentJob : superJob.sameDayDependencies) {
-
-                if (!jobScheduleMap.get(trueOffset).contains(dependentJob)) {
-
-                    String msg = "Job '" + dependentJob.job.getJobName() +
-                            "' must be added *BEFORE* '" + superJob.job.getJobName() +
-                            "' is added. Check your list order.";
-
-                    throw new IllegalArgumentException(msg);
-                }
+                dependencyCheck(jobScheduleMap.get(trueOffset),dependentJob.job.getJobName(), superJob.job.getJobName());
             }
 
             // Only add a same day job if it does not exist.
             if (!jobScheduleMap.get(trueOffset).contains(superJob)) {
                 jobScheduleMap.get(trueOffset).add(superJob);
             }
+        }
+    }
+
+    /**
+     * Validates that jobs with dependant jobs listed have all the dependancies scheduled to run before it.
+     * @param todaysJobs Collection of jobs already scheduled to run on same day.
+     * @param dependantJobName Name of the job being verified.
+     * @param currentJob Job that is having it's dependancies evaluated.
+     * @throws IllegalArgumentException when a required job is not already scheduled before current job.
+     */
+    private void dependencyCheck(ArrayList<SuperJob> todaysJobs, String dependantJobName, String currentJob)
+            throws IllegalArgumentException {
+
+        boolean containsJob = false;
+
+        for ( SuperJob superJob : todaysJobs ) {
+            if (superJob.job.getJobName().equals(dependantJobName)){
+                containsJob = true;
+                break;
+            }
+        }
+
+        if(!containsJob){
+            String msg = "Job '" + dependantJobName  +
+                    "' must be added *BEFORE* '" + currentJob +
+                    "' is added. Check your SuperJob list order.";
+
+            throw new IllegalArgumentException(msg);
         }
     }
 
