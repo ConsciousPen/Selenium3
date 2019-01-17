@@ -156,4 +156,12 @@
         </classes>
     </test>
 
+    <!--<test name="Test Refund Action Change">-->
+        <!--<parameter name="state" value="CA"/>-->
+        <!--<classes>-->
+            <!--<class name="aaa.modules.regression.sales.auto_ca.select.functional.TestRefundTransactionChange"/>-->
+        <!--</classes>-->
+    <!--</test>-->
+
+
 </suite>

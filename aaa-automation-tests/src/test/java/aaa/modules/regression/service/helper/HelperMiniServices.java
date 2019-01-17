@@ -94,7 +94,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
-	void bindEndorsementWithCheck(String policyNumber) {
+	public void bindEndorsementWithCheck(String policyNumber) {
 		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode());
 		assertThat(bindResponse.bindDate).isNotEmpty();
 		mainApp().open();
