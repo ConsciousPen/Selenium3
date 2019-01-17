@@ -62,7 +62,7 @@ public class JobSchedule {
             }
 
             // Only add a same day job if it does not exist.
-            if (!jobScheduleMap.get(trueOffset).contains(superJob)) {
+            if (!isJobScheduled(jobScheduleMap.get(trueOffset), superJob.job.getJobName())) {
                 jobScheduleMap.get(trueOffset).add(superJob);
             }
         }
@@ -94,6 +94,26 @@ public class JobSchedule {
 
             throw new IllegalArgumentException(msg);
         }
+    }
+
+    /**
+     * Checks whether job is already present in list.
+     * @param todaysJobs Collection of jobs already scheduled to run on same day.
+     * @param currentJob Job that will be evaluated against already scheduled jobs for the same day.
+     * @throws IllegalArgumentException when a required job is not already scheduled before current job.
+     */
+    private boolean isJobScheduled(ArrayList<SuperJob> todaysJobs, String currentJob){
+
+        boolean containsJob = false;
+
+        for ( SuperJob superJob : todaysJobs ) {
+            if (superJob.job.getJobName().equals(currentJob)){
+                containsJob = true;
+                break;
+            }
+        }
+
+        return containsJob;
     }
 
     /**

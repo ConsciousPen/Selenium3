@@ -142,24 +142,33 @@ public class SuperJob {
         jobList.add(SuperJobs.aaaClueRenewAsyncBatchReceiveJob(state));
 
         //Order Internal Claims
+        jobList.addAll(SuperJobs.getRenewalClaimOrderAsyncJobs(state));
 
         //Membership Revalidation
+        jobList.add(SuperJobs.aaaMembershipRenewalBatchOrderAsyncJob(state, SuperJobs.TimePoint.Second));
 
         //Renewal Image Available to all users
+        jobList.add(SuperJobs.renewalImageRatingAsyncTaskJob(state, SuperJobs.TimePoint.First));
 
         //Premium Calculate
+        jobList.add(SuperJobs.renewalImageRatingAsyncTaskJob(state, SuperJobs.TimePoint.Second));
 
         //Non-Renewal Notice
+        jobList.add(SuperJobs.policyDoNotRenewAsyncJob(state));
 
         //Propose/Renewal Offer
+        jobList.add(SuperJobs.renewalOfferAsyncTaskJob(state));
+        jobList.add(SuperJobs.aaaPreRenewalNoticeAsyncJob(state));
 
         //Renewal Bill
+        jobList.add(SuperJobs.aaaRenewalNoticeBillAsyncJob(state));
 
         if (makePayment) {
             //Special Make Payment job
         }
 
         //Renewal Reminder
+            //aaaRenewalNoticeBillAsyncJob
 
         //R+1 Update Status (policyStatusUpdateJob)
 

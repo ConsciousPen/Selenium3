@@ -287,6 +287,129 @@ public class SuperJobs {
         return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset, aaaClueRenewBatchOrderAsyncJob(state));
     }
 
+    public static ArrayList<SuperJob> getRenewalClaimOrderAsyncJobs(String state) {
+        ArrayList<SuperJob> jobs = new ArrayList<>();
+        jobs.add(renewalClaimOrderAsyncJob(state, TimePoint.First));
+        jobs.add(renewalClaimOrderAsyncJob(state, TimePoint.Second));
+        return jobs;
+    }
+
+    public static SuperJob renewalClaimOrderAsyncJob(String state, TimePoint timePoint){
+        Job baseJob = Jobs.renewalClaimOrderAsyncJob;
+
+        HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
+
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(defaultStateKey, 63);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.CT, 75);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.KY, 90);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.NJ, 75);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.PA, 75);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.SD, 75);
+
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(defaultStateKey, 57);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.CT, 60);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.KY, 84);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.NJ, 60);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.PA, 60);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.SD, 60);
+
+        int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob renewalImageRatingAsyncTaskJob(String state, TimePoint timePoint){
+        Job baseJob = Jobs.renewalImageRatingAsyncTaskJob;
+
+        HashMap<TimePoint, StateOffset> timePointMap = getMultiTimePointMap();
+
+        // For default states where both timepoints are same day, JobSchedule will throw out duplicate automatically.
+
+        // Renewal Image Available to all Users (R-45)
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(defaultStateKey, 45);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.CT, 69);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.KY, 84);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.MD, 55);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.MT, 55);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.NJ, 69);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.PA, 69);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.SD, 69);
+        timePointMap.get(TimePoint.First).stateOffsetMap.put(Constants.States.VA, 52);
+
+        // Premium Calculate (R-45)
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(defaultStateKey, 45);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.CA, 57);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.MD, 55);
+        timePointMap.get(TimePoint.Second).stateOffsetMap.put(Constants.States.MT, 55);
+
+        int offset = getOffsetFromMap(timePointMap.get(timePoint).stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob policyDoNotRenewAsyncJob(String state){
+        Job baseJob = Jobs.policyDoNotRenewAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 35);
+        timePointMap.stateOffsetMap.put(Constants.States.AZ, 47);
+        timePointMap.stateOffsetMap.put(Constants.States.CT, 64);
+        timePointMap.stateOffsetMap.put(Constants.States.KY, 75);
+        timePointMap.stateOffsetMap.put(Constants.States.MD, 50);
+        timePointMap.stateOffsetMap.put(Constants.States.MT, 47);
+        timePointMap.stateOffsetMap.put(Constants.States.NJ, 62);
+        timePointMap.stateOffsetMap.put(Constants.States.NY, 47);
+        timePointMap.stateOffsetMap.put(Constants.States.PA, 62);
+        timePointMap.stateOffsetMap.put(Constants.States.SD, 62);
+        timePointMap.stateOffsetMap.put(Constants.States.VA, 47);
+        timePointMap.stateOffsetMap.put(Constants.States.WV, 47);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob renewalOfferAsyncTaskJob(String state) {
+        Job baseJob = Jobs.renewalOfferAsyncTaskJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 35);
+        timePointMap.stateOffsetMap.put(Constants.States.MD, 50);
+        timePointMap.stateOffsetMap.put(Constants.States.MT, 45);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob aaaPreRenewalNoticeAsyncJob(String state) {
+        Job baseJob = Jobs.aaaPreRenewalNoticeAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 35);
+        timePointMap.stateOffsetMap.put(Constants.States.MD, 50);
+        timePointMap.stateOffsetMap.put(Constants.States.MT, 45);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
+    public static SuperJob aaaRenewalNoticeBillAsyncJob(String state) {
+        Job baseJob = Jobs.aaaRenewalNoticeBillAsyncJob;
+
+        StateOffset timePointMap = getStateOffsetMap();
+        timePointMap.stateOffsetMap.put(defaultStateKey, 20);
+
+        // Waiting on clarification for MD / MT as they are not in document.
+        //timePointMap.stateOffsetMap.put(Constants.States.MD, ?);
+        //timePointMap.stateOffsetMap.put(Constants.States.MT, ?);
+
+        int offset = getOffsetFromMap(timePointMap.stateOffsetMap, state);
+
+        return new SuperJob(baseJob, SuperJob.JobOffsetType.Subtract_Days, offset);
+    }
+
     /**
      * Checks the map passed in for the specific state otherwise returns default.
      * @param stateOffsetMap
