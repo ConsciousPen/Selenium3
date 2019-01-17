@@ -1,6 +1,7 @@
 package aaa.modules.delta.templates;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
@@ -204,6 +205,10 @@ public class CODeltaScenario1 extends BaseTest {
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
 		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
 		
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			NavigationPage.toViewTab(HomeSSTab.DOCUMENTS.get());
+			new DocumentsTab().getAssetList().getAsset(HomeSSMetaData.DocumentsTab.DOCUMENTS_TO_BIND).getAsset(HomeSSMetaData.DocumentsTab.DocumentsToBind.PROOF_OF_HOME_RENOVATIONS_FOR_MODERNIZATION).setValue("Yes");
+		}
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
