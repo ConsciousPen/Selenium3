@@ -3,14 +3,13 @@ package aaa.modules.regression.sales.home_ca.ho3.functional;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.constants.HomeGranularityConstants;
+import aaa.main.modules.policy.PolicyType;
+import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstract;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
-import aaa.main.modules.policy.PolicyType;
-import aaa.modules.regression.sales.template.functional.TestHomeGranularityAbstract;
 
 @StateList(states = Constants.States.CA)
 public class TestHomeGranularity extends TestHomeGranularityAbstract {
@@ -33,7 +32,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23235")
     //Note: If the coordinates become more precise then we need to refactor this test
     public void pas23235_validateCensusBlockGroupAndLatLong(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLong(HomeGranularityConstants.MOCK_LATITUDE, HomeGranularityConstants.MOCK_LONGITUDE, HomeGranularityConstants.MOCK_CENSUS_BLOCK);
+        validateCensusBlockGroupAndLatLong();
     }
 
     /**
@@ -51,6 +50,6 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO3, testCaseId = "PAS-23927")
     public void pas23927_validateCensusBlockGroupAndLatLongFromEADS(@Optional("CA") String state) {
-        validateCensusBlockGroupAndLatLongFromEADS(HomeGranularityConstants.DEFAULT_LATITUDE, HomeGranularityConstants.DEFAULT_LONGITUDE, HomeGranularityConstants.DEFAULT_CENSUS_BLOCK);
+        validateCensusBlockGroupAndLatLongFromEADS();
     }
 }
