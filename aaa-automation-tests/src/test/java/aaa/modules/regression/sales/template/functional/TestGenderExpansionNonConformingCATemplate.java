@@ -35,7 +35,8 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     protected void pas23040_ValidateGenderExpansionNonConformingNB() {
     String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
     TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
-            .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X");
+            .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X")
+            .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.SALUTATION.getLabel()), "Mx");
 
     mainApp().open();
     createCustomerIndividual(customerTd);
