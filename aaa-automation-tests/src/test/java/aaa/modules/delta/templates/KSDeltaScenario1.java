@@ -15,7 +15,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -75,18 +74,18 @@ public class KSDeltaScenario1 extends BaseTest {
 
 		CustomSoftAssertions.assertSoftly(softly -> {
 			if (getPolicyType().equals(PolicyType.HOME_SS_HO3)) {
-				softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
-				softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).exists();
 
 				endorsementTab.fillTab(td_add_Forms);
 
-				softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).exists();
 				softly.assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
 				softly.assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
 			} else if (getPolicyType().equals(PolicyType.HOME_SS_HO4) || getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
-				softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
-				softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
-				softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0312)).isPresent(false);
+				softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS0493)).isPresent(false);
+				softly.assertThat(endorsementTab.tblIncludedEndorsements.getRow(endorsement_HS0312)).isPresent(false);
 			}
 
 			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());

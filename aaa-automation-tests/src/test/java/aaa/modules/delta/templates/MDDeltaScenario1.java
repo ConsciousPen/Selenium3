@@ -20,7 +20,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
 import aaa.main.modules.policy.home_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
@@ -113,7 +112,7 @@ public class MDDeltaScenario1 extends BaseTest {
 		EndorsementTab endorsementTab = new EndorsementTab();
 
 		CustomSoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338)).exists();
+			softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(endorsement_HS2338)).exists();
 			endorsementTab.getAddEndorsementLink("HS 23 38").click();
 
 			endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_23_38).getAsset(
@@ -166,7 +165,7 @@ public class MDDeltaScenario1 extends BaseTest {
 					HomeSSMetaData.EndorsementTab.EndorsementHS2338.SECTION_II_COVERAGES_E_AND_F_COMBINED).setValue("$300,000");
 			endorsementTab.btnSaveForm.click();
 
-			softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
+			softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(endorsement_HS2338)).exists();
 			endorsementTab.saveAndExit();
 		});
 	}
@@ -354,7 +353,7 @@ public class MDDeltaScenario1 extends BaseTest {
 	
 	private void addHS0495AndVerifyCoverageLimitLOVs(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
 		EndorsementTab endorsementTab = new EndorsementTab();
-		softly.assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(hs0495)).exists();
+		softly.assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(hs0495)).exists();
 		endorsementTab.getAddEndorsementLink("HS 04 95").click();
 
 		softly.assertThat(endorsementTab.getAssetList().getAsset(HomeSSMetaData.EndorsementTab.HS_04_95).getAsset(
@@ -363,12 +362,12 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT.getLabel(), ComboBox.class).setValue("$20,000"); 
 		endorsementTab.btnSaveForm.click();
 
-		softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 	}
 
 	private void editHS0495AndVerifyCoverageLimitLOVs_Legasy(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
 		EndorsementTab endorsementTab = new EndorsementTab();
-		softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
 		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click();
 
@@ -379,7 +378,7 @@ public class MDDeltaScenario1 extends BaseTest {
 	
 	private void editHS0495AndVerifyCoverageLimitLOVs_Prestige(Map<String, String> hs0495, String policyLimit, ETCSCoreSoftAssertions softly) {
 		EndorsementTab endorsementTab = new EndorsementTab();
-		softly.assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
+		softly.assertThat(endorsementTab.tblIncludedEndorsements.getRowContains(hs0495)).exists();
 		
 		endorsementTab.getEditEndorsementLink("HS 04 95", 1).click();
 

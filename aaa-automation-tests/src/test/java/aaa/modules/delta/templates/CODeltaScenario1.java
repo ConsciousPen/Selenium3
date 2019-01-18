@@ -12,7 +12,6 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
-import aaa.main.modules.policy.abstract_tabs.PropertyEndorsementsTab;
 import aaa.main.modules.policy.home_ss.actiontabs.GenerateOnDemandDocumentActionTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -91,25 +90,25 @@ public class CODeltaScenario1 extends BaseTest {
 
 		switch (getPolicyType().getShortName()) {
 			case "HomeSS":
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent();
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent();
 				endorsementTab.fillTab(td_add_Forms);
-				assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
+				assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent();
 				assertThat(endorsementTab.getLinkEdit("HS 03 12")).isPresent();
 				assertThat(endorsementTab.getLinkRemove("HS 03 12")).isPresent();
 				break;
 			case "HomeSS_HO4":
 			case "HomeSS_HO6":
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent(false);
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent(false);
-				assertThat(PropertyEndorsementsTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent(false);
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_03_12)).isPresent(false);
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_93)).isPresent(false);
+				assertThat(endorsementTab.tblIncludedEndorsements.getRow(HS_03_12)).isPresent(false);
 				endorsementTab.fillTab(td_add_Forms);
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_04_36)).isPresent();
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(HS_04_52)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_36)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(HS_04_52)).isPresent();
 				break;
 			case "HomeSS_DP3":
 				endorsementTab.fillTab(td_add_Forms);
-				assertThat(PropertyEndorsementsTab.tblOptionalEndorsements.getRowContains(DS_04_68)).isPresent();
+				assertThat(endorsementTab.tblOptionalEndorsements.getRowContains(DS_04_68)).isPresent();
 				break;
 			default:
 				break;
