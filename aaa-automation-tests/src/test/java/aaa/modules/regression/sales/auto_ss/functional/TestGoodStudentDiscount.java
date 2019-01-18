@@ -42,14 +42,9 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorNB(@Optional("") String state) {
 
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
-
 		// Add 1 Driver who is eligible for GSD
 		// Add 5 Drivers who are not eligible for GSD
-		preconditionAddedDrivers(getPolicyTDforGSD(), driverTab);
-
-		// Fill remaining policy to P&C tab
-		policy.getDefaultView().fillFromTo(getPolicyTDforGSD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+		createQuoteAndFillUpTo(getPolicyTDforGSD(), PremiumAndCoveragesTab.class);
 
 		assertGSD();
 	}
@@ -75,21 +70,22 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorEndorsement(@Optional("") String state) {
 
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
+		TestData td = getTestSpecificTD("TestData_GSD_Endorsement").resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getPolicyTDforGSD());
+		createPolicy(getPolicyDefaultTD());
 
 		// Add 5 Drivers who are not eligible for GSD
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		policy.getDefaultView().fill(driverTab);
 
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, RatingDetailReportsTab.class, true);
+		
 		// Navigate to P&C tab
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-
+		
 		assertGSD();
+		
 	}
 
 	/**
@@ -113,16 +109,16 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-10108")
 	public void pas10108_GoodStudentDiscountMVRPredictorRenewal(@Optional("") String state) {
 
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabGSD").resolveLinks();
+		TestData td = getTestSpecificTD("TestData_GSD_Endorsement").resolveLinks();
 
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(getPolicyTDforGSD());
+		createPolicy(getPolicyDefaultTD());
 
 		// Add 5 Drivers who are not eligible for GSD
 		policy.renew().perform();
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-		policy.getDefaultView().fill(driverTab);
+		
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, RatingDetailReportsTab.class, true);
 
 		// Navigate to P&C tab
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -142,20 +138,19 @@ public class TestGoodStudentDiscount extends AutoSSBaseTest {
 		assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getCell(1).getValue()).doesNotContain("Good Student Discount(DriverSix LastNameSix)");
 	}
 
-	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
-		createQuoteAndFillUpTo(policyTestData, DriverTab.class);
-		policy.getDefaultView().fill(driverTabTD);
-	}
 
 	private TestData getPolicyTDforGSD(){
 		// adjust policy TD so that first driver is eligible for GSD
 		return getPolicyTD()
-				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "DriverOne")
-				.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "LastNameOne")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/2000")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.OCCUPATION.getLabel()), "Student")
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel()), "A Student")
+				.adjust(getTestSpecificTD("TestData_DriverTabGSD").resolveLinks())
+				//.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.FIRST_NAME.getLabel()), "DriverOne")
+				//.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.LAST_NAME.getLabel()), "LastNameOne")
+				//.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]", AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel()), DateTimeUtils.getCurrentDateTime().minusYears(19).format(DateTimeUtils.MM_DD_YYYY))
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), DateTimeUtils.getCurrentDateTime().minusYears(19).format(DateTimeUtils.MM_DD_YYYY))
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.OCCUPATION.getLabel()), "Student")
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MOST_RECENT_GPA.getLabel()), "A Student")
 				.adjust(TestData.makeKeyPath(DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_ISSUE.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToIssue.PROOF_OF_GOOD_STUDENT_DISCOUNT.getLabel()), "Yes");
+		
 	}
 }

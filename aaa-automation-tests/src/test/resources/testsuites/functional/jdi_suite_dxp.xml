@@ -974,6 +974,38 @@
                     <include name="pas23299_EMBCoveragePA"/>
                     <include name="pas23057_BIAndUMBIAndCanChangeTrue"/>
                     <include name="pas23057_BIAndUIMBIAndCanChangeTrue"/>
+                    <include name="pas16038_umbiUimbiStackedUnstackedBody"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="VA AA52VA" parallel="methods">
+        <parameter name="state" value="VA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23511_VirginiaAndAA52VA"/>
+                    <include name="pas21366_VirginiaAndAA52VA"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DC AACSDC" parallel="methods">
+        <parameter name="state" value="DC"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas21423_aacsdcFormRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="DE AADNDE1" parallel="methods">
+        <parameter name="state" value="DE"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas21596_aadnde1FormRFI"/>
                 </methods>
             </class>
         </classes>

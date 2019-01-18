@@ -36,7 +36,7 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02_checkAH63XX(String state) {
+	public void TC02_checkAH63XX(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
