@@ -11,8 +11,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class PropertyEndorsementsTab extends Tab {
 
-	public static Table tblIncludedEndorsements;
-	public static Table tblOptionalEndorsements;
+	public Table tblIncludedEndorsements;
+	public Table tblOptionalEndorsements;
 	public Button btnSaveForm;
 	public Button btnSaveEndo;
 	public Button btnCancelForm;
