@@ -456,11 +456,3 @@ PAS-23995:
   failures:
     - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
       messages: ["Expecting"]
-PAS-23964:
-  summary: "Error during payment of Renewal offer bill"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestGenderExpansionNonConforming,
-              aaa.modules.regression.sales.auto_ca.select.functional.TestGenderExpansionNonConforming,
-              aaa.modules.regression.sales.auto_ca.choice.functional.TestGenderExpansionNonConforming]
-      messages: ["Cannot get value of Cell"]
