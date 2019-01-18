@@ -170,6 +170,13 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                    <include name="pas7298_pendingManualRefundsACH"/>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -177,6 +184,14 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                    <include name="pas7298_pendingManualRefundsACH"/>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingAutomatedRefundsACH"/>
+                </methods>
             </class>
         </classes>
     </test>
@@ -184,6 +199,14 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+                <methods>
+                    <include name="pas7039_newDataElementsDeceasedYes"/>
+                    <include name="pas7039_newDataElementsDeceasedNo"/>
+                    <include name="pas7298_pendingManualRefundsCC"/>
+                    <include name="pas7298_pendingManualRefundsCheck"/>
+                    <include name="pas7298_pendingAutomatedRefundsCC"/>
+                    <include name="pas7298_pendingAutomatedRefundsCheck"/>
+                </methods>
             </class>
         </classes>
     </test>

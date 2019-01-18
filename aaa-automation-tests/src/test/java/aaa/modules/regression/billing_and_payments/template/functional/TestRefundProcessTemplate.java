@@ -39,8 +39,10 @@ import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 
 public class TestRefundProcessTemplate extends PolicyBilling {
-	private static final String PENDING_REFUND_AMOUNT = "1000";
-	private static final String APPROVED_REFUND_AMOUNT = "999.99";
+	private static final String PENDING_REFUND_AMOUNT_HO_PUP = "1000";
+	private static final String APPROVED_REFUND_AMOUNT_HO_PUP = "999.99";
+	private static final String APPROVED_REFUND_AMOUNT_AUTO = "499.99";
+	private static final String PENDING_REFUND_AMOUNT_AUTO = "500";
 	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestData tdBilling = testDataManager.billingAccount;
 	private BillingAccount billingAccount = new BillingAccount();
@@ -57,6 +59,20 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 	@Override
 	protected PolicyType getPolicyType() {
 		return policyType;
+	}
+
+	private String getPendingRefundAmountForTest() {
+		if (getPolicyType().isAutoPolicy()) {
+			return PENDING_REFUND_AMOUNT_AUTO;
+		}
+		return PENDING_REFUND_AMOUNT_HO_PUP;
+	}
+
+	private String getApprovedRefundAmountForTest() {
+		if (getPolicyType().isAutoPolicy()) {
+			return APPROVED_REFUND_AMOUNT_AUTO;
+		}
+		return APPROVED_REFUND_AMOUNT_HO_PUP;
 	}
 
 	public void precondJobAdding() {
@@ -163,11 +179,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		String paymentMethod = "contains=Credit Card";
 
 		String policyNumber = preconditionPolicyCreation();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, getPendingRefundAmountForTest());
 		requestIdList.add(stubRequestCC);
 
 		try {
-			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+			refundProcessHelper.pas7298_pendingManualRefunds(getPendingRefundAmountForTest(), getApprovedRefundAmountForTest(), paymentMethod);
 		} finally {
 			stubRequestCC.cleanUp();
 		}
@@ -178,11 +194,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		String paymentMethod = "contains=ACH";
 
 		String policyNumber = preconditionPolicyCreation();
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, getPendingRefundAmountForTest());
 		requestIdList.add(stubRequestACH);
 
 		try {
-			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
+			refundProcessHelper.pas7298_pendingManualRefunds(getPendingRefundAmountForTest(), getApprovedRefundAmountForTest(), paymentMethod);
 		} finally {
 			stubRequestACH.cleanUp();
 		}
@@ -193,11 +209,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		String paymentMethod = "Credit Card";
 
 		String policyNumber = preconditionPolicyCreation();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, getPendingRefundAmountForTest());
 		requestIdList.add(stubRequestCC);
 
 		try {
-			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, getPendingRefundAmountForTest(), getPendingRefundAmountForTest(), paymentMethod, getTimePoints());
 		} finally {
 			stubRequestCC.cleanUp();
 		}
@@ -209,11 +225,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 		String policyNumber = preconditionPolicyCreation();
 
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
+		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, getPendingRefundAmountForTest());
 		requestIdList.add(stubRequestACH);
 
 		try {
-			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, getApprovedRefundAmountForTest(), getPendingRefundAmountForTest(), paymentMethod, getTimePoints());
 		} finally {
 			stubRequestACH.cleanUp();
 		}

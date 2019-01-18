@@ -35,28 +35,28 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsCC(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
+	public void pas7298_pendingManualRefundsCC(@org.testng.annotations.Optional("CA") String state) throws IllegalAccessException {
 		testRefundProcessTemplate.pas7298_pendingManualRefundsCC(getState());
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("CA") String state) throws IllegalAccessException {
 		testRefundProcessTemplate.pas7298_pendingManualRefundsACH(getState());
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingAutomatedRefundsCC(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
+	public void pas7298_pendingAutomatedRefundsCC(@org.testng.annotations.Optional("CA") String state) throws IllegalAccessException {
 		testRefundProcessTemplate.pas7298_pendingAutomatedRefundsCC(getState());
 	}
 
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_CA_SELECT, testCaseId = {"PAS-7298"})
-	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
+	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("CA") String state) throws IllegalAccessException {
 		testRefundProcessTemplate.pas7298_pendingAutomatedRefundsACH(getState());
 	}
 
