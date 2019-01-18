@@ -101,7 +101,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		List<TestData> testDataList = new ArrayList<>();
 
 		if (!table.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();

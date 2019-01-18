@@ -745,7 +745,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         // Validate Membership in P&C Tab
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab pnc = new PremiumAndCoveragesTab();
+
         switch(memberStatus){
             case YES:
                 CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount"));
@@ -766,7 +766,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         }
 
         // Validate Membership in VRD
-        pnc.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
 
         switch(memberStatus){
             case YES:
@@ -785,7 +785,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
     }
 
     private void homeSSSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
@@ -918,7 +918,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         // Validate Membership in P&C Tab
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab pnc = new aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab();
+
         switch(memberStatus){
             case YES:
                 CustomAssertions.assertThat(aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString().contains("Membership Discount"));
@@ -939,7 +939,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         }
 
         // Validate Membership in VRD
-        pnc.buttonViewRatingDetails.click();
+        aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.RatingDetailsView.open();
 
         switch(memberStatus){
             case YES:
@@ -958,7 +958,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
     }
 
     private void CAHomeSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {

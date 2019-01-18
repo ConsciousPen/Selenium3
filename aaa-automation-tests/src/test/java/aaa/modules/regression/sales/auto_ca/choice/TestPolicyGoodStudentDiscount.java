@@ -127,9 +127,9 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 			discountApplied = "None";
 		}
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student")).isEqualTo(discountApplied));
-		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 		new PremiumAndCoveragesTab().submitTab();
 
 		new DriverActivityReportsTab().fillTab(td_quote).submitTab();
@@ -171,9 +171,9 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 			discountApplied = "None";
 		}
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student")).isEqualTo(discountApplied));
-		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().fillTab(td_quote).submitTab();
@@ -203,13 +203,13 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 			discountApplied = "None";
 		}
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		Map<String, String> goodStudentDiscount = new HashMap<>();
 		goodStudentDiscount.put("", "Good Student");
 		goodStudentDiscount.put("Proposed Changes", discountApplied);
 
 		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRowContains(goodStudentDiscount)).isPresent();
-		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.DOCUMENTS_AND_BIND.get());
 		new DocumentsAndBindTab().submitTab();
@@ -235,9 +235,9 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 			discountApplied = "None";
 		}
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student")).isEqualTo(discountApplied));
-		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 		new PremiumAndCoveragesTab().saveAndExit();
 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -253,9 +253,9 @@ public class TestPolicyGoodStudentDiscount extends AutoCaChoiceBaseTest {
 		else {
 			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 		}
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student")).isEqualTo(discountApplied));
-		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 		new PremiumAndCoveragesTab().cancel();
 	}
 }

@@ -197,11 +197,11 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
         PolicySummaryPage.buttonRenewalQuoteVersion.click();
         PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
     }
 
     protected void closeRatingDetails() {
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         PremiumAndCoveragesTab.buttonCancel.click();
     }
 

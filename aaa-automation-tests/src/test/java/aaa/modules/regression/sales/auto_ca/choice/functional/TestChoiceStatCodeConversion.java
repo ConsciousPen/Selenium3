@@ -99,7 +99,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
     private void checkVRD(String liabilitySymbol, String compCollSymbol, String specialHazardSurchargeValue){
 
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertSoftly(softly -> {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"BI Symbol").getCell(2).getValue()).isEqualTo(liabilitySymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"PD Symbol").getCell(2).getValue()).isEqualTo(liabilitySymbol);
@@ -109,7 +109,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(compCollSymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Special Hazard Surcharge").getCell(2).getValue()).isEqualTo(specialHazardSurchargeValue);
         });
-         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 
     }
 }

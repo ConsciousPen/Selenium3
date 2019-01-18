@@ -1897,34 +1897,34 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2)).hasValue("Yes");
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		} else {
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3)).hasValue("None");
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		}
 		lastTransactionHistoryExit();
 		if (eValueDiscountPresent) {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains(E_VALUE_DISCOUNT);
 			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5)).hasValue("Yes");
 			} else {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("Yes");
 			}
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		} else {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6)).hasValue("None");
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			if (checkMessages) {
 				if ("TRUE".equals(membershipEligibilitySwitch)) {
 					softly.assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);

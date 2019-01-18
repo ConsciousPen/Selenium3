@@ -83,7 +83,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         Map<String, String> nbParams = paramMapToCompere();
-         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
@@ -94,7 +94,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));
-         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumCovTab.submitTab();
 
         //Finish policy and save/exit
@@ -163,7 +163,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
-         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsTab.submitTab();
         return result;
@@ -173,7 +173,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         Map<String, String> params = new HashMap<String, String>() {{
             put("Premium", PremiumAndCoveragesTab.totalActualPremium.getValue());
         }};
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue());
         params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Customer's Tier").getCell(2).getValue());
         return params;

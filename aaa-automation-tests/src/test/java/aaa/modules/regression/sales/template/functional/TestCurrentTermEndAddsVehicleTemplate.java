@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.template.functional;
 
 import static aaa.common.Tab.buttonCancel;
 import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
 import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -242,11 +241,11 @@ public class TestCurrentTermEndAddsVehicleTemplate extends CommonTemplateMethods
         PolicySummaryPage.buttonRenewalQuoteVersion.click();
         PolicySummaryPage.tableTransactionHistory.getRow(1).getCell(2).controls.links.get(1).click(); //click to enter second renewal image
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
-        buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
     }
 
     protected void closeRatingDetails() {
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         buttonCancel.click();
     }
 

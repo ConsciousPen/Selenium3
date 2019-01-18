@@ -989,7 +989,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//remove/replace vehicle
@@ -1065,7 +1065,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//check coverages in UI
 			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			//order of Vehicles is changed after revert, hence reordering list
 			Collections.reverse(vehicleCoverageDetailsUIExpected);
 			if (testWithUpdates) {

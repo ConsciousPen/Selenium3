@@ -720,7 +720,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		}
 
 		//click on 'View Rating Details' and validate that overridden membership details are displayed
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		if (isEndorsement) {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
@@ -736,7 +736,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 		}
 
-		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 	}
 
@@ -749,7 +749,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
         }
 
         //click on 'View Rating Details' and validate that overridden membership details are displayed
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
 
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
@@ -757,7 +757,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 
 
-        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
 
     }
 

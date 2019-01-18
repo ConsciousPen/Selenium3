@@ -623,14 +623,14 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	private void checkMembershipInPCTab(String Value1, String Value2) {
 
 		//click on 'View Rating Details' and validate that overridden membership details are displayed
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//RatingDetailsTable ratingDetailsTable = new RatingDetailsTable();
 
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program")).exists();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(2).getValue().contains(Value1)).isTrue();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(3).getValue().contains(Value2)).isTrue();
-		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 	}
 
