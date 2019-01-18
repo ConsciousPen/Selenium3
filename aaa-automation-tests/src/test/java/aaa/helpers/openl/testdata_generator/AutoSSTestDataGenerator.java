@@ -329,7 +329,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
 
-			if (ActivityInformation.affectsRating(openLPolicy.getYearsAtFaultAccidentFree())) {
+			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.getAtFaultAccidents().stream().min(Comparator.comparing(ActivityInformation::getPoints)).get();
 				int claimPoints = ai.getPoints(openLPolicy.getYearsAtFaultAccidentFree());
 				if (claimPoints <= dsr) {
@@ -343,7 +343,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				}
 			}
 
-			if (ActivityInformation.affectsRating(openLPolicy.getYearsIncidentFree()) && dsr > 0) {
+			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.ofMinimumPoints("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation");
 				int claimPoints = ai.getPoints(openLPolicy.getYearsIncidentFree());
 				if (claimPoints <= dsr) {
@@ -902,10 +902,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			return getActivityInformationList().stream().map(ActivityInformation::getPoints).distinct().collect(Collectors.toList());
 		}
 
-		public static boolean affectsRating(Integer totalYearsAccidentsFree) {
-			return totalYearsAccidentsFree != null && totalYearsAccidentsFree * 12 < maxIncidentFreeInMonthsToAffectRating;
-		}
-
 		public String getType() {
 			return type;
 		}
@@ -923,7 +919,10 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		public int getPoints(Integer totalYearsAccidentsFree) {
-			return affectsRating(totalYearsAccidentsFree) ? getPoints() : 0;
+			if (totalYearsAccidentsFree != null && totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
+				return 0;
+			}
+			return getPoints();
 		}
 
 		public TestData getTestData(LocalDate occurrenceDate) {
