@@ -404,7 +404,7 @@ public class TestMDNanoPolicyEUIMBehavior  extends AutoSSBaseTest {
         int euimIndex = IntStream.range(0, vrdKeys.size() - 1).filter(i -> vrdKeys.get(i).equals(euim)).findFirst().orElse(-3);
         assertThat(vrdKeys.get(euimIndex + 1)).isEqualTo("Uninsured Motorist/Underinsured Motorist");
         assertThat(vrdKeys.get(euimIndex + 2)).isEqualTo("Uninsured Motorist Property Damage Limit");
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
     }
 
     private void verifyPolicySummaryPage(String value) {

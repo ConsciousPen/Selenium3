@@ -737,7 +737,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 		}
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 	}
 
@@ -758,7 +758,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
 
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
     }
 

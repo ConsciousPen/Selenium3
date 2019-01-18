@@ -243,8 +243,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (ViewRatingDetailsPage.buttonRatingDetailsOk.isPresent() && ViewRatingDetailsPage.buttonRatingDetailsOk.isVisible()) {
-			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		if (RatingDetailsView.buttonRatingDetailsOk.isPresent() && RatingDetailsView.buttonRatingDetailsOk.isVisible()) {
+			RatingDetailsView.buttonRatingDetailsOk.click();
 		}
 		buttonContinue.click();
 		return this;
@@ -368,7 +368,18 @@ public class PremiumAndCoveragesTab extends Tab {
 		return testDataList;
 	}
 
-	public static class RatingDetailsView extends ViewRatingDetailsPage {
+	public static class RatingDetailsView {
+		public static RatingDetailsTable tableVehicleSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:vehicle_summary']");
+		public static RatingDetailsTable tableDriverSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:driver_summary']");
 
+		public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
+
+		public static void open() {
+			buttonViewRatingDetails.click();
+		}
+
+		public static void close() {
+			buttonRatingDetailsOk.click();
+		}
 	}
 }

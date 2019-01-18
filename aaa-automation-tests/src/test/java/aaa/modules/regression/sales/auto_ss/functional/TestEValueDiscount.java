@@ -383,7 +383,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			//PAS-305 start
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("None");
-			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 			//PAS-305 end
 
 			//PAS-2053
@@ -421,7 +421,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			//PAS-305, PAS-310 start
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("Yes");
-			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 			//PAS-305, PAS-310 end
 
 			//PAS-2053
@@ -987,7 +987,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			//PAS-305 start
 			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT)).isPresent(false);
-			ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 			//PAS-305 end
 			//PAS-2053 start
 			premiumAndCoveragesTab.saveAndExit();
@@ -1982,7 +1982,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isNotEqualTo("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		if (isPriorCarrierRequired) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -1997,7 +1997,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		}
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value")).hasValue("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
@@ -2039,7 +2039,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value").getValue()).isNotEqualTo("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 		if (isPriorCarrierRequired) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 			generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE)
@@ -2063,7 +2063,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		}
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value")).hasValue("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.saveAndExit();
 	}
@@ -2078,7 +2078,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value")).hasValue("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		generalTab.getCurrentCarrierInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.CurrentCarrierInformation.OVERRIDE_CURRENT_CARRIER).setValue("No");
@@ -2089,7 +2089,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(1, "Prior Term Bodily Injury (BI) limit").getCell("Value")).hasValue("N");
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.saveAndExit();
 	}

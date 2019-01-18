@@ -68,7 +68,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
@@ -215,7 +215,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void  validateAndBind(TestData testData) {
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
@@ -228,7 +228,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void renewalValidations(String policyNumber){
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();

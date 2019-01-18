@@ -21,4 +21,28 @@ public class RatingDetailsTable {
     public StaticElement getLabel(String key) {
         return new StaticElement(By.xpath(this.locator + String.format(LABEL_LOCATOR_TEMPLATE, key)));
     }
+
+    public void openVehicleSummaryPage(int pageNumber) {
+       //numberVehicleSummaryPages = getNumberOfVehicleSummaryPages();
+       //if (numberVehicleSummaryPages >= pageNumber) {
+       //    new Link(By.xpath(String.format(vehiclePanelXpath + "//td[@class='pageText']//*[not(contains(text(),'Pages')) and contains(text(),'%s')]", pageNumber))).click();
+       //} else
+       //    log.info("Vehicle Summary don't have this link");
+    }
+//
+    ///**
+    // * @return number from <td></td> which doesn't have link
+    // */
+    //public int getVehicleSummaryCurrentPageNumber() {
+    //    currentVehicleSummaryPageNumber = Integer.parseInt(new StaticElement(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages')) and not(*)]")).getValue());
+    //    return currentVehicleSummaryPageNumber;
+    //}
+//
+    ///**
+    // * @return amount of available pages under vehicle summary table
+    // */
+    //public int getNumberOfVehicleSummaryPages() {
+    //    return BrowserController.get().driver()
+    //            .findElements(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages'))]")).size();
+    //}
 }

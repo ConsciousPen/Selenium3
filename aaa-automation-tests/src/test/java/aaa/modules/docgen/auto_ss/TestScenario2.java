@@ -1041,7 +1041,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				break;
 		}
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("Actual Premium").getValue());
 		allVehTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());

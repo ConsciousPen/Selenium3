@@ -297,7 +297,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		verifyLockedLimitsNB();
 
 		// Issue Policy
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		documentsAndBindTab.submitTab();
@@ -408,6 +408,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 }

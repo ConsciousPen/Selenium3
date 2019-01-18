@@ -65,7 +65,7 @@ public class TestMSRPRefreshMotorHomeVehicle extends VinUploadAutoSSHelper {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();

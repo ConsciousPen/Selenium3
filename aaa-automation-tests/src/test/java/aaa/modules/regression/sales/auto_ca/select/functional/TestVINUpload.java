@@ -128,7 +128,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2017");
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("Other Make");
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Other Model");
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         softly.close();
     }
 

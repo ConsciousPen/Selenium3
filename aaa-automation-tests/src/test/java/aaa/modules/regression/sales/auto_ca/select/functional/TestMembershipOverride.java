@@ -631,7 +631,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program")).exists();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(2).getValue().contains(Value1)).isTrue();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Program").getCell(3).getValue().contains(Value2)).isTrue();
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 	}
 

@@ -47,7 +47,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);
         PremiumAndCoveragesTab.buttonViewRatingDetails.click();
     assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         PurchaseTab.btnApplyPayment.click();
@@ -182,7 +182,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     private void validateAndBind(TestData testData) {
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class,true);
         documentsAndBindTab.submitTab();
@@ -195,7 +195,7 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 
     private void renewalValidations(String policyNumber){
 
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();

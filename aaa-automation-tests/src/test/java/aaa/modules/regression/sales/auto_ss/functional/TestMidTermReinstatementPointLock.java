@@ -66,7 +66,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 		String reinstatementHistory = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue();
 
 		// Issue Policy and cancel it
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();

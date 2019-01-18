@@ -81,7 +81,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         Map<String, String> nbParams = paramMapToCompere();
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
@@ -92,7 +92,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         premiumCovTab.submitTab();
 
         //Finish policy and save/exit
@@ -161,7 +161,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsTab.submitTab();
         return result;

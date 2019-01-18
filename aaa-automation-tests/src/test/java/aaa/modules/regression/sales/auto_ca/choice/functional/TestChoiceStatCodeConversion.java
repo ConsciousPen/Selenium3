@@ -111,7 +111,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(compCollSymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Special Hazard Surcharge").getCell(2).getValue()).isEqualTo(specialHazardSurchargeValue);
         });
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
     }
 }

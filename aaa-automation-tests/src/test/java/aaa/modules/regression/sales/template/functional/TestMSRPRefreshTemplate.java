@@ -116,7 +116,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -141,7 +141,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
@@ -394,7 +394,7 @@ public class TestMSRPRefreshTemplate extends CommonTemplateMethods {
 				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
 			}
 		});
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 
 	/**

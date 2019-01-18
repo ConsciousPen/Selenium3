@@ -377,7 +377,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsQuoteInfoData().getValue(discountName));
 		}
 		
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 	
 	private void checkPolicyLevelUnderwritingValueRatingDetails(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){
@@ -388,7 +388,7 @@ public class TestPolicyDiscountsPolicyLevel extends AutoSSBaseTest {
 			softAssertions.assertThat(td_Discounts.getValue(discountName)).isEqualTo(new PremiumAndCoveragesTab().getRatingDetailsUnderwritingValueData().getValue(discountName));
 		}
 		
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 	
 	private void checkDiscountsDisplayed(TestData td_Discounts, ETCSCoreSoftAssertions softAssertions){

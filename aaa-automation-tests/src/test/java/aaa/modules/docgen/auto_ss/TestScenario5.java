@@ -135,7 +135,7 @@ public class TestScenario5 extends AutoSSBaseTest {
 			vehSpclEqpmtDed.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Special Equipment Limit"))));
 		}
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		for (TestData td : premiumAndCoveragesTab.getTermPremiumByVehicleData()) {
 			vehBdyInjPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Bodily Injury Liability"))));

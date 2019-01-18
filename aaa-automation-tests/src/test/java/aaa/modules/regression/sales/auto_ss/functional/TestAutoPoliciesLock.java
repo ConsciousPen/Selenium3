@@ -102,7 +102,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 			softly.assertThat(getComprehensiveClaimsValue()).isNotEqualTo(previousCCValue);
 		});
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 
 	/**
@@ -231,7 +231,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
 
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -265,7 +265,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 	private void closeViewAndBind(TestData testData) {
 		//Close rating details pop-up
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 		premiumAndCoveragesTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);

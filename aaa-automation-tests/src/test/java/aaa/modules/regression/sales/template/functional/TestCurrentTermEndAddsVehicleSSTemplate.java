@@ -203,7 +203,7 @@ public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMetho
     }
 
     protected void closeRatingDetails() {
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.buttonCancel.click();
     }
 

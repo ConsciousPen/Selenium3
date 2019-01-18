@@ -269,7 +269,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());;
+                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
@@ -372,7 +372,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());;
+                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
@@ -789,7 +789,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
     }
 
     private void homeSSSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {
@@ -962,7 +962,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             default:
                 break;
         }
-        ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
     }
 
     private void CAHomeSpecificValidations(MembershipStatus memberStatus, RMSStatus rms) {

@@ -79,7 +79,7 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
 	   	   PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 	   	   PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	   	   assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Bodily Injury Liability").getCell(2)).hasValue("$250,000/$500,000");
-	   	   ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+	   	   PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 	    	   
     	   Tab.buttonCancel.click();
     	   

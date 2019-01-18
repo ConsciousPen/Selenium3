@@ -155,7 +155,7 @@ public class TestMSRPRefreshRegularVehicle extends TestMSRPRefreshTemplate{
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
 		String compSymbol = getCompSymbolFromVRD();
 		String collSymbol = getCollSymbolFromVRD();
-		ViewRatingDetailsPage.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
 
 		premiumAndCoveragesTab.getAssetList().getAsset(AutoCaMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY).setValueByRegex("No Coverage.*");
 
