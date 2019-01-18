@@ -274,7 +274,7 @@ public class TestMiniServicesMoratorium extends PolicyMoratorium {
             ValidateEndorsementResponse endorsementInfoResponse = HelperCommon.startEndorsement(policyNumber, endorsementDate);
             assertSoftly(softly -> {
                 softly.assertThat(endorsementInfoResponse.ruleSets.get(0).name).isEqualTo("PolicyRules");
-                softly.assertThat(endorsementInfoResponse.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.contains(ErrorDxpEnum.Errors.MORATORIUM_EXIST.getMessage()))).isTrue();
+                softly.assertThat(endorsementInfoResponse.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.MORATORIUM_EXIST.getMessage()))).isTrue();
             });
         } else {
             ValidateEndorsementResponse response = HelperCommon.startEndorsement(policyNumber, endorsementDate);

@@ -88,7 +88,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 	void rateEndorsementWithErrorCheck(String policyNumber, String errorCode, String errorMessage, String field) {
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
-		assertThat(rateResponse.message).contains(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
+		assertThat(rateResponse.message).startsWith(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
 		assertThat(rateResponseFiltered.message).contains(errorMessage);
 		assertThat(rateResponseFiltered.field).isEqualTo(field);
