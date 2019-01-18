@@ -1,6 +1,9 @@
 package aaa.modules.bct.billing_and_payments;
 
 import static aaa.common.enums.Constants.States.*;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.main.enums.BillingConstants;
@@ -8,16 +11,13 @@ import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class BillingHoldTest extends BackwardCompatibilityBaseTest {
 
 	@Parameters({"state"})
 	@Test
 	@StateList(states = {AZ, CO, CT, DC, DE, ID, IN, KS, KY, MD, MT, NJ, NV, NY, OH, OK, OR, PA, SD, UT, VA, WV, WY})
-	public void BCT_ONL_059_BillingHold(@Optional("IN") String state) {
+	public void BCT_ONL_059_BillingHold(@Optional("") String state) {
 		mainApp().open();
 		String policyNumber = getPoliciesByQuery("BCT_ONL_059_BillingHold", "SelectPolicy").get(0);
 
