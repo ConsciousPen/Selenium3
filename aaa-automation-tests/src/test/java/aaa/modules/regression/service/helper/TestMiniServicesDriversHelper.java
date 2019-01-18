@@ -420,6 +420,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 				.DriverTab.AFFINITY_GROUP).getValue()).isEqualTo("None");
 		driverTab.saveAndExit();
 
+		HelperCommon.orderReports(policyNumber, addedDriverOid, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
@@ -615,7 +616,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 		//Bug PAS-17579
 		if (flag) {
-			softly.assertThat(updateDriverResponse1.validations.stream().filter(error -> error.message.equals(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).size().isEqualTo(1);
+			softly.assertThat(updateDriverResponse1.validations.stream().filter(error -> error.message.contains(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).size().isEqualTo(1);
 		} else {
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
 		}
@@ -730,6 +731,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 
 		driverTab.saveAndExit();
 
+		HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
@@ -1538,7 +1540,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		softly.assertThat(updateDriverResponse1.driver.maritalStatusCd).isEqualTo("MSS");
 		softly.assertThat(updateDriverResponse1.driver.ageFirstLicensed).isEqualTo(updateDriverRequest.ageFirstLicensed);
 		if (flag) {
-			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).isTrue();
+			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.startsWith(INSURANCE_SCORE_ORDER_MESSAGE.getMessage()) && "validations".equals(error.field))).isTrue();
 		} else {
 			// issue PAS-19028
 			softly.assertThat(updateDriverResponse1.validations).isEmpty();
@@ -2089,7 +2091,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 	}
 
 	private void errorValidationRelationToFni(DriverWithRuleSets updateDriverResponse) {
-		assertThat(updateDriverResponse.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()) && "relationToApplicantCd".equals(error.field))).isTrue();
+		assertThat(updateDriverResponse.validations.stream().anyMatch(error -> error.message.startsWith(ErrorDxpEnum.Errors.RELATIONSHIP_TO_FNI_ERROR.getMessage()) && "relationToApplicantCd".equals(error.field))).isTrue();
 	}
 
 	private void rateFromPas(String policyNumber) {
