@@ -213,7 +213,7 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		requestIdList.add(stubRequestCC);
 
 		try {
-			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, getPendingRefundAmountForTest(), getPendingRefundAmountForTest(), paymentMethod, getTimePoints());
+			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, getApprovedRefundAmountForTest(), getPendingRefundAmountForTest(), paymentMethod, getTimePoints());
 		} finally {
 			stubRequestCC.cleanUp();
 		}
