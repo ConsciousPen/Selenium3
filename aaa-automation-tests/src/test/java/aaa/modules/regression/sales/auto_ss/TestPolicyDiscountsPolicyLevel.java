@@ -1,21 +1,18 @@
 package aaa.modules.regression.sales.auto_ss;
 
-import aaa.common.enums.NavigationEnum;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
-
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.ETCSCoreSoftAssertions;

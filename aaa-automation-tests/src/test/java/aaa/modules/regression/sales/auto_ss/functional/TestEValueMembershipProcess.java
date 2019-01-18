@@ -52,7 +52,6 @@ import aaa.main.modules.policy.auto_ss.actiontabs.CancelNoticeActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.RatingDetailReportsTab;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;

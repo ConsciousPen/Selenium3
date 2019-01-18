@@ -1,6 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -23,7 +24,6 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.NotesAndAlertsSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.preconditions.ScorpionsPreconditions;
@@ -357,7 +357,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
 
-			new PremiumAndCoveragesTab.RatingDetailsView().tableVehicleSummary.openVehicleSummaryPage(2);
+			PremiumAndCoveragesTab.RatingDetailsView.tableVehicleSummary.moveToPage(2);
 			// Verify that eash symbol present
 			getPolicySymbols().keySet().forEach(symbol -> softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
 			// Check second (uploaded) vehicle is here

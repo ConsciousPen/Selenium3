@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.time.LocalDateTime;
+import org.assertj.core.api.Assertions;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -10,20 +14,12 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.PurchaseMetaData;
 import aaa.main.modules.policy.auto_ca.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ca.choice.TestPolicyCreationBig;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.assertj.core.api.Assertions;
-import org.testng.annotations.Optional;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.ComboBox;
-
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
 

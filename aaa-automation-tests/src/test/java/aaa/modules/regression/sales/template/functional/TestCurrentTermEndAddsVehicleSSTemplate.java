@@ -1,6 +1,6 @@
 package aaa.modules.regression.sales.template.functional;
 
-
+import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,12 +18,10 @@ import aaa.main.modules.policy.auto_ss.actiontabs.DifferencesActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import static aaa.helpers.db.queries.MsrpQueries.INSERT_MSRPCOMPCOLLCONTROL_VERSION;
 
 
 public class TestCurrentTermEndAddsVehicleSSTemplate extends CommonTemplateMethods {

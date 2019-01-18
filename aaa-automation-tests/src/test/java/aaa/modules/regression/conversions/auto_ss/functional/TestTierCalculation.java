@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,15 +22,16 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.NY)
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")

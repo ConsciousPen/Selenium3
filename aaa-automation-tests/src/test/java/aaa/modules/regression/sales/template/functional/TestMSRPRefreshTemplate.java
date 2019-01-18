@@ -22,7 +22,6 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.AssignmentTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;

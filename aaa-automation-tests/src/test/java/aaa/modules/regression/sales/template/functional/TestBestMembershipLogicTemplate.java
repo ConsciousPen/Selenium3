@@ -1,7 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import org.apache.commons.lang3.NotImplementedException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -19,16 +21,10 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.NotImplementedException;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomAssertions;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * This template is used to test Best Membership Logic (BML) operations. BML is only used in cases where either No

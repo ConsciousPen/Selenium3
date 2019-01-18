@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,7 +14,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;

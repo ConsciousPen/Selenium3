@@ -10,7 +10,6 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
-
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -28,7 +27,6 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.actiontabs.UpdateRulesOverrideActionTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
@@ -38,8 +36,6 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 

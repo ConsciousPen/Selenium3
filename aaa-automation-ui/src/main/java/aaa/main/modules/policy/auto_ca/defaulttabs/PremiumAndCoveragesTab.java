@@ -14,7 +14,6 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
-import aaa.main.pages.ViewRatingDetailsPage;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
