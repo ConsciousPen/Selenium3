@@ -90,7 +90,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 		assertThat(rateResponse.errorCode).isEqualTo(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getCode());
 		assertThat(rateResponse.message).startsWith(ErrorDxpEnum.Errors.ERROR_OCCURRED_WHILE_EXECUTING_OPERATIONS.getMessage());
 		ErrorResponseDto rateResponseFiltered = rateResponse.errors.stream().filter(errors -> errorCode.equals(errors.errorCode)).findFirst().orElse(null);
-		assertThat(rateResponseFiltered.message).contains(errorMessage);
+		assertThat(rateResponseFiltered.message).startsWith(errorMessage);
 		assertThat(rateResponseFiltered.field).isEqualTo(field);
 	}
 
