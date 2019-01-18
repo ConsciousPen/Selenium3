@@ -1,7 +1,5 @@
 package aaa.modules.regression.billing_and_payments.helpers;
 
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_RECORD_COUNT_BY_EVENT_NAME;
 import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.*;
 import static org.assertj.core.api.Assertions.fail;
 import static toolkit.verification.CustomAssertions.assertThat;
@@ -9,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -24,7 +19,6 @@ import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
-import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
@@ -33,6 +27,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
@@ -45,7 +40,6 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.waiters.Waiter;
 import toolkit.webdriver.controls.waiters.Waiters;
 
 public class RefundProcessHelper extends PolicyBilling {
@@ -142,8 +136,19 @@ public class RefundProcessHelper extends PolicyBilling {
 	}
 
 	@SuppressWarnings("Unchecked")
-	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
+	public void refundRecordInFileCheck(PolicyType policyType, String policyNumber, String refundType, String refundMethod, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible) {
+
+		//This 'if' condition is just refactoring.
+		String productType;
+		if (policyType.isAutoPolicy()) {
+			productType = "PA";
+		} else if (policyType.equals(PolicyType.PUP)) {
+			productType = "PU";
+		} else {
+			productType = "HO";
+		}
+
 		//TODO waitForFilesAppearance doesn't work in VDMs
 		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
 			mainApp().open();

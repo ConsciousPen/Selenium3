@@ -166,6 +166,27 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PAS-24307 Enable eRefunds for CA (Auto)" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestRefundProcess">
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PAS-24307 Enable eRefunds for CA (Home)" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.home_ca.ho3.functional.TestRefundProcess">
+            </class>
+        </classes>
+    </test>
+    <test thread-count="1024" name="PAS-24307 Enable eRefunds for CA (PUP)" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.billing_and_payments.pup.functional.TestRefundProcess">
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="PUP pas7039_newDataElementsDeceasedIndicator VA" parallel="methods">
         <parameter name="state" value="VA"/>
         <classes>
