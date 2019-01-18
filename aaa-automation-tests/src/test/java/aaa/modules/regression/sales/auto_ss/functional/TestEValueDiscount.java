@@ -2161,6 +2161,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).containsAllOptions(expectedCommissionTypeOptions);
 		softly.assertThat(generalTab.getPolicyInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).hasValue(defaultCommissionTypeValue);
+		generalTab.saveAndExit();
 	}
 
 	private void eValueEnabledForRenewal() {
@@ -2172,6 +2173,7 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 			premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
 			softly.assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(2).getCell(1).getValue()).doesNotContain(PRIOR_CARRIER_CONTINUOUS_INSURANCE_MESSAGE);
 		softly.close();
+		premiumAndCoveragesTab.saveAndExit();
 	}
 
 	private void eValueQuoteCreationFromZero() {

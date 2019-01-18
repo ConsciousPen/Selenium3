@@ -18,7 +18,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -76,17 +75,6 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
-	}
-
-	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_CANCELLATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
