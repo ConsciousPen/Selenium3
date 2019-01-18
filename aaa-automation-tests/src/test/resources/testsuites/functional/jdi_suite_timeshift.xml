@@ -170,7 +170,6 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ca.select.functional.TestRefundProcess">
-            <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.functional.TestRefundProcess">
                 <methods>
                     <include name="pas7298_pendingManualRefundsCC"/>
                     <include name="pas7298_pendingManualRefundsACH"/>
