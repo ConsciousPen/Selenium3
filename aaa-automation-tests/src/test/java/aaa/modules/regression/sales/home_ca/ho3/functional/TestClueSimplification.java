@@ -330,7 +330,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -351,7 +351,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -371,7 +371,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -391,7 +391,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
