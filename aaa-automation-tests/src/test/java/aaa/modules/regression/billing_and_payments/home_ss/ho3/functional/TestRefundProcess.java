@@ -23,7 +23,6 @@ import toolkit.utils.TestInfo;
 
 public class TestRefundProcess extends PolicyBilling implements TestRefundProcessPreConditions {
 
-	private final List<HelperWireMockStub> requestIdList = new LinkedList<>();
 	private TestRefundProcessTemplate testRefundProcessTemplate = new TestRefundProcessTemplate(PolicyType.HOME_SS_HO3);
 
 	@Override
@@ -97,19 +96,8 @@ public class TestRefundProcess extends PolicyBilling implements TestRefundProces
 		testRefundProcessTemplate.pas7298_pendingAutomatedRefundsACH(getState());
 	}
 
-	private String preconditionPolicyCreationHo() {
-		mainApp().open();
-		createCustomerIndividual();
-		String policyNumber = createPolicy();
-		log.info("policyNumber: {}", policyNumber);
-		return policyNumber;
-	}
-
 	@AfterClass(alwaysRun = true)
 	private void deleteMultiplePaperlessPreferencesRequests() {
-		for (HelperWireMockStub wireMockStubObject : requestIdList) {
-			wireMockStubObject.cleanUp();
-		}
-		requestIdList.clear();
+		testRefundProcessTemplate.deleteMultiplePaperlessPreferencesRequests();
 	}
 }
