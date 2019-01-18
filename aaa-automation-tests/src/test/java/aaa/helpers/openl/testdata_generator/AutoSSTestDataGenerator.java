@@ -206,8 +206,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
-		boolean isAtFaultAccidentFreeSet = false;
-		boolean isAccidentFreeSet = false;
 		boolean setADBCoverage = openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()));
 		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
 		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
@@ -331,7 +329,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
 
-			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
+			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.getAtFaultAccidents().stream().min(Comparator.comparing(ActivityInformation::getPoints)).get();
 				int claimPoints = ai.getPoints(openLPolicy.getYearsAtFaultAccidentFree());
 				if (claimPoints <= dsr) {
@@ -341,12 +339,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					}
 					activityInformationList.add(activityInformationData);
-					isAtFaultAccidentFreeSet = true;
 					dsr = dsr - claimPoints;
 				}
 			}
 
-			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
+			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.ofMinimumPoints("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation");
 				int claimPoints = ai.getPoints(openLPolicy.getYearsIncidentFree());
 				if (claimPoints <= dsr) {
@@ -356,13 +353,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					}
 					activityInformationList.add(activityInformationData);
-					isAccidentFreeSet = true;
 					dsr = dsr - claimPoints;
 				}
 			}
 
-			//TODO-dchubkov: to be implemented
-			/*if (dsr > 0) {
+			if (dsr > 0) {
 				List<Integer> availableClaimPoints = ActivityInformation.getAvailableClaimPoints();
 				if (availableClaimPoints.contains(dsr)) { // lucky guy :)
 					ActivityInformation ai = ActivityInformation.ofPoints(dsr);
@@ -381,7 +376,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					//TODO-dchubkov: to be implemented subset sum algorithm
 					throw new NotImplementedException("Subset sum algorithm is not implemented for dsr openl field");
 				}
-			}*/
+			}
 
 			if (openLPolicy.isLegacyConvPolicy()) {
 				driverData.put(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), getState());
@@ -924,7 +919,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		public int getPoints(Integer totalYearsAccidentsFree) {
-			if (totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
+			if (totalYearsAccidentsFree != null && totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
 				return 0;
 			}
 			return getPoints();

@@ -43,6 +43,7 @@ AAAProductOwned: {
 
 NamedInsuredInformation1: {
   Social Security Number: 123456789,
+  Insured Date of Birth: '$<today-21y:MM/dd/yyyy>',
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
 }
@@ -52,6 +53,7 @@ NamedInsuredInformation2: {
   First Name: Jenny,
   Last Name: Smith,
   Base Date: $<today>,
+  Insured Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Social Security Number: 223456789,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home,
@@ -60,7 +62,6 @@ NamedInsuredInformation2: {
 DriverTab1: {
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 400064773,
   Affinity Group: AAA Employee
@@ -70,7 +71,6 @@ DriverTab2: {
   DriverSearchDialog: {},
   Named Insured: 'index=0',
   'Rel. to First Named Insured': Child,
-  Date of Birth: '$<today-19y:MM/dd/yyyy>',
   Gender: Female,
   Marital Status: Single,
   Occupation: Student,

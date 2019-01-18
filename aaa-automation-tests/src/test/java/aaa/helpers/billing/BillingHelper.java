@@ -206,11 +206,26 @@ public final class BillingHelper {
 
 	// ------- Pending Transactions table -------
 
+	public static void changePendingTransaction(LocalDateTime transactionDate, String type) {
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPendingTransactionsTable.TYPE, type);
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.CHANGE).click();
+	}
+
 	public static void approvePendingTransaction(LocalDateTime transactionDate, String type) {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingPendingTransactionsTable.TYPE, type);
 		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
+		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
+	}
+
+	public static void rejectPendingTransaction(LocalDateTime transactionDate, String type) {
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPendingTransactionsTable.TYPE, type);
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.REJECT).click();
 		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
 	}
 
