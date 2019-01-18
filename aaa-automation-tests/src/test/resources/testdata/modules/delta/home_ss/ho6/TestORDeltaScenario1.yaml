@@ -67,10 +67,6 @@ TestData_UW2: {
 
 # ============ TC_verifyClaims ===============
 TestData_Claims1: {
+  ReportsTab: '@<delta_home_ss_ho3>@TestORDeltaScenario1@ReportsTab',
   PropertyInfoTab: '@<delta_home_ss_ho3>@TestORDeltaScenario1@PropertyInfoTab_Claims1' 
 }
-
-TestData_Claims2: {
-  PropertyInfoTab: '@<delta_home_ss_ho3>@TestORDeltaScenario1@PropertyInfoTab_Claims2' 
-}
-
