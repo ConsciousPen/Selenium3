@@ -2,7 +2,10 @@ package aaa.modules.delta.templates;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.ArrayList;
+
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
@@ -88,12 +91,17 @@ public class ORDeltaScenario1 extends BaseTest {
 
 	public void verifyClaims() {
 		TestData td_Claims1 = getTestSpecificTD("TestData_Claims1");
-		TestData td_Claims2 = getTestSpecificTD("TestData_Claims2");
-		
 		mainApp().open(); 
-		SearchPage.openQuote(quoteNumber);	
-		policy.dataGather().start();
+		SearchPage.openQuote(quoteNumber);
 		
+		policy.copyQuote().perform(getStateTestData(tdPolicy, "CopyFromQuote", "TestData"));
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.DATA_GATHERING);
+        log.info("DELTA OR SC1: Copied Quote #" + PolicySummaryPage.labelPolicyNumber.getValue());
+		
+        policy.dataGather().start();
+        NavigationPage.toViewTab(HomeSSTab.REPORTS.get());
+        new ReportsTab().fillTab(td_Claims1);
+        
 		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
 		PropertyInfoTab propertyInfoTab = new PropertyInfoTab();
 		propertyInfoTab.fillTab(td_Claims1);
@@ -115,11 +123,8 @@ public class ORDeltaScenario1 extends BaseTest {
 			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS12023000);
 			errorTab.verify.errorsPresent(softly, ErrorEnum.Errors.ERROR_AAA_HO_SS12200234);
 			errorTab.cancel();
-
-			NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PROPERTY_INFO.get());
-			propertyInfoTab.fillTab(td_Claims2);
-			PropertyInfoTab.buttonSaveAndExit.click();
-		});
+		});		
+		Tab.buttonSaveAndExit.click();
 	}
 
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
@@ -178,6 +183,7 @@ public class ORDeltaScenario1 extends BaseTest {
 			default:
 				break;
 		}
+		//odd_tab.saveAndExit();
 	}
 	
 	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();

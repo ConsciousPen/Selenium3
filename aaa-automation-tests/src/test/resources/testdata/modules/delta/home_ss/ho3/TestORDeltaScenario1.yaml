@@ -154,7 +154,13 @@ UnderwritingAndApprovalTab_UW2: {
 
 # ============ TC_verifyClaims ===============
 TestData_Claims1: {
+  ReportsTab: '@ReportsTab',
   PropertyInfoTab: '@PropertyInfoTab_Claims1' 
+}
+
+ReportsTab: {
+  Sales Agent Agreement: 'I Agree',
+  AAAMembershipReport: [{Report: 'Order report'}],
 }
 
 PropertyInfoTab_Claims1: {
@@ -202,17 +208,4 @@ ClaimHistory6: {
   Cause of loss: 'Hail', 
   Amount of loss: '300', 
   Claim status: 'Closed'
-}
-
-
-TestData_Claims2: {
-  PropertyInfoTab: '@PropertyInfoTab_Claims2' 
-}
-
-PropertyInfoTab_Claims2: {
-  ClaimHistory: '@ClaimHistory_No'
-}
-
-ClaimHistory_No: {
-  Remove: 'Click'
 }
