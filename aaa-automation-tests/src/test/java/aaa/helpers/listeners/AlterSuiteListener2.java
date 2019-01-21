@@ -74,7 +74,8 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 							xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
 							xmlClassNew.get().setXmlTest(xmlTestNew.get());
 						} else {
-							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.get().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.get().getIncludedMethods()));
+							//xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.get().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.get().getIncludedMethods()));
+							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.get().getName())).forEach(cl -> xmlClassNew.get().getIncludedMethods().stream().filter(xmlInclude -> !cl.getIncludedMethods().contains(xmlInclude)).forEach(xmlInclude -> cl.getIncludedMethods().add(xmlInclude)));
 						}
 
 					}
@@ -86,7 +87,8 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 							xmlTestNew.get().getXmlClasses().add(xmlClassNew.getNoParams());
 							xmlClassNew.getNoParams().setXmlTest(xmlTestNew.get());
 						} else {
-							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.getNoParams().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.getNoParams().getIncludedMethods()));
+							//xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.getNoParams().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.getNoParams().getIncludedMethods()));
+							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.getNoParams().getName())).forEach(cl -> xmlClassNew.getNoParams().getIncludedMethods().stream().filter(xmlInclude -> !cl.getIncludedMethods().contains(xmlInclude)).forEach(xmlInclude -> cl.getIncludedMethods().add(xmlInclude)));
 						}
 					}
 				}
