@@ -1,0 +1,44 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Manual Conversion Test" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener" />
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method"/>
+    <test name="Hybrid Conversion Scenario1">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario1"/>
+        </classes>
+    </test>
+    <test name="Hybrid Conversion Scenario2">
+        <parameter name="state" value="OR"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario2"/>
+        </classes>
+    </test>
+    <test name="Hybrid Conversion Scenario3">
+        <parameter name="state" value="CT"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario3"/>
+        </classes>
+    </test>
+    <test name="Hybrid Conversion Scenario4">
+        <parameter name="state" value="KS"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario4"/>
+        </classes>
+    </test>
+    <test name="Hybrid Conversion Scenario5">
+        <parameter name="state" value="SD"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario5"/>
+        </classes>
+    </test>
+    <test name="Hybrid Conversion Scenario6">
+        <parameter name="state" value="MT"/>
+        <classes>
+            <class name="aaa.modules.regression.conversions.auto_ss.TestManualConversionScenario6"/>
+        </classes>
+    </test>
+</suite>

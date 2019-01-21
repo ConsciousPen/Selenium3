@@ -119,7 +119,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -141,7 +140,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -163,7 +161,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -180,7 +177,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -197,7 +193,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -214,7 +209,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -231,7 +225,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -248,7 +241,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -264,7 +256,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -281,7 +272,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -298,7 +288,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -315,7 +304,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -332,7 +320,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <!-- NANO is not applicable for NY	<class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>-->
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -350,7 +337,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -367,7 +353,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -384,7 +369,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -401,7 +385,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -418,7 +401,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -435,7 +417,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -453,7 +434,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
@@ -470,7 +450,6 @@
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyFuturedated"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyGoodStudentDiscount"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyNano"/>
-            <class name="aaa.modules.regression.sales.auto_ss.TestPolicyOrderReports"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestPolicyRulesOverride"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteAction"/>
             <class name="aaa.modules.regression.sales.auto_ss.TestQuoteInitiate"/>
