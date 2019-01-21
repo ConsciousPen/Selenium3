@@ -30,6 +30,10 @@ PremiumsAndCoveragesQuoteTab_Mortgagee: {
   Coverage E - Personal Liability Each Occurrence: '$300,000'
 }
 
+ConversionForms_AZ: {
+  FormsList: ["stub","HSTP","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSCSNA"]
+}
+
 ConversionForms_NJ: {
   FormsList: ["stub","HSTP","AHAUXX","AHPNXX","AHMVCNV","HSMPDCNVXX","HSCSNA"]
 }
