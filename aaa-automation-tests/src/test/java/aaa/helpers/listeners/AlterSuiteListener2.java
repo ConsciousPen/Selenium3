@@ -69,18 +69,24 @@ public class AlterSuiteListener2 implements IAlterSuiteListener {
 					if (xmlClassNew.get() != null && xmlClassNew.get().getIncludedMethods() != null && !xmlClassNew.get().getIncludedMethods().isEmpty()) {
 
 						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, state, xmlClassNew.getPolicyType());
-						if (xmlTestNew.get().getClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.get().getName()))) {
+
+						if (xmlTestNew.get().getXmlClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.get().getName()))) {
 							xmlTestNew.get().getXmlClasses().add(xmlClassNew.get());
 							xmlClassNew.get().setXmlTest(xmlTestNew.get());
+						} else {
+							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.get().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.get().getIncludedMethods()));
 						}
+
 					}
 
 					if (xmlClassNew.getNoParams() != null && xmlClassNew.getNoParams().getIncludedMethods() != null && !xmlClassNew.getNoParams().getIncludedMethods().isEmpty()) {
 
 						CsaaXmlTest xmlTestNew = new CsaaXmlTest(test, null, xmlClassNew.getPolicyType());
-						if (xmlTestNew.get().getClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.getNoParams().getName()))) {
+						if (xmlTestNew.get().getXmlClasses().stream().noneMatch(s -> s.getName().equals(xmlClassNew.getNoParams().getName()))) {
 							xmlTestNew.get().getXmlClasses().add(xmlClassNew.getNoParams());
 							xmlClassNew.getNoParams().setXmlTest(xmlTestNew.get());
+						} else {
+							xmlTestNew.get().getXmlClasses().stream().filter(c -> c.getName().equals(xmlClassNew.getNoParams().getName())).forEach(cl -> cl.getIncludedMethods().addAll(xmlClassNew.getNoParams().getIncludedMethods()));
 						}
 					}
 				}
