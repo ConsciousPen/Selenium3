@@ -158,7 +158,7 @@ public class CsaaXmlClass {
 	}
 
 	private void logNotMatchingTests(Class clazz, String methodName, Reasons message) {
-		CustomLogger.getInstance().info("Test {} doesn't match criteria. Reason: {} ", clazz.getName() + "." + methodName, message.get());
+		CustomLogger.getInstance().error("Test {} doesn't match criteria. Reason: {} ", clazz.getName() + "." + methodName, message.get());
 	}
 
 	private enum Reasons {
