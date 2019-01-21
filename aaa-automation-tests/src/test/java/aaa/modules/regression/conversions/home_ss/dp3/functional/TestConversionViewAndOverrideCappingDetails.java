@@ -46,7 +46,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSDP3BaseTe
     @StateList(states = {Constants.States.AZ, Constants.States.DE, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.UT})
     @Test(groups = {Groups.REGRESSION, Groups.HIGH})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_DP3, testCaseId = "PAS-3002")
-    public void testPolicyViewCappingDetails(@Optional("VA") String state) {
+    public void testPolicyViewCappingDetails(@Optional("") String state) {
 
         PremiumsAndCoveragesQuoteTab premiumsAndCoveragesQuoteTab = new PremiumsAndCoveragesQuoteTab();
 
