@@ -475,13 +475,11 @@ PolicyInformation_NJ: {
 DocumentsAndBindTab_NJ: {
   RequiredToBind: {
     Auto Insurance Application: Physically Signed,
-    NJ Auto Standard Policy Coverage Selection Form: Physically Signed,
-    Acknowledgement of Requirement for Insurance Inspection: Physically Signed
+    NJ Auto Standard Policy Coverage Selection Form: Physically Signed
   },
   RequiredToIssue: {
-    CARCO Vehicle Inspection completed or Prior Physical Damage Coverage Inspection Waiver: 'Yes',
     Proof of Prior Insurance: 'Yes'
-  },
+  }
 }
 
 # ---------- Conversion Data for NV ---------------

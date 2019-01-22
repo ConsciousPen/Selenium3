@@ -1,5 +1,6 @@
 package aaa.modules.regression.document_fulfillment.auto_ca.choice;
 
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -22,7 +23,7 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC01_Cancellation(String state) {
+	public void TC01_Cancellation(@Optional("") String state) {
 		mainApp().open();
 		policyNum = getCopiedPolicy();
 		policy.policyDocGen().start();
@@ -35,7 +36,7 @@ public class TestScenario4 extends AutoCaChoiceBaseTest {
 	@Parameters({"state"})
 	@StateList(states = States.CA)
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL })
-	public void TC02_checkAH63XX(String state) {
+	public void TC02_checkAH63XX(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(33));
 		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
 		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);

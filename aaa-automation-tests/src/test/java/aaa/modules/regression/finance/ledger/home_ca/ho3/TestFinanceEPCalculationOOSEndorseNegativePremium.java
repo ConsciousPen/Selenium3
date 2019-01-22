@@ -63,7 +63,7 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 
 		policy.policyInquiry().start();
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
-		assertThat(EndorsementTab.tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
+		assertThat(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
 
 		jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1date);

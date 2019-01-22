@@ -101,13 +101,14 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().endorse().performAndFill(endorsementData);
 		}
 
-		if (openLPolicy.isCappedPolicy() && !PremiumsAndCoveragesQuoteTab.buttonViewCappingDetails.isPresent()) {
+		if (openLPolicy.isLegacyConvPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
-			assertThat(PremiumsAndCoveragesQuoteTab.buttonViewCappingDetails).as("View Capping Details button did not appear after premium calculation").isPresent();
+			assertThat(PremiumsAndCoveragesQuoteTab.linkViewCappingDetails).as("View Capping Details link did not appear after premium calculation").isPresent();
 		}
 
 		// Set capping factor from test if policy is capped or set capping factor = 100% if system sets custom capping itself
-		if (PremiumsAndCoveragesQuoteTab.buttonViewCappingDetails.isPresent()) {
+		if (PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
+			PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.click();
 			premiumsAndCoveragesQuoteTab.getAssetList().getAsset(HomeSSMetaData.PremiumsAndCoveragesQuoteTab.VIEW_CAPPING_DETAILS_DIALOG).fill(tdGenerator.getCappingData(openLPolicy));
 		}
 

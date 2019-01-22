@@ -9,7 +9,10 @@ import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;
-import aaa.toolkit.webdriver.customcontrols.dialog.*;
+import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.AssetListConfirmationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogAssetList;
+import aaa.toolkit.webdriver.customcontrols.dialog.SingleSelectSearchDialog;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -82,7 +85,7 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class);
 			public static final AssetDescriptor<ComboBox> SUFFIX = declare("Suffix", ComboBox.class);
 			public static final AssetDescriptor<TextBox> SOCIAL_SECURITY_NUMBER = declare("Social Security Number", TextBox.class);
-			public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare ("Insured Date of Birth", TextBox.class);
+			public static final AssetDescriptor<TextBox> INSURED_DATE_OF_BIRTH = declare("Insured Date of Birth", TextBox.class);
 			public static final AssetDescriptor<TextBox> BASE_DATE = declare("Base Date", TextBox.class);
 			public static final AssetDescriptor<ComboBox> ADDRESS_TYPE = declare("Address Type", ComboBox.class);
 			public static final AssetDescriptor<TextBox> ZIP_CODE = declare("Zip Code", TextBox.class);
@@ -750,6 +753,7 @@ public final class AutoSSMetaData {
 	public static final class MoratoriumInformationSection extends MetaData {
 		public static final AssetDescriptor<StaticElement> MORATORIUM_INFORMATION_MESSAGE = declare("Moratorium information message", StaticElement.class, By.xpath("//div[@id='policyDataGatherForm:componentView_AAAMoratoriumInfoComponent_body']//span"));
 	}
+
 	public static final class DriverActivityReportsTab extends MetaData {
 		public static final AssetDescriptor<RadioGroup> HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE =
 				declare("Has the customer expressed interest in purchasing the quote?", RadioGroup.class);
@@ -939,14 +943,16 @@ public final class AutoSSMetaData {
 			public static final AssetDescriptor<RadioGroup> IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE = declare("IMPORTANT NOTICE - Uninsured Motorist Coverage", RadioGroup.class, Waiters.AJAX);
 			// OK
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.AJAX);
+			// OR
+			public static final AssetDescriptor<RadioGroup> ELECTION_OF_LOWER_LIMITS_FOR_UNINSURED_MOTORISTS_COVERAGE = declare("Election of Lower Limits for Uninsured Motorists Coverage", RadioGroup.class, Waiters.AJAX);
 			// AZ
 			public static final AssetDescriptor<RadioGroup> UNINSURED_AND_UNDERINSURED_MOTORIST_COVERAGE_SELECTION =
 					declare("Uninsured and Underinsured Motorist Coverage Selection", RadioGroup.class, Waiters.AJAX);
 			public static final AssetDescriptor<RadioGroup> NAMED_DRIVER_EXCLUSION = declare("Named Driver Exclusion", RadioGroup.class);
 			public static final AssetDescriptor<RadioGroup> COVERAGE_ACCEPTANCE_STATEMENT = declare("Coverage Acceptance Statement", RadioGroup.class);
 			//ID
-            public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE =
-                    declare("UM and UIM Disclosure Statement and Rejection Of Coverage", RadioGroup.class, Waiters.AJAX);
+			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_DISCLOSURE_STATEMENT_AND_REJECTION_OF_COVERAGE =
+					declare("UM and UIM Disclosure Statement and Rejection Of Coverage", RadioGroup.class, Waiters.AJAX);
 		}
 
 		public static final class RequiredToIssue extends MetaData {
