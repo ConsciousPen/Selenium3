@@ -7,6 +7,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
+import aaa.main.enums.CoverageInfo;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.common.enums.Constants;
 import aaa.helpers.rest.dtoDxp.*;
@@ -221,7 +223,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21596,PAS-21591"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21596", "PAS-21591"})
 	public void pas21596_aadnde1FormRFI(@Optional("DE") String state) {
 		verifyAadndeScenarios("BI", "25000/50000");
 		verifyAadndeScenarios("PD", "15000");
@@ -235,19 +237,19 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String policyNumber = policyCreationForAASCDC(pd, s);
 
-			String doccId = checkDocumentInRfiService(policyNumber, "AADNDE1", "Delaware Motorists Protection Act", "policy", "NS");
+			String doccId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AADNDE1.getId(), DocGenEnum.Documents.AADNDE1.getName(), "policy", "NS");
 
 			bindEndorsement(policyNumber, doccId, "200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction", "attributeForRules");
 
 			//Pas- 24114
-			//String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AADNDE1", "ENDORSEMENT_ISSUE");
-			///verifyDoccInDb(softly, query, DocGenEnum.Documents.AADNDE1);
+			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AADNDE1.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
+			verifyDoccInDb(softly, query, DocGenEnum.Documents.AADNDE1);
 
 			//Go to pas and and verify
 			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT,
 					AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY, "$25,000", "200123", DESIGNATUREERROR);
 
-			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AADNDE1", "ENDORSEMENT_ISSUE");
+			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AADNDE1.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AADNDE1, query1).toString().contains("DocSignedBy")).isFalse();
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AADNDE1, query1).toString().contains("DocSignedDate")).isFalse();
 		});
@@ -660,7 +662,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		Document thankYouLetter615121 = DocGenHelper.getDocument(aa52va, query);
 		String name = DocGenHelper.getDocumentDataElemByName("DocSignedBy", thankYouLetter615121).getDataElementChoice().getTextField();
 		String date = DocGenHelper.getDocumentDataElemByName("DocSignedDate", thankYouLetter615121).getDataElementChoice().getDateTimeField();
+		String currentDate = DateTimeUtils.getCurrentDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		softly.assertThat(name).isEqualTo("Megha Gubbala");
+		softly.assertThat(date).startsWith(currentDate);
 
 	}
 
