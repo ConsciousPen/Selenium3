@@ -16,14 +16,14 @@
         </classes>
     </test>
 
-    <test name="Test newly added Driver License number formats MO/AL">
+    <test name="Test CA newly added Driver License number formats MO/AL">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestNewDriverLicenseNumberFormatsCA"/>
         </classes>
     </test>
 
-    <test name="Test newly added Driver License number formats MO/AL">
+    <test name="Test SS newly added Driver License number formats MO/AL">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestNewDriverLicenseNumberFormatsSS"/>
