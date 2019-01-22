@@ -16,6 +16,12 @@
     </test>
     <test name="UT Home Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <exclude name="Timepoint"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyCreationFull"/>
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyDiscountHolder"/>
@@ -63,10 +69,56 @@
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingAccountOnHold"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyBillingOperations"/>
             <class name="aaa.modules.regression.billing_and_payments.home_ss.ho3.TestPolicyPayments"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <exclude name="pas11338_AC3_AC6_Renewal_monthlyLowDown"/>
+                    <exclude name="pas11338_AC4_monthlyLowDown"/>
+                    <exclude name="pas11338_AC5_monthlyLowDown"/>
+                    <exclude name="pas11338_AC3_AC6_Renewal_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC4_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC5_elevenPayLowDow"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <exclude name="pas11338_AC3_AC6_Renewal_monthlyLowDown"/>
+                    <exclude name="pas11338_AC4_monthlyLowDown"/>
+                    <exclude name="pas11338_AC5_monthlyLowDown"/>
+                    <exclude name="pas11338_AC3_AC6_Renewal_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC4_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC5_elevenPayLowDow"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <exclude name="pas11338_AC3_AC6_Renewal_monthlyLowDown"/>
+                    <exclude name="pas11338_AC4_monthlyLowDown"/>
+                    <exclude name="pas11338_AC5_monthlyLowDown"/>
+                    <exclude name="pas11338_AC3_AC6_Renewal_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC4_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC5_elevenPayLowDow"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <exclude name="pas11338_AC3_AC6_Renewal_monthlyLowDown"/>
+                    <exclude name="pas11338_AC4_monthlyLowDown"/>
+                    <exclude name="pas11338_AC5_monthlyLowDown"/>
+                    <exclude name="pas11338_AC3_AC6_Renewal_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC4_elevenPayLowDow"/>
+                    <exclude name="pas11338_AC5_elevenPayLowDow"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="UT PUP Regression Tests" parallel="methods">
         <parameter name="state" value="UT"/>
+        <groups>
+            <run>
+                <include name="Regression"/>
+                <exclude name="Timepoint"/>
+            </run>
+        </groups>
         <classes>
             <class name="aaa.modules.regression.sales.pup.TestCoverLimitsValidation"/>
             <class name="aaa.modules.regression.sales.pup.TestPolicyBackdated"/>
@@ -93,6 +145,16 @@
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeclineByCustomer"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewDeletePending"/>
             <class name="aaa.modules.regression.service.pup.TestPolicyRenewFlatCancellation"/>
+            <class name="aaa.modules.regression.sales.pup.functional.TestPaymentPlanChangeOnEndorsement">
+                <methods>
+                    <exclude name="pas11785_AC3_AC6_Renewal_monthlyLowDown"/>
+                    <exclude name="pas11785_AC4_monthlyLowDown"/>
+                    <exclude name="pas11785_AC5_monthlyLowDown"/>
+                    <exclude name="pas11785_AC3_AC6_Renewal_elevenPayLowDow"/>
+                    <exclude name="pas11785_AC4_elevenPayLowDow"/>
+                    <exclude name="pas11785_AC5_elevenPayLowDow"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="AZ Home Regression Tests" parallel="methods">
@@ -128,6 +190,15 @@
                 <methods>
                     <include name="newBusiness_SoftStopPremiumCalculation_HardStopBind"/>
                     <include name="newBusiness_HardStopOverridableBind"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestNotOrderedMembershipError"/>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
                 </methods>
             </class>
         </classes>
@@ -226,6 +297,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
+            <class name="aaa.modules.regression.sales.pup.TestCaptureUnderwritingQuestions"/>
         </classes>
     </test>
     <test name="DC Home Regression Tests" parallel="methods">
@@ -1029,6 +1101,57 @@
             <class name="aaa.modules.regression.sales.home_ca.ho3.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho4.TestSeniorDiscount"/>
             <class name="aaa.modules.regression.sales.home_ca.ho6.TestSeniorDiscount"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanSignature"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanSignature"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanMutualExclusions">
+                <methods>
+                    <exclude name="TS2_AC6_RenewalBatch_AddingFPCECADP"/>
+                    <exclude name="TS2_AC7_RenewalBatch_NoDW0475"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCompanion">
+                <methods>
+                    <exclude name="AC3_Renewal_VisibleFPCECA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCompanion">
+                <methods>
+                    <exclude name="AC3_Renewal_VisibleFPCECA"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanCanItBind"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanCanItBind"/>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestCAFairPlanRating"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestCAFairPlanRating"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestNotOrderedMembershipError"/>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipOverride">
+                <methods>
+                    <exclude name="AC1_testMembershipOverride_NB15NB30Jobs"/>
+                    <exclude name="AC1_testMembershipOverride_Renewal"/>
+                    <exclude name="AC2_testMembershipOverride_Renewal"/>
+                    <exclude name="AC3_testMembershipOverride_Renewal"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.dp3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_DP3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho6.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO6"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho3.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO3"/>
+                </methods>
+            </class>
+            <class name="aaa.modules.regression.sales.home_ca.ho4.functional.TestMembershipPendingCA">
+                <methods>
+                    <exclude name="pas17784_AC4_AC5_CA_Pending_Removed_Renewal_HO4"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="CA PUP Regression Tests" parallel="methods">

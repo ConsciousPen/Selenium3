@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import aaa.helpers.jobs.GroupJobs;
 import aaa.helpers.jobs.Job;
 import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
 
@@ -209,6 +210,20 @@ public class BatchTest extends BackwardCompatibilityBaseTest {
 	@Test(description = "batchJob28.xml")
 	public void BCT_BTCH_aaaRefundDisbursementAsyncJob(@Optional("") String state){
 		Job job = GroupJobs.groupaaaRefundDisbursementAsyncJob;
+		executeBatchTest(job);
+	}
+
+	@Parameters({"state"})
+	@Test(description = "batchJob29.xml")
+	public void BCT_BTCH_aaaScheatmentProcessAsyncJob(@Optional("") String state){
+		Job job = GroupJobs.groupAAAEscheatmentProcessAsyncJob;
+		executeBatchTest(job);
+	}
+
+	@Parameters({"state"})
+	@Test(description = "batchJob30.xml")
+	public void BCT_BTCH_aaaGenerateEscheatmentReportJob(@Optional("") String state){
+		Job job = GroupJobs.groupaaaGenerateEscheatmentReportJob;
 		executeBatchTest(job);
 	}
 

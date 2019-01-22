@@ -5,10 +5,7 @@ import static aaa.helpers.db.queries.VehicleQueries.UPDATE_VEHICLEREFDATAVINCONT
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
@@ -37,6 +34,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 	protected static UploadToVINTableTab uploadToVINTableTab = new UploadToVINTableTab();
 	protected static PurchaseTab purchaseTab = new PurchaseTab();
 	private static RatingDetailReportsTab ratingDetailReportsTab = new RatingDetailReportsTab();
+	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 
 	int AutoSSPPAVehicleMSRPKey = 4;
 
@@ -168,6 +166,48 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 
 		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
 	}
+
+	protected void pas18969_restrictVehicleRefreshOnRenewal(TestData testData, String vinTableFile) {
+		mainApp().open();
+		createCustomerIndividual();
+
+		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
+		premiumAndCoveragesTab.submitTab();
+		new ErrorTab().overrideAllErrors();
+		new ErrorTab().override();
+		premiumAndCoveragesTab.submitTab();
+
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
+		DriverActivityReportsTab driverActivityReportTab = new DriverActivityReportsTab();
+		driverActivityReportTab.fillTab(testData);
+		if (driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).isPresent()) {
+			driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT).setValue("I Agree");
+			driverActivityReportTab.getAssetList().getAsset(AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY).click();
+			driverActivityReportTab.submitTab();		}
+
+		new DocumentsAndBindTab().fillTab(testData).submitTab();
+		new PurchaseTab().fillTab(testData).submitTab();
+
+		String policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		// Upload vin data
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
+		uploadToVINTableTab.uploadVinTable(vinTableFile);
+		// Generate automated renewal image according to renewal timeline
+		// Move time to renewal time point
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		// Retrieve the policy
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		// Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+	}
+
 
 	protected void compCollSymbolCheck_pas730(String compSymbol, String collSymbol, boolean isPPAType) {
 		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
@@ -454,4 +494,13 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		DBService.get().executeUpdate(String.format(UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE));
 	}
 
+	public HashMap<String, String> getPolicySymbols() {
+		HashMap<String,String> policySymbols = new HashMap<>(); // in fact it is duplication of symbols from NewVIN_UT_SS.xlsx, New3VIN_UT_SS.xlsx
+
+		policySymbols.put("BI Symbol","BI001");
+		policySymbols.put("PD Symbol","PD001");
+		policySymbols.put("UM Symbol","UM001");
+		policySymbols.put("MP Symbol","MP001");
+		return policySymbols;
+	}
 }

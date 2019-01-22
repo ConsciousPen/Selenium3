@@ -1,11 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -31,11 +25,18 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class Scenario9 extends ScenarioBaseTest {
 	protected IPolicy policy;
@@ -241,14 +242,18 @@ public class Scenario9 extends ScenarioBaseTest {
 		PolicyHelper.verifyEndorsementIsCreated();
 
 		currentTermDueAmount = PolicySummaryPage.TransactionHistory.getTranPremium();
+		
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		if (getState().equals(Constants.States.NJ)) {
-			Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount);
+			//Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate, currentTermDueAmount);
+			Dollar pligaFeeEndorse = BillingHelper.calculatePligaFee(transactionDate);
 			currentTermDueAmount = currentTermDueAmount.add(pligaFeeEndorse);
 		}
 		if (getState().equals(Constants.States.NY)) {
 			currentTermDueAmount = currentTermDueAmount.add(10);
 		}
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(ProductConstants.PolicyStatus.POLICY_ACTIVE).setTotalDue(currentTermDueAmount).verifyPresent();
 
 		// Endorsement transaction displayed on billing in Payments & Other transactions section

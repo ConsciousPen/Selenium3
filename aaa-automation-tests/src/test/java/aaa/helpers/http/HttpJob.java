@@ -42,7 +42,7 @@ public class HttpJob {
 	private static final long ASYNC_TIMEOUT = 300000;
 
 	private static Logger log = LoggerFactory.getLogger(HttpJob.class);
-	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1200000"));
+	private static int JOB_TIMEOUT = Integer.parseInt(PropertyProvider.getProperty("test.batchjob.timeout", "1500000"));
 
 	private HttpJob() {
 	}
@@ -167,8 +167,7 @@ public class HttpJob {
 		String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
 		httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
 
-		log.info("HTTP: Latest job result : {}", JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName));
-
+		//log.info("HTTP: Latest job result : {}", JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName));
 	}
 
 	private static void checkAsyncTask() throws IOException {

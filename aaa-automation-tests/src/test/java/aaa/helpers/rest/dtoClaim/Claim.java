@@ -1,7 +1,6 @@
 package aaa.helpers.rest.dtoClaim;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 public class Claim {
@@ -176,13 +175,9 @@ public class Claim {
         return isCompClaim;
     }
 
-    public void setIsCompClaim(Boolean isCompClaim) {
-        this.isCompClaim = isCompClaim;
-    }
+    public void setIsCompClaim(Boolean isCompClaim) {this.isCompClaim = isCompClaim;}
 
-     public String getCause() {
-        return cause;
-    }
+    public String getCause() {return cause;}
 
     public void setCause(String cause) {
         this.cause = cause;

@@ -1,14 +1,17 @@
 package aaa.modules.regression.service.auto_ss.functional;
 
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.service.helper.TestMiniServicesAssignmentsHelper;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
+
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelper {
 
@@ -29,11 +32,12 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * Verify Occasional Satatus
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-10484"})
 	public void pas10484_ViewDriverAssignment(@Optional("VA") String state) {
 
-		pas10484_ViewDriverAssignmentService(getPolicyType());
+		pas10484_ViewDriverAssignmentService();
 	}
 
 	/**
@@ -50,11 +54,12 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 9. Verify Occasional Status
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14477, PAS-10484"})
 	public void pas14477_ViewDriverAssignment_NewDriver(@Optional("VA") String state) {
 
-		pas14477_ViewDriverAssignment_NewDriver_Body(getPolicyType());
+		pas14477_ViewDriverAssignment_NewDriver_Body();
 	}
 
 	/**
@@ -68,11 +73,12 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * Verify primary for first vehicle and ocasional for 2nd vehicle
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11633"})
 	public void pas11633_ViewDriverAssignmentAutoAssign(@Optional("VA") String state) {
 
-		pas11633_ViewDriverAssignmentAutoAssignService(getPolicyType());
+		pas11633_ViewDriverAssignmentAutoAssignService();
 	}
 
 	/**
@@ -103,6 +109,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule1(@Optional("VA") String state) {
@@ -137,6 +144,7 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-14699", "PAS-15529"})
 	public void pas13994_UpdateDriverAssignmentServiceRule2(@Optional("VA") String state) {
@@ -160,14 +168,16 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 6. Rate and Bind. Check if endorsement doesn't exist.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13994", "PAS-15529", "PAS-15253"})
 	public void pas13994_UpdateDriverAssignmentServiceRule3(@Optional("VA") String state) {
 
-		pas13994_UpdateDriverAssignmentServiceRule3Body(getPolicyType());
+		pas13994_UpdateDriverAssignmentServiceRule3Body();
 	}
 
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.MD,Constants.States.AZ,Constants.States.KY,Constants.States.NY,Constants.States.NJ,Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-11684"})
 	public void pas11684_DriverAssignmentExistsForState(@Optional("UT") String state) {
@@ -182,9 +192,10 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * @scenario 1. Create a policy with 1V and 1D
 	 * 2.create endorsement
 	 * 3.Hit viewEndorsementChangeLog.
-	 * 4Verify if transaction history shows change type added and driver assignment.
+	 * 4.Verify if transaction history shows change type added and driver assignment.
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14539"})
 	public void pas14539_transactionInfoDriverAssignment(@Optional("VA") String state) {
@@ -199,16 +210,17 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	 * 2.create endorsement
 	 * 3.Hit viewEndorsementChangeLog.
 	 * 4.Verify if transaction history shows change type added and driver assignment.
-	 * 5.change the driver assignment
-	 * 6. then run change log service again
-	 * 7. verify new driver assignment added and existing is removed
+	 * 5.Change the driver assignment
+	 * 6.Then run change log service again
+	 * 7.Verify new driver assignment added and existing is removed
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14539,PAS-16589"})
 	public void pas14539_transactionInfoUpdateDriverAssignment(@Optional("VA") String state) {
 
-		pas14539_transactionInfoUpdateDriverAssignmentBody(getPolicyType());
+		pas14539_transactionInfoUpdateDriverAssignmentBody();
 	}
 
 	/**
@@ -224,7 +236,149 @@ public class TestMiniServicesAssignments extends TestMiniServicesAssignmentsHelp
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15540", "PAS-15505"})
 	public void pas15540_RemoveDriverAssignedToTrailer(@Optional("VA") String state) {
-		pas15540_RemoveDriverAssignedToTrailerBody(getPolicyType());
+		pas15540_RemoveDriverAssignedToTrailerBody();
 		//NOTE: This test works for all Auto SS states
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V = D)
+	 * @scenario 1. Create a policy with 3V and 3D
+	 * D1-->V1, D2-->V2, D3-->D3
+	 * 2. Create endorsement outside of PAS
+	 * 3. Remove V1, V2, D3
+	 * 4. Check DA: D1-->V3, D2-->V3 and rate.
+	 * 5. Delete old endorsement, create new one.
+	 * 6. Delete D2, D3
+	 * 7. Check DA: D3-->V1, V2, V3 and rate.
+	 * Prepare for other TC when we have 2V and 2D
+	 * D1-->V1, D2-->V2
+	 * 8. +D3 and +V3
+	 * 9. Check DA: D1-->V1, D2-->V2, D3, V3-->Unn
+	 * 10. Update: D3-->V3 and rate after.
+	 * 11. Delete old endorsement, create new one.
+	 * 12. Replace V1.
+	 * 13. Check DA: D1-->V1, D2-->V2.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
+	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule1(@Optional("VA") String state) {
+
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule1Body();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V > D)
+	 * @scenario 1. Create policy with 4V and 2D
+	 * V1-->D1, V2-->D1, V3-->D2, V4-->D2
+	 * 1. Create endorsement outside of PAS
+	 * 2. Remove V2
+	 * 3. Check DA: D1-->V1, D2-->V3,V4 and rate.
+	 * 4. Delete old endorsement, create new one.
+	 * 5. Remove D2
+	 * 6. Check DA: D1-->All V and rate.
+	 * 7. Delete old endorsement, create new one.
+	 * 8. Replace V1, delete V2, add D2
+	 * 9. D1-->V1, D2-->V3,V4, D3-->Unn
+	 * 10. Update D3-->V4 and rate.
+	 * Prepare for next TC.
+	 * D1-->V1,V2,V3, D2-->V4,V5,V6
+	 * 1. Create endorsement outside of PAS
+	 * 2. Remove D2, V2, V3
+	 * 3. Check DA: D1-->V1,V4,V5,V6
+	 * 4. Rate and Bind.
+	 *
+	 * @scenario Part2
+	 * 1. Create a policy with V2 and D1
+	 * 2. Create endorsement outside of PAS
+	 * 3. Replace V1, V2, and after add V3
+	 * 4. Check DA: D1-->V1,V2,V3 and rate.
+	 * 5. Delete old endorsement, create new one.
+	 * 6. Add V3 and D2, remove V1
+	 * 7. Check DA: D1-->V2,V3; D2-->Unn
+	 * 8. Update: D2-->V3, rate and bind.
+	 *
+	 * @scenario Part3
+	 * 1. Create policy with 3D and 4V
+	 * V1-->D1, V2-->D2, V3-->D3, V4-->D1
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Remove V1
+	 * 4. Check DA: V2-->D2, V3-->D3, V4-->D1 and rate.
+	 * 5. Delete old endorsement, create new one.
+	 * 6. Remove V2
+	 * 7. Check DA: V1-->D1, V3-->D3, V4-->D1, D2-->Unn
+	 * 8. Update D2-->V3, and rate
+	 * 9. Delete old endorsement, create new one.
+	 * 10. Remove V3
+	 * 11. V1-->D1, V2-->D2, V4-->D1, D3-->Unn
+	 * 12. Update D3-->V2, and rate
+	 * 13. Delete old endorsement, create new one.
+	 * 14. Remove V4
+	 * 15. Check DA: V1-->D1, V2-->D2, V3-->D3 rate and bind.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
+	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule3(@Optional("VA") String state) {
+
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part1Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part2Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule3Part3Body();
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name View driver assignment service after Remove/Add/Replace (Rule V < D)
+	 * @scenario 1. Create policy with 4D and 3V
+	 * D1-->V1, D2-->V2, D3-->V2, D4-->V3
+	 * 2. Remove D2
+	 * 3. Check DA: D1-->V1, D3-->V2, D4-->V3 and rate.
+	 * 4. Delete old endorsement, create new one.
+	 * 5. Delete V2 and after D3
+	 * 6. Check DA: D1-->V1, D2-->Unn, D4-->V3
+	 * 7. Update D2-->V1 and rate.
+	 * 8. Delete old endorsement, create new one.
+	 * 9. Remove V2 after V3
+	 * 10. Check DA: V1-->All D
+	 * 11. Bind and rate.
+	 *
+	 * @scenario Part2
+	 * 1. Create a policy with V2 and D3
+	 * 2. Remove D3 add V3
+	 * 3. Check DA: D1-->V1, D2-->V2, V3-->Unn
+	 * 4. Update D2-->V3 and rate.
+	 * Prepare for the next TC
+	 * 1. Policy with 2V and 5D
+	 * V1-->D1,D2,D3, V2-->D4,D5
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Remove D4 and D5
+	 * 4. Check DA: V1-->D2,D3 V2-->D5
+	 * 5. Bind and rate.
+	 *
+	 * @scenario Part3
+	 * 1. Create policy with 2D and 1V
+	 * D1-->V1, D2-->V1
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add D3, add D4, add  V2
+	 * 4. Check DA: D1-->V1, D2-->V1, D3-->V1, D4-->V1, V2-->Unn
+	 * 5. Update D2-->V2, rate.
+	 * 6. Delete old endorsement, create new one.
+	 * 7. Delete D2 and add V2
+	 * 8. Check DA: D1-->V1,V2
+	 * 9. Bind and rate.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21199"})
+	public void pas21199_ViewDriverAssignmentAddRemoveActionsRule2(@Optional("VA") String state) {
+
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part1Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part2Body();
+		pas21199_ViewDriverAssignmentAddRemoveActionsRule2Part3Body();
 	}
 }

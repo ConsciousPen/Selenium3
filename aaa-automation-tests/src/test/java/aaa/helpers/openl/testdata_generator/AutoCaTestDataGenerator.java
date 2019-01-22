@@ -12,6 +12,7 @@ import aaa.helpers.openl.model.auto_ca.AutoCaOpenLDriver;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;
 import aaa.helpers.openl.model.auto_ca.select.AutoCaSelectOpenLVehicle;
 import aaa.main.metadata.policy.AutoCaMetaData;
+import aaa.main.modules.policy.PolicyType;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -19,12 +20,20 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 
-abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends OpenLVehicle, P extends AutoCaOpenLPolicy<D, V>> extends AutoTestDataGenerator<P> {
+public abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends OpenLVehicle, P extends AutoCaOpenLPolicy<D, V>> extends AutoTestDataGenerator<P> {
 	protected static final String DRIVER_FN_POSTFIX = "_FN";
 	protected static final String DRIVER_LN_POSTFIX = "_LN";
 
 	AutoCaTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
+	}
+
+	protected TestData getPrefillTabData() {
+		return DataProviderFactory.dataOf(
+				AutoCaMetaData.PrefillTab.VALIDATE_ADDRESS_BTN.getLabel(), "click",
+				AutoCaMetaData.PrefillTab.VALIDATE_ADDRESS_DIALOG.getLabel(), DataProviderFactory.emptyData(),
+				AutoCaMetaData.PrefillTab.ORDER_PREFILL.getLabel(), "click"
+		);
 	}
 
 	protected List<TestData> getDriverTabData(P openLPolicy) {
@@ -54,7 +63,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 				AutoCaMetaData.DriverTab.PERMIT_BEFORE_LICENSE.getLabel(), "No",
 				AutoCaMetaData.DriverTab.LICENSE_STATE.getLabel(), getState(),
 				AutoCaMetaData.DriverTab.LICENSE_NUMBER.getLabel(), "C$<rx:\\d{7}>",
-				AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driverAge, policyEffectiveDate),
+				AutoCaMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), isFirstDriver ? null : getDriverTabDateOfBirth(driverAge, policyEffectiveDate),
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETED_WITHIN_36_MONTHS.getLabel(), driverAge >= 50 ? getYesOrNo(openLDriver.isMatureDriver()) : null,
 				AutoCaMetaData.DriverTab.MATURE_DRIVER_COURSE_COMPLETION_DATE.getLabel(), Boolean.TRUE.equals(openLDriver.isMatureDriver())
 						? policyEffectiveDate.minusDays(new Random().nextInt(maxIncidentFreeInMonthsToAffectRating * 28)).format(DateTimeUtils.MM_DD_YYYY) : null,
@@ -74,7 +83,7 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected abstract List<TestData> getDriverTabActivityInformationData(D openLDriver, LocalDate policyEffectiveDate);
 
-	protected abstract int getDriverAge(D openLDriver);
+	public abstract int getDriverAge(D openLDriver);
 
 	protected List<TestData> getVehicleTabData(P openLPolicy) {
 		List<TestData> vehiclesTestDataList = new ArrayList<>(openLPolicy.getVehicles().size());
@@ -149,6 +158,10 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 		for (OpenLVehicle vehicle : openLPolicy.getVehicles()) {
 			for (AutoOpenLCoverage coverage : vehicle.getCoverages()) {
+				//Vehicle can either have UMPD or CDW coverage, but not both. UMPD is not available with COLL coverage, however CDW is.
+				if ("UMPD".equals(coverage.getCoverageCd()) && vehicle.getCoverages().stream().anyMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+					coverage.setCoverageCd("CDW");
+				}
 				String coverageName = getPremiumAndCoveragesTabCoverageName(coverage.getCoverageCd());
 				if (isPolicyLevelCoverageCd(coverage.getCoverageCd())) {
 					policyCoveragesData.put(coverageName, getPremiumAndCoveragesTabLimitOrDeductible(coverage));
@@ -159,11 +172,19 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 					}
 				}
 			}
+			if (vehicle.getCoverages().stream().noneMatch(c -> "COMP".equals(c.getCoverageCd()))) {
+				detailedCoveragesData.put(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COMPREGENSIVE_DEDUCTIBLE.getLabel(), getFormattedCoverageLimit("N", "COMP"));
+			}
+			if (vehicle.getCoverages().stream().noneMatch(c -> "COLL".equals(c.getCoverageCd()))) {
+				detailedCoveragesData.put(AutoCaMetaData.PremiumAndCoveragesTab.DetailedVehicleCoverages.COLLISION_DEDUCTIBLE.getLabel(), getFormattedCoverageLimit("N", "COLL"));
+			}
+
 			detailedVehicleCoveragesList.add(new SimpleDataProvider(detailedCoveragesData));
 			detailedCoveragesData.clear();
 		}
 
 		return DataProviderFactory.dataOf(
+				AutoCaMetaData.PremiumAndCoveragesTab.PRODUCT.getLabel(), openLPolicy.getTestPolicyType().equals(PolicyType.AUTO_CA_SELECT) ? "CA Select" : "CA Choice",
 				AutoCaMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel(), getPremiumAndCoveragesPaymentPlan(openLPolicy.getTerm()),
 				AutoCaMetaData.PremiumAndCoveragesTab.ADDITIONAL_SAVINGS_OPTIONS.getLabel(), "Yes", //TODO-dchubkov: enable only if need to fill expanded section
 				AutoCaMetaData.PremiumAndCoveragesTab.MULTI_CAR.getLabel(), openLPolicy.isMultiCar(),
@@ -175,9 +196,9 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 
 	protected abstract String getVehicleTabStatCode(String statCode, int modelYear);
 
-	protected int getRandomAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
+	protected int calculateAge(int minAgeInclusive, int maxAgeInclusive, int tyde) {
 		assertThat(minAgeInclusive)
-				.as("Can't get random driver's age for minAgeInclusive=%1$s and maxAgeInclusive=%2$s; minAgeInclusive should be positive and less than maxAgeInclusive argument", minAgeInclusive, maxAgeInclusive)
+				.as("Can't calculate driver's age for minAgeInclusive=%1$s and maxAgeInclusive=%2$s; minAgeInclusive should be positive and less than maxAgeInclusive argument", minAgeInclusive, maxAgeInclusive)
 				.isPositive().isLessThan(maxAgeInclusive);
 
 		int minimalAgeFirstLicensed = 16;
@@ -185,10 +206,10 @@ abstract class AutoCaTestDataGenerator<D extends AutoCaOpenLDriver, V extends Op
 		if (ageFirstLicensed < minimalAgeFirstLicensed) {
 			minAgeInclusive += Math.abs(minAgeInclusive - ageFirstLicensed);
 			assertThat(minAgeInclusive)
-					.as("Can't get random driver's age for minAgeInclusive=%1$s, maxAgeInclusive=%2$s and tyde=%3$s; new minAgeInclusive with tyde consideration should be less than maxAgeInclusive argument",
+					.as("Can't calculate driver's age for minAgeInclusive=%1$s, maxAgeInclusive=%2$s and tyde=%3$s; new minAgeInclusive with tyde consideration should be less than maxAgeInclusive argument",
 							minAgeInclusive, maxAgeInclusive, tyde).isLessThan(maxAgeInclusive);
 		}
-		return RandomUtils.nextInt(minAgeInclusive, maxAgeInclusive + 1);
+		return minAgeInclusive;
 	}
 
 	protected TestData get3ViolationPointsActivityInformationData(LocalDate effectiveDate, Integer totalYearsAaccidentsFree) {

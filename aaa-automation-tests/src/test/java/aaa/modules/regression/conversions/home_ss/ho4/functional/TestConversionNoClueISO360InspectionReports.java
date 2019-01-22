@@ -29,7 +29,7 @@ public class TestConversionNoClueISO360InspectionReports extends HomeSSHO4BaseTe
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO4, testCaseId = "PAS-7211")
 	public void pas7211_ConversionNoClueISO360InspectionReports(@Optional("") String state) {
 

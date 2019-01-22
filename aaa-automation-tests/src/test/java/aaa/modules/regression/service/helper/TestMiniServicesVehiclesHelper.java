@@ -2,12 +2,14 @@ package aaa.modules.regression.service.helper;
 
 import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
 import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE;
+import static aaa.modules.regression.service.auto_ss.functional.TestMiniServicesPremiumBearing.miniServicesEndorsementDeleteDelayConfigCheck;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
-import javax.xml.datatype.DatatypeFactory;
 
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
@@ -30,11 +32,25 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.RadioGroup;
+
+import javax.ws.rs.core.Response;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+
+import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
+import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -50,6 +66,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	private TestMiniServicesDriversHelper testMiniServicesDriversHelper = new TestMiniServicesDriversHelper();
 
 	protected void pas8275_vinValidateCheck(ETCSCoreSoftAssertions softly, PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		String getAnyActivePolicy = "select ps.policyNumber, ps.POLICYSTATUSCD, ps.EFFECTIVE\n"
 				+ "from policySummary ps\n"
 				+ "where 1=1\n"
@@ -112,6 +129,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas7082_AddVehicle(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		policyType.get().createPolicy(getPolicyTD());
@@ -271,6 +289,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas488_VehicleDeleteBody(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -610,6 +629,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas9610_UpdateVehicleService() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -882,6 +902,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas18672_vehiclesRevertOptionForDeleteBody() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber8Vehicles);
 		policy.copyPolicy(getCopyFromPolicyTD());
@@ -1099,6 +1120,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas11618_UpdateVehicleLeasedFinancedInfoBody(ETCSCoreSoftAssertions softly, String ownershipType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -1141,10 +1163,10 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		if ("LSD".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Leased");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Leased");
 		}
 		if ("FNC".equals(ownershipType)) {
-			assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE)).hasValue("Financed");
+			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Financed");
 		}
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME)).hasValue("Other");
 		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
@@ -1219,7 +1241,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
 		//BUG PAS-14395 Update Vehicle service failed to update ownership
-		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
+		softly.assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE).getValue()).isEqualTo("Owned");
 		mainApp().close();
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
@@ -1230,6 +1252,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas12246_ViewVehiclePendingRemovalService(PolicyType policyType) {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		createCustomerIndividual();
 		TestData td = getPolicyTD("DataGather", "TestData");
@@ -1463,6 +1486,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas9490_ViewVehicleServiceCheckVehiclesStatus() {
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
 
@@ -1497,6 +1521,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate), Vehicle.class, 201);
 		assertThat(response2.oid).isNotEmpty();
 		String newVehicleOid = response2.oid;
+
 
 		//View vehicles status
 		ViewVehicleResponse response3 = HelperCommon.viewEndorsementVehicles(policyNumber);
@@ -1558,6 +1583,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 	protected void pas15483_deleteOriginalVehicleBody() {
 		assertSoftly(softly -> {
+			miniServicesEndorsementDeleteDelayConfigCheck();
 			mainApp().open();
 			String policyNumber = getCopiedPolicy();
 
@@ -2773,58 +2799,56 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12942_GaragingAddressConsistencyDXPBody() {
+	protected void pas12942_GaragingAddressConsistencyDXPBody( String state) {
 		mainApp().open();
-		String policyNumber = getCopiedPolicy();
 
-		ViewVehicleResponse policyValidateVehicleInfoResponse = HelperCommon.viewPolicyVehicles(policyNumber);
-		String oldVehicleOid = policyValidateVehicleInfoResponse.vehicleList.get(0).oid;
+		String policyNumber = getCopiedPolicy();
 
 		//start an endorsement
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		//Update vehicle on DXP with different garaging address
-		String address1 = "2011 CORAL AVE";
-		String city = "Chesapeake";
-		String zip = "23324";
-		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
-		updateVehicleRequest.vehicleOwnership = new VehicleOwnership();
-		updateVehicleRequest.vehicleOwnership.ownership = "OWN";
-		updateVehicleRequest.usage = "Pleasure";
-		updateVehicleRequest.salvaged = false;
-		updateVehicleRequest.garagingDifferent = true;
-		updateVehicleRequest.garagingAddress = new Address();
-		updateVehicleRequest.garagingAddress.addressLine1 = address1;
-		updateVehicleRequest.garagingAddress.city = city;
-		updateVehicleRequest.garagingAddress.postalCode = zip;
-		updateVehicleRequest.garagingAddress.stateProvCd = "VA";
-		updateVehicleRequest.antiTheft = "STD";
-		updateVehicleRequest.registeredOwner = true;
+		String purchaseDate = "2005-02-22";
+		String vin = "3FAFP31341R200709";
+		Vehicle response1 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);
 
-		HelperCommon.updateVehicle(policyNumber, oldVehicleOid, updateVehicleRequest);
+		if ("VA".equals(state)) {
+			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "2011 CORAL AVE", "Chesapeake", "23324", "VA");
+			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		}else if ("CT".equals(state))
+		{
+			VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
+			HelperCommon.updateVehicle(policyNumber, response1.oid, updateVehicleRequest);
+		}
 
 		//hit Meta Data and verify that the garaging address is different
-		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, oldVehicleOid);
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, response1.oid);
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.addressLine1", true, true, true, "40", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.postalCode", true, true, true, "10", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.city", true, true, true, "30", "String");
 		testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.stateProvCd", true, true, true, null, "String");
+		if ("CT".equals(state))
+		{
+			testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "garagingAddress.county", true, true, true, null, "String");
 
+		}
 		//check that the garaging address is different in PAS and bind the endorsement
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonPendedEndorsement.click();
+
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals(address1)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals(city)).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("VA")).isTrue();
-		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals(zip)).isTrue();
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(ADDRESS_LINE_1.getLabel()).getValue().toString().equals("213 Regis Court")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(CITY.getLabel()).getValue().toString().equals("Meriden")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(STATE.getLabel()).getValue().toString().equals("CT")).isTrue();
+		assertThat(vehicleTab.getAssetList().getAsset(ZIP_CODE.getLabel()).getValue().toString().equals("06450")).isTrue();
 		vehicleTab.saveAndExit();
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 		assertThat(PolicySummaryPage.labelPolicyStatus.getValue()).isEqualTo(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 	}
 
 	protected void pas16113_ReplaceVehicleKeepAssignmentsForOtherStatesThanVaBody(){
+		miniServicesEndorsementDeleteDelayConfigCheck();
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData testData = td.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_NewVehicle").getTestDataList("VehicleTab"))
 				.adjust(new DriverTab().getMetaKey(), getTestSpecificTD("TestData_Driver").getTestDataList("DriverTab"))
@@ -2942,6 +2966,73 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle responseAddVehicle2 = HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin2, purchaseDate3), Vehicle.class, 201);
 		softly.assertThat(responseAddVehicle2.oid).isNotEmpty();
 		});
+	}
+
+	protected void pas15269_ViewVehicleServiceAddTownshipBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		PolicySummary responsePolicyPending = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
+		softly.assertThat(responsePolicyPending.residentialAddress.county).isEqualTo("60319");
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse listOfVehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
+		String oidVehicle = listOfVehicles.vehicleList.get(0).oid;
+		softly.assertThat(listOfVehicles.vehicleList.get(0).garagingAddress.county).isEqualTo("60319");
+
+		VehicleUpdateDto updateVehicleRequest1 = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "5168 w ross drive", "Chandler", "85226", "AZ");
+		VehicleUpdateResponseDto updateVehicleResponse2 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest1);
+		softly.assertThat(updateVehicleResponse2.garagingAddress.county).isEqualTo(null);
+
+
+		VehicleUpdateDto updateVehicleRequest = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "213 Regis Court", "Meriden", "06450", "CT");
+		VehicleUpdateResponseDto updateVehicleResponse3 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleRequest);
+		softly.assertThat(updateVehicleResponse3.garagingAddress.county).isEqualTo("60232");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.addressLine1).isEqualTo("213 Regis Court");
+		softly.assertThat(updateVehicleResponse3.garagingAddress.city).isEqualTo("Meriden");
+
+		VehicleUpdateDto updateVehicleReques4 = DXPRequestFactory.createUpdateVehicleRequest("Pleasure", true, "3978 SPANIEL CT", "NAUGATUCK", "06770", "CT");
+		VehicleUpdateResponseDto updateVehicleResponse4 = HelperCommon.updateVehicle(policyNumber, oidVehicle, updateVehicleReques4);
+		softly.assertThat(updateVehicleResponse4.garagingAddress.county).isEqualTo(null);
+
+		VehicleUpdateResponseDto updateVehicleResponse5 = HelperCommon.updateVehicle(policyNumber, oidVehicle, DXPRequestFactory.createUpdateVehicleRequest("60319"));
+		softly.assertThat(updateVehicleResponse5.garagingAddress.county).isEqualTo("60319");
+	}
+
+	protected void pas15499_RegisteredOwners(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		String vehicleOid = addVehicleWithChecks(policyNumber, "2013-01-20", "1C4BJWDG0JL847133", true);
+		VehicleUpdateDto updateVehicleRequest1 = new VehicleUpdateDto();
+		updateVehicleRequest1.registeredOwner = false;
+		VehicleUpdateResponseDto updateVehicleResponse1 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest1);
+		assertThat(updateVehicleResponse1.validations.size()).isGreaterThan(0);
+		assertThat(updateVehicleResponse1.validations.stream().anyMatch(validation -> StringUtils.startsWith(validation.errorCode, "AAA_SS1007148"))).isTrue();
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED)).hasValue("Yes");
+		vehicleTab.saveAndExit();
+
+		VehicleUpdateDto updateVehicleRequest2 = new VehicleUpdateDto();
+		updateVehicleRequest2.registeredOwner = true;
+		VehicleUpdateResponseDto updateVehicleResponse2 = HelperCommon.updateVehicle(policyNumber, vehicleOid, updateVehicleRequest2);
+		assertThat(updateVehicleResponse2.validations.size()).isEqualTo(0);
+
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(IS_REGISTERED_OWNER_DIFFERENT_THAN_NAMED_INSURED)).hasValue("No");
+		vehicleTab.saveAndExit();
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {

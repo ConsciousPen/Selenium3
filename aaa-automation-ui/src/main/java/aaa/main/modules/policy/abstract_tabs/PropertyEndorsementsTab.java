@@ -32,6 +32,7 @@ public abstract class PropertyEndorsementsTab extends Tab {
 	}
 
 	public Link getAddEndorsementLink(String formID) {
+		tblOptionalEndorsements.waitForAccessible(15000);
 		if (tblOptionalEndorsements.getRow("Form ID", formID).isPresent()) {
 			return tblOptionalEndorsements.getRow("Form ID", formID).getCell(tblOptionalEndorsements.getColumnsCount()).controls.links.get("Add", Waiters.AJAX);
 		} else if (tblIncludedEndorsements.getRow("Form ID", formID).isPresent()) {
@@ -92,13 +93,13 @@ public abstract class PropertyEndorsementsTab extends Tab {
 			throw new IstfException("Can't get 'Remove' link for endorsement " + formID + ". Endorsement not added.");
 		}
 	}
-	
+
 	public Link getLinkEdit(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Edit");
 	}
-	
+
 	public Link getLinkRemove(String formID) {
 		return tblIncludedEndorsements.getRow("Form ID", formID).getCell(tblIncludedEndorsements.getColumnsCount()).controls.links.get("Remove");
 	}
-	
+
 }

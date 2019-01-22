@@ -1,9 +1,5 @@
 package aaa.modules.delta.templates;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -22,6 +18,12 @@ import aaa.modules.BaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import static toolkit.verification.CustomAssertions.assertThat;
 
 public class CTDeltaScenario1 extends BaseTest {
 

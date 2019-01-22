@@ -28,7 +28,6 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 	protected static ConcurrentHashMap<List<String>, List<Map<String, String>>> queryResult = new ConcurrentHashMap<>();
 
 	public static final String SELECT_POLICY_QUERY_TYPE = "SelectPolicy";
-
 	public BillingAccount billingAccount = new BillingAccount();
 	public AcceptPaymentActionTab paymentTab = new AcceptPaymentActionTab();
 
@@ -81,13 +80,13 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		return getPoliciesFromQuery(getQueryResult(testName, queryName), queryName);
 	}
 
-	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate, String state) {
+	public List<String> getEmptyEndorsementPolicies(String testName, String startRangeDate, String endRangeDate) {
 		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue(SELECT_POLICY_QUERY_TYPE);
 		query = query.replace("/DATE1/", startRangeDate);
 		query = query.replace("/DATE2/", endRangeDate);
-		query = query.replace("/STATE/", state);
+		query = query.replace("/STATE/", getState());
 
-		return getPoliciesFromQuery(DBService.get().getRows(query), SELECT_POLICY_QUERY_TYPE);
+		return getPoliciesFromQuery(DBService.get().getRows(query + " ORDER BY POLICYNUMBER DESC"), SELECT_POLICY_QUERY_TYPE);
 	}
 
 	private List<Map<String, String>> getQueryResult(String testName, String queryName) {
@@ -99,6 +98,19 @@ public class BackwardCompatibilityBaseTest extends PolicyBaseTest {
 		query = query.replace("PASADM.", "");
 
 		return DBService.get().getRows(query);
+	}
+
+	protected List<String> getPoliciesWithDateRangeByQuery(String testName, String date1, String date2) {
+		String executionDate = TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+		String query = testDataManager.bct.get(getBctType()).getTestData(testName).getValue("SelectPolicy");
+		query = query.replace("/EXECDATE/", executionDate);
+		query = query.replace("/STATE/", getState());
+		query = query.replace("pasadm.", "");
+		query = query.replace("PASADM.", "");
+		query = query.replace("/DATE1/", date1);
+		query = query.replace("/DATE2/", date2);
+
+		return getPoliciesFromQuery(DBService.get().getRows(query), "SelectPolicy");
 	}
 
 	public List<String> getPoliciesFromQuery(List<Map<String, String>> queryResult, String queryName) {

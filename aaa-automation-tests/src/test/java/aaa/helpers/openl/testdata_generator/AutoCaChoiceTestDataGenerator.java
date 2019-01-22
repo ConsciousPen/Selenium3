@@ -31,6 +31,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 		openLPolicy.setEffectiveDate(TimeSetterUtil.getInstance().parse(defaultEffectiveDate, DateTimeUtils.MM_DD_YYYY).toLocalDate());
 
 		TestData td = DataProviderFactory.dataOf(
+				new PrefillTab().getMetaKey(), getPrefillTabData(),
 				new DriverTab().getMetaKey(), getDriverTabData(openLPolicy),
 				new VehicleTab().getMetaKey(), getVehicleTabData(openLPolicy),
 				new AssignmentTab().getMetaKey(), getAssignmentTabData(openLPolicy),
@@ -75,17 +76,17 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 	}
 
 	@Override
-	protected int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
+	public int getDriverAge(AutoCaChoiceOpenLDriver openLDriver) {
 		int driverAge;
 		if (Boolean.TRUE.equals(openLDriver.isMatureDriver())) {
-			driverAge = getRandomAge(50, 80, openLDriver.getTyde());
+			driverAge = calculateAge(50, 80, openLDriver.getTyde());
 		} else {
 			if (Boolean.TRUE.equals(openLDriver.isOccasionalUse())) {
 				assertThat(openLDriver.getMaritalStatus()).as("Unable to generate driver's test data for occasionalUse=true if marital status is not single").isEqualTo("S");
 				assertThat(openLDriver.getTyde()).as("Unable to generate driver's test data for occasionalUse=true if total years of driving experience is less than 8").isLessThan(8);
-				driverAge = getRandomAge(16, 24, openLDriver.getTyde());
+				driverAge = calculateAge(16, 24, openLDriver.getTyde());
 			} else {
-				driverAge = getRandomAge(25, 49, openLDriver.getTyde());
+				driverAge = calculateAge(25, 49, openLDriver.getTyde());
 			}
 		}
 		return driverAge;
@@ -150,7 +151,7 @@ public class AutoCaChoiceTestDataGenerator extends AutoCaTestDataGenerator<AutoC
 
 	@Override
 	boolean isPolicyLevelCoverageCd(String coverageCd) {
-		return Arrays.asList("BI", "PD", "UMBI", "MP").contains(coverageCd);
+		return Arrays.asList("BI", "PD", "UMBI", "MP", "UM").contains(coverageCd);
 	}
 
 	@Override

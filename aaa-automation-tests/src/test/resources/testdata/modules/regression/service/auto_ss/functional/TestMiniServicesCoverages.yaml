@@ -2,15 +2,22 @@ TestData_NewVehicle: {
 VehicleTab: ['@VehicleTab_2018'],
 }
 
+TestData3: '@TestMiniServicesDriver@TestData3'
+
 FourDrivers: {
-DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
-          }
+  DriverTab: ['@DriverTab2','@DriverTab3','@DriverTab4','@DriverTab6'],
+}
+
+FourDrivers_MD: {
+  DriverTab: ['@DriverTab1_MD', '@DriverTab2_MD', '@DriverTab3_MD', '@DriverTab4_MD'],
+}
+
+TestData_All_Type_Driver: '@TestMiniServicesDriver@TestData2'
 
 DriverTab2: {
       DriverSearchDialog: {},
       Occupation: Self-Employed,
       Age First Licensed: 18,
-      Date of Birth: '$<today-21y:MM/dd/yyyy>',
       License Type: 'Licensed (US)',
       License Number: 407378541
     }
@@ -46,7 +53,7 @@ DriverTab4: {
       Middle Name: 'not',
       Last Name: 'Insured',
       Suffix: 'III',
-      Date of Birth: '12/12/1992',
+      Date of Birth: '12/12/1993',
       Gender: 'Female',
       Marital Status: Single,
       Occupation: 'index=1',
@@ -74,6 +81,75 @@ DriverTab6: {
          License Type: 'Licensed (US)',
          Age First Licensed: '18',
          License Number: '603557789',
+         License Status: 'Licensed (US)',
+}
+
+DriverTab1_MD: {
+      DriverSearchDialog: {},
+      Occupation: Self-Employed,
+      Age First Licensed: 18,
+      License Type: 'Licensed (US)',
+      License Number: S123456789999
+}
+
+DriverTab2_MD: {
+    Add drivers: 'Yes',
+    DriverSearchDialog: {},
+    Driver Type: 'Not Available for Rating',
+    Reason: 'Insured with another carrier',
+    Carrier: 'index=10',
+    Policy Number: '12345',
+    Rel. to First Named Insured: Child,
+    First Name: 'Laura',
+    Middle Name: 'Sara',
+    Last Name: 'Smith',
+    Suffix: 'III',
+    Date of Birth: '12/12/1991',
+    Gender: 'Female',
+    Marital Status: Divorced,
+    Occupation: 'index=1',
+    License Type: 'Licensed (US)',
+    Age First Licensed: '18',
+    License Number: 'S123456789998',
+    License Status: 'Licensed (US)'
+}
+
+DriverTab3_MD: {
+      Add drivers: 'Yes',
+      DriverSearchDialog: {},
+      Rel. to First Named Insured: Sibling,
+      First Name: 'Teena',
+      Middle Name: 'not',
+      Last Name: 'Insured',
+      Suffix: 'III',
+      Date of Birth: '12/12/1992',
+      Gender: 'Female',
+      Marital Status: Single,
+      Occupation: 'index=1',
+      License Type: 'Licensed (US)',
+      Age First Licensed: '18',
+      License Number: 'S123456789997',
+      License Status: 'Licensed (US)',
+      Most Recent GPA: None
+}
+
+DriverTab4_MD: {
+   Add drivers: 'Yes',
+  DriverSearchDialog: {},
+   Driver Type: Excluded,
+    Reason: Company Request,
+    Rel. to First Named Insured: Employee,
+    First Name: 'John',
+    Middle Name: 'Jonny',
+         Last Name: 'Jeff',
+         Suffix: 'III',
+         Date of Birth: '12/12/1993',
+         Gender: 'Male',
+         Marital Status: Single,
+         Occupation: 'index=1',
+         License Type: 'Licensed (US)',
+         Age First Licensed: '18',
+         License Number: 'S123456789996',
          License Status: 'Licensed (US)',
 }
 
@@ -210,7 +286,7 @@ PremiumAndCoveragesTab_WV: {
 Underinsured Motorist Property Damage: index=1,
 }
 
-DocumentsAndBindTab1: {
+DocumentsAndBindTab: {
  RequiredToBind: {
     Auto Insurance Application: Physically Signed,
     Named Driver Exclusion: Physically Signed
@@ -222,6 +298,27 @@ DocumentsAndBindTab1: {
     Agreement: I agree
 }
 
+DocumentsAndBindTab_MD: {
+ RequiredToBind: {
+    Named Driver Exclusion Endorsement: Physically Signed,
+    Notice And Waiver Of Increased Limits Of Uninsured Motorists Coverage: Physically Signed,
+    Maryland Auto Insurance Application: Physically Signed,
+    Maryland Notice And Waiver Of Personal Injury Protection (PIP) Coverage: Physically Signed
+  },
+  RequiredToIssue: {
+     Proof of Current Insurance for: 'Yes',
+     Proof of Prior Insurance: 'Yes'
+   },
+    Agreement: I agree
+}
+
+TestData_PPAandTrailerMotorHome: {
+     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home','@VehicleTab_GolfCart'],
+ }
+
+TestData_PPAandTrailerMotorHomeOR: {
+     VehicleTab: ['@VehicleTab_2018', '@VehicleTab_Trailer','@VehicleTab_Motor_Home'],
+ }
 TestData_FNI_AFR_Excluded_NAFR: {
   DriverTab: ['@Driver_FNI', '@DriverTab_AFR', '@TestMiniServicesDriver@DriverTab6', '@TestMiniServicesDriver@DriverTab7'], #DriverTab6 = Excluded, DriverTab7 = NAFR
 }
@@ -231,7 +328,6 @@ Driver_FNI: {
   'Driver Rejects Limitation on Right to Sue?': 'Yes', #important!
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
@@ -259,7 +355,37 @@ DriverTab_AFR: {
 TestData_OrderOfCoverages: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
-  DriverLevelCoverages:[] #do not have requirements regarding to driver coverages for all states
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_AZ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OH: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OR: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "CHILDEXP", "PIPDED"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_NJ: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:[]
+}
+
+TestData_OrderOfCoverages_VA: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM", "IL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future
+  DriverLevelCoverages:["DISD", "TD"]
 }
 
 TestData_OrderOfCoverages_KY: {
@@ -277,5 +403,112 @@ TestData_OrderOfCoverages_SD: {
 TestData_OrderOfCoverages_KS: {
   PolicyLevelCoverages: ["BI", "PD", "UMBI", "PIP", "MEDEXP", "REHABEXP", "WORKLOSS", "ESSENSERV", "FUNEXP", "SURVLOSS"],
   VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #todo for future -  find a way how to use common coverages for multiple states
-  DriverLevelCoverages: ["ADB"],
+  DriverLevelCoverages: ["ADB"]
 }
+
+TestData_OrderOfCoverages_CT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMCONV", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_MD: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "EUIM", "UMPD", "MEDPM", "PIP"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"], #WL was removed, could be back in future?
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_DE: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "PIP", "PIPDED", "PIPDEDAPPTO", "FUNEXP", "PROPERTY"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_UT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "PIP", "WLB", "MEDEXP", "WORKLOSS", "HOUSEEXP", "FUNEXP", "SURVLOSS"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_DC: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "PIPMEDICAL", "PIPWORKLOSS", "FUNERAL"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: ["ADB"]
+}
+
+TestData_OrderOfCoverages_CO: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "UMPDDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_ID: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_IN: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "UMPDDED", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_MT: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_NV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "UMPD", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_OK: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_PA: {
+  PolicyLevelCoverages: ["TORT", "BI", "PD", "UMBI", "UMSU", "UIMBI", "UIMSU", "FPB", "MEDPM", "ADBC", "FUNERAL", "IL", "EMB"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages: []
+}
+
+TestData_OrderOfCoverages_WV: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "UIMBI", "UMPD", "UIMPD", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+TestData_OrderOfCoverages_WY: {
+  PolicyLevelCoverages: ["BI", "PD", "UMBI", "MEDPM"],
+  VehicleLevelCoverages: ["COMPDED", "COLLDED", "GLASS", "LOAN", "RREIM", "TOWINGLABOR", "SPECEQUIP", "NEWCAR"],
+  DriverLevelCoverages:["ADB"]
+}
+
+VehicleTab_Motor_Home: {
+         Add Vehicle: Click,
+         Type: Motor Home,
+         Motor Home Type: Mini Motor Home (Class C),
+         Usage: Pleasure Use - Occupied Less than 30 Days a Year,
+         VIN: 5B4MP67G123353230,
+         Other Make: 'Motor',
+         Other Model: 'Motor',
+        Stated Amount: '50000',
+ }
+
+VehicleTab_GolfCart: {
+   Add Vehicle: click,
+   Type: Golf Cart,
+   Primary operator: index=0,
+   Usage: index=3,
+   VIN: KNDJT2A2XA7038383,
+   Year: 2010,
+   Other Make: Geer,
+   Other Model: GRX100,
+   Stated Amount: 1500
+ }

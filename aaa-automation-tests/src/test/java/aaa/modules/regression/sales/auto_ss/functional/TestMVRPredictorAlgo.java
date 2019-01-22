@@ -42,18 +42,17 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	* @details
 	*/
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_MVRPredictorNewBusiness(@Optional("") String state) {
 
-		TestData testData = getAdjustedDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
+		TestData td = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverTab").resolveLinks());
 
 		// Add 4 Drivers 2 of them with age>83 and Driving exp>62
-		preconditionAddedDrivers(testData, driverTab);
-
-		// fill remaining Policy
-		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class, true);
 
 		// assert Ordered MVR License Statuses
 		assertAddedDrivers(false);
@@ -73,21 +72,21 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers Endrosement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers Endrosement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_MVRPredictorEndorsement(@Optional("") String state) {
 
-		TestData testData = getAdjustedDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
+		TestData td = getTestSpecificTD("TestData_DriverTab_Endorsement").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Endorse Policy
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(testData);
+		createPolicy(getPolicyDefaultTD());
+		
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
 
 		// assert Ordered MVR License Statuses
 		assertAddedDrivers(false);
@@ -107,19 +106,21 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT}, description = "MVR Predictor Algo for 2 of 4 Drivers Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_MVRPredictorRenewal(@Optional("") String state) {
 
-		TestData testData = getAdjustedDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
+		//TestData testData = getAdjustedDriverTestData();
+		//TestData driverTab = getTestSpecificTD("TestData_DriverTab").resolveLinks();
+		TestData td = getTestSpecificTD("TestData_DriverTab_Endorsement").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		createPolicyAndRenewal(testData);
+		createPolicyAndRenewal(getPolicyDefaultTD());
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
-
+		//preconditionsAddDriversRenewalEndorsement(driverTab);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
+		
 		// assert Ordered MVR License Statuses
 		assertAddedDrivers(true);
 	}
@@ -137,7 +138,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers Conversion")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for 2 of 4 Drivers Conversion")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_MVRPredictorConversion(@Optional("") String state) {
 
@@ -179,25 +180,26 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedViolations(@Optional("") String state) {
-
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
-
+	
+		TestData td = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverTabViolations").resolveLinks());
+		
 		// Add 1 Driver who is eligible for mvr status predicted valid
 		// Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation
-		preconditionAddedDrivers(testData, driverTab);
-
-		// Fill remaining policy to drivers activity reports tab
-		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
 		premiumAndCoveragesTab.submitTab();
+		
 		errorTab.overrideAllErrors();
 		errorTab.override();
 		premiumAndCoveragesTab.submitTab();
-		driverActivityReportsTab.fillTab(testData);
+		driverActivityReportsTab.fillTab(td);
 
+		
 		assertMVRResponseViolations(false);
 	}
 
@@ -215,21 +217,24 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedViolationsEndorsement(@Optional("") String state) {
 
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
 
-		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
+		TestData td = getTestSpecificTD("TestData_DriverTabViolations_Endorsement").resolveLinks();
+
+		//Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Endorse Policy
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(testData);
+		createPolicy(getPolicyDefaultTD()
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
+				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female"));
+		
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
 
 		assertMVRResponseViolations(false);
 	}
@@ -248,19 +253,20 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT}, description = "Bypass MVR Predictor Algo for drivers with violations Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedViolationsRenewal(@Optional("") String state) {
 
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabViolations").resolveLinks();
+
+		TestData td = getTestSpecificTD("TestData_DriverTabViolations_Endorsement").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		createPolicyAndRenewal(testData);
+		createPolicyAndRenewal(getPolicyDefaultTD());
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
-
+		//preconditionsAddDriversRenewalEndorsement(driverTab);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
+		
 		assertMVRResponseViolations(true);
 	}
 
@@ -277,7 +283,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations Conversion")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "Bypass MVR Predictor Algo for drivers with violations Conversion")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedViolationsConversion(@Optional("") String state) {
 
@@ -312,19 +318,18 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
     @StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9723")
 	public void pas9723_BypassMVRPredictorManuallyAddedAccidents(@Optional("") String state) {
 
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
+		TestData td = getPolicyTD().adjust(getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks());
 
 		// Add 1 Driver who is eligible for mvr status predicted valid
-		// Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation
-		preconditionAddedDrivers(testData, driverTab);
-
-		// Fill remaining policy to drivers activity reports tab
-		policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, DriverActivityReportsTab.class, true);
+		// Add 5 Drivers who are not eligible for mvr status predicted valid with following violations  alcohol-related violation, major violation, minor violation, non-moving violation, speeding violation	
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+		policy.getDefaultView().fillUpTo(td, DriverActivityReportsTab.class, true);
 
 		assertMVRResponseAccidents(false);
 	}
@@ -344,7 +349,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement(@Optional("") String state) {
 
@@ -378,7 +383,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT}, description = "MVR Predictor Algo for drivers with accidents Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
 
@@ -409,7 +414,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	 */
 	@StateList(states = {Constants.States.IN, Constants.States.KY, Constants.States.MD, Constants.States.NJ, Constants.States.PA, Constants.States.VA, Constants.States.CT})
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Conversion")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "MVR Predictor Algo for drivers with accidents Conversion")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsConversion(@Optional("") String state) {
 
@@ -428,7 +433,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		assertMVRResponseAccidents(false);
 	}
-
+/*
 	private TestData getAdjustedDriverTestData() {
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single, Change score for SS Tier
 		TestData td = getPolicyTD()
@@ -441,7 +446,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 					new RatingDetailReportsTab().getInsuranceScoreOverrideData("150"));
 		}
 		return td;
-	}
+	}*/
 
 	private TestData getFirstDriverTestData() {
 		return getPolicyTD()
@@ -456,7 +461,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		// Change time for any state other than NJ (due to Documents & Bind tab issue)
 		if (!getState().equals(Constants.States.NJ)) {
-			TimeSetterUtil.getInstance().nextPhase(PolicySummaryPage.getExpirationDate().minusDays(45));
+			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(PolicySummaryPage.getExpirationDate()));
 		}
 
 		mainApp().open();
@@ -471,15 +476,15 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		policy.getDefaultView().fillUpTo(testData, DriverActivityReportsTab.class, true);
 	}
-
-	private void preconditionAddedDrivers(TestData policyTestData, TestData driverTabTD){
+/*
+	private void preconditionAddedDrivers(TestData policyTestData){
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(policyTestData, DriverTab.class, true);
-		policy.getDefaultView().fill(driverTabTD);
+		//policy.getDefaultView().fill(driverTabTD);
 	}
-
+*/
 	private void preconditionsAddDriversRenewalEndorsement(TestData driverTabTD) {
 		//Navigate to Driver Tab and add Drivers
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());

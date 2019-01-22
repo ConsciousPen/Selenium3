@@ -23,6 +23,9 @@ import toolkit.utils.TestInfo;
 @StateList(statesExcept = Constants.States.CA)
 public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
 
+    private DriverTab driverTab = new DriverTab();
+    private PurchaseTab purchaseTab = new PurchaseTab();
+
     /**
      * @author Josh Carpenter
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during conversion
@@ -81,15 +84,12 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      * @author Josh Carpenter
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during endorsement
      * @scenario
-     * 1. Create Auto SS policy with base date > 4 years ago
-     * 2. Initiate endorsement and add AF accident in the past 33 months
-     * 3. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
-     * 4. Add a second AF accident in the past 33 months
-     * 5. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
-     * 6. Remove the second claim
-     * 7. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
-     * 8. Change the prior carrier to non-AAA (Progressive)
-     * 9. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
+     * 1. Initiate Auto SS policy with base date > 4 years ago and AF accident in the past 33 months
+     * 2. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
+     * 3. Bind policy
+     * 4. Initiate endorsement with trans. eff. date 5 days from policy eff. date
+     * 5. Add another AF claim in the past 33 months
+     * 6. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
      * @details
      */
     @Parameters({"state"})
@@ -98,15 +98,21 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
     public void pas14738_testAccidentSurchargeWaiverEndorsement(@Optional("") String state) {
 
         TestData td = adjustTdBaseDate(getPolicyTD());
-        openAppAndCreatePolicy(td);
-        policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
-        validateAFW(td);
+        createQuoteAndFillUpTo(td, RatingDetailReportsTab.class);
+        addActivityDriverTab(getAccidentInfoTd());
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+        policy.getDefaultView().fillFromTo(td, VehicleTab.class, PurchaseTab.class, true);
+        purchaseTab.submitTab();
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+        policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+        addActivityDriverTab(getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
+        validateIncludedInPoints("No", "Yes");
 
     }
 
     /**
-     * @author Josh Carpenter
+     * @author Josh Carpenter, Sreekanth Kopparapu
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during renewal
      * @scenario
      * 1. Create Auto SS policy with base date > 4 years ago
@@ -136,9 +142,9 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
     private TestData adjustTdBaseDate(TestData td) {
 
         return td.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
-                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-5y>")
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-2y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
-                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-5y>")
+                        AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_INCEPTION_DATE.getLabel()), "$<today-3y>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(),
                         AutoSSMetaData.GeneralTab.CurrentCarrierInformation.AGENT_ENTERED_EXPIRATION_DATE.getLabel()), "$<today-1y>");
     }
@@ -146,18 +152,13 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
     private void validateAFW(TestData policyTd) {
 
         // Add AF accident
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), getAccidentInfoTd()));
+        addActivityDriverTab(getAccidentInfoTd());
 
         // Validate AFW is given
         validateIncludedInPoints("No");
 
         // Add a second AF accident in past 33 months and validate
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        TestData tdActivityInfo = getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>");
-        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
-                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), tdActivityInfo));
+        addActivityDriverTab(getAccidentInfoTd().adjust(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-8M>"));
         validateIncludedInPoints("Yes", "Yes");
 
         // Remove second claim and validate AFW is given
@@ -173,7 +174,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
         new DocumentsAndBindTab().submitTab();
 
         if (PurchaseTab.remainingBalanceDueToday.isPresent()) {
-            new PurchaseTab().fillTab(policyTd).submitTab();
+            purchaseTab.fillTab(policyTd).submitTab();
         }
 
     }
@@ -192,6 +193,12 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
                 assertThat(DriverTab.tableActivityInformationList.getRow(i).getCell(PolicyConstants.ActivityInformationTable.NOT_INCLUDED_REASON_CODES).getValue()).isEmpty();
             }
         }
+    }
+
+    private void addActivityDriverTab(TestData td) {
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), td));
     }
 
     private TestData getAccidentInfoTd() {

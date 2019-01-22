@@ -5,6 +5,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import aaa.common.Tab;
+import aaa.common.enums.Constants;
+import aaa.main.enums.ClaimConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -39,24 +41,24 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 		// Validate claims on VRD page, CA has different rules for when first claim is under $1000
 		PropertyQuoteTab.RatingDetailsView.open();
 		TestData claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys()).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys()).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
 		if (isStateCA()) {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.FIRE, "1"));
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "1"));
 		} else {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEmpty();
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEmpty();
 		}
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.THEFT, "2"));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.LIABILITY, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.THEFT, "2"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.LIABILITY, "3"));
 
 		// Update Liability claim so it is over 3 years old (over 5 years for DP3), update Water claim to catastrophe = 'No'
 		navigateToPropertyInfoTab();
-		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
 		String newLiabilityLossDate;
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
 			newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusMonths(61).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -64,109 +66,148 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusMonths(37).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		}
 		getClaimDateOfLossAsset().setValue(newLiabilityLossDate);
-		viewEditClaimByCauseOfLoss(Labels.WATER);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
 		getClaimCatastropheAsset().setValue("No");
 
 		// Validate VRD page
 		calculatePremiumAndOpenVRD();
 		claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys()).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(newLiabilityLossDate);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys()).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(newLiabilityLossDate);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEmpty();
 		if (isStateCA()) {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.FIRE, "1"));
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "1"));
 		} else {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEmpty();
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEmpty();
 		}
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.WATER, "2"));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.THEFT, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "2"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.THEFT, "3"));
 
 		// Update Liability claim to 2 years ago so it is now included in rating as oldest claim
 		navigateToPropertyInfoTab();
-		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
 		newLiabilityLossDate = getPropertyInfoTab().getEffectiveDate().minusYears(2).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		getClaimDateOfLossAsset().setValue(newLiabilityLossDate);
 
 		// Validate VRD page
 		calculatePremiumAndOpenVRD();
 		claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys()).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(newLiabilityLossDate);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.LIABILITY, "1"));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.FIRE, "2"));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.WATER, "3"));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.THEFT, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys()).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys().size()).isEqualTo(4);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(newLiabilityLossDate);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.LIABILITY, "1"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "2"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.THEFT, "3"));
 
 		// Update Liability claim back to original date of loss and set all claims to non-AAA
 		navigateToPropertyInfoTab();
-		viewEditClaimByCauseOfLoss(Labels.LIABILITY);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
 		getClaimDateOfLossAsset().setValue(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
 		getAAAClaimAsset().setValue("No");
-		viewEditClaimByCauseOfLoss(Labels.FIRE);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
 		getAAAClaimAsset().setValue("No");
-		viewEditClaimByCauseOfLoss(Labels.WATER);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
 		getAAAClaimAsset().setValue("No");
-		viewEditClaimByCauseOfLoss(Labels.THEFT);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
 		getAAAClaimAsset().setValue("No");
 
 		// Validate VRD page
 		calculatePremiumAndOpenVRD();
 		claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys()).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys().size()).isEqualTo(4);
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.FIRE, "1"));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.WATER, "2"));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_3).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.THEFT, "3"));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_4).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.LIABILITY, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys()).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys().size()).isEqualTo(4);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, ClaimConstants.CauseOfLoss.FIRE, "1"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, ClaimConstants.CauseOfLoss.WATER, "2"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_3).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, ClaimConstants.CauseOfLoss.THEFT, "3"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_4).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, ClaimConstants.CauseOfLoss.LIABILITY, "3"));
 
 		// Set Fire and Water claims back to AAA claims, change theft claim to a catastrophe loss, and update value of Fire claim to $2001
 		navigateToPropertyInfoTab();
-		viewEditClaimByCauseOfLoss(Labels.FIRE);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
 		getAAAClaimAsset().setValue("Yes");
 		if (isStateCA()) {
 			getClaimAmountAsset().setValue("2001");
 		} else {
 			getClaimAmountAsset().setValue("1001");
 		}
-		viewEditClaimByCauseOfLoss(Labels.WATER);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
 		getAAAClaimAsset().setValue("Yes");
-		viewEditClaimByCauseOfLoss(Labels.THEFT);
+		viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
 		getClaimCatastropheAsset().setValue("Yes");
 
 		// Validate VRD page
 		calculatePremiumAndOpenVRD();
 		claimsVRD = PropertyQuoteTab.RatingDetailsView.getClaims();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getKeys().size()).isEqualTo(2);
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEmpty();
-		assertThat(claimsVRD.getTestData(Labels.PRIOR_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, Labels.LIABILITY, "1"));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getKeys().size()).isEqualTo(2);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.THEFT).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.LIABILITY).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEmpty();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.PRIOR_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(false, ClaimConstants.CauseOfLoss.LIABILITY, "1"));
 
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getKeys().size()).isEqualTo(2);
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getKeys().size()).isEqualTo(2);
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.FIRE).getValue(Labels.DATE_OF_LOSS));
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.DATE)).isEqualTo(tdClaims.get(Claims.WATER).getValue(Labels.DATE_OF_LOSS));
 		if (isStateCA()) {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.FIRE, "2001", "1"));
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "2001", "1"));
 		} else {
-			assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_1).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.FIRE, "1001", "1"));
+			assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_1).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.FIRE, "1001", "1"));
 		}
-		assertThat(claimsVRD.getTestData(Labels.AAA_CLAIMS).getTestData(Labels.CLAIM_2).getValue(Labels.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, Labels.WATER, "2"));
-		PropertyQuoteTab.RatingDetailsView.close();
+		assertThat(claimsVRD.getTestData(ClaimConstants.ClaimsRatingDetails.AAA_CLAIMS).getTestData(ClaimConstants.ClaimsRatingDetails.CLAIM_2).getValue(ClaimConstants.ClaimsRatingDetails.POINTS)).isEqualTo(getExpectedClaimPointsFromDB(true, ClaimConstants.CauseOfLoss.WATER, "2"));
 
+		//PAS-6730 assert 5 years rule for Years Claim Free only for SS
+		if (!isStateCA() && !getState().contains(Constants.States.OK)) {
+			navigateToPropertyInfoTab();
+			// Change Claim Dates to within or over 5 years
+			String newLossDateWithin3Years = getPropertyInfoTab().getEffectiveDate().minusMonths(35).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateWithin4Years = getPropertyInfoTab().getEffectiveDate().minusMonths(47).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateWithin5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(59).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+			String newLossDateOver5Years = getPropertyInfoTab().getEffectiveDate().minusMonths(61).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+			//Over 5 years YCF = 5
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.WATER);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.THEFT);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.LIABILITY);
+			getClaimDateOfLossAsset().setValue(newLossDateOver5Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("5");
+			// Within 5 years YCF=4
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin5Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("4");
+			// Within 4 years YCF=3
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin4Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("3");
+			// Within 3 years YCF=2
+			navigateToPropertyInfoTab();
+			viewEditClaimByCauseOfLoss(ClaimConstants.CauseOfLoss.FIRE);
+			getClaimDateOfLossAsset().setValue(newLossDateWithin3Years);
+			calculatePremiumAndOpenVRD();
+			assertThat(PropertyQuoteTab.RatingDetailsView.discounts.getValueByKey(ClaimConstants.ClaimsRatingDetails.NUMBER_OF_YEARS_CLAIMS_FREE)).contains("2");
+		}
 	}
 
+	//TODO Change some claims statuses to 'Open' and 'Subrogated' in mock data. The test should work the same PAS-6730
 	protected List<TestData> getClaimsTD() {
 		List<TestData> tdList = testDataManager.getDefault(TestClaimPointsVRDPageAbstract.class).getTestDataList("PropertyInfo_Claims");
 		if (getPolicyType().equals(PolicyType.HOME_CA_DP3)) {
@@ -193,20 +234,20 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 	private String getExpectedClaimPointsFromDB(boolean isAAAClaim, String causeOfLoss, String claimOrder) {
 		String claimMin = "";
 		switch (causeOfLoss) {
-			case Labels.FIRE:
+			case ClaimConstants.CauseOfLoss.FIRE:
 				claimMin = "1";
 				break;
-			case Labels.WATER:
+			case ClaimConstants.CauseOfLoss.WATER:
 				if (isStateCA()) {
 					claimMin = "2001";
 				} else {
 					claimMin = "4001";
 				}
 				break;
-			case Labels.THEFT:
+			case ClaimConstants.CauseOfLoss.THEFT:
 				claimMin = "2001";
 				break;
-			case Labels.LIABILITY:
+			case ClaimConstants.CauseOfLoss.LIABILITY:
 				if (isStateCA()) {
 					claimMin = "2001";
 				} else {
@@ -233,7 +274,12 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			}
 			query = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s')) "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "' and POLICYTYPECD = '" + policyTypeCd + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "' and POLICYTYPECD = '" + policyTypeCd
+					+ "'", lookupName);
+
 			result = DBService.get().getValue(query);
 		} else {
 			if (isAAAClaim) {
@@ -243,10 +289,18 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 			}
 			query = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s') and riskstatecd = '" + getState() + "') "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "'", lookupName);
+
 			String queryNoState = String.format("select points from (select DTYPE,CAUSEOFLOSS,MINPREMIUMOVR,MAXPREMIUMOVR,PRODUCTCD,POLICYTYPECD,RISKSTATECD,CODE as claimorder,DISPLAYVALUE as points from lookupvalue "
 					+ "where LOOKUPLIST_ID in (select id from LOOKUPLIST where lookupname = '%s') and riskstatecd is null) "
-					+ "where CAUSEOFLOSS = '" + causeOfLoss + "' and MINPREMIUMOVR = '" + claimMin + "' and claimorder = '" + claimOrder + "'", lookupName);
+					+ "where CAUSEOFLOSS = '" + causeOfLoss
+					+ "' and MINPREMIUMOVR = '" + claimMin
+					+ "' and claimorder = '" + claimOrder
+					+ "'", lookupName);
+
 			if (DBService.get().getValue(query).isPresent()) {
 				result = DBService.get().getValue(query);
 			} else {
@@ -264,23 +318,7 @@ public abstract class TestClaimPointsVRDPageAbstract extends PolicyBaseTest {
 	}
 	
 	final class Labels {
-		static final String PRIOR_CLAIMS = "Prior claims";
-		static final String AAA_CLAIMS = "AAA claims";
-		static final String DATE = "Date";
-		static final String HAIL = "Hail";
-		static final String POINTS = "Points";
-		static final String FIRE = "Fire";
-		static final String WATER = "Water";
-		static final String WIND = "Wind";
-		static final String THEFT = "Theft";
-		static final String LIABILITY = "Liability";
-		static final String CLAIM_1 = "Claim 1";
-		static final String CLAIM_2 = "Claim 2";
-		static final String CLAIM_3 = "Claim 3";
-		static final String CLAIM_4 = "Claim 4";
 		static final String DATE_OF_LOSS = "Date of loss";
-		static final String APPLICANT_PROPERTY = "Applicant and Property";
-        static final String APPLICANT = "Applicant";
         static final String RADIO_YES = "Yes";
         static final String RADIO_NO = "No";
 	}

@@ -1,10 +1,5 @@
 package aaa.modules.e2e.templates;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -24,10 +19,16 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
 
 public class Scenario11 extends ScenarioBaseTest { 
 	
@@ -97,18 +98,19 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		endorseAmount1 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 		
+		// Endorsement transaction displaying on billing in Payments & Other transactions section
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+				
 		Dollar pligaOrMvleFee = new Dollar(0);
 		if (getState().equals(Constants.States.NJ)) {
-			pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount1)); 
+			//pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount1)); 
+			pligaOrMvleFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate)); 
 			endorseAmount1 = endorseAmount1.add(pligaOrMvleFee);
 		}
 		if (getState().equals(Constants.States.NY)) {
 			pligaOrMvleFee = new Dollar(10); 
 			endorseAmount1 = endorseAmount1.add(pligaOrMvleFee);
 		}
-
-		// Endorsement transaction displaying on billing in Payments & Other transactions section
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount1).verifyPresent();
 		
@@ -168,14 +170,15 @@ public class Scenario11 extends ScenarioBaseTest {
 		
 		endorseAmount2 = PolicySummaryPage.TransactionHistory.getTranPremium(); 
 		
+		// Endorsement transaction displaying on billing in Payments & Other transactions section
+		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		
 		Dollar pligaFee = new Dollar(0);
 		if (getState().equals(Constants.States.NJ)) {
-			pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount2)); 
+		//	pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate, endorseAmount2));
+			pligaFee = new Dollar(BillingHelper.calculatePligaFee(transactionDate));
 			endorseAmount2 = endorseAmount2.add(pligaFee);
 		}
-
-		// Endorsement transaction displaing on billing in Payments & Other transactions section
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		
 		new BillingAccountPoliciesVerifier().setPolicyStatus(PolicyStatus.POLICY_ACTIVE).setTotalDue(endorseAmount2).verifyPresent();
 		
@@ -340,11 +343,7 @@ public class Scenario11 extends ScenarioBaseTest {
 	}
 	
 	protected void payRenewalOfferInFullAmount(Dollar toleranceAmount) {
-		if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusHours(1)); //PASBB-624/PAS-624, PPS-499
-		} else {
-			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
-		}
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewCustomerDeclineDate(policyExpirationDate).plusDays(5));
 
 		//TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(20));
 		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);

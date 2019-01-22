@@ -174,6 +174,7 @@
                     <include name="pas11659_Renewal_VersionR25"/>
                     <include name="pas12872_VINRefreshNoMatchRenewalTimeline"/>
                     <include name="pas12872_VINRefreshPartialtoFullMatchRenewaltimeline"/>
+                    <include name="pas18969_testRestrictVehicleRefreshOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestMSRPRefreshMotorHomeVehicle">
@@ -199,6 +200,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
@@ -216,6 +218,7 @@
                     <include name="pas2716_AutomatedRenewal_ExpirationDateMinus45"/>
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
+                    <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestMSRPRefreshNotRegularVehicle">
@@ -234,6 +237,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
@@ -252,6 +256,7 @@
 
                     <include name="pas527_UpdatedVinRenewal"/>
                     <include name="pas12872_VINRefreshNoMatchOnRenewalAutoCA"/>
+                    <include name="pas18969_testRestrictVehicleRefreshCAOnRenewal"/>
                 </methods>
             </class>
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestMSRPRefreshNotRegularVehicle">
@@ -270,6 +275,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
@@ -283,8 +289,8 @@
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination"/>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
                 <methods>
-                    <include name="PAS14679_DLMatchMore"/>
-                    <include name="PAS8310_nameDOBYOBMatchMore"/>
+                    <include name="pas14679_CompDLMatchMore"/>
+                    <include name="pas8310_nameDOBYOBMatchMore"/>
                 </methods>
             </class>
         </classes>

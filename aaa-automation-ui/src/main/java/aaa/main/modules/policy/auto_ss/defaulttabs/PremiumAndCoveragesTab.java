@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -19,6 +21,7 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
+import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -46,7 +49,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Table tableFormsSummary = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Table tablefeesSummary = new Table(By.id("policyDataGatherForm:feesSummaryTable"));
 	public static Table tableInstallmentFeeDetails = new Table(By.id("policyDataGatherForm:installmentFeeDetailsTable"));
-	public static Table tableStateAndLocalTaxesSummary = new Table(By.id("policyDataGatherForm:taxTable"));
+	public static Table tableStateAndLocalTaxesSummary = new Table(By.xpath("//table[@id='policyDataGatherForm:taxTable' or @id='policyDataGatherForm:taxSurchargeSummaryTable']"));
 	public static Table tableAAAPremiumSummary = new Table(By.id("policyDataGatherForm:AAAPremiumSummary"));
 	public static Table tableTermPremiumbyVehicle = new Table(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAVehicleCoveragePremiumDetails_body']/table"));
 	public static Table tablePolicyLevelLiabilityCoveragesPremium = new Table(By.xpath("//table[@id='policyDataGatherForm:policyTableTotalVehiclePremium']"));
@@ -365,5 +368,42 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 
 		return testDataList;
+	}
+
+	public static class RatingDetailsView {
+		protected static Logger log = LoggerFactory.getLogger(RatingDetailsView.class);
+
+		StaticElement ratingDetailsContainer = new StaticElement(By.xpath("//div[@id,'ratingDetailsPopup_container']"));
+		/**
+		 * Vehicle Summary
+		 */
+		public int numberVehicleSummaryPages;
+		public int currentPageVehicleSummaryPage;
+
+		String vehiclePanelXpath = "//div[@id='ratingDetailsPopup_container']//div[@id='ratingDetailsPopupForm:vehiclePanel']";
+		Table tableVehicleSummary = new Table(By.xpath(vehiclePanelXpath + "//table[@id='ratingDetailsPopupForm:vehicle_summary']"));
+		/**
+		 * Driver Summary
+		 */
+		Table tableDriverInfo = new Table(By.xpath("//div[@id,'ratingDetailsPopup_container']//div[@id='ratingDetailsPopupForm:driverPanel']//table[@id='ratingDetailsPopupForm:driver_summary']"));
+
+		public int getVehicleSummaryCurrentPageNumber(){
+			return Integer.parseInt(new StaticElement(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages')) and not(*)]")).getValue());
+		}
+
+		/**
+		 * from 1 to ...
+		 * @param pageNumber
+		 */
+		public void openVehicleSummaryPage(int pageNumber) {
+			numberVehicleSummaryPages = BrowserController.get().driver()
+					.findElements(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages'))]")).size();
+
+			if (numberVehicleSummaryPages >= pageNumber) {
+				new Link(By.xpath(String.format(vehiclePanelXpath + "//td[@class='pageText']//*[not(contains(text(),'Pages')) and contains(text(),'%s')]", pageNumber))).click();
+			} else {
+				log.info("Vehicle Panel has only one link");
+			}
+		}
 	}
 }

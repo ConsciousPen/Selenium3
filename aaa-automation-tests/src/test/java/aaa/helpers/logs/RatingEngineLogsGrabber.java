@@ -30,7 +30,7 @@ public class RatingEngineLogsGrabber {
 	private static final String LOG_SECTIONS_SEPARATOR = "--------------------------------------";
 	private static final String LOG_END_ENVIRONMENT_SEPARATOR = "************* End Display Current Environment *************"; // may exist in WebSphere server logs
 	private static final String JSON_START_MARKER = "Payload:";
-	private static Logger log = LoggerFactory.getLogger(RatingEngineLogsGrabber.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RatingEngineLogsGrabber.class);
 
 	public String makeDefaultOpenLRequestLogPath(XmlTest openLTest, int openLPolicyNumber) {
 		return makeDefaultOpenLLogPath(openLTest, openLPolicyNumber, "request");
@@ -48,7 +48,7 @@ public class RatingEngineLogsGrabber {
 			List<String> ratingLogFileNames = RemoteHelper.get().getFolderContent(OPENL_RATING_LOGS_FOLDER, true, Ssh.SortBy.DATE_MODIFIED);
 			ratingLogFileNames.removeIf(f -> !OPENL_RATING_LOGS_FILENAME_PATTERN.matcher(f).matches());
 			if (ratingLogFileNames.isEmpty()) {
-				log.warn("No rating engine log files were found in \"{}\" folder", OPENL_RATING_LOGS_FOLDER);
+				LOG.warn("No rating engine log files were found in \"{}\" folder", OPENL_RATING_LOGS_FOLDER);
 				return ratingLogsHolder;
 			}
 
@@ -65,15 +65,15 @@ public class RatingEngineLogsGrabber {
 				}
 			}
 		} catch (Throwable e) {
-			log.error("Unable to retrieve rating engine logs", e);
+			LOG.error("Unable to retrieve rating engine logs", e);
 		}
 
 		if (ratingLogsHolder.getRequestLog().getLogContent().isEmpty()) {
-			log.warn("Rating engine requst log is empty or was not found");
+			LOG.warn("Rating engine requst log is empty or was not found");
 		}
 
 		if (ratingLogsHolder.getResponseLog().getLogContent().isEmpty()) {
-			log.warn("Rating engine response log is empty or was not found");
+			LOG.warn("Rating engine response log is empty or was not found");
 		}
 
 		return ratingLogsHolder;
@@ -101,7 +101,7 @@ public class RatingEngineLogsGrabber {
 					logSectionId = ratingLogSectionIdMatcher.group(1);
 				}
 				if (logSectionId == null) {
-					log.warn("Unable to retrieve section log ID");
+					LOG.warn("Unable to retrieve section log ID");
 					logSectionId = "UNKNOWN_SECTION_ID";
 				}
 
@@ -114,12 +114,12 @@ public class RatingEngineLogsGrabber {
 							ratingLogsHolder.setRequestLog(json, logSectionId);
 							return previousLogSectionParts;
 						}
-						log.warn("Request and Response log sections has different IDs, request section ID is \"{}\", response section ID is \"{}\"", logSectionId, ratingLogsHolder.getResponseLog().getLogSectionId());
+						LOG.warn("Request and Response log sections has different IDs, request section ID is \"{}\", response section ID is \"{}\"", logSectionId, ratingLogsHolder.getResponseLog().getLogSectionId());
 					}
 
 					ratingLogsHolder.setResponseLog("", "");
 				} else {
-					log.warn("Unknown rating log secton detected. Continue searching request/response parts");
+					LOG.warn("Unknown rating log secton detected. Continue searching request/response parts");
 				}
 
 				logContent = StringUtils.substringBeforeLast(logContent, LOG_SECTIONS_SEPARATOR).trim();

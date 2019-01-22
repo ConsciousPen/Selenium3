@@ -19,12 +19,10 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	protected Integer expClaimPoints;
 	protected Boolean isAaaMember;
 	protected Integer yearsOfPriorInsurance;
+	protected LocalDate effectiveDate;
 
 	@RequiredField
 	protected Integer yearsWithCsaa;
-
-	@ExcelTransient
-	private LocalDate effectiveDate;
 
 	public Integer getClaimPoints() {
 		return claimPoints;
@@ -116,6 +114,16 @@ public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends Hom
 	@Override
 	public String getUnderwriterCode() {
 		return null;
+	}
+
+	@Override
+	public boolean isLegacyConvPolicy() {
+		return false;
+	}
+
+	@Override
+	public boolean isCappedPolicy() {
+		return false;
 	}
 
 	public abstract List<F> getForms();

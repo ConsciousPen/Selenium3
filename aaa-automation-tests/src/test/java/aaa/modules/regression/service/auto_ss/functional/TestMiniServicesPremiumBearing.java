@@ -36,7 +36,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		return PolicyType.AUTO_SS;
 	}
 
-	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void miniServicesEndorsementDeleteDelayConfigCheck() {
 		assertSoftly(softly -> {
 			miniServicesEndorsementDeleteDelayConfigCheckAssertion(softly, 2, "is null");
@@ -49,7 +48,6 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 		softly.assertThat(DBService.get().getValue(String.format(MiniServicesSetupPreconditions.AAA_CUSTOMER_ENDORSEMENT_DAYS_CONFIG_CHECK, i, s)).get()).isNotEmpty();
 	}
 
-	@Test(description = "Precondition adding MyPolicy as a user for Digital", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public static void myPolicyUserAddedConfigCheck() {
 		assertThat(DBService.get().getValue(MY_POLICY_USER_CONFIG_CHECK)).hasValue("MyPolicy");
 	}
@@ -100,7 +98,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-6560"})
-	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("VA") String state) {
+	public void pas6560_endorsementValidateAllowedPendedEndorsementUser(@Optional("AZ") String state) {
 
 		pas6560_endorsementValidateAllowedPendedEndorsementUser(getPolicyType());
 	}
@@ -276,7 +274,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785"})
 	public void pas7332_deletePendingSystemEndorsementStartNewEndorsementThroughService(@Optional("") String state) {
 
@@ -294,7 +292,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * @details
 	 */
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL}, dependsOnMethods = "miniServicesEndorsementDeleteDelayConfigCheck")
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-7332", "PAS-8785", "PAS-11622"})
 	public void pas7332_deletePendingAgentEndorsementStartNewEndorsementThroughService(@Optional("AZ") String state) {
 
@@ -629,7 +627,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * 8. Check tax information
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.KY})
+	@StateList(states = {Constants.States.KY, Constants.States.WV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-19742"})
 	public void pas19742ViewPremiumServiceTaxInformation(@Optional("KY") String state) {
@@ -694,6 +692,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 * Validate premium with pas
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
 	public void pas14540_transactionInfoAddVehicleCoverages(@Optional("VA") String state) {
@@ -713,6 +712,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 */
 	//coverages update on existing policy Scenario 2
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-14540"})
 	public void pas14540_transactionInfoAddVehicleCoveragesUpdate(@Optional("VA") String state) {
@@ -729,6 +729,7 @@ public class TestMiniServicesPremiumBearing extends TestMiniServicesPremiumBeari
 	 *
 	 */
 	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-13287"})
 	public void pas13287_ViewStartEndorsementInfoService(@Optional("VA") String state) {

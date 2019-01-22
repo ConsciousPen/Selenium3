@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("SubProducer","2515")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
@@ -28,8 +27,14 @@ public class VersionsComparisonConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
+			.putAll("Drivers.VIIFirstName VII VIILastName.Age", "57","55")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			//AAA Product Owned
+			.putAll("Reports.AAA Membership report.Member Since Date", "2005-01-01", "")
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
@@ -88,11 +93,11 @@ public class VersionsComparisonConstants {
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Safety Score Date", "08/15/2018","01/09/2015")
 			//Garaging address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Is Garaging different from Residential?", "true", "false")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Red Rock, AZ, 85245","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Garaging Address", "VII garaging address 1, VII garaging address 2, Phoenix, AZ, 85003","VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, VII ownership address 2, Gold Canyon, AZ, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "674, MINNEAPOLIS, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Additional Interest.Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
@@ -106,13 +111,17 @@ public class VersionsComparisonConstants {
 			.put("Drivers.VIIFirstName VII VIILastName.Middle Name", "Middle Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Last Name", "Last Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Suffix", "Suffix")
+			.put("Drivers.VIIFirstName VII VIILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIIFirstName VII VIILastName.Base Date", "Base Date")
+			.put("Drivers.VIIFirstName VII VIILastName.Date First Licensed", "Date First Licensed")
+			.put("Drivers.VIIFirstName VII VIILastName.Total Years Driving Experience", "Total Years Driving Experience")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Prefix", "Prefix")
 			.put("Named Insureds.VIIFirstName VII VIILastName.First Name", "First Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Middle Name", "Middle Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Last Name", "Last Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Suffix", "Suffix")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Social Security Number", "Social Security Number")
+			.put("Named Insureds.VIIFirstName VII VIILastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Residence", "Residence")
@@ -129,6 +138,7 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -163,6 +173,7 @@ public class VersionsComparisonConstants {
 			.put("Policy Information.Suppress Print","Suppress Print")
 			//Driver Tab
 			//data gather
+			.put("Named Insureds.VIFirstName VI VILastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName.Gender", "Gender")
 			.put("Drivers.VIFirstName VI VILastName.Marital Status", "Marital Status")
@@ -188,6 +199,7 @@ public class VersionsComparisonConstants {
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
 			.put("Drivers.VIFirstName VI VILastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
 			//endorsement/renewal data
+			.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Date of Birth", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Gender", "Gender")
 			.put("Drivers.NBFirstName NB NBLastName.Marital Status", "Marital Status")
@@ -211,8 +223,7 @@ public class VersionsComparisonConstants {
 			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Loss Payment Amount", "Loss Payment Amount")
 			//TODO should be returned after implementing story for Clean up for Activity Information
 			//.put("Activity Information (Hit and Run, 05/10/2020, Not included in Rating).Include in Points and/or Tier?", "Include in Points and/or Tier?")
-			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")
-			//Vehicle Information
+			.put("Drivers.NBFirstName NB NBLastName.Driving Activities.Activity Information (Hit and Run, 07/20/2018, Not included in Rating).Not Included in Points and/or Tier - Reason Codes", "Not Included in Points and/or Tier - Reason Codes")			//Vehicle Information
 			.put("Vehicles.1998, DODGE, CARAVAN.Usage", "Usage")
 			.put("Vehicles.1998, DODGE, CARAVAN.VIN", "VIN")
 			.put("Vehicles.1998, DODGE, CARAVAN.Existing Damage", "Existing Damage")
@@ -246,6 +257,7 @@ public class VersionsComparisonConstants {
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Last Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Suffix")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Social Security Number")
+			.put("Named Insureds.VIIFirstName VII VIILastName", "Insured Date of Birth")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Residential Address")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Move-In Date")
@@ -256,7 +268,11 @@ public class VersionsComparisonConstants {
 			.put("Drivers.VIIFirstName VII VIILastName", "Middle Name")
 			.put("Drivers.VIIFirstName VII VIILastName", "Last Name")
 			.put("Drivers.VIIFirstName VII VIILastName", "Suffix")
+			.put("Drivers.VIIFirstName VII VIILastName", "Date of Birth")
+			.put("Drivers.VIIFirstName VII VIILastName", "Age")
 			.put("Drivers.VIIFirstName VII VIILastName", "Base Date")
+			.put("Drivers.VIIFirstName VII VIILastName", "Date First Licensed")
+			.put("Drivers.VIIFirstName VII VIILastName", "Total Years Driving Experience")
 			.put("Vehicles.2003, MERCEDES-BENZ, SL500R", "Garaging Address")
 			.build();
 
@@ -281,6 +297,11 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "Condo Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Member Since Date")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
@@ -328,6 +349,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> DATA_GATHER_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.VIFirstName VI VILastName", "Insured Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Date of Birth")
 			.put("Drivers.VIFirstName VI VILastName", "Age")
 			.put("Drivers.VIFirstName VI VILastName", "Gender")
@@ -362,6 +384,7 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for Driver Information section
 	static final Multimap<String, String> ENDORSEMENT_RENEWAL_DRIVER_INFORMATION = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.NBFirstName NB NBLastName", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Age")
 			.put("Drivers.NBFirstName NB NBLastName", "Gender")

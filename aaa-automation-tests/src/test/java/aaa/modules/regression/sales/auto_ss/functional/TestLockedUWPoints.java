@@ -1,5 +1,15 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -14,20 +24,9 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.PA)
 public class TestLockedUWPoints extends AutoSSBaseTest {
@@ -70,7 +69,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	*/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPoints(@Optional("PA") String state) {
 
@@ -120,6 +119,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.fillTab(getTestSpecificTD("TestData_Authorized"));
 		documentsAndBindTab.submitTab();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change system date
 		LocalDateTime renewalEff = reinstatementDate.plusMonths(10);
@@ -129,6 +129,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 
@@ -172,13 +173,14 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsEndorsement(@Optional("PA") String state) {
 
 		// Create Policy
 		String policyNumber = openAppAndCreatePolicy();
 		LocalDateTime renewalEff = PolicySummaryPage.getExpirationDate();
+		setDoNotRenewFlag(policyNumber);
 
 		// Change Time to renew policy and have and issued renewal
 		mainApp().close();
@@ -187,6 +189,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Issue Renewal
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		new PremiumAndCoveragesTab().calculatePremium();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
@@ -217,7 +220,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM}, priority = 1)
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063")
 	public void pas9063_verifyLockedUWPointsRenewal(@Optional("PA") String state) {
 
@@ -264,7 +267,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	 */
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+	@Test(groups = {Groups.REGRESSION, Groups.MEDIUM, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-9063, PAS-12443")
 	public void pas9063_verifyLockedUWPointsConversion(@Optional("PA") String state) {
 
@@ -319,15 +322,17 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		// Bind Endorsement. Renew Policy and Navigate to P&C Page.
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsAndBindTab.submitTab();
+        setDoNotRenewFlag(policyNum);
 
 		// Change system date
-		LocalDateTime renewalEff = effDate.plusYears(1);
+        LocalDateTime renewalEff = effDate.plusYears(1);
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewalEff);
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		// Initiate Renewal Navigate to P&C and calculate premium
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		openVRD();
 

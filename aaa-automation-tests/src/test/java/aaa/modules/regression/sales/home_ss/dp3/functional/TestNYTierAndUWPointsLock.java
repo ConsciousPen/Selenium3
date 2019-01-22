@@ -1,14 +1,14 @@
 package aaa.modules.regression.sales.home_ss.dp3.functional;
 
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.modules.policy.PolicyType;
 import aaa.modules.regression.sales.template.functional.TestNYPropertyTierAndUWPointsLock;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.NY)
@@ -44,7 +44,7 @@ public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewal_DP3(@Optional("NY") String state) {
 
@@ -72,7 +72,7 @@ public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Renewal with Flat Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030, PAS-14045")
 	public void pas14030_testNYViewRatingDetailsRenewalFlatEndorsement_DP3(@Optional("NY") String state) {
 
@@ -103,7 +103,7 @@ public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Mid Term Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Mid Term Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
 	public void pas14030_testNYViewRatingDetailsMidTermEndorsement_DP3(@Optional("NY") String state) {
 
@@ -134,7 +134,7 @@ public class TestNYTierAndUWPointsLock extends TestNYPropertyTierAndUWPointsLock
 	 **/
 
 	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Endorsement")
+	@Test(groups = {Groups.REGRESSION, Groups.HIGH}, description = "NY Tier And UW points lock - UI Change : View Rating Details screen. Endorsement")
 	@TestInfo(component = ComponentConstant.Sales.HOME_SS_DP3, testCaseId = "PAS-14030")
 	public void pas14030_testNYViewRatingDetailsEndorsement_DP3(@Optional("NY") String state) {
 

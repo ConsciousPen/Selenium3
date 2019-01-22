@@ -1,7 +1,8 @@
 package aaa.helpers.rest.dtoDxp;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class DXPRequestFactory {
 
@@ -50,7 +51,7 @@ public class DXPRequestFactory {
 	}
 
 	public static Vehicle createAddVehicleRequest(String vin, String purchaseDate) {
-		Vehicle addVehicleRequest= new Vehicle();
+		Vehicle addVehicleRequest = new Vehicle();
 		addVehicleRequest.purchaseDate = purchaseDate;
 		addVehicleRequest.vehIdentificationNo = vin;
 		return addVehicleRequest;
@@ -71,12 +72,32 @@ public class DXPRequestFactory {
 		return updateCoverageRequest;
 	}
 
-
-	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, List<String> driverOids) {
+	public static UpdateCoverageRequest createUpdateCoverageRequest(String coverageCd, String limit, Collection<String> driverOids) {
 		UpdateCoverageRequest updateCoverageRequest = new UpdateCoverageRequest();
 		updateCoverageRequest.coverageCd = coverageCd;
 		updateCoverageRequest.limit = limit;
-		updateCoverageRequest.driverOids = driverOids;
+		updateCoverageRequest.driverOids = new ArrayList<>(driverOids);
 		return updateCoverageRequest;
 	}
+
+	public static VehicleUpdateDto createUpdateVehicleRequest(String usage, Boolean garagingDifferent, String address1, String city, String postalCode, String state) {
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.usage = usage;
+		updateVehicleRequest.garagingDifferent = garagingDifferent;
+		updateVehicleRequest.garagingAddress = new Address();
+		updateVehicleRequest.garagingAddress.addressLine1 = address1;
+		updateVehicleRequest.garagingAddress.city = city;
+		updateVehicleRequest.garagingAddress.postalCode = postalCode;
+		updateVehicleRequest.garagingAddress.stateProvCd = state;
+		return updateVehicleRequest;
+	}
+
+	public static VehicleUpdateDto createUpdateVehicleRequest(String county) {
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.garagingAddress = new Address();
+		updateVehicleRequest.garagingAddress.county = county;
+		return updateVehicleRequest;
+	}
+
 }

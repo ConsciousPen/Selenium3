@@ -23,6 +23,11 @@ import toolkit.webdriver.controls.composite.table.Table;
 @StateList(states = Constants.States.CA)
 public class TestClueSimplification extends TestClueSimplificationPropertyAbstract {
 
+    @Override
+    protected TextBox getClaimCatastropheRemarksAsset() {
+        return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CATASTROPHE_LOSS_CODE_REMARKS);
+    }
+
 	@Override
 	protected String getNamedInsuredLabel() {
 		return HomeCaMetaData.ApplicantTab.NAMED_INSURED.getLabel();
@@ -120,8 +125,8 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
 	@Override
-	protected RadioGroup getClaimChargeableAsset() {
-		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CHARGEABLE);
+	protected RadioGroup getClaimIncludedInRatingAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.INCLUDED_IN_RATING_AND_ELIGIBILITY);
 	}
 
 	@Override
@@ -333,7 +338,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationNB(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationNB();
 
@@ -353,7 +358,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationEndorsement(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationEndorsement();
 
@@ -373,7 +378,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRenewal(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationRenewal();
 
@@ -394,7 +399,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
      **/
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
-	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695")
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6742, PAS-6695, PAS-20851, PAS-22144, PAS-22188, PAS-6739")
 	public void pas6695_testClueReconciliationRewrite(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationRewrite();
 
@@ -411,7 +416,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6695")
-	public void pas6695_testClueReconciliationClaimantOnly(@Optional("") String state) {
+	public void pas6695_testClueReconciliationClaimantOnly(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationClaimantOnly();
 
 	}
@@ -427,7 +432,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6695")
-	public void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant(@Optional("") String state) {
+	public void pas6695_testClueClaimsReconciliationInsuredAndNotClaimant(@Optional("CA") String state) {
 		pas6695_testClueClaimsReconciliationInsuredAndNotClaimant();
 
 	}
@@ -444,8 +449,116 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
 	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-6703")
-	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("") String state) {
+	public void pas6703_testCatastropheIndicatorUnknownNB(@Optional("CA") String state) {
 		pas6703_testCatastropheIndicatorUnknownNB();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test CLUE claim catastrophe indicator when 'Unknown' defaults to 'No'
+	 * @scenario
+	 * 1. Create policy with customer "Silvia Kohli" and 2 other named insured (returns 2 Clue claims)
+	 * 2. Initiate Endorsement
+	 * 3. Navigate to Applicant tab and add new named insured "Sachin Kohli"
+	 * 4. Navigate to Reports tab and re-order clue reports
+     * 5. Validate there are now 4 claims showing
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-22075")
+	public void pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement(@Optional("CA") String state) {
+		pas22075_testAddingNamedInsuredWithClueClaimsMidtermEndorsement();
+
+	}
+
+	/**
+	 * @author Dominykas Razgunas
+	 * @name Test Require UW approval when CAT indicator and/or 'Include in Rating and Eligibility' field are changed
+	 * @scenario
+	 * 1. Create quote with default test data (including customer)
+	 * 2. Add 2 named insured with claims (Virat and Silvia Kohli)
+	 * 3. Order CLUE.
+	 * 4. Set CAT = YES and chargeable = NO.
+	 * 5. Select 10588 chargeable = NO.
+	 * 6. Select 11000 Claim and set CAT = NO.
+	 * 7. Issue Policy Override added rule ERROR_AAA_HO_XX1210012 for term.
+	 * 8. Endorse Policy Issue Endorsement no Rules fired.
+	 * 9. Change time Renew Policy Override added rule ERROR_AAA_HO_XX1210012 for life.
+	 * 10. Renew Policy no rules are fired.
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-21557")
+	public void pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged(@Optional("CA") String state) {
+		pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for NB quotes
+	 * @scenario
+	 * 1. Create customer 'Test IIRE'
+	 * 2. Fill policy up to Property Info tab (including order of CLUE)
+	 * 3. Validate all 4 claims show IIR & E = 'Yes'
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingNB(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldNB();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for endorsements
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Initiate endorsement, add named insured with claims ('Test IIRE')
+	 * 3. Reorder CLUE, validate IIRE = Yes for all claims
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingEndorsement(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldEndorsement();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes for endorsements
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Create renewal image, add named insured with claims ('Test IIRE')
+	 * 3. Reorder CLUE, validate IIRE = Yes for all claims
+	 * @param state
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingRenewal(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldRenewal();
+
+	}
+
+	/**
+	 * @author Josh Carpenter
+	 * @name Test mapping of all relevant full scope losses from CLUE with IIR & E = Yes
+	 * @scenario
+	 * 1. Create policy with default test data (including customer)
+	 * 2. Create policy, cancel, and rewrite policy
+	 * 3. Add 2 named insured with claims ('Test IIRE')
+	 * 4. Reorder CLUE, validate IIRE = Yes for all claims
+	 **/
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.HIGH})
+	@TestInfo(component = ComponentConstant.Sales.HOME_CA_DP3, testCaseId = "PAS-23639")
+	public void pas23639_testClueMappingIncludedInRatingRewrite(@Optional("") String state) {
+		pas23639_testClueMappingForIncludedInRatingFieldRewrite();
 
 	}
 

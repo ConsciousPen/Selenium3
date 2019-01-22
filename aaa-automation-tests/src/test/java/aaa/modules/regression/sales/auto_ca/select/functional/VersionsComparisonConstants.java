@@ -17,7 +17,6 @@ public class VersionsComparisonConstants {
 			.put("Captive Branch Agents","2507")
 			.put("Zilliah J Wade","500012749")
 			.put("HouseAgent Magnolia","500034992")
-			.put("A Student","astud")
 			.build();
 
 	//TODO refactor it by taking values from UI
@@ -30,6 +29,10 @@ public class VersionsComparisonConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Culver City, Los Angeles, CA, 90232", "VI mailing address 1, VI mailing address 2, HUNTINGTON PARK, Los Angeles, CA, 90255")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Culver City, CA, 90232", "VI residence address 1, VI residence address 2, HUNTINGTON PARK, CA, 90255")
 			//.putAll("Vehicle Information (2008, ACURA, MDX, WAGON 4 DOOR).Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
+			//AAA Product Owned
+			.putAll("Reports.AAA Membership report.Order Date", "","")
+			.putAll("Reports.AAA Membership report.Receipt Date", "", "")
+			.putAll("Reports.AAA Membership report.Status", "Active","")
 			//Current Currier Information
 			.putAll("Current Carrier Information.Months with Carrier","12","4")
 			//Policy Information
@@ -104,7 +107,7 @@ public class VersionsComparisonConstants {
 			//Ownership address
 			.putAll("Vehicles.1998, DODGE, CARAVAN.Ownership Type", "Financed","Owned")
 			.putAll("Vehicles.1998, DODGE, CARAVAN.First Name", "LI011","")
-			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, VII ownership address 2, Bell, CA, 55440-0674","")
+			.putAll("Vehicles.1998, DODGE, CARAVAN.Vehicle Ownership Address", "PO BOX 674, MINNEAPOLIS, MN, 55440-0674","")
 			//Additional Interest Information
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).First Name", "First Name version2","First Name version1")
 			.putAll("Additional Interest Information (First Name version1, Second Name version1).Second Name", "Second Name version2","Second Name version1")
@@ -139,6 +142,7 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned.Renters Policy #", "Renters Policy #")
 			.put("AAA Products Owned.Condo Policy #", "Condo Policy #")
 			.put("AAA Products Owned.PUP Policy #", "PUP Motorcycle Policy #")
+			.put("Reports.AAA Membership report.Membership No.", "Membership Number")
 			//Contact Information
 			.put("Contact Information.Home Phone Number", "Home Phone Number")
 			.put("Contact Information.Work Phone Number", "Work Phone Number")
@@ -266,7 +270,6 @@ public class VersionsComparisonConstants {
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section
 	static final Multimap<String, String> AAA_PRODUCT_OWNED = ImmutableListMultimap.<String, String>builder()
-			.put("AAAMembership Order", "Last Name")
 			.put("AAA Products Owned", "Current AAA Member")
 			//TODO should be returned after Clean up stories for AAA Product Owned section
 			/*			.put("AAA Products Owned", "Override Type")*/
@@ -277,6 +280,10 @@ public class VersionsComparisonConstants {
 			.put("AAA Products Owned", "Renters Policy #")
 			.put("AAA Products Owned", "Condo Policy #")
 			.put("AAA Products Owned", "PUP Policy #")
+			.put("Reports.AAA Membership report", "Membership No.")
+			.put("Reports.AAA Membership report", "Order Date")
+			.put("Reports.AAA Membership report", "Receipt Date")
+			.put("Reports.AAA Membership report", "Status")
 			.build();
 
 	//all components/attributes that should be on Comparison page for AAA Product Owned section

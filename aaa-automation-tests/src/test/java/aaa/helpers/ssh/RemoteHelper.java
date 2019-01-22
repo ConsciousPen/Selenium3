@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.jcraft.jsch.ChannelSftp;
@@ -34,7 +33,7 @@ public final class RemoteHelper {
 
 	public String getServerTimeZone() {
 		String cmd = "timedatectl | grep -oP 'Time zone: \\K.*(?= \\()'";
-		return executeCommand(cmd).trim();
+		return executeCommand(cmd).getOutput();
 	}
 
 	public static RemoteHelper get() {
@@ -57,6 +56,15 @@ public final class RemoteHelper {
 	public RemoteHelper clearFolder(List<String> folderNames) {
 		for (String folder : folderNames) {
 			clearFolder(folder);
+		}
+		return this;
+	}
+
+	public RemoteHelper clearFolder(String folder, Boolean includeSubFolders, Boolean onlyFiles) {
+		if (isPathExist(folder)) {
+			ssh.removeFiles(folder, includeSubFolders, onlyFiles);
+		} else {
+			log.warn("SSH: Folder \"{}\" doesn't exist.", folder);
 		}
 		return this;
 	}
@@ -133,15 +141,13 @@ public final class RemoteHelper {
 		return this;
 	}
 
-	public String executeCommand(String command) {
+	public CommandResults executeCommand(String command) {
 		return executeCommand(command, ExecutionParams.DEFAULT);
 	}
 
-	public String executeCommand(String command, ExecutionParams execParams) {
+	public CommandResults executeCommand(String command, ExecutionParams execParams) {
 		log.info("SSH: Executing on host \"{}\" shell command: \"{}\" as user \"{}\" with {}", connectionParams.getHost(), command, connectionParams.getUser(), execParams);
-		String result = ssh.executeCommand(command, execParams);
-		log.info("SSH: command output is: \"{}\"", result);
-		return result;
+		return ssh.executeCommand(command, execParams);
 	}
 
 	public boolean isPathExist(String path) {
@@ -224,7 +230,7 @@ public final class RemoteHelper {
 		long timeout = searchStart + timeoutInSeconds * 1000L;
 		String commandOutput;
 		do {
-			if (!(commandOutput = executeCommand(cmd)).isEmpty()) {
+			if (!(commandOutput = executeCommand(cmd).getOutput()).isEmpty()) {
 				break;
 			}
 			try {

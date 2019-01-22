@@ -1,21 +1,22 @@
 package aaa.helpers.openl.testdata_generator;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.lang3.NotImplementedException;
-import org.apache.commons.lang3.RandomUtils;
-import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLForm;
 import aaa.helpers.openl.model.home_ca.dp3.HomeCaDP3OpenLPolicy;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenLPolicy> {
 	public HomeCaDP3TestDataGenerator(String state) {
@@ -54,7 +55,8 @@ public class HomeCaDP3TestDataGenerator extends TestDataGenerator<HomeCaDP3OpenL
 	}
 	
 	private TestData getGeneralTabData(HomeCaDP3OpenLPolicy openLPolicy) {
-		TestData policyInfo = DataProviderFactory.emptyData();
+		TestData policyInfo = DataProviderFactory.dataOf(
+				HomeCaMetaData.GeneralTab.PolicyInfo.EFFECTIVE_DATE.getLabel(), openLPolicy.getEffectiveDate().format(DateTimeUtils.MM_DD_YYYY));
 		TestData currentCarrier = DataProviderFactory.dataOf(
 				HomeCaMetaData.GeneralTab.CurrentCarrier.CONTINUOUS_YEARS_WITH_HO_INSURANCE.getLabel(), openLPolicy.getYearsOfPriorInsurance(),
 				HomeCaMetaData.GeneralTab.CurrentCarrier.BASE_DATE_WITH_AAA.getLabel(),

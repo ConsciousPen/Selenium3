@@ -81,8 +81,8 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	}
 
 	/**
-	 * @author Josh Carpenter
-	 * @name Test Claims points refresh on VRD page for SS HO6 policies during NB
+	 * @author Josh Carpenter, Dominykas Razgunas
+	 * @name Test Claims points refresh on VRD page for SS HO6 policies during NB. Updated with PAS-6730
 	 * @scenario
 	 * 1.  Create customer
 	 * 2.  Initiate SS HO6 quote
@@ -109,15 +109,29 @@ public class TestClaimPointsVRDPage extends TestClaimPointsVRDPageAbstract {
 	 * 20. Adjust fire & water claims back to AAA Claim = 'Yes'; fire claim amount to $1001; theft claim to catastrophe = 'Yes'
 	 * 21. Navigate to P & C tab and calculate premium
 	 * 22. Validate claims display on VRD page with correct points
+	 * 23. Navigate To Property Info Tab
+	 * 24. Change All Claims To be Over 5 years old
+	 * 25. Navigate to P & C tab and calculate premium
+	 * 26. Check that Number of years claims free = 5
+	 * 27. Navigate To Property Info Tab
+	 * 28. Change All Claims To be Within 5 years old
+	 * 29. Navigate to P & C tab and calculate premium
+	 * 30. Check that Number of years claims free = 4
+	 * 31. Navigate To Property Info Tab
+	 * 32. Change All Claims To be Within 4 years old
+	 * 33. Navigate to P & C tab and calculate premium
+	 * 34. Check that Number of years claims free = 3
+	 * 35. Navigate To Property Info Tab
+	 * 36. Change All Claims To be Within 3 years old
+	 * 37. Navigate to P & C tab and calculate premium
+	 * 38. Check that Number of years claims free = 2
 	 */
 	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17772")
+	@TestInfo(component = ComponentConstant.Sales.HOME_SS_HO6, testCaseId = "PAS-17772, PAS-6730")
 	public void pas17772_testClaimPointsVRDPage(@Optional("") String state) {
 
 		testClaimsPointsVRDPage();
 
 	}
-
 }
-

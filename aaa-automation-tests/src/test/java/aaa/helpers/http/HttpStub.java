@@ -92,8 +92,9 @@ public class HttpStub {
 		OFFLINE_AAA_CLAIMS_BATCH("Offline AAA claims batch", "claimsOfflineProcessServlet"),
 		OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH("Offline AAA membership summary batch", "membershipProcessServlet"),
 		OFFLINE_AAA_CREDIT_SCORE_BATCH("Offline AAA credit score batch", "creditScoreProcessServlet"),
-		//OFFLINE_AAA_EARS_BATCH("Offline AAA E.A.R.S. batch", "earsOfflineProcessServlet"), 
-		;
+		//OFFLINE_AAA_EARS_BATCH("Offline AAA E.A.R.S. batch", "earsOfflineProcessServlet"),
+		OFFLINE_ISO_BATCH("Offline ISO batch","isoRenewalBatchReceiveServlet")
+				;
 		private String name;
 		private String value;
 

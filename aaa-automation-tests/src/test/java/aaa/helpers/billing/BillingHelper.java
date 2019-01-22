@@ -25,6 +25,7 @@ import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.exceptions.IstfException;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.composite.table.Row;
 
@@ -205,11 +206,26 @@ public final class BillingHelper {
 
 	// ------- Pending Transactions table -------
 
+	public static void changePendingTransaction(LocalDateTime transactionDate, String type) {
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPendingTransactionsTable.TYPE, type);
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.CHANGE).click();
+	}
+
 	public static void approvePendingTransaction(LocalDateTime transactionDate, String type) {
 		HashMap<String, String> values = new HashMap<>();
 		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
 		values.put(BillingPendingTransactionsTable.TYPE, type);
 		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.APPROVE).click();
+		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
+	}
+
+	public static void rejectPendingTransaction(LocalDateTime transactionDate, String type) {
+		HashMap<String, String> values = new HashMap<>();
+		values.put(BillingPendingTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		values.put(BillingPendingTransactionsTable.TYPE, type);
+		BillingSummaryPage.tablePendingTransactions.getRow(values).getCell(BillingPendingTransactionsTable.ACTION).controls.links.get(BillingPendingTransactionsActions.REJECT).click();
 		BillingSummaryPage.dialogApprovePendingTransaction.confirm();
 	}
 
@@ -223,7 +239,8 @@ public final class BillingHelper {
 	public static Dollar calculateLastInstallmentAmount(Dollar totalAmount, Integer installmentsCount) {
 		return totalAmount.divide(installmentsCount);
 	}
-
+	
+	/*  PLIGA fee calculation based on old algorithm
 	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
 		Map<String, String> premiumRowSearchQuery = new HashMap<>();
 		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
@@ -239,7 +256,66 @@ public final class BillingHelper {
 		}
 		return calculatePligaFee(transactionDate, totalPremiumAmount);
 	}
+	*/
+	
+	/**
+	 * PLIGA fee current value gets from screen. PLIGA fee verified based on new algorithm (PASBB-703)
+	 */
+	public static Dollar calculatePligaFee(LocalDateTime transactionDate) {
+		Map<String, String> premiumRowSearchQuery = new HashMap<>();
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		Dollar totalPremiumAmount = DZERO;
+		if (BillingSummaryPage.tablePaymentsOtherTransactions.getRows(premiumRowSearchQuery).isEmpty()) {
+			log.warn(String.format("There is no Premium transaction(s) with query %s, assume PLIGA Fee should be $0", premiumRowSearchQuery.entrySet()));
+			return totalPremiumAmount;
+		}
 
+		Map<String, String> feePLIGARowSearchQuery = new HashMap<>();
+		feePLIGARowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TRANSACTION_DATE, transactionDate.format(DateTimeUtils.MM_DD_YYYY));
+		feePLIGARowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		feePLIGARowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
+		Dollar feePLIGAAmount = DZERO;
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(feePLIGARowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			feePLIGAAmount = feePLIGAAmount.add(new Dollar(amount));
+		}
+		
+		verifyPligaFee(transactionDate);
+		
+		return feePLIGAAmount;
+	}
+	
+	public static void verifyPligaFee(LocalDateTime transactionDate) {
+		
+		Map<String, String> premiumRowSearchQuery = new HashMap<>();
+		premiumRowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.PREMIUM);
+		Dollar totalPremiumAmount = DZERO;
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(premiumRowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			totalPremiumAmount = totalPremiumAmount.add(new Dollar(amount));
+		}
+		
+		Dollar calculatedTotalPLIGAFeeAmount = calculatePligaFee(transactionDate, totalPremiumAmount);
+		
+		Map<String, String> feePLIGARowSearchQuery = new HashMap<>();
+		feePLIGARowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, BillingConstants.PaymentsAndOtherTransactionType.FEE);
+		feePLIGARowSearchQuery.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.PLIGA_FEE);
+		Dollar totalPLIGAFeeAmount = DZERO;
+		for (String amount : BillingSummaryPage.tablePaymentsOtherTransactions.getValuesFromRows(feePLIGARowSearchQuery, BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT)) {
+			totalPLIGAFeeAmount = totalPLIGAFeeAmount.add(new Dollar(amount));
+		}
+		
+		log.warn("PLIGA fee verification. Calculated total PLIGA fee amount: "+calculatedTotalPLIGAFeeAmount+". Displayed total PLIGA fee amount: "+totalPLIGAFeeAmount);
+		
+		// The PLIGA fee value can differ on 1$ due to calculation / round issue 
+		if ( !(totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount) || totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount.add(1)) || totalPLIGAFeeAmount.equals(calculatedTotalPLIGAFeeAmount.add(-1))) ) {
+			CustomAssertions.assertThat(calculatedTotalPLIGAFeeAmount).isEqualTo(totalPLIGAFeeAmount);
+		}
+		
+	}
+	
+	/**
+	 * PLIGA fee calculation for specified amount (can be separate used for Term Total premium per policy according to PASBB-703)
+	 */
 	public static Dollar calculatePligaFee(LocalDateTime transactionDate, Dollar totalPremiumAmount) {
 		final double pligaFeePercentage;
 		switch (transactionDate.getYear()) {

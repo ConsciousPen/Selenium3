@@ -1,12 +1,13 @@
 package aaa.helpers.jobs;
 
+import aaa.config.CsaaTestProperties;
+import toolkit.config.PropertyProvider;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import aaa.config.CsaaTestProperties;
-import toolkit.config.PropertyProvider;
 
 public class Jobs {
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
@@ -161,6 +162,22 @@ public class Jobs {
 	public static Job renewalClaimOrderAsyncJob = new Job("renewalClaimOrderAsyncJob", getClaimOrderJobFolders());
 
 	public static Job renewalClaimReceiveAsyncJob = new Job("renewalClaimReceiveAsyncJob");
+
+	public static Job renewalValidationAsyncTaskJob = new Job("renewalValidationAsyncTaskJob");
+
+	public static Job isoRenewalBatchOrderJob = new Job("isoRenewalBatchOrderJob");
+
+	public static Job aaaInsuranceScoreRenewBachOrder = new Job("aaaInsuranceScoreRenewBachOrder");
+
+	public static Job aaaClueRenewBatchOrderAsyncJob = new Job("aaaClueRenewBatchOrderAsyncJob");
+
+	public static Job aaaInsuranceScoreRenewalBatchReceiveJob = new Job("aaaInsuranceScoreRenewalBatchReceiveJob");
+
+	public static Job aaaClueRenewAsyncBatchReceiveJob = new Job("aaaClueRenewAsyncBatchReceiveJob");
+
+	public static Job aaaRenewalDataRefreshAsyncJob = new Job("aaaRenewalDataRefreshAsyncJob");
+
+	public static Job policyBORTransferJob = new Job("policyBORTransferJob");
 
 	public enum JobState {
 		TRUE, FALSE, FAILED

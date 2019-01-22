@@ -32,4 +32,9 @@ public class PUPPremiumCalculationTest extends OpenLRatingBaseTest<PUPOpenLPolic
 				? PremiumAndCoveragesQuoteTab.getPUPCoveragePremium()
 				: PremiumAndCoveragesQuoteTab.getPolicyTermPremium();
 	}
+
+	@Override
+	protected String createCustomerIndividual(PUPOpenLPolicy openLPolicy) {
+		return createCustomerIndividual();
+	}
 }

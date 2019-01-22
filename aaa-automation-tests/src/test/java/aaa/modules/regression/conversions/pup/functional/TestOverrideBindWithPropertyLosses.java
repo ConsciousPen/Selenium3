@@ -36,7 +36,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7242")
     public void pas7242_TestOverrideBindWithPropertyLossesNB(@Optional("NJ") String state) {
 
@@ -68,7 +68,7 @@ public class TestOverrideBindWithPropertyLosses extends ConvPUPBaseTest {
      * @details
      */
     @Parameters({"state"})
-    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @Test(groups = {Groups.REGRESSION, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Sales.PUP, testCaseId = "PAS-7242")
     public void pas7242_TestOverrideBindWithPropertyLossesConversion(@Optional("NJ") String state) {
 
