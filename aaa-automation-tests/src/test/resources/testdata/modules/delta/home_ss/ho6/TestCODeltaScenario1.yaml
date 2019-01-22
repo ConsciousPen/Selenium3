@@ -29,6 +29,12 @@ EndorsementTab: {
   HS 24 72: '@Endorsement_HS2472'
 }
 
+DocumentsTab: {
+  DocumentsToBind: {
+    Proof of home renovations for the Home Modernization discount: Yes
+  }
+}
+
 # ----- Endorsements Tab -----
 Endorsement_HS2472: {
   Action: 'Add', 

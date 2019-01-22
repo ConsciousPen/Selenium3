@@ -11,8 +11,8 @@ import toolkit.webdriver.controls.waiters.Waiters;
 
 public abstract class PropertyEndorsementsTab extends Tab {
 
-	public static Table tblIncludedEndorsements;
-	public static Table tblOptionalEndorsements;
+	public Table tblIncludedEndorsements;
+	public Table tblOptionalEndorsements;
 	public Button btnSaveForm;
 	public Button btnSaveEndo;
 	public Button btnCancelForm;
@@ -32,6 +32,7 @@ public abstract class PropertyEndorsementsTab extends Tab {
 	}
 
 	public Link getAddEndorsementLink(String formID) {
+		tblOptionalEndorsements.waitForAccessible(15000);
 		if (tblOptionalEndorsements.getRow("Form ID", formID).isPresent()) {
 			return tblOptionalEndorsements.getRow("Form ID", formID).getCell(tblOptionalEndorsements.getColumnsCount()).controls.links.get("Add", Waiters.AJAX);
 		} else if (tblIncludedEndorsements.getRow("Form ID", formID).isPresent()) {

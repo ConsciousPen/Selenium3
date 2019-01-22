@@ -1,6 +1,23 @@
 package aaa.modules.regression.billing_and_payments.auto_ss.functional;
 
-import aaa.admin.pages.general.GeneralSchedulerPage;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
+import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
+import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
+import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -19,12 +36,8 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.billing_and_payments.auto_ss.functional.preconditions.TestRefundProcessPreConditions;
 import aaa.modules.regression.billing_and_payments.helpers.RefundProcessHelper;
+import aaa.modules.regression.billing_and_payments.template.functional.TestRefundProcessTemplate;
 import aaa.modules.regression.service.helper.HelperWireMockLastPaymentMethod;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -34,21 +47,6 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.EligibilityStatusEnum.NON_REFUNDABLE;
-import static aaa.helpers.rest.wiremock.dto.LastPaymentTemplateData.PaymentMethodEnum.EFT;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT;
-import static aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE;
-import static aaa.modules.regression.sales.auto_ss.functional.preconditions.EvalueInsertSetupPreConditions.APP_STUB_URL;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestRefundProcess extends PolicyBaseTest implements TestRefundProcessPreConditions {
 
@@ -74,21 +72,11 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	private AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 	private RefundProcessHelper refundProcessHelper = new RefundProcessHelper();
 	private HelperWireMockLastPaymentMethod helperWireMockLastPaymentMethod = new HelperWireMockLastPaymentMethod();
+	private TestRefundProcessTemplate testRefundProcessTemplate = new TestRefundProcessTemplate(PolicyType.AUTO_SS);
 
 	@Override
 	protected PolicyType getPolicyType() {
 		return PolicyType.AUTO_SS;
-	}
-
-	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
-	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_CANCELLATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
 	}
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
@@ -347,7 +335,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 		// PAS-6152
 		refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CHECK, "ManualRefund", BILLING_PAYMENT_METHOD_CHECK, false, false);
 
-		refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "CHCK", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "CHCK", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
 
 		// PAS-2732
 		refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CHECK, billingAccountNumber, policyNumber);
@@ -376,7 +364,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 			// PAS-6152
 			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, AMOUNT_CREDIT_CARD, "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "Card", "4WUIC", "N", "VA", refundAmount, "test@gmail.com", "Y");
 
 			// PAS-2732
 			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_CREDIT_CARD, billingAccountNumber, policyNumber);
@@ -409,7 +397,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 			// PAS-6152
 			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_CARD, false, false);
 
-			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "Card", "PA", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "Card", "4WUIC", "N", "AZ", refundAmount, "test@gmail.com", "Y");
 
 			// PAS-2732
 			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_DEBIT_CARD, billingAccountNumber, policyNumber);
@@ -443,7 +431,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 			// PAS-6152
 			refundProcessHelper.getSubLedgerInformation(billingAccountNumber, refund.get(AMOUNT).replace("$", ""), "ManualRefund", BILLING_PAYMENT_METHOD_ACH, false, false);
 
-			refundProcessHelper.refundRecordInFileCheck(policyNumber, "M", "ACH", "PA", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
+			refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "ACH", "4WUIC", "N", "MD", refundAmount, "test@gmail.com", "Y");
 
 			// PAS-2732
 			refundProcessHelper.voidedAutomatedRefundGeneration(true, PAYMENT_METHOD_ACH, billingAccountNumber, policyNumber);
@@ -1006,17 +994,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsCC(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-
-		String paymentMethod = "contains=Credit Card";
-
-		String policyNumber = policyCreation();
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
-
-		try {
-			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-		} finally {
-			stubRequestCC.cleanUp();
-		}
+		testRefundProcessTemplate.pas7298_pendingManualRefundsCC(getState());
 	}
 
 	// *
@@ -1046,17 +1024,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingManualRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-
-		String paymentMethod = "contains=ACH";
-
-		String policyNumber = policyCreation();
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
-
-		try {
-			refundProcessHelper.pas7298_pendingManualRefunds(PENDING_REFUND_AMOUNT, APPROVED_REFUND_AMOUNT, paymentMethod);
-		} finally {
-			stubRequestACH.cleanUp();
-		}
+		testRefundProcessTemplate.pas7298_pendingManualRefundsACH(getState());
 	}
 
 	/**
@@ -1081,18 +1049,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsCC(@org.testng.annotations.Optional("VA") String state) throws IllegalAccessException {
-
-		String paymentMethod = "Credit Card";
-
-		String policyNumber = policyCreation();
-
-		HelperWireMockStub stubRequestCC = helperWireMockLastPaymentMethod.getHelperWireMockStubCC(policyNumber, PENDING_REFUND_AMOUNT);
-
-		try {
-			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-		} finally {
-			stubRequestCC.cleanUp();
-		}
+		testRefundProcessTemplate.pas7298_pendingAutomatedRefundsCC(getState());
 	}
 
 	// *
@@ -1124,18 +1081,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"PAS-7298"})
 	public void pas7298_pendingAutomatedRefundsACH(@org.testng.annotations.Optional("MD") String state) throws IllegalAccessException {
-
-		String paymentMethod = "ACH";
-		String policyNumber = policyCreation();
-
-		HelperWireMockStub stubRequestACH = helperWireMockLastPaymentMethod.getHelperWireMockStubACH(policyNumber, PENDING_REFUND_AMOUNT);
-		requestIdList.add(stubRequestACH);
-
-		try {
-			refundProcessHelper.pas7298_pendingAutomatedRefunds(policyNumber, APPROVED_REFUND_AMOUNT, PENDING_REFUND_AMOUNT, paymentMethod, getTimePoints());
-		} finally {
-			stubRequestACH.cleanUp();
-		}
+		testRefundProcessTemplate.pas7298_pendingAutomatedRefundsACH(getState());
 	}
 
 	/** Not used, because wiremock stub currently doesn't support error response fro LastPaymentMethod
@@ -1271,10 +1217,7 @@ public class TestRefundProcess extends PolicyBaseTest implements TestRefundProce
 
 	@AfterSuite(alwaysRun = true)
 	private void deleteMultipleLastPaymentRequests() {
-		for (HelperWireMockStub wireMockStubObject : requestIdList) {
-			wireMockStubObject.cleanUp();
-		}
-		requestIdList.clear();
+		testRefundProcessTemplate.deleteMultiplePaperlessPreferencesRequests();
 	}
 
 }

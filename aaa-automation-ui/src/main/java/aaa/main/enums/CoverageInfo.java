@@ -103,7 +103,7 @@ public enum CoverageInfo {
 	FPB_PACKAGED_PA("FPB", "Packaged First Party Benefits", CoverageLimits.COV_FPB_50K_TOTAL,  AvailableCoverageLimits.FPB_PA, null),
 	FPB_ADDED_PA("FPB", "Added First Party Benefits", CoverageLimits.COV_FPB_ADDED,  AvailableCoverageLimits.FPB_PA, null),
 	MEDPM_PA("MEDPM", "Medical Benefit", CoverageLimits.COV_5000,  AvailableCoverageLimits.MEDPM_PA, null),
-	IL_PA("IL", "Work Loss Benefit", CoverageLimits.COV_0,  AvailableCoverageLimits.IL_PA, null),
+	IL_PA("IL", "Work Loss Benefit", CoverageLimits.COV_00,  AvailableCoverageLimits.IL_PA, null),
 	FUNERAL_PA("FUNERAL", "Funeral Expense Benefit", CoverageLimits.COV_0,  AvailableCoverageLimits.FUNERAL_PA, null),
 	ADBC_PA("ADBC", "Accidental Death Benefit", CoverageLimits.COV_0,  AvailableCoverageLimits.ADBC_PA, null),
 	GLASS_AZ("GLASS", "Full Safety Glass", CoverageLimits.COV_FALSE_NO_COVERAGE, AvailableCoverageLimits.GLASS_AZ,"None"),
