@@ -1,10 +1,7 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.main.enums.DefaultVinVersions.DefaultVersions.SYMBOL_2017;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
@@ -908,7 +905,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		});
 
 		PremiumAndCoveragesTab.RatingDetailsView.close();
-		softly.close();
 	}
 
 	private Map<String, String> getStubInfo(String quoteNumber) {
