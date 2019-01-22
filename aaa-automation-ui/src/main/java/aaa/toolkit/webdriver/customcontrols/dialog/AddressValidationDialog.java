@@ -43,9 +43,8 @@ public class AddressValidationDialog extends DialogAssetList {
 
 	@Override
 	public void submit() {
-		Button buttonClosePopup = (Button) getAssetCollection().get(DEFAULT_POPUP_SUBMITTER_NAME);
+		Button buttonClosePopup = getAsset(DEFAULT_POPUP_SUBMITTER_NAME, Button.class);
 		if (buttonClosePopup != null) {
-			buttonClosePopup.waitForAccessible(15000);
 			buttonClosePopup.click();
 		}
 	}

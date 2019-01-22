@@ -77,10 +77,10 @@ public final class ErrorDxpEnum {
 		DRIVER_UNDER_AGE_KS("AAA_CSA6220000_KS", "Drivers under age 15 must be not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_MT("AAA_CSA6220000_MT", "Drivers under age 15 must be not available for rating"), //the same as in PAS
 		DRIVER_UNDER_AGE_SD("AAA_CSA6220000_SD", "Drivers under age 14 must be excluded or not available for rating"), //the same as in PAS
-		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater"),
+		AGE_FIRST_LICENSED_ERROR("Age First Licensed must be 14 or greater (BAU00209) [for DriverView.Driver.firstLicenseAge]"),
 		DUPLICATE_DRIVER_LICENSE_ERROR("Duplicate Driver License"),
 		VALIDATE_DRIVER_LICENSE_BY_STATE("License number is inconsistent with state format"),
-		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order"),
+		INSURANCE_SCORE_ORDER_MESSAGE("Need Insurance Score Order (AAA_SS9192341) [for DriverView.Driver.insuredOid]"),
 		RELATIONSHIP_TO_FNI_ERROR("AAA_SS180807-NTzjT","Relationship to FNI needs review"),
 		DRIVER_NAME_MISMATCH("Driver name returned from DMV does not match Driver name entered for the Name Mismatch. Please verify that Driver name provided on the application is correct"),
 		DRIVER_GENDER_MISMATCH("The gender returned from DMV does not match the gender entered for Name Mismatch. Please verify that Driver gender provided on the application is correct"),
