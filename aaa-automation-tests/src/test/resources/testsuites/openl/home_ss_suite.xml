@@ -155,13 +155,23 @@
             <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
         </classes>
     </test>
-    <!--<test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">-->
-    <!--<parameter name="fileName" value="VATests-20181101_part2.xls"/>-->
-    <!--<parameter name="policyNumbers" value="714,779"/>-->
-    <!--<classes>-->
-    <!--<class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>-->
-    <!--</classes>-->
-    <!--</test>-->
+    <test name="HomeSS [VA] Premium Calculation Test" preserve-order="true">
+        <parameter name="fileName" value="VATests-20181101_part2.xls"/>
+        <parameter name="policyNumbers" value="714,779"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSPremiumCalculationTest"/>
+        </classes>
+    </test>
+    <!-- not ready, waiting for answer from Amanda regarding tests with programCode=LegacyConv are totally broken -->
+    <!--<test name="HomeSS HO3 [VA] Premium Calculation Test" preserve-order="true">
+        <parameter name="state" value="VA"/>
+        <parameter name="testsDir" value="aaa-rating-rules-home/src/test/openl/rules/"/>
+        <parameter name="fileName" value="VATests-20181101_part1.xls"/>
+        <parameter name="policyNumbers" value="1,2"/>
+        <classes>
+            <class name="aaa.modules.openl.HomeSSHO3PremiumCalculationTest"/>
+        </classes>
+    </test>-->
     <test name="HomeSS [WV] Premium Calculation Test" preserve-order="true">
         <parameter name="fileName" value="WVTests-20181201.xls"/>
         <parameter name="policyNumbers" value="3,9"/>

@@ -254,18 +254,20 @@ PAS-17075:
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
       messages: ["Test for state WV has failed due to difference between pre-endorsement and post-endorsement premiums"]
-PAS-5437:
+PAS-5559:
   summary: "Occupation is not in within range error for CA PUP"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.EndorsementTest.*]
-      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}", "Errors: 'Occupation' is not in within range"]
+      messages: ["Cannot get value of Cell {<unnamed>: {<unnamed>: {<unnamed>: By.id: policyDataGatherForm:pupTableTotalPremium}"]
+    - tests: [aaa.modules.bct.service.EndorsementTest.*]
+      messages: ["Errors: 'Occupation' is not in within range"]
 PAS-21552:
   summary: "Errors: Time out. No session available. When 2 users change/cancel a policy at the same time"
   reason: PROD
   failures:
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
-      messages: ['Errors: base00003; Error; Operation has failed due to illegal arguments">']
+      messages: ['Operation has failed due to illegal arguments">']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
       messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*, aaa.modules.bct.service.CancelPolicyTest.*]
@@ -314,6 +316,8 @@ PASBB-855:
   failures:
   - tests: [aaa.modules.bct.service.EndorsementTest.*]
     messages: ["failed due to difference between pre-endorsement and post-endorsement premiums"]
+  - tests: [aaa.modules.bct.service.EndorsementTest.*]
+    messages: ["expected:<$"]
 PAS-9290:
   summary: "CLUE: Systematic nonchargeable item missing reason code"
   reason: PROD
@@ -390,32 +394,6 @@ PAS-21025:
   failures:
   - tests: [aaa.modules.regression.sales.auto_ss.functional.TestCompClaimsDetermination.pas20361_compClaimDeterminationBeforeMS]
     messages: ["PAS Driver should be 2nd Driver of Policy"]
-PAS-20880:
-  summary: "Cannot save and exit on property info tab"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ss.dp3.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
-    messages: ["AAA_HO_SS11260016", "Cannot set value of ComboBox"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6759_AbilityToRemoveManuallyEnteredClaimsReWrite]
-    messages: ["Errors: AAA_HO_SS10141728", "Cannot set value of ComboBox"]
-PAS-20851:
-  summary: "Chargeable indicator disabled with more than 2 named insured (upcoming story)"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal,
-            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRenewal]
-    messages: ["Cannot set value of TextBox {Reason claim is not chargeable"]
-  - tests: [aaa.modules.regression.sales.home_ss.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ss.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ss.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite,
-            aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas6695_testClueReconciliationRewrite]
-    messages: ["Cannot set value of RadioGroup {Chargeable"]
 PAS-21992:
   summary: "Regression: HomeSS: Document AHRBXX is not generated on manual renewal"
   reason: PROD
@@ -442,12 +420,6 @@ PAS-21588:
   failures:
   - tests: [aaa.modules.regression.document_fulfillment.auto_ss.functional.TestConversionAuto.pas20836_expirationNoticeFormGeneration]
     messages: ["expected:<\"[CANC]\"> but was:<\"[STMT]\">"]
-PAS-22161:
-  summary: "ASW Reason is not being displayed after adding second accident"
-  reason: PROD
-  failures:
-  - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver]
-    messages: ["Waived - Accident Surcharge Waiver"]
 PAS-18273:
   summary: "Unable to remove second insured in auto policy or Error You must order membership report is fired"
   reason: PROD
@@ -470,13 +442,41 @@ PAS-18311:
     aaa.modules.regression.sales.home_ca.ho3.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable,
     aaa.modules.regression.sales.home_ca.ho6.functional.TestFireline.pas18311_firelineScore_ZIP_firelineLookupTable]
     messages: ['CustomSoftAssertionError: The soft assertions failed']
-PAS-23331:
-  summary: "UW rule fires during mid term endorsement when it was overriden for term for CA"
+PT-3244:
+  summary: "Regression BCT: UI error: 'Roof shape' is not in within range doesn't allow to make endorsement"
   reason: PROD
   failures:
-  - tests: [aaa.modules.regression.sales.home_ca.dp3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
-    aaa.modules.regression.sales.home_ca.ho3.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged,
-    aaa.modules.regression.sales.home_ca.ho6.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
-    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0523EN"]
-  - tests: [aaa.modules.regression.sales.home_ca.ho4.functional.TestClueSimplification.pas21557_RequireUWRuleCATIndicatorIncludeInRatingAndEligibilityFieldsAreChanged]
-    messages: ["Cannot get value of Link {<unnamed>: By.id: productContextInfoForm:policyDetail_policyNumLnk}", "Errors: AAA_HO_CAWM0518EN"]
+  - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
+    messages: ["Errors: 'Roof shape' is not in within range"]
+  - tests: [aaa.modules.bct.service.EndorsementTest.BCT_ONL_EmptyEndorsementHomeCAHo4]
+    messages: ["//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"]
+PAS-23891:
+  summary: "Regression BCT: \"Cancel Notice\" flag is present after accepting payment"
+  reason: PROD
+  failures:
+  - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
+    messages: ["['Cancel Notice' flag is absent]"]
+PAS-23995:
+  summary: "ASW Waiver not being given correctly"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
+      messages: ["Expecting"]
+PT-2901:
+  summary: "Regression BCT: \"This page isn't working\" error at the screen after Reinstatement action. ReinstateFlow"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
+      messages: ['Cannot get value of StaticElement {<unnamed>: By.id: productContextInfoForm:policyDetail_policyStatusCdText}']
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
+      messages: ['Errors: Time out. No session available.']
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
+      messages: ['Errors: The connection has timed out']
+    - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
+      messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
+PAS-24509:
+  summary: "Regression: Property: Exception on policy copy or endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*]
+      messages: ['Cannot get value of StaticElement', 'Errors: base00001; Error; Data has been modified by another agent']

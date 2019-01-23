@@ -77,7 +77,6 @@ public class HomeSSOpenLForm extends OpenLForm {
 		this.optionalValue5 = optionalValue5;
 	}
 
-
 	public String getType() {
 		return type;
 	}

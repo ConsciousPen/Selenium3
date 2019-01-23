@@ -8,8 +8,8 @@
 		<suite-file path="./hdes_ho4_conversion.xml"/>
 		<suite-file path="./hdes_ho6_conversion.xml"/>
 		<suite-file path="./sis_conversion.xml"/>
-		<suite-file path="./foxpro_conversion.xml"/>
-		<suite-file path="./maig_conversion.xml"/>
+		<suite-file path="./pup_conversion.xml"/>
 		<suite-file path="./manual_conversion.xml"/>
+		<suite-file path="./hybrid_conversion.xml"/>
 	</suite-files>
 </suite>

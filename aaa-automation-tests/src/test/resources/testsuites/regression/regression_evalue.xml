@@ -228,12 +228,6 @@
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipNoPaperlessChangedToYesBeforeNB30"/>
                     <include name="pas3697_membershipEligConfTrueForActiveMembershipPendingPaperless"/>
                     <include name="pas3697_membershipEligConfTrueForNotActiveMembershipPendingPaperless"/>
-					<!-- Outdated tests: PAS-17662 Prevent bind of policies where Current AAA Member = Pending
-                    <include name="pas3697_membershipEligConfTrueForPendingMembershipPendingPaperless"/> 
-					<include name="pas3697_membershipEligibilityConfigurationFalseForPendingMembership"/>
-					<include name="pas3697_membershipEligibilityConfigurationTrueForPendingMembership"/>
-					<include name="pas3697_membershipEligConfFalseForPendingMembershipPendingPaperless"/>
-					-->
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus48"/>
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipActiveEValueRenewalMinus63"/>
                     <include name="pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus48"/>

@@ -36,7 +36,14 @@ TestDataForBindRewrittenPolicy: {
   EndorsementTab: {},
   PremiumsAndCoveragesQuoteTab: {},
   MortgageesTab: {},
-  UnderwritingAndApprovalTab: '@home_ss_ho3@DataGather@UnderwritingAndApprovalTab',
+  UnderwritingAndApprovalTab: {
+    "Underwriter-selected inspection type": "index=1",
+    "Have any of the applicant(s)’ current pets injured, intentionally or unintentionally, another creature or person?": "No",
+    "Have any applicants had a prior insurance policy cancelled, refused, or non-renewed in the past 3 years?":  "No",
+    "Has the property been in foreclosure proceedings within the past 18 months?": "No",
+    "Do employees of any resident or applicant reside in the dwelling?": "No",
+    "Is any business, home day care or farming activity conducted on the premises?": "No"
+  },
   DocumentsTab: '@home_ss_ho3@DataGather@DocumentsTab',
   BindTab: {},
   PurchaseTab: '@home_ss_ho3@DataGather@PurchaseTab'

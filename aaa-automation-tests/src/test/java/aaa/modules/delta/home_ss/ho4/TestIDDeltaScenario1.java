@@ -30,7 +30,6 @@ public class TestIDDeltaScenario1 extends IDDeltaScenario1 {
 
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
-			verifyErrorForZipCode83213();
 			purchasePolicy(td, scenarioPolicyType);
 			verifyODDPolicy();
 		});

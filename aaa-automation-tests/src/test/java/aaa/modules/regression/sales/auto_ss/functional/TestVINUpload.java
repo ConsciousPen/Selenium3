@@ -1,17 +1,16 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.main.enums.DefaultVinVersions.DefaultVersions.SYMBOL_2017;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.*;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
+import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import org.openqa.selenium.By;
+import java.util.Map;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -44,7 +43,6 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.TextBox;
 
 @StateList(statesExcept = {Constants.States.CA, Constants.States.MD})
@@ -865,7 +863,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-12872")
 	public void pas12872_VINRefreshPartialMatchUnboundQuote(@Optional("UT") String state) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-		String partialMatchNewQuote_UT_SS = vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH_NEW_QUOTE.get());
 
 		String vehYear = "2016";
 		String vehMake = "CHEVROLET";
@@ -884,28 +881,38 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//1. Create a quote with partial VIN matched data and save the quote number
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new PremiumAndCoveragesTab().calculatePremium();
-		buttonViewRatingDetails.click();
-		buttonRatingDetailsOk.click();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
+		log.info("Current quote #: {}",quoteNumber);
+
+		Map<String, String> stubResultBeforeVinUpload = getStubInfo(quoteNumber);
 
 		//2. Upload new vin data with updated Y/M/M/S/S
 		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(partialMatchNewQuote_UT_SS);
+		new UploadToVINTableTab().uploadVinTable(vinMethods.getSpecificUploadFile(VinUploadFileType.PARTIAL_MATCH_NEW_QUOTE.get()));
 
 		//3. Retrieve the created quote
 		findAndRateQuote(testData, quoteNumber);
+
+		Map<String, String> stubResultAfterVinUpload = getStubInfo(quoteNumber);
+
 		buttonViewRatingDetails.click();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(stubResultBeforeVinUpload.get("COMPSYMBOL")).as("COMPSYMBOL should be changed after upload").isNotEqualTo(stubResultAfterVinUpload.get("COMPSYMBOL"));
+			softly.assertThat(stubResultBeforeVinUpload.get("COLLSYMBOL")).as("COLLSYMBOL should be changed  after upload").isNotEqualTo(stubResultAfterVinUpload.get("COLLSYMBOL"));
 
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-
-		//4. Check for the updated Y/M/M values in View Rating Details table
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2016");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("CHEVROLET AUTO");
-		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("CHEVROLET MALIBU");
+			getPolicySymbols().forEach((key, value) -> softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(2).getValue())
+					.as("according to xls, symbols should be : BI Symbol should be BI002, PD002, UM002 ,MP002").contains("002"));
+		});
 
 		buttonRatingDetailsOk.click();
-		softly.close();
+	}
+
+	private Map<String, String> getStubInfo(String quoteNumber) {
+		return DBService.get().getRow(String.format("SELECT r.currentVin,I.COMPSYMBOL, I.COLLSYMBOL , R.version FROM Riskitem R, \n"
+				+ "Vehicleratinginfo I, Vehiclebaseinfo B, Policysummary Ps, Policydetail Pd \n"
+				+ "WHERE R.Ratinginfo_Id = I.Id AND B.Id = R.Baseinfo_Id AND ps.policydetail_id = pd.id \n"
+				+ "AND pd.id = r.policydetail_id AND policynumber LIKE '%s' ORDER BY r.ID DESC", quoteNumber));
 	}
 
 	/**
@@ -989,10 +996,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);
 		//PartialMatchNewQuote_UT_SS.xlsx
 		//pas12872_VINRefreshPartialMatchUnboundQuote
-		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "1G1ZJ5SU%G", "SYMBOL_2017", "CHEVROLET");
+		DBService.get().executeUpdate(String.format("Delete FROM Vehiclerefdatavin WHERE VIN like '%s' and BI_Symbol IN ('BI001','BI002')","1G1ZJ5SU%G"));
 
-		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "1G1ZJ5SU%G", "SYMBOL_2000", "CHEVROLET");
-		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1G1ZJ5SU%G", "CHEVROLET AUTO");
 		DatabaseCleanHelper.updateVehicleRefDataVinTableByVinAndMaketext("1", "3FADP4BE%H", "SYMBOL_2000", "FORD");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("3FADP4BE%H", "FORD MOTOR");
 		DatabaseCleanHelper.deleteVehicleRefDataVinTableByVinAndMaketext("1J2WW12P&5", "MDX");

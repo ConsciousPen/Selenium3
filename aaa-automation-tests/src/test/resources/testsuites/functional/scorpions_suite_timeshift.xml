@@ -198,6 +198,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
@@ -234,6 +235,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshMSRPVehicleForCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>
@@ -271,6 +273,7 @@
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinNotMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinMatched"/>
                     <include name="pas14532_refreshForCurrentAndRenewalTermsVinStubUpdate"/>
+                    <include name="pas16522_refreshForMSRPVehicleCurrentAndRenewalTerms"/>
                 </methods>
             </class>
         </classes>

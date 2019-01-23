@@ -296,6 +296,7 @@
             <class name="aaa.modules.regression.sales.pup.TestQuotePremiumOverride"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteUnderwritingRules"/>
             <class name="aaa.modules.regression.sales.pup.TestQuoteVoiceBind"/>
+            <class name="aaa.modules.regression.sales.pup.TestCaptureUnderwritingQuestions"/>
         </classes>
     </test>
     <test name="DC Home Regression Tests" parallel="methods">

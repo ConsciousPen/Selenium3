@@ -576,7 +576,7 @@ AdditionalAddress_CO: {
 }
 
 Construction_CO: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -1333,7 +1333,7 @@ AdditionalAddress_IN: {
 }
 
 Construction_IN: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -1505,7 +1505,7 @@ AdditionalAddress_KS: {
 }
 
 Construction_KS: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -1684,7 +1684,7 @@ AdditionalAddress_KY: {
 }
 
 Construction_KY: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -2560,7 +2560,7 @@ AdditionalAddress_OH: {
 }
 
 Construction_OH: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -2727,7 +2727,7 @@ AdditionalAddress_OK: {
 }
 
 Construction_OK: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -3159,7 +3159,7 @@ AdditionalAddress_SD: {
 }
 
 Construction_SD: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
@@ -3452,7 +3452,7 @@ AdditionalAddress_WV: {
   Validate Address Dialog: {}
 }
 Construction_WV: {
-    Year built: 2009,
+    Year built: 2011,
     Square footage: 1,
     Roof type: Laminate / Architectural,
     Roof shape: 'index=1',
