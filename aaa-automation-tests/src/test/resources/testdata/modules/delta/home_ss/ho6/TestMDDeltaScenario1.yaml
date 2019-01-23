@@ -1,0 +1,65 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: {},
+  MortgageesTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@MortgageesTab'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyValue',
+  Construction: '@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Interior',
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+}
+
+# ----- PropertyInfo Tab -----
+Construction: {
+  Year built: 2009,
+  Square footage: 1,
+  Roof type: Laminate / Architectural,
+  Roof shape: Gable, 
+  Construction type: 'Masonry', 
+  Condominium Coverage A Dwelling requested for: Interior
+}
+
+
+# =========== TC03 Storm Shutter discount ===========
+TestData_StormShutterYes: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_StormShutterYes',
+}
+
+
+# ============ TC_verifyUnderwritingApprovalTab ===============
+TestData_UW1: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1',
+}
+
+UnderwritingAndApprovalTab_UW1: { 
+  "Is any business or farming activity conducted on the premises?": 'Yes' 
+}
+
+TestData_UW2: {
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW2',
+}
+
+TestData_UW3: {
+  UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW3',
+}
+
+#================================================
+TestData_Plus20Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus20Days'
+}
+
+TestData_Plus21Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus21Days'
+}

@@ -1,0 +1,80 @@
+TestData: {
+  PropertyInfoTab: '@PropertyInfoTab',
+  EndorsementTab: {},
+  MortgageesTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@MortgageesTab'
+}
+
+PropertyInfoTab: {
+  DwellingAddress: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@DwellingAddress_PropertyInfoTab',
+  AdditionalAddress: [{}],
+  PublicProtectionClass: {},
+  FireReport: {},
+  PropertyValue: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyValue',
+  Construction: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Construction',
+  Interior: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@Interior',
+  DetachedStructures: ['@DetachedStructures'],
+  FireProtectiveDD: {},
+  TheftProtectiveTPDD: {},
+  HomeRenovation: {},
+  PetsOrAnimals: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PetsOrAnimals',
+  Stoves: {},
+  RecreationalEquipment: {},
+  ClaimHistory: {},
+  RentalInformation: '@RentalInformation'
+}
+
+# ----- PropertyInfo Tab -----
+DetachedStructures: {
+   "Are there any detached structures on the property?": 'Yes', 
+   Rented to others: 'No', 
+   Description: 'Detached structure 1',
+   Limit of liability: '1000' 
+}  
+
+RentalInformation: {
+  Number of consecutive years insured has owned any rental properties: '5',
+  Property manager: 'index=1',
+  "Does the tenant have an underlying HO4 policy?": "No"
+}
+
+# =========== TC03 Storm Shutter discount ===========
+TestData_StormShutterYes: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_StormShutterYes',
+}
+
+# ============ TC_verifyUnderwritingApprovalTab ===============
+TestData_UW1: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW1',
+}
+
+UnderwritingAndApprovalTab_UW1: {
+  "Underwriter-selected inspection type": 'No Inspection Required', 
+  "Is any business or farming activity conducted on the premises?": 'Yes' 
+}
+
+TestData_UW2: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW2',
+}
+
+UnderwritingAndApprovalTab_UW2: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'Yes',
+  Remark Prior Insurance MD:  'test remark',  
+  "Is any business or farming activity conducted on the premises?": 'No' 
+}
+
+TestData_UW3: {
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_UW3',
+}
+
+UnderwritingAndApprovalTab_UW3: {
+  "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No', 
+}
+
+#================================================
+TestData_Plus20Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus20Days'
+}
+
+TestData_Plus21Days: {
+  CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus21Days'
+}
