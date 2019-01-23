@@ -1,16 +1,24 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
+import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
+import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -57,7 +65,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      * @author Josh Carpenter
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during NB
      * @scenario
-     * 1. Initiate Auto SS policy with base date > 4 years ago
+     * 1. Initiate Auto SS policy with base date = 2 years ago and time with previous carrier = 2 years
      * 2. Fill policy up to P & C tab with AF accident in the past 33 months
      * 3. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
      * 4. Add a second AF accident in the past 33 months
@@ -84,7 +92,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      * @author Josh Carpenter
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during endorsement
      * @scenario
-     * 1. Initiate Auto SS policy with base date > 4 years ago and AF accident in the past 33 months
+     * 1. Initiate Auto SS policy with base date = 2 years ago and time with previous carrier = 2 years and AF accident in the past 33 months
      * 2. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
      * 3. Bind policy
      * 4. Initiate endorsement with trans. eff. date 5 days from policy eff. date
@@ -115,7 +123,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
      * @author Josh Carpenter, Sreekanth Kopparapu
      * @name Test that a new at-fault accident is waived if the ASW conditions are met during renewal
      * @scenario
-     * 1. Create Auto SS policy with base date > 4 years ago
+     * 1. Create Auto SS policy with base date = 2 years ago and time with previous carrier = 2 years
      * 2. Create renewal image and add AF accident in the past 33 months
      * 3. Calculate premium and validate the 'Included in Points and/or Tier' value and reason code on the Driver tab
      * 4. Add a second AF accident in the past 33 months
@@ -136,6 +144,71 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
         policy.renew().perform();
         validateAFW(td);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+
+    }
+
+    /**
+     * @author Josh Carpenter
+     * @name Test that ASW is given properly during an aged renewal (ASW not eligible in NB policy)
+     * @scenario
+     * 1. Initiate Auto SS quote with the following attributes:
+     *      a. Base date = 1 year ago
+     *      b. Time with previous carrier = 2 years
+     *      c. Previous carrier = 1 year, AAA provider
+     *      d. Driver that returns AF accident in the past 20 months (need's to be within 33 months still at first renewal)
+     * 2. Fill up to DAR tab and order reports
+     * 3. Navigate to Driver tab and validate ASW is NOT given for the accident
+     * 4. Bind policy
+     * 5. Advance time to renewal reports order date (R-63)
+     * 6.
+     * 7.
+     * 8.
+     * 9.
+     * @details
+     */
+    @Parameters({"state"})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
+    @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-23995")
+    public void pas23995_testAccidentSurchargeWaiverAgedRenewal(@Optional("") String state) {
+
+        TestData tdCustomer = getCustomerIndividualTD("DataGather", "TestData")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "ASW")
+                .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "CASTest");
+        TestData tdPolicy = adjustTdBaseDate(getPolicyTD())
+//                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+//                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-1y>")
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "D99155622");
+
+        mainApp().open();
+        createCustomerIndividual(tdCustomer);
+        policy.initiate();
+        policy.getDefaultView().fillUpTo(tdPolicy, DocumentsAndBindTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        validateIncludedInPoints("Yes");
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+        new PurchaseTab().fillTab(tdPolicy).submitTab();
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+
+//        adminApp().switchPanel();
+//        NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
+//        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_CLUE_RENEW_BATCH_ORDER_ASYNC_JOB);
+//        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_CLUE_RENEW_ASYNC_BATCH_RECEIVE_JOB);
+//        adminApp().close();
+
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(renewalEffDate));
+//        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+//        JobUtils.executeJob(Jobs.aaaClueRenewBatchOrderAsyncJob);
+//        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_CLUE_BATCH);
+//        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+//        JobUtils.executeJob(Jobs.aaaClueRenewAsyncBatchReceiveJob);
+
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
     }
 
