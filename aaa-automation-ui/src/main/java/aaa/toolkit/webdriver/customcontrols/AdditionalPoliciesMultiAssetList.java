@@ -26,9 +26,9 @@ public class AdditionalPoliciesMultiAssetList extends MultiAssetList {
 
 	@Override
 	protected void addSection(int index, int size) {
-		if (size != 0)
-			((Button) getAssetCollection().get("Add")).click();
-
+		if (size != 0) {
+			getAsset("Add", Button.class).click();
+		}
 	}
 
 	@Override
