@@ -30,7 +30,7 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 			context.getCurrentXmlTest().addParameter(STATE_PARAM, state);
 		}
 		log.info(" DataProvider got state: {}", state);
-		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2, state);
+		List<String> policyNumbers = getPoliciesForEmptyEndorsementTests(m.getName(), date1, date2);
 		log.info(" DataProvider got policies: {}", policyNumbers);
 		String finalState = state;
 		List<Object[]> data = policyNumbers.stream().map(policyNumber -> new String[] {finalState, policyNumber}).collect(Collectors.toList());
@@ -62,11 +62,11 @@ public class EndorsementTemplate extends BackwardCompatibilityBaseTest {
 		return date2;
 	}
 
-	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2, String state) {
+	public List<String> getPoliciesForEmptyEndorsementTests(String testName, String date1, String date2) {
 		date1 = getCUSTOM_DATE1(date1);
 		date2 = getCUSTOM_DATE2(date2);
 
-		return getEmptyEndorsementPolicies(testName, date1, date2, state);
+		return getEmptyEndorsementPolicies(testName, date1, date2);
 		//return getPoliciesWithDateRangeByQuery(testName, date1, date2).get(0);
 	}
 
