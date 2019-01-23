@@ -1,19 +1,16 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.PolicyConstants;
@@ -22,16 +19,15 @@ import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.AutoSSBaseTest;
+import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplate;
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
-public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
+public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
-    private DriverTab driverTab = new DriverTab();
     private PurchaseTab purchaseTab = new PurchaseTab();
 
     /**
@@ -169,46 +165,49 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
     @Parameters({"state"})
     @Test(groups = {Groups.FUNCTIONAL, Groups.HIGH, Groups.TIMEPOINT})
     @TestInfo(component = ComponentConstant.Renewal.AUTO_SS, testCaseId = "PAS-23995")
-    public void pas23995_testAccidentSurchargeWaiverAgedRenewal(@Optional("") String state) {
+    public void pas23995_testAccidentSurchargeWaiverAgedRenewalCAS(@Optional("") String state) {
 
         TestData tdCustomer = getCustomerIndividualTD("DataGather", "TestData")
                 .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.FIRST_NAME.getLabel()), "ASW")
                 .adjust(TestData.makeKeyPath(CustomerMetaData.GeneralTab.class.getSimpleName(), CustomerMetaData.GeneralTab.LAST_NAME.getLabel()), "CASTest");
+
         TestData tdPolicy = adjustTdBaseDate(getPolicyTD())
-//                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
-//                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today-1y>")
+                .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel() + "[0]",
+                        AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "D99155622");
 
         mainApp().open();
         createCustomerIndividual(tdCustomer);
-        policy.initiate();
-        policy.getDefaultView().fillUpTo(tdPolicy, DocumentsAndBindTab.class, true);
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        validateIncludedInPoints("Yes");
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-        new DocumentsAndBindTab().submitTab();
-        new PurchaseTab().fillTab(tdPolicy).submitTab();
-        String policyNumber = PolicySummaryPage.getPolicyNumber();
-        LocalDateTime renewalEffDate = PolicySummaryPage.getExpirationDate();
+        createPolicy(tdPolicy);
 
-//        adminApp().switchPanel();
-//        NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-//        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_CLUE_RENEW_BATCH_ORDER_ASYNC_JOB);
-//        GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_CLUE_RENEW_ASYNC_BATCH_RECEIVE_JOB);
-//        adminApp().close();
+        policyNumber = PolicySummaryPage.getPolicyNumber();
+        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
 
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(renewalEffDate));
-//        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-//        JobUtils.executeJob(Jobs.aaaClueRenewBatchOrderAsyncJob);
-//        HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_CLUE_BATCH);
-//        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-//        JobUtils.executeJob(Jobs.aaaClueRenewAsyncBatchReceiveJob);
+        downloadClaimRequest();
+        createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, "af_accident_claim_data_model.yaml");
+        runRenewalClaimReceiveJob();
 
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
+        validateIncludedInPoints("Yes");
+        new PremiumAndCoveragesTab().calculatePremium();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+
+        payTotalAmtDue(policyNumber);
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+        mainApp().open();
+        searchForPolicy(policyNumber);
+        assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
 
     }
 
@@ -270,7 +269,7 @@ public class TestAccidentSurchargeWaiver extends AutoSSBaseTest {
 
     private void addActivityDriverTab(TestData td) {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
+        new DriverTab().fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), DataProviderFactory.emptyData())
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.ACTIVITY_INFORMATION.getLabel()), td));
     }
 
