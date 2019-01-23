@@ -1,0 +1,135 @@
+{
+  "changeType": null,
+  "drivers": null,
+  "driverCoverages": null,
+  "policyCoverages": {
+    "FPB": {
+      "changeType": "MODIFIED",
+      "data": {
+        "coverageCd": "FPB",
+        "coverageDescription": "Added First Party Benefits",
+        "coverageLimit": "Added",
+        "coverageLimitDisplay": "Select Individual Coverages",
+        "customerDisplayed": true,
+        "canChangeCoverage": true
+      },
+      "modifiedAttributes": {
+        "coverageDescription": {
+          "newValue": "Added First Party Benefits",
+          "oldValue": "Basic First Party Benefits"
+        },
+        "coverageLimit": {
+          "newValue": "Added",
+          "oldValue": "Basic"
+        },
+        "coverageLimitDisplay": {
+          "newValue": "Select Individual Coverages",
+          "oldValue": "$5K Basic Coverage Package"
+        }
+      },
+      "subCoverages": {
+        "MEDPM": {
+          "changeType": "MODIFIED",
+          "data": {
+            "coverageCd": "MEDPM",
+            "coverageDescription": "Medical Benefit",
+            "coverageLimit": "10000",
+            "coverageLimitDisplay": "$10,000",
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          },
+          "modifiedAttributes": {
+            "coverageLimit": {
+              "newValue": "10000",
+              "oldValue": "5000"
+            },
+            "coverageLimitDisplay": {
+              "newValue": "$10,000",
+              "oldValue": "$5,000"
+            },
+            "canChangeCoverage": {
+              "newValue": true,
+              "oldValue": false
+            }
+          }
+        },
+        "ADBC": {
+          "changeType": "MODIFIED",
+          "data": {
+            "coverageCd": "ADBC",
+            "coverageDescription": "Accidental Death Benefit",
+            "coverageLimit": "25000",
+            "coverageLimitDisplay": "$25,000",
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          },
+          "modifiedAttributes": {
+            "coverageLimit": {
+              "newValue": "25000",
+              "oldValue": "0"
+            },
+            "coverageLimitDisplay": {
+              "newValue": "$25,000",
+              "oldValue": "No Coverage"
+            },
+            "canChangeCoverage": {
+              "newValue": true,
+              "oldValue": false
+            }
+          }
+        },
+        "FUNERAL": {
+          "changeType": "MODIFIED",
+          "data": {
+            "coverageCd": "FUNERAL",
+            "coverageDescription": "Funeral Expense Benefit",
+            "coverageLimit": "2500",
+            "coverageLimitDisplay": "$2,500",
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          },
+          "modifiedAttributes": {
+            "coverageLimit": {
+              "newValue": "2500",
+              "oldValue": "0"
+            },
+            "coverageLimitDisplay": {
+              "newValue": "$2,500",
+              "oldValue": "No Coverage"
+            },
+            "canChangeCoverage": {
+              "newValue": true,
+              "oldValue": false
+            }
+          }
+        },
+        "IL": {
+          "changeType": "MODIFIED",
+          "data": {
+            "coverageCd": "IL",
+            "coverageDescription": "Work Loss Benefit",
+            "coverageLimit": "2500/50000",
+            "coverageLimitDisplay": "$2,500/month ($50,000 max)",
+            "customerDisplayed": true,
+            "canChangeCoverage": true
+          },
+          "modifiedAttributes": {
+            "coverageLimit": {
+              "newValue": "2500/50000",
+              "oldValue": "0/0"
+            },
+            "coverageLimitDisplay": {
+              "newValue": "$2,500/month ($50,000 max)",
+              "oldValue": "No Coverage"
+            },
+            "canChangeCoverage": {
+              "newValue": true,
+              "oldValue": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "vehicles": null
+}
