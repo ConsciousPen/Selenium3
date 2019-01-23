@@ -223,7 +223,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.DE})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21596", "PAS-21591"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-21596", "PAS-21591", "PAS-24114"})
 	public void pas21596_aadnde1FormRFI(@Optional("DE") String state) {
 		verifyAadndeScenarios("BI", "25000/50000");
 		verifyAadndeScenarios("PD", "15000");
@@ -241,7 +241,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			bindEndorsement(policyNumber, doccId, "200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction", "attributeForRules");
 
-			//Pas- 24114
+			//PAS-24114
 			String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, DocGenEnum.Documents.AADNDE1.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
 			verifyDoccInDb(softly, query, DocGenEnum.Documents.AADNDE1);
 
