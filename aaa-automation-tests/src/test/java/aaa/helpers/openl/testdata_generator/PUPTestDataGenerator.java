@@ -600,7 +600,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getPremiumAndCoveragesData(PUPOpenLPolicy openLPolicy) {
-		TestData premiumAndCoverageTabData = new SimpleDataProvider();
+		TestData premiumAndCoverageTabData = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "click");
 		if (openLPolicy.getCoverages().get(0).getLimit() != null) {
 			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), new Dollar(openLPolicy.getCoverages().get(0).getLimit()).toString().replaceAll("\\.00", ""));
 		}
