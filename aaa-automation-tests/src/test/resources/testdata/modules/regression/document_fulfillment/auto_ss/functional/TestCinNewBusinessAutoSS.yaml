@@ -101,7 +101,7 @@ NameInsured_NoScore : {
   Last Name: 'Wu',
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'No'
 }
 

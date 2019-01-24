@@ -21,7 +21,7 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: '@<auto_ss>@DataGather@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
 }
@@ -32,7 +32,7 @@ NamedInsuredInformation: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001
 }
@@ -124,12 +124,12 @@ TestData_NotOrderedMembershipValidationAU_SS_Endorsement: {
 
 GeneralTab_Endorsement: {
   NamedInsuredInformation: '@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned_Endorsement',
+  AAAMembership: '@AAAMembership_Endorsement',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
 }
 
-AAAProductOwned_Endorsement: {
+AAAMembership_Endorsement: {
   Current AAA Member: 'No'
 }
 
@@ -149,10 +149,10 @@ TestData_NotOrderedMembershipValidationAU_SS_Endorsement_Changes: {
 }
 
 GeneralTab_Endorsement_Changes: {
-  AAAProductOwned: '@AAAProductOwned_Endorsement_Changes'
+  AAAMembership: '@AAAMembership_Endorsement_Changes'
 }
 
-AAAProductOwned_Endorsement_Changes: {
+AAAMembership_Endorsement_Changes: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001
 }
