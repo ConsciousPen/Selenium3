@@ -37,6 +37,22 @@ TestData_StormShutterYes: {
   PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_StormShutterYes',
 }
 
+#================ TC verifyInspectionTypeAndEligibility ================
+TestData_Construction1: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_Construction3'
+}
+
+TestData_correct: {
+  PropertyInfoTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@PropertyInfoTab_correct'
+}
 
 # ============ TC_verifyUnderwritingApprovalTab ===============
 TestData_UW1: {
@@ -55,7 +71,7 @@ TestData_UW3: {
   UnderwritingAndApprovalTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@UnderwritingAndApprovalTab_UW3',
 }
 
-#================================================
+#================ TC verifyCancelNoticeTab ================
 TestData_Plus20Days: {
   CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus20Days'
 }

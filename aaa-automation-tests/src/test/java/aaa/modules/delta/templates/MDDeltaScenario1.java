@@ -8,6 +8,7 @@ import java.util.Map;
 import org.assertj.core.api.SoftAssertions;
 
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.NavigationEnum.HomeSSTab;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.delta.HssQuoteDataGatherHelper;
@@ -253,6 +254,38 @@ public class MDDeltaScenario1 extends BaseTest {
 			PremiumsAndCoveragesQuoteTab.buttonSaveAndExit.click();
 		});
 	}
+
+	public void verifyInspectionTypeAndEligibility() {
+		mainApp().open(); 
+		SearchPage.openQuote(quoteNumber);	
+		policy.dataGather().start();
+		
+		TestData td1 = getTestSpecificTD("TestData_Construction1");
+		TestData td2 = getTestSpecificTD("TestData_Construction2");
+		TestData td3 = getTestSpecificTD("TestData_Construction3");
+		TestData td = getTestSpecificTD("TestData_correct");		
+		
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			verifyErrorOnBind(td1, ErrorEnum.Errors.ERROR_AAA_HO_SS2103528);
+			verifyErrorOnBind(td2, ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+			verifyErrorOnBind(td3, ErrorEnum.Errors.ERROR_AAA_HO_SS1162304_MD);
+		}
+		else {
+			verifyInspectionTypeAndErrorOnBind(td1, "Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS3282256);
+			verifyInspectionTypeAndErrorOnBind(td2, "Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS11120040);
+			verifyInspectionTypeAndErrorOnBind(td3, "High Value Interior", ErrorEnum.Errors.ERROR_AAA_HO_SS1162304_MD);
+		}
+		
+		HssQuoteDataGatherHelper.fillPropertyInfoTabWithCorrectData(td);
+		if (getPolicyType().equals(PolicyType.HOME_SS_HO6)) {
+			new PropertyInfoTab().saveAndExit();
+		}
+		else {
+			NavigationPage.toViewTab(HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+			new UnderwritingAndApprovalTab().fillTab(td);		
+			new UnderwritingAndApprovalTab().saveAndExit();
+		}
+	}
 	
 	public void verifyUnderwritingApprovalTab() {
 		TestData td_uw1 = getTestSpecificTD("TestData_UW1");
@@ -289,20 +322,16 @@ public class MDDeltaScenario1 extends BaseTest {
 		});
 	}
 	
-	public void verifyInspectionTypeAndEligibility() {
-		//TODO
-	}
-	
 	public void purchasePolicy(TestData td, String scenarioPolicyType) {
 		mainApp().open(); 		
 		SearchPage.openQuote(quoteNumber);
 		
 		policy.dataGather().start(); 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES.get());
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 	
 		
-		NavigationPage.toViewTab(NavigationEnum.HomeSSTab.BIND.get());
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
 		policy.getDefaultView().fillFromTo(td, BindTab.class, PurchaseTab.class, true);
         new PurchaseTab().submitTab();
         
@@ -442,6 +471,39 @@ public class MDDeltaScenario1 extends BaseTest {
 				HomeSSMetaData.EndorsementTab.EndorsementHS0495.COVERAGE_LIMIT)).hasOptions("$10,000", "$15,000", "$20,000", "$25,000", "$50,000", policyLimit);
 		endorsementTab.btnSaveForm.click();
 	}	
+	
+	private void verifyErrorOnBind(TestData td, ErrorEnum.Errors errorCode) {
+		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td);
+		
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();		
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorsPresent(errorCode);
+		errorTab.cancel();
+	}
+	
+	private void verifyInspectionTypeAndErrorOnBind(TestData td, String inspectionType, ErrorEnum.Errors errorCode) {
+		NavigationPage.toViewTab(HomeSSTab.PROPERTY_INFO.get());
+		new PropertyInfoTab().fillTab(td);
+		
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES.get());
+		NavigationPage.toViewTab(HomeSSTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
+		new PremiumsAndCoveragesQuoteTab().calculatePremium(); 
+		
+		NavigationPage.toViewTab(HomeSSTab.UNDERWRITING_AND_APPROVAL.get());
+		assertThat(new UnderwritingAndApprovalTab().getAssetList().getAsset(HomeSSMetaData.UnderwritingAndApprovalTab.UNDERWRITER_SELECTED_INSPECTION_TYPE).getValue()).isEqualTo(inspectionType);
+		
+		NavigationPage.toViewTab(HomeSSTab.BIND.get());
+		new BindTab().btnPurchase.click();		
+		ErrorTab errorTab = new ErrorTab(); 
+		errorTab.verify.errorsPresent(errorCode);
+		errorTab.cancel();
+	}
 	
 	private static ArrayList<String> immediatePriorCarrierLOVs = new ArrayList<>();
 	static {

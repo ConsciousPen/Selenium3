@@ -169,7 +169,117 @@ UnderwritingAndApprovalTab_UW3: {
   "Applicant(s), who have been cancelled, refused insurance or non-renewed in the past 3 years are ineligible if based on any of the following reasons: Fraud or Material Misrepresentation, Substantial Increase in Hazard, or Claims.": 'No', 
 }
 
-#================================================
+#================ TC verifyInspectionTypeAndEligibility ================
+TestData_Construction1: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction1'
+}
+
+TestData_Construction2: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction2'
+}
+
+TestData_Construction3: {
+  PropertyInfoTab: '@PropertyInfoTab_Construction3'
+}
+
+TestData_correct: {
+  PropertyInfoTab: '@PropertyInfoTab_correct',  
+  UnderwritingAndApprovalTab: '@UnderwritingAndApprovalTab_1'
+}
+
+
+PropertyInfoTab_Construction1: {
+  Construction: '@Construction_1',
+  HomeRenovation: '@HomeRenovation_1'
+}
+
+PropertyInfoTab_Construction2: {
+  Construction: '@Construction_2',
+  HomeRenovation: '@HomeRenovation_2'
+}
+
+PropertyInfoTab_Construction3: {
+  Construction: '@Construction_3',
+  PropertyValue: '@PropertyValue_1'
+}
+
+PropertyInfoTab_correct: {
+  Construction: '@Construction_3',
+  HomeRenovation: '@HomeRenovation_3',
+  PropertyValue: '@PropertyValue_2'
+}
+
+Construction_1: {
+  Year built: '1939'
+}
+
+Construction_2: {
+  Year built: '1899'
+}
+
+Construction_3: {
+  Year built: '2002'
+}
+
+HomeRenovation_1: { 
+  Plumbing renovation: 'Other', 
+  "Plumbing % complete": '100', 
+  "Plumbing Month of completion": 12, 
+  "Plumbing Year of completion": '2009', 
+  Electrical renovation: 'Other',
+  "Electrical % complete": '100', 
+  "Electrical Month of completion": 12, 
+  "Electrical Year of completion": '2009', 
+  Roof renovation: 'Partial replace', 
+  "Roof % complete": '50', 
+  "Roof Month of completion": 6, 
+  "Roof Year of completion": '2013',
+  "Heating/cooling renovation": 'Space Heater', 
+  "Heating/cooling % complete": '100', 
+  "Heating/cooling Month of completion": 12,
+  "Heating/cooling Year of completion": '2009'
+}  
+
+HomeRenovation_2: {
+  Plumbing renovation: '100% Copper', 
+  "Plumbing % complete": '100', 
+  "Plumbing Month of completion": 12, 
+  "Plumbing Year of completion": '2009', 
+  Electrical renovation: '100% Circuit/Romex',
+  "Electrical % complete": '100', 
+  "Electrical Month of completion": 12, 
+  "Electrical Year of completion": '2009', 
+  Roof renovation: '100% Replace', 
+  "Roof % complete": '100', 
+  "Roof Month of completion": 12, 
+  "Roof Year of completion": '2009', 
+  "Heating/cooling renovation": Forced Air, 
+  "Heating/cooling % complete": '100', 
+  "Heating/cooling Month of completion": 12,
+  "Heating/cooling Year of completion": '2009'
+}  
+
+HomeRenovation_3: {
+  Plumbing renovation: '',  
+  Electrical renovation: '',
+  Roof renovation: '',  
+  "Heating/cooling renovation": ''
+}
+
+PropertyValue_1: {
+  Coverage A - Dwelling limit: 2000001, 
+  Reason replacement cost differs from the tool value: 'index=1'
+}
+
+PropertyValue_2: {
+  Coverage A - Dwelling limit: '75000'
+}
+
+UnderwritingAndApprovalTab_1: {
+  "Underwriter-selected inspection type": 'No Inspection Required' 
+}
+
+#================ TC verifyCancelNoticeTab ================
 TestData_Plus20Days: {
   CancelNoticeActionTab: '@CancelNoticeActionTab_Plus20Days'
 }

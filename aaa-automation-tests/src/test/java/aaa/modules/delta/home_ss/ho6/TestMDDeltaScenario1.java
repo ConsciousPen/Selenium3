@@ -34,6 +34,7 @@ public class TestMDDeltaScenario1 extends MDDeltaScenario1 {
 			verifyEndorsementHS0495(scenarioPolicyType);
 			verifyEndorsementHS2338();
 			verifyStormShutterDiscount();
+			verifyInspectionTypeAndEligibility();
 			verifyUnderwritingApprovalTab();
 			purchasePolicy(td, scenarioPolicyType);
 			//verifyDocumentsGeneratedOnNB();

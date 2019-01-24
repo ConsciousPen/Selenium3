@@ -31,9 +31,9 @@ public class TestMDDeltaScenario1 extends MDDeltaScenario1 {
 
 		SoftAssertions.assertSoftly(softly -> {
 			verifyLOVsOfImmediatePriorCarrier();
-			verifyEndorsementHS0495(scenarioPolicyType);
 			verifyEndorsementHS2338();
 			verifyStormShutterDiscount();
+			verifyInspectionTypeAndEligibility();
 			verifyUnderwritingApprovalTab();
 			purchasePolicy(td, scenarioPolicyType);
 			//verifyDocumentsGeneratedOnNB();
