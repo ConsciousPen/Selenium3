@@ -126,7 +126,6 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 			switch (getState()) {
 				case Constants.States.AZ:
 				case Constants.States.NY:
-				case Constants.States.OH:
 					expectedPolicyTransCode = "CANC";
 					break;
 				default:
