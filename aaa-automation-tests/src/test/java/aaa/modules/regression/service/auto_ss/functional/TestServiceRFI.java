@@ -89,7 +89,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			//update UM coverage
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMBI", "25000/50000"), PolicyCoverageInfo.class);
 
-			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU_", "NS");
+			checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "policy", "NS");
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
@@ -280,7 +280,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "40000"), PolicyCoverageInfo.class);
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
-			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", "NS");
+			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "policy", "NS");
 
 			helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, "200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction", "attributeForRules");
 
