@@ -28,4 +28,19 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
     }
 
+    /**
+     *
+     * @param state
+     * @author Tyrone Jemison - CIO
+     */
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24021")
+    public void pas24021_MPD_TriggerReateEventOnEditOrRemoval(@Optional("") String state) {
+
+        TestData testData = getPolicyTD();
+
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+    }
+
 }
