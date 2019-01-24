@@ -1,19 +1,19 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
-import aaa.common.enums.Constants;
-import aaa.main.enums.ErrorEnum;
-import aaa.utils.StateList;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
@@ -43,7 +43,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         TestData pNcTab = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()),
                 tdSpecific);
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
@@ -83,7 +83,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()), tdSpecificProductOwned)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
                 AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),tdCurrentCarrierSection)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
@@ -121,7 +121,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()), tdSpecificProductOwned)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
                         tdCurrentCarrierSection)
@@ -156,7 +156,7 @@ public class TestMembershipOverrideBusinessRule  extends AutoSSBaseTest {
         TestData tdPremium = getTestSpecificTD("PremiumAndCoveragesTab").resolveLinks();
 
         testData.adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
-                AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel()), tdSpecificProductOwned)
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel()), tdSpecificProductOwned)
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(),
                         AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()),
                         tdCurrentCarrierSection)

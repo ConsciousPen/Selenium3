@@ -1,18 +1,17 @@
 package aaa.modules.regression.document_fulfillment.auto_ss;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.main.enums.DocGenEnum.Documents.valueOf;
 import static aaa.main.enums.PolicyConstants.PolicyVehiclesTable.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.SUPPLEMENTARY_UNINSURED_MOTORISTS_COVERAGE_REJECTION;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.SALES_AGENT_AGREEMENT;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY;
 import static aaa.main.metadata.policy.AutoSSMetaData.DriverTab.LICENSE_STATE;
-import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER;
-import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED;
-import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.POLICY_INFORMATION;
-import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.*;
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER;
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.POLICY_TERM;
+import static aaa.main.metadata.policy.AutoSSMetaData.GeneralTab.PolicyInformation.*;
 import static aaa.main.metadata.policy.AutoSSMetaData.PremiumAndCoveragesTab.*;
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -215,8 +214,9 @@ public class TestNYDocGen extends AutoSSBaseTest {
 	private TestData prepareConvTD(TestData policyTd, String state) {
 		return policyTd.mask(TestData.makeKeyPath(generalTab.getMetaKey(), POLICY_INFORMATION.getLabel(), EFFECTIVE_DATE.getLabel())).
 				mask(TestData.makeKeyPath(generalTab.getMetaKey(), POLICY_INFORMATION.getLabel(), LEAD_SOURCE.getLabel())).
-				mask(TestData.makeKeyPath(generalTab.getMetaKey(), AAA_PRODUCT_OWNED.getLabel())).
-				adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AAA_PRODUCT_OWNED.getLabel(), CURRENT_AAA_MEMBER.getLabel()), "No").
+				mask(TestData.makeKeyPath(generalTab.getMetaKey(), AAA_MEMBERSHIP.getLabel())).
+				adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AAA_MEMBERSHIP.getLabel(), CURRENT_AAA_MEMBER.getLabel()), "No").
+				mask(TestData.makeKeyPath(generalTab.getMetaKey(), OTHER_AAA_PRODUCTS_OWNED.getLabel())).
 				mask(TestData.makeKeyPath(premiumCovTab.getMetaKey(), POLICY_TERM.getLabel())).
 				adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), PAYMENT_PLAN.getLabel()), "Annual (Renewal)").
 				adjust(TestData.makeKeyPath(new DriverTab().getMetaKey(), LICENSE_STATE.getLabel()), state).

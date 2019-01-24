@@ -11,7 +11,7 @@ public class TestCinAbstractAutoSS extends TestCinAbstract {
     //Auto SS specific paths
     protected static final String DISABLE_MEMBERSHIP = TestData.makeKeyPath(
             AutoSSMetaData.GeneralTab.class.getSimpleName(),
-            AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+            AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
     protected static final String RATING_DETAILS_REPORTS_TAB = TestData.makeKeyPath(
             AutoSSMetaData.RatingDetailReportsTab.class.getSimpleName());

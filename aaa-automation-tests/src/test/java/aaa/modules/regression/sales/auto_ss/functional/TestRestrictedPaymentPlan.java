@@ -5,7 +5,6 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableList;
-
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -135,7 +134,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
 		TestData td = getPolicyDefaultTD().adjust(membershipPendingKey, membershipPendingTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
@@ -160,7 +159,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipNoKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipNoKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipNoTD = getTestSpecificTD("AAAProductOwned_No");
 		TestData td = getPolicyDefaultTD().adjust(membershipNoKey, membershipNoTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
@@ -185,7 +184,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipOverrideTD = getTestSpecificTD("AAAProductOwned_Override");
 		TestData td = getPolicyDefaultTD().adjust(membershipOverrideKey, membershipOverrideTD);
 		policy.getDefaultView().fillUpTo(td, PremiumAndCoveragesTab.class, true);
@@ -235,7 +234,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipOverrideKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipOverrideTD = getTestSpecificTD("AAAProductOwned_Override");
 		String minimumBIKey = TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName());
 		TestData minimumBITD = getTestSpecificTD("PremiumAndCoveragesTab_Minimum");
@@ -262,7 +261,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
 		String currentCarrierKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel());
 		TestData currentCarrierTD = getTestSpecificTD("CurrentCarrierInformation_No");
@@ -289,7 +288,7 @@ public class TestRestrictedPaymentPlan extends TestRestrictedPaymentPlanAbstract
 		mainApp().open();
 		createCustomerIndividual();
 		policy.initiate();
-		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+		String membershipPendingKey = TestData.makeKeyPath(AutoSSMetaData.GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 		TestData membershipPendingTD = getTestSpecificTD("AAAProductOwned_Pending");
 		String minimumBIKey = TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName());
 		TestData minimumBITD = getTestSpecificTD("PremiumAndCoveragesTab_Minimum");
