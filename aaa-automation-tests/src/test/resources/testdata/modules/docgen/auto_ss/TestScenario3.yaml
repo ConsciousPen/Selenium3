@@ -51,7 +51,7 @@ Endorsement: {
 # ------------- Tabs ----------
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   #CurrentCarrierInformation: '@CurrentCarrierInformation',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
@@ -63,7 +63,8 @@ NamedInsuredInformation: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
+AAAMembership: {
+  Current AAA Member: 'Yes',
   Membership Number: 2234567890123450
 }
 

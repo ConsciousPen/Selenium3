@@ -71,6 +71,7 @@ DocumentsAndBindTab: {
   }
 }
 
-AAAProductOwned: {
+AAAMembership: {
+  Current AAA Member: 'Yes',
   Membership Number: '3111111111111121'
 }
