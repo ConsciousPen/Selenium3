@@ -19,7 +19,7 @@ public class MultiInstanceAfterAssetList extends MultiAssetList {
 
 	@Override
 	protected void addSection(int index, int size) {
-		if (index > 0) {
+		if (index > 0 && getAssetCollection().containsKey("Add")) {
 			getAsset("Add", Button.class).click();
 		}
 	}

@@ -26,7 +26,7 @@ public class AdditionalPoliciesMultiAssetList extends MultiAssetList {
 
 	@Override
 	protected void addSection(int index, int size) {
-		if (size != 0) {
+		if (size != 0 && getAssetCollection().containsKey("Add")) {
 			getAsset("Add", Button.class).click();
 		}
 	}
@@ -48,11 +48,11 @@ public class AdditionalPoliciesMultiAssetList extends MultiAssetList {
 			if (value.containsKey(ACTIVE_UNDERLYING_POLICIES_MANUAL) && !value.getTestData(ACTIVE_UNDERLYING_POLICIES_MANUAL).getKeys().isEmpty()) {
 				selectSection(underlyingPoliciesList.getRowsCount());
 				fillManualAssetList.fill(value);
-                containsManual = true;
+				containsManual = true;
 			}
 		} else {
 			searchDialog.cancel();
-            fillManualAssetList.fill(value);
+			fillManualAssetList.fill(value);
 		}
 		if (containsManual) {
 			((Button) getAssetCollection().get("Save")).click();
