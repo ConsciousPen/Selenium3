@@ -9,6 +9,8 @@ import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
+import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -30,16 +32,21 @@ public class GeneralTab extends Tab {
 	}
 
 	public MultiAssetList getNamedInsuredInfoAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiAssetList.class);
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), MultiInstanceAfterAssetList.class);
 	}
 
 	public AddressValidationDialog getValidateAddressDialogAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.VALIDATE_ADDRESS_DIALOG);
 	}
 
-	public AssetList getAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AssetList.class);
+	public MultiInstanceBeforeAssetList getAAAMembershipAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), MultiInstanceBeforeAssetList.class);
 	}
+
+	public AssetList getOtherAAAProductOwnedAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), AssetList.class);
+	}
+
 
 	public AssetList getCurrentCarrierInfoAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);
@@ -55,10 +62,6 @@ public class GeneralTab extends Tab {
 
 	public InquiryAssetList getPolicyInfoInquiryAssetList() {
 		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), InquiryAssetList.class);
-	}
-
-	public InquiryAssetList getAAAProductOwnedInquiryAssetList() {
-		return getInquiryAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), InquiryAssetList.class);
 	}
 
 	@Override
