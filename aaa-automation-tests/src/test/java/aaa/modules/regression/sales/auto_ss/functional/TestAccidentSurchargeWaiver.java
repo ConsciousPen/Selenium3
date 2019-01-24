@@ -1,6 +1,9 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static org.assertj.core.util.Files.contentOf;
 import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.File;
+import java.nio.charset.Charset;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -9,10 +12,12 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
+import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.CustomerMetaData;
@@ -23,12 +28,14 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
+import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
 
     private PurchaseTab purchaseTab = new PurchaseTab();
+    File claimResponseFile;
 
     /**
      * @author Josh Carpenter
@@ -176,38 +183,51 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                         AutoSSMetaData.GeneralTab.NamedInsuredInformation.BASE_DATE.getLabel()), "$<today>")
                 .adjust(TestData.makeKeyPath(AutoSSMetaData.DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.LICENSE_NUMBER.getLabel()), "D99155622");
 
+        // Create policy
         mainApp().open();
         createCustomerIndividual(tdCustomer);
         createPolicy(tdPolicy);
-
         policyNumber = PolicySummaryPage.getPolicyNumber();
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
+
+        // Advance time to renewal reports order date and run jobs
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
         JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
 
+        // Generate CAS response file, upload to VDM, and run renewal receive jobs
         downloadClaimRequest();
-        createCasClaimResponseAndUploadWithUpdatedPolicyNumberOnly(policyNumber, "af_accident_claim_data_model.yaml");
+        createCasResponseAndUpload();
         runRenewalClaimReceiveJob();
 
-        mainApp().open();
-        SearchPage.openPolicy(policyNumber);
+        // Open policy and validate the AF accident is included in rating
+        searchForPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         validateIncludedInPoints("Yes");
-        new PremiumAndCoveragesTab().calculatePremium();
+
+        // Bind policy and make active
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
-
-        payTotalAmtDue(policyNumber);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        mainApp().open();
-        searchForPolicy(policyNumber);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+        payTotalAmtDue(policyNumber);
+
+        // Open policy and create second renewal image
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
+        // Upload file into inbound folder and run receive jobs
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+        runRenewalClaimReceiveJob();
+
+        // Open policy and validate claim is still included in rating
+        searchForPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+        validateIncludedInPoints("Yes");
 
     }
 
@@ -280,6 +300,16 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Accident (Property Damage Only)",
                 AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
                 AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
+    }
+
+    private void createCasResponseAndUpload() {
+        String casResponseFileName = getCasResponseFileName();
+        BatchClaimHelper batchClaimHelper = new BatchClaimHelper("af_accident_claim_data_model.yaml", casResponseFileName);
+        claimResponseFile = batchClaimHelper.processClaimTemplate(response -> setPolicyNumber(policyNumber, response));
+        assertThat(claimResponseFile).isFile().isNotNull();
+        String content = contentOf(claimResponseFile, Charset.defaultCharset());
+        log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
     }
 
 }
