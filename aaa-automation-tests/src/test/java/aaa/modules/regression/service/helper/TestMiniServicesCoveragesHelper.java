@@ -334,7 +334,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 				DXPRequestFactory.createUpdateCoverageRequest("TEST", "0"), ErrorResponseDto.class, 422);
 		assertSoftly(softly -> {
 			softly.assertThat(response.errorCode).isEqualTo("ERROR_SERVICE_VALIDATION");
-			softly.assertThat(response.message).isEqualTo("Cannot find policy level coverage with coverage code 'TEST'");
+			softly.assertThat(response.message).isEqualTo("Cannot find coverage with coverage code 'TEST'");
 		});
 	}
 
