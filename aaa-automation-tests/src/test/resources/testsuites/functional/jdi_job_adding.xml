@@ -7,6 +7,7 @@
     <parameter name="timeshift-scenario-mode" value="method"/>
 
     <test thread-count="1024" name="TestEValueDiscountJobAdding" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -16,6 +17,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="TestEValueMembershipProcessJobAdding" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
@@ -25,6 +27,7 @@
         </classes>
     </test>
     <test thread-count="1024" name="TestRefundProcessJobAdding" parallel="methods">
+        <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
                 <methods>
