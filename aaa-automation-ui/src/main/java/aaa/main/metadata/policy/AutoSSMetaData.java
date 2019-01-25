@@ -191,6 +191,8 @@ public final class AutoSSMetaData {
 
 			public static final class SearchOtherAAAProducts extends MetaData {
 				public static final AssetDescriptor<RadioGroup> SEARCH_BY = declare("Search By", RadioGroup.class, By.xpath("//table[@id = 'autoOtherPolicySearchForm:searchById']"));
+                public static final AssetDescriptor<RadioButton> SEARCH_BY_POLICY_NUMBER_BTN = declare("Policy Number", RadioButton.class, By.xpath("//input[@id = 'autoOtherPolicySearchForm:searchById:0']"));
+                public static final AssetDescriptor<RadioButton> SEARCH_BY_CUSTOMER_DETAILS_BTN = declare("Search By Customer Details Button", RadioButton.class, By.xpath("//input[@id = 'autoOtherPolicySearchForm:searchById:1']"));
 				public static final AssetDescriptor<TextBox> FIRST_NAME = declare("First Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderFirstName']"));
 				public static final AssetDescriptor<TextBox> LAST_NAME = declare("Last Name", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderLastName']"));
 				public static final AssetDescriptor<TextBox> DATE_OF_BIRTH = declare("Date of Birth", TextBox.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:orderDobInputDate']"));
