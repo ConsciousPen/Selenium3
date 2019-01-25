@@ -71,8 +71,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
                 .adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()))
                 .adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$250,000/$500,000");
         TestData tdAutoConv = getConversionPolicyDefaultTD()
-                .mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()))
-                .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()), "No")
+				.mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()))
+				.adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()), "No")
                 .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()), getTestSpecificTD("CurrentCarrierInformation"))
                 .adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$250,000/$500,000");
 

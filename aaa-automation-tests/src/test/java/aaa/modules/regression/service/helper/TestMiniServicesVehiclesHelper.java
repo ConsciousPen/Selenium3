@@ -216,7 +216,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).isEqualTo("Usage is Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).startsWith("Usage is Business");
 		});
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
@@ -3063,7 +3063,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
-		return validations.stream().anyMatch(error -> error.message.equals(expectedMessage));
+		return validations.stream().anyMatch(error -> error.message.startsWith(expectedMessage));
 	}
 
 	private Vehicle getVehicleByOid(ViewVehicleResponse viewVehicleResponse, String oid) {

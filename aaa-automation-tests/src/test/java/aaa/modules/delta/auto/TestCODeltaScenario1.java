@@ -97,13 +97,13 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
                     Arrays.asList("Annual", "Semi-annual"));
 
             //Verify that there is no Motorcycle option in 'AAA Products Owned' section
-            softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE)).isPresent(false);
+            softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE)).isPresent(false);
 
             //Select option "Yes" For all available products owned - Life, Home, Renters, Condo.
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO).setValue("Yes");
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
 
             //Verify field TollFree Number visible
             softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER)).isPresent();
@@ -551,12 +551,12 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260450_CO", "Message", "Only \"spouse\" or \"registered domestic partner/civil union\" can be selected fo..."));
 
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260450_CO").getCell("Code").controls.links.getFirst().click();
-        assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(DriverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC19").getTestData("Policy1"), PremiumAndCoveragesTab.class, false);
         assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260110", "Message", "NANO policy cannot have more than 2 insureds, a Named Insured and Spouse"));
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260110").getCell("Code").controls.links.getFirst().click();
-        assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(DriverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TC19").getTestData("Policy2"));
     }
@@ -575,9 +575,9 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         policy.doNotRenew().start();
         doNotRenewActionTab.fillTab(getTestSpecificTD("TestData_TC20"));
         assertSoftly(softly -> {
-            softly.assertThat(doNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
+            softly.assertThat(DoNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
                     contains("Driver Name", "Accident/Violation Date", "Accident/Violation Description", "Acc/Loss Payment", "Source");
-            softly.assertThat(doNotRenewActionTab.underwritingGuidelines).isPresent();
+            softly.assertThat(DoNotRenewActionTab.underwritingGuidelines).isPresent();
         });
 
         //#TODO: AJAX Loading error

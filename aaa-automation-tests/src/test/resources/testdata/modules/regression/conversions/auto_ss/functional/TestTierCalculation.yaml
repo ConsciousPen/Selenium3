@@ -9,13 +9,13 @@ AcceptPaymentActionTab: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_NY'
 }
 
-AAAProductOwned: {
+AAAMembership: {
      Current AAA Member: 'No'
 }
 

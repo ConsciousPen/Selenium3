@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.apache.commons.lang3.NotImplementedException;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import org.apache.commons.lang3.NotImplementedException;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -17,9 +22,11 @@ import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
+import aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
@@ -257,15 +264,15 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             case "AutoSS": {
                 // keypathTabSection Result: "GeneralTab|AAAProductOwned"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
                 // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
@@ -360,15 +367,15 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
             case "AutoSS": {
                 // keypathTabSection Result: "GeneralTab|AAAProductOwned"
                 String keypathTabSection = TestData.makeKeyPath(aaa.main.modules.customer.defaulttabs.GeneralTab.class.getSimpleName(),
-                        AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel());
+                        AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel());
 
                 // keypathCurrentMember Result: "GeneralTab|AAAProductOwned|Current AAA Member"
                 keypathCurrentMember = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel());
+                        AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel());
 
                 // keypathMemberNum Result: "GeneralTab|AAAProductOwned|Membership Number"
                 keypathMemberNum = TestData.makeKeyPath(keypathTabSection,
-                        AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+                        AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
                 break;
             }
 
@@ -717,27 +724,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         switch(memberStatus){
             case YES:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
-                if(rms.equals(rms.Inactive)) {
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
+                if (rms.equals(RMSStatus.Inactive)) {
+                    CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
-                if (rms.equals(rms.Active)){
-                    CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
+                if (rms.equals(RMSStatus.Active)) {
+                    CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
             case NO:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Pending");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Life");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
-                CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Membership Override");
+                CustomAssertions.assertThat(gt.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel()).getValue().toString()).isEqualToIgnoringCase("Term");
                 break;
             default:
                 break;
@@ -796,10 +803,10 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         switch(memberStatus){
             case YES:
                 CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
-                if(rms.equals(rms.Inactive)) {
+                if (rms.equals(RMSStatus.Inactive)) {
                     CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
-                if (rms.equals(rms.Active)){
+                if (rms.equals(RMSStatus.Active)) {
                     CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
@@ -883,7 +890,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
 
         // First Go Reorder Membership Reports.
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.MEMBERSHIP.get());
-        new aaa.main.modules.policy.auto_ca.defaulttabs.MembershipTab().orderMembershipReport();
+        new MembershipTab().orderMembershipReport();
 
         // Validate AAA Membership in General Tab
         NavigationPage.toViewTab(NavigationEnum.AutoCaTab.GENERAL.get());
@@ -891,10 +898,10 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         switch(memberStatus){
             case YES:
                 CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
-                if(rms.equals(rms.Inactive)) {
+                if (rms.equals(RMSStatus.Inactive)) {
                     CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
-                if (rms.equals(rms.Active)){
+                if (rms.equals(RMSStatus.Active)) {
                     CustomAssertions.assertThat(gt.getAAAProductOwnedAssetList().getAsset(AutoCaMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
@@ -970,10 +977,10 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         switch(memberStatus){
             case YES:
                 CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase("Yes");
-                if(rms.equals(rms.Inactive)) {
+                if (rms.equals(RMSStatus.Inactive)) {
                     CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(INACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
-                if (rms.equals(rms.Active)){
+                if (rms.equals(RMSStatus.Active)) {
                     CustomAssertions.assertThat(at.getAAAMembershipAssetList().getAsset(HomeCaMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()).getValue().toString()).isEqualToIgnoringCase(ACTIVE_BML_MEMBERSHIP_NUMBER);
                 }
                 break;
@@ -1078,7 +1085,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      */
     private void doDBReport(String in_policyNumber, String stage) {
 
-        java.util.Optional<AAAMembershipQueries.AAABestMembershipStatus> membershipStatus
+        Optional<AAAMembershipQueries.AAABestMembershipStatus> membershipStatus
                 = AAAMembershipQueries.getAAABestMembershipStatusFromSQL(in_policyNumber);
         if(membershipStatus.isPresent()){
             log.info("<QADEBUG> Membership Status["+stage+"]: " + membershipStatus.get().name());

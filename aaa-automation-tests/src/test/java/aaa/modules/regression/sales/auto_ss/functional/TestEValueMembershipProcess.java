@@ -1700,22 +1700,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		if ("Active".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
 			//BUG PAS-11150 Membership isn't removed on NB+30 when Membership status is Pending
-/*			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()) {
-				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+/*			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).isVisible()) {
+				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("");
 			}*/
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
 		} else if ("Cancelled".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("3111111111111121");
 		} else if ("Error".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5610591081018250");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5610591081018250");
 		} else {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
 			//TODO check othe membership number for better randomization
 			//inactiveMembershipNumberList.add("4333333333333457");//Expired        - bad
@@ -1727,7 +1727,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			//inactiveMembershipNumberList.add("4333333333333338");//Expired           - error
 			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
 			printToLog("Value used " + randomInactiveMembershipNumber);
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER)
 					.setValue(randomInactiveMembershipNumber);
 		}
 
@@ -1890,7 +1890,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			softly.assertThat(generalTab.getAAAProductOwnedInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
+			//TODO if it will fail, necessary to think how to implement verification.
+			softly.assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
