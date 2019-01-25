@@ -41,9 +41,6 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         assertThat(driverTab.getAssetList().getAsset(AutoCaMetaData.DriverTab.GENDER).getValue()).isEqualTo("X");
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), MembershipTab.class, PremiumAndCoveragesTab.class, true);
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
         PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
         PremiumAndCoveragesTab.RatingDetailsView.close();
