@@ -56,7 +56,7 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(policyTd, ApplicantTab.class);
         Tab.buttonTopSave.click();
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null,HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
         Tab.buttonNext.click();
         policy.getDefaultView().fillFromTo(policyTd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
         validateCensusBlockGroupAndLatLong(quoteNumber, defaultCensusBlock, defaultLatitude, defaultLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
@@ -80,7 +80,7 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         Tab.buttonTopSave.click();
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
         policy.getDefaultView().fillFromTo(tdChangedAddress, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude,HomeGranularityQueries.SELECT_RECAPTURED_CENSUS_BLOCK_GROUP);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_RECAPTURED_CENSUS_BLOCK_GROUP);
         checkVRD(censusBlockGroupID);
     }
 
