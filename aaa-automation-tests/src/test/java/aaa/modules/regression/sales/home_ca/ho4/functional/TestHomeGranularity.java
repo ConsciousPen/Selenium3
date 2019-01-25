@@ -60,10 +60,10 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     /**
      * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium)
      * @scenario
-     * 1. Create Quote up to Applicant Tab and use Dwelling Address that is not in wire mock and Save
-     * 2. Verify lat/long is null in the db
-     * 3. Continue Quote up to Premium & Coverages Tab and Calculate Premium
-     * 4. Verify lat/long and census block are in the db
+     * 1. Create policy
+     * 2. Initiate Renewal. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
      *
      * @details
      */
