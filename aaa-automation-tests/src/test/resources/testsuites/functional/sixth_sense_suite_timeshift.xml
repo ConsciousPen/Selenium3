@@ -65,6 +65,17 @@
         <!--</classes>-->
     <!--</test>-->
 
+    <test name="Test Accident Surcharge Waiver">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
+                <methods>
+                    <include name="pas23995_testAccidentSurchargeWaiverAgedRenewalCAS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <!--Tests for Property-->
 
     <test name="Test Coverage C limit 70% within of Coverage A - CA" parallel="methods" thread-count="1024">
