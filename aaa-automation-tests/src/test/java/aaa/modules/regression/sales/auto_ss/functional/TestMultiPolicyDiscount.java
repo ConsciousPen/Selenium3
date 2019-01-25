@@ -1,6 +1,8 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import aaa.common.enums.Constants;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -18,10 +20,15 @@ import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
+import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
+
 
 @StateList(states = Constants.States.AZ)
 public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
+    public enum mpdPolicyType{
+        home, renters, condo, life, motorcycle
+    }
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -34,20 +41,40 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
 
+        // Create customer and move to general tab. //
         TestData testData = getPolicyTD();
 
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
 
         GeneralTab generalTab = new GeneralTab();
 
+        // Set unquoted policies //
+
         AssetDescriptor<CheckBox> homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
 
         generalTab.getOtherAAAProductOwnedAssetList().getAsset(homeCheckbox.getLabel(),
                 homeCheckbox.getControlClass()).setValue(true);
 
+        // Continue to next tab then move to P&C tab //
         generalTab.submitTab();
 
         policy.getDefaultView().fillFromTo(testData, DriverTab.class, PremiumAndCoveragesTab.class, true);
+
+        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
+
+        // Validate appropriate discounts //
+
+        String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+
+        // Check in View Rating details for Multi-Policy Discount
+        TestData td = pncTab.getRatingDetailsQuoteInfoData();
+        buttonRatingDetailsOk.click();
+        String mpdDiscountApplied = td.getValue("AAA Multi-Policy Discount");
+
+        // Return to General tab, reset unquoted, then setup next scenario
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
     }
 
     /**
