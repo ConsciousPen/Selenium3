@@ -2,16 +2,25 @@ package aaa.modules.regression.sales.template.functional;
 
 import aaa.common.Tab;
 import aaa.common.pages.QuoteDataGatherPage;
+import aaa.common.pages.SearchPage;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.HomeGranularityConstants;
 import aaa.helpers.db.queries.HomeGranularityQueries;
+import aaa.helpers.jobs.JobUtils;
+import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ca.defaulttabs.ReportsTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 
+
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -33,7 +42,7 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         String mockLongitude   = HomeGranularityConstants.MOCK_LONGITUDE;
         createQuoteAndFillUpTo(policyTd, PremiumsAndCoveragesQuoteTab.class);
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(quoteNumber, mockCensusBlock, mockLatitude, mockLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
         checkVRD(censusBlockGroupID);
     }
 
@@ -47,14 +56,36 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         createQuoteAndFillUpTo(policyTd, ApplicantTab.class);
         Tab.buttonTopSave.click();
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
-        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null);
+        validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null,HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
         Tab.buttonNext.click();
         policy.getDefaultView().fillFromTo(policyTd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        validateCensusBlockGroupAndLatLong(quoteNumber, defaultCensusBlock, defaultLatitude, defaultLongitude);
+        validateCensusBlockGroupAndLatLong(quoteNumber, defaultCensusBlock, defaultLatitude, defaultLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
     }
 
-    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude) {
-        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP,policyNumber));
+    protected void riskAddressChangeDuringRenewal(TestData tdChangedAddress) {
+        String mockCensusBlock = HomeGranularityConstants.DEFAULT_DYNAMIC_CENSUS_BLOCK;
+        String mockLatitude    = HomeGranularityConstants.DEFAULT_DYNAMIC_LATITUDE;
+        String mockLongitude   = HomeGranularityConstants.DEFAULT_DYNAMIC_LONGITUDE;
+        mainApp().open();
+        createCustomerIndividual();
+        createPolicy();
+        String policyNumber = PolicySummaryPage.getPolicyNumber();
+        LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
+        processRenewalGenerationJob(expirationDate);
+        mainApp().reopen();
+        SearchPage.openPolicy(policyNumber);
+        PolicySummaryPage.buttonRenewals.click();
+        policy.dataGather().start();
+        policy.getDefaultView().fillUpTo(tdChangedAddress, ApplicantTab.class, true );
+        Tab.buttonTopSave.click();
+        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.REPORTS.get());
+        policy.getDefaultView().fillFromTo(tdChangedAddress, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
+        String censusBlockGroupID = validateCensusBlockGroupAndLatLong(policyNumber, mockCensusBlock, mockLatitude, mockLongitude,HomeGranularityQueries.SELECT_RECAPTURED_CENSUS_BLOCK_GROUP);
+        checkVRD(censusBlockGroupID);
+    }
+
+    protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String censusBlockQuery) {
+        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery,policyNumber));
         String censusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
         String latitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LATITUDE");
         String longitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LONGITUDE");
@@ -67,6 +98,8 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         return censusBlockGroupDbValue;
     }
 
+
+
     /**
      Method validates VRD: Census Block ID
      */
@@ -77,5 +110,17 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         assertSoftly(softly -> {
             softly.assertThat(premiumsAndCoveragesQuoteTab.tableViewRatingDetails.getRow(3, "Census Block").getCell(4).getValue()).isEqualTo(censusBlockGroupID);
         });
+    }
+
+    /**
+     * Process renewal jobs to get policy in Proposed status
+     * @param expirationDate term expiration date
+     */
+    private void processRenewalGenerationJob(LocalDateTime expirationDate) {
+        //move time to R-45 and run renewal batch job
+        LocalDateTime renewImageGenDate = getTimePoints().getRenewPreviewGenerationDate(expirationDate);
+        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
     }
 }
