@@ -17,6 +17,7 @@ import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
+import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
@@ -29,6 +30,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     public enum mpdPolicyType{
         home, renters, condo, life, motorcycle
     }
+    GeneralTab _generalTab = new GeneralTab();
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
@@ -90,6 +92,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         TestData testData = getPolicyTD();
 
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        _generalTab.mpd_SearchByPolicyNumber("Life", "NOT_FOUND");
     }
 
 }
