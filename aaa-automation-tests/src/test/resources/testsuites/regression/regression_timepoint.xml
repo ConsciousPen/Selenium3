@@ -125,39 +125,6 @@
             </class> <!-- aaa.modules.regression.document_fulfillment.pup.functional.TestMaigConversionPup -->
         </classes>
     </test> <!-- NJ PUP -->
-    <test name="PA Home" parallel="methods">
-        <parameter name="timeshift-scenario-mode" value="method"/>
-        <parameter name="state" value="PA"/>
-        <classes>
-            <class name="aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails">
-                <methods>
-                    <include name="testPolicyViewCappingDetails"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.conversions.home_ss.dp3.functional.TestConversionViewAndOverrideCappingDetails -->
-            <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails">
-                <methods>
-                    <include name="testPolicyCheckCappingFactor"/>
-                    <include name="testCappingLockNotSelected"/>
-                    <include name="testPolicyViewCappingDetails"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.conversions.home_ss.ho3.functional.TestConversionViewAndOverrideCappingDetails -->
-            <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails">
-                <methods>
-                    <include name="testPolicyViewCappingDetails"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.conversions.home_ss.ho4.functional.TestConversionViewAndOverrideCappingDetails -->
-            <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails">
-                <methods>
-                    <include name="testPolicyViewCappingDetails"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.conversions.home_ss.ho6.functional.TestConversionViewAndOverrideCappingDetails -->
-            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg">
-                <methods>
-                    <include name="pas246_InstallmentFeesPopUpAndSavingsMsg"/>
-                </methods>
-            </class> <!-- aaa.modules.regression.sales.home_ss.ho3.functional.TestInstallmentFeesPopUpAndSavingsMsg -->
-        </classes>
-    </test> <!-- PA Home -->
     <test name="VA Home" parallel="methods">
         <parameter name="timeshift-scenario-mode" value="method"/>
         <parameter name="state" value="VA"/>

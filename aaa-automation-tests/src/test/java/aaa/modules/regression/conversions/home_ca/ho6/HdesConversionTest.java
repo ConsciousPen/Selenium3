@@ -13,12 +13,12 @@ import toolkit.utils.TestInfo;
 @StateList(states = {Constants.States.CA})
 public class HdesConversionTest extends HdesConversionTestTemplate {
 
-	@Parameters({"state", "file"})
+/*	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Conversions.HOME_CA_HO3)
 	public void hdesCAHO6ConversionTest(@Optional("CA") String state, @Optional("") String file) {
 		hdesCAConversion(file, context);
-	}
+	}*/
 
 	@Parameters({"state", "file"})
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT})
