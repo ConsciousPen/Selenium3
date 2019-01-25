@@ -3073,12 +3073,18 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT4")).isEqualTo("Category 4 - Tracking Device");
 		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT3AND4")).isEqualTo("Category 3 & 4 - Passive Alarm and Tracking Device");
 
-		helperMiniServices.endorsementRateAndBind(policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		String docId = rfiServiceResponse.documents.get(0).documentId;
+		String docId2 = rfiServiceResponse.documents.get(1).documentId;
+		HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId, docId2);
 
 		//Check PAS side
+		SearchPage.openPolicy(policyNumber);
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(ANTI_THEFT)).isEqualTo("Category 1 - Alarm Only");
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
