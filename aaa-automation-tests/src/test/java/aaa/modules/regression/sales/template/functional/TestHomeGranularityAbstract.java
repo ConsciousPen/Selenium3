@@ -85,7 +85,7 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
     }
 
     protected String validateCensusBlockGroupAndLatLong(String policyNumber, String censusBlockGroup, String latitude, String longitude, String censusBlockQuery) {
-        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery,policyNumber));
+        Map<String,String> censusBlockGroupAndLatLongFromDb = DBService.get().getRow(String.format(censusBlockQuery, policyNumber));
         String censusBlockGroupDbValue = censusBlockGroupAndLatLongFromDb.get("CENSUSBLOCK");
         String latitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LATITUDE");
         String longitudeDbValue = censusBlockGroupAndLatLongFromDb.get("LONGITUDE");
