@@ -79,7 +79,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
 		// Save Locked UW Points value.
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		String lockedTotalUWPoints = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue();
 
 		// Verify VRD Page for NB
@@ -291,12 +291,12 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		policy.getDefaultView().fillUpTo(tdPolicy, PremiumAndCoveragesTab.class, true);
 
 		// Save Locked UW Points value. Verify VRD Page for NB
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		String lockedTotalUWPoints = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue();
 		verifyLockedLimitsNB();
 
 		// Issue Policy
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(tdPolicy, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
 		documentsAndBindTab.submitTab();
@@ -374,7 +374,7 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 	private void openVRD(){
 		// Navigate to P&C. Calculate Premium. Open VRD.
 		new PremiumAndCoveragesTab().calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 	}
 
 	private void verifyLockedLimitsNB(){
@@ -407,6 +407,6 @@ public class TestLockedUWPoints extends AutoSSBaseTest {
 		pas9063FieldsRow2.forEach(f -> assertThat(
 				PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, f).getCell(6).getValue()).isEmpty());
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 }

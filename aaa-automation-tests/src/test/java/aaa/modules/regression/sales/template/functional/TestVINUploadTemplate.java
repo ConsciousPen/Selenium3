@@ -1,13 +1,13 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.*;
+import static aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab.tableRatingDetailsVehicles;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import org.openqa.selenium.By;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
@@ -31,8 +31,8 @@ import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
+import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.webdriver.controls.Link;
 
 public class TestVINUploadTemplate extends CommonTemplateMethods {
 
@@ -68,14 +68,14 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		});
 		//  Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertSoftly(softly -> {
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Year").getCell(2).getValue()).isEqualTo("2018");
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"Make").getCell(2).getValue()).isEqualTo("TOYOTA");
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Gt");
 		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		PremiumAndCoveragesTab.buttonSaveAndExit.click();
 		NotesAndAlertsSummaryPage.activitiesAndUserNotes.verify.descriptionExist(String.format("VIN data has been updated for the following vehicle(s): %s", vinNumber));
 	}
@@ -121,7 +121,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		findAndRateQuote(testData, quoteNumber);
 
 		// Start PAS-2714 NB
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1)).isPresent());
@@ -132,7 +132,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2)).hasValue("C"));
 		// End PAS-2714 NB
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		pas533_CommonChecks();
 	}
@@ -281,7 +281,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.PREMIUM_AND_COVERAGES.get());
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		// Start PAS-2714 Renewal Update Vehicle
 		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1)).isPresent());
@@ -289,7 +289,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2)).hasValue("A"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		// End PAS-2714 Renewal Update Vehicle
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
 		//Verify that fields are updated
@@ -329,7 +329,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 	 */
 	protected void endorsement(TestData testData, String vinNumber) {
 		VinUploadHelper vinMethods = new VinUploadHelper(getPolicyType(), getState());
-
 		String policyNumber = openAppAndCreatePolicy(testData);
 
 		adminApp().open();
@@ -338,39 +337,48 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 
-		log.info("First vehicle, at the vehicle tab, should have same values");
 		NavigationPage.toViewTab(NavigationEnum.AutoCaTab.VEHICLE.get());
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isEqualTo("OTHER");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
-		assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Other Model");
+		log.info("First vehicle, at the vehicle tab, should have same values");
 
-		testData = getTestDataWithTwoVehicles(testData, vinNumber);
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.MAKE).getValue()).isEqualTo("OTHER");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MAKE).getValue()).isEqualTo("Other Make");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoCaMetaData.VehicleTab.OTHER_MODEL).getValue()).isEqualTo("Other Model");
 
-		policy.getDefaultView().fillFromTo(testData, VehicleTab.class, PremiumAndCoveragesTab.class,true);
+			TestData testDataTwoVehicles = getTestDataWithTwoVehicles(testData, vinNumber);
+			policy.getDefaultView().fillFromTo(testDataTwoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class, true);
+			premiumAndCoveragesTab.calculatePremium();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 
-		premiumAndCoveragesTab.calculatePremium();
+			log.info("First vehicle, at the PremiumAndCoveragesTab, should have same values");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
-		log.info("First vehicle, at the PremiumAndCoveragesTab, should have same values");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualToIgnoringCase("Other Make");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualToIgnoringCase("Other Model");
-		// Check second (uploaded) vehicle is here
-		String pageNumbers = "//*[@id='%1$s']/ancestor::div[@id='ratingDetailsPopupForm:vehiclePanel_body']//center//a[contains(text(),'%2$s')]";
-		new Link(By.xpath(String.format(pageNumbers, PremiumAndCoveragesTab.tableRatingDetailsVehicles.getLocator().toString().split(" ")[1], 2))).click();
+			PremiumAndCoveragesTab.RatingDetailsView.tableVehicleSummary.moveToPage(2);
+			// Verify that eash symbol present
+			getPolicySymbols().keySet().forEach(symbol -> softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
+			// Check second (uploaded) vehicle is here
+			getPolicySymbols().forEach((key, value) -> softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, key).getCell(3).getValue())
+					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 
-		List<String> pas2712Fields = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(1).isPresent()).isEqualTo(true));
-		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(3).getValue()).isEqualToIgnoringCase("E"));
-
-		log.info("Second vehicle, at the PremiumAndCoveragesTab, should have different from first vehicle values");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("MAKEPAS2713ENDOR");
-		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("MODELPAS2713ENDOR");
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-
+			log.info("Second vehicle, at the PremiumAndCoveragesTab, should have different from first vehicle values");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue()).isEqualToIgnoringCase("MAKEPAS2713ENDOR");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue()).isEqualToIgnoringCase("MODELPAS2713ENDOR");
+		});
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		Tab.buttonSaveAndExit.click();
+	}
+
+	private HashMap<String, String> getPolicySymbols() {
+		HashMap<String,String> policySymbols = new HashMap<>(); // in fact it is duplication of symbols from NewVIN_CA.xlsx, New3VIN_UT_SS.xlsx
+
+		policySymbols.put("BI Symbol","E");
+		policySymbols.put("PD Symbol","E");
+		policySymbols.put("UM Symbol","E");
+		policySymbols.put("MP Symbol","E");
+		return policySymbols;
 	}
 
 	private TestData getTestDataWithTwoVehicles(TestData testData, String vinNumber) {
@@ -461,10 +469,10 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		String compSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue();
 		String collSymbol = PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		VehicleTab.buttonSaveAndExit.click();
 
@@ -478,13 +486,13 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		//Go back to MainApp, open quote, calculate premium and verify if VIN value is applied
 		findAndRateQuote(testData, quoteNumber);
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertSoftly(softly -> {
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Comp Symbol").getCell(2).getValue()).isNotEqualTo(compSymbol);
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isNotEqualTo(collSymbol);
 
 		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	private void pas533_CommonChecks() {
@@ -515,8 +523,8 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		//1. Create a quote with no VIN matched data and save the quote number
 		createQuoteAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new  PremiumAndCoveragesTab().calculatePremium();
-		buttonViewRatingDetails.click();
-		buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.debug("quoteNumber after creating auto_ca quote is "+quoteNumber);
@@ -527,7 +535,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 
 		//3. Retrieve the created quote
 		findAndRateQuote(testData, quoteNumber);
-		buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 
@@ -536,7 +544,7 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
 		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
 
-		buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		softly.close();
 	}
@@ -572,13 +580,13 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		policy.dataGather().start();
 		//8. Navigate to Premium and Coverages tab and calculate premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		//9. Check for the updated Y/M/M values in View Rating Details table
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo(expectedYear);
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo(expectedMake);
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo(expectedModel);
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		softly.close();
 	}
@@ -678,6 +686,6 @@ public class TestVINUploadTemplate extends CommonTemplateMethods {
 		policy.dataGather().start();
 		// Navigate to Premium and Coverages tab and calculate premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 	}
 }
