@@ -1,5 +1,12 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -18,17 +25,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.sales.helper.VinUploadCleanUpMethods;
 import aaa.modules.regression.sales.template.functional.TestVINUploadTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
 
 @StateList(states = Constants.States.CA)
 public class TestVINUpload extends TestVINUploadTemplate {
@@ -160,7 +159,7 @@ public class TestVINUpload extends TestVINUploadTemplate {
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2).getValue()).isEqualTo("2018");
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue()).isEqualTo("Other Make");
         softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue()).isEqualTo("Other Model");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
         softly.close();
     }
 

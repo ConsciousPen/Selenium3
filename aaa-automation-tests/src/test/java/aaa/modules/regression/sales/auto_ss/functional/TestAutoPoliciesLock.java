@@ -91,7 +91,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		//Navigate to eh Premium and Coverage page and verify the locked and unlocked values
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		assertSoftly(softly -> {
 			//Verify that values of NAF and AIP are locked and not changed in VRD.
@@ -101,7 +101,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 			softly.assertThat(getComprehensiveClaimsValue()).isNotEqualTo(previousCCValue);
 		});
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		//Navigate to the View Rating Details screen of the P&C Page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//Verify that values of ASD tier are locked and not changed in VRD
 		String renewalValue = getAdvanceShoppingDiscountValue();
@@ -166,7 +166,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was locked!");
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	/**
@@ -222,7 +222,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		//Navigate to the View Rating Details screen of the P&C Page
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//Verify that values of ASD tier are locked and not changed in VRD
 		String renewalValue = getAdvanceShoppingDiscountValue();
@@ -230,7 +230,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		assertThat(renewalValue).isNotEqualTo(previousASDTierValue);
 		log.info("SUCCESS: ASD Tier was NOT locked!");
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	@AfterMethod(alwaysRun = true)
@@ -264,7 +264,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 
 	private void closeViewAndBind(TestData testData) {
 		//Close rating details pop-up
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		premiumAndCoveragesTab.submitTab();
 
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
@@ -292,7 +292,7 @@ public class TestAutoPoliciesLock extends AutoSSBaseTest implements TestAutoPoli
 		createCustomerIndividual();
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 	}
 
 	private String getComprehensiveClaimsValue() {

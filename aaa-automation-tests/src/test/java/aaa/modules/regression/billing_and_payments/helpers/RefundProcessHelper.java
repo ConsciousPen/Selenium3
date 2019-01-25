@@ -7,10 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import org.apache.commons.lang3.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -30,6 +27,7 @@ import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
+import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.regression.billing_and_payments.template.PolicyBilling;
 import aaa.toolkit.webdriver.customcontrols.AddPaymentMethodsMultiAssetList;
@@ -136,8 +134,19 @@ public class RefundProcessHelper extends PolicyBilling {
 	}
 
 	@SuppressWarnings("Unchecked")
-	public void refundRecordInFileCheck(String policyNumber, String refundType, String refundMethod, String productType, String companyId, String deceasedNamedInsuredFlag, String policyState,
+	public void refundRecordInFileCheck(PolicyType policyType, String policyNumber, String refundType, String refundMethod, String companyId, String deceasedNamedInsuredFlag, String policyState,
 			String refundAmount, String email, String refundEligible) {
+
+		//This 'if' condition is just refactoring.
+		String productType;
+		if (policyType.isAutoPolicy()) {
+			productType = "PA";
+		} else if (policyType.equals(PolicyType.PUP)) {
+			productType = "PU";
+		} else {
+			productType = "HO";
+		}
+
 		//TODO waitForFilesAppearance doesn't work in VDMs
 		if (!StringUtils.isEmpty(PropertyProvider.getProperty("scrum.envs.ssh")) && !"true".equals(PropertyProvider.getProperty("scrum.envs.ssh"))) {
 			mainApp().open();

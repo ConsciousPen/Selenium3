@@ -4,9 +4,9 @@
         <!-- Listener commented out for local runs-->
         <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
     </listeners>
-    <parameter name="timeshift-scenario-mode" value="test"/>
+    <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <test name="TestEValueDiscountJobAdding">
+    <test thread-count="1024" name="TestEValueDiscountJobAdding" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -15,7 +15,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueMembershipProcessJobAdding">
+    <test thread-count="1024" name="TestEValueMembershipProcessJobAdding" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
@@ -24,9 +24,9 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessJobAdding">
+    <test thread-count="1024" name="TestRefundProcessJobAdding" parallel="methods">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.billing_and_payments.template.functional.TestRefundProcessTemplate">
                 <methods>
                     <include name="precondJobAdding"/>
                 </methods>

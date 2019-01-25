@@ -347,8 +347,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * @name Check UM/UIM delimiter
 	 */
 	@Parameters({"state"})
-	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY, Constants.States.PA,
-			Constants.States.SD, Constants.States.MT})
+	@StateList(states = {Constants.States.AZ, Constants.States.ID, Constants.States.KY,Constants.States.SD, Constants.States.MT})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15228"})
 	public void pas15228_UmUimDelimiter(@Optional("ID") String state) {
@@ -1302,6 +1301,7 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15281"})
 	public void pas15281_UMPDAndUIMPDAndCanChangeTrue(@Optional("DC") String state) {
+
 		pas15281_UMPDAndUIMPDAndCanChangeTrueBody();
 	}
 
@@ -1475,21 +1475,39 @@ public class TestMiniServicesCoverages extends TestMiniServicesCoveragesHelper {
 	 * 1. Create policy in PAS with FPB Coverage = Basic
 	 * 2. Create endorsement through service
 	 * 3. Run viewEndorsementCoverages service and validate response
-	 * 4. Go in PAS and Change FPB to $50,000
+	 * 4. Change FPB to $50,000 through service
 	 * 5. Run viewEndorsementCoverages service and validate response
-	 * 6. Go in PAS and Change FPB to $100,000
+	 * 6. Change FPB to $100,000 through service
 	 * 7. Run viewEndorsementCoverages service and validate response
-	 * 8. Go in PAS and Change FPB to $177,500
+	 * 8. Change FPB to $177,500 through service
 	 * 9. Run viewEndorsementCoverages service and validate response
-	 * 10. Go in PAS and Change FPB to 'Added'
+	 * 10. Change FPB to 'Added' through service
 	 * 11. Run viewEndorsementCoverages service and validate response
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15350", "PAS-23243", "PAS-22601", "PAS-23252", "PAS-23255"})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-15350", "PAS-23243", "PAS-22601", "PAS-23252", "PAS-23255", "PAS-24075", "PAS-15351"})
 	public void pas15350_firstPartyBenefitsPA(@Optional("PA") String state) {
 		pas15350_firstPartyBenefitsPABody();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name
+	 * @scenario
+	 * 1. Create policy in PAS
+	 * 2. Create Endorsement through service
+	 * 3. Update FPB and it's subcoverages and check that:
+	 *  If added AND at least one other coverage has a value other than No Coverage, the available limits for Medical Expense = $5,000.
+	 *  If added and all other coverages are No Coverage, then $5,000 is not available for Medical Expense
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-24075", "PAS-15351"})
+	public void pas24075_firstPartyBenefitsAddedPA(@Optional("PA") String state) {
+		pas24075_firstPartyBenefitsAddedPABody();
 	}
 
 	/**

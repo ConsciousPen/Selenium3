@@ -474,3 +474,9 @@ PT-2901:
       messages: ['Errors: The connection has timed out']
     - tests: [aaa.modules.bct.service.ReinstatePolicyTest.*]
       messages: ['[LoginPanel is displayed] expected:<[tru]e> but was:<[fals]e>']
+PAS-24509:
+  summary: "Regression: Property: Exception on policy copy or endorsement"
+  reason: PROD
+  failures:
+    - tests: [aaa.modules.regression.*]
+      messages: ['Cannot get value of StaticElement', 'Errors: base00001; Error; Data has been modified by another agent']

@@ -15,7 +15,7 @@ TestData: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: {},
+  AAAMembership: {},
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
@@ -139,7 +139,7 @@ TestData_CT: {
 
 GeneralTab_CT: {
   NamedInsuredInformation: ['@NamedInsuredInformation_CT'],
-  AAAProductOwned: {},
+  AAAMembership: {},
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
