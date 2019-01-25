@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -1040,7 +1040,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				break;
 		}
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("Actual Premium").getValue());
 		allVehTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());

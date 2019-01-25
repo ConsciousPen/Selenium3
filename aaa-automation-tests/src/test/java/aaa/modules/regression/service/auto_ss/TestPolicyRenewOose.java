@@ -2,13 +2,13 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.regression.service.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -19,7 +19,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.regression.service.template.PolicyRenewOose;
 import aaa.utils.StateList;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author Jelena Dembovska
@@ -75,10 +74,10 @@ public class TestPolicyRenewOose extends PolicyRenewOose {
     			   .hasValue("Semi-Annual (Renewal)");
     			   //.getValue()).isEqualTo("Annual (Renewal)");
     	    
-	   	   PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+	   	   PremiumAndCoveragesTab.RatingDetailsView.open();
 	   	   PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue();
 	   	   assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Bodily Injury Liability").getCell(2)).hasValue("$250,000/$500,000");
-	   	   PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+	   	   PremiumAndCoveragesTab.RatingDetailsView.close();
 	    	   
     	   Tab.buttonCancel.click();
     	   

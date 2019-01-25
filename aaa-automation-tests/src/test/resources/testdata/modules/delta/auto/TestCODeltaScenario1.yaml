@@ -70,11 +70,11 @@ TestData_TC11: {
 }
 
 GeneralTab: {
-  AAAProductOwned: {
-      Life: 'No',
-      Home: 'No',
-      Renters: 'No',
-      Condo: 'No'
+  OtherAAAProductsOwned: {
+    Life: 'false',
+    Home: 'false',
+    Renters: 'false',
+    Condo: 'false'
   }
 }
 

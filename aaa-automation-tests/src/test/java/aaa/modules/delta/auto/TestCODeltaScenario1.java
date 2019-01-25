@@ -2,6 +2,17 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.modules.delta.auto;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import java.util.Arrays;
+import java.util.Collections;
+import org.openqa.selenium.By;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.google.common.collect.ImmutableMap;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.*;
@@ -21,13 +32,6 @@ import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.endorsements.AutoSSForms;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableMap;
-import org.openqa.selenium.By;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
@@ -37,12 +41,6 @@ import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.table.Row;
 import toolkit.webdriver.controls.composite.table.Table;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import java.util.Arrays;
-import java.util.Collections;
-
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 /**
  * @author Dmitry Chubkov
@@ -99,13 +97,13 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
                     Arrays.asList("Annual", "Semi-annual"));
 
             //Verify that there is no Motorcycle option in 'AAA Products Owned' section
-            softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE)).isPresent(false);
+            softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE)).isPresent(false);
 
             //Select option "Yes" For all available products owned - Life, Home, Renters, Condo.
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS).setValue("Yes");
-            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO).setValue("Yes");
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS).setValue(true);
+            gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED).getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO).setValue(true);
 
             //Verify field TollFree Number visible
             softly.assertThat(gTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.TOLLFREE_NUMBER)).isPresent();
@@ -280,7 +278,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testSC1_TC06(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         //CO DELTA - No full safety glass
         //Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
         assertSoftly(softly -> {
@@ -305,7 +303,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().btnCalculatePremium().click();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("No");
         pacTab.submitTab();
 
@@ -553,12 +551,12 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260450_CO", "Message", "Only \"spouse\" or \"registered domestic partner/civil union\" can be selected fo..."));
 
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260450_CO").getCell("Code").controls.links.getFirst().click();
-        assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(DriverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_TC19").getTestData("Policy1"), PremiumAndCoveragesTab.class, false);
         assertThat(errorTab.tableErrors).hasMatchingRows(1, ImmutableMap.of("Code", "AAA_SS10260110", "Message", "NANO policy cannot have more than 2 insureds, a Named Insured and Spouse"));
         errorTab.tableErrors.getRowContains("Code", "AAA_SS10260110").getCell("Code").controls.links.getFirst().click();
-        assertThat(driverTab.tableDriverList).isPresent();
+        assertThat(DriverTab.tableDriverList).isPresent();
 
         policy.getDefaultView().fill(getTestSpecificTD("TestData_TC19").getTestData("Policy2"));
     }
@@ -577,9 +575,9 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
         policy.doNotRenew().start();
         doNotRenewActionTab.fillTab(getTestSpecificTD("TestData_TC20"));
         assertSoftly(softly -> {
-            softly.assertThat(doNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
+            softly.assertThat(DoNotRenewActionTab.tableDriverActivities.getHeader().getValue()).
                     contains("Driver Name", "Accident/Violation Date", "Accident/Violation Description", "Acc/Loss Payment", "Source");
-            softly.assertThat(doNotRenewActionTab.underwritingGuidelines).isPresent();
+            softly.assertThat(DoNotRenewActionTab.underwritingGuidelines).isPresent();
         });
 
         //#TODO: AJAX Loading error

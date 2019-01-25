@@ -15,7 +15,7 @@ TestData_UT: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation',
 }
@@ -26,7 +26,7 @@ NamedInsuredInformation: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Membership Number: 4290023667710001
 }
 

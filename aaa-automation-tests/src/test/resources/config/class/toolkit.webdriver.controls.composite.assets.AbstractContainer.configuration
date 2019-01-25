@@ -26,6 +26,7 @@
     "aaa.toolkit.webdriver.customcontrols.AdvancedRadioGroup": "//table",
     "aaa.toolkit.webdriver.customcontrols.ConfirmationComboBox": "//select",
     "aaa.toolkit.webdriver.customcontrols.CalendarBox": "/.",
-    "aaa.toolkit.webdriver.customcontrols.JavaScriptButton": "//input"
+    "aaa.toolkit.webdriver.customcontrols.JavaScriptButton": "//input",
+    "aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog": "/."
   }
 }
