@@ -641,9 +641,13 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<ComboBox> FIRST_PARTY_BENEFITS = declare("First Party Benefits", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSES = declare("Medical Expenses", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> MEDICAL_EXPENSE = declare("Medical Expense", ComboBox.class); // VA state
+		public static final AssetDescriptor<ComboBox> MEDICAL_BENEFIT = declare("Medical Benefit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> ACCIDENTAL_DEATH_BENEFITS = declare("Accidental Death Benefits (ADB)", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> ACCIDENTAL_DEATH_BENEFIT = declare("Accidental Death Benefit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> FUNERAL_BENEFITS = declare("Funeral Benefits", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> FUNERAL_EXPENSE_BENEFIT = declare("Funeral Expense Benefit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> INCOME_LOSS_BENEFIT = declare("Income Loss Benefit", ComboBox.class);
+		public static final AssetDescriptor<ComboBox> WORK_LOSS_BENEFIT = declare("Work Loss Benefit", ComboBox.class);
 		public static final AssetDescriptor<ComboBox> INCOME_LOSS = declare("Income Loss", ComboBox.class);
 		public static final AssetDescriptor<AdvancedRadioGroup> EXTRAORDINARY_MEDICAL_EXPENSE_BENEFITS = declare("Extraordinary Medical Expense Benefits", AdvancedRadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT = declare("Uninsured Motorist Property Damage Limit", ComboBox.class);
