@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 @StateList(states = Constants.States.AZ)
@@ -32,16 +33,16 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         home, renters, condo, life, motorcycle
     }
 
-    AssetDescriptor<CheckBox> homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
-    AssetDescriptor<CheckBox> rentersCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS;
-    AssetDescriptor<CheckBox> condoCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO;
-    AssetDescriptor<CheckBox> lifeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE;
-    AssetDescriptor<CheckBox> motorCycleCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE;
+    private AssetDescriptor<CheckBox> homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
+    private AssetDescriptor<CheckBox> rentersCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS;
+    private AssetDescriptor<CheckBox> condoCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO;
+    private AssetDescriptor<CheckBox> lifeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE;
+    private AssetDescriptor<CheckBox> motorCycleCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE;
 
 
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
-     * on P&C Page as well as in View Rating Details.
+     * on P&C Page as well as in View Rating Details. AC3
      * @param state the test will run against.
      * @author Brian Bond - CIO
      */
@@ -79,21 +80,54 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
                 NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
             }
 
-            // Validate appropriate discounts //
-            String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+            assertSoftly(softly -> {
 
-            // Check in View Rating details for Multi-Policy Discount
-            TestData td = pncTab.getRatingDetailsQuoteInfoData();
-            buttonRatingDetailsOk.click();
-            String mpdDiscountApplied = td.getValue("AAA Multi-Policy Discount");
+                // Check in View Rating details for Multi-Policy Discount //
+                String mpdDiscountApplied =
+                        pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+
+                // Close the VRD Popup
+                buttonRatingDetailsOk.click();
+
+                // If any value is true then the VRD MPD Discount should be Yes. Else None.
+                String mpdVRDExpectedValue = currentScenario.containsValue(true) ? "Yes" : "None";
+
+                softly.assertThat(mpdDiscountApplied).isEqualTo(mpdVRDExpectedValue);
+
+
+                // Validate Discount and Surcharges //
+                String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+
+                // Check against any property string. Done this way because only one property type listed in Discounts.
+                Boolean propertyValuesPresent =
+                        currentScenario.get(mpdPolicyType.home) ||
+                        currentScenario.get(mpdPolicyType.renters) ||
+                        currentScenario.get(mpdPolicyType.condo);
+
+                Boolean propertyValuePresentInString =
+                                discountsAndSurcharges.contains("Home") ||
+                                discountsAndSurcharges.contains("Condo") ||
+                                discountsAndSurcharges.contains("Renters");
+
+                softly.assertThat(propertyValuePresentInString).isEqualTo(propertyValuesPresent);
+
+                // MC and Life always show if added.
+                softly.assertThat(currentScenario.get(mpdPolicyType.motorcycle)).
+                        isEqualTo(discountsAndSurcharges.contains("Motorcycle"));
+
+                softly.assertThat(currentScenario.get(mpdPolicyType.life)).
+                        isEqualTo(discountsAndSurcharges.contains("Life"));
+            });
 
             // Return to General tab.
             NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-
-            //BondTODO: Assert on data.
         }
     }
 
+    /**
+     * Sets the unquoted policy checkboxes based of passed in checkboxMap
+     * @param checkboxMap is what to set each checkbox to.
+     */
     private void setUnquotedCheckboxes(HashMap <mpdPolicyType, Boolean> checkboxMap){
         GeneralTab generalTab = new GeneralTab();
 
@@ -127,6 +161,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
+    /**
+     * Preconfigured pairwise scenarios for testing Unquoted or Manual Add scenarios. Generated using AllPairs.exe
+     * @return List of scenarios to be iterated through.
+     */
     private ArrayList<HashMap <mpdPolicyType, Boolean>> getUnquotedManualScenarios(){
         ArrayList<HashMap <mpdPolicyType, Boolean>> scenarioList = new ArrayList<>();
         /*
