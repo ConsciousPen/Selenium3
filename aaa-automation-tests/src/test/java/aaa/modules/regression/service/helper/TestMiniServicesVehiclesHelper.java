@@ -33,10 +33,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang.StringUtils;
 import org.assertj.core.api.Assertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
@@ -3074,7 +3070,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		policy.policyInquiry().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
 		VehicleTab.tableVehicleList.selectRow(2);
-		assertThat(vehicleTab.getAssetList().getAsset(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
+		assertThat(vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
