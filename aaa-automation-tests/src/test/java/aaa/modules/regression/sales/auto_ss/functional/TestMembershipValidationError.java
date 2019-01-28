@@ -20,18 +20,18 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoSSBaseTest;
+import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
-import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private AssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
+	private NoSectionsMultiAssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
 
 	/**
 	*@author Viktor Petrenko
