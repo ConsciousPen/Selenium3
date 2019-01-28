@@ -52,7 +52,7 @@ public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFie
     @Parameters({"state"})
     @StateList(states = {Constants.States.NY})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23185, PAS-23187"})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23184, PAS-23187"})
     public void testNYLegacyTierMapping(@Optional("NY") String state) {
         testPolicyLegacyTierMapping(1);
     }
@@ -71,7 +71,7 @@ public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFie
     @Parameters({"state"})
     @StateList(states = {Constants.States.NY})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
-    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23185, PAS-23187"})
+        @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23184, PAS-23187"})
     public void testNYLegacyTierMapping_edgeCase (@Optional("NY") String state) {
         testPolicyLegacyTierMapping(50);
     }
