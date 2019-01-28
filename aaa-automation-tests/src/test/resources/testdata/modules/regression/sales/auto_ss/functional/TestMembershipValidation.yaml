@@ -81,7 +81,7 @@ PrefillTab_DOBnoMatch: {
 
 GeneralTab_AllMatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_AllMatch',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -89,7 +89,7 @@ GeneralTab_AllMatch: {
 
 GeneralTab_NoMatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -97,7 +97,7 @@ GeneralTab_NoMatch: {
 
 GeneralTab_FNmatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_FNmatch',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -105,7 +105,7 @@ GeneralTab_FNmatch: {
 
 GeneralTab_LNmatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_LNmatch',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -113,7 +113,7 @@ GeneralTab_LNmatch: {
 
 GeneralTab_DOBmatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -121,7 +121,7 @@ GeneralTab_DOBmatch: {
 
 GeneralTab_MembershipNo: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch',
-  AAAProductOwned: '@AAAProductOwned_MembershipNo',
+  AAAMembership: '@AAAMembership_MembershipNo',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -130,7 +130,7 @@ GeneralTab_MembershipNo: {
 ############## For Endorsement and renewal TCs
 GeneralTab_MembershipNo_SomeMatch: {
   NamedInsuredInformation: '@NamedInsuredInformation_FNmatch',    #adjust what to match (FN, LN)
-  AAAProductOwned: '@AAAProductOwned_MembershipNo',
+  AAAMembership: '@AAAMembership_MembershipNo',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -139,7 +139,7 @@ GeneralTab_MembershipNo_SomeMatch: {
 
 GeneralTab_End_Ren_MembershipYes: {
 #  NamedInsuredInformation: '@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
 #  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
 #  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_End_Ren'
@@ -148,7 +148,7 @@ GeneralTab_End_Ren_MembershipYes: {
 ###########
 GeneralTab_Renewal_DummyNumber: {
 #  NamedInsuredInformation: '@NamedInsuredInformation',
-  AAAProductOwned: '@AAAProductOwned_DummyNumber',
+  AAAMembership: '@AAAMembership_DummyNumber',
 #  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
 #  CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation_End_Ren'
@@ -204,17 +204,17 @@ NamedInsuredInformation_LNmatch: {
 }
 
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership Number: 9436258506738011
 }
 
-AAAProductOwned_DummyNumber: {
+AAAMembership_DummyNumber: {
   Current AAA Member: 'Yes',
   Membership Number: 9999995555555551
 }
 
-AAAProductOwned_MembershipNo: {
+AAAMembership_MembershipNo: {
   Current AAA Member: 'No',
 #  Membership Number: 4290023667710001
 }
@@ -289,7 +289,7 @@ PrefillTab_DOBnoMatch_PAS6800: {
 
 GeneralTab_AllMatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_AllMatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -297,7 +297,7 @@ GeneralTab_AllMatch_PAS6800: {
 
 GeneralTab_NoMatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -305,7 +305,7 @@ GeneralTab_NoMatch_PAS6800: {
 
 GeneralTab_FNmatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_FNmatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -313,7 +313,7 @@ GeneralTab_FNmatch_PAS6800: {
 
 GeneralTab_LNmatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_LNmatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -321,7 +321,7 @@ GeneralTab_LNmatch_PAS6800: {
 
 GeneralTab_DOBmatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -329,7 +329,7 @@ GeneralTab_DOBmatch_PAS6800: {
 
 GeneralTab_MembershipNo_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_NoMatch_PAS6800',
-  AAAProductOwned: '@AAAProductOwned_MembershipNo_PAS6800',
+  AAAMembership: '@AAAMembership_MembershipNo_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -338,7 +338,7 @@ GeneralTab_MembershipNo_PAS6800: {
 ############## For Endorsement and renewal TCs
 GeneralTab_MembershipNo_SomeMatch_PAS6800: {
   NamedInsuredInformation: '@NamedInsuredInformation_LNmatch_PAS6800',    #adjust what to match (FN, LN)
-  AAAProductOwned: '@AAAProductOwned_MembershipNo_PAS6800',
+  AAAMembership: '@AAAMembership_MembershipNo_PAS6800',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
@@ -346,7 +346,7 @@ GeneralTab_MembershipNo_SomeMatch_PAS6800: {
 #########
 
 GeneralTab_End_Ren_MembershipYes_PAS6800: {
-  AAAProductOwned: '@AAAProductOwned_PAS6800',
+  AAAMembership: '@AAAMembership_PAS6800',
   PolicyInformation: '@PolicyInformation_End_Ren_PAS6800'
 }
 
@@ -399,12 +399,12 @@ NamedInsuredInformation_LNmatch_PAS6800: {
 }
 
 
-AAAProductOwned_PAS6800: {
+AAAMembership_PAS6800: {
   Current AAA Member: 'Yes',
   Membership Number: 9436258506738011
 }
 
-AAAProductOwned_MembershipNo_PAS6800: {
+AAAMembership_MembershipNo_PAS6800: {
   Current AAA Member: 'No',
 }
 

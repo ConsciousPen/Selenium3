@@ -23,7 +23,7 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
@@ -35,7 +35,7 @@ NamedInsuredInformation: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Membership Number: 4290023667710001
 }
 
@@ -121,7 +121,7 @@ TestData_MD: {
 
 GeneralTab_MD: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation_MD'
 }
@@ -173,7 +173,7 @@ TestData_Conversion: {
 
 GeneralTab_Conversion: {
   NamedInsuredInformation: ['@NamedInsuredInformation_Conversion'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation_Conversion'
 }

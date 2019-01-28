@@ -1,5 +1,6 @@
 package aaa.modules.regression.conversions.auto_ss.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,14 +22,16 @@ import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.*;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverActivityReportsTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 @StateList(states = Constants.States.NY)
 @SuppressWarnings("InstanceVariableMayNotBeInitialized")
@@ -68,8 +71,8 @@ public class TestTierCalculation extends AutoSSBaseTest {
                 .adjust(generalTab.getMetaKey(), getTestSpecificTD("TestData").getTestData(generalTab.getMetaKey()))
                 .adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$250,000/$500,000");
         TestData tdAutoConv = getConversionPolicyDefaultTD()
-                .mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()))
-                .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel()), "No")
+				.mask(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()))
+				.adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel()), "No")
                 .adjust(TestData.makeKeyPath(generalTab.getMetaKey(), AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel()), getTestSpecificTD("CurrentCarrierInformation"))
                 .adjust(TestData.makeKeyPath(premiumCovTab.getMetaKey(), AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY.getLabel()), "contains=$250,000/$500,000");
 
@@ -80,7 +83,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         policy.policyInquiry().start();
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         Map<String, String> nbParams = paramMapToCompere();
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
         Tab.buttonTopCancel.click();
 
         //Initiate manual conversion policy
@@ -91,7 +94,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         //Save conversion policy Premium and Tier values
         Map<String, String> convParams = paramMapToCompere();
         premiumValue = new Dollar(convParams.get("Premium"));
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumCovTab.submitTab();
 
         //Finish policy and save/exit
@@ -160,7 +163,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 		documentsTab.submitTab();
         return result;
@@ -170,7 +173,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         Map<String, String> params = new HashMap<String, String>() {{
             put("Premium", PremiumAndCoveragesTab.totalActualPremium.getValue());
         }};
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         params.put("UW points", PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(4, "Total Underwriter Points Used in Tier").getCell(6).getValue());
         params.put("Tier", PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Customer's Tier").getCell(2).getValue());
         return params;

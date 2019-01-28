@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.auto_ca.choice.functional;
 
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -10,13 +14,8 @@ import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ca.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
 
@@ -100,7 +99,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
     private void checkVRD(String liabilitySymbol, String compCollSymbol, String specialHazardSurchargeValue){
 
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertSoftly(softly -> {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"BI Symbol").getCell(2).getValue()).isEqualTo(liabilitySymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1,"PD Symbol").getCell(2).getValue()).isEqualTo(liabilitySymbol);
@@ -110,7 +109,7 @@ public class TestChoiceStatCodeConversion extends AutoCaChoiceBaseTest {
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Coll Symbol").getCell(2).getValue()).isEqualTo(compCollSymbol);
             softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Special Hazard Surcharge").getCell(2).getValue()).isEqualTo(specialHazardSurchargeValue);
         });
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 
     }
 }
