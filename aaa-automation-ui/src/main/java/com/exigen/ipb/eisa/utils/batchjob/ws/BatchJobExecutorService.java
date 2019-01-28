@@ -1,9 +1,12 @@
-/* Copyright © 2017 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
- * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
+/* Copyright © 2016 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
+ CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package com.exigen.ipb.eisa.utils.batchjob.ws;
 
+import static com.exigen.ipb.eisa.base.config.CustomTestProperties.SOAP_BATCHJOB_ENDPOINT;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -20,35 +23,29 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import toolkit.config.ClassConfigurator;
+import toolkit.config.ClassConfigurator.Configurable;
 import toolkit.config.PropertyProvider;
 
 @WebServiceClient(name = "BatchJobExecutorService", targetNamespace = "http://batchjob.integration.eis.exigen.com/", wsdlLocation = "")
 public class BatchJobExecutorService extends Service {
-	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(BatchJobExecutorService.class);
-	private static final URL BATCH_JOB_EXECUTOR_SERVICE_WSDL_LOCATION;
-	private static final WebServiceException BATCH_JOB_EXECUTOR_SERVICE_EXCEPTION;
+	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(BatchJobExecutorService.class);
 	private static final QName BATCH_JOB_EXECUTOR_SERVICE_QNAME = new QName("http://batchjob.integration.eis.exigen.com/", "BatchJobExecutorService");
-	@ClassConfigurator.Configurable(byClassName = true)
-	private static HTTPConduitConfigurer configurer = new ETCSAHTTPConduitConfigurer();
+
+	private static WebServiceException webServiceException;
+
+	@Configurable(byClassName = true)
+	private static HTTPConduitConfigurer configurer = new ISBAHTTPConduitConfigurer();
+	@Configurable(byClassName = true)
+	private static Supplier<URL> urlSupplier = BatchJobExecutorService::getURL;
 
 	static {
 		ClassConfigurator configurator = new ClassConfigurator(BatchJobExecutorService.class);
 		configurator.applyConfiguration();
 
-		URL url = null;
-		WebServiceException e = null;
-		try {
-			url = getURL();
-			Bus bus = BusFactory.getThreadDefaultBus();
-
-			bus.setExtension(configurer, HTTPConduitConfigurer.class);
-			bus.getInInterceptors().add(getLogInInterceptor());
-			bus.getOutInterceptors().add(getLoggingOutInterceptor());
-		} catch (MalformedURLException ex) {
-			e = new WebServiceException(ex);
-		}
-		BATCH_JOB_EXECUTOR_SERVICE_WSDL_LOCATION = url;
-		BATCH_JOB_EXECUTOR_SERVICE_EXCEPTION = e;
+		Bus bus = BusFactory.getThreadDefaultBus();
+		bus.setExtension(configurer, HTTPConduitConfigurer.class);
+		bus.getInInterceptors().add(getLogInInterceptor());
+		bus.getOutInterceptors().add(getLoggingOutInterceptor());
 	}
 
 	public BatchJobExecutorService() {
@@ -83,9 +80,17 @@ public class BatchJobExecutorService extends Service {
 		return getPort(new QName("http://batchjob.integration.eis.exigen.com/", "BatchJobExecutorPort"), BatchJobTrigger.class);
 	}
 
-	private static URL getURL() throws MalformedURLException {
-		String urlString = CSAAApplicationFactory.get().adminApp().getUrl().replace("/admin", "").concat("/services/BatchJobTrigger?wsdl");
-		return new URL(PropertyProvider.getProperty("soap.batchjob.endpoint", urlString));
+	private static URL getURL() {
+		try {
+			return new URL(PropertyProvider.getProperty(SOAP_BATCHJOB_ENDPOINT, buildServiceURL()));
+		} catch (MalformedURLException | URISyntaxException ex) {
+			webServiceException = new WebServiceException(ex);
+			return null;
+		}
+	}
+
+	private static String buildServiceURL() throws URISyntaxException, MalformedURLException {
+		return CSAAApplicationFactory.get().adminApp().getServiceUrl().concat("/services/BatchJobTrigger?wsdl");
 	}
 
 	private static LoggingInInterceptor getLogInInterceptor() {
@@ -102,7 +107,7 @@ public class BatchJobExecutorService extends Service {
 					lr.setSourceClassName(logger.getName());
 					lr.setSourceMethodName(null);
 					lr.setLoggerName(logger.getName());
-					LOG.info(lr.getMessage());
+					LOGGER.info(lr.getMessage());
 				}
 			}
 		};
@@ -124,7 +129,7 @@ public class BatchJobExecutorService extends Service {
 					lr.setSourceClassName(logger.getName());
 					lr.setSourceMethodName(null);
 					lr.setLoggerName(logger.getName());
-					LOG.info(lr.getMessage());
+					LOGGER.info(lr.getMessage());
 				}
 			}
 		};
@@ -133,10 +138,10 @@ public class BatchJobExecutorService extends Service {
 	}
 
 	private static URL __getWsdlLocation() {
-		if (BATCH_JOB_EXECUTOR_SERVICE_EXCEPTION != null) {
-			throw BATCH_JOB_EXECUTOR_SERVICE_EXCEPTION;
+		if (webServiceException != null) {
+			throw webServiceException;
 		}
-		return BATCH_JOB_EXECUTOR_SERVICE_WSDL_LOCATION;
+		return urlSupplier.get();
 	}
 
 	/**
@@ -148,7 +153,7 @@ public class BatchJobExecutorService extends Service {
 		return getPort(new QName("http://batchjob.integration.eis.exigen.com/", "BatchJobExecutorPort"), BatchJobTrigger.class, features);
 	}
 
-	private static class ETCSAHTTPConduitConfigurer implements HTTPConduitConfigurer {
+	private static class ISBAHTTPConduitConfigurer implements HTTPConduitConfigurer {
 
 		@Override
 		public void configure(String name, String address, HTTPConduit c) {
