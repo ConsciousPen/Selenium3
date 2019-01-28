@@ -20,10 +20,8 @@ import com.exigen.ipb.eisa.base.app.impl.MainApplication;
 import com.exigen.ipb.eisa.base.app.impl.OperationalReportApplication;
 import aaa.admin.modules.reports.operationalreports.OperationalReportType;
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.metadata.LoginPageMeta;
 import aaa.common.pages.LoginPage;
-import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.EntitiesHolder;
@@ -92,50 +90,28 @@ public class BaseTest {
 	protected final Map<String, String> getPrimaryPoliciesForPup() {
 		//EntitiesHolder.addNewEntity(EntitiesHolder.makeDefaultPolicyKey(PolicyType.HOME_SS_HO3,
 		//getState()), "COH3927438929");
-
-		//remember customer that was created in test
-		String customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
-		Map<String, String> returnValue = new LinkedHashMap<>();
-		String state = getState().intern();
+		String customerNum = null;
+		//remember customer if it was created in test
+		if (CustomerSummaryPage.labelCustomerNumber.isPresent()) {
+			customerNum = CustomerSummaryPage.labelCustomerNumber.getValue();
+		}
 		mainApp().close();
+		String state = getState().intern();
+		Map<String, String> returnValue = new LinkedHashMap<>();
 		synchronized (state) {
-			mainApp().open();
-			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
-				NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());
-			}
-			PolicyType type;
-			PolicyType typeAuto = null;
 			if (state.equals(Constants.States.CA)) {
-				type = PolicyType.HOME_CA_HO3;
-				typeAuto = PolicyType.AUTO_CA_SELECT;
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_CA_HO3, false));
+				returnValue.put("Primary_Auto", getDefaultPolicy(PolicyType.AUTO_CA_SELECT, false));
 			} else {
-				type = PolicyType.HOME_SS_HO3;
-			}
-			String key = EntitiesHolder.makeDefaultPolicyKey(type, state);
-			if (EntitiesHolder.isEntityPresent(key)) {
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			} else {
-				type.get().createPolicy(getStateTestData(testDataManager.policy.get(type), "DataGather", "TestData"));
-				EntitiesHolder.addNewEntity(key, PolicySummaryPage.labelPolicyNumber.getValue());
-				returnValue.put("Primary_HO3", EntitiesHolder.getEntity(key));
-			}
-
-			if (typeAuto != null) {
-				String keyAuto = EntitiesHolder.makeDefaultPolicyKey(typeAuto, state);
-				if (EntitiesHolder.isEntityPresent(keyAuto)) {
-					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
-				} else {
-					typeAuto.get().createPolicy(getStateTestData(testDataManager.policy.get(typeAuto), "DataGather", "TestData"));
-					EntitiesHolder.addNewEntity(keyAuto, PolicySummaryPage.labelPolicyNumber.getValue());
-					returnValue.put("Primary_Auto", EntitiesHolder.getEntity(keyAuto));
-				}
-			}
-			//open Customer that was created in test
-			if (!NavigationPage.isMainTabSelected(NavigationEnum.AppMainTabs.CUSTOMER.get())) {
-				SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
+				returnValue.put("Primary_HO3", getDefaultPolicy(PolicyType.HOME_SS_HO3, false));
 			}
 		}
-			return returnValue;
+		//open Customer if it was created in test
+		mainApp().open();
+		if (customerNum != null) {
+			SearchPage.search(SearchEnum.SearchFor.CUSTOMER, SearchEnum.SearchBy.CUSTOMER, customerNum);
+		}
+		return returnValue;
 
 	}
 
@@ -154,9 +130,8 @@ public class BaseTest {
 	 * @return Copied quote number
 	 */
 	protected String getCopiedQuote() {
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
-		String policyNumber = getDefaultPolicy(getPolicyType(), getState());
-		synchronized (key) {
+		String policyNumber = getDefaultPolicy(getPolicyType(), true);
+		synchronized (EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState())) {
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			getPolicyType().get().policyCopy().perform(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
@@ -172,9 +147,8 @@ public class BaseTest {
 	 * @return policy number
 	 */
 	protected String getCopiedPolicy() {
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState());
-		String policyNumber = getDefaultPolicy(getPolicyType(), getState());
-		synchronized (key) {
+		String policyNumber = getDefaultPolicy(getPolicyType(), true);
+		synchronized (EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), getState())) {
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			getPolicyType().get().copyPolicy(getStateTestData(testDataManager.policy.get(getPolicyType()), "CopyFromPolicy", "TestData"));
@@ -417,7 +391,7 @@ public class BaseTest {
 	}
 
 	/**
-	 * Should be used for creation of custom Underlying Home or Auto policies to use them durring PUP policy creation.\
+	 * Should be used for creation of custom Underlying Home or Auto policies to use them during PUP policy creation.\
 	 *
 	 * @param tdHomeAdjustment - TestData adjustment for creation of Home HO3 policy (use state specific test data for HOME_CA product)
 	 * @param tdAutoAdjustment - TestData adjustment for creation of AUTO_CA policy
@@ -505,9 +479,9 @@ public class BaseTest {
 		return loginUsers.getTestData(userGroups.get()).adjust(LoginPageMeta.STATES.getLabel(), getState());
 	}
 
-	private String getDefaultPolicy(PolicyType policyType, String state) {
+	private String getDefaultPolicy(PolicyType policyType, boolean forCopyAction) {
 		assertThat(policyType).as("PolicyType is not set").isNotNull();
-		String key = EntitiesHolder.makeDefaultPolicyKey(getPolicyType(), state);
+		String key = EntitiesHolder.makeDefaultPolicyKey(policyType, getState());
 		String policyNumber = "";
 		mainApp().close();
 		synchronized (key) {
@@ -516,13 +490,15 @@ public class BaseTest {
 				count = 1;
 			}
 			if (EntitiesHolder.isEntityPresent(key) && count < 10) {
-				count++;
+				if (forCopyAction) {
+					count++;
+				}
 				policyNumber = EntitiesHolder.getEntity(key);
 
 			} else {
 				count = 1;
 				mainApp().open();
-				policyNumber = createNewDefaultPolicy(key);
+				policyNumber = createNewDefaultPolicy(policyType);
 				mainApp().close();
 			}
 			policyCount.put(key, count);
@@ -530,10 +506,13 @@ public class BaseTest {
 		return policyNumber;
 	}
 
-	private String createNewDefaultPolicy(String key) {
+	private String createNewDefaultPolicy(PolicyType policyType) {
+		assertThat(policyType).as("PolicyType is not set").isNotNull();
+		String key = EntitiesHolder.makeDefaultPolicyKey(policyType, getState());
 		String policyNumber;
 		createCustomerIndividual();
-		createPolicy();
+		TestData td = getStateTestData(testDataManager.policy.get(policyType), "DataGather", "TestData");
+		policyType.get().createPolicy(td);
 		policyNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		EntitiesHolder.addNewEntity(key, policyNumber);
 		return policyNumber;
