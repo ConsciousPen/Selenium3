@@ -124,6 +124,7 @@ public abstract class TestMaigConversionHomeAbstract extends PolicyBaseTest {
 
 		if (getPolicyType().equals(PolicyType.AUTO_SS)) {
 			switch (getState()) {
+				//PAS-21588: AUTO: AZ, NY: CANC; All other states: STMT
 				case Constants.States.AZ:
 				case Constants.States.NY:
 					expectedPolicyTransCode = "CANC";
