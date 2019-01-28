@@ -320,7 +320,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String policyNumber = policyCreationForAASCDC(coverageCd, updateLimitDXP, td);
 			String doccId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName(), "policy", "NS");
-			bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200305.getCode(), error.getMessage(), "attributeForRules", isRuleOverridden);
+			bindEndorsement(policyNumber, doccId, error.getCode(), error.getMessage(), "attributeForRules", isRuleOverridden);
 
 			if (checDocXML) {
 				String query = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, document.getId(), AaaDocGenEntityQueries.EventNames.ENDORSEMENT_ISSUE);
