@@ -319,7 +319,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		assertSoftly(softly -> {
 
 			String policyNumber = policyCreationForAASCDC(coverageCd, updateLimitDXP, td);
-			String doccId = checkDocumentInRfiService(policyNumber, DocGenEnum.Documents.AAFPPA.getId(), document.getName(), "policy", "NS");
+			String doccId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName(), "policy", "NS");
 			bindEndorsement(policyNumber, doccId, ErrorEnum.Errors.ERROR_200305.getCode(), error.getMessage(), "attributeForRules", isRuleOverridden);
 
 			if (checDocXML) {
