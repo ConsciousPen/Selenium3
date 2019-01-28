@@ -36,7 +36,43 @@ public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFie
     @StateList(states = {Constants.States.NY})
     @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23185", "PAS-23421"})
-    public void testPolicyRmeLegacyTier (@Optional("NY") String state) {
-        testPolicyRmeLegacyTier();
+    public void testPolicyRmeLegacyTier (@Optional("NY") String state) { testPolicyRmeLegacyTier(); }
+
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 1, and set it up to generate a tier J.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23185, PAS-23187"})
+    public void testNYLegacyTierMapping(@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(1);
+    }
+
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 50, and set it up to generate a tier E.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO3, testCaseId = {"PAS-23185, PAS-23187"})
+    public void testNYLegacyTierMapping_edgeCase (@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(50);
     }
 }
