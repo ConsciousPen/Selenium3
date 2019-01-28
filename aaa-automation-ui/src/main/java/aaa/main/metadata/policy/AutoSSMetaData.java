@@ -979,6 +979,8 @@ public final class AutoSSMetaData {
 					.xpath("//table[@id='policyDataGatherForm:document_AHEVAXX']"));
 			public static final AssetDescriptor<RadioGroup> IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE = declare("IMPORTANT NOTICE - Uninsured Motorist Coverage", RadioGroup.class, Waiters.AJAX);
 			// OK
+			public static final AssetDescriptor<RadioGroup> PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS = declare("Pennsylvania Notice to Named Insured Regarding Tort Options", RadioGroup.class, Waiters.AJAX);
+			// PA
 			public static final AssetDescriptor<RadioGroup> UNINSURED_UNDERINSURED_LIMIT_SELECTION_FORM = declare("Uninsured/Underinsured Limit Selection Form", RadioGroup.class, Waiters.AJAX);
 			// OR
 			public static final AssetDescriptor<RadioGroup> ELECTION_OF_LOWER_LIMITS_FOR_UNINSURED_MOTORISTS_COVERAGE = declare("Election of Lower Limits for Uninsured Motorists Coverage", RadioGroup.class, Waiters.AJAX);

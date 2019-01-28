@@ -7,6 +7,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
+import aaa.common.pages.Page;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -55,6 +57,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
+
+	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
+	private RadioGroup aadnpabRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS);
 
 	/**
 	 * @author Jovita Pukenaite
@@ -272,12 +277,9 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			String policyNumber = createPolicyForAA52VA("$25,000/$50,000 (-$32.00)", "Physically Signed");
 
-			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+			checkIfRfiIsEmpty(policyNumber);
 
 			HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("UMPD", "40000"), PolicyCoverageInfo.class);
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			String doccId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "policy", "NS");
 
@@ -296,28 +298,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			String query1 = String.format(GET_DOCUMENT_BY_EVENT_NAME, policyNumber, "AA52VA", "ENDORSEMENT_ISSUE");
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1).toString().contains("DocSignedBy")).isFalse();
 			softly.assertThat(DocGenHelper.getDocument(DocGenEnum.Documents.AA52VA, query1).toString().contains("DocSignedDate")).isFalse();
-
 		});
-	}
-
-	private String createPolicyForAA52VA(String limit, String signType) {
-		mainApp().open();
-		createCustomerIndividual();
-		createQuote();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
-
-		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue(limit);
-		premiumAndCoveragesTab.calculatePremium();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue(signType);
-		documentsAndBindTab.saveAndExit();
-
-		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-		helperMiniServices.createEndorsementWithCheck(policyNumber);
-		helperMiniServices.rateEndorsementWithCheck(policyNumber);
-		return policyNumber;
 	}
 
 	/**
@@ -356,13 +337,112 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
-			helperMiniServices.rateEndorsementWithCheck(policyNumber);
-
-			RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
+			checkIfRfiIsEmpty(policyNumber);
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
+		});
+	}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Update Tort, Sign AADNPAB - Internal/External Endorsement to PAS
+	 * @scenario 1. Create policy. Where aadnpab = Signed In
+     * and Tort = "Limited Tort".
+     * 2. Create endorsement inside in PAS.
+     * 3. Update Tort = Full Tort.
+     * 4. Go to Document and Bind page, check if document = Not signed in
+     * 5. Try bind, check the error.
+     * 6. Delete endorsement.
+     * 7. Create new endorsement outside of PAS. Check RFI response.
+     * 8. Update coverage to Full, rate.
+     * 9. Hit RFI service, check the response.
+     * 10. Try bind, check the error.
+     * 11. Sign in and bind again.
+     * 12. Repeat the same steps from 7-11. But this time TORT = "Limit Tort"
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23303", "PAS-24559"})
+	public void pas23303_UpdateTortSignInAADNPAB(@Optional("PA") String state) {
+		assertSoftly(softly -> {
+			String policyNumber = createPolicyForAnyDocument("Limited Tort", "Physically Signed", tortCoverage, aadnpabRule );
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+			tortCoverage.setValue("Full Tort");
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+			assertThat(documentsAndBindTab.getRequiredToBindAssetList()
+					.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS)).hasValue("Not Signed");
+			documentsAndBindTab.submitTab();
+			//On bind check error message
+			errorTab.verify.errorsPresent(true, ErrorEnum.Errors.ERROR_AAA_SS190125);
+			errorTab.cancel();
+
+			//delete endorsement
+			documentsAndBindTab.cancel();
+			Page.dialogConfirmation.buttonDeleteEndorsement.click();
+
+			//Create endorsement outside of PAS
+            dxpOnlyCreateEndorsementCheckDocumentAADNPAB("TRUE", policyNumber);
+
+            //create one more endorsement
+            dxpOnlyCreateEndorsementCheckDocumentAADNPAB("FALSE", policyNumber);
+			});
+		}
+
+    private void dxpOnlyCreateEndorsementCheckDocumentAADNPAB(String tortCoverageValue, String policyNumber){
+        helperMiniServices.createEndorsementWithCheck(policyNumber);
+        checkIfRfiIsEmpty(policyNumber);
+        HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("TORT", tortCoverageValue), PolicyCoverageInfo.class);
+        String docId = checkDocumentInRfiService(policyNumber, "AADNPAB", "Pennsylvania Notice to Named Insured Regarding Tort Options", "policy", "NS");
+
+        helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_AAA_SS190125.getCode(), ErrorEnum.Errors.ERROR_AAA_SS190125.getMessage(), "attributeForRules");
+        HelperCommon.endorsementBind(policyNumber, "Jovita Pukenaite", Response.Status.OK.getStatusCode(), docId);
+    }
+
+	private String createPolicyForAA52VA(String limit, String signType) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT).setValue("Yes");
+
+		premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY).setValue(limit);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue(signType);
+		documentsAndBindTab.saveAndExit();
+
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		return policyNumber;
+	}
+
+	private String createPolicyForAnyDocument(String limit, String signType, ComboBox coverage , RadioGroup rule) {
+		mainApp().open();
+		createCustomerIndividual();
+		createQuote();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		(coverage).setValue(limit);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		(rule).setValue(signType);
+		documentsAndBindTab.saveAndExit();
+
+		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
+		return policyNumber;
+	}
+
+	private void checkIfRfiIsEmpty(String policyNumber){
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		assertSoftly(softly -> {
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.isEmpty()).isTrue();
 		});
 	}
 
