@@ -6,12 +6,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
 import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.admin.pages.general.GeneralSchedulerPage.Job;
@@ -23,7 +20,7 @@ public final class JobRunner {
     private static Logger log = LoggerFactory.getLogger(JobRunner.class);
 
     private static List<Job> jobs = Collections.synchronizedList(new ArrayList<Job>());
-    private static boolean isAsyncManagerRestarted = false;
+	private static boolean isAsyncManagerRestarted;
     private static LocalDateTime currentPhase;
 
     private JobRunner() {}

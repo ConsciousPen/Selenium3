@@ -1,25 +1,21 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import org.apache.commons.lang3.Range;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
-import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.home_ss.ho6.functional.TestNYTierAndUWPointsLock;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.apache.commons.lang3.Range;
 import toolkit.datax.TestData;
-import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.LocalDateTime;
 
 public class TestNYPropertyTierAndUWPointsLock extends PolicyBaseTest {
 

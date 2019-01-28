@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.testng.ITestContext;
 import org.testng.xml.XmlSuite;
 import org.testng.xml.XmlTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import com.sun.jersey.api.client.ClientResponse;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.mock.ApplicationMocksManager;

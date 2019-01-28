@@ -20,16 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
-
-import aaa.common.enums.RestRequestMethodTypes;
-import aaa.helpers.rest.JsonClient;
-import aaa.helpers.rest.RestRequestInfo;
-import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 import org.testng.annotations.BeforeTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
+import aaa.common.enums.RestRequestMethodTypes;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
@@ -39,13 +35,16 @@ import aaa.helpers.claim.datamodel.claim.Claim;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
+import aaa.helpers.rest.JsonClient;
+import aaa.helpers.rest.RestRequestInfo;
+import aaa.helpers.rest.dtoClaim.ClaimsAssignmentResponse;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import toolkit.config.PropertyProvider;
@@ -225,7 +224,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
 		if (tableSearchResults.isPresent()) {
 			tableSearchResults.getRow("Eff. Date",
-					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					TimeSetterUtil.getInstance().getCurrentTime().minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
 					.getCell(1).controls.links.getFirst().click();
 		}
 
@@ -365,7 +364,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         // Create Cas response file
         String casResponseFileName = getCasResponseFileName();
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(dataModelFileName, casResponseFileName);
-        File claimResponseFile = batchClaimHelper.processClaimTemplate((response) -> {
+		File claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
             setPolicyNumber(policyNumber, response);
             if (claimToDriverLicence != null)
                 updateDriverLicence(claimToDriverLicence, response);

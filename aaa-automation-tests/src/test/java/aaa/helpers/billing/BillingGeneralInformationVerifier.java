@@ -2,23 +2,22 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
-import com.exigen.ipb.etcsa.utils.Dollar;
-
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.helpers.TableVerifier;
+import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
 public class BillingGeneralInformationVerifier extends TableVerifier {
 
-    public BillingGeneralInformationVerifier() {};
+	public BillingGeneralInformationVerifier() {}
 
-    public BillingGeneralInformationVerifier(ETCSCoreSoftAssertions softly) {
+	public BillingGeneralInformationVerifier(ETCSCoreSoftAssertions softly) {
         this.softly = softly;
-    };
+	}
 
-    @Override
+	@Override
     protected Table getTable() {
         return BillingSummaryPage.tableBillingGeneralInformation;
     }

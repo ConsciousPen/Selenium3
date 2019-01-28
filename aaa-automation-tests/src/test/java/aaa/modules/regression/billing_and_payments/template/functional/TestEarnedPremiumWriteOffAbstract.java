@@ -5,15 +5,13 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
@@ -389,8 +387,8 @@ public abstract class TestEarnedPremiumWriteOffAbstract extends PolicyBaseTest {
 		policy.endorse().performAndFill(endorsementTD);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		Map<String,String> endorsement_row = new HashMap<>();
-		endorsement_row.put(BillingPaymentsAndOtherTransactionsTable.TYPE, "Premium");
-		endorsement_row.put(BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, "Endorsement");
+		endorsement_row.put(TYPE, "Premium");
+		endorsement_row.put(SUBTYPE_REASON, "Endorsement");
 		//return BillingSummaryPage.tablePaymentsOtherTransactions.getRow(2).getCell(AMOUNT).getValue();
 		return BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(endorsement_row).getCell(AMOUNT).getValue();
 	}

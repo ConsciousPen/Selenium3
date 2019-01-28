@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.exigen.etcs</groupId>
+    <groupId>com.exigen.csaa</groupId>
     <artifactId>aaa</artifactId>
     <version>2.0-SNAPSHOT</version>
-    <name>AAA-ETCSA parent</name>
+    <name>CSAA Automation parent</name>
     <packaging>pom</packaging>
     <modules>
         <module>aaa-automation-ui</module>
@@ -12,10 +12,9 @@
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- <project.version>1.0-SNAPSHOT</project.version> -->
         <maven.compiler.version>3.5.1</maven.compiler.version>
-        <pef.version>2.0.2.1</pef.version>
-        <etcs.version>9.11</etcs.version>
+        <pef.version>2.0.2.2</pef.version>
+        <isba.version>10.1</isba.version>
         <istf.version>3.7.5</istf.version>
         <webdriver.version>3.8.1</webdriver.version>
         <testanalytics.version>2.18.0</testanalytics.version>
@@ -41,7 +40,7 @@
                     <show>private</show>
                     <nohelp>true</nohelp>
                     <excludePackageNames>*.helpers.*:*.utils.*:*BaseTest*:*.scenarios.*:*.compatibility.*</excludePackageNames>
-                    <doclet>com.exigen.ipb.etcsa.utils.javadoc.DocLet</doclet>
+                    <doclet>com.exigen.ipb.eisa.utils.javadoc.DocLet</doclet>
                     <docletArtifact>
                         <groupId>com.exigen.eis</groupId>
                         <artifactId>eis-automation</artifactId>
@@ -67,8 +66,8 @@
         <!-- EIS BASE CORE -->
         <dependency>
             <groupId>com.exigen.eis</groupId>
-            <artifactId>etcs-automation-core</artifactId>
-            <version>${etcs.version}</version>
+            <artifactId>isba</artifactId>
+            <version>${isba.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.exigen.istf</groupId>

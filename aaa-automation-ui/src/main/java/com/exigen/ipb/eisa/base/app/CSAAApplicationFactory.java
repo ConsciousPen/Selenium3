@@ -1,8 +1,8 @@
-package com.exigen.ipb.etcsa.base.app;
+package com.exigen.ipb.eisa.base.app;
 
-import com.exigen.ipb.etcsa.base.app.impl.AdminApplication;
-import com.exigen.ipb.etcsa.base.app.impl.MainApplication;
-import com.exigen.ipb.etcsa.base.app.impl.OperationalReportApplication;
+import com.exigen.ipb.eisa.base.app.impl.AdminApplication;
+import com.exigen.ipb.eisa.base.app.impl.MainApplication;
+import com.exigen.ipb.eisa.base.app.impl.OperationalReportApplication;
 
 public class CSAAApplicationFactory {
 	static CSAAApplicationFactory appFactory;

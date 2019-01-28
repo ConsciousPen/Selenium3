@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import toolkit.exceptions.IstfException;
 
 public class HttpHelper {

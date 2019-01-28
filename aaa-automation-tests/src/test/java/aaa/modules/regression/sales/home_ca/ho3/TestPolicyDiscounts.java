@@ -4,24 +4,19 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
-import aaa.common.enums.NavigationEnum;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.home_ca.HomeCaPolicyActions;
-import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.BindTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab;
-import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.utils.TestInfo;
 
 public class TestPolicyDiscounts extends HomeCaHO3BaseTest {
 

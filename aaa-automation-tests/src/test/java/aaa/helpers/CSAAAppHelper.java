@@ -1,8 +1,8 @@
 package aaa.helpers;
 
 import java.net.URL;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.utils.EISAppHelper;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.utils.EISAppHelper;
 import toolkit.config.ClassConfigurator;
 import toolkit.utils.http.HttpExecutor;
 import toolkit.utils.http.HttpHelper;

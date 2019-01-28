@@ -13,7 +13,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.modules.policy.AutoCaChoiceBaseTest;

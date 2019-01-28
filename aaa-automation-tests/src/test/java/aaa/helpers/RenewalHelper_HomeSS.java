@@ -1,5 +1,7 @@
 package aaa.helpers;
 
+import java.time.LocalDateTime;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
@@ -9,10 +11,7 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.verification.CustomAssertions;
-
-import java.time.LocalDateTime;
 
 /**
  * This class is used to simplify renewal testing. <br>
@@ -37,7 +36,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
     LocalDateTime _renewalBillGenDate;
     Long _timeDifferenceInDays_Stage3ToExpiration;
     Long _timeDifferenceInDays_Stage4ToExpiration;
-    boolean _bPrintDebugInfo = false;
+	boolean _bPrintDebugInfo;
     final String AAARENEWALTIMELINEIND_VALUETOSET = "3";
 
 
@@ -341,7 +340,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
         // Verify the DB took our update with an assertion on a SELECT query.
         String results = AAAMembershipQueries.getAaaRenewalTimelineIndicatorValue(_policyNumber);
-        CustomAssertions.assertThat(results.toString()).isEqualToIgnoringCase(AAARENEWALTIMELINEIND_VALUETOSET);
+		CustomAssertions.assertThat(results).isEqualToIgnoringCase(AAARENEWALTIMELINEIND_VALUETOSET);
     }
 
     /**

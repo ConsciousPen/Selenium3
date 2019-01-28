@@ -3,13 +3,13 @@
 package aaa.admin.modules.security.profile;
 
 import static aaa.admin.metadata.security.ProfileMetaData.GeneralProfileTab.AGENCY_LOCATIONS;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.admin.metadata.security.ProfileMetaData;
 import aaa.admin.modules.security.ChannelType;
-import aaa.admin.modules.security.profile.defaulttabs.AuthorityLevelsTab;
 import aaa.admin.modules.security.profile.defaulttabs.GeneralProfileTab;
 import aaa.admin.modules.security.profile.views.DefaultView;
 import aaa.admin.pages.security.ProfilePage;
+import aaa.common.Tab;
 import aaa.common.Workspace;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -33,7 +33,7 @@ public class Profile implements IProfile {
         channelType = channelType == null ? ChannelType.valueOf(td.getValue("Channel")) : channelType;
         initiate();
         getDefaultView().fill(td);
-        AuthorityLevelsTab.buttonSave.click();
+		Tab.buttonSave.click();
         log.info("Created Profile " + td);
     }
 
@@ -47,7 +47,7 @@ public class Profile implements IProfile {
         channelType = channelType == null ? ChannelType.valueOf(td.getValue("Channel")) : channelType;
         initiate();
         new GeneralProfileTab().fillTab(td);
-        GeneralProfileTab.buttonSave.click();
+		Tab.buttonSave.click();
         log.info("Created Non-Eis User Profile " + td);
     }
 

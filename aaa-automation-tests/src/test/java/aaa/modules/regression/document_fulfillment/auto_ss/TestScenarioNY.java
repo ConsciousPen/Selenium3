@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import toolkit.datax.TestData;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum.AutoSSTab;
 import aaa.common.pages.NavigationPage;
@@ -23,6 +22,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.toolkit.webdriver.WebDriverHelper;
 import aaa.utils.StateList;
+import toolkit.datax.TestData;
 import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenarioNY extends AutoSSBaseTest {

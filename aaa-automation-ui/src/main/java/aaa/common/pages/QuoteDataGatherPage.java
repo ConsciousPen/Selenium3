@@ -2,12 +2,11 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.common.pages;
 
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import java.time.LocalDateTime;
 import org.openqa.selenium.By;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.webdriver.controls.StaticElement;
-
-import java.time.LocalDateTime;
 
 public class QuoteDataGatherPage extends MainPage {
 

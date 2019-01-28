@@ -3,8 +3,8 @@
 package aaa.admin.pages.general;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.Application;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import aaa.admin.pages.AdminPage;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;

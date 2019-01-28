@@ -1,16 +1,14 @@
 package aaa.modules.cft;
 
 import org.testng.annotations.Test;
-
-import toolkit.utils.TestInfo;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
+import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
-
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import toolkit.utils.TestInfo;
 
 public class TestCFTCleanFeedFiles extends ControlledFinancialBaseTest {
 

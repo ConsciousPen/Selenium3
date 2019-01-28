@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ComparisonChain;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -524,7 +524,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue()
 		);
 
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
@@ -535,7 +535,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue();
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -612,7 +612,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response11.drivingRecords.get(0).accidentDate).isEqualTo(acDate2);
 			softly.assertThat(response11.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response11.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response11.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue();
 		});
 		pasDriverActivityReport(policyNumber, "VALID", "One AutoTheft");
 
@@ -621,7 +621,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response12.drivingRecords.get(0).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(0).activitySource).isEqualTo("CLUE");
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue();
 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
@@ -635,7 +635,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		//Order reports through service
 		OrderReportsResponse response = HelperCommon.orderReports(policyNumber, oidDriver1, OrderReportsResponse.class, 200);
 		assertSoftly(softly ->
-				softly.assertThat((response.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue()
+				softly.assertThat(response.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue()
 		);
 		pasDriverActivityReport(policyNumber, "VALID", "Karen Yifru");
 
@@ -645,7 +645,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 		assertSoftly(softly -> {
 			softly.assertThat(response1.drivingRecords.get(0).accidentDate).isEqualTo(acDate);
 			softly.assertThat(response1.drivingRecords.get(0).activitySource).isEqualTo("MVR");
-			softly.assertThat((response1.mvrReports.get(0).choicePointLicenseStatus).contains("VALID")).isTrue();
+			softly.assertThat(response1.mvrReports.get(0).choicePointLicenseStatus.contains("VALID")).isTrue();
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "One Minor");
@@ -659,7 +659,7 @@ public class TestMiniServicesMVRAndClueReportOrderHelper extends PolicyBaseTest 
 			softly.assertThat(response12.drivingRecords.get(1).accidentDate).isNotEmpty();
 			softly.assertThat(response12.drivingRecords.get(1).activitySource).isEqualTo("CLUE");
 
-			softly.assertThat((response12.mvrReports.get(0).choicePointLicenseStatus).contains("VALID"));
+			softly.assertThat(response12.mvrReports.get(0).choicePointLicenseStatus.contains("VALID"));
 		});
 
 		pasDriverActivityReport(policyNumber, "VALID", "Two AtFault");

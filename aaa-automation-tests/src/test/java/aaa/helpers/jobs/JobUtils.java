@@ -6,11 +6,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
-import com.exigen.ipb.etcsa.utils.batchjob.SoapJobActions;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
+import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import aaa.config.CsaaTestProperties;
@@ -127,7 +127,7 @@ public class JobUtils {
 
 	private static String getFullName() {
 		StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-		String fullName = new String();
+		String fullName = "";
 		for (StackTraceElement element : stackTraceElements) {
 			if (element.getClassName().startsWith("sun.reflect.") || element.getClassName().contains("java.lang.Class")) {
 				break;

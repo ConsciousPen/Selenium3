@@ -9,7 +9,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.mock.ApplicationMocksManager;

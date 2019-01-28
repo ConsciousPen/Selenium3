@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.enums.DiscountEnum;
@@ -8,13 +12,7 @@ import aaa.main.modules.policy.home_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.modules.policy.PolicyBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestZeroClaimsDiscountTemplate extends PolicyBaseTest {
 

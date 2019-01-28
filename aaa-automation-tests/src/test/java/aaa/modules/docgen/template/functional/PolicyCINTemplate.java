@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.testng.Assert;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;

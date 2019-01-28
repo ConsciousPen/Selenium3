@@ -2,13 +2,10 @@ package aaa.modules.bct.service;
 
 import static aaa.common.enums.Constants.States.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -20,6 +17,7 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
+import aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
@@ -32,7 +30,6 @@ import aaa.utils.StateList;
 import toolkit.config.PropertyProvider;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.db.DBService;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class EndorsementTest extends BackwardCompatibilityBaseTest {
@@ -307,7 +304,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
 		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click();
 		policy.policyInquiry().getView()
-				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
@@ -339,7 +336,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
 		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click();
 		policy.policyInquiry().getView()
-				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
 		new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().cancel();
 
@@ -371,7 +368,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
 		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click();
 		policy.policyInquiry().getView()
-				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 
 
 		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();
@@ -406,7 +403,7 @@ public class EndorsementTest extends BackwardCompatibilityBaseTest {
 				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.GeneralTab.class, aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.class, false);
 		aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.buttonNext.click(); // workaround, cause javascript clicks calculate premium
 		policy.policyInquiry().getView()
-				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), aaa.main.modules.policy.home_ca.defaulttabs.MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
+				.fillFromTo(getTestSpecificTD("TestDataInquiryHomeCA"), MortgageesTab.class, aaa.main.modules.policy.home_ca.defaulttabs.BindTab.class, false);
 
 
 		assertThat(new aaa.main.modules.policy.home_ca.defaulttabs.BindTab().btnPurchase.isPresent()).isTrue();

@@ -3,8 +3,8 @@
 package aaa.main.metadata;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.ClickComboBox;
-import com.exigen.ipb.etcsa.controls.RichTextBox;
+import com.exigen.ipb.eisa.controls.ClickComboBox;
+import com.exigen.ipb.eisa.controls.RichTextBox;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;

@@ -7,47 +7,48 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import aaa.helpers.docgen.AaaDocGenEntityQueries;
-import aaa.main.enums.ErrorEnum;
-import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
-import aaa.common.enums.Constants;
-import aaa.helpers.rest.dtoDxp.*;
-import aaa.helpers.xml.model.Document;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
-import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.service.helper.HelperMiniServices;
-import aaa.utils.StateList;
+import javax.ws.rs.core.Response;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.rest.dtoAdmin.RfiDocumentResponse;
+import aaa.helpers.rest.dtoDxp.DXPRequestFactory;
+import aaa.helpers.rest.dtoDxp.PolicyCoverageInfo;
+import aaa.helpers.rest.dtoDxp.RFIDocuments;
+import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.DocumentsAndBindTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
+import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.helper.HelperCommon;
+import aaa.modules.regression.service.helper.HelperMiniServices;
 import aaa.modules.regression.service.helper.HelperRfi;
+import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-import javax.ws.rs.core.Response;
 
 public class TestServiceRFI extends AutoSSBaseTest {
 	private final DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
@@ -445,7 +446,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		createQuoteWithCustomData(state);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		assertSoftly(softly -> {
 			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 			rfiDocumentContentCheck(policyNumber, state, softly);
 

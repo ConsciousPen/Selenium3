@@ -12,7 +12,7 @@ import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.utils.excel.io.ExcelManager;
 import aaa.utils.excel.io.celltype.*;
 import aaa.utils.excel.io.entity.Writable;

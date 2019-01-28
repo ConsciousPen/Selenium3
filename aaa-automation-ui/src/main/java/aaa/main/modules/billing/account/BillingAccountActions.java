@@ -5,7 +5,7 @@ package aaa.main.modules.billing.account;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.AbstractAction;
 import aaa.common.Tab;
 import aaa.common.Workspace;
@@ -15,7 +15,10 @@ import aaa.common.pages.Page;
 import aaa.main.enums.ActionConstants;
 import aaa.main.enums.BillingConstants.*;
 import aaa.main.metadata.BillingAccountMetaData;
-import aaa.main.modules.billing.account.actiontabs.*;
+import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
+import aaa.main.modules.billing.account.actiontabs.AddHoldActionTab;
+import aaa.main.modules.billing.account.actiontabs.ChangePaymentPlanActionTab;
+import aaa.main.modules.billing.account.actiontabs.MovePoliciesActionTab;
 import aaa.main.modules.billing.account.views.*;
 import aaa.main.pages.summary.BillingSummaryPage;
 import toolkit.datax.TestData;
@@ -68,14 +71,14 @@ public final class BillingAccountActions {
 
 		public AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount.toString());
-			return super.perform(td);
+			return perform(td);
 		}
 
 		public void perform(TestData td, String amount, List<String> allocations, String referenceNumber) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.AMOUNT.getLabel()), amount)
 					.adjust(TestData.makeKeyPath(BillingAccountMetaData.AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.ALLOCATIONS.getLabel()),
 							allocations);
-			super.perform(td);
+			perform(td);
 
 			Table tableSuspendRemainingError = new Table(By.id("paymentForm:error_message"));
 			if (tableSuspendRemainingError.isPresent()) {
@@ -88,7 +91,7 @@ public final class BillingAccountActions {
 		//Accept payment from Suspense
 		public void perform(TestData td, List<String> allocations) {
 			td.adjust(TestData.makeKeyPath(AcceptPaymentActionTab.class.getSimpleName(), BillingAccountMetaData.AcceptPaymentActionTab.ALLOCATIONS.getLabel()), allocations);
-			super.perform(td);
+			perform(td);
 		}
 
 	        /* TODO Make Custom control for Payment Allocation
@@ -142,7 +145,7 @@ public final class BillingAccountActions {
 
 		public AbstractAction perform(TestData td, Dollar amount) {
 			td.adjust(TestData.makeKeyPath(BillingAccountMetaData.OtherTransactionsActionTab.class.getSimpleName(), BillingAccountMetaData.OtherTransactionsActionTab.AMOUNT.getLabel()), amount.toString());
-			return super.perform(td);
+			return perform(td);
 		}
 	}
 
@@ -376,8 +379,8 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction submit() {
-			if (DeclinePaymentActionTab.buttonOk.isPresent()) {
-				DeclinePaymentActionTab.buttonOk.click();
+			if (Tab.buttonOk.isPresent()) {
+				Tab.buttonOk.click();
 			} else if (new Button(By.id("declinePaymentReasonForm:okBtnPopup_footer")).isPresent()) {
 				new Button(By.id("declinePaymentReasonForm:okBtnPopup_footer")).click();
 			}
@@ -402,7 +405,7 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction submit() {
-			MovePoliciesActionTab.buttonFinish.click();
+			Tab.buttonFinish.click();
 			return this;
 		}
 
@@ -614,7 +617,7 @@ public final class BillingAccountActions {
 
 		@Override
 		public AbstractAction submit() {
-			UpdateBillingAccountActionTab.buttonSave.click();
+			Tab.buttonSave.click();
 			if (Page.dialogConfirmation.isPresent() && Page.dialogConfirmation.isVisible()) {
 				Page.dialogConfirmation.confirm();
 			}

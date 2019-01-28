@@ -22,7 +22,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.modules.BaseTest;
@@ -153,7 +153,7 @@ public class CFTHelper extends BaseTest {
 						Header entryHeader = new Header();
 						entryHeader.setCode(record.get(0).substring(0, 11).trim());
 						entryHeader.setDate(record.get(0).substring(11, record.get(0).length() - 3).trim());
-						entryHeader.setNotKnownAttribute(record.get(0).substring(record.get(0).length() - 3, record.get(0).length()).trim());
+						entryHeader.setNotKnownAttribute(record.get(0).substring(record.get(0).length() - 3).trim());
 						object.setHeader(entryHeader);
 						break;
 					}
@@ -163,7 +163,7 @@ public class CFTHelper extends BaseTest {
 						footer.setCode(record.get(0).substring(0, 11).trim());
 						footer.setOverallExpSum(record.get(0).substring(11, 30).trim());
 						footer.setOverallSum(record.get(0).substring(30, 46).trim());
-						footer.setAmountOfRecords(record.get(0).substring(46, record.get(0).length()).trim());
+						footer.setAmountOfRecords(record.get(0).substring(46).trim());
 						object.setFooter(footer);
 						objectsFromCSV.add(object);
 						break;
@@ -178,7 +178,7 @@ public class CFTHelper extends BaseTest {
 						entryRecord.setAmount(record.get(0).substring(43, 57).trim());
 						entryRecord.setAction(record.get(0).substring(57, 87).trim());
 						entryRecord.setActionDescription(record.get(0).substring(87, 117).trim());
-						entryRecord.setPlusMinus(record.get(0).substring(117, record.get(0).length()).trim());
+						entryRecord.setPlusMinus(record.get(0).substring(117).trim());
 						object.getRecords().add(entryRecord);
 						break;
 					}

@@ -3,9 +3,7 @@
 package aaa.admin.metadata.security;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.AdvancedSelector;
-
+import com.exigen.ipb.eisa.controls.AdvancedSelector;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.TextBox;

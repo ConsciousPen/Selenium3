@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.utils.datetime.DateTimeUtils;

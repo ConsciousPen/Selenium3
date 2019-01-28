@@ -1,5 +1,10 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.Page;
@@ -17,18 +22,12 @@ import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPointsVRDPageAbstract {
 

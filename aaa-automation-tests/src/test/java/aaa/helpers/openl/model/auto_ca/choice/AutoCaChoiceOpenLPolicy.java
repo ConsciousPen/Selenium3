@@ -3,7 +3,7 @@ package aaa.helpers.openl.model.auto_ca.choice;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.model.OpenLFile;
 import aaa.helpers.openl.model.auto_ca.AutoCaOpenLPolicy;

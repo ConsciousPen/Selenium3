@@ -5,11 +5,9 @@ package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 import static toolkit.verification.CustomAssertions.assertThat;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFCheckBox;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFStaticElement;
-
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFButton;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFCheckBox;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFStaticElement;
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.http.impl.HttpAAARequestor;
 import aaa.helpers.http.impl.HttpConstants;

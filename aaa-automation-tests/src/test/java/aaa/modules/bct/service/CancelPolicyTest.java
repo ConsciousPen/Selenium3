@@ -1,8 +1,11 @@
 package aaa.modules.bct.service;
 
 import static aaa.common.enums.Constants.States.*;
-import static aaa.common.enums.Constants.States.WY;
 import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -15,10 +18,6 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 

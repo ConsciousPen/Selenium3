@@ -2,7 +2,7 @@ package aaa.helpers.openl.model.home_ca;
 
 import java.time.LocalDate;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.mock.MocksCollection;
 import aaa.helpers.mock.model.address.AddressReferenceMock;
@@ -11,7 +11,6 @@ import aaa.helpers.openl.annotation.RequiredField;
 import aaa.helpers.openl.mock_generator.HomeCaMockGenerator;
 import aaa.helpers.openl.mock_generator.MockGenerator;
 import aaa.helpers.openl.model.OpenLPolicy;
-import aaa.utils.excel.bind.annotation.ExcelTransient;
 
 public abstract class HomeCaOpenLPolicy<F extends HomeCaOpenLForm, D extends HomeCaOpenLDwelling> extends OpenLPolicy {
 	protected Integer claimPoints;

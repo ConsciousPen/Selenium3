@@ -4,7 +4,7 @@ package aaa.main.modules.customer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
+import com.exigen.ipb.eisa.base.config.CustomTestProperties;
 import aaa.common.Workspace;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.SearchPage;

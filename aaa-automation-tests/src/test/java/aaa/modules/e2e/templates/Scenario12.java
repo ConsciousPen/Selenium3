@@ -3,8 +3,8 @@ package aaa.modules.e2e.templates;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -225,11 +225,7 @@ public class Scenario12 extends ScenarioBaseTest {
 	protected boolean isRefundAfterImageGeneration() {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(paymentDate);
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
-		if (refundDate.isAfter(renewDateImage)) {
-			return  true;
-		}
-		else 
-			return false;
+		return refundDate.isAfter(renewDateImage);
 	}
 
 	protected void renewalImageGeneration() {

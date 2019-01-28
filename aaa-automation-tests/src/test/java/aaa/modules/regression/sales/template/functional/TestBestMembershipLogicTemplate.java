@@ -2,13 +2,9 @@ package aaa.modules.regression.sales.template.functional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import org.apache.commons.lang3.NotImplementedException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.commons.lang3.NotImplementedException;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -1007,7 +1003,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Validate Membership in P&C Tab
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
         NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES_QUOTE.get());
-        aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab pnc = new aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab();
+		PremiumsAndCoveragesQuoteTab pnc = new PremiumsAndCoveragesQuoteTab();
         pnc.calculatePremium();
         switch(memberStatus){
             case YES:
@@ -1031,27 +1027,27 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Validate Membership in VRD
         pnc.calculatePremium();
 
-        aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
+		PremiumsAndCoveragesQuoteTab.RatingDetailsView.open();
 
         switch(memberStatus){
             case YES:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+				CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case NO:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+				CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("No");
                 break;
             case PENDING:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+				CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case OVERRIDE_LIFE:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+				CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             case OVERRIDE_TERM:
-                CustomAssertions.assertThat(aaa.main.modules.policy.home_ca.defaulttabs.PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
+				CustomAssertions.assertThat(PremiumsAndCoveragesQuoteTab.RatingDetailsView.discounts
                         .getValueByKey("Membership current AAA member indicator")).isEqualToIgnoringCase("Yes");
                 break;
             default:

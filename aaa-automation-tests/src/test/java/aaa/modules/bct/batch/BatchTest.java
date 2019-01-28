@@ -3,10 +3,9 @@ package aaa.modules.bct.batch;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.helpers.jobs.GroupJobs;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.modules.bct.BctType;
 

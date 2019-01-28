@@ -7,7 +7,7 @@ import java.util.List;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -75,7 +75,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSDP3BaseTe
 
         //Check that coverages are rounded to dollar value
         List<String> currentValues = new ArrayList<>();
-        currentValues.addAll(Arrays.asList(premiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage A").getValue()));
+		currentValues.addAll(Arrays.asList(PremiumsAndCoveragesQuoteTab.tableCoverages.getRow(2).getCell("Percentage of Coverage A").getValue()));
         for(String value : currentValues.toString().split("\n")) {
             assertThat(value).as("Coverages should be rounded to dollar value").contains(".00");
         }
@@ -106,7 +106,7 @@ public class TestConversionViewAndOverrideCappingDetails extends HomeSSDP3BaseTe
 
         assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.APPLIED_CAPPING_FACTOR))
                 .isEqualTo(String.format("%s.00%%", getTestSpecificTD("TestData_OverideCappingDetails").getTestData
-                ("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR).toString()));
+						("PremiumsAndCoveragesQuoteTab", "View Capping Details").getValue(PolicyConstants.ViewCappingDetailsTable.MANUAL_CAPPING_FACTOR)));
         assertThat(PremiumsAndCoveragesQuoteTab.tableCappedPolicyPremium.getValueByKey(PolicyConstants.ViewCappingDetailsTable.CAPPED_TERM_PREMIUM)).isNotEqualTo(cappedTermPremium);
     }
 }

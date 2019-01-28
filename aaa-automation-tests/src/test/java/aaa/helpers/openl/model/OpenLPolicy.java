@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
 import aaa.helpers.mock.MocksCollection;

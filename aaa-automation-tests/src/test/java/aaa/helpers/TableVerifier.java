@@ -5,7 +5,7 @@ package aaa.helpers;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
 import java.util.Map;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 

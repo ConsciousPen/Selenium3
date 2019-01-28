@@ -3,11 +3,8 @@
 package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFLink;
-
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFLink;
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;

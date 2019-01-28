@@ -1,7 +1,7 @@
 package aaa.helpers.jobs;
 
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 

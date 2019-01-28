@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.BooleanUtils;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -2003,7 +2003,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
 		ViewDriversResponse responseViewDriverEndorsement = HelperCommon.viewEndorsementDrivers(policyNumber);
-		String firstDriverOid = (responseViewDriverEndorsement.driverList.get(0).oid);
+		String firstDriverOid = responseViewDriverEndorsement.driverList.get(0).oid;
 
 		// add update driver
 		String driverOid1 = addRegularDriverOrNI(policyNumber, "DriverSt", "CH", "D32329588");
@@ -2515,7 +2515,7 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			PolicySummaryPage.buttonPendedEndorsement.click();
 			policy.dataGather().start();
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER_ACTIVITY_REPORTS.get());
-			softly.assertThat(driverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
+			softly.assertThat(DriverActivityReportsTab.tableMVRReports.getRow(2).getCell("Response").getValue()).isEqualTo("No Hit");
 			DriverActivityReportsTab.buttonSaveAndExit.click();
 
 			removeDriverRequest.removalReasonCode = "RD1001";
@@ -2580,17 +2580,17 @@ public class TestMiniServicesDriversHelper extends PolicyBaseTest {
 			UpdateDriverRequest updateDriverRequest = DXPRequestFactory.createUpdateDriverRequest("female", "D8571783", 28, "CA", "CH", "MSS");
 
 			DriverWithRuleSets updateDriverResponse1 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest);
-			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isTrue();
+			softly.assertThat(updateDriverResponse1.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode().equals(error.errorCode))).isTrue();
 
 			UpdateDriverRequest updateDriverRequest2 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse2 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest2);
-			softly.assertThat(updateDriverResponse2.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse2.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode().equals(error.errorCode))).isFalse();
 
 			UpdateDriverRequest updateDriverRequest3 = DXPRequestFactory.createUpdateDriverRequest(null, null, 27, null, null, null);
 
 			DriverWithRuleSets updateDriverResponse3 = HelperCommon.updateDriver(policyNumber, driverOid, updateDriverRequest3);
-			softly.assertThat(updateDriverResponse3.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && (ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode()).equals(error.errorCode))).isFalse();
+			softly.assertThat(updateDriverResponse3.validations.stream().anyMatch(error -> error.message.equals(ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getMessage()) && ErrorDxpEnum.Errors.AGE_FIRST_LICENSED_GREATER_THAN_DOB.getCode().equals(error.errorCode))).isFalse();
 
 			HelperCommon.orderReports(policyNumber, driverOid, OrderReportsResponse.class, 200);
 			helperMiniServices.endorsementRateAndBind(policyNumber);

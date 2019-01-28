@@ -10,7 +10,7 @@ import org.assertj.core.api.Assertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableMap;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -73,7 +73,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
     public void testCreateCasResponse(@Optional("AZ") @SuppressWarnings("unused") String state) {
         BatchClaimHelper batchClaimHelper = new BatchClaimHelper(NAME_DOB_CLAIMS_DATA_MODEL, getCasResponseFileName());
         String policyNumber = "AZSS999999999";
-        File claimResponse = batchClaimHelper.processClaimTemplate((response) ->
+		File claimResponse = batchClaimHelper.processClaimTemplate(response ->
                 setPolicyNumber(policyNumber, response));
         assertThat(claimResponse).exists().isFile();
         assertThat(Assertions.contentOf(claimResponse)).contains(policyNumber);
@@ -348,7 +348,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 
         if (tableSearchResults.isPresent()) {
             tableSearchResults.getRow("Eff. Date",
-                    TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY).toString())
+					TimeSetterUtil.getInstance().getCurrentTime().plusDays(46).minusYears(1).format(DateTimeUtils.MM_DD_YYYY))
                     .getCell(1).controls.links.getFirst().click();
         }
 

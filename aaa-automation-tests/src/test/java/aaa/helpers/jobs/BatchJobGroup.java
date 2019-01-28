@@ -2,8 +2,8 @@ package aaa.helpers.jobs;
 
 import java.util.Arrays;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
-import com.exigen.ipb.etcsa.utils.batchjob.JobGroup;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 
 public class BatchJobGroup {
 	public static JobGroup aaaAutomatedProcessingInitiationJob = new JobGroup("aaaAutomatedProcessingInitiationJob", BatchJob.aaaAutomatedProcessingInitiationJob);

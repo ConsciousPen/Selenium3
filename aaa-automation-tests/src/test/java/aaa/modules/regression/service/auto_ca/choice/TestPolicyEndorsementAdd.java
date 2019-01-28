@@ -5,8 +5,7 @@ package aaa.modules.regression.service.auto_ca.choice;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;

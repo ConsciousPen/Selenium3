@@ -1,5 +1,11 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Random;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -23,15 +29,7 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.PaymentMethodAllocationControl;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Random;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 
@@ -43,7 +41,8 @@ public class PaymentPlanChangeOnEndorsementTemplate extends PolicyBaseTest {
 	private BindTab bindTabPup = new BindTab();
 	private PolicyType policyType;
 
-	private PaymentPlanChangeOnEndorsementTemplate(){};
+	private PaymentPlanChangeOnEndorsementTemplate() {}
+
 	public PaymentPlanChangeOnEndorsementTemplate (PolicyType policyType){
 		this.policyType = policyType;
 	}

@@ -1,5 +1,7 @@
 package aaa.modules.regression.sales.template.functional;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -9,10 +11,7 @@ import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.datax.TestData;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 
 public class TestEndorsementsTabAbstract extends CommonTemplateMethods {

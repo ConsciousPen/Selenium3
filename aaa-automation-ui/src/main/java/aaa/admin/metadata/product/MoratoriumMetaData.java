@@ -3,9 +3,9 @@ CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied
 package aaa.admin.metadata.product;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.AdvancedSelector;
-import com.exigen.ipb.etcsa.controls.dialog.DialogAssetList;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.AdvancedSelector;
+import com.exigen.ipb.eisa.controls.dialog.DialogAssetList;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;

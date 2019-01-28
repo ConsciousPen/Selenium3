@@ -1,11 +1,9 @@
 package aaa.toolkit.webdriver.customcontrols.dialog;
 
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogMultiSearch;
 import org.openqa.selenium.By;
-import toolkit.datax.TestData;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialogMultiSearch;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.StaticElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 
@@ -28,13 +26,13 @@ public class DialogMultiSelectorSuspense extends AbstractDialogMultiSearch {
 
 	@Override
 	protected void search() {
-		(new Button(By.xpath("//button[@id='policySearch:searchBtn']"))).click();
+		new Button(By.xpath("//button[@id='policySearch:searchBtn']")).click();
 	}
 
 	@Override
 	protected void select() {
-		((CheckBox)this.tableSearchResults.getRow(1).getCell(1).controls.checkBoxes.getFirst()).setValue(true);
-		(new Button(By.xpath("//button[@id='policySearch:selectBtn']"))).click();
+		this.tableSearchResults.getRow(1).getCell(1).controls.checkBoxes.getFirst().setValue(true);
+		new Button(By.xpath("//button[@id='policySearch:selectBtn']")).click();
 	}
 
 }

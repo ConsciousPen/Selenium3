@@ -3,9 +3,7 @@ package aaa.modules.regression.sales.home_ca.ho3;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.TestInfo;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants.States;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -16,8 +14,9 @@ import aaa.main.modules.policy.home_ca.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
+import toolkit.utils.TestInfo;
+import toolkit.webdriver.controls.ComboBox;
+import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 
 public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
 
@@ -76,7 +75,7 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
 
     private void verifyPremiumChangeOf(AssetDescriptor<ComboBox> field) {
         String origValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getValue();
-        Dollar premiumChangeOf = new Dollar((origValue.substring(origValue.indexOf('(') + 1, origValue.indexOf(')'))).replace("$", ""));
+		Dollar premiumChangeOf = new Dollar(origValue.substring(origValue.indexOf('(') + 1, origValue.indexOf(')')).replace("$", ""));
         premiumChangeOf.verify.equals(new Dollar(0));
     }
 
@@ -87,14 +86,14 @@ public class TestQuoteAdvancedRater extends HomeCaHO3BaseTest {
         else
             index--;
         String fieldValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getAllValues().get(index);
-        Dollar premiumChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')'))).replace("$", ""));
+		Dollar premiumChangeOf = new Dollar(fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')')).replace("$", ""));
         premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).setValue(fieldValue);
 
         PremiumsAndCoveragesQuoteTab.getPolicyTermPremium().verify.equals(new Dollar(0));
         premiumsAndCoveragesQuoteTab.calculatePremium();
 
         fieldValue = premiumsAndCoveragesQuoteTab.getAssetList().getAsset(field).getAllValues().get(index);
-        Dollar premiumNewChangeOf = new Dollar((fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')'))).replace("$", ""));
+		Dollar premiumNewChangeOf = new Dollar(fieldValue.substring(fieldValue.indexOf('(') + 1, fieldValue.indexOf(')')).replace("$", ""));
 
         return premiumChangeOf.subtract(premiumNewChangeOf);
     }

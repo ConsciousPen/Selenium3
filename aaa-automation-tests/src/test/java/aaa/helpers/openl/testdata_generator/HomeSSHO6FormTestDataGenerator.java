@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.function.Function;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLForm;
 import aaa.helpers.openl.model.home_ss.HomeSSOpenLPolicy;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -210,7 +208,7 @@ public class HomeSSHO6FormTestDataGenerator {
 			if ("HS0492".equals(form.getFormCode())) {
 				tdList.add(DataProviderFactory.dataOf(
 						"Action", "Add",
-						HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure" + instanceNum.toString(),
+						HomeSSMetaData.EndorsementTab.EndorsementHS0492.DESCRIPTION_OF_STRUCTURE.getLabel(), "Description of Structure" + instanceNum,
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.ZIP_CODE.getLabel(), openLPolicy.getPolicyAddress().getZip(),
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.STREET_ADDRESS_1.getLabel(), "000 Street Address",
 						HomeSSMetaData.EndorsementTab.EndorsementHS0492.LIMIT_OF_LIABILITY.getLabel(), form.getLimit().toString().split("\\.")[0],

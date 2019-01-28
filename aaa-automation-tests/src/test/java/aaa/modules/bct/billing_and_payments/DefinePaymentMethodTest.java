@@ -5,7 +5,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.BillingAccountMetaData;

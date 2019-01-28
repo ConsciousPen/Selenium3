@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.Arrays;
 import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.base.app.ILogin;
+import com.exigen.ipb.eisa.base.app.ILogin;
 import aaa.common.Tab;
 import aaa.common.components.Dialog;
 import aaa.common.metadata.LoginPageMeta;

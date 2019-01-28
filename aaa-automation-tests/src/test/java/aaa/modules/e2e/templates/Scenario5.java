@@ -3,7 +3,7 @@ package aaa.modules.e2e.templates;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -28,7 +28,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import toolkit.verification.CustomAssertions;
 
 public class Scenario5 extends ScenarioBaseTest {
 
@@ -66,7 +65,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
 	}

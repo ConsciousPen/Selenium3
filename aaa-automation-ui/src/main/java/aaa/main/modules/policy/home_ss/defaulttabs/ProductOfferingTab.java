@@ -8,7 +8,7 @@ import static aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationContr
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.ProductOfferingVariationControl;

@@ -6,7 +6,7 @@ import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.LocalDateTime;
 import java.util.*;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -131,40 +131,11 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		});
 	}
 
-	protected void pas12872_VINRefreshOnRenewal(String vinNumber, String vehYear, String vehMake, String vehModel, String vehSeries, String vehBodyStyle, String vinTableFile, String expectedYear, String expectedMake, String expectedModel) {
-		TestData testData = getPolicyTD()
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
-
-		//1. Create a policy with VIN no matched data and save the expiration data
-		String policyNumber = createPreconds(testData);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		//2. Upload vin data with updated Y/M/M/S/S
-		adminApp().open();
-		new UploadToVINTableTab().uploadVinTable(vinTableFile);
-		//3. Generate automated renewal image according to renewal timeline
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		//4. Move time to renewal time point
-		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
-		//5. Retrieve the policy
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		//6. System rates renewal image according to renewal timeline
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		//7. Navigate to Premium and Coverages tab and calculate premium
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.RatingDetailsView.open();
-		//8. Check for the updated Y/M/M values in View Rating Details table
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue(expectedYear);
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue(expectedMake);
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue(expectedModel);
-
-		PremiumAndCoveragesTab.RatingDetailsView.close();
+	@Override
+	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
+		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 	}
 
 	protected void pas18969_restrictVehicleRefreshOnRenewal(TestData testData, String vinTableFile) {
@@ -260,10 +231,10 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		policy.getDefaultView().fillFromTo(testData, FormsTab.class, PremiumAndCoveragesTab.class, true);
 	}
 
-	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
-		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+	@Override
+	public void searchForPolicy(String policyNumber) {
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
 
 	/**
@@ -324,9 +295,40 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		SearchPage.tableSearchResults.getRow("Status", "Policy Expired").getCell(1).controls.links.getFirst().click();
 	}
 
-	public void searchForPolicy(String policyNumber) {
+	protected void pas12872_VINRefreshOnRenewal(String vinNumber, String vehYear, String vehMake, String vehModel, String vehSeries, String vehBodyStyle, String vinTableFile, String expectedYear, String expectedMake, String expectedModel) {
+		TestData testData = getPolicyTD()
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), vinNumber)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), vehYear)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), vehMake)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MODEL.getLabel()), vehModel)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.SERIES.getLabel()), vehSeries)
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.BODY_STYLE.getLabel()), vehBodyStyle).resolveLinks();
+
+		//1. Create a policy with VIN no matched data and save the expiration data
+		String policyNumber = createPreconds(testData);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		//2. Upload vin data with updated Y/M/M/S/S
+		adminApp().open();
+		new UploadToVINTableTab().uploadVinTable(vinTableFile);
+		//3. Generate automated renewal image according to renewal timeline
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		//4. Move time to renewal time point
+		moveTimeAndRunRenewJobs(policyExpirationDate.minusDays(45));
+		//5. Retrieve the policy
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openPolicy(policyNumber);
+		//6. System rates renewal image according to renewal timeline
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		//7. Navigate to Premium and Coverages tab and calculate premium
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+		//8. Check for the updated Y/M/M values in View Rating Details table
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue(expectedYear);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue(expectedMake);
+		softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue(expectedModel);
+
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	protected void findQuoteAndOpenRenewal(String quoteNumber) {

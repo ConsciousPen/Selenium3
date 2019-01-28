@@ -3,7 +3,7 @@
 package aaa.main.metadata.policy;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import aaa.main.enums.DocGenConstants;
 import aaa.main.metadata.DialogsMetaData;
 import aaa.toolkit.webdriver.customcontrols.*;

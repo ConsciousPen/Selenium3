@@ -1,4 +1,4 @@
-package com.exigen.ipb.etcsa.base.app;
+package com.exigen.ipb.eisa.base.app;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.openqa.selenium.Dimension;

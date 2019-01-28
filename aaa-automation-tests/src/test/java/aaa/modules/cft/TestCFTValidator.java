@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.helpers.browser.DownloadsHelper;

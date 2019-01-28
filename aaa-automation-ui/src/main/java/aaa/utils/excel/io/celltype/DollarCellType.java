@@ -3,7 +3,7 @@ package aaa.utils.excel.io.celltype;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.utils.excel.io.entity.area.ExcelCell;
 
 public class DollarCellType extends AbstractCellType<Dollar> {

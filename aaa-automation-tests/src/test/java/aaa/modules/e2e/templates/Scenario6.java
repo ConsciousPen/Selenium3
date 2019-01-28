@@ -3,8 +3,8 @@ package aaa.modules.e2e.templates;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -33,7 +33,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 
 public class Scenario6 extends ScenarioBaseTest {
@@ -83,7 +82,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Quarterly payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Quarterly payment plan").isEqualTo(installmentsCount);
 		installmentAmount = BillingHelper.getInstallmentDueByDueDate(installmentDueDates.get(1));
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime(), policyTerm, totalVehiclesNumber);
@@ -261,7 +260,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		int leapDays = 0;
 		for (LocalDateTime date : installmentDueDates) {
 			if (date.plusYears(1).isEqual(TimeSetterUtil.getInstance().parse("02/28/2020", DateTimeUtils.MM_DD_YYYY))) {
-				leapDays = (policyEffectiveDate.getDayOfMonth() - 28)>0 ? 1 : 0;
+				leapDays = policyEffectiveDate.getDayOfMonth() - 28 > 0 ? 1 : 0;
 			}
 			installmentsSum = installmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1).plusDays(leapDays)));
 			leapDays = 0;
@@ -297,7 +296,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		Dollar renewInstallmentsSum = new Dollar(0);
 		for (LocalDateTime date : installmentDueDates) {
 			if (date.plusYears(1).isEqual(TimeSetterUtil.getInstance().parse("02/28/2020", DateTimeUtils.MM_DD_YYYY))) {
-				leapDays = (policyEffectiveDate.getDayOfMonth() - 28)>0 ? 1 : 0;
+				leapDays = policyEffectiveDate.getDayOfMonth() - 28 > 0 ? 1 : 0;
 			}
 			renewInstallmentsSum = renewInstallmentsSum.add(BillingHelper.getInstallmentDueByDueDate(date.plusYears(1).plusDays(leapDays)));
 			leapDays = 0;

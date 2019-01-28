@@ -1,6 +1,10 @@
 package aaa.modules.bct.billing_and_payments;
 
-import static aaa.common.enums.Constants.States.*;
+import static aaa.common.enums.Constants.States.CA;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
 import aaa.main.enums.ProductConstants;
@@ -9,10 +13,6 @@ import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
 import toolkit.verification.CustomAssertions;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class BillGenerationTest extends BackwardCompatibilityBaseTest {
 

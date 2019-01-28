@@ -1,6 +1,6 @@
 /* Copyright © 2017 EIS Group and/or one of its affiliates. All rights reserved. Unpublished work under U.S. copyright laws.
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
-package com.exigen.ipb.etcsa.utils.batchjob.ws;
+package com.exigen.ipb.eisa.utils.batchjob.ws;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,7 +18,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transport.http.HTTPConduitConfigurer;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
 import toolkit.config.ClassConfigurator;
 import toolkit.config.PropertyProvider;
 

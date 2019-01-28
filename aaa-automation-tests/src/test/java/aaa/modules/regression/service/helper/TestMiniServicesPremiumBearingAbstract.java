@@ -8,7 +8,6 @@ import static aaa.modules.regression.service.helper.preconditions.TestMiniServic
 import static aaa.modules.regression.service.helper.preconditions.TestMiniServicesNonPremiumBearingAbstractPreconditions.INSERT_EFFECTIVE_DATE;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -16,8 +15,8 @@ import java.util.Arrays;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.BooleanUtils;
 import org.testng.ITestContext;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;

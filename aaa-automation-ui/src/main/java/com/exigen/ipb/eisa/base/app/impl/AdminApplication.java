@@ -1,8 +1,8 @@
-package com.exigen.ipb.etcsa.base.app.impl;
+package com.exigen.ipb.eisa.base.app.impl;
 
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.base.app.Application;
-import com.exigen.ipb.etcsa.base.app.ILogin;
+import com.exigen.ipb.eisa.base.app.Application;
+import com.exigen.ipb.eisa.base.app.ILogin;
 import aaa.config.CsaaTestProperties;
 import toolkit.config.PropertyProvider;
 import toolkit.config.TestProperties;

@@ -1,4 +1,4 @@
-package com.exigen.ipb.etcsa.base.app;
+package com.exigen.ipb.eisa.base.app;
 
 import java.util.HashMap;
 import org.openqa.selenium.chrome.ChromeOptions;

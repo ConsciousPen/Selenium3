@@ -3,11 +3,9 @@
 package aaa.admin.metadata.cem;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.cem.campaigns.AssociateTextBox;
-import com.exigen.ipb.etcsa.controls.cem.composite.capmaigns.CampaignProductsAssetList;
-import com.exigen.ipb.etcsa.controls.cem.composite.capmaigns.MarketChannelsAssetList;
-
+import com.exigen.ipb.eisa.controls.cem.campaigns.AssociateTextBox;
+import com.exigen.ipb.eisa.controls.cem.composite.capmaigns.CampaignProductsAssetList;
+import com.exigen.ipb.eisa.controls.cem.composite.capmaigns.MarketChannelsAssetList;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;

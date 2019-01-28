@@ -1,19 +1,25 @@
 package aaa.modules.e2e.templates;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.List;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.*;
+import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.helpers.docgen.DocGenHelper;
 import aaa.main.enums.BillingConstants;
-import aaa.main.enums.ProductConstants;
 import aaa.main.enums.DocGenEnum;
+import aaa.main.enums.ProductConstants;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.PolicyType;
@@ -23,17 +29,9 @@ import aaa.main.modules.policy.pup.defaulttabs.PrefillTab;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.e2e.ScenarioBaseTest;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class Scenario3 extends ScenarioBaseTest {
 

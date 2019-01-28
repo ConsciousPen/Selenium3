@@ -2,8 +2,8 @@ package aaa.modules.regression.conversions.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;

@@ -1,29 +1,29 @@
 package aaa.modules.regression.sales.home_ss.ho3;
 
+import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.*;
+import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.VariationControls.*;
 import static toolkit.verification.CustomAssertions.assertThat;
-import aaa.common.enums.NavigationEnum;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.main.enums.ProductConstants;
-import aaa.main.modules.policy.home_ss.defaulttabs.*;
+import aaa.main.modules.policy.home_ss.defaulttabs.EndorsementTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PremiumsAndCoveragesQuoteTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ProductOfferingTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.PurchaseTab;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.*;
-import static aaa.main.metadata.policy.HomeSSMetaData.ProductOfferingTab.VariationControls.*;
 
 
 /**

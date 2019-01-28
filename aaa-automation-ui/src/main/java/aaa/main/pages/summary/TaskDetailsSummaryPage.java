@@ -4,16 +4,12 @@ package aaa.main.pages.summary;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Collections;
-
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.ActivitiesAndUserNotes;
-
+import com.exigen.ipb.eisa.controls.ActivitiesAndUserNotes;
 import aaa.main.enums.MyWorkConstants;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
 import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.composite.table.Table;
 
 public class TaskDetailsSummaryPage extends SummaryPage {
 
@@ -57,19 +53,22 @@ public class TaskDetailsSummaryPage extends SummaryPage {
             super(locator);
         }
 
-        public void expand() {
+		@Override
+		public void expand() {
             if (!isOpened()) {
                 linkOpen.click();
             }
         }
 
-        public void collapse() {
+		@Override
+		public void collapse() {
             if (isOpened()) {
                 linkOpen.click();
             }
         }
 
-        public boolean isOpened() {
+		@Override
+		public boolean isOpened() {
             return this.isPresent() && this.isVisible();
         }
 

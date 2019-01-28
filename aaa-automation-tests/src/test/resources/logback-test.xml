@@ -51,7 +51,7 @@
         <appender-ref ref="testLog"/>
         <appender-ref ref="testng"/>
     </logger>
-    <logger name="com.exigen.ipb.etcsa.utils.TimeSetterUtil" additivity="false">
+    <logger name="com.exigen.ipb.eisa.utils.TimeSetterUtil" additivity="false">
         <level value="info"/>
         <appender-ref ref="testLog"/>
     </logger>

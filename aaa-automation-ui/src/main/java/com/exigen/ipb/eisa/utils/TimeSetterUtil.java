@@ -1,4 +1,4 @@
-package com.exigen.ipb.etcsa.utils;
+package com.exigen.ipb.eisa.utils;
 
 import java.lang.reflect.Constructor;
 import java.time.LocalDate;
@@ -7,8 +7,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.base.app.CSAAApplicationFactory;
-import com.exigen.ipb.etcsa.base.config.CustomTestProperties;
+import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
+import com.exigen.ipb.eisa.base.config.CustomTestProperties;
 import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
 import com.exigen.istf.timesetter.client.TimeSetter;

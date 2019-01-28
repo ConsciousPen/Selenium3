@@ -3,7 +3,7 @@ package aaa.modules.regression.service.helper;
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.helpers.rest.dtoAdmin.InstallmentFeesResponse;
 import aaa.modules.policy.PolicyBaseTest;
 

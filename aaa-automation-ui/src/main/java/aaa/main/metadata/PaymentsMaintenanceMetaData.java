@@ -2,10 +2,10 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.main.metadata;
 
-import aaa.toolkit.webdriver.customcontrols.dialog.DialogMultiSelectorSuspense;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.AllocationAmount;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.AllocationAmount;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.DialogMultiSelectorSuspense;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;

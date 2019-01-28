@@ -6,7 +6,7 @@ import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants;
 import aaa.helpers.openl.model.OpenLPolicy;
 import aaa.main.metadata.CustomerMetaData;

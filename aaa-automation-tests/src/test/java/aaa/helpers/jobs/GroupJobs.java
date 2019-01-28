@@ -1,7 +1,7 @@
 package aaa.helpers.jobs;
 
 import java.util.concurrent.ConcurrentHashMap;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 
 public class GroupJobs {
 

@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
 import org.apache.commons.lang.StringUtils;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -1153,14 +1153,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		if ("FNC".equals(ownershipType)) {
 			assertThat(vehicleTab.getOwnershipAssetList().getAsset(OWNERSHIP_TYPE)).hasValue("Financed");
 		}
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.FIRST_NAME)).hasValue("Other");
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.SECOND_NAME)).hasValue(secondName);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.CITY)).hasValue(city);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.STATE)).hasValue(state);
-		assertThat(vehicleTab.getOwnershipAssetList().getAsset(AutoSSMetaData.VehicleTab.Ownership.ZIP_CODE)).hasValue(zipCode);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.FIRST_NAME)).hasValue("Other");
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.OWNER_NO_LABEL)).hasValue(otherName); //can't take the value of the field with no label
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.SECOND_NAME)).hasValue(secondName);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_1)).hasValue(addressLine1);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ADDRESS_LINE_2)).hasValue(addressLine2);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.CITY)).hasValue(city);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.STATE)).hasValue(state);
+		assertThat(vehicleTab.getOwnershipAssetList().getAsset(Ownership.ZIP_CODE)).hasValue(zipCode);
 		mainApp().close();
 
 		ViewVehicleResponse viewEndorsementVehicleResponse = HelperCommon.viewEndorsementVehicles(policyNumber);

@@ -4,11 +4,7 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-
-import toolkit.datax.TestData;
-import toolkit.utils.TestInfo;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
@@ -18,6 +14,8 @@ import aaa.main.modules.policy.pup.defaulttabs.PremiumAndCoveragesQuoteTab;
 import aaa.main.modules.policy.pup.defaulttabs.PurchaseTab;
 import aaa.main.modules.policy.pup.defaulttabs.UnderwritingAndApprovalTab;
 import aaa.modules.policy.PersonalUmbrellaBaseTest;
+import toolkit.datax.TestData;
+import toolkit.utils.TestInfo;
 
 /**
  * @author Xiaolan Ge

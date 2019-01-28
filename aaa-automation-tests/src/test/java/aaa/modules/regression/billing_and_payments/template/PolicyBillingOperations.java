@@ -2,9 +2,8 @@ package aaa.modules.regression.billing_and_payments.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.HashMap;
-
-import toolkit.datax.TestData;
-import toolkit.webdriver.controls.TextBox;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum.AppMainTabs;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -12,31 +11,17 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.main.enums.ActionConstants;
-import aaa.main.enums.BillingConstants.BillingAccountPoliciesTable;
-import aaa.main.enums.BillingConstants.BillingGeneralInformationTable;
-import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
-import aaa.main.enums.BillingConstants.BillingPendingTransactionsType;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionAction;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionStatus;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionSubtypeReason;
-import aaa.main.enums.BillingConstants.PaymentsAndOtherTransactionType;
+import aaa.main.enums.BillingConstants.*;
 import aaa.main.enums.MyWorkConstants;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
-import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.AdvancedAllocationsActionTab;
-import aaa.main.modules.billing.account.actiontabs.DeclinePaymentActionTab;
-import aaa.main.modules.billing.account.actiontabs.OtherTransactionsActionTab;
-import aaa.main.modules.billing.account.actiontabs.RefundActionTab;
+import aaa.main.modules.billing.account.actiontabs.*;
 import aaa.main.modules.mywork.MyWork;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.MyWorkSummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
-
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.datax.TestData;
+import toolkit.webdriver.controls.TextBox;
 
 public abstract class PolicyBillingOperations extends PolicyBaseTest {
 

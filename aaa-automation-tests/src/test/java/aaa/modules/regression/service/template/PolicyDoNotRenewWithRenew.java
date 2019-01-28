@@ -4,9 +4,7 @@ package aaa.modules.regression.service.template;
 
 import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;

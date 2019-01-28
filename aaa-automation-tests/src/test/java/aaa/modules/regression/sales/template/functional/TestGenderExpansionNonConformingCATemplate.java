@@ -3,7 +3,7 @@ package aaa.modules.regression.sales.template.functional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import java.time.LocalDateTime;
 import org.assertj.core.api.Assertions;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;

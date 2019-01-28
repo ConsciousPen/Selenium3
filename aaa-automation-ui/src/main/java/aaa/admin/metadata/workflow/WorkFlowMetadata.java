@@ -3,9 +3,7 @@
 package aaa.admin.metadata.workflow;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.ClickComboBox;
-
+import com.exigen.ipb.eisa.controls.ClickComboBox;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.ComboBox;
 import toolkit.webdriver.controls.TextBox;

@@ -4,16 +4,13 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.billing.BillingAccountPoliciesVerifier;
-import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
-import aaa.helpers.billing.BillingHelper;
-import aaa.helpers.billing.BillingInstallmentsScheduleVerifier;
-import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
+import aaa.helpers.billing.*;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
@@ -32,8 +29,6 @@ import aaa.modules.e2e.ScenarioBaseTest;
 import toolkit.datax.TestData;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
-import aaa.common.Tab;
-import toolkit.verification.CustomAssertions;
 
 public class Scenario8 extends ScenarioBaseTest {
 
@@ -59,11 +54,11 @@ public class Scenario8 extends ScenarioBaseTest {
 		policyNum = createPolicy(policyCreationTD);
 		policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 		policyExpirationDate = PolicySummaryPage.getExpirationDate();
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
+		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(PolicyStatus.POLICY_ACTIVE);
 
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
-		CustomAssertions.assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
+		assertThat(installmentDueDates.size()).as("Billing Installments count for Monthly (Eleven Pay) payment plan").isEqualTo(installmentsCount);
 
 		verifyPligaOrMvleFee(TimeSetterUtil.getInstance().getPhaseStartTime());
 	}
@@ -196,7 +191,7 @@ public class Scenario8 extends ScenarioBaseTest {
 
 	private void verifyRenewalsStatus(String status) {
 		SearchPage.openPolicy(policyNum);
-		CustomAssertions.assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
+		assertThat(PolicySummaryPage.buttonRenewals).isEnabled();
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(status).verify(1);
 	}

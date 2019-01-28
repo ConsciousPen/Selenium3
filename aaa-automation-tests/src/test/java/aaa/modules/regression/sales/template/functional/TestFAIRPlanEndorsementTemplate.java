@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
@@ -28,7 +28,6 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.toolkit.webdriver.customcontrols.FillableDocumentsTable;
 import toolkit.datax.TestData;
-import toolkit.verification.CustomAssertions;
 
 public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 	private ApplicantTab applicantTab = new ApplicantTab();
@@ -601,7 +600,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 			errorTab.cancel();
 		}
 
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 	}
 
@@ -842,7 +841,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 
 		endorsementTab.submitTab();
 		premiumsAndCoveragesQuoteTab.calculatePremium();
-		CustomAssertions.assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
+		assertThat(premiumsAndCoveragesQuoteTab.btnCalculatePremium()).isPresent(); //to validate that Error tab is not displayed and P&C tab is displayed
 
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PROPERTY_INFO.get());
 		//-----AC#2, AC#5 Is the stove the sole source of heat?
@@ -853,7 +852,7 @@ public class TestFAIRPlanEndorsementTemplate extends PolicyBaseTest {
 		validateSmokeDetectorQuestion(false);
 
 		premiumsAndCoveragesQuoteTab.saveAndExit();
-		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
+		assertThat(PolicySummaryPage.labelPolicyStatus).isPresent();
 	}
 
 	private void validateThatTaskIsNotGenerated(String rulePartialName) {

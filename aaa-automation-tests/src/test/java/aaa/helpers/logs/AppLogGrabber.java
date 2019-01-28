@@ -19,7 +19,7 @@ import toolkit.utils.teststoragex.utils.TestNGUtils;
 
 public class AppLogGrabber {
 
-	private static Logger log = LoggerFactory.getLogger(com.exigen.ipb.etcsa.utils.listener.AppLogGrabber.class);
+	private static Logger log = LoggerFactory.getLogger(com.exigen.ipb.eisa.utils.listener.AppLogGrabber.class);
 
 	private String appUrl = "http://" + PropertyProvider.getProperty(TestProperties.APP_HOST);
 

@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -18,7 +19,6 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -127,7 +127,7 @@ public class PremiumAndCoveragesTab extends Tab {
 				}
 
 				//CustomAssert.assertEquals("Number of keys in table is not equal to number of values.", keys.size(), values.size());
-				CustomAssertions.assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
+				Assertions.assertThat(keys.size()).as("Number of keys in table is not equal to number of values.").isEqualTo(values.size());
 
 				for (int i = 0; i < keys.size(); i++) {
 					map.put(keys.get(i), values.get(i));

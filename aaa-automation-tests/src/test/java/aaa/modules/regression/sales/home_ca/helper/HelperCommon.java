@@ -1,5 +1,13 @@
 package aaa.modules.regression.sales.home_ca.helper;
 
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames;
+import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
+import static toolkit.verification.CustomAssertions.assertThat;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,21 +24,12 @@ import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ca.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.HomeCaHO3BaseTest;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static aaa.helpers.docgen.AaaDocGenEntityQueries.*;
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class HelperCommon extends HomeCaHO3BaseTest{
     private static final String AGE_VERIFICATION_SQL = "select ip.age from POLICYSUMMARY ps, INSUREDPRINCIPAL ip\n" +
@@ -174,7 +173,7 @@ public class HelperCommon extends HomeCaHO3BaseTest{
     public static void moveJVMToDateAndRunRenewalJobs(LocalDateTime desiredJVMLocalDateTime, int howManyPartsToRun)
     {
         printToDebugLog(" -- Current Date = " + TimeSetterUtil.getInstance().getCurrentTime() + ". Moving JVM to input time = "
-                + desiredJVMLocalDateTime.toString() + " -- ");
+				+ desiredJVMLocalDateTime + " -- ");
 
         // Advance JVM to Generate Renewal Image.
         TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);

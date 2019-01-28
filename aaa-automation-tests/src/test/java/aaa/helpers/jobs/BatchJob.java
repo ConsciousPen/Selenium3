@@ -3,7 +3,7 @@ package aaa.helpers.jobs;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import com.exigen.ipb.etcsa.utils.batchjob.Job;
+import com.exigen.ipb.eisa.utils.batchjob.Job;
 
 public class BatchJob {
 	public static Job aaaAgencyConsolidationBatchJob = new Job("aaaAgencyConsolidationBatchJob");
@@ -310,11 +310,11 @@ public class BatchJob {
 
 	private static List<String> getFolders(HashMap<String, String> map) {
 		List<String> folders = Arrays.asList(
-				map.get("importFolder").toString(),
-				map.get("processedFolder").toString(),
-				map.get("responceFolder").toString());
+				map.get("importFolder"),
+				map.get("processedFolder"),
+				map.get("responceFolder"));
 		if (map.containsKey("errorFolder")) {
-			folders.add(map.get("errorFolder").toString());
+			folders.add(map.get("errorFolder"));
 		}
 		return folders;
 	}

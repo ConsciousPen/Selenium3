@@ -6,7 +6,7 @@ import java.util.Map;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.utils.datetime.DateTimeUtils;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
@@ -20,8 +20,7 @@ import aaa.main.modules.billing.account.IBillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import toolkit.utils.datetime.DateTimeUtils;
 
 /**
  * Check 55 6101, 55 6102, 55 6103 for NV

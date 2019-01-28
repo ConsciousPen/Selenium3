@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.Dollar;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingBillsAndStatementsVerifier;
@@ -159,7 +159,7 @@ public class ScenarioBaseTest extends BaseTest {
 
 	/**
 	 * Same as
-	 * {@link #verifyRenewalOfferPaymentAmount(java.time.LocalDateTime, java.time.LocalDateTime, java.time.LocalDateTime, java.lang.Integer)}
+	 * {@link #verifyRenewalOfferPaymentAmount(LocalDateTime, LocalDateTime, LocalDateTime, Integer)}
 	 */
 	protected void verifyCaRenewalOfferPaymentAmount(LocalDateTime expirationDate, LocalDateTime renewOfferDate, Integer installmentsCount, ETCSCoreSoftAssertions softly) {
 		BillingSummaryPage.showPriorTerms();

@@ -3,14 +3,8 @@
 package aaa.common.metadata;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.RichTextBox;
-
-import toolkit.webdriver.controls.Button;
-import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-import toolkit.webdriver.controls.StaticElement;
-import toolkit.webdriver.controls.TextBox;
+import com.exigen.ipb.eisa.controls.RichTextBox;
+import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;
 

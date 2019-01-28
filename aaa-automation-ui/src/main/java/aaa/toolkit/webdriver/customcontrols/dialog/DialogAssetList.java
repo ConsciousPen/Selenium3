@@ -4,7 +4,7 @@ package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import java.util.Map;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.BaseElement;
 import toolkit.webdriver.controls.composite.assets.metadata.MetaData;

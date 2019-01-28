@@ -2,25 +2,24 @@
  * CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent. */
 package aaa.helpers.billing;
 
+import java.time.LocalDateTime;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.helpers.TableVerifier;
 import aaa.main.enums.BillingConstants.BillingPendingTransactionsTable;
 import aaa.main.pages.summary.BillingSummaryPage;
-import com.exigen.ipb.etcsa.utils.Dollar;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.composite.table.Table;
 
-import java.time.LocalDateTime;
-
 public class BillingPendingTransactionsVerifier extends TableVerifier {
 
-    public BillingPendingTransactionsVerifier() {};
+	public BillingPendingTransactionsVerifier() {}
 
-    public BillingPendingTransactionsVerifier(ETCSCoreSoftAssertions softly) {
+	public BillingPendingTransactionsVerifier(ETCSCoreSoftAssertions softly) {
         this.softly = softly;
-    };
+	}
 
-    @Override
+	@Override
     protected Table getTable() {
         return BillingSummaryPage.tablePendingTransactions;
     }

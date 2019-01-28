@@ -1,11 +1,9 @@
 package aaa.modules.e2e.auto_ca;
 
-import toolkit.verification.CustomSoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.Dollar;
-
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.enums.Constants.States;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.policy.PolicyType;
@@ -13,6 +11,7 @@ import aaa.main.modules.policy.auto_ca.actiontabs.EndorsementActionTab;
 import aaa.modules.e2e.templates.Scenario4;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
+import toolkit.verification.CustomSoftAssertions;
 
 public class TestScenario4 extends Scenario4 {
 

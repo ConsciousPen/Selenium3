@@ -2,7 +2,7 @@ package aaa.toolkit.webdriver.customcontrols.dialog;
 
 import java.util.Map;
 import org.openqa.selenium.By;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialogSingleSearch;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialogSingleSearch;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.AbstractClickableStringElement;
 import toolkit.webdriver.controls.BaseElement;

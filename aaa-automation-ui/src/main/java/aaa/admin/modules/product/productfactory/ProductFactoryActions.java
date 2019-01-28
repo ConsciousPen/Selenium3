@@ -3,11 +3,10 @@
 package aaa.admin.modules.product.productfactory;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.dialog.DialogAssetList;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFLink;
-
+import com.exigen.ipb.eisa.controls.dialog.DialogAssetList;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFButton;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFLink;
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.metadata.product.ProductMetaData.ProductProductFactoryCopy;
 import aaa.admin.metadata.product.ProductMetaData.ProductProductFactorySearch;
@@ -33,7 +32,7 @@ public class ProductFactoryActions {
             ProductProductFactoryPage.tableProducts.getRow(ProductConstants.ProductTable.PRODUCT_CODE, td.getValue(ProductProductFactorySearch.class.getSimpleName(), "Product Code")).getCell(
                     ProductConstants.ProductTable.COPY_PRODUCT).controls.links
                     .getFirst().click();
-            new DialogAssetList(DialogAssetList.POPUP_PARENT_LOCATOR, ProductProductFactoryCopy.class).fill(td);
+			new DialogAssetList(AbstractDialog.POPUP_PARENT_LOCATOR, ProductProductFactoryCopy.class).fill(td);
             return this;
         }
 
@@ -74,7 +73,7 @@ public class ProductFactoryActions {
             ProductProductFactoryPage.search(td);
             ProductProductFactoryPage.tableProducts.getRow(ProductConstants.ProductTable.PRODUCT_CODE, td.getValue(ProductProductFactorySearch.class.getSimpleName(), "Product Code"))
                     .getCell(ProductConstants.ProductTable.PRODUCT_NAME).controls.links.getFirst().click();
-            new DialogAssetList(DialogAssetList.POPUP_PARENT_LOCATOR, ProductProductFactoryCopy.class).fill(td);
+			new DialogAssetList(AbstractDialog.POPUP_PARENT_LOCATOR, ProductProductFactoryCopy.class).fill(td);
             //activateNavigation();
             PFButton buttonDeactivate = getView().getTab(HomeTab.class).getAssetList().getAsset(ProductMetaData.HomeTab.BUTTON_DEACTIVATE.getLabel(), PFButton.class);
             if (buttonDeactivate.isPresent()) {

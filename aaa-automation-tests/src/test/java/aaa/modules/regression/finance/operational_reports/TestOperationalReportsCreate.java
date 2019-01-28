@@ -5,7 +5,7 @@ import java.io.File;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.testng.annotations.Test;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
+import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.admin.modules.reports.operationalreports.OperationalReport;
 import aaa.helpers.browser.DownloadsHelper;
 import aaa.helpers.constants.ComponentConstant;

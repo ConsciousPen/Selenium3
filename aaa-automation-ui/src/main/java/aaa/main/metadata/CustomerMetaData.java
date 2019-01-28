@@ -2,13 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.metadata;
 
+import org.openqa.selenium.By;
+import com.exigen.ipb.eisa.controls.ComboList;
+import com.exigen.ipb.eisa.controls.dialog.DialogSingleSelector;
+import com.exigen.ipb.eisa.controls.dialog.type.AbstractDialog;
+import com.exigen.ipb.eisa.controls.productfactory.DatePicker;
 import aaa.toolkit.webdriver.customcontrols.AdvancedComboBox;
 import aaa.toolkit.webdriver.customcontrols.AgencyAssignmentMultiAssetList;
-import com.exigen.ipb.etcsa.controls.ComboList;
-import com.exigen.ipb.etcsa.controls.dialog.DialogSingleSelector;
-import com.exigen.ipb.etcsa.controls.dialog.type.AbstractDialog;
-import com.exigen.ipb.etcsa.controls.productfactory.DatePicker;
-import org.openqa.selenium.By;
 import toolkit.webdriver.controls.*;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;

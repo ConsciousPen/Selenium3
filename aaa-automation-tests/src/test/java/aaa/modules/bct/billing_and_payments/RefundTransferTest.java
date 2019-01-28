@@ -1,6 +1,10 @@
 package aaa.modules.bct.billing_and_payments;
 
 import static aaa.common.enums.Constants.States.*;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.main.enums.BillingConstants;
@@ -8,10 +12,6 @@ import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.bct.BackwardCompatibilityBaseTest;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 
 public class RefundTransferTest extends BackwardCompatibilityBaseTest {
 

@@ -3,11 +3,9 @@
 package aaa.admin.modules.product.productfactory.policy.defaulttabs;
 
 import org.openqa.selenium.By;
-
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFButton;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFCheckBox;
-import com.exigen.ipb.etcsa.controls.productfactory.custom.PFLink;
-
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFButton;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFCheckBox;
+import com.exigen.ipb.eisa.controls.productfactory.custom.PFLink;
 import aaa.admin.metadata.product.ProductMetaData;
 import aaa.admin.pages.product.CommonProductFactoryPage;
 import aaa.common.Tab;

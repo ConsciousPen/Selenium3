@@ -1,3 +1,3 @@
 {
-  "dateTimeSupplier": "com.exigen.ipb.etcsa.utils.LocalDateTimeSupplier"
+  "dateTimeSupplier": "com.exigen.ipb.eisa.utils.LocalDateTimeSupplier"
 }

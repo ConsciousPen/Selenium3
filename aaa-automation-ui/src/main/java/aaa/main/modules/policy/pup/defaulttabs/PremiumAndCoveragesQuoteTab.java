@@ -2,13 +2,13 @@
  CONFIDENTIAL AND TRADE SECRET INFORMATION. No portion of this work may be copied, distributed, modified, or incorporated into any other media without EIS Group prior written consent.*/
 package aaa.main.modules.policy.pup.defaulttabs;
 
+import org.openqa.selenium.By;
+import com.exigen.ipb.eisa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
-import com.exigen.ipb.etcsa.utils.Dollar;
-import org.openqa.selenium.By;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.composite.table.Table;
