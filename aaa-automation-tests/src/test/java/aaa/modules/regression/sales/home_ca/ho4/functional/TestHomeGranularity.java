@@ -43,7 +43,7 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
      * @name test: When lat/long is not captured from AVS (e.g. after validating address)
      * ThenCapture Census Block Group, Latitude and Longitude from EADS (e.g. after Calculating Premium)
      * @scenario
-     * 1. ote up to Applicant Tab and use Dwelling Address that is not in wire mock and Save
+     * 1. Create Quote up Applicant Tab and use Dwelling Address that is not in wire mock and Save
      * 2. Verify lat/long is null in the db
      * 3. Continue Quote up to Premium & Coverages Tab and Calculate Premium
      * 4. Verify lat/long and census block are in the db
