@@ -71,16 +71,12 @@
             <exclusions>
                 <exclusion>
                     <groupId>com.exigen.istf</groupId>
-                    <artifactId>istf-core</artifactId>
+                    <artifactId>*</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.exigen.istf.exec</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
-                <!-- <exclusion>
-                     <groupId>org.jsoup</groupId>
-                     <artifactId>jsoup</artifactId>
-                 </exclusion>-->
                 <exclusion>
                     <groupId>org.testng</groupId>
                     <artifactId>testng</artifactId>
@@ -115,18 +111,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.uncommons</groupId>
-            <artifactId>reportng</artifactId>
-            <version>1.1.4</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.testng</groupId>
-                    <artifactId>testng</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+
         <!-- ISTF Artifacts END -->
         <!-- PEF Artifacts START -->
         <dependency>
@@ -185,7 +170,7 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>2.0</version>
+            <version>4.0</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
@@ -203,12 +188,12 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20160212</version>
+            <version>20180813</version>
         </dependency>
         <dependency>
             <groupId>com.atlassian.jira</groupId>
             <artifactId>jira-rest-java-client-core</artifactId>
-            <version>4.0.0</version>
+            <version>5.0.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.httpcomponents</groupId>
@@ -227,7 +212,7 @@
         <dependency>
             <groupId>com.atlassian.fugue</groupId>
             <artifactId>fugue</artifactId>
-            <version>2.2.1</version>
+            <version>2.6.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.sun.xml.bind/jaxb-core -->
         <dependency>
@@ -239,7 +224,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.18</version>
+            <version>1.23</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
@@ -281,6 +266,11 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>2.3.20</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>4.0.0</version>
         </dependency>
     </dependencies>
 </project>

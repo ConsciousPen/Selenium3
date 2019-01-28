@@ -1,7 +1,7 @@
 package aaa.toolkit.webdriver.customcontrols;
 
-import static org.apache.commons.collections.CollectionUtils.disjunction;
-import static org.apache.commons.collections.CollectionUtils.subtract;
+import static org.apache.commons.collections4.CollectionUtils.disjunction;
+import static org.apache.commons.collections4.CollectionUtils.subtract;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;

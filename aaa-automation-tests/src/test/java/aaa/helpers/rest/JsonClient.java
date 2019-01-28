@@ -24,7 +24,6 @@ import com.sun.jna.platform.win32.Guid;
 import aaa.common.enums.RestRequestMethodTypes;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.rest.dtoDxp.ApplicationContext;
-import aaa.helpers.rest.dtoDxp.GetOAuth2TokenRequest;
 import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
@@ -32,9 +31,11 @@ public class JsonClient {
 
 	private static final ObjectMapper DEFAULT_OBJECT_MAPPER = new ObjectMapper();
 	private static final ObjectMapper PRETTY_PRINT_OBJECT_MAPPER = new ObjectMapper();
+
 	static {
 		PRETTY_PRINT_OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
 	}
+
 	private static final String APPLICATION_CONTEXT_HEADER = "X-ApplicationContext";
 
 	/**
@@ -56,7 +57,7 @@ public class JsonClient {
 			} else {
 				client = ClientBuilder.newClient().register(JacksonJsonProvider.class);
 			}
-			if(requestType == RestRequestMethodTypes.PATCH) {
+			if (requestType == RestRequestMethodTypes.PATCH) {
 				client = client.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
 			}
 
@@ -114,7 +115,6 @@ public class JsonClient {
 		RestRequestInfo<T> restRequestInfo = buildRequest(url, request, responseType, status);
 		return sendJsonRequest(restRequestInfo, RestRequestMethodTypes.DELETE);
 	}
-
 
 	/**
 	 *  public String url;
@@ -215,7 +215,7 @@ public class JsonClient {
 			if (StringUtils.isNotEmpty(token)) {
 				builder = builder.header(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 			}
-		} else{
+		} else {
 			builder = builder.header(HttpHeaders.AUTHORIZATION, "Basic " + Base64.encode("qa:qa".getBytes()));
 		}
 		return builder.header(APPLICATION_CONTEXT_HEADER, createApplicationContext(sessionId));
@@ -238,7 +238,7 @@ public class JsonClient {
 		Client client = null;
 		Response response = null;
 		Form form = new Form();
-		form.param("client_id","cc_PAS");
+		form.param("client_id", "cc_PAS");
 		form.param("client_secret", "vFS9ez6zISomQXShgJ5Io8mo9psGPHHiPiIdW6bwjJKOf4dbrd2m1AYUuB6HGjqx"); //PAS: QA + CERT Environments
 		form.param("grant_type", "client_credentials");
 		try {
