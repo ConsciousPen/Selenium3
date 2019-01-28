@@ -101,7 +101,7 @@ public class HomeSSPremiumCalculationTest extends OpenLRatingBaseTest<HomeSSOpen
 			policy.get().endorse().performAndFill(endorsementData);
 		}
 
-		if (openLPolicy.isLegacyConvPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
+		if (openLPolicy.isCappedPolicy() && !PremiumsAndCoveragesQuoteTab.linkViewCappingDetails.isPresent()) {
 			premiumsAndCoveragesQuoteTab.calculatePremium();
 			assertThat(PremiumsAndCoveragesQuoteTab.linkViewCappingDetails).as("View Capping Details link did not appear after premium calculation").isPresent();
 		}

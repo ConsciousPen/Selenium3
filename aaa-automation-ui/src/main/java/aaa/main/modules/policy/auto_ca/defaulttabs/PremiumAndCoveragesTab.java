@@ -15,6 +15,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
+import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.verification.CustomAssertions;
@@ -40,7 +41,6 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static StaticElement labelProductMessageInquiry = new StaticElement(By.xpath("//span[@id='policyDataGatherForm:componentRegion_AAAProductOverride']"));
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static Link buttonViewRatingDetails = new Link(By.id("policyDataGatherForm:viewRatingDetails_Link"));
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"));
 	public static Table tableRatingDetailsQuoteInfo = new Table(By.id("ratingDetailsPopupForm:policy_summary"));
 	public static Table tableRatingDetailsVehicles = new Table(By.id("ratingDetailsPopupForm:vehicle_summary"));
 	public static Table tableRatingDetailsDrivers = new Table(By.id("ratingDetailsPopupForm:driver_summary"));
@@ -101,7 +101,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		List<TestData> testDataList = new ArrayList<>();
 
 		if (!table.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -139,5 +139,20 @@ public class PremiumAndCoveragesTab extends Tab {
 			pageNumber++;
 		}
 		return testDataList;
+	}
+
+	public static class RatingDetailsView {
+		public static RatingDetailsTable tableVehicleSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:vehicle_summary']");
+		public static RatingDetailsTable tableDriverSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:driver_summary']");
+
+		public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
+
+		public static void open() {
+			buttonViewRatingDetails.click();
+		}
+
+		public static void close() {
+			buttonRatingDetailsOk.click();
+		}
 	}
 }

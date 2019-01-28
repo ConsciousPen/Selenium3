@@ -10,5 +10,9 @@ public class HomeGranularityConstants {
     public static final String DEFAULT_LATITUDE = "33.5150579";
     public static final String DEFAULT_LONGITUDE = "-111.9706674";
     public static final String DEFAULT_CENSUS_BLOCK = "060290021002";
+    //AVS Mock (stub service) Lat/Long and Census Block ID for CA Home (All Products) from wiremock
+    public static final String DEFAULT_DYNAMIC_LATITUDE = "23.787054";
+    public static final String DEFAULT_DYNAMIC_LONGITUDE = "-13.999876";
+    public static final String DEFAULT_DYNAMIC_CENSUS_BLOCK = "060290021001";
 
 }

@@ -6,10 +6,9 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
 import aaa.common.enums.Constants.UserGroups;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.MainPage;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
@@ -39,12 +38,12 @@ public class TestPolicyCreation extends AutoSSBaseTest {
 	@Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS)
 	public void testPolicyCreation(@Optional("") String state) {
-		
+
 		if(getUserGroup().equals(UserGroups.B31.get())) {
 			mainApp().open(getLoginTD(UserGroups.QA));
 			String customerNumber = createCustomerIndividual();
 			mainApp().close();
-			
+
 			//re-login with B31 user
 			mainApp().open(getLoginTD(UserGroups.B31));
 			MainPage.QuickSearch.buttonSearchPlus.click();
