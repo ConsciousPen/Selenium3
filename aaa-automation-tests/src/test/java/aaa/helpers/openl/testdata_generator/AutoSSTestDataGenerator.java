@@ -59,7 +59,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()).isNotNull();
 		} else {
 			ratingDataPattern
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		List<TestData> driversTestDataList = getDriverTabData(openLPolicy);
@@ -108,38 +108,45 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						.format(DateTimeUtils.MM_DD_YYYY));
 
 		Map<String, Object> aAAProductOwnedData = new HashMap<>();
-		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
+
+		 /*
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
 		}
-		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
+		*/
+
+		// TODO Refactor section  END
+
+		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		Map<String, Object> currentCarrierInformationData = new HashMap<>();
@@ -188,7 +195,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));

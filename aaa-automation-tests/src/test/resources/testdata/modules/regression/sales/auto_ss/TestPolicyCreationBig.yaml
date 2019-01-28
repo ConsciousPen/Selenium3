@@ -23,7 +23,7 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
@@ -45,7 +45,7 @@ NamedInsuredInformation2: {
   Residence: Own Home,
 }
 
-AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned'
+AAAMembership: '@<auto_ss>@DataGather@AAAMembership'
 
 ContactInformation: '@<auto_ss>@DataGather@ContactInformation'
 
@@ -131,7 +131,7 @@ TestData_AZ: {
 
 GeneralTab_AZ: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
 }
@@ -174,7 +174,7 @@ TestData_CO: {
 
 GeneralTab_CO: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CO'
 }
@@ -223,7 +223,7 @@ PrefillTab_CT: {
 
 GeneralTab_CT: {
   NamedInsuredInformation: ['@NamedInsuredInformation1_CT', '@NamedInsuredInformation2_CT'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_CT'
 }
@@ -292,7 +292,7 @@ TestData_DC: {
 
 GeneralTab_DC: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DC'
 }
@@ -348,7 +348,7 @@ TestData_DE: {
 
 GeneralTab_DE: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_DE',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_DE'
@@ -448,7 +448,7 @@ TestData_IN: {
 
 GeneralTab_IN: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_IN'
 }
@@ -490,7 +490,7 @@ TestData_KS: {
 
 GeneralTab_KS: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KS'
 }
@@ -539,7 +539,7 @@ TestData_KY: {
 
 GeneralTab_KY: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_KY'
 }
@@ -581,7 +581,7 @@ TestData_MD: {
 
 GeneralTab_MD: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MD'
 }
@@ -641,7 +641,7 @@ TestData_MT: {
 
 GeneralTab_MT: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_MT'
 }
@@ -683,7 +683,7 @@ TestData_NJ: {
 
 GeneralTab_NJ: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation_NJ',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NJ'
@@ -741,7 +741,7 @@ TestData_NV: {
 
 GeneralTab_NV: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NV'
 }
@@ -784,7 +784,7 @@ TestData_NY: {
 
 GeneralTab_NY: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_NY'
 }
@@ -865,7 +865,7 @@ TestData_OH: {
 
 GeneralTab_OH: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OH'
 }
@@ -907,7 +907,7 @@ TestData_OK: {
 
 GeneralTab_OK: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OK'
 }
@@ -959,7 +959,7 @@ TestData_OR: {
 
 GeneralTab_OR: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OR'
 }
@@ -1001,7 +1001,7 @@ TestData_PA: {
 
 GeneralTab_PA: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_PA'
 }
@@ -1057,7 +1057,7 @@ TestData_SD: {
 
 GeneralTab_SD: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_SD'
 }
@@ -1100,7 +1100,7 @@ TestData_VA: {
 
 GeneralTab_VA: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA'
 }
@@ -1160,7 +1160,7 @@ TestData_WV: {
 
 GeneralTab_WV: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WV'
 }
@@ -1211,7 +1211,7 @@ TestData_WY: {
 
 GeneralTab_WY: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WY'
 }

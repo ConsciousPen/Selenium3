@@ -1,9 +1,9 @@
 MembershipDiscount: {
   GeneralTab: {
     NamedInsuredInformation: '@<auto_ss>@DataGather@NamedInsuredInformation',
-    AAAProductOwned: {
-      Membership Number: 4290023667710001,
-      Current AAA Member: 'Membership Pending'
+    AAAMembership: {
+      Current AAA Member: 'Membership Pending',
+      Membership Number: 4290023667710001
       },
     ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
     PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'

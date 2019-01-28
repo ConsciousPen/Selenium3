@@ -1,11 +1,11 @@
 package aaa.modules.regression.sales.template.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.EventNames.ADHOC_DOC_ON_DEMAND_GENERATE;
 import static aaa.helpers.docgen.AaaDocGenEntityQueries.GET_DOCUMENT_BY_EVENT_NAME;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.DOCUMENT_NUM;
 import static aaa.main.enums.DocGenConstants.OnDemandDocumentsTable.SELECT;
 import static aaa.main.enums.DocGenEnum.Documents.AA11CA;
+import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +34,7 @@ public class TestSymbolsPresenceTemplate extends PolicyBaseTest {
 
 		policy.initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		// Start of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		List<String> pas535Fields = Arrays.asList("Coll Symbol", "Comp Symbol");

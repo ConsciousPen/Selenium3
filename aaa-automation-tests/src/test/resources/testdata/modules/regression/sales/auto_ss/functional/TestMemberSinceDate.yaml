@@ -3,7 +3,7 @@ TestData_RMS_ValidMemberSinceDate: {
 }
 GeneralTab_MembershipValid: {
   NamedInsuredInformation: '@<auto_ss>@DataGather@NamedInsuredInformation',
-  AAAProductOwned: '@TestData_RMS_Membership_Effective_Date',
+  AAAMembership: '@TestData_RMS_Membership_Effective_Date',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
@@ -12,15 +12,15 @@ TestData_RMS_ValidMemberSinceDate_AZ: {
   GeneralTab: '@GeneralTab_MembershipValid_AZ',
 }
 
-# General tab was copied straight from DataGather other than AAAProductOwned. Using _AZ was causing issues.
+# General tab was copied straight from DataGather other than AAAMembership. Using _AZ was causing issues.
 GeneralTab_MembershipValid_AZ: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'Yes',
   Membership Number: 9999994444444440,
 }

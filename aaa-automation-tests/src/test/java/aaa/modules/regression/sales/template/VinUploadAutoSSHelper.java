@@ -79,7 +79,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 
 		//6. Validate vehicle information in VRD
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		if (Arrays.asList(renewalDate.minusDays(46), renewalDate.minusDays(25)).contains(timeShiftedDate)) {
 			log.info("Renewal date is : " + renewalDate);
@@ -100,18 +100,18 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 			log.info("CONDITION TO JUST MAKE RENEWAL PREP or post.");
 		}
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	protected void checkVehicleInfo_pas2716() {
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertSoftly(softly -> {
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("TOYOTA");
 			//PAS-6576 Update "individual VIN retrieval" logic to use ENTRY DATE and VALID
 			softly.assertThat(tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).as("Row with VALID=Y and oldest Entry Date should be used").hasValue("Gt");
 		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	protected void vehicleTabChecks_527_533_2716() {
@@ -158,13 +158,13 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		//7. Navigate to Premium and Coverages tab and calculate premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		//8. Check for the updated Y/M/M values in View Rating Details table
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue(expectedYear);
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue(expectedMake);
 		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue(expectedModel);
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	protected void pas18969_restrictVehicleRefreshOnRenewal(TestData testData, String vinTableFile) {
@@ -205,12 +205,12 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 		policy.dataGather().start();
 		// Navigate to Premium and Coverages tab and calculate premium
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 	}
 
 
 	protected void compCollSymbolCheck_pas730(String compSymbol, String collSymbol, boolean isPPAType) {
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertSoftly(softly -> {
 			if(isPPAType){
 				softly.assertThat(getCompSymbolFromVRD()).isNotEqualTo(compSymbol);
@@ -220,7 +220,7 @@ public class VinUploadAutoSSHelper extends PolicyBaseTest {
 				softly.assertThat(getCollSymbolFromVRD()).isEqualTo(collSymbol);
 			}
 		});
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	protected void verifyVehicleInfo_pas2453(ETCSCoreSoftAssertions softly) {

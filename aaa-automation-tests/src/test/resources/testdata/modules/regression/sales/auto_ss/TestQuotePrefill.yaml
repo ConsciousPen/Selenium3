@@ -71,7 +71,7 @@ TestData_Fill_Insured1: {
 
 GeneralTab_Insured1: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
@@ -184,7 +184,7 @@ TestData_Fill_Insured1_AZ: {
 
 GeneralTab_Insured1_AZ: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'

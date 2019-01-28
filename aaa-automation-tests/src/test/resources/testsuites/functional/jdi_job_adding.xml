@@ -4,7 +4,7 @@
         <!-- Listener commented out for local runs-->
         <listener class-name="com.exigen.istf.exec.testng.TimeShiftTestNgListener"/>
     </listeners>
-    <test name="TestEValueDiscountJobAdding">
+    <test name="TestEValueDiscountJobAdding"  parallel="methods">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount">
                 <methods>
@@ -13,7 +13,7 @@
             </class>
         </classes>
     </test>
-    <test name="TestEValueMembershipProcessJobAdding">
+    <test name="TestEValueMembershipProcessJobAdding" parallel="methods">
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestEValueMembershipProcess">
                 <methods>
@@ -22,9 +22,9 @@
             </class>
         </classes>
     </test>
-    <test name="TestRefundProcessJobAdding">
+    <test name="TestRefundProcessJobAdding" parallel="methods">
         <classes>
-            <class name="aaa.modules.regression.billing_and_payments.auto_ss.functional.TestRefundProcess">
+            <class name="aaa.modules.regression.billing_and_payments.template.functional.TestRefundProcessTemplate">
                 <methods>
                     <include name="precondJobAdding"/>
                 </methods>
