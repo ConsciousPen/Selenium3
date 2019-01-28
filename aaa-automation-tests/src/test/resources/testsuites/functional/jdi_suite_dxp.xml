@@ -1021,4 +1021,14 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PA AADNPAB" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23303_UpdateTortSignInAADNPAB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

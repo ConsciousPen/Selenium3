@@ -372,7 +372,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			tortCoverage.setValue("Full Tort");
 			premiumAndCoveragesTab.calculatePremium();
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			assertThat(documentsAndBindTab.getRequiredToBindAssetList()
+			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList()
 					.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS)).hasValue("Not Signed");
 			documentsAndBindTab.submitTab();
 			//On bind check error message
