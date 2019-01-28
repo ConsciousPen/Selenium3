@@ -43,16 +43,6 @@ import toolkit.datax.TestData;
 import toolkit.db.DBService;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.ComboBox;
-import toolkit.webdriver.controls.RadioGroup;
-
-import javax.ws.rs.core.Response;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
-import static aaa.main.metadata.policy.AutoSSMetaData.UpdateRulesOverrideActionTab.RuleRow.RULE_NAME;
-import static aaa.main.metadata.policy.AutoSSMetaData.VehicleTab.*;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
@@ -233,7 +223,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		Vehicle updateVehicleResponse = HelperCommon.updateVehicle(policyNumber, oid, updateVehicleRequest);
 		assertSoftly(softly -> {
 			softly.assertThat(updateVehicleResponse.usage).isEqualTo("Business");
-			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).isEqualTo("Usage is Business");
+			assertThat(((VehicleUpdateResponseDto) updateVehicleResponse).validations.get(0).message).startsWith("Usage is Business");
 		});
 
 		ErrorResponseDto rateResponse = HelperCommon.endorsementRateError(policyNumber);
@@ -1006,7 +996,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.ASSIGNMENT.get());
 			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			List<TestData> vehicleCoverageDetailsUIExpected = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			premiumAndCoveragesTab.saveAndExit();
 
 			//remove/replace vehicle
@@ -1082,7 +1072,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 
 			//check coverages in UI
 			List<TestData> vehicleCoverageDetailsUIActual = premiumAndCoveragesTab.getRatingDetailsVehiclesData();
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			//order of Vehicles is changed after revert, hence reordering list
 			Collections.reverse(vehicleCoverageDetailsUIExpected);
 			if (testWithUpdates) {
@@ -3130,7 +3120,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	private boolean hasError(List<ValidationError> validations, String expectedMessage) {
-		return validations.stream().anyMatch(error -> error.message.equals(expectedMessage));
+		return validations.stream().anyMatch(error -> error.message.startsWith(expectedMessage));
 	}
 
 	private Vehicle getVehicleByOid(ViewVehicleResponse viewVehicleResponse, String oid) {

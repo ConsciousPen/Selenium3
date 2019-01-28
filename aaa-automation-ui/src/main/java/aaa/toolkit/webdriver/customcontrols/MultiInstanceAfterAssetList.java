@@ -19,8 +19,8 @@ public class MultiInstanceAfterAssetList extends MultiAssetList {
 
 	@Override
 	protected void addSection(int index, int size) {
-		if (index > 0) {
-			((Button) getAssetCollection().get("Add")).click();
+		if (index > 0 && getAssetCollection().containsKey("Add")) {
+			getAsset("Add", Button.class).click();
 		}
 	}
 

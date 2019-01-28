@@ -16,7 +16,7 @@ TestData_E1: {
 
 GeneralTab: {
   NamedInsuredInformation: [{}],
-  AAAProductOwned: {},
+  AAAMembership: {},
   PolicyInformation: '@PolicyInformation'
 }
 
@@ -49,7 +49,7 @@ TestData_E2: {
 
 GeneralTab2: {
   NamedInsuredInformation: ['@NamedInsuredInformation2'],
-  AAAProductOwned: {},
+  AAAMembership: {},
   ContactInformation: '@ContactInformation2',
   PolicyInformation: '@PolicyInformation2'
 }

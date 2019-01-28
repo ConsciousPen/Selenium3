@@ -1,5 +1,9 @@
 package aaa.modules.regression.sales.auto_ca.choice;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
@@ -7,13 +11,9 @@ import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ca.defaulttabs.PremiumAndCoveragesTab;
 import aaa.modules.policy.AutoCaChoiceBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * @author mlaptsionak
@@ -39,7 +39,7 @@ public class TestSpecialHazardSurcharge extends AutoCaChoiceBaseTest {
 		PolicyType.AUTO_CA_CHOICE.get().initiate();
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class);
 		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(2).getValue().toString()).contains("Special Hazard Surcharge (2005, NISSAN, TITAN)");
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "Special Hazard Surcharge").getCell(2).getValue()).isEqualTo("Yes");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "BI Symbol").getCell(2).getValue()).isEqualTo("C");
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "PD Symbol").getCell(2).getValue()).isEqualTo("C");

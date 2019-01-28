@@ -122,7 +122,14 @@ public class GeneralSchedulerPage extends AdminPage {
 	}
 
 	public static boolean createJob(Job jobName) {
-		if (!tableScheduledJobs.getRow(1, jobName.get()).isPresent()) {
+		/**
+		 * This is needed, because when job was executed at least once, the text "Completed in.." present in the td with jobname
+		 * old tableScheduledJobs.getRow(1, jobName.get()).isPresent() verification doesn't work in this case.
+		 * also, performance wasn't affected, getRow - call getRows inside also, and current implementation even faster :
+		 * anyMatch : May not evaluate the predicate on all elements if not * necessary for determining the result.
+		 */
+		boolean jobPresence = tableScheduledJobs.getRows().stream().anyMatch(row -> row.getCell(1).getValue().contains(jobName.get()));
+		if (!jobPresence) {
 			buttonAddNewGroup.click();
 			buttonAddJobButton.click();
 			textBoxGroupName.setValue(jobName.get());
@@ -130,7 +137,7 @@ public class GeneralSchedulerPage extends AdminPage {
 			buttonSaveJob.click();
 			log.info("[JOBS] Job {} was created", jobName.get());
 			return true;
-		} else if (tableScheduledJobs.getRow(1, jobName.get()).isPresent()) {
+		} else if (jobPresence) {
 			log.info("{} is present", jobName.get());
 			return true;
 		}
