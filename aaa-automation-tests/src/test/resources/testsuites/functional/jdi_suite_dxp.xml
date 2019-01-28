@@ -865,6 +865,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="pas21597_addVehicleCheckAntiTheft" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas21597_addVehicleCheckAntiTheft"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas15499_RegisteredOwner" parallel="methods">
         <parameter name="state" value="CT, WV"/>
         <classes>

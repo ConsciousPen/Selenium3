@@ -10,6 +10,8 @@ import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javax.ws.rs.core.Response;
+
+import aaa.common.pages.Page;
 import org.apache.commons.lang.StringUtils;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
@@ -31,6 +33,7 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.PolicyBaseTest;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
 import aaa.modules.regression.service.auto_ss.functional.TestMiniServicesAssignments;
+import org.assertj.core.api.Assertions;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -3018,6 +3021,56 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		vehicleTab.saveAndExit();
 
 		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
+
+	protected void pas21597_addVehicleCheckAntiTheftBody(ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		policy.getDefaultView().fillUpTo(getTestSpecificTD("TestData_Endorsement"), vehicleTab.getClass(), true);
+
+		//Verify Anti-Theft Dropdown Values on Vehicle tab
+		softly.assertThat(vehicleTab.getAssetList().getAsset(ANTI_THEFT)).hasOptions(
+				Arrays.asList("", "None", "Category 1 - Alarm Only", "Category 2 - Non-Passive Alarm", "Category 3 - Passive Alarm, Device or VIN Etching", "Category 4 - Tracking Device", "Category 3 & 4 - Passive Alarm and Tracking Device"));
+
+		vehicleTab.cancel();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		String purchaseDate2 = "2013-01-20";
+		String vin2 = "1C4BJWDG0JL847133"; //jeep wrangler 2018
+		String newVehicleOid = addVehicleWithChecks(policyNumber, purchaseDate2, vin2, true);
+
+		VehicleUpdateDto updateVehicleRequest = new VehicleUpdateDto();
+		updateVehicleRequest.antiTheft = "CAT1";
+
+		VehicleUpdateResponseDto response = HelperCommon.updateVehicle(policyNumber, newVehicleOid, updateVehicleRequest);
+		Assertions.assertThat(response.antiTheft).isEqualTo("CAT1");
+
+		//Check metaData service
+		AttributeMetadata[] metaDataResponse = HelperCommon.viewEndorsementVehiclesMetaData(policyNumber, newVehicleOid);
+		AttributeMetadata metaDataFieldResponse = testMiniServicesGeneralHelper.getAttributeMetadata(metaDataResponse, "antiTheft", true, true, false, null, "String");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("NONE")).isEqualTo("None");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT1")).isEqualTo("Category 1 - Alarm Only");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT2")).isEqualTo("Category 2 - Non-Passive Alarm");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT3")).isEqualTo("Category 3 - Passive Alarm, Device or VIN Etching");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT4")).isEqualTo("Category 4 - Tracking Device");
+		softly.assertThat(metaDataFieldResponse.valueRange.get("CAT3AND4")).isEqualTo("Category 3 & 4 - Passive Alarm and Tracking Device");
+
+		helperMiniServices.rateEndorsementWithCheck(policyNumber);
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		String docId = rfiServiceResponse.documents.get(0).documentId;
+		String docId2 = rfiServiceResponse.documents.get(1).documentId;
+		HelperCommon.endorsementBind(policyNumber, "Madam Jovita", Response.Status.OK.getStatusCode(), docId, docId2);
+
+		//Check PAS side
+		SearchPage.openPolicy(policyNumber);
+		policy.policyInquiry().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getInquiryAssetList().getStaticElement(ANTI_THEFT).getValue()).isEqualTo("Category 1 - Alarm Only");
 	}
 
 	private String checkAvailableActionsByVehicleOid(ViewVehicleResponse viewVehicleResponse, String vehiclePpa1Oid) {
