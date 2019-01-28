@@ -12,6 +12,7 @@ public final class ErrorEnum {
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
 		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
 		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
+		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
 		ERROR_200900("200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
