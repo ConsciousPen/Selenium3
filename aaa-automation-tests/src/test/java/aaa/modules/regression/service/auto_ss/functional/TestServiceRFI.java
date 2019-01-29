@@ -345,7 +345,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 			//Go to pas and and verify
 			goToPasAndVerifyRuleAndSignedBy(softly, policyNumber, documentAsset, coverageAsset, updateLimitPAS, error, isRuleOverridden);
-
+			//Verify Signed by is not there in XML when Signed from PAS UI
 			if (checkDocXML) {
 				validateDocSignTagsNotExist(document, query);
 			}
