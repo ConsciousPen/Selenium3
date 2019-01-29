@@ -26,10 +26,10 @@ public class TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid extends BillingB
 	/**
 	 * @author Reda Kazlauskiene
 	 * TC Steps:
-	 * 1. Create Quote
-	 * 2. Issue Quote and pay premium: full - 5$
+	 * 1. Create Auto_SS Monthly Policy
+	 * 2. Navigate to Billing Account and Accept payment: total due - 5$
 	 * 3. Run aaaRefundGenerationAsyncJob
-	 * 4. Check Small Balance Write-off transaction created
+	 * 4. Check that Small Balance Write-off transaction is created (5$)
 	 */
 
 	@Override
