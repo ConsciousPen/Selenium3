@@ -208,6 +208,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         validateIncludedInPoints("Yes");
+        assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("5000");
         new PremiumAndCoveragesTab().calculatePremium();
 
         // Bind policy and make active
@@ -231,12 +232,13 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         createCasResponseUpdateLossAmtAndUpload();
         runRenewalClaimReceiveJob();
 
-        // Open policy and validate claim is still included in rating
+        // Open policy and validate claim is still included in rating and claim amount has been updated
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         validateIncludedInPoints("Yes");
+        assertThat(driverTab.getActivityInformationAssetList().getAsset(AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT).getValue()).contains("4000");
 
     }
 
