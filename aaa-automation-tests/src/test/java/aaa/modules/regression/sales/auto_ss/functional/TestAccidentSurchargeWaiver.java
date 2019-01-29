@@ -232,6 +232,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         runRenewalClaimReceiveJob();
 
         // Open policy and validate claim is still included in rating
+        mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
