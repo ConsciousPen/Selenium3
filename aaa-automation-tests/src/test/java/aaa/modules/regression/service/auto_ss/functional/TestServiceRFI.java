@@ -352,6 +352,29 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23302"})
+	public void pas23302_AA52IPAAFormRFI(@Optional("PA") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52IPAA;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
+		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_AAA_200307;
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
+
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, false);
+
+		//Create policy and override rule
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.FIRST_PARTY_BENEFITS_COVERAGE_AND_LIMITS_SELECTION_FORM.getLabel()), "Not Signed");
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_100300.getDisplay(), document, documentAsset, error, td, false, false);
+
+	}
+
 	private void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
