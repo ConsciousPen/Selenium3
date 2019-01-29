@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
+import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk;
 
 @StateList(states = Constants.States.AZ)
 public class TestMultiPolicyDiscount extends AutoSSBaseTest {
