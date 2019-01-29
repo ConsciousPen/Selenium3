@@ -13,6 +13,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
+import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
@@ -28,7 +29,6 @@ import aaa.modules.regression.sales.template.functional.TestOfflineClaimsTemplat
 import aaa.utils.StateList;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
-import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 
 @StateList(statesExcept = Constants.States.CA)
@@ -154,19 +154,23 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
      * @author Josh Carpenter
      * @name Test that ASW is given properly during an aged renewal (ASW not eligible in NB policy)
      * @scenario
-     * 1. Initiate Auto SS quote with the following attributes:
-     *      a. Base date = 1 year ago
-     *      b. Time with previous carrier = 2 years
-     *      c. Previous carrier = 1 year, AAA provider
-     *      d. Driver that returns AF accident in the past 20 months (need's to be within 33 months still at first renewal)
-     * 2. Fill up to DAR tab and order reports
-     * 3. Navigate to Driver tab and validate ASW is NOT given for the accident
-     * 4. Bind policy
-     * 5. Advance time to renewal reports order date (R-63)
-     * 6.
-     * 7.
-     * 8.
-     * 9.
+     * 1.  Create Auto SS policy with the following attributes:
+     *       a. Base date = 1 year ago
+     *       b. Time with previous carrier = 2 years
+     *       c. Previous carrier = 1 year, AAA provider
+     * 2.  Advance time to renewal reports order date (R-63)
+     * 3.  Run renewalOfferGenerationPart1 and renewalClaimOrderAsyncJob
+     * 4.  Create CAS response file and upload to VDM with micro service automation
+     * 5.  Run renewalOfferGenerationPart2 and renewalClaimReceiveAsyncJob
+     * 6.  Open policy and validate CAS claim is on the driver tab and 'Included in Rating' = 'Yes'
+     * 7.  Bind policy
+     * 8.  Advance time to renewal effective date and run renewal jobs again
+     * 9.  Pay amount due for the renewal
+     * 10. Advance time to next renewal reports order date (2R-63)
+     * 11. Run renewalOfferGenerationPart1
+     * 12. Update claim loss amount, create CAS response, and upload to VDM
+     * 13. Run renewalOfferGenerationPart2 and renewalClaimReceiveAsyncJob
+     * 14. Open policy, navigate to Driver tab, validate.
      * @details
      */
     @Parameters({"state"})
@@ -201,30 +205,35 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         runRenewalClaimReceiveJob();
 
         // Open policy and validate the AF accident is included in rating
-        searchForPolicy(policyNumber);
+        SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         validateIncludedInPoints("Yes");
+        new PremiumAndCoveragesTab().calculatePremium();
 
         // Bind policy and make active
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
-        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(policyExpirationDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
         payTotalAmtDue(policyNumber);
+        TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
+        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
         // Open policy and create second renewal image
+        SearchPage.openPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
+        assertThat(PolicySummaryPage.getEffectiveDate()).isEqualToIgnoringHours(policyExpirationDate);
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
         JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
 
         // Upload file into inbound folder and run receive jobs
-        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+        createCasResponseUpdateLossAmtAndUpload();
         runRenewalClaimReceiveJob();
 
         // Open policy and validate claim is still included in rating
-        searchForPolicy(policyNumber);
+        SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
         validateIncludedInPoints("Yes");
@@ -310,6 +319,25 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         String content = contentOf(claimResponseFile, Charset.defaultCharset());
         log.info("Generated CAS claim response filename {} content {}", casResponseFileName, content);
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+    }
+
+    private void createCasResponseUpdateLossAmtAndUpload() {
+        String casResponseFileName = getCasResponseFileName();
+        BatchClaimHelper batchClaimHelper = new BatchClaimHelper("af_accident_claim_data_model.yaml", casResponseFileName);
+        claimResponseFile = batchClaimHelper.processClaimTemplate(response -> {
+            setPolicyNumber(policyNumber, response);
+            setClaimLossAmount("4000.000000000", response);
+        });
+        assertThat(claimResponseFile).isFile().isNotNull();
+        String content = contentOf(claimResponseFile, Charset.defaultCharset());
+        log.info("Updated CAS claim total loss amount in response filename {} content {}", casResponseFileName, content);
+        RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(), Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+    }
+
+    private void setClaimLossAmount(String totalAmountPaid, CASClaimResponse response) {
+        response.getClaimLineItemList().forEach(claimLineItem -> {
+            claimLineItem.getClaimList().forEach(claim -> claim.setTotalAmountPaid(totalAmountPaid));
+        });
     }
 
 }
