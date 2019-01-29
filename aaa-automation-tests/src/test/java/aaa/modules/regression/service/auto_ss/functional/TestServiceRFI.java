@@ -331,6 +331,62 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	}
 
+    /**
+     * @name RFI AA52UPAA Form
+     * @scenario 1
+     * 1. Create policy.
+     * 2. Create endorsement outside of PAS.
+     * 3. Rate. Hit RFI service.
+     * 4. Check the response.
+     * 5. Update UMBI/UMSU coverage. Rate.
+     * 6. Hit RFI service, check if document is displaying.
+     * 7. Run bind service without signing document and verify error. and policy is not bound.
+     * 8. Run bind service with document id verify no error and we can bind the policy.
+     * 9. go to pas UI and verify if policy is bound
+     * 10. Go to document and bind page and verify if document is electronically signed.
+     *
+     * 11. create an endorsement on policy from pas change coverage and rate the policy
+     * 12. go to document and bind page verify if its reset to document not signed
+     * 13. Try to bind policy from pas and verify error.
+     * 14. Select document physically signed
+     * 15.  Bind the policy verify there is no error message.
+     *
+     * @scenario 2
+     * 1. Create policy and override the rule
+     * 2. Create endorsement outside of PAS.
+     * 3. Trigger the document by updating one of the coverages (UMBI or UMSU)
+     * 4. Hit RFI service and check that docuemnt is returned
+     * 5. Bind Endorsement ---> No rule is fired (as it was overriden at NB)
+     *
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.PA})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23301"})
+    public void pas23301_AA52UPAAFormRFI(@Optional("PA") String state) {
+        DocGenEnum.Documents document = DocGenEnum.Documents.AA52UPAA;
+        AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION;
+        ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200306;
+
+        // scenario 1
+        TestData td = getPolicyDefaultTD();
+        td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
+
+        verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, false, false);
+		verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, false);
+        verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, false);
+
+        // sceanrio 2
+        // Create policy and override rule
+        td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
+        TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+        td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+
+        verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
+		verifyRFIScenarios("UMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
+        verifyRFIScenarios("UMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, true);
+    }
+
 	private void verifyRFIScenarios(String coverageCd, AssetDescriptor<? extends AbstractEditableStringElement> coverageAsset, String updateLimitDXP, String updateLimitPAS, DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean checkDocXML, boolean isRuleOverridden) {
 		assertSoftly(softly -> {
 
@@ -474,22 +530,24 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String parent, String status) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
-		String doccId = rfiServiceResponse.documents.get(0).documentId;
-		assertSoftly(softly -> {
 
-			softly.assertThat(rfiServiceResponse.url).isNull();
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
-			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
-			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
-			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
-			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
+		String doccId = "";
+		if (rfiServiceResponse.documents.size() > 0) {
+			doccId = rfiServiceResponse.documents.get(0).documentId;
+			assertSoftly(softly -> {
+				softly.assertThat(rfiServiceResponse.url).isNull();
+				softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
+				softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
+				softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
+				softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
+				softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
+				softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
 
-			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
-			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
-
-		});
+				RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
+				softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
+				softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+			});
+		}
 		return doccId;
 	}
 
