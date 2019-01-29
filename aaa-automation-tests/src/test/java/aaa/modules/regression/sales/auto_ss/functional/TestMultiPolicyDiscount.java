@@ -19,8 +19,9 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.composite.assets.metadata.AssetDescriptor;
-
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
+import java.util.ArrayList;
+import java.util.HashMap;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 
 @StateList(states = Constants.States.AZ)
@@ -34,9 +35,16 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     PremiumAndCoveragesTab _pncTab = new PremiumAndCoveragesTab();
     DocumentsAndBindTab _documentsAndBindTab = new DocumentsAndBindTab();
 
+    private AssetDescriptor<CheckBox> _homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
+    private AssetDescriptor<CheckBox> _rentersCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.RENTERS;
+    private AssetDescriptor<CheckBox> _condoCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.CONDO;
+    private AssetDescriptor<CheckBox> _lifeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE;
+    private AssetDescriptor<CheckBox> _motorCycleCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.MOTORCYCLE;
+
+
     /**
      * Make sure various combos of Unquoted Other AAA Products rate properly and are listed in the UI
-     * on P&C Page as well as in View Rating Details.
+     * on P&C Page as well as in View Rating Details. AC3
      * @param state the test will run against.
      * @author Brian Bond - CIO
      */
@@ -45,40 +53,212 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-23983")
     public void pas23983_MPD_unquoted_rate_and_show_discounts(@Optional("") String state) {
 
-        // Create customer and move to general tab. //
+        // Data and tools setup
         TestData testData = getPolicyTD();
+        GeneralTab generalTab = new GeneralTab();
+        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
 
+        // Create customer and move to general tab. //
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+
+        ArrayList<HashMap<mpdPolicyType, Boolean>> scenarioList = getUnquotedManualScenarios();
+
+        // Perform the following for each scenario. Done this way to avoid recreating users every scenario.
+        for (int i = 0; i < scenarioList.size(); i++ ) {
+
+            HashMap <mpdPolicyType, Boolean> currentScenario = scenarioList.get(i);
+
+            // Set unquoted policies //
+            setUnquotedCheckboxes(currentScenario);
+
+            // On first iteration fill in data. Else jump to PnC page
+            if (i == 0) {
+                // Continue to next tab then move to P&C tab //
+                generalTab.submitTab();
+
+                policy.getDefaultView().fillFromTo(testData, DriverTab.class, PremiumAndCoveragesTab.class, true);
+            }
+            else {
+                NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+            }
+
+            assertSoftly(softly -> {
+
+                // Check in View Rating details for Multi-Policy Discount //
+                String mpdDiscountApplied =
+                        pncTab.getRatingDetailsQuoteInfoData().getValue("AAA Multi-Policy Discount");
+
+                // Close the VRD Popup
+                PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk.click();
+
+                // If any value is true then the VRD MPD Discount should be Yes. Else None.
+                String mpdVRDExpectedValue = currentScenario.containsValue(true) ? "Yes" : "None";
+
+                softly.assertThat(mpdDiscountApplied).isEqualTo(mpdVRDExpectedValue);
+
+
+                // Validate Discount and Surcharges //
+                String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+
+                // Check against any property string. Done this way because only one property type listed in Discounts.
+                Boolean propertyValuesPresent =
+                        currentScenario.get(mpdPolicyType.home) ||
+                                currentScenario.get(mpdPolicyType.renters) ||
+                                currentScenario.get(mpdPolicyType.condo);
+
+                Boolean propertyValuePresentInString =
+                        discountsAndSurcharges.contains("Home") ||
+                                discountsAndSurcharges.contains("Condo") ||
+                                discountsAndSurcharges.contains("Renters");
+
+                softly.assertThat(propertyValuePresentInString).isEqualTo(propertyValuesPresent);
+
+                // MC and Life always show if added.
+                softly.assertThat(currentScenario.get(mpdPolicyType.motorcycle)).
+                        isEqualTo(discountsAndSurcharges.contains("Motorcycle"));
+
+                softly.assertThat(currentScenario.get(mpdPolicyType.life)).
+                        isEqualTo(discountsAndSurcharges.contains("Life"));
+            });
+
+            // Return to General tab.
+            NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        }
+    }
+
+    /**
+     * Sets the unquoted policy checkboxes based of passed in checkboxMap.
+     * @param checkboxMap is what to set each checkbox to. Expects all 5 product keys with bool value where true checks and false unchecks.
+     */
+    private void setUnquotedCheckboxes(HashMap <mpdPolicyType, Boolean> checkboxMap)throws IllegalArgumentException{
+        // Check values
+        if (checkboxMap.size() != mpdPolicyType.values().length){
+            throw new IllegalArgumentException("setUnquotedCheckboxes requires that every policy type has a boolean included. " +
+                    "Make sure that all values in mpdPolicyType enum are present with associated booleans for checkboxMap");
+        }
 
         GeneralTab generalTab = new GeneralTab();
 
-        // Set unquoted policies //
+        for (mpdPolicyType fillInCheckbox : checkboxMap.keySet()) {
+            switch (fillInCheckbox){
+                case condo:
+                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_condoCheckbox.getLabel(),
+                            _condoCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
+                    break;
 
-        AssetDescriptor<CheckBox> homeCheckbox = AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.HOME;
+                case home:
+                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_homeCheckbox.getLabel(),
+                            _homeCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
+                    break;
 
-        generalTab.getOtherAAAProductOwnedAssetList().getAsset(homeCheckbox.getLabel(),
-                homeCheckbox.getControlClass()).setValue(true);
+                case renters:
+                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_rentersCheckbox.getLabel(),
+                            _rentersCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
+                    break;
 
-        // Continue to next tab then move to P&C tab //
-        generalTab.submitTab();
+                case life:
+                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_lifeCheckbox.getLabel(),
+                            _lifeCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
+                    break;
 
-        policy.getDefaultView().fillFromTo(testData, DriverTab.class, PremiumAndCoveragesTab.class, true);
+                case motorcycle:
+                    generalTab.getOtherAAAProductOwnedAssetList().getAsset(_motorCycleCheckbox.getLabel(),
+                            _motorCycleCheckbox.getControlClass()).setValue(checkboxMap.get(fillInCheckbox));
+                    break;
+            }
+        }
+    }
 
-        PremiumAndCoveragesTab pncTab = new PremiumAndCoveragesTab();
+    /**
+     * Preconfigured pairwise scenarios for testing Unquoted or Manual Add scenarios. Generated using AllPairs.exe
+     * @return List of scenarios to be iterated through.
+     */
+    private ArrayList<HashMap <mpdPolicyType, Boolean>> getUnquotedManualScenarios(){
+        ArrayList<HashMap <mpdPolicyType, Boolean>> scenarioList = new ArrayList<>();
+        /*
+        Pair Testing Scenario
+        Scenario	Home	Renters	Condo	Life	Motorcycle
+        1	        Yes	    Yes 	Yes 	Yes 	Yes
+        2	        Yes 	No  	No  	No  	No
+        3	        No  	Yes 	No  	Yes 	No
+        4	        No  	No  	Yes 	No  	Yes
+        5	        ~Yes	Yes 	Yes 	No  	No
+        6	        ~Yes	No  	No  	Yes 	Yes
+        7	        No  	No  	No  	No  	No
+         */
 
-        // Validate appropriate discounts //
+        // Scenario 1
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, true);
+                put(mpdPolicyType.renters, true);
+                put(mpdPolicyType.condo, true);
+                put(mpdPolicyType.life, true);
+                put(mpdPolicyType.motorcycle, true);
+            }
+        });
 
-        String discountsAndSurcharges = PremiumAndCoveragesTab.discountsAndSurcharges.getValue();
+        // Scenario 2
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, true);
+                put(mpdPolicyType.renters, false);
+                put(mpdPolicyType.condo, false);
+                put(mpdPolicyType.life, false);
+                put(mpdPolicyType.motorcycle, false);}
+        });
 
-        // Check in View Rating details for Multi-Policy Discount
-        TestData td = pncTab.getRatingDetailsQuoteInfoData();
-        buttonRatingDetailsOk.click();
-        String mpdDiscountApplied = td.getValue("AAA Multi-Policy Discount");
+        // Scenario 3
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, false);
+                put(mpdPolicyType.renters, true);
+                put(mpdPolicyType.condo, false);
+                put(mpdPolicyType.life, true);
+                put(mpdPolicyType.motorcycle, false);}
+        });
 
-        // Return to General tab, reset unquoted, then setup next scenario
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        // Scenario 4
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, false);
+                put(mpdPolicyType.renters, false);
+                put(mpdPolicyType.condo, true);
+                put(mpdPolicyType.life, false);
+                put(mpdPolicyType.motorcycle, true);}
+        });
 
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        // Scenario 5
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, true);
+                put(mpdPolicyType.renters, true);
+                put(mpdPolicyType.condo, true);
+                put(mpdPolicyType.life, false);
+                put(mpdPolicyType.motorcycle, false);}
+        });
+
+        // Scenario 6
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, true);
+                put(mpdPolicyType.renters, false);
+                put(mpdPolicyType.condo, false);
+                put(mpdPolicyType.life, true);
+                put(mpdPolicyType.motorcycle, true);}
+        });
+
+        // Scenario 7
+        scenarioList.add(new HashMap<mpdPolicyType, Boolean>() {
+            {
+                put(mpdPolicyType.home, false);
+                put(mpdPolicyType.renters, false);
+                put(mpdPolicyType.condo, false);
+                put(mpdPolicyType.life, false);
+                put(mpdPolicyType.motorcycle, false);}
+        });
+
+        return scenarioList;
     }
 
     /**

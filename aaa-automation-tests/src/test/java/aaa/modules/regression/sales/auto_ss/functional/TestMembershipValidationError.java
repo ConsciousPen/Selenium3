@@ -26,12 +26,13 @@ import toolkit.db.DBService;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
 import toolkit.verification.CustomSoftAssertions;
+import toolkit.webdriver.controls.composite.assets.AssetList;
 
 public class TestMembershipValidationError extends AutoSSBaseTest {
 
 	private GeneralTab generalTab = new GeneralTab();
 	private ErrorTab errorTab = new ErrorTab();
-	private NoSectionsMultiAssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
+	private AssetList assetListAAAProductOwned = generalTab.getOtherAAAProductOwnedAssetList();
 
 	/**
 	*@author Viktor Petrenko
