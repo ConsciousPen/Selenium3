@@ -278,7 +278,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
     @TestInfo(component = ComponentConstant.Service.AUTO_SS)
     public void testSC1_TC06(@Optional("") String state) {
         preconditions(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES);
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         //CO DELTA - No full safety glass
         //Update: 080-006CO_VA_V3.0 is updated to add Full safety glass coverage
         assertSoftly(softly -> {
@@ -303,7 +303,7 @@ public class TestCODeltaScenario1 extends AutoSSBaseTest {
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().btnCalculatePremium().click();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(pacTab.getRatingDetailsQuoteInfoData().getValue("Adversely Impacted Applied")).isEqualTo("No");
         pacTab.submitTab();
 

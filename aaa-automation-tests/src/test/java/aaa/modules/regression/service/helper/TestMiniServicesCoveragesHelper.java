@@ -37,6 +37,18 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.RadioGroup;
 
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static aaa.main.enums.CoverageLimits.COV_FPB_ADDED_PAS_UI_DISPLAY;
+import static toolkit.verification.CustomAssertions.assertThat;
+import static toolkit.verification.CustomSoftAssertions.assertSoftly;
+
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
 	private PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
@@ -4219,7 +4231,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate1).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate1);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual1);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual1, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
-			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
+			validateSubCoveragesChangeLog(policyNumber, "pipCoverageUTpas15367/update-PIP-while-WLB-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update WLB to true
 			CoverageLimits rejectWorklossNewLimit = CoverageLimits.COV_TRUE;
@@ -4235,7 +4247,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate2).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual2);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual2, CoverageInfo.MEDEXP_UT.getCode()));
-			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
+			validateSubCoveragesChangeLog(policyNumber, "pipCoverageUTpas15367/update-WLB-to-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update PIP by updating MEDEXP while WLB is true
 			medexpNewLimit = CoverageLimits.COV_5000;
@@ -4250,7 +4262,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate3).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate2);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual3);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual3, CoverageInfo.MEDEXP_UT.getCode()));//code is the same in all cases
-			validateSubCoveragesChangeLog(policyNumber, "update-PIP-while-WLB-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
+			validateSubCoveragesChangeLog(policyNumber, "pipCoverageUTpas15367/update-PIP-while-WLB-true.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 
 			//update WLB to false
 			rejectWorklossNewLimit = CoverageLimits.COV_FALSE;
@@ -4266,7 +4278,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(rejectWorkLossActualAfterUpdate4).isEqualToComparingFieldByField(rejectWorkLossExpectedAfterUpdate4);
 			validatePIPSubCoveragesThatDoesntChange_pas15368(pipSubCovAfterUpdateActual4);
 			validatePIPInUI_15368(softly, findCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.WLB_UT.getCode()), findCoverage(pipSubCovAfterUpdateActual4, CoverageInfo.MEDEXP_UT.getCode()));
-			validateSubCoveragesChangeLog(policyNumber, "update-WLB-to-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
+			validateSubCoveragesChangeLog(policyNumber, "pipCoverageUTpas15367/update-WLB-to-false.json");//update "canChangeCoverage" to true in this file when canChangeCoverage will be enabled in future
 		});
 		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
@@ -4284,7 +4296,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		ObjectMapper objectMapper = new ObjectMapper();
 		try {
 			ComparablePolicy changeLogExpected = objectMapper
-					.readValue(new File("../aaa-automation-tests/src/test/resources/feature/testMiniServicesCoverages/pipCoverageUTpas15367/" + expectedResponse), ComparablePolicy.class);
+					.readValue(new File("../aaa-automation-tests/src/test/resources/feature/testMiniServicesCoverages/" + expectedResponse), ComparablePolicy.class);
 			assertThat(changeLogActual).isEqualToComparingFieldByFieldRecursively(changeLogExpected);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -5644,7 +5656,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		SearchPage.openPolicy(policyNumber);
 
 		Coverage covFPBBasicExpected = Coverage.create(CoverageInfo.FPB_BASIC_PA);
-		Coverage covMEDPMBasicExpected = Coverage.create(CoverageInfo.MEDPM_PA).disableCanChange();
+		Coverage covMEDPMBasicExpected = Coverage.create(CoverageInfo.MEDPM_PA).disableCanChange().removeAvailableLimit(CoverageLimits.COV_5000);
 		Coverage covILBasicExpected = Coverage.create(CoverageInfo.IL_PA).disableCanChange();
 		Coverage covFUNERALBasicExpected = Coverage.create(CoverageInfo.FUNERAL_PA).disableCanChange();
 		Coverage covADBCBasicExpected = Coverage.create(CoverageInfo.ADBC_PA).disableCanChange();
@@ -5656,78 +5668,113 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 		validateCoveragesDXP(policyCoverageInfoFPBBasic.policyCoverages, covFPBBasicExpected);
 		validateCoveragesDXP(subCoveragesFPBBasicActual, covMEDPMBasicExpected, covILBasicExpected, covFUNERALBasicExpected, covADBCBasicExpected);
 
-		//Go in PAS and Change FPB to $50,000
-		openPendedEndorsementDataGatherAndNavigateToPC();
-		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Combo - $50K / $2.5K FE / $10K ADB");
-		premiumAndCoveragesTab.saveAndExit();
-
-		PolicyCoverageInfo policyCoverageInfoFPB50k = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage covFPB50kActual = findCoverage(policyCoverageInfoFPB50k.policyCoverages, CoverageInfo.FPB_PACKAGED_PA.getCode());
-		List<Coverage> subCoveragesFPB50kActual = covFPB50kActual.getSubCoverages();
-
+		//Update FPB to $50,000
 		Coverage covFPB50kExpected = Coverage.create(CoverageInfo.FPB_PACKAGED_PA);
-		Coverage covMEDPM50kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_50000).disableCanChange();
+		Coverage covMEDPM50kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_50000).disableCanChange().removeAvailableLimit(CoverageLimits.COV_5000);
 		Coverage covIL50kExpected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_INCLUDED).disableCanChange();
 		Coverage covFUNERAL50kExpected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_2500).disableCanChange();
 		Coverage covADBC50kExpected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_10000).disableCanChange();
+		updateCoverageAndCheck_pas15350(policyNumber, covFPB50kExpected, covMEDPM50kExpected, covIL50kExpected, covFUNERAL50kExpected, covADBC50kExpected, CoverageLimits.COV_FPB_50K_TOTAL_PAS_UI_DISPLAY);
 
-		validateCoveragesDXP(policyCoverageInfoFPB50k.policyCoverages, covFPB50kExpected);
-		validateCoveragesDXP(subCoveragesFPB50kActual, covMEDPM50kExpected, covIL50kExpected, covFUNERAL50kExpected, covADBC50kExpected);
-
-		//Go in PAS and Change FPB to $100,000
-		openPendedEndorsementDataGatherAndNavigateToPC();
-		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Combo - $100K / $2.5K FE / $10K ADB");
-		premiumAndCoveragesTab.saveAndExit();
-
-		PolicyCoverageInfo policyCoverageInfoFPB100k = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage covFPB100kActual = findCoverage(policyCoverageInfoFPB100k.policyCoverages, CoverageInfo.FPB_PACKAGED_PA.getCode());
-		List<Coverage> subCoveragesFPB100kActual = covFPB100kActual.getSubCoverages();
-
+		//Update FPB to $100,000
 		Coverage covFPB100kExpected = Coverage.create(CoverageInfo.FPB_PACKAGED_PA).changeLimit(CoverageLimits.COV_FPB_100K_TOTAL);
-		Coverage covMEDPM100kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_100000).disableCanChange();
+		Coverage covMEDPM100kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_100000).disableCanChange().removeAvailableLimit(CoverageLimits.COV_5000);
 		Coverage covIL100kExpected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_INCLUDED).disableCanChange();
 		Coverage covFUNERAL100kExpected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_2500).disableCanChange();
 		Coverage covADBC100kExpected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_10000).disableCanChange();
+		updateCoverageAndCheck_pas15350(policyNumber, covFPB100kExpected, covMEDPM100kExpected, covIL100kExpected, covFUNERAL100kExpected, covADBC100kExpected, CoverageLimits.COV_FPB_100K_TOTAL_PAS_UI_DISPLAY);
 
-		validateCoveragesDXP(policyCoverageInfoFPB100k.policyCoverages, covFPB100kExpected);
-		validateCoveragesDXP(subCoveragesFPB100kActual, covMEDPM100kExpected, covIL100kExpected, covFUNERAL100kExpected, covADBC100kExpected);
-
-		//Go in PAS and Change FPB to $177,5K
-		openPendedEndorsementDataGatherAndNavigateToPC();
-		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Combo - $177.5K / $2.5K FE / $25K ADB");
-		premiumAndCoveragesTab.saveAndExit();
-
-		PolicyCoverageInfo policyCoverageInfoFPB177k = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage covFPB177kActual = findCoverage(policyCoverageInfoFPB177k.policyCoverages, CoverageInfo.FPB_PACKAGED_PA.getCode());
-		List<Coverage> subCoveragesFPB177kActual = covFPB177kActual.getSubCoverages();
-
+		//Update FPB to $177,5K
 		Coverage covFPB177kExpected = Coverage.create(CoverageInfo.FPB_PACKAGED_PA).changeLimit(CoverageLimits.COV_FPB_177_5K_TOTAL);
-		Coverage covMEDPM177kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_177500).disableCanChange();
+		Coverage covMEDPM177kExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_177500).disableCanChange().removeAvailableLimit(CoverageLimits.COV_5000);
 		Coverage covIL177kExpected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_INCLUDED).disableCanChange();
 		Coverage covFUNERAL177kExpected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_2500).disableCanChange();
 		Coverage covADBC177kExpected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_25000).disableCanChange();
+		updateCoverageAndCheck_pas15350(policyNumber, covFPB177kExpected, covMEDPM177kExpected, covIL177kExpected, covFUNERAL177kExpected, covADBC177kExpected, CoverageLimits.COV_FPB_177_5K_TOTAL_PAS_UI_DISPLAY);
 
-		validateCoveragesDXP(policyCoverageInfoFPB177k.policyCoverages, covFPB177kExpected);
-		validateCoveragesDXP(subCoveragesFPB177kActual, covMEDPM177kExpected, covIL177kExpected, covFUNERAL177kExpected, covADBC177kExpected);
-
-		//Go in PAS and Change FPB to Added
-		openPendedEndorsementDataGatherAndNavigateToPC();
-		premiumAndCoveragesTab.setPolicyCoverageDetailsValue(AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS.getLabel(), "Added");
-		premiumAndCoveragesTab.saveAndExit();
-
-		PolicyCoverageInfo policyCoverageInfoFPBAdded = HelperCommon.viewEndorsementCoverages(policyNumber, PolicyCoverageInfo.class);
-		Coverage covFPBAddedActual = findCoverage(policyCoverageInfoFPBAdded.policyCoverages, CoverageInfo.FPB_ADDED_PA.getCode());
-		List<Coverage> subCoveragesFPBAddedActual = covFPBAddedActual.getSubCoverages();
-
+		//Update FPB to Added
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
-		Coverage covMEDPMAddedExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_5000).removeAvailableLimit(CoverageLimits.COV_177500);
+		Coverage covMEDPMAddedExpected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_10000).removeAvailableLimit(CoverageLimits.COV_177500, CoverageLimits.COV_5000);
 		Coverage covILAddedExpected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_00);
 		Coverage covFUNERALAddedExpected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_0);
 		Coverage covADBCAddedExpected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_0);
+		updateCoverageAndCheckResponses_pas15350(policyNumber, covFPBAddedExpected, covMEDPMAddedExpected, covILAddedExpected, covFUNERALAddedExpected, covADBCAddedExpected);
+		validateCoverageLimitInPASUI(covFPBAddedExpected.changeDescription("First Party Benefits").changeLimit(COV_FPB_ADDED_PAS_UI_DISPLAY), covMEDPMAddedExpected, covILAddedExpected, covFUNERALAddedExpected, covADBCAddedExpected);
 
-		validateCoveragesDXP(policyCoverageInfoFPBAdded.policyCoverages, covFPBAddedExpected);
-		validateCoveragesDXP(subCoveragesFPBAddedActual, covMEDPMAddedExpected, covILAddedExpected, covFUNERALAddedExpected, covADBCAddedExpected);
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+	}
 
+	private void updateCoverageAndCheck_pas15350(String policyNumber, Coverage covFPBExpected, Coverage covMEDPMExpected, Coverage covILExpected, Coverage covFUNERALExpected, Coverage covADBkExpected, CoverageLimits covFPBPASUIDisplay) {
+		updateCoverageAndCheckResponses_pas15350(policyNumber, covFPBExpected, covMEDPMExpected, covILExpected, covFUNERALExpected, covADBkExpected);
+		validateCoverageLimitInPASUI(covFPBExpected.changeDescription("First Party Benefits").changeLimit(covFPBPASUIDisplay));
+	}
+
+	private void updateCoverageAndCheckResponses_pas15350(String policyNumber, Coverage covFPBExpected, Coverage covMEDPMExpected, Coverage covILExpected, Coverage covFUNERALExpected, Coverage covADBkExpected) {
+		PolicyCoverageInfo policyCoverageInfoUpdateResponse = updateCoverage(policyNumber, covFPBExpected);
+		Coverage covFPB50kActual = findCoverage(policyCoverageInfoUpdateResponse.policyCoverages, covFPBExpected.getCoverageCd());
+		List<Coverage> subCoveragesFPB50kActual = covFPB50kActual.getSubCoverages();
+
+		validateCoveragesDXP(policyCoverageInfoUpdateResponse.policyCoverages, covFPBExpected);
+		validateCoveragesDXP(subCoveragesFPB50kActual, covMEDPMExpected, covILExpected, covFUNERALExpected, covADBkExpected);
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, policyCoverageInfoUpdateResponse);
+		validatePolicyLevelCoverageChangeLog(policyNumber, covFPBExpected);
+	}
+
+	protected void pas24075_firstPartyBenefitsAddedPABody() {
+		mainApp().open();
+		String policyNumber = getCopiedPolicy();
+		SearchPage.openPolicy(policyNumber);
+
+		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
+		Coverage covMEDPM10000Without5000Expected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_10000).removeAvailableLimit(CoverageLimits.COV_177500, CoverageLimits.COV_5000);
+		Coverage covMEDPM10000With5000Expected = Coverage.create(CoverageInfo.MEDPM_PA).changeLimit(CoverageLimits.COV_10000).removeAvailableLimit(CoverageLimits.COV_177500);
+		Coverage covIL00Expected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_00);
+		Coverage covFUNERAL0Expected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_0);
+		Coverage covADBC0Expected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_0);
+
+		updateCoverageAndCheck_pas24075(policyNumber, covFPBAddedExpected, covMEDPM10000Without5000Expected, covIL00Expected, covFUNERAL0Expected, covADBC0Expected);
+
+		//Update only ADBC <> No coverage
+		Coverage covADBC25000Expected = Coverage.create(CoverageInfo.ADBC_PA).changeLimit(CoverageLimits.COV_25000);
+		updateCoverageAndCheck_pas24075(policyNumber, covADBC25000Expected, covMEDPM10000With5000Expected, covIL00Expected, covFUNERAL0Expected, covADBC25000Expected);
+
+		//Update only Funeral Expense Benefit <> No Coverage
+		Coverage covFUNERAL2500Expected = Coverage.create(CoverageInfo.FUNERAL_PA).changeLimit(CoverageLimits.COV_2500);
+		updateCoverageAndCheck_pas24075(policyNumber, covFUNERAL2500Expected, covMEDPM10000With5000Expected, covIL00Expected, covFUNERAL2500Expected, covADBC25000Expected);
+		updateCoverageAndCheck_pas24075(policyNumber, covADBC0Expected, covMEDPM10000With5000Expected, covIL00Expected, covFUNERAL2500Expected, covADBC0Expected);
+
+		//Update only IL <> No Coverage
+		updateCoverageAndCheck_pas24075(policyNumber, covFUNERAL0Expected, covMEDPM10000Without5000Expected, covIL00Expected, covFUNERAL0Expected, covADBC0Expected);
+		Coverage covIL50000MaxExpected = Coverage.create(CoverageInfo.IL_PA).changeLimit(CoverageLimits.COV_IL_50000_MAX_PA);
+		updateCoverageAndCheck_pas24075(policyNumber, covIL50000MaxExpected, covMEDPM10000With5000Expected, covIL50000MaxExpected, covFUNERAL0Expected, covADBC0Expected);
+
+		//Update so that all <> No coverage
+		updateCoverageAndCheck_pas24075(policyNumber, covFUNERAL2500Expected, covMEDPM10000With5000Expected, covIL50000MaxExpected, covFUNERAL2500Expected, covADBC0Expected);
+		updateCoverageAndCheck_pas24075(policyNumber, covADBC25000Expected, covMEDPM10000With5000Expected, covIL50000MaxExpected, covFUNERAL2500Expected, covADBC25000Expected);
+		validateCoverageLimitInPASUI(covMEDPM10000With5000Expected, covIL50000MaxExpected, covFUNERAL2500Expected, covADBC25000Expected);
+		validateSubCoveragesChangeLog(policyNumber, "fpbSubcoverages_pas24075_PA/pas24075_firstPartyBenefitsAddedPA.json");
+
+		//Update so that all = No coverage
+		updateCoverageAndCheck_pas24075(policyNumber, covADBC0Expected, covMEDPM10000With5000Expected, covIL50000MaxExpected, covFUNERAL2500Expected, covADBC0Expected);
+		updateCoverageAndCheck_pas24075(policyNumber, covIL00Expected, covMEDPM10000With5000Expected, covIL00Expected, covFUNERAL2500Expected, covADBC0Expected);
+		updateCoverageAndCheck_pas24075(policyNumber, covFUNERAL0Expected, covMEDPM10000Without5000Expected, covIL00Expected, covFUNERAL0Expected, covADBC0Expected);
+		validateCoverageLimitInPASUI(covMEDPM10000Without5000Expected, covIL00Expected, covFUNERAL0Expected, covADBC0Expected);
+
+		helperMiniServices.endorsementRateAndBind(policyNumber);
+
+	}
+
+	private void updateCoverageAndCheck_pas24075(String policyNumber, Coverage covToUpdate, Coverage... expectedCoveragesToCheck) {
+		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
+
+		PolicyCoverageInfo updateCoverageResponse = updateCoverage(policyNumber, covToUpdate);
+		Coverage covFPBAddedActual = findCoverage(updateCoverageResponse.policyCoverages, CoverageInfo.FPB_ADDED_PA.getCode());
+		List<Coverage> subCoveragesFPBActual = covFPBAddedActual.getSubCoverages();
+
+		validateCoveragesDXP(updateCoverageResponse.policyCoverages, covFPBAddedExpected);//validate FPB
+		validateCoveragesDXP(subCoveragesFPBActual, expectedCoveragesToCheck);//validate FPB subCoverages
+		validateViewEndorsementCoveragesIsTheSameAsUpdateCoverage(policyNumber, updateCoverageResponse);
+		validatePolicyLevelCoverageChangeLog(policyNumber, covFPBAddedExpected);
 	}
 
 	private void updateUmpdAndVerify(ETCSCoreSoftAssertions softly, String policyNumber, String oidPPA, String s, CoverageLimits cov50000, String coverageCdUmpd) {

@@ -59,13 +59,13 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 
 		//Calculate premium and open view rating details
 		policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//Save current Policies reinstatement factors score
 		String reinstatementHistory = PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score").getValue();
 
 		// Issue Policy and cancel it
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		premiumAndCoveragesTab.submitTab();
 		policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, PurchaseTab.class, true);
 		purchaseTab.submitTab();
@@ -86,7 +86,7 @@ public class TestMidTermReinstatementPointLock extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		//Check that the saved value is the same during mid term endorsement even after reinstatement was made. Change time back to current day.
 		assertThat(PremiumAndCoveragesTab.tableRatingDetailsUnderwriting.getRow(6).getCell("Score")).hasValue(reinstatementHistory);

@@ -10,8 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.openqa.selenium.By;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
@@ -21,7 +19,6 @@ import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.toolkit.webdriver.customcontrols.RatingDetailsTable;
 import toolkit.datax.TestData;
 import toolkit.datax.impl.SimpleDataProvider;
-import toolkit.webdriver.BrowserController;
 import toolkit.webdriver.ByT;
 import toolkit.webdriver.controls.Button;
 import toolkit.webdriver.controls.Link;
@@ -62,7 +59,6 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
@@ -110,7 +106,7 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	public TestData getRatingDetailsQuoteInfoData() {
 		if (!tableRatingDetailsQuoteInfo.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -245,8 +241,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (buttonRatingDetailsOk.isPresent() && buttonRatingDetailsOk.isVisible()) {
-			buttonRatingDetailsOk.click();
+		if (RatingDetailsView.buttonRatingDetailsOk.isPresent() && RatingDetailsView.buttonRatingDetailsOk.isVisible()) {
+			RatingDetailsView.buttonRatingDetailsOk.click();
 		}
 		buttonContinue.click();
 		return this;
@@ -330,7 +326,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		List<TestData> testDataList = new ArrayList<>();
 
 		if (!table.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -371,39 +367,17 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public static class RatingDetailsView {
-		protected static Logger log = LoggerFactory.getLogger(RatingDetailsView.class);
+		public static RatingDetailsTable tableVehicleSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:vehicle_summary']");
+		public static RatingDetailsTable tableDriverSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:driver_summary']");
 
-		StaticElement ratingDetailsContainer = new StaticElement(By.xpath("//div[@id,'ratingDetailsPopup_container']"));
-		/**
-		 * Vehicle Summary
-		 */
-		public int numberVehicleSummaryPages;
-		public int currentPageVehicleSummaryPage;
+		public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
-		String vehiclePanelXpath = "//div[@id='ratingDetailsPopup_container']//div[@id='ratingDetailsPopupForm:vehiclePanel']";
-		Table tableVehicleSummary = new Table(By.xpath(vehiclePanelXpath + "//table[@id='ratingDetailsPopupForm:vehicle_summary']"));
-		/**
-		 * Driver Summary
-		 */
-		Table tableDriverInfo = new Table(By.xpath("//div[@id,'ratingDetailsPopup_container']//div[@id='ratingDetailsPopupForm:driverPanel']//table[@id='ratingDetailsPopupForm:driver_summary']"));
-
-		public int getVehicleSummaryCurrentPageNumber(){
-			return Integer.parseInt(new StaticElement(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages')) and not(*)]")).getValue());
+		public static void open() {
+			buttonViewRatingDetails.click();
 		}
 
-		/**
-		 * from 1 to ...
-		 * @param pageNumber
-		 */
-		public void openVehicleSummaryPage(int pageNumber) {
-			numberVehicleSummaryPages = BrowserController.get().driver()
-					.findElements(By.xpath(vehiclePanelXpath + "//td[@class='pageText']//td[not(contains(text(),'Pages'))]")).size();
-
-			if (numberVehicleSummaryPages >= pageNumber) {
-				new Link(By.xpath(String.format(vehiclePanelXpath + "//td[@class='pageText']//*[not(contains(text(),'Pages')) and contains(text(),'%s')]", pageNumber))).click();
-			} else {
-				log.info("Vehicle Panel has only one link");
-			}
+		public static void close() {
+			buttonRatingDetailsOk.click();
 		}
 	}
 }

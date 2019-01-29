@@ -377,7 +377,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
 
         assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("No");
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 
         premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_CONVERSION_COVERAGE)
                 .setValue("Yes");
@@ -408,7 +408,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         new PremiumAndCoveragesTab().calculatePremium();
 
         assertThat(premiumAndCoveragesTab.getRatingDetailsQuoteInfoData().getValue("ELC Applied")).contains("Yes");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+         PremiumAndCoveragesTab.RatingDetailsView.close();
 
         //Go to Driver Reports tab, check message
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.RATING_DETAIL_REPORTS.get());

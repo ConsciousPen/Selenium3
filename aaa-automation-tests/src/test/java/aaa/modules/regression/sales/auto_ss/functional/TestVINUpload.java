@@ -1,7 +1,6 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static aaa.main.enums.DefaultVinVersions.DefaultVersions.SYMBOL_2017;
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonRatingDetailsOk;
 import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.buttonViewRatingDetails;
 import static toolkit.verification.CustomAssertions.assertThat;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
@@ -17,6 +16,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.admin.modules.administration.uploadVIN.defaulttabs.UploadToVINTableTab;
+import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -130,7 +130,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		// End PAS-2714 NB
 		// Covers 2716 NB vin refresh case.
 		vehicleTabChecks_527_533_2716();
@@ -203,7 +203,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		// PAS-7345 Update "individual VIN retrieval" logic to get liab symbols instead of STAT/Choice Tier
 		pas2712Fields.forEach(f -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, f).getCell(2).getValue()).isEqualToIgnoringCase("AX"));
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		// End PAS-2714 Renewal Update Vehicle
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
@@ -227,7 +227,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getColumn("Description").getValue()).contains("VIN data has been updated for the following vehicle(s): " + REFRESHABLE_VIN);
 
 		// New file with original VIN data is needed for current test to reset original data (REFRESHABLE_VIN). Cleanup used in current method to avoid file Upload for not required tests
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN),DefaultVinVersions.DefaultVersions.SignatureSeries);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(REFRESHABLE_VIN), DefaultVinVersions.DefaultVersions.SignatureSeries);
 
 		adminApp().open();
 		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.ADMINISTRATION.get());
@@ -284,27 +284,26 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust("DriverActivityReportsTab", DataProviderFactory.emptyData());
 		policy.getDefaultView().fillFromTo(twoVehicles, VehicleTab.class, PremiumAndCoveragesTab.class);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
-
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
-		softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
-		premiumAndCoveragesTab.calculatePremium();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		CustomSoftAssertions.assertSoftly(softly -> {
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MAKE)).hasValue("TOYOTA");
+			softly.assertThat(vehicleTab.getAssetList().getAsset(AutoSSMetaData.VehicleTab.MODEL)).hasValue("Gt");
 
+			premiumAndCoveragesTab.calculatePremium();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue())
-				.as("First Vehicle : Make should be \"Other Make\"").isEqualToIgnoringCase("Other Make");
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue())
-				.as("First Vehicle : Model should be \"Model\"").isEqualToIgnoringCase("Model");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2).getValue())
+					.as("First Vehicle : Make should be \"Other Make\"").isEqualToIgnoringCase("Other Make");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2).getValue())
+					.as("First Vehicle : Model should be \"Model\"").isEqualToIgnoringCase("Model");
 
-		new PremiumAndCoveragesTab.RatingDetailsView().openVehicleSummaryPage(2);
+			PremiumAndCoveragesTab.RatingDetailsView.tableVehicleSummary.moveToPage(2);
 
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue())
-				.as("Second Vehicle : Make should be \"TOYOTA\"").isEqualToIgnoringCase("TOYOTA");
-		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue())
-				.as("Second Vehicle : Model should be \"Gt\"").isEqualToIgnoringCase("Gt");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(3).getValue())
+					.as("Second Vehicle : Make should be \"TOYOTA\"").isEqualToIgnoringCase("TOYOTA");
+			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(3).getValue())
+					.as("Second Vehicle : Model should be \"Gt\"").isEqualToIgnoringCase("Gt");
 
 			// Verify that eash symbol present
 			getPolicySymbols().keySet().forEach(symbol -> assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, symbol).getCell(1).isPresent()).isEqualTo(true));
@@ -314,8 +313,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 					.as("according to xls, symbols should be : BI Symbol should be BI001, PD001, UM001 ,MP001").isEqualTo(getPolicySymbols().get(key)));
 		});
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-		premiumAndCoveragesTab.saveAndExit();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+		Tab.buttonSaveAndExit.click();
 	}
 
 	/**
@@ -373,7 +372,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		vehicleTab.saveAndExit();
 	}
 
-
 	/**
 	 * @author Kiruthika Rajendran
 	 *
@@ -387,7 +385,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 	 * 5. Verify that VIN was NOT updated and all fields are populated with previous info
 	 * @details
 	 */
-  	  @Parameters({"state"})
+	@Parameters({"state"})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-18969")
 	public void pas18969_testRestrictVehicleRefreshOnRenewal(@Optional("UT") String state) {
@@ -396,9 +394,9 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		String vinTableFile = vinMethods.getSpecificUploadFile(VinUploadFileType.STATCODE_VIN_REFERSH_RENEWAL.get());
 
 		TestData testData = getPolicyTD()
-		        .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()),"Limited Production/Antique")
-		        .adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.USAGE.getLabel()),"Pleasure")
-				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()),"1J2WW12P25S124567")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.TYPE.getLabel()), "Limited Production/Antique")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.USAGE.getLabel()), "Pleasure")
+				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), "1J2WW12P25S124567")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.YEAR.getLabel()), "2018")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.MAKE.getLabel()), "OTHER")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_MAKE.getLabel()), "Other Make")
@@ -407,16 +405,15 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.OTHER_BODY_STYLE.getLabel()), "Sedan")
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.STATED_AMOUNT.getLabel()), "30000").resolveLinks();
 
-		  pas18969_restrictVehicleRefreshOnRenewal(testData, vinTableFile);
+		pas18969_restrictVehicleRefreshOnRenewal(testData, vinTableFile);
 
-		  //Check for vehicle information in View Rating Details
-		  ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
-		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("Other Make");
-		  softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("Other Model");
-		  PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
-  	 }
-
+		//Check for vehicle information in View Rating Details
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Year").getCell(2)).hasValue("2018");
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Make").getCell(2)).hasValue("Other Make");
+		softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsVehicles.getRow(1, "Model").getCell(2)).hasValue("Other Model");
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+	}
 
 	/**
 	 * @author Lev Kazarnovskiy/Chris Johns
@@ -881,6 +878,8 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		//1. Create a quote with partial VIN matched data and save the quote number
 		createAndFillUpTo(testData, PremiumAndCoveragesTab.class);
 		new PremiumAndCoveragesTab().calculatePremium();
+		buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 		VehicleTab.buttonSaveAndExit.click();
 		String quoteNumber = PolicySummaryPage.labelPolicyNumber.getValue();
 		log.info("Current quote #: {}",quoteNumber);
@@ -905,7 +904,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 					.as("according to xls, symbols should be : BI Symbol should be BI002, PD002, UM002 ,MP002").contains("002"));
 		});
 
-		buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 	}
 
 	private Map<String, String> getStubInfo(String quoteNumber) {
@@ -979,18 +978,18 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 	@AfterClass(alwaysRun = true)
 	protected void resetDefault() {
-		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4,NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, NEW_VIN10);
+		List<String> listOfVinNumbers = Arrays.asList(NEW_VIN, NEW_VIN2, NEW_VIN3, NEW_VIN4, NEW_VIN5, NEW_VIN6, NEW_VIN7, NEW_VIN8, SUBSEQUENT_RENEWAL_35, SUBSEQUENT_RENEWAL_45, SUBSEQUENT_RENEWAL_46, NEW_VIN10);
 		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(listOfVinNumbers, DefaultVinVersions.DefaultVersions.SignatureSeries);
 		// pas533_newVinAdded
 		// NewVIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN) , SYMBOL_2017);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN), SYMBOL_2017);
 		// pas2714_Endorsement
 		// New3VIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN3) , SYMBOL_2017);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN3), SYMBOL_2017);
 		// pas11659_Renewal_VersionR45
 		// New2VIN_UT_SS.xlsx
 		// R45VIN_UT_SS.xlsx
-		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN2) , SYMBOL_2017);
+		VinUploadCleanUpMethods.deleteVinByVinNumberAndVersion(Arrays.asList(NEW_VIN2), SYMBOL_2017);
 
 		DBService.get().executeUpdate(String.format(VehicleQueries.REPAIR_COLLCOMP, "7MSRP15H%V"));
 		DBService.get().executeUpdate(VehicleQueries.UPDATE_VEHICLEREFDATAVINCONTROL_BY_EXPIRATION_DATE);

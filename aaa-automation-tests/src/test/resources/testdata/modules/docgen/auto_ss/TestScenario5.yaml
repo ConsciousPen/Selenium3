@@ -34,7 +34,7 @@ DriverTab2: {
 
 DocumentsAndBindTab: {
   DocumentsForPrinting: {
-    Auto Insurance Application: 'No',
+    Auto Insurance Application: 'Yes',
     AutoPay Authorization Form: 'No',
     #Consumer Information Notice: 'No',
     Uninsured and Underinsured Motorist Coverage Selection: 'No',

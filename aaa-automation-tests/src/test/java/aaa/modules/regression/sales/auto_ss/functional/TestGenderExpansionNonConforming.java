@@ -1,5 +1,11 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
@@ -16,17 +22,9 @@ import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyCreationBig;
 import aaa.utils.StateList;
-import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @StateList(statesExcept = {Constants.States.CA})
 public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
@@ -56,7 +54,8 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
         String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
         TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
-                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X");
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X")
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.SALUTATION.getLabel()), "Mx");
 
         mainApp().open();
         createCustomerIndividual(customerTd);
@@ -65,9 +64,9 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         assertThat(driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).getValue()).isEqualTo("X");
         driverTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), RatingDetailReportsTab.class, PremiumAndCoveragesTab.class, true);
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), DriverActivityReportsTab.class, PurchaseTab.class, true);
         purchaseTab.submitTab();
@@ -104,7 +103,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         premiumAndCoveragesTab.getRatingDetailsDriversData();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
         td.mask(TestData.makeKeyPath(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
@@ -136,7 +135,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).setValue("X");
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
         td.mask(TestData.makeKeyPath(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.HAS_THE_CUSTOMER_EXPRESSED_INTEREST_IN_PURCHASING_THE_QUOTE.getLabel()))
                 .mask(TestData.makeKeyPath(AutoSSMetaData.DriverActivityReportsTab.class.getSimpleName(), AutoSSMetaData.DriverActivityReportsTab.VALIDATE_DRIVING_HISTORY.getLabel()))
@@ -169,7 +168,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.getAssetList().getAsset(AutoSSMetaData.DriverTab.GENDER).setValue("X");
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(2).getValue()).isEqualTo("X");
         renewalValidations(policyNumber);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
@@ -206,7 +205,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         driverTab.fillTab(DataProviderFactory.dataOf(DriverTab.class.getSimpleName(), addDriver));
         premiumAndCoveragesTab.calculatePremium();
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRow(1, "Gender").getCell(3).getValue()).isEqualTo("X");
         renewalValidations(policyNumber);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(2).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
@@ -214,7 +213,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void  validateAndBind(TestData testData) {
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumAndCoveragesTab.submitTab();
         policy.getDefaultView().fillFromTo(testData, DriverActivityReportsTab.class, DocumentsAndBindTab.class, true);
         documentsAndBindTab.submitTab();
@@ -227,7 +226,7 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
     private void renewalValidations(String policyNumber){
 
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         premiumAndCoveragesTab.saveAndExit();
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();

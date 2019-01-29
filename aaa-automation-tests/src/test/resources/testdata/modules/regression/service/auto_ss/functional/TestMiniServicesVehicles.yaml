@@ -172,6 +172,17 @@ PremiumAndCoveragesTab_WaiveLiability: {
   ]
 }
 
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
+}
+
 #---------------------------------------------
 TestData_OneVeh: {
     VehicleTab: ['@VehicleTab_2018_Leased'],

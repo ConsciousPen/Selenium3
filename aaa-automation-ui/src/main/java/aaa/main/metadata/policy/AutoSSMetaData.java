@@ -59,6 +59,7 @@ public final class AutoSSMetaData {
 		public static final AssetDescriptor<AssetList> AAA_MEMBERSHIP = declare("AAAMembership", AssetList.class, AAAMembership.class, By.xpath(".//table[@id='policyDataGatherForm:formGrid_ExistingPolicies']"));
 		public static final AssetDescriptor<AssetList> OTHER_AAA_PRODUCTS_OWNED = declare("OtherAAAProductsOwned", AssetList.class, OtherAAAProductsOwned.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
 		public static final AssetDescriptor<AssetList> SEARCH_OTHER_AAA_PRODUCTS = declare("SearchOtherAAAProducts", AssetList.class, SearchOtherAAAProducts.class, By.xpath(".//div[@id='policyDataGatherForm:componentView_AAAAutoOtherPoliciesMPD']"));
+		public static final AssetDescriptor<AssetList> LIST_OF_PRODUCT_ROWS = declare("ListOfProductsRows", AssetList.class, OtherAAAProductsOwned.ListOfProductsRows.class);
 		public static final AssetDescriptor<AssetList> POLICY_INFORMATION = declare("PolicyInformation", AssetList.class, PolicyInformation.class);
 
 		public static final AssetDescriptor<MultiInstanceAfterAssetList> NAMED_INSURED_INFORMATION =
@@ -212,9 +213,11 @@ public final class AutoSSMetaData {
 			//add "Submit" and "Result Table" locators.
 
 			//need to see results table and add it here
+			public static final AssetDescriptor<Button> ADD_SELECTED_BUTTON = declare("Add Selected", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:btnAddSelected']"));
 
 			//Not sure about these buttons, they look strange.
-			public static final AssetDescriptor<Button> ADD_BTN = declare("Add", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addHomeRenterCondo']"));
+			public static final AssetDescriptor<Button> ADD_MOTOR_OR_LIFE_BTN = declare("Add Motor/Life", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addMotorOrLife']"));
+			public static final AssetDescriptor<Button> ADD_HOME_RENTERS_CONDO_BTN = declare("Add Home/Renters/Condo", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:addHomeRenterCondo']"));
 			public static final AssetDescriptor<Button> CANCEL_BTN = declare("Cancel", Button.class, By.xpath("//*[@id = 'autoOtherPolicySearchForm:cmdButtonCancelHomeRenterCondo']"));
 		}
 
