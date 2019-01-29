@@ -530,24 +530,22 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private String checkDocumentInRfiService(String policyNumber, String documentCode, String documentName, String parent, String status) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
+		String doccId = rfiServiceResponse.documents.get(0).documentId;
+		assertSoftly(softly -> {
 
-		String doccId = "";
-		if (rfiServiceResponse.documents.size() > 0) {
-			doccId = rfiServiceResponse.documents.get(0).documentId;
-			assertSoftly(softly -> {
-				softly.assertThat(rfiServiceResponse.url).isNull();
-				softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
-				softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
-				softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
-				softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
-				softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
-				softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
+			softly.assertThat(rfiServiceResponse.url).isNull();
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentCode).isEqualTo(documentCode);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentName).isEqualTo(documentName);
+			softly.assertThat(rfiServiceResponse.documents.get(0).documentId).startsWith(documentCode);
+			softly.assertThat(rfiServiceResponse.documents.get(0).status).startsWith(status);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parent).isEqualTo(parent);
+			softly.assertThat(rfiServiceResponse.documents.get(0).parentOid).isNotEmpty();
 
-				RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
-				softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
-				softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
-			});
-		}
+			RFIDocuments rfiServiceResponse2 = HelperCommon.rfiViewService(policyNumber, true);
+			softly.assertThat(rfiServiceResponse2.url).isNotEmpty();
+			softly.assertThat(rfiServiceResponse2.documents).isNotEmpty();
+
+		});
 		return doccId;
 	}
 
