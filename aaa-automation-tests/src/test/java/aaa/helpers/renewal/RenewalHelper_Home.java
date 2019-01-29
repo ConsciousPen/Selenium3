@@ -8,7 +8,6 @@ import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.policy.HomeCaHO3BaseTest;
 import aaa.modules.policy.HomeSSHO3BaseTest;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import toolkit.verification.CustomAssertions;
@@ -21,7 +20,9 @@ import java.time.LocalDateTime;
  * @author Tyrone Jemison
  * It should be okay for this class to extend from HO3BaseTest, as the delta should be the state and not HomeSS vs HomeCA.
  * Policy creation happens outside of this class, so getTimepoints() should return similar data as HO4, DP3, etc.
- * This means the class should workd for other Home product types by alternating between HomeCaHO3BaseTest and HomeSSHO3BaseTest
+ * This means the class should workd for other Home product types. <br>
+ *     The following jobs are required to be in the UI (not there by default): <br>
+ *         renewalValidationAsyncTaskJob, aaaRenewalDataRefreshAsyncJob, renewalOfferAsyncTaskJob
  */
 public class RenewalHelper_Home extends HomeSSHO3BaseTest
 {
@@ -85,25 +86,32 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
      * This loop was given a sanity limit of 10 renewals, expecting never to test beyond that threshold without manual edits.
      * @param desiredTerm Quote/Initial Policy = 0. First Renewal = 1;
      */
-    public void moveToGivenTerm(Integer desiredTerm, RenewalHelper_Profile profileOption, boolean bIncludeBillPay){
+    public void moveToGivenTerm(Integer desiredTerm){
         Integer currentTerm = 0; //A value of zero represents New Business
 
         while(currentTerm < desiredTerm){
-            // Only doing STG1 and STG2 if profile is 'All'
-            if(profileOption.equals(RenewalHelper_Profile.All) || profileOption.equals(RenewalHelper_Profile.IncludeSTG1and2)){
-                moveThroughStage1();
-                moveThroughStage2();
-            }
+            moveThroughStage1();
+            moveThroughStage2();
+            moveThroughStage3();
+            moveThroughStage4();
+            handleBillGenerationAndPayment();
+            moveToNewTermAndSetNewTimepoints();
 
-            moveThroughStage3(profileOption);
-            moveThroughStage4(profileOption);
-            if(bIncludeBillPay == true) {
-                handleBillGenerationAndPayment();
-                moveToNewTermAndSetNewTimepoints();
-            }
             currentTerm++;
-            if(currentTerm > 10 || bIncludeBillPay == false) // SANITY CHECK. Also If we don't pay the bill, we can't move to term++.
+            if(currentTerm > 10) // <-- SANITY CHECK. LIMITS RENEWALS TO 10.
                 break;
+        }
+    }
+
+    public void moveToEndOfFirstTerm(Boolean bPayBill){
+        moveThroughStage1();
+        moveThroughStage2();
+        moveThroughStage3();
+        moveThroughStage4();
+        if (bPayBill){
+            handleBillGenerationAndPayment();
+        }else{
+            handleBillGeneration();
         }
     }
 
@@ -136,36 +144,28 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
      * Handles all Stage 3 Jobs and Processes. <br>
      * This includes: Renewal Image Generation, Membership Timepoint 1.
      */
-    public void moveThroughStage3(RenewalHelper_Profile profileOption) {
+    public void moveThroughStage3() {
         if (_bPrintDebugInfo){
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 3 <QA-LOG-DEBUG>"));
         }
         rMinus73_generateRenewalImage();
         rMinus63_MembershipTimepoint1();
-
-        // Only perform if doing ALL jobs.
-        if(profileOption.equals(RenewalHelper_Profile.All)){
-            rMinus60_SendCreditDiscolsure();
-            rMinus57_RunUnderWriterRules();
-        }
+        rMinus60_SendCreditDiscolsure();
+        rMinus57_RunUnderWriterRules();
     }
 
     /**
      * Handles all Stage 4 Jobs and Processes. <br>
      * This includes: Membership Timepoint 2.
      */
-    public void moveThroughStage4(RenewalHelper_Profile profileOption) {
+    public void moveThroughStage4() {
         if (_bPrintDebugInfo){
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: STAGE 4 <QA-LOG-DEBUG>"));
         }
         rMinus48_MembershipTimepoint2();
-
-        // Only perform if doing ALL jobs.
-        if(profileOption.equals(RenewalHelper_Profile.All)) {
-            rMinus45_PremiumCalculation();
-            rMinus36_LastDayToNonRenew();
-            rMinus35_ProposePolicy();
-        }
+        rMinus45_PremiumCalculation();
+        rMinus36_LastDayToNonRenew();
+        rMinus35_ProposePolicy();
     }
 
     /**
@@ -197,6 +197,16 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
 
         // Manually ZERO OUT aaaTimelineRenewalInd
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
+    }
+
+    public void handleBillGeneration() {
+        // Do below chunk if state is not California
+        if (!_policyState.equalsIgnoreCase("CA")){
+            TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
+            JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+        }
     }
 
     /**
@@ -279,7 +289,7 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
         if (_bPrintDebugInfo) {
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         }
-     }
+    }
 
     /**
      * Handles R-63 Jobs and Processes - Timepoint 1 Membership Validation. <br>
@@ -517,9 +527,5 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
                 _timeDifferenceInDays_Stage4ToExpiration = 48l;
                 break;
         }
-    }
-
-    public String getCreatedPolicyNumber(){
-        return _policyNumber;
     }
 }
