@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import javax.ws.rs.core.Response;
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -66,7 +65,6 @@ import toolkit.exceptions.IstfException;
 import toolkit.utils.SSHController;
 import toolkit.utils.TestInfo;
 import toolkit.utils.datetime.DateTimeUtils;
-import toolkit.verification.CustomSoftAssertions;
 import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.TextBox;
 import toolkit.webdriver.controls.composite.assets.AssetList;
@@ -181,10 +179,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			//Start PAS-12822
@@ -195,14 +193,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(false, "already activated by previous job", softly);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -226,10 +224,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		String policyNumber = membershipEligibilityPolicyCreation("Error", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -241,7 +239,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			//BUG PAS-15479 EValue remains Pending after NB+30 if Membership Status = Erred
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
@@ -249,7 +247,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -273,10 +271,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -287,14 +285,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "eValue and Membership Discounts Removed - Membership", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(false, false, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, true, true, true, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -317,9 +315,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 		testEValueDiscount.pas111_clearCache();
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
 			mainApp().open();
@@ -332,14 +330,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(false, "already processed by previous job", softly);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -361,12 +359,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true, false);
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			//Start PAS-12822
@@ -377,7 +375,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
@@ -385,7 +383,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(false, true, membershipDiscountEligibilitySwitch, softly);
 			//BUG PAS-7149 AHDRXX is generated when MembershipEligibility=FALSE and eValue discount is not removed
 			checkDocumentContentAHDRXX(policyNumber, true, true, false, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -409,10 +407,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive, false, softly);
 			postConditionMembershipEligibilityCheck();
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -437,7 +435,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 
 			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -445,7 +443,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 			renewalTransactionHistoryCheck(policyNumber, true, true, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
-		});
+		softly.close();
 
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
@@ -485,7 +483,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 
 			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -493,7 +491,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 			renewalTransactionHistoryCheck(policyNumber, true, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -517,7 +515,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 
 			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -526,7 +524,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false, softly);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -551,7 +549,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			ahdexxGeneratedCheck(false, policyNumber, 0, softly);
 
 			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
@@ -560,7 +558,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false, softly);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -568,6 +566,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-15287"})
 	public void pas15287_eValueNotEligibleActiveMembershipNoEValueRenewalMinus48(@Optional("OK") String state) {
+		preconditionsClearFolders();
 		String membershipDiscountEligibilitySwitch = "TRUE";
 		String membershipStatus = "No";
 		boolean eValueSet = false;
@@ -587,7 +586,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
 		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			/*executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 			renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry");
 			ahdexxGeneratedCheck(true, policyNumber, 1);
@@ -598,9 +597,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather");*/
 			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -625,7 +624,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			renewalTransactionHistoryCheck(policyNumber, true, true, "inquiry", softly);
 			ahdexxGeneratedCheck(true, policyNumber, 1, softly);
 			checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false, softly);
@@ -637,7 +636,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false, softly);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-		});
+		softly.close();
 	}
 
 	@Parameters({"state"})
@@ -662,7 +661,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry", softly);
 			ahdexxGeneratedCheck(true, policyNumber, 1, softly);
 
@@ -672,7 +671,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false, softly);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
-		});
+		softly.close();
 	}
 
 	private void cancelReinstateToAvoidNbPlus15Plus30Jobs(String policyNumber) {
@@ -681,32 +680,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
-	}
-
-	private void renewalTransactionHistoryCheck(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent, String mode, ETCSCoreSoftAssertions softly) {
-		mainApp().reopen();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
-		PolicySummaryPage.buttonRenewals.click();
-		if ("inquiry".equals(mode)) {
-			policy.policyInquiry().start();
-		} else {
-			policy.dataGather().start();
-		}
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		if (membershipDiscountPresent) {
-			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
-		} else {
-			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-		}
-		if (eValueDiscountPresent) {
-			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isTrue();
-		} else {
-			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isFalse();
-		}
-	}
-
-	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, false);
 	}
 
 	/**
@@ -730,32 +703,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipStatusActive = "Cancelled";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			renewalMembershipProcessCheck(membershipDiscountEligibilitySwitch, membershipStatusActive, true, softly);
 			postConditionMembershipEligibilityCheck();
-		});
+		softly.close();
 	}
 
-	/**
-	 * The test is created to check the endpoints and correctness of the methods
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
-	public void pas111_paperlessMockTest(@Optional("VA") String state) {
-		String policyNumber = "VASS952918556";
-
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
-		//Always need to delete the added request ot stub
-		deleteSinglePaperlessPreferenceRequest(stub);
-
-		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
-
-		//PolicySummaryPage.getPolicyNumber();
-
-		deleteSinglePaperlessPreferenceRequest(stub2);
-		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
-		deleteSinglePaperlessPreferenceRequest(stub3);
+	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate) {
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, false);
 	}
 
 	/**
@@ -784,10 +739,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -798,7 +753,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
@@ -807,7 +762,29 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
+	}
+
+	/**
+	 * The test is created to check the endpoints and correctness of the methods
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-8275"})
+	public void pas111_paperlessMockTest(@Optional("VA") String state) {
+		String policyNumber = "VASS952918556";
+
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
+		//Always need to delete the added request ot stub
+		deleteSinglePaperlessPreferenceRequest(stub);
+
+		HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+
+		//PolicySummaryPage.getPolicyNumber();
+
+		deleteSinglePaperlessPreferenceRequest(stub2);
+		HelperWireMockStub stub3 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
+		deleteSinglePaperlessPreferenceRequest(stub3);
 	}
 
 	/**
@@ -836,10 +813,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			//Start PAS-12822
 			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, true, softly);
@@ -850,7 +827,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
@@ -859,7 +836,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -885,13 +862,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -902,7 +879,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
@@ -911,7 +888,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -937,13 +914,13 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true, false);
+		String policyNumber = membershipEligibilityPolicyCreation("Non-Active", true);
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -954,7 +931,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
@@ -963,7 +940,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDRXX(policyNumber, true, true, true, true, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -990,10 +967,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -1006,7 +983,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 			HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "ACTIVE", softly);
@@ -1014,7 +991,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
 			deleteSinglePaperlessPreferenceRequest(stub2);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1042,11 +1019,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_IN_PENDING);
 		deleteSinglePaperlessPreferenceRequest(stub);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperWireMockStub stub2 = createPaperlessPreferencesRequestId(policyNumber, OPT_IN);
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			//Start PAS-12822
@@ -1057,7 +1034,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(false, "no record created", softly);
@@ -1065,7 +1042,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, false, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
 			deleteSinglePaperlessPreferenceRequest(stub2);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1090,12 +1067,12 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String membershipDiscountEligibilitySwitch = "FALSE";
 		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
 
-		String policyNumber = membershipEligibilityPolicyCreation("Active", true, false);
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "PENDING", softly);
 			//Start PAS-12822
@@ -1107,7 +1084,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, true, membershipDiscountEligibilitySwitch, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
 			membershipLogicActivitiesAndNotesCheck(true, "INACTIVE", softly);
@@ -1116,7 +1093,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			latestTransactionMembershipAndEvalueDiscountsCheck(true, false, membershipDiscountEligibilitySwitch, softly);
 			//BUG PAS-7265 Paperless preference reason isn't displayed in AHDRXX document in case Paperless is Pending at NB+30
 			checkDocumentContentAHDRXX(policyNumber, true, false, true, true, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1141,21 +1118,21 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, true, false, false, false, softly);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1176,7 +1153,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-1451", "PAS-335"})
 	public void pas1451_eValueRemovedByServiceNoAHDRXX(@Optional("VA") String state) {
-		testEValueDiscount.eValueQuoteCreation(true);
+		testEValueDiscount.eValueQuoteCreation();
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
@@ -1187,19 +1164,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			//Start PAS-12822
 			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false);
@@ -1208,14 +1185,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1240,19 +1217,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 			HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
 			jobsNBplus15plus30runNoChecks();
 			//implementEmailCheck from Admin Log?
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			//Start PAS-12822
 			NotesAndAlertsSummaryPage.checkActivitiesAndUserNotes(MESSAGE_JEOPARDY, false, softly);
@@ -1261,14 +1238,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
 			jobsNBplus15plus30runNoChecks();
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "Insured's Request - Rates too high", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 			checkDocumentContentAHDRXX(policyNumber, false, false, false, false, false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1294,16 +1271,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData"));
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 4, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1329,10 +1306,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.reinstate().perform(getPolicyTD("Reinstatement", "TestData_Plus10Days"));
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
@@ -1344,7 +1321,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 				.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1368,10 +1345,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData_Plus10Days"));
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			//BUG PAS-13884 When running PaperlessPreferences update for policy with Future Dated Cancellation, no eValue removal happens and no task is created
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
@@ -1384,7 +1361,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 					.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1401,7 +1378,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
 	public void pas13528_eValueRemovedByServicePendingPolicy(@Optional("VA") String state) {
-		testEValueDiscount.eValueQuoteCreation(true);
+		testEValueDiscount.eValueQuoteCreation();
 
 		policy.dataGather().start();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -1415,20 +1392,19 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
-
 
 	/**
 	 * @author Oleg Stasyuk
@@ -1453,18 +1429,18 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 		mainApp().close();
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
 			HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-			mainApp().reopen();
+		mainApp().open();
 			SearchPage.openPolicy(policyNumber);
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 3, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1496,16 +1472,16 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			//BUG PAS-13857 PaperlessPreferences service updates Expired policies
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1540,15 +1516,15 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, 422);
 
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 1, "", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1577,9 +1553,9 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
 
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "eValue Removed - Paperless Preferences Removed - External", softly);
 			lastTransactionHistoryEValueDiscountCheck(false, softly);
 
@@ -1587,7 +1563,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			renewalTransactionEValueDiscountCheck(false, softly);
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
 	}
 
 	/**
@@ -1625,7 +1601,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
-		CustomSoftAssertions.assertSoftly(softly -> {
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
 			lastTransactionHistoryEValueDiscountCheck(true, softly);
 
@@ -1636,11 +1612,49 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 					.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 			deleteSinglePaperlessPreferenceRequest(stub);
-		});
+		softly.close();
+	}
+
+	/**
+	 * Post Condition  - Checks that number of failed async tasks is not huge
+	 */
+	@Test(groups = {Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"N/A"})
+	public void xAsyncTaskCheck() {
+		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(2));
+		adminApp().open();
+		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
+		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		softly.assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isLessThan(2);
+		softly.assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isLessThan(2);
+		softly.close();
+	}
+
+	private void renewalTransactionHistoryCheck(String policyNumber, boolean membershipDiscountPresent, boolean eValueDiscountPresent, String mode, ETCSCoreSoftAssertions softly) {
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		PolicySummaryPage.buttonRenewals.click();
+		if ("inquiry".equals(mode)) {
+			policy.policyInquiry().start();
+		} else {
+			policy.dataGather().start();
+		}
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (membershipDiscountPresent) {
+			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
+		} else {
+			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
+		}
+		if (eValueDiscountPresent) {
+			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isTrue();
+		} else {
+			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("eValue Discount")).isFalse();
+		}
 	}
 
 	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied, ETCSCoreSoftAssertions softly) {
-		membershipEligibilityPolicyCreation(membershipStatus, true, false);
+		membershipEligibilityPolicyCreation(membershipStatus, true);
 		String policyNumber = PolicySummaryPage.getPolicyNumber();
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
@@ -1656,7 +1670,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
 		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
 		//String policyNumber = "VASS952918864";
-		mainApp().reopen();
+		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
 		PolicySummaryPage.buttonRenewals.click();
@@ -1677,17 +1691,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber, softly);
 	}
 
-	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet) {
-		return membershipEligibilityPolicyCreation(membershipStatus, eValueSet, false);
-	}
-
-	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet, boolean defaultEvalueQuote) {
-		testEValueDiscount.eValueQuoteCreation(defaultEvalueQuote);
-		policy.dataGather().start();
-		setMembershipAndRate(membershipStatus, eValueSet);
-		return testEValueDiscount.simplifiedQuoteIssue();
-	}
-
 	void membershipEligibilityEndorsementCreation(String membershipStatus) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		setMembershipAndRate(membershipStatus, true);
@@ -1697,22 +1700,22 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 	private void setMembershipAndRate(String membershipStatus, boolean eValueSet) {
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		if ("Active".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
 			//BUG PAS-11150 Membership isn't removed on NB+30 when Membership status is Pending
-/*			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).isVisible()) {
-				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("");
+/*			if (generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).isPresent() && generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).isVisible()) {
+				generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("");
 			}*/
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Membership Pending");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Pending");
 		} else if ("Cancelled".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("3111111111111121");
 		} else if ("Error".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5610591081018250");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5610591081018250");
 		} else {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
 			//TODO check othe membership number for better randomization
 			//inactiveMembershipNumberList.add("4333333333333457");//Expired        - bad
@@ -1724,7 +1727,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			//inactiveMembershipNumberList.add("4333333333333338");//Expired           - error
 			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
 			printToLog("Value used " + randomInactiveMembershipNumber);
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER)
 					.setValue(randomInactiveMembershipNumber);
 		}
 
@@ -1810,15 +1813,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
 
-	private void eValueDiscountStatusCheck(String policyNumber, String status, ETCSCoreSoftAssertions softly) {
-		String getEvalueStatusSQL = "select evalueStatus from (\n"
-				+ "  select ps.policynumber, emd.evaluestatus\n"
-				+ "  from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
-				+ "  where ps.ememberdetail_id = emd.id\n"
-				+ "  and ps.policynumber = '%s'\n"
-				+ "  order by emd.id desc)\n"
-				+ "where rownum = 1";
-		assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
+	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet) {
+		testEValueDiscount.eValueQuoteCreation();
+		policy.dataGather().start();
+		setMembershipAndRate(membershipStatus, eValueSet);
+		return testEValueDiscount.simplifiedQuoteIssue();
 	}
 
 	private void membershipLogicActivitiesAndNotesCheck(boolean presence, String status, ETCSCoreSoftAssertions softly) {
@@ -1891,39 +1890,40 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		lastTransactionHistoryOpen();
 		if (!membershipDiscountPresent) {
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-			softly.assertThat(generalTab.getAAAProductOwnedInquiryAssetList().getStaticElement(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER)).hasValue("No");
+			//TODO if it will fail, necessary to think how to implement verification.
+			softly.assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER)).hasValue("No");
 		}
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		if (membershipDiscountPresent) {
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isTrue();
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(2)).hasValue("Yes");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		} else {
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(1, "AAA Membership Discount").getCell(3)).hasValue("None");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		}
 		lastTransactionHistoryExit();
 		if (eValueDiscountPresent) {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains(E_VALUE_DISCOUNT);
 			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			if (PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).isPresent()) {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, E_VALUE_DISCOUNT).getCell(5)).hasValue("Yes");
 			} else {
 				softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, E_VALUE_DISCOUNT).getCell(4)).hasValue("Yes");
 			}
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 		} else {
 			lastTransactionHistoryOpen();
 			softly.assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains(E_VALUE_DISCOUNT)).isFalse();
 			softly.assertThat(premiumAndCoveragesTab.getInquiryAssetList().getStaticElement(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
-			PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+			PremiumAndCoveragesTab.RatingDetailsView.open();
 			softly.assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "eValue Discount").getCell(6)).hasValue("None");
-			PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+			PremiumAndCoveragesTab.RatingDetailsView.close();
 			if (checkMessages) {
 				if ("TRUE".equals(membershipEligibilitySwitch)) {
 					softly.assertThat(PremiumAndCoveragesTab.tableEValueMessages.getRow(1).getCell(1)).hasValue(MESSAGE_INFO_1);
@@ -2129,19 +2129,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		stubList.remove(stub);
 	}
 
-	/**
-	 * Post Condition  - Checks that number of failed async tasks is not huge
-	 */
-	@Test(groups = {Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.BillingAndPayments.AUTO_SS, testCaseId = {"N/A"})
-	public void xAsyncTaskCheck() {
-		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(2));
-		adminApp().open();
-		NavigationPage.toMainAdminTab(NavigationEnum.AdminAppMainTabs.GENERAL.get());
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_ASYNC_TASKS.get());
-		SoftAssertions.assertSoftly(softly -> {
-			softly.assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelFailedTasks.getValue())).isLessThan(2);
-			softly.assertThat(Integer.valueOf(GeneralAsyncTasksPage.labelLockedTasks.getValue())).isLessThan(2);
-		});
+	private void eValueDiscountStatusCheck(String policyNumber, String status, ETCSCoreSoftAssertions softly) {
+		String getEvalueStatusSQL = "select evalueStatus from (\n"
+				+ "  select ps.policynumber, emd.evaluestatus\n"
+				+ "  from PolicySummary ps, AAAEMemberDetailsEntity emd\n"
+				+ "  where ps.ememberdetail_id = emd.id\n"
+				+ "  and ps.policynumber = '%s'\n"
+				+ "  order by emd.id desc)\n"
+				+ "where rownum = 1";
+		softly.assertThat(DBService.get().getValue(String.format(getEvalueStatusSQL, policyNumber)).orElse("")).isEqualTo(status);
 	}
 }

@@ -1,25 +1,23 @@
 package aaa.modules.regression.sales.auto_ss.functional;
 
 import static toolkit.verification.CustomAssertions.assertThat;
-
-import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
-import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
-import aaa.modules.regression.sales.template.functional.TestBestMembershipLogicTemplate;
+import java.time.LocalDateTime;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
+import aaa.main.modules.policy.auto_ss.defaulttabs.DriverTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
+import aaa.main.modules.policy.auto_ss.defaulttabs.PrefillTab;
+import aaa.modules.regression.sales.template.functional.TestBestMembershipLogicTemplate;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import java.time.LocalDateTime;
 
 @StateList(statesExcept = Constants.States.CA)
 public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
@@ -442,8 +440,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1980");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -470,8 +468,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -498,8 +496,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), INACTIVE_BML_MEMBERSHIP_NUMBER);
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -526,8 +524,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Yes");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Yes");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), ACTIVE_MEMBERSHIP_NUMBER);
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -554,8 +552,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -582,10 +580,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = defaultTestData.resolveLinks();
 
         LocalDateTime _policyExpirationDate = doTestReturnPolicyNumber(defaultTestData);
@@ -610,8 +608,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "No");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "No");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -638,8 +636,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -666,10 +664,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = defaultTestData.resolveLinks();
 
         LocalDateTime _policyExpirationDate = doTestReturnPolicyNumber(defaultTestData);
@@ -694,8 +692,8 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Pending");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -722,10 +720,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -752,10 +750,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -782,10 +780,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Term");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Term");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();
@@ -812,10 +810,10 @@ public class TestBestMembershipLogic extends TestBestMembershipLogicTemplate {
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.FIRST_NAME.getLabel(), "JOHN");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.LAST_NAME.getLabel(), "SHEPARD");
         defaultTestData = adjustTD(defaultTestData, PrefillTab.class, AutoSSMetaData.PrefillTab.DATE_OF_BIRTH.getLabel(), "01/01/1988");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.OVERRIDE_TYPE.getLabel(), "Life");
-        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
-        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel());
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), "Membership Override");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE.getLabel(), "Life");
+        defaultTestData = adjustTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE.getLabel(), "01/01/2000");
+        defaultTestData = maskTD(defaultTestData, GeneralTab.class, AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.GENDER.getLabel(), "Male");
         defaultTestData = adjustTD(defaultTestData, DriverTab.class, AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), "Divorced");
         defaultTestData = defaultTestData.resolveLinks();

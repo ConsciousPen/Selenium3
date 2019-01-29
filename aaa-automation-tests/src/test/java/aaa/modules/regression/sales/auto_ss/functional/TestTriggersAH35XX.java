@@ -138,7 +138,7 @@ public class TestTriggersAH35XX extends AutoSSBaseTest {
 	}
 
 	private void documentPaymentMethodCheckInDb(String policyNum, String numberCCACH, int numberOfDocuments, ETCSCoreSoftAssertions softly) {
-		String visaNumberScreened = "***" + numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
+		String visaNumberScreened = numberCCACH.substring(numberCCACH.length() - 4, numberCCACH.length());
 		String query = GET_DOCUMENT_BY_EVENT_NAME + " and data like '%%" + visaNumberScreened + "%%'";
 		String queryFull = String.format(query, policyNum, "AH35XX", "AUTO_PAY_METNOD_CHANGED");
 		softly.assertThat(DbAwaitHelper.waitForQueryResult(queryFull, 5)).isTrue();

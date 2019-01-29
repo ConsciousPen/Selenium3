@@ -2,7 +2,6 @@ package aaa.modules.regression.sales.auto_ss;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -103,9 +102,13 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		policy.policyCopy().perform(td_quote);		
 		policy.dataGather().start();
 		
-		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get()); 
+		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get()); 
+		new GeneralTab().fillTab(td_quote); 
+		new GeneralTab().submitTab();
+		
 		new DriverTab().fillTab(td_quote); 
 		new DriverTab().submitTab();
+		
         new RatingDetailReportsTab().fillTab(td_quote).submitTab();
         
         if (getState().equals(Constants.States.NY)) {
@@ -126,9 +129,9 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 			discountApplied = "No";
 		}
               
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
         new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+        PremiumAndCoveragesTab.RatingDetailsView.close();
         new PremiumAndCoveragesTab().submitTab();
 
         if (new ErrorTab().buttonOverride.isPresent()) {
@@ -165,14 +168,14 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 			discountApplied = "No";
 		}
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		Map<String, String> goodStudentDiscount = new HashMap<>();
 		goodStudentDiscount.put("", "Good Student Discount");
 		goodStudentDiscount.put("Proposed Changes", discountApplied);
 
 		CustomAssertions.assertThat(PremiumAndCoveragesTab.tableRatingDetailsDrivers.getRowContains(goodStudentDiscount)).isPresent();
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         new DocumentsAndBindTab().submitTab();
@@ -199,9 +202,9 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 			discountApplied = "No";
 		}
 
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		PremiumAndCoveragesTab.RatingDetailsView.close();
         new PremiumAndCoveragesTab().saveAndExit();
 
 		CustomAssertions.assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -217,9 +220,9 @@ public class TestPolicyGoodStudentDiscount extends AutoSSBaseTest {
 		else {
 			CustomAssertions.assertThat(PremiumAndCoveragesTab.tableDiscounts.getRow(1).getValue().toString()).doesNotContain("Good Student Discount");
 		}
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();	        
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 		new PremiumAndCoveragesTab().getRatingDetailsDriversData().forEach(i -> CustomAssertions.assertThat(i.getValue("Good Student Discount")).isEqualTo(discountApplied));
-        PremiumAndCoveragesTab.buttonRatingDetailsOk.click(); 
+        PremiumAndCoveragesTab.RatingDetailsView.close();
 		new PremiumAndCoveragesTab().cancel();	
 	}
 	

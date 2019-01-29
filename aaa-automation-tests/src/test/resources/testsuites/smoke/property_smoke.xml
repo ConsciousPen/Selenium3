@@ -37,12 +37,6 @@
         </classes>
     </test>
 
-    <test name="HDES Conversion Smoke Test" parallel="methods">
-        <parameter name="state" value="CA" />
-        <classes>
-            <class name="aaa.modules.regression.conversions.home_ca.ho3.HdesImportSmokeTest" />
-        </classes>
-    </test>
     <test name="SIS DP3 Conversion Smoke Test" parallel="methods">
         <parameter name="state" value="CA" />
         <classes>

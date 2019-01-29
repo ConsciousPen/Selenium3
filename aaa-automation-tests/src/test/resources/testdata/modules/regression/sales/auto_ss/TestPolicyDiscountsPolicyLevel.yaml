@@ -52,7 +52,7 @@ PrefillTab: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation'
 }
@@ -63,7 +63,7 @@ NamedInsuredInformation: {
   Residence: Own Home,
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'No',
 }
 
@@ -142,14 +142,14 @@ PurchaseTab: {
 GeneralTab_Discounts: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned1',
+    AAAMembership: '@AAAMembership1',
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformation1',
     PolicyInformation: {}
   }
 }
 
-AAAProductOwned1: {
+AAAMembership1: {
   #Current AAA Member: 'Membership Pending',
   #Membership Number: 4290023667710001,
   Current AAA Member: 'Yes',
@@ -175,14 +175,14 @@ CurrentCarrierInformation1: {
 GeneralTab_Discounts3: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned3',
+    AAAMembership: '@AAAMembership3',
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformation3',
     PolicyInformation: {}
   }
 }
 
-AAAProductOwned3: {
+AAAMembership3: {
   Home: 'No',
 }
 
@@ -194,14 +194,14 @@ CurrentCarrierInformation3: {
 GeneralTab_Discounts4: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned4',
+    AAAMembership: '@AAAMembership4',
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformation4',
     PolicyInformation: '@PolicyInformation4'
   }
 }
 
-AAAProductOwned4: {
+AAAMembership4: {
   Condo: 'No',
 }
 
@@ -218,14 +218,14 @@ PolicyInformation4: {
 GeneralTab_Discounts5: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned5',
+    AAAMembership: '@AAAMembership5',
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation4'
   }
 }
 
-AAAProductOwned5: {
+AAAMembership5: {
   Current AAA Member: 'No',
   Life: 'No',
   Renters: 'No',
@@ -235,14 +235,14 @@ AAAProductOwned5: {
 GeneralTab_Discounts6: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned6',
+    AAAMembership: '@AAAMembership6',
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation4'
   }
 }
 
-AAAProductOwned6: {
+AAAMembership6: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
   Home: 'Yes'
@@ -251,7 +251,7 @@ AAAProductOwned6: {
 GeneralTab_AShDiscount: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation_ASh'
@@ -267,7 +267,7 @@ PolicyInformation_ASh: {
 GeneralTab_AShDiscount2: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation_ASh2'
@@ -281,7 +281,7 @@ PolicyInformation_ASh2: {
 GeneralTab_AShDiscount3: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformationASh3',
     PolicyInformation: '@PolicyInformation_ASh3'
@@ -303,7 +303,7 @@ PolicyInformation_ASh3: {
 GeneralTab_AShDiscount4: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation_ASh4'
@@ -318,7 +318,7 @@ PolicyInformation_ASh4: {
 GeneralTab_AShDiscount5: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformationASh5',
     PolicyInformation: '@PolicyInformation_ASh5'
@@ -336,7 +336,7 @@ PolicyInformation_ASh5: {
 GeneralTab_AShDiscount6: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformationASh6',
     PolicyInformation: {}
@@ -350,7 +350,7 @@ CurrentCarrierInformationASh6: {
 GeneralTab_AShDiscount7: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformationASh7',
     PolicyInformation: '@PolicyInformation_ASh7'
@@ -368,7 +368,7 @@ PolicyInformation_ASh7: {
 GeneralTab_AShDiscount8: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation_ASh8'
@@ -382,7 +382,7 @@ PolicyInformation_ASh8: {
 GeneralTab_AShDiscount9: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: {},
+    AAAMembership: {},
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation_ASh9'
@@ -607,7 +607,7 @@ DataGather_WO_Discounts_AZ: {
 
 GeneralTab_AZ: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   PolicyInformation: '@PolicyInformation_AZ'
 }
@@ -640,14 +640,14 @@ DriverTab_AZ: {
 GeneralTab_Discounts_AZ: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned1_AZ',
+    AAAMembership: '@AAAMembership1_AZ',
     ContactInformation: {},
     CurrentCarrierInformation: '@CurrentCarrierInformation1',
     PolicyInformation: {}
   }
 }
 
-AAAProductOwned1_AZ: {
+AAAMembership1_AZ: {
   #Current AAA Member: 'Membership Pending',
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
@@ -667,14 +667,14 @@ AAAProductOwned1_AZ: {
 GeneralTab_Discounts5_AZ: {
   GeneralTab: {
     NamedInsuredInformation: [{}],
-    AAAProductOwned: '@AAAProductOwned5_AZ',
+    AAAMembership: '@AAAMembership5_AZ',
     ContactInformation: {},
     CurrentCarrierInformation: {},
     PolicyInformation: '@PolicyInformation4'
   }
 }
 
-AAAProductOwned5_AZ: {
+AAAMembership5_AZ: {
   Current AAA Member: 'No',
   Motorcycle: 'No',
   Life: 'No',

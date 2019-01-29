@@ -18,7 +18,7 @@ TestData_No_UBI: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@CurrentCarrierInformation'
@@ -208,7 +208,7 @@ PrefillTab_CT: {
 
 GeneralTab_CT: {
   NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2_CT'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation'

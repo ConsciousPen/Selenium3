@@ -20,6 +20,7 @@ import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
 import aaa.main.modules.policy.home_ss.defaulttabs.PropertyInfoTab;
+import aaa.main.modules.policy.home_ss.defaulttabs.ReportsTab;
 import aaa.main.modules.policy.pup.defaulttabs.*;
 import aaa.main.pages.summary.CustomerSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -30,12 +31,14 @@ import toolkit.datax.impl.SimpleDataProvider;
 import toolkit.utils.datetime.DateTimeUtils;
 
 public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
-	public PUPTestDataGenerator(String state) {
-		super(state);
-	}
+	private static PUPCreditScoreGenerator creditScoreGenerator = new PUPCreditScoreGenerator();
 
 	public PUPTestDataGenerator(String state, TestData ratingDataPattern) {
 		super(state, ratingDataPattern);
+	}
+
+	static PolicyType getHomePolicyType(PUPOpenLPolicy openLPolicy) {
+		return openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
 	}
 
 	@Override
@@ -88,9 +91,8 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 		Map<String, String> returnValue = new LinkedHashMap<>();
 		String state = getState().intern();
 		synchronized (state) {
-			PolicyType type = openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
 			String policyType = openLPolicy.getRentalUnitsCount() > 0 ? "HO6" : "HO3";
-			type.get().createPolicy(td);
+			getHomePolicyType(openLPolicy).get().createPolicy(td);
 			returnValue.put(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_NUMBER.getLabel(), PolicySummaryPage.labelPolicyNumber.getValue());
 			returnValue.put(PersonalUmbrellaMetaData.PrefillTab.ActiveUnderlyingPolicies.ActiveUnderlyingPoliciesSearch.POLICY_TYPE.getLabel(), policyType);
 			//open Customer that was created in test
@@ -103,8 +105,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 
 	private TestData getPrefillTabData(PUPOpenLPolicy openLPolicy) {
 		TestData tdPUP = getStateTestData(new TestDataManager().policy.get(PolicyType.PUP), "DataGather", "TestData");
-		PolicyType policyType = openLPolicy.getRentalUnitsCount() > 0 ? PolicyType.HOME_SS_HO6 : PolicyType.HOME_SS_HO3;
-		TestData tdHO = getPrimaryPolicyData(openLPolicy, getStateTestData(new TestDataManager().policy.get(policyType), "DataGather", "TestData"));
+		TestData tdHO = getPrimaryPolicyData(openLPolicy, getStateTestData(new TestDataManager().policy.get(getHomePolicyType(openLPolicy)), "DataGather", "TestData"));
 		TestData preFillTabTd = adjustWithRealPolicies(tdPUP, getPrimaryPolicyForPup(tdHO, openLPolicy));
 		return preFillTabTd.getTestData(new PrefillTab().getMetaKey());
 	}
@@ -126,9 +127,22 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getPrimaryPolicyData(PUPOpenLPolicy openLPolicy, TestData primaryPolicyTd) {
+		TestData insuranceScoreOverrideData = DataProviderFactory.emptyData();
+		if (!Constants.States.MD.equals(getState())) {
+			insuranceScoreOverrideData = DataProviderFactory.dataOf(
+					HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.ACTION.getLabel(), "Override Score",
+					HomeSSMetaData.ReportsTab.InsuranceScoreOverrideRow.EDIT_INSURANCE_SCORE.getLabel(), DataProviderFactory.dataOf(
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.SCORE_AFTER_OVERRIDE.getLabel(), creditScoreGenerator.get(openLPolicy),
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.REASON_FOR_OVERRIDE.getLabel(), "Fair Credit Reporting Act Dispute",
+							HomeSSMetaData.ReportsTab.EditInsuranceScoreDialog.BTN_SAVE.getLabel(), "click"
+					)
+			);
+		}
+
 		TestData td = DataProviderFactory.dataOf(
 				new ApplicantTab().getMetaKey(), getApplicantTabPrimaryPolicyData(openLPolicy),
-				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabPrimaryPolicyData(openLPolicy)
+				new PropertyInfoTab().getMetaKey(), getPropertyInfoTabPrimaryPolicyData(openLPolicy),
+				new ReportsTab().getMetaKey(), DataProviderFactory.dataOf(HomeSSMetaData.ReportsTab.INSURANCE_SCORE_OVERRIDE.getLabel(), insuranceScoreOverrideData)
 		);
 		return TestDataHelper.merge(primaryPolicyTd, td);
 	}
@@ -429,7 +443,6 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 					antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 					if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 						antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
-
 					} else {
 						antiqueCar.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
 					}
@@ -460,14 +473,13 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 			if (tdAutomobiles.size() < 1) {
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.ADD_AUTOMOBILE.getLabel(), "Yes");
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.PRIMARY_AUTO_POLICY.getLabel(), "Yes");
-				if ("DE".equals(getState())) {
+				if (!Constants.States.PA.equals(getState())) { //autoTier for PA has different values and looks like does not affect rating
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.AUTO_TIER.getLabel(), openLPolicy.getAutoTier());
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.POLICY_NUM.getLabel(), String.format("%sSS123456", getState()));
 				}
 				addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.COVERAGE_TYPE.getLabel(), "Split");
 				if (Boolean.FALSE.equals(openLPolicy.getDropDownInd())) {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "250000"));
-
 				} else {
 					addlAuto.put(PersonalUmbrellaMetaData.UnderlyingRisksAutoTab.Automobiles.BI_LIMITS.getLabel(), Arrays.asList("250000", "500000"));
 				}
@@ -588,7 +600,7 @@ public class PUPTestDataGenerator extends TestDataGenerator<PUPOpenLPolicy> {
 	}
 
 	private TestData getPremiumAndCoveragesData(PUPOpenLPolicy openLPolicy) {
-		TestData premiumAndCoverageTabData = new SimpleDataProvider();
+		TestData premiumAndCoverageTabData = DataProviderFactory.dataOf(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), "click");
 		if (openLPolicy.getCoverages().get(0).getLimit() != null) {
 			premiumAndCoverageTabData.adjust(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.PERSONAL_UMBRELLA.getLabel(), new Dollar(openLPolicy.getCoverages().get(0).getLimit()).toString().replaceAll("\\.00", ""));
 		}

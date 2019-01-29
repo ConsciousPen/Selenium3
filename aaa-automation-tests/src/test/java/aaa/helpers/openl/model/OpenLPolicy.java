@@ -353,7 +353,7 @@ public abstract class OpenLPolicy {
 		}
 		String openLFieldPath = parentOpenLFieldPath != null ? parentOpenLFieldPath + "." + fieldName : fieldName;
 
-		if (ReflectionHelper.isTableClassField(openLField)) {
+		if (ReflectionHelper.isTableClassField(openLField) && classInstance != null) {
 			Class<?> tableClass = ReflectionHelper.getFieldType(openLField);
 			List<Field> tableColumnsFields = ReflectionHelper.getAllAccessibleFieldsFromThisAndSuperClasses(tableClass);
 			if (List.class.isAssignableFrom(openLField.getType())) {

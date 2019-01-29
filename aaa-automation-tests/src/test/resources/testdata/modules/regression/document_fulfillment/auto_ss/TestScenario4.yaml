@@ -39,11 +39,11 @@ TestData_Purchase_AZ: {
 TestData_CopyFromPolicy1: {
   PrefillTab: {},
   GeneralTab: {
-    List of Insured Principal: {
-      'column=1': '2',
-      'column=4': Remove,
-      'Confirm Remove': ''
-    }
+ #   List of Insured Principal: {
+ #     'column=1': '2',
+ #     'column=4': Remove,
+ #     'Confirm Remove': ''
+ #   }
   },
   DriverTab: {
     List of Driver: [
@@ -52,17 +52,17 @@ TestData_CopyFromPolicy1: {
         'column=5': 'Remove',
         Confirm Remove: ''  
       },
-      {
-        'column=1': '2',
-        'column=5': 'Remove',
-        Confirm Remove: ''  
-      }
+#      {
+#        'column=1': '2',
+#        'column=5': 'Remove',
+#        Confirm Remove: ''  
+#      }
     ],
     ADB Coverage: 'No',
     Financial Responsibility Filing Needed: 'No'
   },
   RatingDetailReportsTab: {
-    Order Report: ''
+    Order Report: click
   },
   VehicleTab: {
     List of Vehicle: [
@@ -142,18 +142,30 @@ TestData_Endorsement: {
 }
 
 GeneralTab_AZ: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_AZ'
 }
 
-NamedInsuredInformation: {
+NamedInsuredInformation2: {
   InsuredSearchDialog: {},
   First Name: Sam,
   Last Name: Alonso,
   Base Date: $<today>,
+  Insured Date of Birth: $<today-20y>,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Old,
+  Last Name: Bear,
+  Base Date: $<today>,
+  Insured Date of Birth: 01/01/1955,
   Social Security Number: 123456788,
   "Has lived here for less than three years?": 'No',
   Residence: Own Home
@@ -173,7 +185,7 @@ Driver2_AZ: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -188,10 +200,9 @@ Driver2_AZ: {
 
 Driver3_AZ: {
   DriverSearchDialog: {},
+  Named Insured: Old Bear,
   Rel. to First Named Insured: Other,
-  First Name: Old,
-  Last Name: Bear,
-  Date of Birth: 01/01/1955,
+  #Date of Birth: 01/01/1955,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
@@ -347,8 +358,8 @@ TestData_CopyFromPolicy2_IN: {
 }
 
 GeneralTab_IN: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_IN'
@@ -368,7 +379,7 @@ Driver2_IN: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -383,10 +394,9 @@ Driver2_IN: {
 
 Driver3_IN: {
   DriverSearchDialog: {},
+  Named Insured: Old Bear,
   Rel. to First Named Insured: Other,
-  First Name: Old,
-  Last Name: Bear,
-  Date of Birth: 01/01/1955,
+  #Date of Birth: 01/01/1955,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
@@ -471,11 +481,33 @@ TestData_CopyFromPolicy2_OH: {
 }
 
 GeneralTab_OH: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_OH'
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Sam,
+  Last Name: Alonso,
+  Base Date: $<today>,
+  Insured Date of Birth: $<today-20y>,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Old,
+  Last Name: Bear,
+  Base Date: $<today>,
+  Insured Date of Birth: 01/01/1955,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
 }
 
 Driver1_OH: {
@@ -492,7 +524,7 @@ Driver2_OH: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -507,10 +539,9 @@ Driver2_OH: {
 
 Driver3_OH: {
   DriverSearchDialog: {},
+  Named Insured: Old Bear,
   Rel. to First Named Insured: Other,
-  First Name: Old,
-  Last Name: Bear,
-  Date of Birth: 01/01/1955,
+  #Date of Birth: 01/01/1955,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
@@ -686,11 +717,33 @@ TestData_Endorsement_VA: {
 }
 
 GeneralTab_VA: {
-  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation2', '@NamedInsuredInformation3'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_VA'
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: Sam,
+  Last Name: Alonso,
+  Base Date: $<today>,
+  Insured Date of Birth: $<today-20y>,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: Old,
+  Last Name: Bear,
+  Base Date: $<today>,
+  Insured Date of Birth: 01/01/1955,
+  Social Security Number: 123456788,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home
 }
 
 Driver1_VA: {  
@@ -706,7 +759,7 @@ Driver2_VA: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -721,10 +774,9 @@ Driver2_VA: {
 
 Driver3_VA: {
   DriverSearchDialog: {},
+  Named Insured: Old Bear,
   Rel. to First Named Insured: Other,
-  First Name: Old,
-  Last Name: Bear,
-  Date of Birth: 01/01/1955,
+  #Date of Birth: 01/01/1955,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
@@ -803,7 +855,7 @@ TestData_Purchase_WV: {
 
 GeneralTab_WV: {
   NamedInsuredInformation: ['@<auto_ss>@DataGather@NamedInsuredInformation', '@NamedInsuredInformation'],
-  AAAProductOwned: '@<auto_ss>@DataGather@AAAProductOwned',
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
   ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
   CurrentCarrierInformation: '@<auto_ss>@DataGather@CurrentCarrierInformation',
   PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation_WV'
@@ -823,7 +875,7 @@ Driver2_WV: {
   DriverSearchDialog: {},
   Named Insured: Sam Alonso,
   Rel. to First Named Insured: Other,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -841,7 +893,7 @@ Driver3_WV: {
   Rel. to First Named Insured: Other,
   First Name: Old,
   Last Name: Bear,
-  Date of Birth: 01/01/1955,
+  #Date of Birth: 01/01/1955,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
@@ -860,7 +912,7 @@ Driver4_WV: {
   Reason: Company Request,
   First Name: Jim,
   Last Name: Block,
-  Date of Birth: 01/01/1981,
+  #Date of Birth: 01/01/1981,
   Gender: Male,
   Marital Status: Single,
   Occupation: Employed,
