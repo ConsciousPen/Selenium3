@@ -1,20 +1,16 @@
 package aaa.modules.regression.sales.home_ss.ho3.functional;
 
-import static toolkit.verification.CustomAssertions.assertThat;
-
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.RenewalHelper_HomeSS;
+import aaa.helpers.renewal.RenewalHelper_Home;
 import aaa.helpers.TestDataHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
-import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.home_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -29,7 +25,6 @@ import toolkit.utils.TestInfo;
 import toolkit.verification.CustomAssertions;
 import toolkit.webdriver.controls.RadioGroup;
 import toolkit.webdriver.controls.TextBox;
-import toolkit.webdriver.controls.waiters.Waiters;
 
 import java.time.LocalDateTime;
 
@@ -208,7 +203,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
         String policyNumber = PolicySummaryPage.getPolicyNumber();
 
         // Get Policy to Renewal Timepoint.
-        RenewalHelper_HomeSS renewalHelper = new RenewalHelper_HomeSS(getState(), true);
+        RenewalHelper_Home renewalHelper = new RenewalHelper_Home(getState(), true);
         renewalHelper.moveToEndOfFirstTerm(false);
 
         // Retrieve Policy
@@ -275,7 +270,7 @@ public class TestMembershipValidation extends HomeSSHO3BaseTest {
 
         // Start Renewal
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        RenewalHelper_HomeSS renewalHelper = new RenewalHelper_HomeSS(getState(), true);
+        RenewalHelper_Home renewalHelper = new RenewalHelper_Home(getState(), true);
         renewalHelper.moveToEndOfFirstTerm(false);
 
         // Retrieve Policy
