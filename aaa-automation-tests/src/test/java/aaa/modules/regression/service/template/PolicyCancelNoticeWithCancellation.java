@@ -4,8 +4,8 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum.SearchBy;
 import aaa.main.enums.SearchEnum.SearchFor;
@@ -63,7 +63,7 @@ public class PolicyCancelNoticeWithCancellation extends PolicyBaseTest {
 		LocalDateTime cancellationDate = getTimePoints().getCancellationDate(DateTimeUtils.getCurrentDateTime().plusDays(daysOfNotice));
 		TimeSetterUtil.getInstance().nextPhase(cancellationDate);
 
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 
 		mainApp().open();
 		SearchPage.search(SearchFor.POLICY, SearchBy.POLICY_QUOTE, policyNumber);

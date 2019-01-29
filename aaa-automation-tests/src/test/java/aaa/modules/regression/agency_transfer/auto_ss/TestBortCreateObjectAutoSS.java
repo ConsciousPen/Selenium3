@@ -1,5 +1,9 @@
 package aaa.modules.regression.agency_transfer.auto_ss;
 
+import static toolkit.verification.CustomAssertions.assertThat;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 import aaa.admin.metadata.agencyvendor.AgencyTransferMetaData;
 import aaa.admin.modules.agencyvendor.AgencyTransfer.defaulttabs.AgencyTransferTab;
 import aaa.admin.pages.agencyvendor.AgencyTransferPage;
@@ -7,21 +11,16 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 import toolkit.webdriver.controls.waiters.Waiters;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 /**
  * @author S. Sivaram
@@ -47,7 +46,7 @@ public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
         policyNumber = createPolicyNumber();
         String sourceAgent = getSourceAgentDetails();
         createBortObject();
-        JobUtils.executeJob(Jobs.policyBORTransferJob);
+		JobUtils.executeJob(BatchJob.policyBORTransferJob);
         String agentPostTransfer = getTargetAgentDetails(policyNumber);
         assertAndLogResults(sourceAgent, agentPostTransfer);
     }
@@ -83,7 +82,7 @@ public class TestBortCreateObjectAutoSS extends AutoSSBaseTest {
 
 
         AgencyTransferPage.buttonSearchTransfer.click();
-        log.info("No of transfer ID's: " + Integer.toString(AgencyTransferPage.tableTransfers.getRowsCount()));
+		log.info("No of transfer ID's: " + AgencyTransferPage.tableTransfers.getRowsCount());
         log.info("*************** " + AgencyTransferPage.tableTransfers.getRow(AgencyTransferPage.tableTransfers.getRowsCount()).getCell(3).getValue());
         log.info("Transfer ID:  " + AgencyTransferMetaData.AgencyTransferTab.TRANSFER_ID.getLabel());
         log.info("Waiting for Object to be Submitted");

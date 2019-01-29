@@ -18,8 +18,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -80,10 +80,10 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 		PolicySummaryPage.buttonRenewals.click();
 
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		//2. (R-35) Run the batch job: Renewal_Offer_Generation_Part2
+		//2. (R-35) Run the batch job: renewalOfferGenerationPart2
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal offer is generated and the policy is in 'Proposed' status
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -92,7 +92,7 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AA52KS);
 		//3. (R-20) Run the batch job - aaaRenewalNoticeBillAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		//Navigate to the Billing tab ->
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
@@ -113,33 +113,33 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 		//5. (R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 		//6. Navigate to Policy Consolidated View. -> Policy Status = Active
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 
 		assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-		//7. (2R-96) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+		//7. (2R-96) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//8. (2R-63) Run the following job - Renewal_Offer_Generation_Part1 -> Job run is successful.
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		//8. (2R-63) Run the following job - renewalOfferGenerationPart1 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		//9. (2R-45) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+		//9. (2R-45) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		//Validate status of renewal image -> Status of renewal image = Premium Calculated
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
 		PolicySummaryPage.buttonRenewals.click();
 
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		//10. (2R-35) Run the batch jobs: Renewal_Offer_Generation_Part2, aaaDocGen
+		//10. (2R-35) Run the batch jobs: renewalOfferGenerationPart2, aaaDocGen
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal status is 'Proposed'
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -155,7 +155,7 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
@@ -172,8 +172,8 @@ public class TestManualConversionScenario4 extends AutoSSBaseTest {
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 		//13. (2R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 		//Navigate to Policy Consolidated View. -> Policy Status = Proposed
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);

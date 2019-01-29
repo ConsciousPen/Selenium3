@@ -39,6 +39,10 @@ public class JobUtils {
 		executeJob(JobGroup.fromSingleJob(job), false);
 	}
 
+	public static void executeJob(Job job, Boolean forceExecution) {
+		executeJob(JobGroup.fromSingleJob(job), forceExecution);
+	}
+
 	public static void createJob(JobGroup job) {
 		SoapJobActions soapJob = new SoapJobActions();
 		if (!soapJob.isJobExist(job)) {
@@ -50,10 +54,22 @@ public class JobUtils {
 		createJob(new JobGroup(job));
 	}
 
+	public static Boolean isJobExist(JobGroup job) {
+		return new SoapJobActions().isJobExist(job);
+	}
+
+	public static Boolean isJobExist(Job job) {
+		return isJobExist(new JobGroup(job));
+	}
+
 	private static void executeJobImpl(JobGroup jobName) {
 		log.info(getFullName() + " is running job: " + jobName);
 		try {
-			new SoapJobActions().startJob(jobName);
+			SoapJobActions soapJob = new SoapJobActions();
+			if (!soapJob.isJobExist(jobName)) {
+				soapJob.createJob(jobName);
+			}
+			soapJob.startJob(jobName);
 		} catch (Exception ie) {
 			throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
 		}

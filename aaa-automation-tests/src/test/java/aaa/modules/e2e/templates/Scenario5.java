@@ -14,8 +14,8 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -73,7 +73,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateFirstBillOneDayBefore() {
 		LocalDateTime billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -89,7 +89,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void payFirstBillOneDayBefore() {
 		LocalDateTime billDueDate = getTimePoints().getBillDueDate(installmentDueDates.get(1)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -128,7 +128,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateCancellNoticeOneDayBefore() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(2)).with(DateTimeUtils.previousWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -149,7 +149,7 @@ public class Scenario5 extends ScenarioBaseTest {
 		if (getState().equals(States.AZ))
 			cnDate = cnDate.minusHours(1);
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -166,14 +166,14 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void verifyFormAH34XX() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH34XX);
 	}
 
 	public void cancelPolicyOneDayBefore() {
 		LocalDateTime cDate = getTimePoints().getCancellationDate(installmentDueDates.get(2)).with(DateTimeUtils.previousWorkingDay);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -184,14 +184,14 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void verifyFormAH67XX() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AH67XX);
 	}
 
 	public void generateFirstEPBillOneDayBefore() {
 		LocalDateTime epDate = getTimePoints().getEarnedPremiumBillFirst(installmentDueDates.get(2)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(epDate);
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -214,7 +214,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateEPWriteOffOneDayBefore() {
 		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2)).minusDays(1);
 		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
+		JobUtils.executeJob(BatchJob.collectionFeedBatch_earnedPremiumWriteOff);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -225,7 +225,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void generateEPWriteOff() {
 		LocalDateTime date = getTimePoints().getEarnedPremiumWriteOff(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff);
+		JobUtils.executeJob(BatchJob.collectionFeedBatch_earnedPremiumWriteOff);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -236,9 +236,9 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void renewalImageGeneration() {
 		LocalDateTime renewDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -249,7 +249,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	public void renewalPreviewGeneration() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -261,7 +261,7 @@ public class Scenario5 extends ScenarioBaseTest {
 	public void renewalOfferGeneration() {
 		LocalDateTime renewDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -278,7 +278,7 @@ public class Scenario5 extends ScenarioBaseTest {
 
 	protected void generateAndCheckEarnedPremiumBill(LocalDateTime date, DocGenEnum.Documents document) {
 		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, document);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);

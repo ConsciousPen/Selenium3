@@ -9,8 +9,8 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
@@ -49,14 +49,14 @@ public class TestMembershipRenewalConsideration extends AutoSSBaseTest
 
         //Main Test
         TimeSetterUtil.getInstance().nextPhase(timePoint1);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
 
         TimeSetterUtil.getInstance().nextPhase(timePoint2);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     /**
@@ -85,14 +85,14 @@ public class TestMembershipRenewalConsideration extends AutoSSBaseTest
 
         //Main Test
         TimeSetterUtil.getInstance().nextPhase(timePoint1);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
 
         TimeSetterUtil.getInstance().nextPhase(timePoint2);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
         HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     public LocalDateTime handlePreconditions(){

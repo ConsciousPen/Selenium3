@@ -12,7 +12,7 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.ErrorTab;
@@ -54,14 +54,14 @@ public class TestFinanceEPCalculationFlatCancellation extends FinanceOperations 
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
-		jobDate = runEPJobUntil(jobDate, cancelDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, cancelDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cancelDate);
 
 		searchForPolicy(policyNumber);
 
 		cancelPolicy(-35, getPolicyType());
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

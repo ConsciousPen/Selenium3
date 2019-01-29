@@ -15,8 +15,8 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants.*;
@@ -99,7 +99,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	// TODO Check: Removed according to 20427:US CL GD Generate Premium Due Notice v2.0. Form has been renamed to AHIBXX
 	protected void verifyFormAHIBXX() {
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHIBXX);
 	}
 
@@ -156,7 +156,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void generateCancellNotice() {
 		LocalDateTime cnDate = getTimePoints().getCancellationNoticeDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(cnDate);
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -170,7 +170,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void generateSecondBill() {
 		LocalDateTime genDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(2));
 		TimeSetterUtil.getInstance().nextPhase(genDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -204,9 +204,9 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void renewalImageGeneration() {
 		LocalDateTime policyExpirationDateImage = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDateImage);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -216,7 +216,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected void renewalPreviewGeneration() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -227,7 +227,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void renewalOfferGeneration() {
 		LocalDateTime policyExpirationDateOffer = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDateOffer);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -272,7 +272,7 @@ public class Scenario6 extends ScenarioBaseTest {
 		// DocGenHelper.verifyDocumentsGeneratedByJob(TimeSetterUtil.getInstance().getCurrentTime(), policyNum,
 		// Arrays.asList(OnDemandDocuments.AHRBXX, OnDemandDocuments.HSRNXX));
 		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime());
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//For CA document 61 5121 substitutes HSRNXX
 		Documents document = getState().equals(States.CA) ? DocGenEnum.Documents._61_5121 : DocGenEnum.Documents.HSRNXX;
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents.AHRBXX, document);
@@ -309,7 +309,7 @@ public class Scenario6 extends ScenarioBaseTest {
 	protected void updatePolicyStatus() {
 		LocalDateTime date = getTimePoints().getUpdatePolicyStatusDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(date);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
@@ -322,7 +322,7 @@ public class Scenario6 extends ScenarioBaseTest {
 
 	protected void automaticRefundNotGenerated() {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRefundDate(getTimePoints().getBillDueDate(policyExpirationDate)));
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob); //.refundGenerationJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 

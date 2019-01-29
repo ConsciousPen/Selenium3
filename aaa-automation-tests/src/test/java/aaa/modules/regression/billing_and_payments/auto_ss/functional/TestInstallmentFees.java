@@ -19,8 +19,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
@@ -122,8 +122,8 @@ public class TestInstallmentFees extends PolicyBilling {
 
 		LocalDateTime renewalOfferDate = getTimePoints().getRenewOfferGenerationDate(expirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewalOfferDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
@@ -291,7 +291,7 @@ public class TestInstallmentFees extends PolicyBilling {
 		AcceptPaymentActionTab acceptPaymentActionTab = new AcceptPaymentActionTab();
 		LocalDateTime billDueDate3 = BillingSummaryPage.getInstallmentDueDate(installmentNumber).minusDays(20);
 		TimeSetterUtil.getInstance().nextPhase(billDueDate3);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON)).hasValue(transactionSubtype);

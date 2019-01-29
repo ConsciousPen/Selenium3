@@ -11,8 +11,8 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -99,7 +99,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
         policyExpirationDate = PolicySummaryPage.getExpirationDate().plusYears(1);
         renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyEffectiveDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate); //-35 days
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
     }
 
@@ -116,7 +116,7 @@ public class TestPolicyRenewalMembershipDiscount extends HomeSSDP3BaseTest {
         new BillingAccount().acceptPayment().perform(testDataManager.billingAccount
                 .getTestData("AcceptPayment", "TestData_Cash"), totDue);
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 
     private void secondRenewal() {

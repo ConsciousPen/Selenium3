@@ -14,8 +14,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.ErrorEnum;
@@ -289,7 +289,7 @@ public class TestMembershipValidation extends AutoCaSelectBaseTest {
         log.info("TEST: Renewing Policy to test DUMMY Membership number");
         LocalDateTime renewDate=getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewDate);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 
         mainApp().open();
         SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

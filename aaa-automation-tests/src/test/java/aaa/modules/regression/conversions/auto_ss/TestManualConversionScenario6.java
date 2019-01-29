@@ -11,8 +11,8 @@ import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -60,8 +60,8 @@ public class TestManualConversionScenario6 extends AutoSSBaseTest {
 
 		//(R-50) Run the batch jobs: AAAPreRenewalNoticeAsyncJob, aaaDocGen Job
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPreRenewalLetterGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaPreRenewalNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//'Pre Renewal Notice' AAPRN1MT is NOT generated in renewal E-folder
 		DocGenHelper.waitForDocumentsAppearanceInDB(DocGenEnum.Documents.AAPRN1MT, policyNum, PRE_RENEWAL, false);
 	}

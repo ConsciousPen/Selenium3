@@ -19,8 +19,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -169,7 +169,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
 		createManualRenewal();
 
 		//Run Claims receive batch job, to assign claims
-		JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
 		//Move time by one day to get claims to show in the UI
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
@@ -259,7 +259,7 @@ public class TestOffLineClaims extends TestOfflineClaimsTemplate {
         createManualRenewal();
 
         //Run Claims receive batch job, to assign claims
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
 
         //Move time by one day to get claims to show in the UI
         TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));

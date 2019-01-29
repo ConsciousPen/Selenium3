@@ -12,8 +12,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.CustomerMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -230,11 +230,11 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
         LocalDateTime renEffective = PolicySummaryPage.getExpirationDate();
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renEffective));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         payTotalAmtDue(policyNumber);
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(renEffective);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
     }

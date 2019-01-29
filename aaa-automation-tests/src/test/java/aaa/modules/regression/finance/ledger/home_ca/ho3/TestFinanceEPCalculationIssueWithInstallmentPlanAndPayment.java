@@ -14,7 +14,7 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
@@ -63,7 +63,7 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		LocalDateTime jobEndDate = expirationDate.plusMonths(1);
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 
-		jobDate = runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, pDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
 
 		mainApp().open();
@@ -71,7 +71,7 @@ public class TestFinanceEPCalculationIssueWithInstallmentPlanAndPayment extends 
 		billingAccount.generateFutureStatement().perform();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue());
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 

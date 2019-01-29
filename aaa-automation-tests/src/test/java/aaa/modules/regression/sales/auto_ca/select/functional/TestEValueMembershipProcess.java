@@ -22,8 +22,8 @@ import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -283,15 +283,15 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 
 	private static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
 		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
-		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
+		//JobUtils.executeJob(BatchJob.aaaBatchMarkerJob); //OSI: job is not required
+		JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
 		//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
 		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
 	}
 
 	private void eValueDiscountStatusCheck(String policyNumber, String status, ETCSCoreSoftAssertions softly) {

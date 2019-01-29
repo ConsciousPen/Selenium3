@@ -11,8 +11,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -37,62 +37,31 @@ public class TestMembershipTemplate extends PolicyBaseTest {
     private DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
     private ApplicantTab applicantTab = new ApplicantTab();
 
-    protected void pas16457_validateMembershipNB15() {
-
-        //Create and bind policy
-        mainApp().open();
-        createCustomerIndividual();
-        policy.initiate();
-
-        switch (getPolicyType().getShortName())
-        {
-            case "AutoSS": {
-                TestData tdAuto = getAdjustedTestData_Auto();
-                AutoSSPolicy(tdAuto);
-                break;
-            }
-
-            case "HomeSS_HO3": {
-                TestData tdHome = getAdjustedTestData_Home();
-                homeSSPolicy(tdHome);
-                break;
-            }
-
-            case "HomeCA_HO3": {
-                TestData tdHome = getAdjustedTestData_Home();
-                homeCAPolicy(tdHome);
-                break;
-            }
-
-            default: {
-                TestData tdAuto = getAdjustedTestData_Auto();
-                AutoCASpecificPolicy(tdAuto);
-            }
-        }
+	/**
+	 * Create policy - create renewal image at renewal TP1 - assert Current AAA Members cannot be set to pending.
+	 */
+	public void generateRenewalImageAndCheckForMSPending() {
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 
-        //Update membership number in DB
-        Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
-        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
+		log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
 
-        AAAMembershipQueries.updateAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
-        AAAMembershipQueries.updatePriorAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
-        adminApp().open();
-        new CacheManager().goClearCacheManagerTable();
         mainApp().reopen();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-        //Run NB15 and NB30 jobs and verify that the Membership Status is 'Active' in DB
-        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(15));
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		PolicySummaryPage.buttonRenewals.click();
 
-        TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(30));
-        JobUtils.executeJob(Jobs.membershipValidationJob);
-
-        membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
-        assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
+		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
+		PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.buttons.get("Go").click();
+		PolicySummaryPage.buttonOk.click();
+		PolicySummaryPage.buttonOkPopup.click();
+		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
+		membershipStatusCheckApplicantTab();
     }
 
     protected void AutoCASpecificPolicy(TestData td) {
@@ -303,31 +272,61 @@ public class TestMembershipTemplate extends PolicyBaseTest {
         membershipStatusCheckApplicantTab();
     }
 
-    /**
-     * Create policy - create renewal image at renewal TP1 - assert Current AAA Members cannot be set to pending.
-     */
-    public void generateRenewalImageAndCheckForMSPending() {
+	protected void pas16457_validateMembershipNB15() {
+
+		//Create and bind policy
+		mainApp().open();
+		createCustomerIndividual();
+		policy.initiate();
+
+		switch (getPolicyType().getShortName()) {
+			case "AutoSS": {
+				TestData tdAuto = getAdjustedTestData_Auto();
+				AutoSSPolicy(tdAuto);
+				break;
+			}
+
+			case "HomeSS_HO3": {
+				TestData tdHome = getAdjustedTestData_Home();
+				homeSSPolicy(tdHome);
+				break;
+			}
+
+			case "HomeCA_HO3": {
+				TestData tdHome = getAdjustedTestData_Home();
+				homeCAPolicy(tdHome);
+				break;
+			}
+
+			default: {
+				TestData tdAuto = getAdjustedTestData_Auto();
+				AutoCASpecificPolicy(tdAuto);
+			}
+		}
 
         String policyNumber = PolicySummaryPage.getPolicyNumber();
-        LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
+		LocalDateTime policyEffectiveDate = PolicySummaryPage.getEffectiveDate();
 
-        log.info("Policy Renewal Image Generation Date" + renewImageGenDate);
-        TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		//Update membership number in DB
+		Optional<AAAMembershipQueries.AAAMembershipStatus> membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+		assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.Error);
 
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		AAAMembershipQueries.updateAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
+		AAAMembershipQueries.updatePriorAAAMembershipNumberInSQL(policyNumber, "4290023796712001");
 
+		adminApp().open();
+		new CacheManager().goClearCacheManagerTable();
         mainApp().reopen();
-        SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 
-        PolicySummaryPage.buttonRenewals.click();
+		//Run NB15 and NB30 jobs and verify that the Membership Status is 'Active' in DB
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(15));
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
-        PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.comboBoxes.getFirst().setValue("Data Gathering");
-        PolicySummaryPage.tableRenewals.getRow(1).getCell("Action").controls.buttons.get("Go").click();
-        PolicySummaryPage.buttonOk.click();
-        PolicySummaryPage.buttonOkPopup.click();
-        NavigationPage.toViewTab(NavigationEnum.HomeCaTab.APPLICANT.get());
-        membershipStatusCheckApplicantTab();
+		TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate.plusDays(30));
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
+
+		membershipStatus = AAAMembershipQueries.getAAAMembershipStatusFromSQL(policyNumber);
+		assertThat(membershipStatus).isNotNull().isEqualTo(AAAMembershipQueries.AAAMembershipStatus.ACTIVE);
     }
 
     /**

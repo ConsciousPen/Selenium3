@@ -19,8 +19,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
-import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
-import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
@@ -37,7 +35,6 @@ import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.ssh.RemoteHelper;
@@ -409,6 +406,24 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		softly.close();
 	}
 
+	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
+		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
+		//the job might not exist in AWS
+		if (JobUtils.isJobExist(BatchJob.membershipValidationJob)) {
+			JobUtils.executeJob(BatchJob.membershipValidationJob);
+		} else {
+			//JobUtils.executeJob(BatchJob.aaaBatchMarkerJob); //OSI: job is not required
+			JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+			//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
+			//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
+			JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		}
+	}
+
 	@Parameters({"state"})
 	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
@@ -428,7 +443,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewBillGenDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
@@ -443,10 +458,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(renewBillGenDate);
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -476,7 +491,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
@@ -508,7 +523,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
@@ -541,7 +556,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		cancelReinstateToAvoidRminusJobs(policyNumber, policyExpirationDate);
 
@@ -577,10 +592,10 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
 			/*executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
@@ -617,7 +632,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
 
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
 
 		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
 		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
@@ -632,41 +647,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			checkDocumentContentAHDEXX(policyNumber, true, true, true, false, false, softly);
 			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
 			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-		softly.close();
-	}
-
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
-	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
-		retrieveMembershipSummaryEndpointCheck();
-		String membershipDiscountEligibilitySwitch = "TRUE";
-		String membershipStatus = "Cancelled";
-		boolean eValueSet = false;
-
-		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
-		String policyNumber = membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
-
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
-		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
-
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
-
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry", softly);
-			ahdexxGeneratedCheck(true, policyNumber, 1, softly);
-
-			executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-			renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry", softly);
-			ahdexxGeneratedCheck(true, policyNumber, 1, softly);
-			checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false, softly);
-			renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
-			eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
 		softly.close();
 	}
 
@@ -1439,6 +1419,41 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		softly.close();
 	}
 
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL, Groups.TIMEPOINT})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-10229", "PAS-832", "PAS-324"})
+	public void pas10229_membershipEligConfigurationTrueForInActiveMembershipNotActiveEValueRenewalMinus63(@Optional("VA") String state) {
+		retrieveMembershipSummaryEndpointCheck();
+		String membershipDiscountEligibilitySwitch = "TRUE";
+		String membershipStatus = "Cancelled";
+		boolean eValueSet = false;
+
+		settingMembershipEligibilityConfig(membershipDiscountEligibilitySwitch);
+		String policyNumber = membershipEligibilityPolicyCreation(membershipStatus, eValueSet);
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
+
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate, true);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry", softly);
+		ahdexxGeneratedCheck(true, policyNumber, 1, softly);
+
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		renewalTransactionHistoryCheck(policyNumber, true, false, "inquiry", softly);
+		ahdexxGeneratedCheck(true, policyNumber, 1, softly);
+		checkDocumentContentAHDEXX(policyNumber, true, true, false, false, false, softly);
+		renewalTransactionHistoryCheck(policyNumber, false, false, "dataGather", softly);
+		eValueDiscountStatusCheck(policyNumber, "NOTENROLLED", softly);
+		softly.close();
+	}
+
 	/**
 	 * @author Oleg Stasyuk
 	 * @name Update Policy Preferences Service for Expired Policy
@@ -1459,11 +1474,11 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, 422);
@@ -1500,14 +1515,14 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, 422);
@@ -1543,8 +1558,8 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
@@ -1557,55 +1572,6 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 			lastTransactionHistoryExit();
 			renewalTransactionEValueDiscountCheck(false, softly);
-
-			deleteSinglePaperlessPreferenceRequest(stub);
-		softly.close();
-	}
-
-	/**
-	 * @author Oleg Stasyuk
-	 * @name Update Policy Preferences Service for Policy with InForce renewal
-	 * @scenario
-	 * 1. Create a VA E Value Policy
-	 * 1.1. Renew the policy
-	 * 2. Set Paperless Preferences to No via stub
-	 * 3. Execute UpdatePolicyPreferences Service can update Policy with Proposed renewal
-	 * 4. Check Transaction history and that eValue was removed
-	 * @details
-	 */
-	@Parameters({"state"})
-	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
-	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
-	public void pas13528_eValueRemovedByServiceInForceRenewal(@Optional("VA") String state) {
-		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
-		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
-
-		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
-		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		mainApp().open();
-		SearchPage.openBilling(policyNumber);
-		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
-		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
-
-		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
-
-		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
-		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
-
-		mainApp().open();
-		SearchPage.openPolicy(policyNumber);
-		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
-			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
-			lastTransactionHistoryEValueDiscountCheck(true, softly);
-
-			//there is no eValue removal transaction. Instead a task for OOSE is create.
-			lastTransactionHistoryExit();
-			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
-			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time"))
-					.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
 
 			deleteSinglePaperlessPreferenceRequest(stub);
 		softly.close();
@@ -1649,42 +1615,53 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		}
 	}
 
-	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied, ETCSCoreSoftAssertions softly) {
-		membershipEligibilityPolicyCreation(membershipStatus, true);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+	/**
+	 * @author Oleg Stasyuk
+	 * @name Update Policy Preferences Service for Policy with InForce renewal
+	 * @scenario
+	 * 1. Create a VA E Value Policy
+	 * 1.1. Renew the policy
+	 * 2. Set Paperless Preferences to No via stub
+	 * 3. Execute UpdatePolicyPreferences Service can update Policy with Proposed renewal
+	 * 4. Check Transaction history and that eValue was removed
+	 * @details
+	 */
+	@Parameters({"state"})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = {"PAS-13528"})
+	public void pas13528_eValueRemovedByServiceInForceRenewal(@Optional("VA") String state) {
+		String policyNumber = membershipEligibilityPolicyCreation("Active", true);
 		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
-		membershipEligibilityEndorsementCreation(membershipStatus);
-		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
+		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
-		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
-		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
-
-		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
-
-		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
-		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
-		//String policyNumber = "VASS952918864";
 		mainApp().open();
-		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+		SearchPage.openBilling(policyNumber);
+		Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
+		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 
-		PolicySummaryPage.buttonRenewals.click();
-		policy.dataGather().start();
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
-		//PAS-319 start
-		softly.assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).hasValue("eValue Renewal");
-		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		if(eValueApplied){
-			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
-			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
-		}else{
-			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
-			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
-		}
-		//PAS-319 end
+		HelperWireMockStub stub = createPaperlessPreferencesRequestId(policyNumber, OPT_OUT);
 
-		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber, softly);
+		//BUG PAS-13952 Can't issue an endorsement to current term, when renewal was proposed and paid
+		HelperCommon.updatePolicyPreferences(policyNumber, Response.Status.OK.getStatusCode());
+
+		mainApp().open();
+		SearchPage.openPolicy(policyNumber);
+		ETCSCoreSoftAssertions softly = new ETCSCoreSoftAssertions();
+			PolicySummaryPage.transactionHistoryRecordCountCheck(policyNumber, 2, "", softly);
+			lastTransactionHistoryEValueDiscountCheck(true, softly);
+
+			//there is no eValue removal transaction. Instead a task for OOSE is create.
+			lastTransactionHistoryExit();
+			NotesAndAlertsSummaryPage.activitiesAndUserNotes.expand();
+			softly.assertThat(NotesAndAlertsSummaryPage.activitiesAndUserNotes.getRowContains("Description", "Task Created").getCell("Date/Time"))
+					.valueContains(TimeSetterUtil.getInstance().getCurrentTime().format(DateTimeUtils.MM_DD_YYYY));
+
+			deleteSinglePaperlessPreferenceRequest(stub);
+		softly.close();
 	}
 
 	void membershipEligibilityEndorsementCreation(String membershipStatus) {
@@ -1766,24 +1743,43 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 		jobsNBplus15plus30runNoChecks(DateTimeUtils.getCurrentDateTime().plusDays(15));
 	}
 
-	static void jobsNBplus15plus30runNoChecks(LocalDateTime dateToShiftTo) {
-		TimeSetterUtil.getInstance().nextPhase(dateToShiftTo);
-		//the job might not exist in AWS
-		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
-			JobUtils.executeJob(Jobs.membershipValidationJob);
-		} else {
-		//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
-		JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-		JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-		JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-		//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
-		//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-		JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
-		}
-	}
+	private void renewalMembershipProcessCheck(String membershipEligibilitySwitch, String membershipStatus, boolean eValueApplied, ETCSCoreSoftAssertions softly) {
+		membershipEligibilityPolicyCreation(membershipStatus, true);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		LocalDateTime policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
+		membershipEligibilityEndorsementCreation(membershipStatus);
+		cancelReinstateToAvoidNbPlus15Plus30Jobs(policyNumber);
+
+		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate); //-96
+		LocalDateTime renewReportOrderingDate = getTimePoints().getRenewReportsDate(policyExpirationDate); //-63
+
+		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
+
+		executeMembershipJobsRminus63Rminus48(renewReportOrderingDate);
+		executeMembershipJobsRminus63Rminus48(policyExpirationDate.minusDays(48));
+		//String policyNumber = "VASS952918864";
+		mainApp().open();
+		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+
+		PolicySummaryPage.buttonRenewals.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
+		//PAS-319 start
+		softly.assertThat(generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.POLICY_INFORMATION).getAsset(AutoSSMetaData.GeneralTab.PolicyInformation.COMMISSION_TYPE)).hasValue("eValue Renewal");
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		if (eValueApplied) {
+			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("Yes");
+			eValueDiscountStatusCheck(policyNumber, "ACTIVE", softly);
+		} else {
+			softly.assertThat(premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.APPLY_EVALUE_DISCOUNT)).hasValue("No");
+			eValueDiscountStatusCheck(policyNumber, "INACTIVE", softly);
+		}
+		//PAS-319 end
+
+		ahdexxContentCheck(membershipEligibilitySwitch, policyNumber, softly);
+	}
 
 	private void executeMembershipJobsRminus63Rminus48(LocalDateTime renewReportOrderingDate, boolean clearExgPasArchiveFolder) {
 		//TODO commented out to avoid hanging of SSH session in VDMs
@@ -1796,7 +1792,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			}
 		}*/
 		TimeSetterUtil.getInstance().nextPhase(renewReportOrderingDate);
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
 		Waiters.SLEEP(5000).go();
 		HttpStub.executeSingleBatch(HttpStub.HttpStubBatch.OFFLINE_AAA_MEMBERSHIP_SUMMARY_BATCH);
 		Waiters.SLEEP(5000).go();
@@ -1806,7 +1802,7 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 			e.printStackTrace();
 		}*/
 		Waiters.SLEEP(5000).go();
-		JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
 	}
 
 	private String membershipEligibilityPolicyCreation(String membershipStatus, boolean eValueSet) {

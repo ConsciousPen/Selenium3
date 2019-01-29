@@ -17,7 +17,6 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -133,7 +132,7 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "CHCK", "4WUIC", "Y", "VA", manualRefundAmount, "", "Y");
 
 		mainApp().open();
@@ -144,8 +143,8 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "R", "CHCK", "4WUIC", "Y", "VA", automatedRefundAmount, "", "Y");
 	}
 
@@ -160,7 +159,7 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
 
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "M", "CHCK", "4WUIC", "N", "VA", manualRefundAmount, "", "Y");
 
 		mainApp().open();
@@ -170,8 +169,8 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 		LocalDateTime refundDate = getTimePoints().getRefundDate(DateTimeUtils.getCurrentDateTime());
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		refundProcessHelper.refundRecordInFileCheck(getPolicyType(), policyNumber, "R", "CHCK", "4WUIC", "N", "VA", automatedRefundAmount, "", "Y");
 	}
 

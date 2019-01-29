@@ -11,8 +11,8 @@ import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants.BillingPaymentsAndOtherTransactionsTable;
 import aaa.main.enums.DocGenEnum.Documents;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -61,7 +61,7 @@ public class TestScenario6 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC03_GenerateCancelNotice(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
 	}
 	
 	@Parameters({ "state" })
@@ -69,7 +69,7 @@ public class TestScenario6 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC04_GenerateCancellation(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1));
-		JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
 	}
 	
 	@Parameters({ "state" })
@@ -77,7 +77,7 @@ public class TestScenario6 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC05_Check556101(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(15));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6101);
 	}
 	
@@ -86,7 +86,7 @@ public class TestScenario6 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC06_Check556102(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(30));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6102);
 	}
 	
@@ -95,7 +95,7 @@ public class TestScenario6 extends AutoSSBaseTest {
 	@Test(groups = { Groups.DOCGEN, Groups.CRITICAL }, dependsOnMethods = "TC01_CreatePolicy")
 	public void TC07_Check556103(@Optional("") String state) {
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationDate(installmentDD1).plusDays(45));
-		JobUtils.executeJob(Jobs.earnedPremiumBillGenerationJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumBillGenerationJob);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, Documents._55_6103);
 	}
 }

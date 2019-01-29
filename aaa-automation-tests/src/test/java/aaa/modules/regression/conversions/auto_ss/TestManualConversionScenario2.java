@@ -18,8 +18,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.DocGenEnum;
@@ -60,7 +60,7 @@ import toolkit.utils.TestInfo;
  * 7. Navigate to the Bind tab and 'Save and Exit'
  * 8. Navigate to policy consolidated view
  * 9. Click on the renewal image Button ->  Status of the Renewal Image is in 'Premium calculated'
- * 10. (R-35) Run the batch jobs: Renewal_Offer_Generation_Part2, Run aaaDocGen Job
+ * 10. (R-35) Run the batch jobs: renewalOfferGenerationPart2, Run aaaDocGen Job
  * 11. Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal offer is generated and the policy is in 'Proposed' status
  * 12. (R-20) Run the batch job - aaaRenewalNoticeBillAsyncJob
  * 13. Navigate to the Billing tab ->
@@ -80,16 +80,16 @@ import toolkit.utils.TestInfo;
  * 21. (2DD9-20) Run the aaaBillingInvoiceAsyncTaskJob and generate the bill ->
  * Installment bill is generated under Bills and Statement section of the Billing tab
  * Type = "Bill", Date = Installment due date.
- * 22. (2R-96) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+ * 22. (2R-96) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
  * 23. (2DD9) Make Payment for the generated bill -> Payment made is listed down in the Payment and Other transaction section
- * 24. (2R-63) Run the following job - Renewal_Offer_Generation_Part1 -> Job run is successful.
- * 25. (2R-45) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+ * 24. (2R-63) Run the following job - renewalOfferGenerationPart1 -> Job run is successful.
+ * 25. (2R-45) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
  * 26. Validate status of renewal image -> Status of renewal image = Premium Calculated
  * 27. (2R-40) Run the batch jobs: AAAPreRenewalNoticeAsyncJob, aaaDocGen -> Batch job is run successfully
  * 28. Retrieve the policy and validate the Renewal Image Status for converted policy
  * 29. Navigate to Policy Consolidated View
  * 30. Navigate to E-Folder -> #V1 - Pre-Renewal notice form #AAPRN1OR is NOT generated and NOT found for 2R in e-folder
- * 31. (2R-35) Run the batch jobs: Renewal_Offer_Generation_Part2, aaaDocGen
+ * 31. (2R-35) Run the batch jobs: renewalOfferGenerationPart2, aaaDocGen
  * 32. Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal status is 'Proposed'
  * 33. Navigate to Policy Consolidated View
  * 34. Navigate to E-Folder ->
@@ -153,17 +153,17 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//9. Click on the renewal image Button ->  Status of the Renewal Image is in 'Premium calculated'
 		PolicySummaryPage.buttonRenewals.click();
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
-		//10. (R-35) Run the batch jobs: Renewal_Offer_Generation_Part2, Run aaaDocGen Job
+		//10. (R-35) Run the batch jobs: renewalOfferGenerationPart2, Run aaaDocGen Job
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//11. Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal offer is generated and the policy is in 'Proposed' status
 		mainApp().open(getLoginTD(Constants.UserGroups.E34));
 		SearchPage.openPolicy(policyNum);
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//12. (R-20) Run the batch job - aaaRenewalNoticeBillAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(renewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		//13. Navigate to the Billing tab ->
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
@@ -185,8 +185,8 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
 		//15. (R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 		//16. Navigate to Policy Consolidated View. -> Policy Status = Active
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -195,7 +195,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = ""Bill"", Date = Installment due date."
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(1)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -213,7 +213,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(2)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
@@ -231,16 +231,16 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(installmentDueDates.get(3)));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNum);
 
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(3));
 		new BillingBillsAndStatementsVerifier().verifyBillGenerated(installmentDueDates.get(3), billGenDate, renewalDate, BillingHelper.DZERO);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(billGenDate).setType(BillingConstants.PaymentsAndOtherTransactionType.FEE).verifyPresent();
-		//22. (2R-96) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+		//22. (2R-96) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewImageGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		//23. (2DD9) Make Payment for the generated bill -> Payment made is listed down in the Payment and Other transaction section
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(installmentDueDates.get(3)));
 		mainApp().open();
@@ -248,13 +248,13 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), minDue);
 		new BillingPaymentsAndTransactionsVerifier().setTransactionDate(getTimePoints().getBillDueDate(installmentDueDates.get(3)))
 				.setSubtypeReason("Manual Payment").setAmount(minDue.negate()).verifyPresent();
-		//24. (2R-63) Run the following job - Renewal_Offer_Generation_Part1 -> Job run is successful.
+		//24. (2R-63) Run the following job - renewalOfferGenerationPart1 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 		HttpStub.executeAllBatches();
-		//25. (2R-45) Run the following job - Renewal_Offer_Generation_Part2 -> Job run is successful.
+		//25. (2R-45) Run the following job - renewalOfferGenerationPart2 -> Job run is successful.
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewPreviewGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		//26. Validate status of renewal image -> Status of renewal image = Premium Calculated
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -262,16 +262,16 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		//27. (2R-40) Run the batch jobs: AAAPreRenewalNoticeAsyncJob, aaaDocGen -> Batch job is run successfully
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getPreRenewalLetterGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.aaaPreRenewalNoticeAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaPreRenewalNoticeAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//28. Retrieve the policy and validate the Renewal Image Status for converted policy - ommited as excessive
 		//29. Navigate to Policy Consolidated View
 		//30. Navigate to E-Folder -> Pre-Renewal notice form #AAPRN1OR is NOT generated and NOT found for 2R in e-folder
 		DocGenHelper.verifyDocumentsGenerated(false, true, policyNum, DocGenEnum.Documents.AAPRN1OR);
-		//31. (2R-35) Run the batch jobs: Renewal_Offer_Generation_Part2, aaaDocGen
+		//31. (2R-35) Run the batch jobs: renewalOfferGenerationPart2, aaaDocGen
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//32. Retrieve the policy and validate the Renewal Image Status for converted policy -> Renewal status is 'Proposed'
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -290,7 +290,7 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//#V7 - Form number for Uninsured and Underinsured Motorist Disclosure State and Rejection of Coverage form DOES print on the Subsequent Renewal DEC page in the FORMS & ENDORSEMENT section.
 		//35. (2R-20) Run the following job - aaaRenewalNoticeBillAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 		//36. Navigate to the Billing tab ->
 		//Installment bill is generated under Bills and Statement section of the Billing tab
 		//Type = "Bill", Date = Installment due date.
@@ -304,8 +304,8 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		//37. (2R) Do not make the renewal term payment.
 		//38. (2R+1) Run the batch jobs: PolicyStatusUpdateJob, policyLapsedRenewalProcessAsyncJob
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 		//39. Navigate to Policy Consolidated View. -> Policy Status = Proposed
 		mainApp().open();
 		SearchPage.openPolicy(policyNum);
@@ -313,9 +313,9 @@ public class TestManualConversionScenario2 extends AutoSSBaseTest {
 		new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 		//40. (2R+5) Run the batch jobs: policyLapsedRenewalProcessAsyncJob, aaaRenewalReminderGenerationAsyncJob, aaaDocGen
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getCancellationNoticeDate(secondRenewalDate));
-		JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
-		JobUtils.executeJob(Jobs.aaaRenewalReminderGenerationAsyncJob);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalReminderGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 		//41. Retrieve the policy and navigate to Policy Consolidated View
 		//42. Navigate to E-Folder
 		//#V6: System archives the form "Insurance Renewal Bill" (AHRBXX 03 16) is available in the Policy E-folder under Renewal. Note:- Refer to form template and requirement for content validation

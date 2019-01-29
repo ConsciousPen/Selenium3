@@ -13,8 +13,8 @@ import aaa.common.enums.PrivilegeEnum;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.*;
@@ -222,8 +222,8 @@ public abstract class PolicyBaseTest extends BaseTest {
 
 	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
 		TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 	}
 
 	protected void openAppNonPrivilegedUser(PrivilegeEnum.Privilege privilege) {

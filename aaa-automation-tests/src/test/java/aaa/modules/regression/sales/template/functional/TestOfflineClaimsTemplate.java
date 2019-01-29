@@ -32,8 +32,8 @@ import aaa.helpers.claim.BatchClaimHelper;
 import aaa.helpers.claim.ClaimCASResponseTags;
 import aaa.helpers.claim.datamodel.claim.CASClaimResponse;
 import aaa.helpers.claim.datamodel.claim.Claim;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.logs.PasAdminLogGrabber;
 import aaa.helpers.rest.JsonClient;
 import aaa.helpers.rest.RestRequestInfo;
@@ -134,8 +134,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(63));
         LocalDateTime updatedTime = TimeSetterUtil.getInstance().getCurrentTime();
         assertThat(updatedTime).isEqualToIgnoringHours(policyExpirationDate.minusDays(63));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+        JobUtils.executeJob(BatchJob.renewalClaimOrderAsyncJob);
     }
 
     // Assertions for COMP and DL Tests
@@ -209,8 +209,8 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
     public void runRenewalClaimReceiveJob() {
         TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(46));
         DBService.get().executeUpdate(SQL_REMOVE_RENEWALCLAIMRECEIVEASYNCJOB_BATCH_JOB_CONTROL_ENTRY);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.renewalClaimReceiveAsyncJob);
+        JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+        JobUtils.executeJob(BatchJob.renewalClaimReceiveAsyncJob);
     }
 
     /**
@@ -301,7 +301,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
      * @return
      */
     protected String downloadClaimRequest() {
-        String claimRequestFolder = Jobs.getClaimOrderJobFolder();
+        String claimRequestFolder = BatchJob.getRenewalClaimOrderAsyncJobParameters().get("processedFolder");
         List<String> requests = RemoteHelper.get().getListOfFiles(claimRequestFolder);
         assertThat(requests).hasSize(1);
         String claimRequest = requests.get(0);
@@ -379,7 +379,7 @@ public class TestOfflineClaimsTemplate extends AutoSSBaseTest {
 
         // Upload claim response
         RemoteHelper.get().uploadFile(claimResponseFile.getAbsolutePath(),
-                Jobs.getClaimReceiveJobFolder() + File.separator + claimResponseFile.getName());
+                BatchJob.getRenewalClaimOrderAsyncJobParameters().get("importFolder") + File.separator + claimResponseFile.getName());
     }
 
     /**

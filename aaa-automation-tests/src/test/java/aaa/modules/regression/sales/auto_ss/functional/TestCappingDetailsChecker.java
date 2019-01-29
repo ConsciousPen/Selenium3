@@ -13,8 +13,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.PolicyHelper;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.PolicyConstants;
@@ -151,7 +151,7 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
         HttpStub.executeAllBatches();
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 
     private void preconditionToDoSecondRenewal() {
@@ -160,9 +160,9 @@ public class TestCappingDetailsChecker extends AutoSSBaseTest {
 
         LocalDateTime renewImageGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 
     private void billingPaymentAcception() {

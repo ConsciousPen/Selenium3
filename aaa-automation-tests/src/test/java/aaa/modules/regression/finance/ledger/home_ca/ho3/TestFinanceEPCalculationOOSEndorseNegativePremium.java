@@ -15,7 +15,7 @@ import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.modules.policy.PolicyType;
@@ -65,24 +65,24 @@ public class TestFinanceEPCalculationOOSEndorseNegativePremium extends FinanceOp
 		NavigationPage.toViewTab(NavigationEnum.HomeCaTab.PREMIUMS_AND_COVERAGES.get());
 		assertThat(new EndorsementTab().tblIncludedEndorsements.getColumn("Form ID").getValue()).contains("HO-60");
 
-		jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e1date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement1");
 
-		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e2date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement2");
 
-		jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e3date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e3date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-120, "TestData_Endorsement3");
 
 		policy.rollOn().perform(false, false);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

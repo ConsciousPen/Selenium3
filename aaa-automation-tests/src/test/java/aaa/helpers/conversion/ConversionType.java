@@ -1,14 +1,14 @@
 package aaa.helpers.conversion;
 
 import com.exigen.ipb.eisa.utils.batchjob.Job;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 
 public enum ConversionType {
 
-	HDES("src/test/resources/conversion/HDES/", "/ipb/import/CaFunctional/import/", "/ipb/import/CaFunctional/response/", Jobs.aaaImportPolicyHomeCAHdesAsyncTaskJob),
-	SIS("src/test/resources/conversion/SIS/", "/ipb/import/Regression/Sis/import/", "/ipb/import/Regression/Sis/response/", Jobs.aaaImportPolicyHomeCaSisAsyncTaskJob),
-	FOXPRO("src/test/resources/conversion/FoxPro/", "/ipb/import/Regression/FoxPro/import/", "/ipb/import/Regression/FoxPro/response/", Jobs.aaaImportMiniPupPolicyAsyncTaskJob),
-	MAIG("src/test/resources/conversion/MAIG/", "/ipb/import/Deloitte/", "/ipb/result/Deloitte/", Jobs.importMiniPolicyAsyncTaskJob);
+	HDES("src/test/resources/conversion/HDES/", "/ipb/import/CaFunctional/import/", "/ipb/import/CaFunctional/response/", BatchJob.aaaImportPolicyHomeCaHdesAsyncTaskJob),
+	SIS("src/test/resources/conversion/SIS/", "/ipb/import/Regression/Sis/import/", "/ipb/import/Regression/Sis/response/", BatchJob.aaaImportPolicyHomeCaSisAsyncTaskJob),
+	FOXPRO("src/test/resources/conversion/FoxPro/", "/ipb/import/Regression/FoxPro/import/", "/ipb/import/Regression/FoxPro/response/", BatchJob.aaaImportMiniPupPolicyAsyncTaskJob),
+	MAIG("src/test/resources/conversion/MAIG/", "/ipb/import/Deloitte/", "/ipb/result/Deloitte/", BatchJob.importMiniPolicyAsyncTaskJob);
 
 	String localTemplatesFolderPath;
 	String remoteImportFolderPath;

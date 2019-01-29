@@ -12,7 +12,7 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
@@ -63,19 +63,19 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
-		jobDate = runEPJobUntil(jobDate, e1date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e1date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1date);
 
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAPRemoveCoverage");
 
-		jobDate = runEPJobUntil(jobDate, manualRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, manualRenewDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		log.info("TEST: Add Manual Renew for Policy #" + policyNumber);
 		policy.manualRenew().perform(getPolicyTD("ManualRenew", "TestData"));
 		assertThat(PolicySummaryPage.labelManualRenew).isPresent();
 
-		jobDate = runEPJobUntil(jobDate, e2date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e2date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_EndorsementAddCoverage");
@@ -84,14 +84,14 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
 		policy.removeManualRenew().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelManualRenew).isPresent(false);
 
-		jobDate = runEPJobUntil(jobDate, doNotRenewDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, doNotRenewDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		//Set Do not Renew Flag
 		log.info("TEST: Add Do Not Renew for Policy #" + policyNumber);
 		policy.doNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent();
 
-		jobDate = runEPJobUntil(jobDate, e3date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e3date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e3date);
 		searchForPolicy(policyNumber);
 		createEndorsement(-95, "TestData_EndorsementAddSecondCoverage");
@@ -105,7 +105,7 @@ public class TestFinanceEPCalculationFlagTransactions extends FinanceOperations 
 		policy.removeDoNotRenew().perform(new SimpleDataProvider());
 		assertThat(PolicySummaryPage.labelDoNotRenew).isPresent(false);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();
 

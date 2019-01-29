@@ -12,8 +12,8 @@ import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
 import aaa.helpers.db.queries.TimePointQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.metadata.policy.HomeCaMetaData;
@@ -504,13 +504,13 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
      * Executes the required jobs for BML at STG1 (NB+15) or STG2 (NB+30).
      */
     private void executeSTG1STG2Jobs() {
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-        JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-        JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-        //JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+		//JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
     }
 
     /**
@@ -522,8 +522,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         LocalDateTime renewalImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(renewalImageGenDate);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
     }
 
     /**
@@ -535,9 +535,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         int timepoint1_STG3_Offset = TimePointQueries.getRenewalTimePoint1_STG3(getPolicyType(), getState());
         moveJVMNumberOfDaysBeforeExpirationDate(policyExpirationDate, timepoint1_STG3_Offset);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     /**
@@ -550,8 +550,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         LocalDateTime reportServices = getTimePoints().getRenewCheckUWRules(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(reportServices);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
     }
 
     /**
@@ -563,9 +563,9 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         int timepoint2_STG4_Offset = TimePointQueries.getRenewalTimePoint2_STG4(getPolicyType(), getState());
         moveJVMNumberOfDaysBeforeExpirationDate(policyExpirationDate, timepoint2_STG4_Offset);
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
     }
 
     /**
@@ -577,7 +577,7 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-45
         LocalDateTime ratePolicy = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(ratePolicy);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
     }
 
     /**
@@ -589,8 +589,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-35
         LocalDateTime offerIssue = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(offerIssue);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalOfferAsyncTaskJob);
     }
 
     /**
@@ -602,8 +602,8 @@ public class TestBestMembershipLogicTemplate extends PolicyBaseTest {
         // Usually R-20
         LocalDateTime billDate = getTimePoints().getBillGenerationDate(policyExpirationDate);
         TimeSetterUtil.getInstance().nextPhase(billDate);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
     }
 
     public TestData getBMLPolicyTD(){

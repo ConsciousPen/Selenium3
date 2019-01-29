@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import aaa.helpers.jobs.BCTJobs;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 
 public class BackendJobNames {
 	private static Logger log = LoggerFactory.getLogger(BackendJobNames.class);
@@ -18,7 +18,7 @@ public class BackendJobNames {
 	public static String getBackEndJobNames(String jobName) {
 		HashMap<String, String> storage = new HashMap<>();
 		storage.put(BCTJobs.groupaaaBatchMarkerJob.getJobName(), "aaaBatchMarkerJob");
-		storage.put(Jobs.aaaBatchMarkerJob.getJobName(), "aaaBatchMarkerJob");
+		storage.put(BatchJob.aaaBatchMarkerJob.getJobName(), "aaaBatchMarkerJob");
 		storage.put(BCTJobs.grouprenewalClaimOrderAsyncJob.getJobName(), "renewalClaimOrderAsyncJob");
 		storage.put(BCTJobs.groupaaaMvrRenewBatchOrderAsyncJob.getJobName(), "aaaMvrRenewBatchOrderAsyncJob");
 		storage.put(BCTJobs.groupmembershipRenewalBatchOrderJob.getJobName(), "aaaMembershipRenewalBatchOrderAsyncJob");

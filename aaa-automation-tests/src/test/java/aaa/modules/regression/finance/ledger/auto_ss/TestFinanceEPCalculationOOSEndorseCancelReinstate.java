@@ -12,7 +12,7 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.Constants;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.PolicyType;
@@ -64,25 +64,25 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime expirationDate = PolicySummaryPage.getExpirationDate();
 
-		jobDate = runEPJobUntil(jobDate, e1Date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e1Date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e1Date);
 
 		searchForPolicy(policyNumber);
 		createEndorsement(-1, "TestData_Endorsement1");
 
-		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, cDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
 		searchForPolicy(policyNumber);
 		cancelPolicy(-1, getPolicyType());
 
-		jobDate = runEPJobUntil(jobDate, rDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, rDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(rDate);
 
 		searchForPolicy(policyNumber);
 		reinstatePolicy(-1);
 
-		jobDate = runEPJobUntil(jobDate, e2Date, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, e2Date, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(e2Date);
 
 		searchForPolicy(policyNumber);
@@ -99,7 +99,7 @@ public class TestFinanceEPCalculationOOSEndorseCancelReinstate extends FinanceOp
 		//Roll on Reinstatement
 		policy.rollOn().perform(false, false);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

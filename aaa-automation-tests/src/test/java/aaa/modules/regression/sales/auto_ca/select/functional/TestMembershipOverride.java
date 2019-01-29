@@ -12,8 +12,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -369,7 +369,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		LocalDateTime nbPlus30 = policyEffectiveDate.plusDays(30);
 
 		TimeSetterUtil.getInstance().nextPhase(nbPlus15);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);//is this needed
@@ -384,7 +384,7 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		checkMembershipInPCTab("AAA Members", "");
 
 		TimeSetterUtil.getInstance().nextPhase(nbPlus30);
-		JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -436,8 +436,8 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_CA);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_CA);
@@ -500,8 +500,8 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_CA);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_CA);
@@ -564,8 +564,8 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//adjust test data for Renewal image updating
 		tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
@@ -662,8 +662,8 @@ public class TestMembershipOverride extends AutoCaSelectBaseTest {
 	//Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
 	private void runRenewalBatchJobs() {
 
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 	}
 

@@ -120,7 +120,7 @@ public class HttpJob {
 		runSingleJob(httpRequestor, jobName);
 		log.info(String.format("HTTP: Job '%s' execution finished", jobName));
 		if (jobName.equals("aaaRecurringPaymentsProcessingJob") || jobName.equals("aaaRemittanceFeedAsyncBatchReceiveJob") || jobName.equals("policyStatusUpdateJob")
-				|| jobName.equals("aaaBillingInvoiceAsyncTaskJob") || jobName.equals("Renewal_Offer_Generation_Part2")) {
+				|| jobName.equals("aaaBillingInvoiceAsyncTaskJob") || jobName.equals("renewalOfferGenerationPart2")) {
 			log.info("HTTP: Starting check Assync Tasks");
 			checkAsyncTask();
 			log.info("HTTP: Check Assync Tasks finished");
@@ -216,11 +216,11 @@ public class HttpJob {
 			String getStatisticsParams = getLastRunLinkParameters(httpRequestor.getResponse(), jobName);
 			httpRequestor.sendPostRequest(HtmlParser.getFlowUrl(httpRequestor.getResponse()), getStatisticsParams);
 
-			return JobStatistic.getLastProcessedStatistic(httpRequestor.getResponse(), jobName);
+			return getLastProcessedStatistic(httpRequestor.getResponse(), jobName);
 		}
 
 		public static HashMap<String, String> splitStatisticsRow(String result) {
-			List<String> temp = Arrays.asList(result.toString()
+			List<String> temp = Arrays.asList(result
 					.replace(",", "")
 					.replace(".", "")
 					.replace("Info: ","" )// when 0 processed, no Info:

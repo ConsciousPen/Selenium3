@@ -16,8 +16,8 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -72,7 +72,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		totalPayment = BillingSummaryPage.getTotalDue().subtract(new Dollar(
@@ -83,7 +83,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 		new BillingAccount().acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalPayment);
 
 		TimeSetterUtil.getInstance().nextPhase(billGenDate.plusDays(1));
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -106,7 +106,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		totalPayment = BillingSummaryPage.getTotalDue().subtract(new Dollar(
@@ -118,7 +118,7 @@ public class TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid extends FinanceOp
 
 		TimeSetterUtil.getInstance().nextPhase(billGenDate.plusDays(1));
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

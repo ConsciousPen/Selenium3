@@ -14,8 +14,8 @@ import aaa.helpers.billing.BillingHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
@@ -67,7 +67,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 		installmentDueDates = BillingHelper.getInstallmentDueDates();
 		billGenDate = getTimePoints().getBillGenerationDate(installmentDueDates.get(1));
 		TimeSetterUtil.getInstance().nextPhase(billGenDate);
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 		totalPayment = BillingSummaryPage.getTotalDue().subtract(new Dollar(
@@ -79,7 +79,7 @@ public class TestFinanceWaiveInstallmentFeeForRenewal extends FinanceOperations 
 
 		TimeSetterUtil.getInstance().nextPhase(billGenDate.plusDays(1));
 
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

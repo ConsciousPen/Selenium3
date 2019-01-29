@@ -21,8 +21,8 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
 	public void renewalJobAdding() {
-		JobUtils.createJob(BatchJob.Renewal_Offer_Generation_Part1);
-		JobUtils.createJob(BatchJob.Renewal_Offer_Generation_Part2);
+		JobUtils.createJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.createJob(BatchJob.renewalOfferGenerationPart2);
 	}
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Enable vin refresh")

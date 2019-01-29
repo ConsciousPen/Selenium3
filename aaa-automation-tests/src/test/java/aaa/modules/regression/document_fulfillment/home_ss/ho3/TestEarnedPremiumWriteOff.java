@@ -12,8 +12,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -70,12 +70,12 @@ public class TestEarnedPremiumWriteOff extends HomeSSHO3BaseTest {
 		policy.cancel().perform(getPolicyTD("Cancellation", "TestData"));
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumBillThirdManualCancellation(policyCancellationDate));
-		JobUtils.executeJob(Jobs.aaaCollectionCancelDebtBatchJob, true);
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		JobUtils.executeJob(BatchJob.aaaCollectionCancellDebtBatchAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
 		DocGenHelper.verifyDocumentsGenerated(true, true, policyNumber, DocGenEnum.Documents._55_6103);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getEarnedPremiumWriteOffManualCancellation(policyCancellationDate));
-		JobUtils.executeJob(Jobs.collectionFeedBatch_earnedPremiumWriteOff, true);
+		JobUtils.executeJob(BatchJob.collectionFeedBatch_earnedPremiumWriteOff, true);
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
 

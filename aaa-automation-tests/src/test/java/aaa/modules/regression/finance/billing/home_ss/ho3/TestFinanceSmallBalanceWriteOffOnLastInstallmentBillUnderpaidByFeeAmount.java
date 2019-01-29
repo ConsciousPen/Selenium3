@@ -10,8 +10,8 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -65,7 +65,7 @@ public class TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeA
 		makeInstallmentPayment(p3Date, policyNumber, fee.multiply(2).negate());
 
 		TimeSetterUtil.getInstance().nextPhase(refundDate);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);

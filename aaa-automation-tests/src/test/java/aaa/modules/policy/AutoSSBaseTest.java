@@ -4,8 +4,8 @@ package aaa.modules.policy;
 
 import java.time.LocalDateTime;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.modules.policy.auto_ss.defaulttabs.GeneralTab;
@@ -34,7 +34,7 @@ public class AutoSSBaseTest extends PolicyBaseTest {
 	protected void moveTimeAndRunRenewJobs(LocalDateTime nextPhaseDate) {
 		mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(nextPhaseDate);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
     }
 }

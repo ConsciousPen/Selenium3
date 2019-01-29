@@ -14,8 +14,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.PolicyConstants;
@@ -179,11 +179,12 @@ public class HelperCommon extends HomeCaHO3BaseTest{
         TimeSetterUtil.getInstance().nextPhase(desiredJVMLocalDateTime);
         printToDebugLog("Current Date is now = " + TimeSetterUtil.getInstance().getCurrentTime());
 
-        if (howManyPartsToRun == 1)
-            JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		if (howManyPartsToRun == 1) {
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		}
         if (howManyPartsToRun == 2) {
-            JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-            JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
         }
 
 

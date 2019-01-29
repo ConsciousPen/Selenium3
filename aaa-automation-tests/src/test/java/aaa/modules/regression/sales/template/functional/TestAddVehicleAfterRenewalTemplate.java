@@ -10,8 +10,8 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
 import aaa.main.metadata.policy.AutoCaMetaData;
@@ -68,7 +68,7 @@ public class TestAddVehicleAfterRenewalTemplate extends PolicyBaseTest {
         // Advance time to R and run policyStatusUpdateJob
         mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(renewalEffDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
         mainApp().open();
 
         // Validate the renewal is now active

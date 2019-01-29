@@ -13,7 +13,7 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.jobs.Jobs;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.modules.policy.PolicyType;
@@ -60,7 +60,7 @@ public class TestFinanceEPCalculationCancelFlagTransactions extends FinanceOpera
 		policy.cancelNotice().perform(getPolicyTD("CancelNotice", "TestData"));
 		PolicySummaryPage.verifyCancelNoticeFlagPresent();
 
-		jobDate = runEPJobUntil(jobDate, cancelNoticeDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, cancelNoticeDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cancelNoticeDate);
 
 		mainApp().open();
@@ -69,7 +69,7 @@ public class TestFinanceEPCalculationCancelFlagTransactions extends FinanceOpera
 		policy.deleteCancelNotice().perform(new SimpleDataProvider());
 		PolicySummaryPage.verifyCancelNoticeFlagNotPresent();
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

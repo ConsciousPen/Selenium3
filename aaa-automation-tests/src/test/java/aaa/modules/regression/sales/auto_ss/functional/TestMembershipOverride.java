@@ -6,16 +6,14 @@ import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
-import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
-import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ProductConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -493,6 +491,23 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	//////////Start of PAS-6314
 
+	static void jobsNBplus15plus30runNoChecks() {
+		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
+		//the job might not exist in AWS
+		if (JobUtils.isJobExist(BatchJob.membershipValidationJob)) {
+			JobUtils.executeJob(BatchJob.membershipValidationJob);
+		} else {
+			//JobUtils.executeJob(BatchJob.aaaBatchMarkerJob); //OSI: job is not required
+			JobUtils.executeJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingRatingJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingRunReportsServicesJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+			JobUtils.executeJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+			//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
+			//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
+			JobUtils.executeJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		}
+	}
 
 	/**
 	 * @author Maris Strazds
@@ -528,8 +543,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
@@ -592,8 +607,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		LocalDateTime timePoint1 = policyExpirationDate.minusDays(TIME_POINT_1_AZ);
 		LocalDateTime timePoint2 = policyExpirationDate.minusDays(TIME_POINT_2_AZ);
@@ -620,6 +635,36 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
 		checkMembershipInPCTab2(true, "Yes", "", "");
+	}
+	//////////End of PAS-6314
+
+	private void checkMembershipInPCTab(Boolean shouldHaveDiscount, Boolean isEndorsement, String Value1, String Value2, String memberSinceDate) {
+		//validate that membership discount is applied (displayed) in P&C tab
+		if (shouldHaveDiscount) {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
+		} else {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
+		}
+
+		//click on 'View Rating Details' and validate that overridden membership details are displayed
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+
+		if (isEndorsement) {
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
+
+		} else {
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
+			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
+		}
+
+		PremiumAndCoveragesTab.RatingDetailsView.close();
+
 	}
 
 	/**IGNORED TEST:@Test(enabled = false)
@@ -656,8 +701,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		LocalDateTime renewImageGenDate = getTimePoints().getRenewImageGenerationDate(policyExpirationDate);
 		log.info("Policy Renewal Image Generation Date " + renewImageGenDate);
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 		//adjust test data for Renewal image updating
 		tdSpecific = getTestSpecificTD("AAAProductOwned_MS_Override_Term").resolveLinks();
@@ -707,59 +752,8 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		//validate that membership discount is applied (displayed) in P&C tab
-		checkMembershipInPCTab2(true,  "Yes", "", "01/04/2009");
+		checkMembershipInPCTab2(true, "Yes", "", "01/04/2009");
 	}
-	//////////End of PAS-6314
-
-	private void checkMembershipInPCTab(Boolean shouldHaveDiscount, Boolean isEndorsement, String Value1, String Value2, String memberSinceDate) {
-		//validate that membership discount is applied (displayed) in P&C tab
-		if (shouldHaveDiscount) {
-			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
-		} else {
-			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-		}
-
-		//click on 'View Rating Details' and validate that overridden membership details are displayed
-		PremiumAndCoveragesTab.RatingDetailsView.open();
-
-		if (isEndorsement) {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount")).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(5).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "AAA Membership Discount").getCell(6).getValue().contains(Value2)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6)).isPresent();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(4, "Member Since Date").getCell(6).getValue().contains(memberSinceDate)).isTrue();
-
-		} else {
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
-			assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
-		}
-
-		PremiumAndCoveragesTab.RatingDetailsView.close();
-
-	}
-
-    private void checkMembershipInPCTab2(Boolean shouldHaveDiscount, String Value1, String Value2, String memberSinceDate) {
-        //validate that membership discount is applied (displayed) in P&C tab
-        if (shouldHaveDiscount) {
-            assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
-        } else {
-            assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
-        }
-
-        //click on 'View Rating Details' and validate that overridden membership details are displayed
-        PremiumAndCoveragesTab.RatingDetailsView.open();
-
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
-        assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
-
-
-        PremiumAndCoveragesTab.RatingDetailsView.close();
-
-    }
 
 	private void checkMemberSinceWarningMessage() {
 		GeneralTab generalTab = new GeneralTab();
@@ -795,11 +789,23 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset("Member Since Date").getValue().toString().contains("01/04/2009")).isTrue();
 	}
 
-	//Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
-	private void runRenewalBatchJobs() {
+	private void checkMembershipInPCTab2(Boolean shouldHaveDiscount, String Value1, String Value2, String memberSinceDate) {
+		//validate that membership discount is applied (displayed) in P&C tab
+		if (shouldHaveDiscount) {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges).valueContains("Membership Discount");
+		} else {
+			assertThat(PremiumAndCoveragesTab.discountsAndSurcharges.getValue().contains("Membership Discount")).isFalse();
+		}
 
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		//click on 'View Rating Details' and validate that overridden membership details are displayed
+		PremiumAndCoveragesTab.RatingDetailsView.open();
+
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount")).exists();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "AAA Membership Discount").getCell(4).getValue().contains(Value1)).isTrue();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(3).getValue().contains("Member Since Date")).isTrue();
+		assertThat(PremiumAndCoveragesTab.tableRatingDetailsQuoteInfo.getRow(3, "Member Since Date").getCell(4).getValue().contains(memberSinceDate)).isTrue();
+
+		PremiumAndCoveragesTab.RatingDetailsView.close();
 
 	}
 
@@ -812,23 +818,12 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		policy.policyInquiry().start();
 	}
 
-	static void jobsNBplus15plus30runNoChecks() {
-		TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(15));
-		//the job might not exist in AWS
-		if(new SoapJobActions().isJobExist(JobGroup.fromSingleJob(Jobs.membershipValidationJob.getJobName()))){
-			JobUtils.executeJob(Jobs.membershipValidationJob);
-		} else {
-			//JobUtils.executeJob(Jobs.aaaBatchMarkerJob); //OSI: job is not required
-			JobUtils.executeJob(Jobs.aaaAutomatedProcessingInitiationJob);
-			JobUtils.executeJob(Jobs.automatedProcessingRatingJob);
-			JobUtils.executeJob(Jobs.automatedProcessingRunReportsServicesJob);
-			JobUtils.executeJob(Jobs.automatedProcessingIssuingOrProposingJob);
-			JobUtils.executeJob(Jobs.automatedProcessingStrategyStatusUpdateJob);
-			//BUG INC0635200 PAS-ASM: multiple VDMs: We have a failing job on the VDMs. - the next line is closed as not a defect and this one was opened
-			//BUG PAS-6162 automatedProcessingBypassingAndErrorsReportGenerationJob is failing with Error, failed to retrieve 'placeholder' Report Entity
-			JobUtils.executeJob(Jobs.automatedProcessingBypassingAndErrorsReportGenerationJob);
-		}
-	}
+	//Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
+	private void runRenewalBatchJobs() {
 
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+
+	}
 
 }

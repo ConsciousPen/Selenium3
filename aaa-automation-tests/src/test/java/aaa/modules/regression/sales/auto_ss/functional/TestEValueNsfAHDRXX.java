@@ -21,7 +21,6 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -142,10 +141,10 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		LocalDateTime dd1 = BillingSummaryPage.getInstallmentDueDate(2);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(dd1));
-		JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
 
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillDueDate(dd1));
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsProcessingJob);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsProcessingJob);
 
 		mainApp().open();
 		SearchPage.openBilling(policyNumber);
@@ -163,7 +162,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 			String paymentReferenceId = DBService.get().getValue(String.format(GET_PAYMENT_REFERENCE_ID_BY_BILLING_ACCOUNT, billingAccount)).get();
 			File paymentCentralFile = paymentCentralHelper.createFile(policyNumber, paymentAmountPlain, paymentReferenceId);
 			PaymentCentralHelper.copyFileToServer(paymentCentralFile);
-			JobUtils.executeJob(Jobs.aaaPaymentCentralRejectFeedAsyncJob, true);
+			JobUtils.executeJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob, true);
 		} else if ("ERR".equals(recurringPaymentResponseStatus)) {
 			//Generate file for unsuccessful Recurring Payment Response and run job
 			generateFileForRecurringPaymentResponseJob(policyNumber, billingAccount, paymentAmountPlain, "ERR");
@@ -206,7 +205,7 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 		String paymentNumber = DBService.get().getValue(String.format(GET_PAYMENT_NUMBER_BY_BILLING_ACCOUNT, billingAccount)).get();
 		File recurringPaymentResponseFile = aaaRecurringPaymentResponseHelper.createFile(policyNumber, paymentAmountPlain, paymentNumber, err);
 		AAARecurringPaymentResponseHelper.copyFileToServer(recurringPaymentResponseFile);
-		JobUtils.executeJob(Jobs.aaaRecurringPaymentsResponseProcessAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaRecurringPaymentsResponseProcessAsyncJob, true);
 		Waiters.SLEEP(5000).go();
 	}
 

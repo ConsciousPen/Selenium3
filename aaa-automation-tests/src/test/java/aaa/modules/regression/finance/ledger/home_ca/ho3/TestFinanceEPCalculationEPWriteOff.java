@@ -14,8 +14,8 @@ import aaa.common.enums.Constants;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.LedgerHelper;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
@@ -67,7 +67,7 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		LocalDateTime jobDate = today.plusMonths(1).withDayOfMonth(1);
 		LocalDateTime earnedPremiumWriteOff = getTimePoints().getEarnedPremiumWriteOff(cDate);
 
-		jobDate = runEPJobUntil(jobDate, pDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, pDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(pDate);
 
 		mainApp().open();
@@ -75,18 +75,18 @@ public class TestFinanceEPCalculationEPWriteOff extends FinanceOperations {
 		billingAccount.generateFutureStatement().perform();
 		billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Check"), BillingSummaryPage.getMinimumDue());
 
-		jobDate = runEPJobUntil(jobDate, cDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, cDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 		TimeSetterUtil.getInstance().nextPhase(cDate);
 
 		searchForPolicy(policyNumber);
 		cancelPolicy(cDate, getPolicyType());
 
-		jobDate = runEPJobUntil(jobDate, earnedPremiumWriteOff, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		jobDate = runEPJobUntil(jobDate, earnedPremiumWriteOff, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		TimeSetterUtil.getInstance().nextPhase(earnedPremiumWriteOff);
-		JobUtils.executeJob(Jobs.earnedPremiumWriteoffProcessingJob);
+		JobUtils.executeJob(BatchJob.earnedPremiumWriteoffProcessingJob);
 
-		runEPJobUntil(jobDate, jobEndDate, Jobs.earnedPremiumPostingAsyncTaskGenerationJob);
+		runEPJobUntil(jobDate, jobEndDate, BatchJob.earnedPremiumPostingAsyncTaskGenerationJob);
 
 		searchForPolicy(policyNumber);
 		PolicySummaryPage.buttonTransactionHistory.click();

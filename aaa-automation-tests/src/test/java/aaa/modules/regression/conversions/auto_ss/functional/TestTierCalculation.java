@@ -16,8 +16,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
 import aaa.main.metadata.policy.AutoSSMetaData;
@@ -143,7 +143,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 		// Run policy status update job
 		mainApp().close();
         TimeSetterUtil.getInstance().nextPhase(effDate);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
         // Change time point to renewal image generation date
         mainApp().open();

@@ -7,8 +7,8 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.HomeSSMetaData;
@@ -79,7 +79,7 @@ public class FireRelatedFieldsOnThePropertyInfoTabTemplate extends PolicyBaseTes
 
 	private void activeFirstRenewal(LocalDateTime renewImageGenDate, LocalDateTime policyExpirationDate, String policyNumber) {
 		TimeSetterUtil.getInstance().nextPhase(renewImageGenDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
 
 		mainApp().reopen();
@@ -97,7 +97,7 @@ public class FireRelatedFieldsOnThePropertyInfoTabTemplate extends PolicyBaseTes
 
 	private void initiateSecondRenewal(LocalDateTime policyExpirationDate, String policyNumber) {
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}

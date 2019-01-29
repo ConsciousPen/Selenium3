@@ -17,8 +17,8 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.xml.model.Document;
 import aaa.main.enums.DocGenEnum;
 import aaa.main.enums.ProductConstants;
@@ -281,7 +281,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		policy.getDefaultView().fill(tdEUIM);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.POLICY.get());
 		String policyNumber = PolicySummaryPage.tablePolicyList.getRow(1).getCell(1).getValue();
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob); //not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob); //not necessary - can be used if QA needs actual generated xml files
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
@@ -327,7 +327,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.minusDays(35));
-		JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+		JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
@@ -371,7 +371,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		//4. Switch UIM to EUIM coverage
 		switchToEUIMCoverageAndBind();
 
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 		validateDocumentIsGeneratedInPackage(policyNumber, RENEWAL_OFFER);
 	}
 
@@ -414,7 +414,7 @@ public class TestEUIMForms extends AutoSSBaseTest {
 
 		//4. Switch UIM to EUIM coverage
 		switchToEUIMCoverageAndBind();
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 
 		//6. Validate that form AAEUIMMD is included in Endorsement package
 		//8. Validate that form AAEUIMMD is included in Endorsement package only once
@@ -508,9 +508,9 @@ public class TestEUIMForms extends AutoSSBaseTest {
 		LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 		TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
 
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);//not necessary - can be used if QA needs actual generated xml files
 	}
 
 	private void validateDocumentIsGeneratedInPackage(String policyNumber, AaaDocGenEntityQueries.EventNames eventName) {

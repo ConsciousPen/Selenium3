@@ -5,8 +5,8 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import aaa.common.Tab;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.db.queries.AAAMembershipQueries;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.actiontabs.AcceptPaymentActionTab;
 import aaa.main.pages.summary.PolicySummaryPage;
@@ -163,9 +163,9 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
         // Do below chunk if state is not California
         if (!_policyState.equalsIgnoreCase("CA")){
             TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate);
-            JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
-            JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 
             mainApp().open();
             SearchPage.openBilling(_policyNumber);
@@ -177,8 +177,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
 
         // Move forward two days. Update status.
         TimeSetterUtil.getInstance().nextPhase(_renewalBillGenDate.plusDays(2));
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob); //POLICY SHOULD BE RENEWED NOW.
 
         // Manually ZERO OUT aaaTimelineRenewalInd
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, "0");
@@ -200,8 +200,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
      */
     private void nbPlus15_MembershipValidation() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage1Date);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
         if (_bPrintDebugInfo){
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+15, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
@@ -214,8 +214,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
      */
     private void nbPlus30_MembershipValidation() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage2Date);
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
         if (_bPrintDebugInfo) {
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to NB+30, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
@@ -258,8 +258,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
                 break;
         }
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
 
         if (_bPrintDebugInfo) {
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: Renewal Image Generated on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
@@ -277,9 +277,9 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
             log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint1, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
         }
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
-        JobUtils.executeJob(Jobs.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
     }
 
     /**
@@ -288,7 +288,7 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
      */
     private void rMinus60_SendCreditDiscolsure(){
         if (_policyState.equalsIgnoreCase("WV")) {
-            JobUtils.executeJob(Jobs.aaaCreditDisclosureNoticeJob);
+			JobUtils.executeJob(BatchJob.aaaCreditDisclosureNoticeJob);
         }
 
         if (_bPrintDebugInfo) {
@@ -331,9 +331,9 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
                 break;
         }
 
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalValidationAsyncTaskJob);
-        JobUtils.executeJob(Jobs.aaaRenewalDataRefreshAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalValidationAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaRenewalDataRefreshAsyncJob);
 
         // Manually set aaaRenewalTimelineInd
         AAAMembershipQueries.updateAaaRenewalTimelineIndicatorValue(_policyNumber, AAARENEWALTIMELINEIND_VALUETOSET);
@@ -350,8 +350,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
     private void rMinus48_MembershipTimepoint2() {
         TimeSetterUtil.getInstance().nextPhase(_policyStage4Date);
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to TimePoint2, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
     }
 
     /**
@@ -390,8 +390,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
                 break;
         }
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Rating, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalImageRatingAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalImageRatingAsyncTaskJob);
     }
 
     /**
@@ -425,8 +425,8 @@ public class RenewalHelper_HomeSS extends HomeSSHO3BaseTest
                 break;
         }
         log.debug(String.format(System.lineSeparator() + "<QA-LOG-DEBUG> RenewalHelper: JVM moved to STG4 Proposal, on '%s' </QA-LOG-DEBUG>" + System.lineSeparator(), TimeSetterUtil.getInstance().getCurrentTime().toString()));
-        JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-        JobUtils.executeJob(Jobs.renewalOfferAsyncTaskJob);
+		JobUtils.executeJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.executeJob(BatchJob.renewalOfferAsyncTaskJob);
     }
 
     /**

@@ -13,8 +13,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeSSMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ss.defaulttabs.ApplicantTab;
@@ -342,10 +342,10 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
 
         // Advance JVM to NB+15
         TimeSetterUtil.getInstance().nextPhase(nb15TimePoint);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
         // Advance JVM to NB+30
         TimeSetterUtil.getInstance().nextPhase(nb30TimePoint);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open();
@@ -446,7 +446,7 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
      */
     @Parameters({"state"})
     //TODO: Test case disabled due to the error below. The test case passes when ran individually so more research is needed
-    // Caused by: toolkit.exceptions.IstfException: HTTP Job ERROR: <--- Job 'Renewal_Offer_Generation_Part1' has timed out after 1200000 milliseconds
+	// Caused by: toolkit.exceptions.IstfException: HTTP Job ERROR: <--- Job 'renewalOfferGenerationPart1' has timed out after 1200000 milliseconds
     @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT}, enabled = false)
     @TestInfo(component = ComponentConstant.Sales.HOME_SS_HO3, testCaseId = "PAS-10154")
     public void AC2_testMembershipOverride_Renewal(@Optional("AZ") String state) {
@@ -607,8 +607,8 @@ public class TestMembershipOverride extends HomeSSHO3BaseTest
     }
 
     public void runMembershipValidationAndRenewalJobs() {
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
     }
 }

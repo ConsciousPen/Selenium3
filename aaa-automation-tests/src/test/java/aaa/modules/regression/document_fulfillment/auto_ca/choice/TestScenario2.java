@@ -11,8 +11,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
 import aaa.helpers.billing.BillingPendingTransactionsVerifier;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.billing.account.IBillingAccount;
@@ -44,13 +44,13 @@ public class TestScenario2 extends AutoCaChoiceBaseTest {
 		billing.approveRefund().perform(amount);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Approved").verifyPresent();
 		//billing.issueRefund().perform(amount);
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob, true);
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob, true);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob, true);
 		
 		SearchPage.openBilling(policyNum);
 		new BillingPaymentsAndTransactionsVerifier().setType("Refund").setSubtypeReason("Manual Refund").setAmount(amount).setStatus("Issued").verifyPresent();
 
-		//JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+		//JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
 		//DocGenHelper.verifyDocumentsGenerated(true, true, policyNum, DocGenEnum.Documents._55_3500);
 		//refund check are now generated throw csv files PASBB-795
 		List<String> documentsFilePaths = RemoteHelper.get().waitForFilesAppearance(REFUND_GENERATION_FOLDER_PATH, "csv", 10, policyNum);

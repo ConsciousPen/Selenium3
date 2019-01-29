@@ -12,7 +12,7 @@ import toolkit.config.PropertyProvider;
 public class BatchJob {
 
 	public static Job policyAutomatedRenewalAsyncTaskGenerationJob = new Job("policyAutomatedRenewalAsyncTaskGenerationJob", new HashMap<>(), getRenewPart1JobFolders());
-
+	public static Job aaaRecurringPaymentsProcessingJob = new Job("aaaRecurringPaymentsProcessingJob");
 	public static Job aaaAgencyConsolidationBatchJob = new Job("aaaAgencyConsolidationBatchJob");
 	public static Job aaaAutomatedProcessingInitiationJob = new Job("aaaAutomatedProcessingInitiationJob");
 	public static Job aaaBalanceTransferConversionAsyncJob = new Job("aaaBalanceTransferConversionAsyncJob",
@@ -39,7 +39,7 @@ public class BatchJob {
 	public static Job aaaDataServiceJob = new Job("aaaDataServiceJob");
 	public static Job aaaDataUpdateJob = new Job("aaaDataUpdateJob");
 	public static Job aaaDelayTriggerTOINoticeAsyncJob = new Job("aaaDelayTriggerTOINoticeAsyncJob");
-	public static Job aaaDocGenAsyncBatchJob = new Job("aaaDocGenAsyncBatchJob");
+	public static Job aaaDocGenBatchJob = new Job("aaaDocGenAsyncBatchJob");
 	public static Job aaaDocgenFormEventHistoryPurgeJob = new Job("aaaDocgenFormEventHistoryPurgeJob");
 	public static Job aaaDocGenManualServiceAsyncJob = new Job("aaaDocGenManualServiceAsyncJob");
 	public static Job aaaEarnedPremiumPostingAsyncTaskGenerationJob = new Job("aaaEarnedPremiumPostingAsyncTaskGenerationJob");
@@ -71,7 +71,7 @@ public class BatchJob {
 	public static Job aaaMortgageeRenewalReminderAndExpNoticeAsyncJob = new Job("aaaMortgageeRenewalReminderAndExpNoticeAsyncJob");
 	public static Job aaaMvrRenewAsyncBatchReceiveJob = new Job("aaaMvrRenewAsyncBatchReceiveJob");
 	public static Job aaaMvrRenewBatchOrderAsyncJob = new Job("aaaMvrRenewBatchOrderAsyncJob");
-	public static Job aaaOffCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
+	public static Job offCycleBillingInvoiceAsyncJob = new Job("aaaOffCycleBillingInvoiceAsyncJob");
 	public static Job aaaOperationalReportsOrderingAsyncJob = new Job("aaaOperationalReportsOrderingAsyncJob");
 	public static Job aaaPaidThroughDateUpdateJob = new Job("aaaPaidThroughDateUpdateJob");
 	public static Job aaaPaymentCentralRejectFeedAsyncJob = new Job("aaaPaymentCentralRejectFeedAsyncJob");
@@ -213,12 +213,12 @@ public class BatchJob {
 	public static Job policyConversionImportJob = new Job("policyConversionImportJob");
 	public static Job policyDoNotRenewAsyncJob = new Job("policyDoNotRenewAsyncJob");
 	public static Job policyExportToAgentDownloadsJob = new Job("policyExportToAgentDownloadsJob");
-	public static Job policyLapsedRenewalProcessAsyncJob = new Job("policyLapsedRenewalProcessAsyncJob");
+	public static Job lapsedRenewalProcessJob = new Job("policyLapsedRenewalProcessAsyncJob");
 	public static Job policyStatusUpdateJob = new Job("policyStatusUpdateJob");
 	public static Job policySummaryPartyConversionJob = new Job("policySummaryPartyConversionJob");
 	public static Job policyTermExtensionJob = new Job("policyTermExtensionJob");
 	public static Job policyTermUbiJob = new Job("policyTermUbiJob");
-	public static Job policyTransactionLedgerJob = new Job("policyTransactionLedgerJob");
+	public static Job policyTransactionLedgerJob_NonMonthly = new Job("policyTransactionLedgerJob");
 	public static Job premiumReceivablesOnPolicyEffectiveJob = new Job("premiumReceivablesOnPolicyEffectiveJob");
 	public static Job preRenewalReminderGenerationAsyncJob = new Job("preRenewalReminderGenerationAsyncJob");
 	public static Job quoteExpirationJob = new Job("quoteExpirationJob");
@@ -250,67 +250,17 @@ public class BatchJob {
 		public static Job workTaskEscalationJob = new Job("workTaskEscalationJob");
 		public static Job workTaskUnsuspendJob = new Job("workTaskUnsuspendJob");*/
 	public static JobGroup collectionFeedBatch_earnedPremiumWriteOff = new JobGroup("collectionFeedBatch_earnedPremiumWriteOff", Arrays.asList(collectionFeedBatchOrderJob, earnedPremiumWriteoffProcessingJob));
+	public static JobGroup earnedPremiumBillGenerationJob = new JobGroup("earnedPremiumBillGenerationJob", Arrays.asList(aaaCollectionCancellDebtBatchAsyncJob, aaaDocGenBatchJob));
 	public static JobGroup membershipValidationJob = new JobGroup("membershipValidationJob", getMembershipValidationJob_batchJobs());
-	public static JobGroup Renewal_Offer_Generation_Part1 = new JobGroup("Renewal_Offer_Generation_Part1", getRenewal_Offer_Generation_Part1_batchJobs());
-	public static JobGroup Renewal_Offer_Generation_Part2 = new JobGroup("Renewal_Offer_Generation_Part2", getRenewal_Offer_Generation_Part2_batchJobs());
+	public static JobGroup renewalOfferGenerationPart1 = new JobGroup("renewalOfferGenerationPart1", getRenewal_Offer_Generation_Part1_batchJobs());
+	public static JobGroup renewalOfferGenerationPart2 = new JobGroup("renewalOfferGenerationPart2", getRenewal_Offer_Generation_Part2_batchJobs());
 	private static String jobFolderPrefix = PropertyProvider.getProperty(CsaaTestProperties.JOB_FOLDER, "/home/mp2/pas/sit/");
 
-	private static List<Job> getCftDcsEodJob_batchJobs() {
-		return Arrays.asList(
-				aaaCCardExpiryNoticeAsyncJob,
-				aaaMvrRenewBatchOrderAsyncJob,
-				claimsRenewBatchOrderJob,
-				aaaMembershipRenewalBatchOrderAsyncJob,
-				aaaInsuranceScoreRenewBachOrderAsyncJob,
-				aaaMvrRenewAsyncBatchReceiveJob,
-				claimsRenewBatchReceiveJob,
-				aaaMembershipRenewalBatchReceiveAsyncJob,
-				aaaInsuranceScoreRenewalBatchReceiveAsyncJob,
-				cumulativeFileReadJob,
-				aaaGenerateHomeBankingReminderAsyncJob,
-				policyStatusUpdateJob,
-				aaaRecurringPaymentsAsyncProcessJob,
-				aaaRemittanceFeedAsyncBatchReceiveJob,
-				applyPendingTransactionsAsyncJob,
-				aaaCancellationNoticeAsyncJob,
-				aaaCancellationConfirmationAsyncJob,
-				aaaCollectionCancellDebtBatchAsyncJob,
-				aaaRecurringPaymentsResponseProcessAsyncJob,
-				aaaBCTCEAPlcyDtlsAsyncJob,
-				bofaRejectionPaymentJob,
-				aaaPaymentCentralRejectFeedAsyncJob,
-				aaaRefundGenerationAsyncJob,
-				aaaAgencyConsolidationBatchJob,
-				bofaRecurringPaymentJob,
-				aaaOffCycleBillingInvoiceAsyncJob,
-				aaaBillingInvoiceAsyncTaskJob,
-				preRenewalReminderGenerationAsyncJob,
-				premiumReceivablesOnPolicyEffectiveJob,
-				changeCancellationPendingPoliciesStatusJob,
-				ledgerStatusUpdateJob,
-				policyStatusUpdateJob,
-				policyAutomatedRenewalAsyncTaskGenerationJob,
-				isoRenewalBatchOrderJob,
-				AAAIsoRenewAsyncBatchReceiveJob,
-				aaaRenewalDataRefreshAsyncJob,
-				renewalValidationAsyncTaskJob,
-				renewalImageRatingAsyncTaskJob,
-				renewalOfferAsyncTaskJob,
-				policyLapsedRenewalProcessAsyncJob,
-				policyExportToAgentDownloadsJob,
-				aaaEscheatmentProcessAsyncJob,
-				aaaGenerateEscheatmentReportJob,
-				collectionFeedBatchOrderJob,
-				earnedPremiumWriteoffProcessingJob,
-				aaaRenewalNoticeBillAsyncJob,
-				aaaPreRenewalNoticeAsyncJob,
-				aaaGenerateLTRNoticeJob,
-				aaaBillDueBatchJob,
-				aaaDocGenAsyncBatchJob,
-				dmvBatchJob,
-				activityTimeoutJob,
-				activityHistoryJob,
-				premiumReceivablesOnPolicyEffectiveJob);
+	public static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
+		HashMap<String, String> parameters = new HashMap();
+		parameters.put("importFolder", getFormattedFolderPath("%SPAS_B_PASHUB_EXGPAS_4001_D/inbound"));
+		parameters.put("processedFolder", getFormattedFolderPath("%SPAS_B_EXGPAS_PASHUB_4001_D/outbound"));
+		return parameters;
 	}
 
 	private static List<Job> getMembershipValidationJob_batchJobs() {
@@ -355,11 +305,62 @@ public class BatchJob {
 		return getFormattedJobFolders(foldersTemplate);
 	}
 
-	private static HashMap<String, String> getRenewalClaimOrderAsyncJobParameters() {
-		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", getFormattedFolderPath("%SPAS_B_EXGPAS_PASHUB_4001_D/outbound"));
-		parameters.put("processedFolder", getFormattedFolderPath("%SPAS_B_PASHUB_EXGPAS_4001_D/inbound"));
-		return parameters;
+	private static List<Job> getCftDcsEodJob_batchJobs() {
+		return Arrays.asList(
+				aaaCCardExpiryNoticeAsyncJob,
+				aaaMvrRenewBatchOrderAsyncJob,
+				claimsRenewBatchOrderJob,
+				aaaMembershipRenewalBatchOrderAsyncJob,
+				aaaInsuranceScoreRenewBachOrderAsyncJob,
+				aaaMvrRenewAsyncBatchReceiveJob,
+				claimsRenewBatchReceiveJob,
+				aaaMembershipRenewalBatchReceiveAsyncJob,
+				aaaInsuranceScoreRenewalBatchReceiveAsyncJob,
+				cumulativeFileReadJob,
+				aaaGenerateHomeBankingReminderAsyncJob,
+				policyStatusUpdateJob,
+				aaaRecurringPaymentsAsyncProcessJob,
+				aaaRemittanceFeedAsyncBatchReceiveJob,
+				applyPendingTransactionsAsyncJob,
+				aaaCancellationNoticeAsyncJob,
+				aaaCancellationConfirmationAsyncJob,
+				aaaCollectionCancellDebtBatchAsyncJob,
+				aaaRecurringPaymentsResponseProcessAsyncJob,
+				aaaBCTCEAPlcyDtlsAsyncJob,
+				bofaRejectionPaymentJob,
+				aaaPaymentCentralRejectFeedAsyncJob,
+				aaaRefundGenerationAsyncJob,
+				aaaAgencyConsolidationBatchJob,
+				bofaRecurringPaymentJob,
+				offCycleBillingInvoiceAsyncJob,
+				aaaBillingInvoiceAsyncTaskJob,
+				preRenewalReminderGenerationAsyncJob,
+				premiumReceivablesOnPolicyEffectiveJob,
+				changeCancellationPendingPoliciesStatusJob,
+				ledgerStatusUpdateJob,
+				policyStatusUpdateJob,
+				policyAutomatedRenewalAsyncTaskGenerationJob,
+				isoRenewalBatchOrderJob,
+				AAAIsoRenewAsyncBatchReceiveJob,
+				aaaRenewalDataRefreshAsyncJob,
+				renewalValidationAsyncTaskJob,
+				renewalImageRatingAsyncTaskJob,
+				renewalOfferAsyncTaskJob,
+				lapsedRenewalProcessJob,
+				policyExportToAgentDownloadsJob,
+				aaaEscheatmentProcessAsyncJob,
+				aaaGenerateEscheatmentReportJob,
+				collectionFeedBatchOrderJob,
+				earnedPremiumWriteoffProcessingJob,
+				aaaRenewalNoticeBillAsyncJob,
+				aaaPreRenewalNoticeAsyncJob,
+				aaaGenerateLTRNoticeJob,
+				aaaBillDueBatchJob,
+				aaaDocGenBatchJob,
+				dmvBatchJob,
+				activityTimeoutJob,
+				activityHistoryJob,
+				premiumReceivablesOnPolicyEffectiveJob);
 	}
 
 	private static HashMap<String, String> getAaaBalanceTransferConversionAsyncJobParameters() {

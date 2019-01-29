@@ -22,8 +22,8 @@ import aaa.common.pages.SearchPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.TimePoints;
 import aaa.helpers.billing.DisbursementEngineHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.BillingAccountMetaData;
@@ -320,7 +320,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue1.add(new Dollar(approvedRefundAmount)));
 			LocalDateTime refundDate = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 			TimeSetterUtil.getInstance().nextPhase(refundDate);
-			JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -332,7 +332,7 @@ public class RefundProcessHelper extends PolicyBilling {
 			billingAccount.acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue2.add(new Dollar(pendingRefundAmount)));
 			LocalDateTime refundDate2 = getTimePoints.getRefundDate(DateTimeUtils.getCurrentDateTime());
 			TimeSetterUtil.getInstance().nextPhase(refundDate2);
-			JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -407,7 +407,7 @@ public class RefundProcessHelper extends PolicyBilling {
 	public void issuedAutomatedRefundGeneration(String policyNumber) {
 		//TODO workaround for Time-setter parallel execution
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-		JobUtils.executeJob(Jobs.aaaRefundDisbursementAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundDisbursementAsyncJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
@@ -516,7 +516,7 @@ public class RefundProcessHelper extends PolicyBilling {
 		}
 		TimeSetterUtil.getInstance().nextPhase(refundTimePoint);
 		//TimeSetterUtil.getInstance().nextPhase(DateTimeUtils.getCurrentDateTime().plusDays(1));
-		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
+		JobUtils.executeJob(BatchJob.aaaRefundGenerationAsyncJob);
 		mainApp().reopen();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
 	}
@@ -897,11 +897,11 @@ public class RefundProcessHelper extends PolicyBilling {
 		if ("ERR".equals(refundStatus)) {
 			//TODO workaround for Time-setter parallel execution
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(1));
-			JobUtils.executeJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRefundsDisbursementRejectionsAsyncJob);
 		} else if ("SUCC".equals(refundStatus)) {
 			//TODO workaround for Time-setter parallel execution
 			TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusHours(2));
-			JobUtils.executeJob(Jobs.aaaRefundDisbursementRecieveInfoJob);
+			JobUtils.executeJob(BatchJob.aaaRefundsDisbursementReceiveInfoAsyncJob);
 		}
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);

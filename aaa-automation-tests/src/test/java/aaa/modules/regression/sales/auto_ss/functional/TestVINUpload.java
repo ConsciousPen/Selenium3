@@ -804,7 +804,7 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 		Dollar totalDue = BillingSummaryPage.getTotalDue();
 		new BillingAccount().acceptPayment().perform(tdBilling.getTestData("AcceptPayment", "TestData_Cash"), totalDue);
 		TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(1));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);*/
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);*/
 		openAndSearchActivePolicy(policyNumber);
 
 		// 4. Initiate Prior Term (backdated) endorsement with effective date in previous term

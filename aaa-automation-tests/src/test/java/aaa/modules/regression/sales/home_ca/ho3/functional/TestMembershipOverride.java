@@ -13,8 +13,8 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.metadata.policy.HomeCaMetaData;
 import aaa.main.modules.policy.IPolicy;
 import aaa.main.modules.policy.home_ca.defaulttabs.ApplicantTab;
@@ -284,10 +284,10 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
 
         // Advance JVM to NB+15
         TimeSetterUtil.getInstance().nextPhase(nb15TimePoint);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
         // Advance JVM to NB+30
         TimeSetterUtil.getInstance().nextPhase(nb30TimePoint);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
 
         // Create Customer and Policy using Membership Override Option and NO membership number. Bind Policy.
         mainApp().open();
@@ -532,9 +532,9 @@ public class TestMembershipOverride extends HomeCaHO3BaseTest
     }
 
     public void runMembershipValidationAndRenewalJobs() {
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-        JobUtils.executeJob(Jobs.membershipValidationJob);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
+		JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
+		JobUtils.executeJob(BatchJob.membershipValidationJob);
     }
 }
 

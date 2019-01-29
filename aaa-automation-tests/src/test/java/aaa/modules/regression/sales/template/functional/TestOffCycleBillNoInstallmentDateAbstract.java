@@ -10,8 +10,8 @@ import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.ErrorEnum;
 import aaa.main.enums.SearchEnum;
 import aaa.main.metadata.policy.PurchaseMetaData;
@@ -119,7 +119,7 @@ public abstract class TestOffCycleBillNoInstallmentDateAbstract extends PolicyBa
 		// Move to DD-20, run off cycle billing job, and refresh policy
 		mainApp().close();
 		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getOffcycleBillGenerationDate(dueDate));
-		JobUtils.executeJob(Jobs.offCycleBillingInvoiceAsyncJob);
+		JobUtils.executeJob(BatchJob.offCycleBillingInvoiceAsyncJob);
 		reopenPolicy(policyNumber);
 		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
 

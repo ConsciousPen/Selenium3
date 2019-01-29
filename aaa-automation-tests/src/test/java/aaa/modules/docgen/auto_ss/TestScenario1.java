@@ -12,8 +12,8 @@ import aaa.common.enums.Constants.States;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
 import aaa.main.enums.PolicyConstants;
 import aaa.main.enums.ProductConstants;
@@ -90,8 +90,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 			LocalDateTime billingGenerationDate = getTimePoints().getBillGenerationDate(installmentDD1);
 			TimeSetterUtil.getInstance().nextPhase(billingGenerationDate);
 			log.info("Installment Generatetion Date" + billingGenerationDate);
-			JobUtils.executeJob(Jobs.aaaBillingInvoiceAsyncTaskJob);
-			JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+			JobUtils.executeJob(BatchJob.aaaBillingInvoiceAsyncTaskJob);
+			JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 			mainApp().open();
 			SearchPage.openBilling(policyNumber);
@@ -136,8 +136,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 			LocalDateTime cancelNoticeDate = getTimePoints().getCancellationNoticeDate(installmentDD1);
 			log.info("Cancel Notice Generatetion Date" + cancelNoticeDate);
 			TimeSetterUtil.getInstance().nextPhase(cancelNoticeDate);
-			JobUtils.executeJob(Jobs.aaaCancellationNoticeAsyncJob);
-			JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+			JobUtils.executeJob(BatchJob.aaaCancellationNoticeAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 			mainApp().open();
 			SearchPage.openPolicy(policyNumber);
@@ -180,8 +180,8 @@ public class TestScenario1 extends AutoSSBaseTest {
 			LocalDateTime cancellationDate = getTimePoints().getCancellationDate(installmentDD1);
 			log.info("Cancellation Generatetion Date" + cancellationDate);
 			TimeSetterUtil.getInstance().nextPhase(cancellationDate);
-			JobUtils.executeJob(Jobs.aaaCancellationConfirmationAsyncJob);
-			JobUtils.executeJob(Jobs.aaaDocGenBatchJob);
+			JobUtils.executeJob(BatchJob.aaaCancellationConfirmationAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaDocGenBatchJob);
 
 			mainApp().open();
 			SearchPage.openPolicy(policyNumber);
@@ -223,7 +223,7 @@ public class TestScenario1 extends AutoSSBaseTest {
 			policy.reinstate().perform(getTestSpecificTD("TestData_Reinstate"));
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
 
-			JobUtils.executeJob(Jobs.aaaDocGenBatchJob, true);
+			JobUtils.executeJob(BatchJob.aaaDocGenBatchJob, true);
 
 			BillingSummaryPage.open();
 

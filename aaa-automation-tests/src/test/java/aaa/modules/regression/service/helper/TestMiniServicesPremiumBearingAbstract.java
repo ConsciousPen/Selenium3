@@ -24,8 +24,8 @@ import aaa.common.pages.SearchPage;
 import aaa.helpers.conversion.ConversionPolicyData;
 import aaa.helpers.conversion.ConversionUtils;
 import aaa.helpers.conversion.MaigConversionData;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
 import aaa.helpers.product.ProductRenewalsVerifier;
 import aaa.helpers.rest.dtoDxp.*;
 import aaa.main.enums.*;
@@ -678,7 +678,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertThat(response.ruleSets.get(0).errors.stream().anyMatch(err -> err.message.startsWith(ErrorDxpEnum.Errors.POLICY_TERM_DOES_NOT_EXIST.getMessage()))).isTrue();
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusDays(20));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -740,7 +740,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		mainApp().close();
 
 		TimeSetterUtil.getInstance().nextPhase(TimeSetterUtil.getInstance().getCurrentTime().plusYears(1));
-		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+		JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 		mainApp().open();
 		SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -860,7 +860,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			assertThat(responsePolicyPendingRenewal.message).contains(ErrorDxpEnum.Errors.RENEWAL_DOES_NOT_EXIST.getMessage() + policyNumber);
 
 			TimeSetterUtil.getInstance().nextPhase(policyEffectiveDate);
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 			PolicySummary responsePolicyActive = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyActive.policyNumber).isEqualTo(policyNumber);
@@ -933,7 +933,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 
 			PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
 			String totalPremium = response[0].termPremium;
@@ -979,7 +979,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 			PolicySummary responsePolicyOffer = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOffer.policyNumber).isEqualTo(policyNumber);
@@ -1018,7 +1018,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOffer.policyTerm).isEqualTo("12");
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 			PolicySummary responsePolicyOfferExpired = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOfferExpired.policyNumber).isEqualTo(policyNumber);
@@ -1049,7 +1049,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOfferExpired.residentialAddress.stateProvCd).isEqualTo(state1);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate.plusDays(15));
-			JobUtils.executeJob(Jobs.lapsedRenewalProcessJob);
+			JobUtils.executeJob(BatchJob.lapsedRenewalProcessJob);
 
 			PolicySummary responsePolicyOfferLapsed = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOfferLapsed.policyNumber).isEqualTo(policyNumber);
@@ -1108,7 +1108,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			LocalDateTime renewPreviewGenDate = getTimePoints().getRenewPreviewGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewPreviewGenDate);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart1);
 
 			PolicyPremiumInfo[] response = HelperCommon.viewPolicyPremiums(policyNumber);
 			String totalPremium = response[0].termPremium;
@@ -1153,7 +1153,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 
 			LocalDateTime renewOfferGenDate = getTimePoints().getRenewOfferGenerationDate(policyExpirationDate);
 			TimeSetterUtil.getInstance().nextPhase(renewOfferGenDate);
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 
 			mainApp().open();
 			SearchPage.search(SearchEnum.SearchFor.BILLING, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
@@ -1201,7 +1201,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyRenewalOffer.residentialAddress.stateProvCd).isEqualTo(state1);
 
 			TimeSetterUtil.getInstance().nextPhase(policyExpirationDate);
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 
 			PolicySummary responsePolicyOfferExpired = HelperCommon.viewPolicyRenewalSummary(policyNumber, "policy", Response.Status.OK.getStatusCode());
 			softly.assertThat(responsePolicyOfferExpired.policyNumber).isEqualTo(policyNumber);
@@ -1258,7 +1258,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			//BUG PAS-10480 eValue Status is not shown for conversion stub policy
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -1284,7 +1284,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 			mainApp().open();
 			SearchPage.openBilling(policyNum);
 			Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
@@ -1311,7 +1311,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOfferProposedPaid.renewalCycle).isEqualTo(1);
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
@@ -1369,7 +1369,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOfferRated.renewalCycle).isEqualTo(1);
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
+			JobUtils.executeJob(BatchJob.renewalOfferGenerationPart2);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			new ProductRenewalsVerifier().setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -1395,7 +1395,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOfferProposed.renewalCycle).isEqualTo(1);
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getBillGenerationDate(effDate));
-			JobUtils.executeJob(Jobs.aaaRenewalNoticeBillAsyncJob);
+			JobUtils.executeJob(BatchJob.aaaRenewalNoticeBillAsyncJob);
 			mainApp().open();
 			SearchPage.openBilling(policyNum);
 			Dollar totalDue = new Dollar(BillingSummaryPage.tableBillingAccountPolicies.getRow(1).getCell(BillingConstants.BillingAccountPoliciesTable.TOTAL_DUE).getValue());
@@ -1422,7 +1422,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 			softly.assertThat(responsePolicyOfferProposedPaid.renewalCycle).isEqualTo(1);
 
 			TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(effDate));
-			JobUtils.executeJob(Jobs.policyStatusUpdateJob);
+			JobUtils.executeJob(BatchJob.policyStatusUpdateJob);
 			mainApp().open();
 			SearchPage.openPolicy(policyNum);
 			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
