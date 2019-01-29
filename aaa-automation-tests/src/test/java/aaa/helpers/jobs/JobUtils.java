@@ -1,9 +1,10 @@
 package aaa.helpers.jobs;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.exigen.ipb.eisa.base.app.CSAAApplicationFactory;
@@ -11,75 +12,59 @@ import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
-import com.exigen.istf.exec.core.TimedTestContext;
 import com.exigen.istf.exec.testng.TimeShiftTestUtil;
-import aaa.config.CsaaTestProperties;
-import aaa.helpers.http.HttpJob;
 import aaa.helpers.ssh.RemoteHelper;
 import aaa.modules.BaseTest;
-import toolkit.config.PropertyProvider;
 import toolkit.exceptions.IstfException;
 
 public class JobUtils {
 
 	private static Logger log = LoggerFactory.getLogger(JobUtils.class);
-	private static String jobRunMode = PropertyProvider.getProperty(CsaaTestProperties.BATCHJOB_RUN_MODE, "soap");
 	private static LocalDateTime currentPhase;
 
-	public static void executeJob(Job job, Boolean forceExecution) {
+	public static void executeJob(JobGroup job, Boolean forceExecution) {
 		CSAAApplicationFactory.get().closeAllApps();
-		if (isPef()) {
+		if (TimeShiftTestUtil.isPEFAvailable()) {
 			executeJobByPEF(job, forceExecution);
 		} else {
 			executeJobLocally(job);
 		}
 	}
 
-	public static void executeJob(Job job) {
+	public static void executeJob(JobGroup job) {
 		executeJob(job, false);
 	}
 
-	private static void executeJob(String jobName) {
+	public static void executeJob(Job job) {
+		executeJob(JobGroup.fromSingleJob(job), false);
+	}
+
+	public static void createJob(JobGroup job) {
+		SoapJobActions soapJob = new SoapJobActions();
+		if (!soapJob.isJobExist(job)) {
+			soapJob.createJob(job);
+		}
+	}
+
+	public static void createJob(Job job) {
+		createJob(new JobGroup(job));
+	}
+
+	private static void executeJobImpl(JobGroup jobName) {
 		log.info(getFullName() + " is running job: " + jobName);
-		switch (jobRunMode.toLowerCase()) {
-			case "http":
-				try {
-					try {
-						HttpJob.executeJob(jobName);
-					} catch (Exception ioe) {
-						// Workaround of HTTP 502 error
-						if (ioe instanceof IOException || ioe.getCause() instanceof IOException) {
-							log.info("Failed during run of " + jobName + ". Trying to rerun.", ioe);
-							HttpJob.executeJob(jobName);
-						} else {
-							throw ioe;
-						}
-					}
-				} catch (Exception ie) {
-					throw new IstfException(String.format("HTTP Job '%s' run failed:\n", jobName), ie);
-				}
-				break;
-			case "soap":
-				try {
-					new SoapJobActions().startJob(JobGroup.fromSingleJob(jobName));
-				} catch (Exception ie) {
-					throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
-				}
-		}
-	}
-
-	private static void executeJobLocally(Job job) {
 		try {
-			if (!job.getJobFolders().isEmpty()) {
-				RemoteHelper.get().clearFolder(job.getJobFolders());
-			}
-			executeJob(job.getJobName());
-		} catch (IstfException e) {
-			throw e;
+			new SoapJobActions().startJob(jobName);
+		} catch (Exception ie) {
+			throw new IstfException(String.format("SOAP Job '%s' run failed:\n", jobName), ie);
 		}
 	}
 
-	private static void executeJobByPEF(Job job, boolean forceExecution) {
+	private static void executeJobLocally(JobGroup job) {
+		clearFolders(job);
+		executeJobImpl(job);
+	}
+
+	private static void executeJobByPEF(JobGroup job, boolean forceExecution) {
 		String testName = TimeSetterUtil.getInstance().getContext().getName();
 		long testThreadId = Thread.currentThread().getId();
 		AtomicReference<Exception> jobException = new AtomicReference<Exception>();
@@ -89,40 +74,29 @@ public class JobUtils {
 			public Boolean call() {
 				long curThreadId = Thread.currentThread().getId();
 				try {
-					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getJobName(), testName, testThreadId, curThreadId);
-					if (!job.getJobFolders().isEmpty()) {
-						RemoteHelper.get().clearFolder(job.getJobFolders());
-					}
-					executeJob(job.getJobName());
-					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getJobName(), testName);
+					log.info("Attempt to execute job '{}' in callback (testName='{}',testThreadId={},curThreadId={})", job.getGroupName(), testName, testThreadId, curThreadId);
+					executeJobLocally(job);
+					log.info("Job '{}' callback was executed successfully (testName='{}')", job.getGroupName(), testName);
 					return Boolean.TRUE;
 
 				} catch (IstfException e) {
-					log.warn(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
+					log.warn(String.format("IstfException was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
 					return Boolean.FALSE;
 
 				} catch (RuntimeException e) {
-					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getJobName(), testName, testThreadId, curThreadId), e);
+					log.error(String.format("Exception was caught (job='%s',testName='%s',testThreadId=%d,curThreadId=%d)", job.getGroupName(), testName, testThreadId, curThreadId), e);
 					jobException.set(e);
 					return Boolean.FALSE;
 
 				}
 			}
 		};
-		boolean isSuccess = getContext().executeJob(job.getJobName(), jobCallback, forceExecution);
+		boolean isSuccess = TimeShiftTestUtil.getContext().executeJob(job.getGroupName(), jobCallback, forceExecution);
 
 		if (!isSuccess) {
-			throw new IstfException(String.format("Job '%s' execution failed: \n", job.getJobName()), jobException.get());
+			throw new IstfException(String.format("Job '%s' execution failed: \n", job.getGroupName()), jobException.get());
 		}
-	}
-
-	private static TimedTestContext getContext() {
-		return TimeShiftTestUtil.getContext();
-	}
-
-	private static Boolean isPef() {
-		return TimeShiftTestUtil.isPEFAvailable();
 	}
 
 	private static String getFullName() {
@@ -136,5 +110,12 @@ public class JobUtils {
 		}
 
 		return fullName;
+	}
+
+	private static void clearFolders(JobGroup job) {
+		List<Job> jobsWithFolders = job.getJobs().stream().filter(jobChild -> !jobChild.getJobFolders().isEmpty()).collect(Collectors.toList());
+		if (!jobsWithFolders.isEmpty()) {
+			jobsWithFolders.stream().forEach(job1 -> RemoteHelper.get().clearFolder(job1.getJobFolders()));
+		}
 	}
 }

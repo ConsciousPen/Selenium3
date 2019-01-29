@@ -10,12 +10,12 @@ import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.Groups;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
@@ -79,13 +79,11 @@ public class TestRefundProcessTemplate extends PolicyBilling {
 
 	@Test(description = "Precondition for TestRefundProcess tests", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_GENERATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_DISBURSEMENT_RECEIVE_INFO_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUND_CANCELLATION_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_REFUNDS_DISBURSMENT_REJECTIONS_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaRefundGenerationAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundDisbursementAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundsDisbursementReceiveInfoAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundCancellationAsyncJob);
+		JobUtils.createJob(BatchJob.aaaRefundsDisbursementRejectionsAsyncJob);
 	}
 
 	public void pas7039_Debug(@Optional("VA") String state) throws SftpException, JSchException, IOException {

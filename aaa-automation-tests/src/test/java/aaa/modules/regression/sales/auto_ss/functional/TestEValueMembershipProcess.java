@@ -24,7 +24,6 @@ import com.exigen.ipb.eisa.utils.batchjob.SoapJobActions;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.SftpException;
 import aaa.admin.pages.general.GeneralAsyncTasksPage;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.enums.Constants;
 import aaa.common.enums.NavigationEnum;
@@ -36,6 +35,7 @@ import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
 import aaa.helpers.http.HttpStub;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
@@ -93,22 +93,18 @@ public class TestEValueMembershipProcess extends AutoSSBaseTest implements TestE
 
 	@Test(description = "Renewal job adding", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
 
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_BATCH_MARKER_JOB);
-
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RUN_REPORTS_SERVICES_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_STRATEGY_STATUS_UPDATE_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_BYPASSING_AND_ERRORS_REPORT_GENERATION_JOB);
-
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.POLICY_AUTOMATED_RENEWAL_ASYNC_TASK_GENERATION_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_MEMBERSHIP_RENEWAL_BATCH_RECEIVE_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_MEMBERSHIP_RENEWAL_BATCH_ORDER_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_IMAGE_RATING_ASYNC_TASK_JOB);
+		JobUtils.createJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.createJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.createJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.createJob(BatchJob.automatedProcessingRunReportsServicesJob);
+		JobUtils.createJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.createJob(BatchJob.automatedProcessingStrategyStatusUpdateJob);
+		JobUtils.createJob(BatchJob.automatedProcessingBypassingAndErrorsReportGenerationJob);
+		JobUtils.createJob(BatchJob.policyAutomatedRenewalAsyncTaskGenerationJob);
+		JobUtils.createJob(BatchJob.aaaMembershipRenewalBatchOrderAsyncJob);
+		JobUtils.createJob(BatchJob.aaaMembershipRenewalBatchReceiveAsyncJob);
+		JobUtils.createJob(BatchJob.renewalImageRatingAsyncTaskJob);
 	}
 
 	//@Test

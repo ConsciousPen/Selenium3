@@ -5,12 +5,11 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 import org.testng.annotations.Test;
-import aaa.admin.pages.general.GeneralSchedulerPage;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.config.CsaaTestProperties;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.db.queries.VehicleQueries;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.modules.BaseTest;
 import toolkit.config.PropertyProvider;
 import toolkit.db.DBService;
@@ -22,11 +21,8 @@ public class ScorpionsPreconditions extends BaseTest {
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION}, description = "Renewal job adding")
 	public void renewalJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-
-		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_1)).isEqualTo(true);
-		assertThat(GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.RENEWAL_OFFER_GENERATION_PART_2)).isEqualTo(true);
+		JobUtils.createJob(BatchJob.Renewal_Offer_Generation_Part1);
+		JobUtils.createJob(BatchJob.Renewal_Offer_Generation_Part2);
 	}
 
 	@Test(groups = {Groups.FUNCTIONAL, Groups.PRECONDITION},description = "Enable vin refresh")

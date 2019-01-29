@@ -1,11 +1,8 @@
 package aaa.helpers.jobs;
 
-import java.util.concurrent.ConcurrentHashMap;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 
-public class GroupJobs {
-
-	private static ConcurrentHashMap<String, JobState> jobsState = new ConcurrentHashMap<>();
+public class BCTJobs {
 
 	public static Job groupaaaRefundDisbursementAsyncJob = new Job("groupaaaRefundDisbursementAsyncJob");
 	public static Job grouppolicyTransactionLedgerJob = new Job("grouppolicyTransactionLedgerJob");
@@ -118,26 +115,5 @@ public class GroupJobs {
 	public static Job grouppolicyBORTransferJob = new Job("grouppolicyBORTransferJob");
 	public static Job groupledgerStatusUpdateJob = new Job("groupledgerStatusUpdateJob");
 	public static Job groupaaaCollectionCancellDebtBatchJob = new Job("groupaaaCollectionCancellDebtBatchJob");
-
-	public enum JobState {
-		TRUE, FALSE, FAILED
-	}
-
-	public static void setJobState(String jobName, JobState state) {
-		jobsState.put(jobName, state);
-	}
-
-	public static JobState getJobState(String jobName) {
-		JobState s = jobsState.get(jobName);
-		if (s == null) {
-			s = JobState.FALSE;
-			jobsState.put(jobName, JobState.FALSE);
-		}
-		return s;
-	}
-
-	public static void clearJobsState() {
-		jobsState = new ConcurrentHashMap<>();
-	}
 
 }

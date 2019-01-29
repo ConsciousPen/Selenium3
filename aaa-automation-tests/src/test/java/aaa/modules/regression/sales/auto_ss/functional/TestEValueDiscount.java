@@ -20,7 +20,6 @@ import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
 import com.google.common.collect.ImmutableList;
 import aaa.admin.modules.administration.generateproductschema.defaulttabs.CacheManager;
-import aaa.admin.pages.general.GeneralSchedulerPage;
 import aaa.common.Tab;
 import aaa.common.efolder.Efolder;
 import aaa.common.enums.NavigationEnum;
@@ -34,6 +33,8 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.db.DbAwaitHelper;
 import aaa.helpers.docgen.AaaDocGenEntityQueries;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
+import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.rest.wiremock.HelperWireMockStub;
 import aaa.helpers.rest.wiremock.dto.PaperlessPreferencesTemplateData;
 import aaa.helpers.xml.model.Document;
@@ -175,13 +176,11 @@ public class TestEValueDiscount extends AutoSSBaseTest implements TestEValueDisc
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_BATCH_MARKER_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_AUTOMATED_PROCESSING_INITIATION_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_RATING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AUTOMATED_PROCESSING_ISSUING_OR_PROPOSING_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaBatchMarkerJob);
+		JobUtils.createJob(BatchJob.aaaAutomatedProcessingInitiationJob);
+		JobUtils.createJob(BatchJob.automatedProcessingRatingJob);
+		JobUtils.createJob(BatchJob.automatedProcessingIssuingOrProposingJob);
+		JobUtils.createJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob);
 	}
 
 	public static void eValueTerritoryChannelForORConfigCheck() {

@@ -12,9 +12,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import com.exigen.ipb.eisa.utils.Dollar;
 import com.exigen.ipb.eisa.utils.TimeSetterUtil;
-import aaa.admin.pages.general.GeneralSchedulerPage;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.AAARecurringPaymentResponseHelper;
 import aaa.helpers.billing.BillingPaymentsAndTransactionsVerifier;
@@ -22,6 +19,7 @@ import aaa.helpers.billing.PaymentCentralHelper;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
 import aaa.helpers.docgen.DocGenHelper;
+import aaa.helpers.jobs.BatchJob;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.DocGenEnum;
@@ -68,10 +66,8 @@ public class TestEValueNsfAHDRXX extends AutoSSBaseTest {
 
 	@Test(description = "Precondition", groups = {Groups.FUNCTIONAL, Groups.PRECONDITION})
 	public void precondJobAdding() {
-		adminApp().open();
-		NavigationPage.toViewLeftMenu(NavigationEnum.AdminAppLeftMenu.GENERAL_SCHEDULER.get());
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_PAYMENT_CENTRAL_REJECT_FEED_ASYNC_JOB);
-		GeneralSchedulerPage.createJob(GeneralSchedulerPage.Job.AAA_RECURRING_PAYMENTS_RESPONSE_PROCESS_ASYNC_JOB);
+		JobUtils.createJob(BatchJob.aaaPaymentCentralRejectFeedAsyncJob);
+		JobUtils.createJob(BatchJob.recurringPaymentsProcessingJob);
 	}
 
 	/**
