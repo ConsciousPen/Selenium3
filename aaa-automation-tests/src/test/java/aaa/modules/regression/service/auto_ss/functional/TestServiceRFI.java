@@ -59,7 +59,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private ErrorTab errorTab = new ErrorTab();
 
 	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
+	private ComboBox pdCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.PROPERTY_DAMAGE_LIABILITY);
+	private ComboBox umpdCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT);
+	private ComboBox uimbiCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
 	private RadioGroup aadnpabRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS);
+	private RadioGroup ruuelluuRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE);
 
 	/**
 	 * @author Jovita Pukenaite
@@ -335,10 +339,8 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			documentsAndBindTab.saveAndExit();
 
 			String policyNumber = testEValueDiscount.simplifiedQuoteIssue();
-
 			helperMiniServices.createEndorsementWithCheck(policyNumber);
 			checkIfRfiIsEmpty(policyNumber);
-
 			helperMiniServices.endorsementRateAndBind(policyNumber);
 		});
 	}
@@ -390,6 +392,92 @@ public class TestServiceRFI extends AutoSSBaseTest {
             dxpOnlyCreateEndorsementCheckDocumentAADNPAB("FALSE", policyNumber);
 			});
 		}
+
+	/**
+	 * @author Jovita Pukenaite
+	 * @name Re-trigger the document - ignore the overridden rule in PAS
+	 * @scenario1 1. Create quote. Override the rule. Issue.
+	 * 2. Create endorsement inside in PAS.
+	 * 3. Make change, that triggers a document that needs to be signed.
+	 * 4. Navigate to the Document and Bind page. Check the status.
+	 * 5. Delete endorsement, create new one but outside of PAS.
+	 * 6. Hit RFI service, check the status.
+	 * 7. Make changes, that triggers a document that needs to be signed.
+	 * 8. Rate and hit RFI service, check the status.
+	 * @scenario2 1. Create policy.
+	 * 2. Create endorsement and make change, that triggers a document that needs to be signed.
+	 * 3. Override the rule and bind endorsement. Create new endorsement.
+	 * 4. Make changes that triggers the rule again.
+	 * 5. Go to the Document and Bind tab. Document = not signed.
+	 * 6. Delete endorsement. Create new one, but outside of PAS.
+	 * 7. Check RFI service.
+	 * 8. Make changes that triggers the rule again.
+	 * 9. Rate and hit RFI service.
+	 * 10. Sign in and Bind.
+	 */
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.DC})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23334"})
+	public void pas23334_RetriggerDocumentIgnoreTheOverriddenRule(@Optional("VA") String state) {
+
+		if(state.contains("VA")){
+			ignoreTheOverridenRuleInQuote();
+			ignoreTheOverridenRuleOnEndorsement();
+		}
+
+//		else if (!state.contains("DE")){
+//
+//		}
+//
+//		else if(state.contains("DC")){
+//
+//		}
+	}
+
+
+
+
+	private void ignoreTheOverridenRuleInQuote(){
+		String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", uimbiCoverage, ruuelluuRule );
+		createEndorsementInPasUpdateUimbiForRUUELLUU("$50,000/$100,000 (+$16.00)");
+		documentsAndBindTab.cancel();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+		dxpOnlyCreateEndorsementCheckDocumentRUUELLUU("UMBI","50000/100000", policyNumber);
+	}
+
+	private void ignoreTheOverridenRuleOnEndorsement(){
+		String policyNumber = openAppAndCreatePolicy();
+		createEndorsementInPasUpdateUimbiForRUUELLUU("$25,000/$50,000 (-$32.00)");
+		documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE).setValue("Physically Signed");
+		documentsAndBindTab.submitTab();
+		createEndorsementInPasUpdateUimbiForRUUELLUU("$50,000/$100,000 (+$16.00)");
+		deleteEndorsementInPas();
+		dxpOnlyCreateEndorsementCheckDocumentRUUELLUU("UMBI","50000/100000", policyNumber);
+	}
+
+	private void deleteEndorsementInPas(){
+		documentsAndBindTab.cancel();
+		Page.dialogConfirmation.buttonDeleteEndorsement.click();
+	}
+
+	private void createEndorsementInPasUpdateUimbiForRUUELLUU(String coverageValue){
+		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+		uimbiCoverage.setValue(coverageValue);
+		premiumAndCoveragesTab.calculatePremium();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+		assertThat(documentsAndBindTab.getRequiredToBindAssetList()
+				.getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE)).hasValue("Not Signed");
+	}
+
+	private void dxpOnlyCreateEndorsementCheckDocumentRUUELLUU(String coverageId, String coverageValue, String policyNumber) {
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		checkIfRfiIsEmpty(policyNumber);
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageId, coverageValue), PolicyCoverageInfo.class);
+		String docId = checkDocumentInRfiService(policyNumber, "RUUELLUU", "IMPORTANT NOTICE - Uninsured Motorist Coverage", "policy", "NS");
+		HelperCommon.endorsementBind(policyNumber, "Jovita Pukenaite", Response.Status.OK.getStatusCode(), docId);
+	}
 
     private void dxpOnlyCreateEndorsementCheckDocumentAADNPAB(String tortCoverageValue, String policyNumber){
         helperMiniServices.createEndorsementWithCheck(policyNumber);
