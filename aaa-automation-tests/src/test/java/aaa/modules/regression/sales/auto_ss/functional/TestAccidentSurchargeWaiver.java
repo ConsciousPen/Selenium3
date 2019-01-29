@@ -195,9 +195,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
 
         // Advance time to renewal reports order date and run jobs
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
-        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
+        runRenewalAndOrderJobs();
 
         // Generate CAS response file, upload to VDM, and run renewal receive jobs
         downloadClaimRequest();
@@ -227,8 +225,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         assertThat(PolicySummaryPage.getEffectiveDate()).isEqualToIgnoringHours(policyExpirationDate);
         policyExpirationDate = PolicySummaryPage.getExpirationDate();
-        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
-        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        runRenewalAndOrderJobs();
 
         // Upload file into inbound folder and run receive jobs
         createCasResponseUpdateLossAmtAndUpload();
@@ -311,6 +308,12 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
                 AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION.getLabel(), "Accident (Property Damage Only)",
                 AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE.getLabel(), "$<today-10M>",
                 AutoSSMetaData.DriverTab.ActivityInformation.LOSS_PAYMENT_AMOUNT.getLabel(), "3000");
+    }
+
+    private void runRenewalAndOrderJobs() {
+        TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewReportsDate(policyExpirationDate));
+        JobUtils.executeJob(Jobs.renewalOfferGenerationPart1);
+        JobUtils.executeJob(Jobs.renewalClaimOrderAsyncJob);
     }
 
     private void createCasResponseAndUpload() {
