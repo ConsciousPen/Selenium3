@@ -205,6 +205,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         runRenewalClaimReceiveJob();
 
         // Open policy and validate the AF accident is included in rating
+        mainApp().open();
         SearchPage.openPolicy(policyNumber);
         PolicySummaryPage.buttonRenewals.click();
         policy.dataGather().start();
@@ -221,6 +222,7 @@ public class TestAccidentSurchargeWaiver extends TestOfflineClaimsTemplate {
         JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
         // Open policy and create second renewal image
+        mainApp().open();
         SearchPage.openPolicy(policyNumber);
         assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
         assertThat(PolicySummaryPage.getEffectiveDate()).isEqualToIgnoringHours(policyExpirationDate);
