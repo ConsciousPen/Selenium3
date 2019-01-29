@@ -322,8 +322,6 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.FIRST_PARTY_BENEFITS_COVERAGE_AND_LIMITS_SELECTION_FORM.getLabel()), "Not Signed");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
-
-		verifyRFIScenarios("FPB", AutoSSMetaData.PremiumAndCoveragesTab.FIRST_PARTY_BENEFITS, CoverageLimits.COV_FPB_50K_TOTAL.getLimit(), CoverageLimits.COV_FPB_100K_TOTAL_PAS_UI_DISPLAY.getDisplay(), document, documentAsset, error, td, false, true);
 		verifyRFIScenarios("MEDPM", AutoSSMetaData.PremiumAndCoveragesTab.MEDICAL_BENEFIT, "50000", "$10,000", document, documentAsset, error, td, false, true);
 
 		//First Party Benefits <> Added
