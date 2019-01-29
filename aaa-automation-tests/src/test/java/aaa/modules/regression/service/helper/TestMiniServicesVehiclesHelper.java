@@ -2153,6 +2153,40 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		//PAS-14680 end
 	}
 
+	protected void pas24166_ReplaceVehicleAndCheckUIFields() {
+		TestData td = getPolicyTD("DataGather", "TestData");
+		mainApp().open();
+		createCustomerIndividual();
+		policy.createPolicy(td);
+		String policyNumber = PolicySummaryPage.getPolicyNumber();
+
+		String vin = td.getTestDataList("VehicleTab").get(0).getValue("VIN"); //2011/CHEVROLET/EXPRESS VAN/1GNWGPFG8B6548273
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+
+		ViewVehicleResponse vehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
+		String vehicleToReplaceOid = vehicles.vehicleList.stream().filter(veh -> veh.vehIdentificationNo.equals(vin)).findFirst().get().oid;
+		Vehicle replacedVehicle = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid,
+				DXPRequestFactory.createReplaceVehicleRequest("4S3GTAD6XJ3750502", "2013-01-21", false, false), Vehicle.class, 200);
+		Vehicle addedVehicle = HelperCommon.addVehicle(policyNumber,
+				DXPRequestFactory.createAddVehicleRequest("3FAFP31341R200709", "2013-01-21"), Vehicle.class, 201);
+
+		SearchPage.openPolicy(policyNumber);
+		PolicySummaryPage.buttonPendedEndorsement.click();
+		policy.dataGather().start();
+		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+		VehicleTab.tableVehicleList.selectRow(1);
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue().toString()).isEqualTo(replacedVehicle.vehIdentificationNo);
+		assertThat(vehicleTab.getAssetList().getAsset(IS_THIS_A_REPLACEMENT_VEHICLE.getLabel()).getValue().toString()).isEqualTo("Yes");
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE)).isPresent(true);
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE.getLabel()).getValue().toString()).isEqualTo("2011/CHEVROLET/EXPRESS VAN/1GNWGPFG8B6548273");
+		VehicleTab.tableVehicleList.selectRow(2);
+		assertThat(vehicleTab.getAssetList().getAsset(VIN.getLabel()).getValue().toString()).isEqualTo(addedVehicle.vehIdentificationNo);
+		assertThat(vehicleTab.getAssetList().getAsset(IS_THIS_A_REPLACEMENT_VEHICLE.getLabel()).getValue().toString()).isEqualTo("No");
+		assertThat(vehicleTab.getAssetList().getAsset(SELECT_THE_REPLACED_VEHICLE)).isPresent(false);
+		vehicleTab.saveAndExit();
+	}
+
 	protected void pas13920_ReplaceVehicleNoAssignmentsKeepCoveragesBody() {
 		TestData td = getPolicyTD("DataGather", "TestData");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
