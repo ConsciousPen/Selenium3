@@ -107,6 +107,10 @@ public class RenewalHelper_Home extends HomeSSHO3BaseTest
         }
     }
 
+    /**
+     * Simply moves a policy to the end of a single term. The Boolean controls if bill pay should be conducted or not.
+     * @param bPayBill
+     */
     public void moveToEndOfFirstTerm(Boolean bPayBill){
         moveThroughStage1();
         moveThroughStage2();
