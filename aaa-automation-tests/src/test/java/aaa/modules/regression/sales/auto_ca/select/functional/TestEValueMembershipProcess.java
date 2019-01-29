@@ -226,21 +226,21 @@ public class TestEValueMembershipProcess extends AutoCaSelectBaseTest implements
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DRIVER.get());
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.GENERAL.get());
 		if ("Active".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("5251111111111118");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("5251111111111118");
 		} else if ("Pending".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("4290061311384005");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("4290061311384005");
 		} else if ("Cancelled".equals(membershipStatus)) {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER).setValue("3111111111111121");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER).setValue("3111111111111121");
 		} else {
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Yes");//Membership Pending
 			List<String> inactiveMembershipNumberList = new ArrayList<>();
 			inactiveMembershipNumberList.add("4343433333333335");//FutureDated
 			String randomInactiveMembershipNumber = inactiveMembershipNumberList.get(random.nextInt(inactiveMembershipNumberList.size()));
 			printToLog("Value used " + randomInactiveMembershipNumber);
-			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED).getAsset(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER)
+			generalTab.getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP).getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER)
 					.setValue(randomInactiveMembershipNumber);
 		}
 

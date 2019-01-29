@@ -1427,8 +1427,11 @@ public final class HomeCaMetaData {
 		 */
 		public static final AssetDescriptor<RadioGroup> OPTIONAL_COVERAGE_MASONRY_VENEER = declare("Optional coverage - Masonry veneer", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> OPTIONAL_COVERAGE_BREAKAGE_OF_PERSONAL_PROPERTY = declare("Optional coverage - Breakage of personal property", RadioGroup.class, Waiters.AJAX);
+		//public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM_BUTTON =
+		//		declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:actionButton_AAAHORateAction"));
 		public static final AssetDescriptor<JavaScriptButton> CALCULATE_PREMIUM_BUTTON =
-				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.id("policyDataGatherForm:premiumRecalcCov"));
+				declare("Calculate Premium", JavaScriptButton.class, Waiters.AJAX, false, By.xpath("//input[@id='policyDataGatherForm:actionButton_AAAHORateAction'or @id='policyDataGatherForm:calculatePremium_AAAHORateAction']"));
+
 		public static final AssetDescriptor<RadioGroup> ACCEPT_CEA_OFFER = declare("Accept CEA offer", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<RadioGroup> APPLY_CEA_DISCOUNT = declare("Apply CEA Discount", RadioGroup.class, Waiters.AJAX);
 		public static final AssetDescriptor<ComboBox> CEA_PRODUCT = declare("CEA Product", ComboBox.class, Waiters.AJAX);

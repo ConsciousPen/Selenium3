@@ -237,10 +237,34 @@
             <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestChoiceStatCodeConversion"/>
         </classes>
     </test>
-    <test name="Offline Claims AUTO">
+    <test name="Offline Claims AUTO SS">
         <parameter name="state" value="AZ"/>
         <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment"/>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+            <methods>
+                <include name="pas14679_testMSClaimsAssignment_AZ_SS"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Select">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Select"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Offline Claims AUTO CA Choice">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestClaimsAssignment">
+                <methods>
+                    <include name="pas14679_testMSClaimsAssignment_CA_Choice"/>
+                </methods>
+            </class>
         </classes>
     </test>
     <test name="Offline Claims Match Logic">
@@ -248,7 +272,7 @@
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestOffLineClaims">
                 <methods>
-                    <include name="pas14679_CompDLMatchMore"/>
+                    <include name="pas14679_CompDLPUMatchMoreManual"/>
                     <include name="pas14679_nameDobYobMatchMoreManual"/>
                 </methods>
             </class>

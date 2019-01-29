@@ -47,7 +47,7 @@ public class TestRatingDetailsView extends AutoSSBaseTest {
 
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		new PremiumAndCoveragesTab().btnCalculatePremium().click();
-		PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+		PremiumAndCoveragesTab.RatingDetailsView.open();
 
 		// Start of PAS-535 Modifies View Rating Details to display separate comp and coll symbols.
 		List<String> pas535Fields = Arrays.asList("Coll Symbol","Comp Symbol");

@@ -15,6 +15,7 @@ public class VersionsConflictConstants {
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Residential Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Prior Address", "VI prior address 1, VI prior address 2, Phoenix, AZ, 85085", "VII prior address 1, VII prior address 2, Red Rock, AZ, 85245")
 			.putAll("Named Insureds.VIIFirstName VII VIILastName.Mailing Address", "VII mailing address 1, VII mailing address 2, Red Rock, AZ, 85245", "VI mailing address 1, VI mailing address 2, Phoenix, AZ, 85085")
+			.putAll("Drivers.VIIFirstName VII VIILastName.Age", "57","55")
 			.putAll("Vehicles.2003, MERCEDES-BENZ, SL500R.Garaging Address", "VII residence address 1, VII residence address 2, Red Rock, AZ, 85245", "VI residence address 1, VI residence address 2, Phoenix, AZ, 85085")
 			//AAA Products Owned
 			.putAll("AAA Products Owned.Override Type","Term","Life")
@@ -97,13 +98,17 @@ public class VersionsConflictConstants {
 			.put("Drivers.VIIFirstName VII VIILastName.Middle Name", "Middle Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Last Name", "Last Name")
 			.put("Drivers.VIIFirstName VII VIILastName.Suffix", "Suffix")
+			.put("Drivers.VIIFirstName VII VIILastName.Date of Birth", "Date of Birth")
 			.put("Drivers.VIIFirstName VII VIILastName.Base Date", "Base Date")
+			.put("Drivers.VIIFirstName VII VIILastName.Date First Licensed", "Date First Licensed")
+			.put("Drivers.VIIFirstName VII VIILastName.Total Years Driving Experience", "Total Years Driving Experience")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Prefix", "Prefix")
 			.put("Named Insureds.VIIFirstName VII VIILastName.First Name", "First Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Middle Name", "Middle Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Last Name", "Last Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Suffix", "Suffix")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Social Security Number", "Social Security Number")
+			.put("Named Insureds.VIIFirstName VII VIILastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Base Date", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Move-In Date", "Move-In Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName.Residence", "Residence")
@@ -153,6 +158,7 @@ public class VersionsConflictConstants {
 			.put("Policy Information.TollFree Number","TollFree Number")
 			.put("Policy Information.Suppress Print","Suppress Print")
 			//Driver Information
+			.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Date of Birth", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName.Gender", "Gender")
 			.put("Drivers.NBFirstName NB NBLastName.Marital Status", "Marital Status")
@@ -190,9 +196,11 @@ public class VersionsConflictConstants {
 			ImmutableListMultimap.<String, String>builder()
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.First Name", CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Last Name", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Date of Birth", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Name on License", CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.First Name",CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Last Name",CURRENT)
-					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAA Claims Report Order.Name on License", CURRENT)
+					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Date of Birth",CURRENT)
 					.put("Drivers.VIIFirstName VII VIILastName.Reports.AAAMvr Report Order.Name on License",CURRENT)
 					.put("Named Insureds.VIIFirstName VII VIILastName.Prefix", AVAILABLE)
 					.put("Named Insureds.VIIFirstName VII VIILastName.First Name", CURRENT)
@@ -218,12 +226,17 @@ public class VersionsConflictConstants {
 			.put("Drivers.VIIFirstName VII VIILastName", "Middle Name")
 			.put("Drivers.VIIFirstName VII VIILastName", "Last Name")
 			.put("Drivers.VIIFirstName VII VIILastName", "Suffix")
+			.put("Drivers.VIIFirstName VII VIILastName", "Date of Birth")
+			.put("Drivers.VIIFirstName VII VIILastName", "Age")
 			.put("Drivers.VIIFirstName VII VIILastName", "Base Date")
+			.put("Drivers.VIIFirstName VII VIILastName", "Date First Licensed")
+			.put("Drivers.VIIFirstName VII VIILastName", "Total Years Driving Experience")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "First Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Middle Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Last Name")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Suffix")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Social Security Number")
+			.put("Named Insureds.VIIFirstName VII VIILastName", "Insured Date of Birth")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Base Date")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Residential Address")
 			.put("Named Insureds.VIIFirstName VII VIILastName", "Mailing Address")
@@ -418,12 +431,13 @@ public class VersionsConflictConstants {
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
 					.put("Drivers.NBFirstName NB NBLastName.Forms.AZ_SR22FREndorsement Form", CURRENT)
-					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", CURRENT)
 					.build());
 
 	protected static final ArrayListMultimap<String, String> DRIVER_INFORMATION_AUTOMATIC = ArrayListMultimap.create(
 			ImmutableListMultimap.<String, String>builder()
-					.put("Drivers.NBFirstName NB NBLastName.Date of Birth", CURRENT)
+					.put("Named Insureds.NBFirstName NB NBLastName.Insured Date of Birth", CURRENT)
+
 					.build());
 
 	//all components/attributes that should be on Comparison page  Rolled on/OOSE
@@ -432,6 +446,7 @@ public class VersionsConflictConstants {
 
 	//all components/attributes that should be on Comparison page Rolled on/Renewal or Endorsement
 	static final Multimap<String, String> DRIVER_INFORMATION_VERSION_1 = ImmutableListMultimap.<String, String>builder()
+			.put("Named Insureds.NBFirstName NB NBLastName", "Insured Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Date of Birth")
 			.put("Drivers.NBFirstName NB NBLastName", "Age")
 			.put("Drivers.NBFirstName NB NBLastName", "Gender")

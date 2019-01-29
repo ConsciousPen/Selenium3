@@ -36,3 +36,4 @@ aaa-automation-tests/src/test/resources/config/browserpools/DebugBrowserPool.xml
 
 aaa-automation-tests/src/test/resources/download/cas_claim_requests/*
 aaa-automation-tests/src/test/resources/download/cas_claim_responses/*
+aaa-automation-tests/src/test/resources/download/pas_admin_log

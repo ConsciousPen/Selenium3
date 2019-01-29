@@ -59,7 +59,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					openLPolicy.getEffectiveDate(), openLPolicy.getMemberPersistency(), openLPolicy.getAvgAnnualERSperMember()).isNotNull();
 		} else {
 			ratingDataPattern
-					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel()));
+					.mask(TestData.makeKeyPath(new GeneralTab().getMetaKey(), AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel()));
 		}
 
 		List<TestData> driversTestDataList = getDriverTabData(openLPolicy);
@@ -108,38 +108,45 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						.format(DateTimeUtils.MM_DD_YYYY));
 
 		Map<String, Object> aAAProductOwnedData = new HashMap<>();
-		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER.getLabel(), getYesOrNo(openLPolicy.isAAAMember()));
+		// TODO NEED TO REFACTOR According to changes in UI for Auto SS product for MPD feature.
+
+		 /*
 		if (Boolean.TRUE.equals(openLPolicy.isAaaLifePolicy())) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE.getLabel(), true);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIFE_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.LIFE.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.LIFE.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaHomePolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.HOME.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.HOME.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaRentersPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.RENTERS.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.RENTERS.getLabel(), "No");
 		}
 
 		if (Boolean.TRUE.equals("Y".equalsIgnoreCase(openLPolicy.getAaaCondoPolicy()))) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "Yes");
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "Yes");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO_POLICY_NUM.getLabel(), RandomStringUtils.randomNumeric(6));
 		} else {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.CONDO.getLabel(), "No");
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.CONDO.getLabel(), "No");
 		}
-		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAProductOwned.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
+		*/
+
+		// TODO Refactor section  END
+
+		//TODO: exclude for RO state: AutoSSMetaData.GeneralTab.AAAMembership.MOTORCYCLE.getLabel(), openLPolicy.isAaaMotorcyclePolicy()
 
 		if (membershipNumber != null) {
-			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAProductOwned.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
+			aAAProductOwnedData.put(AutoSSMetaData.GeneralTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel(), membershipNumber);
 		}
 
 		Map<String, Object> currentCarrierInformationData = new HashMap<>();
@@ -188,7 +195,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 		return DataProviderFactory.dataOf(
 				AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel(), Arrays.asList(namedInsuredInformationData),
-				AutoSSMetaData.GeneralTab.AAA_PRODUCT_OWNED.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
+				AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), new SimpleDataProvider(aAAProductOwnedData),
 				AutoSSMetaData.GeneralTab.CONTACT_INFORMATION.getLabel(), DataProviderFactory.emptyData(),
 				AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), new SimpleDataProvider(currentCarrierInformationData),
 				AutoSSMetaData.GeneralTab.POLICY_INFORMATION.getLabel(), new SimpleDataProvider(policyInformationData));
@@ -206,8 +213,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		boolean isFirstDriver = true;
 		boolean isEmployeeSet = false;
 		boolean isAARPSet = false;
-		boolean isAtFaultAccidentFreeSet = false;
-		boolean isAccidentFreeSet = false;
 		boolean setADBCoverage = openLPolicy.getVehicles().stream().map(AutoSSOpenLVehicle::getCoverages).flatMap(List::stream).anyMatch(c -> "ADB".equals(c.getCoverageCd()));
 		int aggregateCompClaims = openLPolicy.getAggregateCompClaims() != null ? openLPolicy.getAggregateCompClaims() : 0;
 		int nafAccidents = openLPolicy.getNafAccidents() != null ? openLPolicy.getNafAccidents() : 0;
@@ -234,7 +239,6 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 			Map<String, Object> driverData = new HashMap<>();
 			driverData.put(AutoSSMetaData.DriverTab.GENDER.getLabel(), getDriverTabGender(driver.getGender()));
 			driverData.put(AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel(), martialStatus);
-			driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()));
 			driverData.put(AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel(), driver.getDriverAge() - driver.getTyde());
 			driverData.put(AutoSSMetaData.DriverTab.LICENSE_TYPE.getLabel(), getDriverTabLicenseType(driver.isForeignLicense()));
 			driverData.put(AutoSSMetaData.DriverTab.AFFINITY_GROUP.getLabel(), "None");
@@ -265,6 +269,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 				driverData.put(AutoSSMetaData.DriverTab.DRIVER_SEARCH_DIALOG.getLabel(), DataProviderFactory.emptyData());
 				driverData.put(AutoSSMetaData.DriverTab.FIRST_NAME.getLabel(), firstName);
 				driverData.put(AutoSSMetaData.DriverTab.LAST_NAME.getLabel(), lastName);
+				driverData.put(AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel(), getDriverTabDateOfBirth(driver.getDriverAge(), openLPolicy.getEffectiveDate()));
 			}
 
 			if (Boolean.TRUE.equals(driver.isSmartDriver())) {
@@ -331,7 +336,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 
 			Integer dsr = driver.getDsr() != null ? driver.getDsr() : 0;
 
-			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() > 0 && !isAtFaultAccidentFreeSet) {
+			if (openLPolicy.getYearsAtFaultAccidentFree() != null && openLPolicy.getYearsAtFaultAccidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.getAtFaultAccidents().stream().min(Comparator.comparing(ActivityInformation::getPoints)).get();
 				int claimPoints = ai.getPoints(openLPolicy.getYearsAtFaultAccidentFree());
 				if (claimPoints <= dsr) {
@@ -341,12 +346,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					}
 					activityInformationList.add(activityInformationData);
-					isAtFaultAccidentFreeSet = true;
 					dsr = dsr - claimPoints;
 				}
 			}
 
-			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() > 0 && !isAccidentFreeSet) {
+			if (openLPolicy.getYearsIncidentFree() != null && openLPolicy.getYearsIncidentFree() < 5) {
 				ActivityInformation ai = ActivityInformation.ofMinimumPoints("Major Violation", "Minor Violation", "Speeding Violation", "Alcohol-Related Violation");
 				int claimPoints = ai.getPoints(openLPolicy.getYearsIncidentFree());
 				if (claimPoints <= dsr) {
@@ -356,13 +360,11 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 						activityInformationData.adjust(AutoSSMetaData.DriverTab.ActivityInformation.CONVICTION_DATE.getLabel(), occurrenceDate.format(DateTimeUtils.MM_DD_YYYY));
 					}
 					activityInformationList.add(activityInformationData);
-					isAccidentFreeSet = true;
 					dsr = dsr - claimPoints;
 				}
 			}
 
-			//TODO-dchubkov: to be implemented
-			/*if (dsr > 0) {
+			if (dsr > 0) {
 				List<Integer> availableClaimPoints = ActivityInformation.getAvailableClaimPoints();
 				if (availableClaimPoints.contains(dsr)) { // lucky guy :)
 					ActivityInformation ai = ActivityInformation.ofPoints(dsr);
@@ -381,7 +383,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 					//TODO-dchubkov: to be implemented subset sum algorithm
 					throw new NotImplementedException("Subset sum algorithm is not implemented for dsr openl field");
 				}
-			}*/
+			}
 
 			if (openLPolicy.isLegacyConvPolicy()) {
 				driverData.put(AutoSSMetaData.DriverTab.LICENSE_STATE.getLabel(), getState());
@@ -924,7 +926,7 @@ public class AutoSSTestDataGenerator extends AutoTestDataGenerator<AutoSSOpenLPo
 		}
 
 		public int getPoints(Integer totalYearsAccidentsFree) {
-			if (totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
+			if (totalYearsAccidentsFree != null && totalYearsAccidentsFree * 12 > maxIncidentFreeInMonthsToAffectRating) {
 				return 0;
 			}
 			return getPoints();

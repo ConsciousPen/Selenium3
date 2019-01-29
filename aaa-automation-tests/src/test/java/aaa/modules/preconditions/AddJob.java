@@ -16,5 +16,16 @@ public class AddJob {
 		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob.getJobName()))) {
 			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundsDisbursementRejectionsAsyncJob.getJobName()));
 		}
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundGenerationAsyncJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundGenerationAsyncJob.getJobName()));
+		}
+
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundDisbursementRecieveInfoJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundDisbursementRecieveInfoJob.getJobName()));
+		}
+
+		if (!service.isJobExist(JobGroup.fromSingleJob(Jobs.aaaRefundCancellationAsyncJob.getJobName()))) {
+			service.createJob(JobGroup.fromSingleJob(Jobs.aaaRefundCancellationAsyncJob.getJobName()));
+		}
 	}
 }

@@ -12,8 +12,8 @@ import org.testng.annotations.Test;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
 import aaa.common.Tab;
-import aaa.common.enums.NavigationEnum;
 import aaa.common.enums.Constants.States;
+import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.billing.BillingAccountPoliciesVerifier;
@@ -1040,7 +1040,7 @@ public class TestScenario2 extends AutoSSBaseTest {
 				break;
 		}
 
-		PremiumAndCoveragesTab.buttonRatingDetailsOk.click();
+		 PremiumAndCoveragesTab.RatingDetailsView.close();
 
 		netWrtPrem = formatValue(PremiumAndCoveragesTab.tableAAAPremiumSummary.getRow(1).getCell("Actual Premium").getValue());
 		allVehTotPrem = formatValue(PremiumAndCoveragesTab.totalTermPremium.getValue());
@@ -1107,9 +1107,9 @@ public class TestScenario2 extends AutoSSBaseTest {
 					vehRntlReimbsPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Rental Reimbursement"))));
 					vehTwgLbrPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Towing and Labor Coverage"))));
 					vehTotPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Total Vehicle Term Premium"))));
-					vehMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Expenses"))));
-					vehFnrlExpBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Funeral Benefits"))));
-					vehAcdntDeadBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Accidental Death Benefits (ADB)"))));
+					vehMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Medical Benefit"))));
+					vehFnrlExpBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Funeral Expense Benefit"))));
+					vehAcdntDeadBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Accidental Death Benefit"))));
 					vehExtrMedBenPrem.add(DataProviderFactory.dataOf("TextField", formatValue(td.getValue("Extraordinary Medical Expense Benefits"))));
 				}
 				break;

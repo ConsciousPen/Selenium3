@@ -1,16 +1,101 @@
 ############### Good Student Discount Drivers
 
 TestData_DriverTabGSD: {
-  DriverTab: ['@Driver2GSD','@Driver3GSD','@Driver4GSD','@Driver5GSD','@Driver6GSD']
+  GeneralTab: '@GeneralTabGSD',
+  DriverTab: ['@Driver1GSD', '@Driver2GSD','@Driver3GSD','@Driver4GSD','@Driver5GSD','@Driver6GSD']
+}
+
+TestData_GSD_Endorsement: {
+  GeneralTab: '@GeneralTabGSD_Endorsement',
+  DriverTab: ['@Driver1GSD', '@Driver2GSD','@Driver3GSD','@Driver4GSD','@Driver5GSD','@Driver6GSD'],
+  RatingDetailReportsTab: {
+     Customer Agreement: Customer Agrees,
+     Order Report: click,
+  },
+}
+
+GeneralTabGSD: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4', '@NamedInsuredInformation5'],
+  AAAMembership: '@<auto_ss>@DataGather@AAAMembership',
+  ContactInformation: '@<auto_ss>@DataGather@ContactInformation',
+  PolicyInformation: '@<auto_ss>@DataGather@PolicyInformation'
+}
+
+GeneralTabGSD_Endorsement: {
+  NamedInsuredInformation: ['@NamedInsuredInformation1', '@NamedInsuredInformation2', '@NamedInsuredInformation3', '@NamedInsuredInformation4', '@NamedInsuredInformation5'],
+}
+
+NamedInsuredInformation1: {
+  First Name: DriverOne,
+  Last Name: LastNameOne,
+  Insured Date of Birth: $<today-19y>,
+  Social Security Number: 123456789,
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation2: {
+  InsuredSearchDialog: {},
+  First Name: DriverTwo,
+  Last Name: LastNameTwo,
+  Insured Date of Birth: $<today-20y>,
+  Base Date: $<today>,
+  Social Security Number: 223456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+NamedInsuredInformation3: {
+  InsuredSearchDialog: {},
+  First Name: DriverThree,
+  Last Name: LastNameThree,
+  Insured Date of Birth: $<today-20y>,
+  Base Date: $<today>,
+  Social Security Number: 323456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation4: {
+  InsuredSearchDialog: {},
+  First Name: DriverFour,
+  Last Name: LastNameFour,
+  Insured Date of Birth: $<today-20y>,
+  Base Date: $<today>,
+  Social Security Number: 423456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+NamedInsuredInformation5: {
+  InsuredSearchDialog: {},
+  First Name: DriverFive,
+  Last Name: LastNameFive,
+  Insured Date of Birth: $<today-30y>,
+  Base Date: $<today>,
+  Social Security Number: 523456789,
+  "County / Township": 'New Haven / Middlebury',
+  "Has lived here for less than three years?": 'No',
+  Residence: Own Home,
+}
+
+Driver1GSD: {
+  #Named Insured: 'DriverOne LastNameOne',
+  Age First Licensed: 18,
+  Marital Status: Single,
+  Occupation: Student,
+  Most Recent GPA: A Student,
+  License Type: 'Licensed (US)',
+  License Number: 156773434
 }
 
 Driver2GSD: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: DriverTwo,
-  Last Name: LastNameTwo,
+  Named Insured: 'DriverTwo LastNameTwo',
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -22,12 +107,13 @@ Driver2GSD: {
 }
 
 Driver3GSD: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: DriverThree,
-  Last Name: LastNameThree,
+  Named Insured: 'DriverThree LastNameThree',
+  #First Name: DriverThree,
+  #Last Name: LastNameThree,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Divorced,
   Occupation: Clergy,
@@ -39,12 +125,13 @@ Driver3GSD: {
 }
 
 Driver4GSD: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: DriverFour,
-  Last Name: LastNameFour,
+  Named Insured: 'DriverFour LastNameFour',  
+  #First Name: DriverFour,
+  #Last Name: LastNameFour,
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-20y>,
+  #Date of Birth: $<today-20y>,
   Gender: Male,
   Marital Status: Married,
   Occupation: Student,
@@ -55,12 +142,11 @@ Driver4GSD: {
 }
 
 Driver5GSD: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
-  First Name: DriverFive,
-  Last Name: LastNameFive,
+  Named Insured: 'DriverFive LastNameFive',  
   'Rel. to First Named Insured': Sibling,
-  Date of Birth: $<today-30y>,
+  #Date of Birth: $<today-30y>,
   Gender: Male,
   Marital Status: Single,
   Occupation: Student,
@@ -71,7 +157,7 @@ Driver5GSD: {
 }
 
 Driver6GSD: {
-  Add Driver: Click,
+  #Add Driver: Click,
   DriverSearchDialog:{},
   Driver Type: 'Not Available for Rating',
   Reason: index=1,
