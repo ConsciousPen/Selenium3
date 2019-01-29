@@ -2154,18 +2154,14 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 	}
 
 	protected void pas24166_ReplaceVehicleAndCheckUIFields() {
-		TestData td = getPolicyTD("DataGather", "TestData");
 		mainApp().open();
-		createCustomerIndividual();
-		policy.createPolicy(td);
-		String policyNumber = PolicySummaryPage.getPolicyNumber();
+		String policyNumber = getCopiedPolicy();
 
-		String vin = td.getTestDataList("VehicleTab").get(0).getValue("VIN"); //2011/CHEVROLET/EXPRESS VAN/1GNWGPFG8B6548273
+		ViewVehicleResponse currentPolicyVehicles = HelperCommon.viewPolicyVehicles(policyNumber);
+		String vehicleToReplaceOid = currentPolicyVehicles.vehicleList.get(0).oid;
 
 		helperMiniServices.createEndorsementWithCheck(policyNumber);
 
-		ViewVehicleResponse vehicles = HelperCommon.viewEndorsementVehicles(policyNumber);
-		String vehicleToReplaceOid = vehicles.vehicleList.stream().filter(veh -> veh.vehIdentificationNo.equals(vin)).findFirst().get().oid;
 		Vehicle replacedVehicle = HelperCommon.replaceVehicle(policyNumber, vehicleToReplaceOid,
 				DXPRequestFactory.createReplaceVehicleRequest("4S3GTAD6XJ3750502", "2013-01-21", false, false), Vehicle.class, 200);
 		Vehicle addedVehicle = HelperCommon.addVehicle(policyNumber,
