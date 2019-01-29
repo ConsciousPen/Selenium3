@@ -65,7 +65,7 @@
         <!--</classes>-->
     <!--</test>-->
 
-    <test name="Test Accident Surcharge Waiver">
+    <test name="Test Accident Surcharge Waiver" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver">
