@@ -329,6 +329,10 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doRerate();
     }
 
+    /**
+     * Removes MPD policy and calls doRerate().
+     * @param index
+     */
     private void removeMPDAndRerate(int index){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
@@ -336,6 +340,11 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         doRerate();
     }
 
+    /**
+     * Adds MPD policy and calls doRerate().
+     * @param in_newPolicyType
+     * @param in_newPolicyNumber
+     */
     private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());_generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
@@ -343,7 +352,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     * Handles validating the error message requiring rerate. Wrapped for short, clean method calls.
+     * Handles validating the error message requiring rerate. Wrapped for short, clean method calls. <br>
+     * Has try/catch to handle event where we anticipate no element is found. <br>
+     * Will fail attempting to get the object, but assert that the failure was expected and that we're at an expected point.
      * @param bExpected
      */
     private void ValidateErrorMessage(boolean bExpected){
@@ -355,6 +366,9 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         }
     }
 
+    /**
+     * After making an edit to the policy, this method drives through validating the UW rule being fired and then validates removing the rule.
+     */
     private void doRerate(){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         _documentsAndBindTab.submitTab();
