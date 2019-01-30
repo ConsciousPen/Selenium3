@@ -48,7 +48,7 @@ public class TestMaigSpecificFormsGeneration extends TestMaigSpecificFormsGenera
 	@StateList(states = {Constants.States.NJ, Constants.States.DE, Constants.States.VA, Constants.States.MD, Constants.States.PA, Constants.States.NV})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL, Groups.TIMEPOINT})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.PUP, testCaseId = {"PAS-9816", "PAS-20250"})
-	public void pas9816_BillingPacketGeneration_autopay(@Optional("DE") String state) throws NoSuchFieldException {
+	public void pas9816_BillingPacketGeneration_autopay(@Optional("NV") String state) throws NoSuchFieldException {
 		// CW, DE, VA
 		TestData policyCreationTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "Conversion", "TestData").resolveLinks();
 		verifyBillingFormsSequence(policyCreationTD.adjust(TestData.makeKeyPath("PremiumAndCoveragesQuoteTab","Payment Plan"),"Monthly (Renewal)"), true);
