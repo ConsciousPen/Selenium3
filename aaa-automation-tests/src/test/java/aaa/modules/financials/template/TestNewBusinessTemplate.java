@@ -4,15 +4,15 @@ import static toolkit.verification.CustomAssertions.assertThat;
 import java.time.LocalDateTime;
 import com.exigen.ipb.etcsa.utils.Dollar;
 import com.exigen.ipb.etcsa.utils.TimeSetterUtil;
-import aaa.common.pages.Page;
+import aaa.common.enums.NavigationEnum;
+import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
-import aaa.helpers.jobs.JobUtils;
-import aaa.helpers.jobs.Jobs;
-import aaa.main.enums.ProductConstants;
-import aaa.main.pages.summary.PolicySummaryPage;
+import aaa.helpers.billing.BillingHelper;
+import aaa.main.enums.BillingConstants;
+import aaa.main.modules.policy.PolicyType;
+import aaa.main.pages.summary.BillingSummaryPage;
 import aaa.modules.financials.FinancialsBaseTest;
 import aaa.modules.financials.FinancialsSQL;
-import toolkit.utils.datetime.DateTimeUtils;
 
 public class TestNewBusinessTemplate extends FinancialsBaseTest {
 
@@ -36,7 +36,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		String policyNumber = createFinancialPolicy();
 		Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
+        // NBZ-01 validations
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
                 .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
@@ -48,7 +48,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Perform AP endorsement and pay total amount due
         Dollar addedPrem = performAPEndorsement(policyNumber);
 
-        // AP endorsement validations
+        // PMT-01 and END-01 validations
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1001"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.MANUAL_PAYMENT, "1044"));
         assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
@@ -65,7 +65,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Reinstate policy without lapse
         performReinstatement();
 
-		// Cancellation & reinstatement validations
+		// CNL-01 and RST-01 validations
         assertThat(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"))
                 .isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021"));
 
@@ -92,7 +92,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-03, PMT-04, END-02, CNL-06, PMT-05, RST-02, RST-07, RST-09
+     * @details NBZ-03, END-02, CNL-03, PMT-04, RST-02, RST-07, RST-09, FEE-01, FEE-15, FEE-19, ADJ-04, ADJ-05, ADJ-06, ADJ-07, ADJ-08, ADJ-09, ADJ-10
      */
 	protected void testNewBusinessScenario_2() {
 
@@ -104,18 +104,83 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		String policyNumber = createFinancialPolicy(adjustTdPolicyEffDate(getPolicyTD(), effDate));
         Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement DB validation
+        // Get Fee amount from billing tab (if any)
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        Dollar totalFees = BillingHelper.getFeesValue(today);
+        SearchPage.openPolicy(policyNumber);
 
-        performRPEndorsement(effDate);
-        //TODO implement DB validation
+        // NB-03 and PMT-04 validations
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043"));
+        assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
 
-		// Cancel policy
+        // FEE-01 validations (CA Choice only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1040"));
+        }
+
+        // FEE-15 validations (CA Select only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1034"));
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1034"));
+            assertThat(totalFees).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
+        }
+
+        // Advance time to policy effective date
+        TimeSetterUtil.getInstance().nextPhase(effDate);
+        mainApp().open();
+        SearchPage.openPolicy(policyNumber);
+
+        // Perform RP endorsement
+        Dollar reducedPrem = performRPEndorsement(effDate, premTotal);
+
+        // END-02 validations
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+        assertThat(reducedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
+
+		// Cancel policy on effective date (flat cancellation)
         cancelPolicy();
+        Dollar cancellationFee, fraudFee;
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        Dollar cancellationRefund  = getCancellationRefundAmount();
+
+        // FEE-19 validations (CA Choice only)
+        if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
+            cancellationFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+                    BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CANCELLATION_FEE).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+            assertThat(cancellationFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION_FEE, "1034"));
+            assertThat(cancellationFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION_FEE, "1040"));
+        } else if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
+            fraudFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+                    BillingConstants.PaymentsAndOtherTransactionSubtypeReason.CA_FRAUD_ASSESSMENT_FEE).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue());
+            // todo validate fraudFee
+        }
+        SearchPage.openPolicy(policyNumber);
+
+        // CNL-03 validations
+        assertThat(cancellationRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1015"));
+        assertThat(cancellationRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1021"));
+        assertThat(cancellationRefund).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1044"));
+        assertThat(cancellationRefund).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CANCELLATION, "1022")));
+
+        // ADJ-04, ADJ-05, ADJ-06, ADJ-07, ADJ-08, ADJ-09, and ADJ-10 validations
+        assertThat(totalFees).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1034"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
+        assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.OVERPAYMENT_REALLOCATION_ADJUSTMENT, "1044"));
 
 		// Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
-        // TODO implement DB validation
+
+        // Validation for cancellation and reinstatement
 
 		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09
 
@@ -177,11 +242,12 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         mainApp().open();
         createCustomerIndividual();
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(adjustTdPolicyEffDate(getPolicyTD(), effDate)));
+        Dollar premTotal = getTotalTermPremium();
 
         // NB validations
         //TODO implement DB validation
 
-        performRPEndorsement(effDate);
+        performRPEndorsement(effDate, premTotal);
         // TODO implement DB validation
 
         // Cancel policy
