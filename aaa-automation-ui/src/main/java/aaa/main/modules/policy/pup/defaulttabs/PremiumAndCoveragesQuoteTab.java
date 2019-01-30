@@ -8,6 +8,7 @@ import aaa.common.Tab;
 import aaa.common.enums.NavigationEnum;
 import aaa.common.pages.NavigationPage;
 import aaa.main.metadata.policy.PersonalUmbrellaMetaData;
+import aaa.toolkit.webdriver.customcontrols.JavaScriptButton;
 import aaa.main.modules.policy.abstract_tabs.PropertyQuoteTab;
 import toolkit.datax.TestData;
 import toolkit.webdriver.controls.Button;
@@ -21,7 +22,6 @@ import toolkit.webdriver.controls.waiters.Waiters;
  * @category Generated
  */
 public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
-	public static Button btnCalculatePremium = new Button(By.id("policyDataGatherForm:actionButton_AAAPUPRateAction"), Waiters.AJAX);
 	public static Button btnContinue = new Button(By.xpath("//input[@id='policyDataGatherForm:nextButton_footer' or @id='policyDataGatherForm:nextInquiryButton_footer']"), Waiters.AJAX);
 	public static Table tableTotalPremium = new Table(By.id("policyDataGatherForm:pupTableTotalPremium"));
 	public static Table tablePUPCoveragePremium = new Table(By.id("policyDataGatherForm:pupCoverageDetail"));
@@ -45,14 +45,18 @@ public class PremiumAndCoveragesQuoteTab extends PropertyQuoteTab {
 		return this;
 	}
 
+    public JavaScriptButton btnCalculatePremium() {
+        return getAssetList().getAsset(PersonalUmbrellaMetaData.PremiumAndCoveragesQuoteTab.CALCULATE_PREMIUM.getLabel(), JavaScriptButton.class);
+    }
+
 	@Override
 	public void calculatePremium() {
-		if (!btnCalculatePremium.isPresent()) {
+		if (!btnCalculatePremium().isPresent()) {
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES.get());
 			NavigationPage.toViewSubTab(NavigationEnum.PersonalUmbrellaTab.PREMIUM_AND_COVERAGES_QUOTE.get());
 		}
 		hideHeader();
-		btnCalculatePremium.click();
+		btnCalculatePremium().click();
 		showHeader();
 	}
 

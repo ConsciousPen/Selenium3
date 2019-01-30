@@ -54,7 +54,8 @@ public class TestGenderExpansionNonConforming extends AutoSSBaseTest {
 
         String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
         TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
-                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X");
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X")
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.SALUTATION.getLabel()), "Mx");
 
         mainApp().open();
         createCustomerIndividual(customerTd);

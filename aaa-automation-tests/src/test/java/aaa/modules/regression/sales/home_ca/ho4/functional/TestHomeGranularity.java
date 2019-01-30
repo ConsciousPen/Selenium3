@@ -9,6 +9,7 @@ import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
 
 @StateList(states = Constants.States.CA)
@@ -16,6 +17,10 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
 
     @Override
     protected PolicyType getPolicyType() { return PolicyType.HOME_CA_HO4; }
+
+    private TestData getTDAddressChange() {
+        return getTestSpecificTD("TestData_ChangeAddress");
+    }
 
     /**
      * @name test: Capture Census Block Group, Latitude and Longitude when address is validated
@@ -50,5 +55,22 @@ public class TestHomeGranularity extends TestHomeGranularityAbstract {
     @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-23927")
     public void pas23927_validateCensusBlockGroupAndLatLongFromEADS(@Optional("CA") String state) {
         validateCensusBlockGroupAndLatLongFromEADS();
+    }
+
+    /**
+     * @name test: ReCapture Latitude and Longitude (after validating address)Census Block Group(e.g. after Calculating Premium)
+     * @scenario
+     * 1. Create policy
+     * 2. Initiate Renewal. Change address on Applicant Tab
+     * 3. Validate address and continue up to Premium & Coverages Tab and Calculate Premium
+     * 4. Verify lat/long and census block are refreshed in the db
+     *
+     * @details
+     */
+    @Parameters({STATE_PARAM})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+    @TestInfo(component = ComponentConstant.Sales.HOME_CA_HO4, testCaseId = "PAS-23218")
+    public void pas23218_riskAddressChangeDuringRenewal(@Optional("CA") String state) {
+        riskAddressChangeDuringRenewal(getTDAddressChange());
     }
 }

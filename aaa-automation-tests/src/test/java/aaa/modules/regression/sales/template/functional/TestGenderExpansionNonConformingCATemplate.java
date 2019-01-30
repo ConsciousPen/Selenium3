@@ -30,9 +30,11 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
     private ErrorTab errorTab = new ErrorTab();
 
     protected void pas23040_ValidateGenderExpansionNonConformingNB() {
+
         String generalTabSimpleName = CustomerMetaData.GeneralTab.class.getSimpleName();
         TestData customerTd = getCustomerIndividualTD("DataGather", "TestData")
-                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X");
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.GENDER.getLabel()), "X")
+                .adjust(TestData.makeKeyPath(generalTabSimpleName, CustomerMetaData.GeneralTab.SALUTATION.getLabel()), "Mx");
 
         mainApp().open();
         createCustomerIndividual(customerTd);
@@ -49,8 +51,8 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         PurchaseTab.btnApplyPayment.click();
         PurchaseTab.confirmPurchase.confirm();
         TestData tdSurvey = DataProviderFactory.dataOf(PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.class.getSimpleName(), DataProviderFactory.dataOf(
-        PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.GENDER.getLabel(), "X",
-        PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.RACE_OF_ORIGIN.getLabel(), "index=1"));
+                PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.GENDER.getLabel(), "X",
+                PurchaseMetaData.PurchaseTab.ComunityServiceSurveyPromt.RACE_OF_ORIGIN.getLabel(), "index=1"));
         purchaseTab.dialogComunityServiceSurveyPromt.fill(tdSurvey);
         assertThat(PolicySummaryPage.tablePolicyDrivers.getRow(1).getCell("Gender").getValue()).as("Gender should be displayed - X").isEqualTo("X");
 
@@ -204,7 +206,5 @@ public class TestGenderExpansionNonConformingCATemplate extends PolicyBaseTest {
         mainApp().open();
         SearchPage.openPolicy(policyNumber);
     }
-
-
 
 }

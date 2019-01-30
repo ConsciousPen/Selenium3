@@ -11,6 +11,7 @@ import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceBeforeAssetList;
+import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
@@ -43,8 +44,8 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.AAA_MEMBERSHIP.getLabel(), MultiInstanceBeforeAssetList.class);
 	}
 
-	public AssetList getOtherAAAProductOwnedAssetList() {
-		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), AssetList.class);
+	public NoSectionsMultiAssetList getOtherAAAProductOwnedAssetList() {
+		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), NoSectionsMultiAssetList.class);
 	}
 
 

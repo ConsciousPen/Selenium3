@@ -43,6 +43,7 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     protected abstract ComboBox getClaimSourceAsset();
     protected abstract String getBtnAddInsuredLabel();
     protected abstract ComboBox getClaimLossForAsset();
+    protected abstract ComboBox getClaimStatusAsset();
     protected abstract void reorderClueReport();
     protected abstract String getNamedInsuredLabel();
 
@@ -293,7 +294,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         policy.getDefaultView().fillUpTo(getPolicyTD(), getApplicantTab().getClass(), true);
         getApplicantTab().fillTab(tdApplicantTab).submitTab();
         policy.getDefaultView().fillFromTo(getPolicyTD(), getReportsTab().getClass(), getPropertyInfoTab().getClass(), true);
-
+        //validation for Peril Not Covered Status
+        validatePerilNotCoveredStatus();
         //Validation for PAS-6695 and PAS-6703
         validateNumberOfClaims();
         validateCatastropheAndLossForFields();
@@ -320,7 +322,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         openAppAndCreatePolicy();
         policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
         addNamedInsuredWithClaims();
-
+        //validation for Peril Not Covered Status
+        validatePerilNotCoveredStatus();
         // Validation for PAS-6695 and PAS-6703
         validateNumberOfClaims();
         validateCatastropheAndLossForFields();
@@ -339,7 +342,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         openAppAndCreatePolicy();
         policy.renew().perform();
         addNamedInsuredWithClaims();
-
+        //validation for Peril Not Covered Status
+        validatePerilNotCoveredStatus();
         // Validation for PAS-6695 and PAS-6703
         validateNumberOfClaims();
         validateCatastropheAndLossForFields();
@@ -361,6 +365,8 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
         policy.dataGather().start();
         addNamedInsuredWithClaims();
 
+        //validation for Peril Not Covered Status
+        validatePerilNotCoveredStatus();
         // Validation for PAS-6695 and PAS-6703
         validateNumberOfClaims();
         validateCatastropheAndLossForFields();
@@ -970,6 +976,11 @@ public abstract class TestClueSimplificationPropertyAbstract extends TestClaimPo
     
     private boolean isDP3() {
         return getPolicyType().equals(PolicyType.HOME_SS_DP3) || getPolicyType().equals(PolicyType.HOME_CA_DP3);
+    }
+
+    private void validatePerilNotCoveredStatus(){
+        viewEditClaimByLossAmount("11000");
+        assertThat(getClaimStatusAsset().getValue()).isEqualTo("Peril Not Covered");
     }
 
 }

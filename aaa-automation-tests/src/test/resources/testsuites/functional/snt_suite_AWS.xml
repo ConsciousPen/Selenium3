@@ -129,17 +129,6 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Conflict SS" parallel="methods" thread-count="1024">
-        <parameter name="state" value="AZ"/>
-        <classes>
-            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
-                <methods>
-                    <include name="pas17141_ooseConflictAutomaticAAAProductOwned"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-
     <test name="General tab/Contact Information section/Conflict CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -224,6 +213,39 @@
             <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
                 <methods>
                     <include name="pas15242_ooseConflictAutomaticVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components SS" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components CA Select" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_ooseConflictAutomaticAddVehicleInformation"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Add Components CA Choice" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas19839_renewalMergeAddDriverAndActivityInformation"/>
                 </methods>
             </class>
         </classes>
