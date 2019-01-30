@@ -101,7 +101,7 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
-		return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		return new Dollar(tableStateAndLocalTaxesSummary.getFooter().getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {
