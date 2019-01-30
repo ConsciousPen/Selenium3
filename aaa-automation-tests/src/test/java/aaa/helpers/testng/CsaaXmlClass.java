@@ -13,6 +13,7 @@ import org.testng.xml.XmlInclude;
 import org.testng.xml.XmlTest;
 import aaa.utils.StateList;
 import toolkit.exceptions.IstfException;
+import toolkit.utils.logging.CustomLogger;
 
 public class CsaaXmlClass {
 
@@ -131,6 +132,7 @@ public class CsaaXmlClass {
 
 		Test testAnn = getAnnotation(clazz, methodName, Test.class);
 		if (testAnn == null) {
+			logNotMatchingTests(clazz, methodName, Reasons.NO_TEST_ANNOTATION);
 			return false;
 		}
 		List<String> groups = Arrays.asList(testAnn.groups());
@@ -141,7 +143,12 @@ public class CsaaXmlClass {
 			StateList statesAnn = getAnnotation(clazz, methodName, StateList.class);
 			if (statesAnn != null) {
 				returnValue = Arrays.asList(statesAnn.states()).contains(state) || !Arrays.asList(statesAnn.statesExcept()).contains(state);
+				if (!returnValue) {
+					logNotMatchingTests(clazz, methodName, Reasons.NOT_IN_STATE_LIST);
+				}
 			}
+		} else {
+			logNotMatchingTests(clazz, methodName, Reasons.NOT_INCLUDED_IN_GROUPS);
 		}
 		return returnValue;
 	}
@@ -150,4 +157,23 @@ public class CsaaXmlClass {
 		return getAnnotation(clazz, methodName, Parameters.class) != null && getAnnotation(clazz, methodName, Parameters.class).value().length != 0;
 	}
 
+	private void logNotMatchingTests(Class clazz, String methodName, Reasons message) {
+		CustomLogger.getInstance().error("Test {} doesn't match criteria. Reason: {} ", clazz.getName() + "." + methodName, message.get());
+	}
+
+	private enum Reasons {
+		NO_TEST_ANNOTATION("Test Method doesn't have @Test Annotation or doesn't exist"),
+		NOT_INCLUDED_IN_GROUPS("Test Method is not matching Groups selection"),
+		NOT_IN_STATE_LIST("Test Method State is not within StateList");
+
+		private String message;
+
+		Reasons(String message) {
+			this.message = message;
+		}
+
+		public String get() {
+			return message;
+		}
+	}
 }

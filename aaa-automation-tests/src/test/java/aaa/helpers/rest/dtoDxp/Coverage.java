@@ -102,6 +102,11 @@ public class Coverage {
 		return this;
 	}
 
+	public Coverage removeAvailableLimitsAll() {
+		availableLimits.clear();
+		return this;
+	}
+
 	public Coverage enableCanChange() {
 		this.canChangeCoverage = true;
 		return this;

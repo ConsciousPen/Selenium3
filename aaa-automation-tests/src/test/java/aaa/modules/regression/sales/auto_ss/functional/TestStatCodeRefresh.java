@@ -56,7 +56,7 @@ public class TestStatCodeRefresh extends AutoSSBaseTest {
         policy.initiate();
         policy.getDefaultView().fillUpTo(testData, PremiumAndCoveragesTab.class, true);
 
-        PremiumAndCoveragesTab.buttonViewRatingDetails.click();
+        PremiumAndCoveragesTab.RatingDetailsView.open();
 
         List<String> ratingDetailsTable = Arrays.asList("BI Symbol", "PD Symbol", "UM Symbol", "MP Symbol");
         ratingDetailsTable.forEach(f -> assertThat(PremiumAndCoveragesTab

@@ -13,7 +13,7 @@ TestData: {
 
 GeneralTab: {
   NamedInsuredInformation: {},
-  AAAProductOwned: {},
+  AAAMembership: {},
   PolicyInformation: {
     Authorized by: QA
    }

@@ -59,7 +59,6 @@ public class PremiumAndCoveragesTab extends Tab {
 	public static Button buttonReturnToPremiumAndCoverages = new Button(By.id("cappingDetailsPopupPanel:cappingReturnTo"), Waiters.AJAX);
 	public static Button buttonViewRatingDetails = new Button(By.id("policyDataGatherForm:viewRatingDetails_Link_1"), Waiters.AJAX);
 	public static Button buttonContinue = new Button(By.id("policyDataGatherForm:nextButton_footer"), Waiters.AJAX);
-	public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
 
 	public static StaticElement totalTermPremium = new StaticElement(By.xpath("//span[@class='TOTAL_TERM_PREMIUM']"));
 	public static StaticElement totalActualPremium = new StaticElement(By.xpath("//div[@id='policyDataGatherForm:componentView_AAAPremiumSummary_body']/table/tbody/tr/td[2]/span"));
@@ -102,12 +101,12 @@ public class PremiumAndCoveragesTab extends Tab {
 	}
 
 	public static Dollar getStateAndLocalTaxesAndPremiumSurchargesPremium() {
-		return new Dollar(tableStateAndLocalTaxesSummary.getRow(1).getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
+		return new Dollar(tableStateAndLocalTaxesSummary.getFooter().getCell(tableStateAndLocalTaxesSummary.getColumnsCount()).getValue());
 	}
 
 	public TestData getRatingDetailsQuoteInfoData() {
 		if (!tableRatingDetailsQuoteInfo.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -242,8 +241,8 @@ public class PremiumAndCoveragesTab extends Tab {
 
 	@Override
 	public Tab submitTab() {
-		if (buttonRatingDetailsOk.isPresent() && buttonRatingDetailsOk.isVisible()) {
-			buttonRatingDetailsOk.click();
+		if (RatingDetailsView.buttonRatingDetailsOk.isPresent() && RatingDetailsView.buttonRatingDetailsOk.isVisible()) {
+			RatingDetailsView.buttonRatingDetailsOk.click();
 		}
 		buttonContinue.click();
 		return this;
@@ -327,7 +326,7 @@ public class PremiumAndCoveragesTab extends Tab {
 		List<TestData> testDataList = new ArrayList<>();
 
 		if (!table.isPresent()) {
-			buttonViewRatingDetails.click();
+			RatingDetailsView.open();
 		}
 
 		Map<String, Object> map = new LinkedHashMap<>();
@@ -365,5 +364,20 @@ public class PremiumAndCoveragesTab extends Tab {
 		}
 
 		return testDataList;
+	}
+
+	public static class RatingDetailsView {
+		public static RatingDetailsTable tableVehicleSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:vehicle_summary']");
+		public static RatingDetailsTable tableDriverSummary = new RatingDetailsTable("//div[@id='ratingDetailsPopup_container']//table[@id='ratingDetailsPopupForm:driver_summary']");
+
+		public static Button buttonRatingDetailsOk = new Button(By.id("ratingDetailsPopupButton:ratingDetailsPopupCancel"), Waiters.AJAX);
+
+		public static void open() {
+			buttonViewRatingDetails.click();
+		}
+
+		public static void close() {
+			buttonRatingDetailsOk.click();
+		}
 	}
 }

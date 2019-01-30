@@ -349,4 +349,16 @@
             <class name="aaa.modules.regression.sales.home_ss.ho3.TestPolicyFirelineReportsOnRenewal"/>
         </classes>
     </test>
+    <test name="PUP pas20250_ConversionPacket">
+        <parameter name="state"  value="NV" />
+        <classes>
+            <class name="aaa.modules.regression.document_fulfillment.pup.functional.TestMaigSpecificFormsGeneration" >
+                <methods>
+                    <include name="pas2674_ConversionPacket"/>
+                    <include name="pas9816_BillingPacketGeneration_autopay"/>
+                    <include name="pas9816_BillingPacketGeneration_nonAutopay"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

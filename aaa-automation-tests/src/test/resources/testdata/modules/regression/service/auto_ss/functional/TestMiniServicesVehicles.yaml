@@ -26,7 +26,6 @@ Driver_First: {
   DriverSearchDialog: {},
   Occupation: Self-Employed,
   Age First Licensed: 18,
-  Date of Birth: '$<today-21y:MM/dd/yyyy>',
   License Type: 'Licensed (US)',
   License Number: 407378541
 }
@@ -171,6 +170,17 @@ PremiumAndCoveragesTab_WaiveLiability: {
       #Waive Liability: 'Yes' #not being set from testData when filling P&C tab
     }
   ]
+}
+
+TestData_Endorsement: {
+  GeneralTab: {},
+  DriverTab: {},
+  RatingDetailReportsTab: {},
+  VehicleTab: '@VehicleTab_1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {},
+  DriverActivityReportsTab: {},
+  DocumentsAndBindTab: {},
 }
 
 #---------------------------------------------

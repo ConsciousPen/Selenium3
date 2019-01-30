@@ -77,7 +77,7 @@ TestData_NB_Policy: {
 
 GeneralTab: {
   NamedInsuredInformation: ['@NamedInsuredInformation'],
-  AAAProductOwned: '@AAAProductOwned',
+  AAAMembership: '@AAAMembership',
   ContactInformation: '@ContactInformation',
   CurrentCarrierInformation: '@CurrentCarrierInformation',
   PolicyInformation: '@PolicyInformation'
@@ -107,7 +107,7 @@ TestData_NB_Quote: {
 
 GeneralTab_Quote: {
   NamedInsuredInformation: ['@NamedInsuredInformation_Version1'],
-  AAAProductOwned: '@AAAProductOwned_Version1',
+  AAAMembership: '@AAAMembership_Version1',
   ContactInformation: '@ContactInformation_Version1',
   CurrentCarrierInformation: '@CurrentCarrierInformation_Version1',
   PolicyInformation: '@PolicyInformation_Version1'
@@ -295,9 +295,9 @@ NamedInsuredInformation_Version2: {
 }
 
 #General Tab - AAA Product Owned
-TestData_AAAProductOwned_Version1: {
+TestData_AAAMembership_Version1: {
   GeneralTab: {
-    AAAProductOwned: '@AAAProductOwned_Version1'
+    AAAMembership: '@AAAMembership_Version1'
   },
   DriverTab: {},
   RatingDetailReportsTab: '@RatingDetailReportsTab_CustomerAgreement_OrderIS',
@@ -309,9 +309,9 @@ TestData_AAAProductOwned_Version1: {
   DocumentsAndBindTab: {},
 }
 
-TestData_AAAProductOwned_Version2: {
+TestData_AAAMembership_Version2: {
   GeneralTab: {
-    AAAProductOwned: '@AAAProductOwned_Version2'
+    AAAMembership: '@AAAMembership_Version2'
   },
   DriverTab: {},
   RatingDetailReportsTab: '@RatingDetailReportsTab_CustomerAgreement_OrderIS',
@@ -323,7 +323,7 @@ TestData_AAAProductOwned_Version2: {
   DocumentsAndBindTab: {},
 }
 
-AAAProductOwned: {
+AAAMembership: {
   Current AAA Member: 'No',
   Motorcycle: 'Yes',
   "Motorcycle Policy #": 1111111111,
@@ -339,7 +339,7 @@ AAAProductOwned: {
   "PUP Motorcycle Policy #": 1111111116,
 }
 
-AAAProductOwned_Version1: {
+AAAMembership_Version1: {
   Current AAA Member: 'Membership Override',
   Override Type: Life,
   Member Since Date: $<today>,
@@ -357,7 +357,7 @@ AAAProductOwned_Version1: {
   "PUP Motorcycle Policy #": 2222222226,
 }
 
-AAAProductOwned_Version2: {
+AAAMembership_Version2: {
   Current AAA Member: 'Yes',
   Membership Number: 4290023667710001,
   Motorcycle: 'Yes',
