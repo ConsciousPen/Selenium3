@@ -3111,7 +3111,7 @@ public class TestMiniServicesVehiclesHelper extends PolicyBaseTest {
 		return availableActions;
 	}
 
-	private String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
+	public String addVehicleWithChecks(String policyNumber, String purchaseDate, String vin, boolean allowedToAddVehicle) {
 		//Add new vehicle
 		Vehicle responseAddVehicle =
 				HelperCommon.addVehicle(policyNumber, DXPRequestFactory.createAddVehicleRequest(vin, purchaseDate), Vehicle.class, 201);

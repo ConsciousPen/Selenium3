@@ -1044,4 +1044,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="PA RFI Forms" parallel="methods">
+        <parameter name="state" value="PA"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
+                <methods>
+                    <include name="pas23300_AAFPPAFormRFI"/>
+                    <include name="pas23301_AA52UPAAFormRFI"/>
+                    <include name="pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
