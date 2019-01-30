@@ -48,8 +48,8 @@
         </classes>
     </test>
     <test name="PAS-15836 Add 'CSAA Fire and Casualty Insurance Company' to prior carrier name list of values on General screen" parallel="methods" thread-count="1024">
-        <parameter name="state value="CT,NY,PA,MD"/>
-        <classes>"
+        <parameter name="state" value="CT,NY,PA,MD"/>
+        <classes>
             <class name="aaa.modules.regression.conversions.home_ss.ho3.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho4.functional.TestImmediatePriorCarrierDropdown"/>
             <class name="aaa.modules.regression.conversions.home_ss.ho6.functional.TestImmediatePriorCarrierDropdown"/>
