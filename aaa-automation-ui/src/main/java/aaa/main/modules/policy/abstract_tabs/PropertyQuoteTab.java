@@ -39,7 +39,10 @@ public abstract class PropertyQuoteTab extends Tab {
 
 	public static Table tableEndorsementForms = new Table(By.id("policyDataGatherForm:formSummaryTable"));
 	public static Button btnOverridePremium = new Button(By.xpath("//a[@id='policyDataGatherForm:overridePremiumLinkHo' or @id='policyDataGatherForm:overridePremiumLinkPup']"));
-	public static Button btnCalculatePremium = new Button(By.xpath("//input[@id='policyDataGatherForm:premiumRecalcCov' or @id='policyDataGatherForm:actionButton_AAAHORateAction']"), Waiters.AJAX);
+	public static Button btnCalculatePremium = new Button(By.xpath("//input[@id='policyDataGatherForm:premiumRecalcCov' "
+			+ "or @id='policyDataGatherForm:actionButton_AAAHORateAction' "
+			+ "or @id='policyDataGatherForm:calculatePremium_AAAHORateAction' "
+			+ "or @id='policyDataGatherForm:calculatePremium_AAAPUPRateAction']"), Waiters.AJAX);
 	public static Table tablePremiumSummary = new Table(By.id("policyDataGatherForm:riskItemPremiumInfoTable"));
 	public static Table tableTaxesSurchargesSummary = new Table(By.id("policyDataGatherForm:taxSummaryTable"));
 	public static Table tableTotalPremiumSummary = new Table(By.id("policyDataGatherForm:totalSummaryTable"));

@@ -307,8 +307,8 @@ PremiumAndCoveragesTab_PA: {
   Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
   'Underinsured Motorist Stacked/Unstacked': 'Stacked',
   First Party Benefits: 'Added',
-  Medical Expenses: 'contains=$5,000',
-  Funeral Benefits: 'contains=$1,500',
+  Medical Benefit: 'contains=$5,000',
+  Funeral Expense Benefit: 'contains=$1,500',
   Comprehensive Deductible: 'contains=$750',
   Collision Deductible: 'contains=$500'
 }
