@@ -1021,7 +1021,7 @@
             </class>
         </classes>
     </test>
-    <test thread-count="1024" name="PA Forms" parallel="methods">
+    <test thread-count="1024" name="PA RFI Forms" parallel="methods">
         <parameter name="state" value="PA"/>
         <classes>
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
