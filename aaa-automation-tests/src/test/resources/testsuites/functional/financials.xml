@@ -6,9 +6,7 @@
     </listeners>
     <parameter name="timeshift-scenario-mode" value="method"/>
 
-    <!--New Business Tests-->
-
-    <test name="New Business Test - SS PUP" parallel="methods" thread-count="1024">
+    <test name="Finance - SS PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
@@ -16,7 +14,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS Auto" parallel="methods" thread-count="1024">
+    <test name="Finance - SS Auto" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness"/>
@@ -24,7 +22,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS DP3" parallel="methods" thread-count="1024">
+    <test name="Finance - SS DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness"/>
@@ -32,7 +30,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO3" parallel="methods" thread-count="1024">
+    <test name="Finance - SS HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness"/>
@@ -40,7 +38,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO4" parallel="methods" thread-count="1024">
+    <test name="Finance - SS HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness"/>
@@ -48,7 +46,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - SS HO6" parallel="methods" thread-count="1024">
+    <test name="Finance - SS HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness"/>
@@ -56,7 +54,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA PUP" parallel="methods" thread-count="1024">
+    <test name="Finance - CA PUP" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
@@ -64,7 +62,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA Choice" parallel="methods" thread-count="1024">
+    <test name="Finance - CA Choice" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
@@ -72,7 +70,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA Select" parallel="methods" thread-count="1024">
+    <test name="Finance - CA Select" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
@@ -80,7 +78,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA DP3" parallel="methods" thread-count="1024">
+    <test name="Finance - CA DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
@@ -88,7 +86,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO3" parallel="methods" thread-count="1024">
+    <test name="Finance - CA HO3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
@@ -96,7 +94,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO4" parallel="methods" thread-count="1024">
+    <test name="Finance - CA HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
@@ -104,7 +102,7 @@
         </classes>
     </test>
 
-    <test name="New Business Test - CA HO6" parallel="methods" thread-count="1024">
+    <test name="Finance - CA HO6" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
