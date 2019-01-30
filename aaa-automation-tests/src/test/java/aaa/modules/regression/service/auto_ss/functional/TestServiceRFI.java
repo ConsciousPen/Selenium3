@@ -15,8 +15,9 @@ import aaa.helpers.rest.dtoDxp.*;
 import aaa.helpers.xml.model.Document;
 import aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab;
 import aaa.main.pages.summary.PolicySummaryPage;
-import aaa.modules.regression.service.helper.HelperMiniServices;
+import aaa.modules.regression.service.helper.*;
 import aaa.utils.StateList;
+import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -34,8 +35,6 @@ import aaa.main.modules.policy.auto_ss.defaulttabs.VehicleTab;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.modules.regression.sales.auto_ss.TestPolicyNano;
 import aaa.modules.regression.sales.auto_ss.functional.TestEValueDiscount;
-import aaa.modules.regression.service.helper.HelperCommon;
-import aaa.modules.regression.service.helper.HelperRfi;
 import toolkit.datax.DataProviderFactory;
 import toolkit.datax.TestData;
 import toolkit.db.DBService;
@@ -55,6 +54,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private HelperMiniServices helperMiniServices = new HelperMiniServices();
 	private final PremiumAndCoveragesTab premiumAndCoveragesTab = new PremiumAndCoveragesTab();
 	private ErrorTab errorTab = new ErrorTab();
+	private TestMiniServicesVehiclesHelper vehiclesHelper = new TestMiniServicesVehiclesHelper();
 
 	/**
 	 * @author Jovita Pukenaite
@@ -355,6 +355,102 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	private void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedBy")).isFalse();
 		assertThat(DocGenHelper.getDocument(document, query).toString().contains("DocSignedDate")).isFalse();
+	}
+
+	/**
+	 * @author Maris Strazds
+	 * @name RFI AAFPPA Form
+	 * @scenario 1
+	 * 1. Create policy.
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Add vehicle through service
+	 * 4. Rate. Hit RFI service.
+	 * 5. Check the response.
+	 * 6. Check if document is displaying.
+	 * 7. Run bind service without signing document and verify error. and policy is not bound.
+	 * 8. Run bind service with document id verify no error and we can bind the policy.
+	 * 9. go to pas UI and verify if policy is bound
+	 * 10. Go to document and bind page and verify if document is electronically signed.
+	 * 11 .create and endorsement on policy from pas , add vehicle and rate the policy
+	 * 12. go to document and bind page verify if its reset to document not signed
+	 * 13 Try to bind policy from pas and verify error.
+	 * 14 Select document physically signed
+	 * 15 Verify in db that we are not sending document signed by
+	 * 16  Bind the policy verify there is no error message.
+	 * @scenario 2
+	 * 1. Create policy and override the rule
+	 * 2. Create endorsement outside of PAS.
+	 * 3. Trigger the document by replacing vehicle
+	 * 4. Hit RFI service and check that document is returned
+	 * 5. Bind Endorsement ---> No rule is fired (as it was overridden at NB)
+	 *
+	 */
+
+	@Parameters({"state"})
+	@StateList(states = {Constants.States.PA})
+	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23301"})
+	public void pas23301_AA52IPAAFormAddReplaceVehicleTriggerRFI(@Optional("PA") String state) {
+		DocGenEnum.Documents document = DocGenEnum.Documents.AA52UPAA;
+		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION ;
+		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200306;
+
+		TestData td = getPolicyDefaultTD();
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
+		validateRFIScenariosAddVehicle(document, documentAsset, error, td, false);
+
+		//Create policy and override rule
+		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
+		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
+		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
+		validateRFIScenariosAddVehicle(document, documentAsset, error, td, true);
+
+	}
+
+	private void validateRFIScenariosAddVehicle(DocGenEnum.Documents document, AssetDescriptor<RadioGroup> documentAsset, ErrorEnum.Errors error, TestData td, boolean isRuleOverridden) {
+		String policyNumber = openAppAndCreatePolicy(td);
+
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		vehiclesHelper.addVehicleWithChecks(policyNumber, "2013-02-22", "1HGEM21504L055795", true);
+
+		String docId = checkDocumentInRfiService(policyNumber, document.getId(), document.getName(), "policy", "NS");
+		bindEndorsement(policyNumber, docId, error.getCode(), error.getMessage(), "attributeForRules", isRuleOverridden);
+
+		SoftAssertions.assertSoftly(softly -> {
+
+			//create endorsement from pas go to bind page verify document is electronically signed
+			mainApp().open();
+			SearchPage.search(SearchEnum.SearchFor.POLICY, SearchEnum.SearchBy.POLICY_QUOTE, policyNumber);
+			policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+			if (!isRuleOverridden) {
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Electronically Signed");
+			} else {
+				softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
+			}
+
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.VEHICLE.get());
+
+			TestData td1 = getPolicyTD("DataGather", "TestData");
+			TestData testData = td1.adjust(new VehicleTab().getMetaKey(), getTestSpecificTD("TestData_AddVewhicle").getTestDataList("VehicleTab")).resolveLinks();
+			policy.getDefaultView().fillFromTo(testData, VehicleTab.class, VehicleTab.class, true);
+			premiumAndCoveragesTab.calculatePremium();
+			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+
+			softly.assertThat(documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).getValue()).isEqualTo("Not Signed");
+			documentsAndBindTab.submitTab();
+			if (!isRuleOverridden) {
+				//On bind verify error message
+				errorTab.verify.errorsPresent(true, error);
+				errorTab.cancel();
+				//Physically sign the document and bind policy
+				documentsAndBindTab.getRequiredToBindAssetList().getAsset(documentAsset).setValue("Physically Signed");
+				documentsAndBindTab.submitTab();
+			}
+			assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE); //indicates Endorsement bound successfully
+		});
 	}
 
 	/**

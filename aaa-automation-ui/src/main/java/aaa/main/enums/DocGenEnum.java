@@ -26,6 +26,8 @@ public final class DocGenEnum {
 		AA06XX_AUTOSS("AA06XX", "Agent Advise Memo"),
 		AA09CA(""),
 		AA10OK(""),
+		AA52IPAA("UIMCRELL", "AA52IPAA","Underinsured Motorists Coverage Selection/Rejection"),
+		AA52UPAA("RUUELLUU", "AA52UPAA", "Uninsured Motorists Coverage Selection/Rejection"),
 		AA10PA("Insurance Identification Card"),
 		AA10XX("Insurance Identification Card"),
 		AA11AZ("Auto Insurance Application"),
