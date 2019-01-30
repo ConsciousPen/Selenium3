@@ -1,20 +1,20 @@
 TestData_Pending: {
   GeneralTab: {
-    AAAProductOwned: {
+    AAAMembership: {
       Current AAA Member: 'Membership Pending'
     }
   }
 }
 
-AAAProductOwned_Pending: {
+AAAMembership_Pending: {
   Current AAA Member: 'Membership Pending'
 }
 
-AAAProductOwned_No: {
+AAAMembership_No: {
 Current AAA Member: 'No'
 }
 
-AAAProductOwned_Override: {
+AAAMembership_Override: {
   Current AAA Member: 'Membership Override',
   Member Since Date: '$<today>'
 }

@@ -1,7 +1,7 @@
 TestData_Auto: {
   GeneralTab: {
     NamedInsuredInformation: [{"Home Phone #": 1234567890}],
-    AAAProductOwned: {
+    AAAMembership: {
       Current AAA Member: 'Yes',
       Membership Number: 4290023667710001
     },

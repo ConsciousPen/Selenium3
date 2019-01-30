@@ -144,7 +144,7 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 
 		// For exceeding OK threshold (above threshold) you need a driver age x < 27y , driving exp  5< y <15 , male, single
 		TestData testData = getConversionPolicyDefaultTD()
-				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1990")
+				//.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1990")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Male")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.MARITAL_STATUS.getLabel()), "Single")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.AGE_FIRST_LICENSED.getLabel()), "18");
@@ -353,18 +353,19 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsEndorsement(@Optional("") String state) {
 
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
+		TestData td = getTestSpecificTD("TestData_DriverTabAccidents_Endorsement").resolveLinks();
 
-		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
+		//Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Endorse Policy
 		mainApp().open();
 		createCustomerIndividual();
-		createPolicy(testData);
+		createPolicy(getFirstDriverTestData());
+		
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus1Month"));
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
-
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
+		
+		
 		assertMVRResponseAccidents(false);
 	}
 
@@ -386,16 +387,16 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	@Test(groups = {Groups.REGRESSION, Groups.HIGH, Groups.TIMEPOINT}, description = "MVR Predictor Algo for drivers with accidents Renewal")
 	@TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-14264")
 	public void pas14264_BypassMVRPredictorManuallyAddedAccidentsRenewal(@Optional("") String state) {
-
-		TestData testData = getFirstDriverTestData();
-		TestData driverTab = getTestSpecificTD("TestData_DriverTabAccidents").resolveLinks();
+		
+		TestData td = getTestSpecificTD("TestData_DriverTabAccidents_Endorsement").resolveLinks();
 
 		// Open application Create Customer Create Policy with Driver exceeding MVR predictor threshold. Renew Policy
-		createPolicyAndRenewal(testData);
+		createPolicyAndRenewal(getFirstDriverTestData());
 
 		// Fill Drivers Tab Calculate premium and Validate Drivers history
-		preconditionsAddDriversRenewalEndorsement(driverTab);
-
+		//preconditionsAddDriversRenewalEndorsement(driverTab);
+		policy.getDefaultView().fillFromTo(td, GeneralTab.class, DriverActivityReportsTab.class, true);
+		
 		assertMVRResponseAccidents(true);
 	}
 
@@ -449,9 +450,22 @@ public class TestMVRPredictorAlgo extends AutoSSBaseTest {
 	}*/
 
 	private TestData getFirstDriverTestData() {
+		
+		TestData tdNamedInsured = getPolicyDefaultTD()
+				.getTestData(GeneralTab.class.getSimpleName())
+				.getTestDataList(AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel())
+				.get(0)
+				.adjust(AutoSSMetaData.GeneralTab.NamedInsuredInformation.INSURED_DATE_OF_BIRTH.getLabel(), "01/01/1933");
+		
+        return getPolicyDefaultTD()
+        		.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);
+
+        		
+		/*
 		return getPolicyTD()
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.DATE_OF_BIRTH.getLabel()), "01/01/1933")
 				.adjust(TestData.makeKeyPath(DriverTab.class.getSimpleName(), AutoSSMetaData.DriverTab.GENDER.getLabel()), "Female");
+				*/
 	}
 
 	private void createPolicyAndRenewal(TestData td) {

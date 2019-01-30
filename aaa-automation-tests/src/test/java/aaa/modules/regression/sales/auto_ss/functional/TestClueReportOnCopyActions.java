@@ -64,7 +64,7 @@ public class TestClueReportOnCopyActions extends TestClueReportOnCopyActionsTemp
 
         TestData tdEndorsement = getTestSpecificTD("TestData")
         		.adjust(DriverTab.class.getSimpleName(), tdDriverTab)
-        		.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);;
+        		.adjust(TestData.makeKeyPath(GeneralTab.class.getSimpleName(), AutoSSMetaData.GeneralTab.NAMED_INSURED_INFORMATION.getLabel()), tdNamedInsured);
 		
 		pas8271_testClueReportOnCopyPolicyAction(tdEndorsement);
 

@@ -20,7 +20,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Comparison SS" parallel="methods" thread-count="1024">
+    <!--<test name="General tab/AAA Products Owned section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
@@ -31,7 +31,7 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="General tab/Contact Information section/Comparison SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
@@ -110,7 +110,7 @@
         </classes>
     </test>
 
-    <test name="General tab/AAA Products Owned section/Conflict SS" parallel="methods" thread-count="1024">
+    <!--<test name="General tab/AAA Products Owned section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
@@ -121,7 +121,7 @@
                 </methods>
             </class>
         </classes>
-    </test>
+    </test>-->
 
     <test name="General tab/Contact Information section/Conflict SS" parallel="methods" thread-count="1024">
         <parameter name="state" value="AZ"/>

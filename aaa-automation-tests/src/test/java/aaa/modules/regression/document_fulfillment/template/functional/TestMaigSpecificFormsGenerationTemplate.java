@@ -106,31 +106,32 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		// Get State/Product specific forms
 		List<String> forms = getConversionSpecificGeneratedForms(mortgageePaymentPlanPresence, specificProductCondition);
 
-		LocalDateTime renewalOfferEffectiveDate = getTimePoints().getEffectiveDateForTimePoint(
-				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
-
 		/* Start PAS-2764 Scenario 1, Generate forms and check sequence*/
 		/**PAS-9774, PAS-10111 - both has the same root cause which is a Base defect EISAAASP-1852 and has been already resolved in Base EIS 8.17.
 		 It will come with next upgrade, until then there's simple workaround - need to run aaa-admin application instead of aaa-app.
 		 Both, manual propose and automated propose should work running under aaa-admin.**/
 
-		// Create manual entry
-		String policyNumber = createFormsSpecificManualEntry(testData, renewalOfferEffectiveDate);
+		// Create conversion renewal
+		String policyNumber = createFormsSpecificManualEntry(testData);
+
+		LocalDateTime conversionPolicyEffectiveDate = PolicySummaryPage.getExpirationDate();
+
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getRenewOfferGenerationDate(conversionPolicyEffectiveDate));
+
+		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
+		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
 
 		//https://csaaig.atlassian.net/browse/PAS-11474
 		List<DocumentPackage> allDocumentPackages = DocGenHelper.getAllDocumentPackages(policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
 		List<Document> actualDocumentsListAfterFirstRenewal = DocGenHelper.getDocumentsFromDocumentPackagesList(allDocumentPackages);
 
 		verifyFormSequence(forms, actualDocumentsListAfterFirstRenewal);
-		// End PAS-2764 Scenario 1
 
 		//PAS-9607 Verify that packages are generated with correct transaction code
 		verifyPolicyTransactionCode("MCON", policyNumber, AaaDocGenEntityQueries.EventNames.RENEWAL_OFFER);
+		// End PAS-2764 Scenario 1
 
-		JobUtils.executeJob(Jobs.aaaBatchMarkerJob);
-		JobUtils.executeJob(Jobs.renewalOfferGenerationPart2);
-
-		billGeneration(renewalOfferEffectiveDate);
+		billGeneration(conversionPolicyEffectiveDate);
 
 		// Start PAS-2764 Scenario 1 Issue first renewal
 		mainApp().reopen();
@@ -138,7 +139,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		Dollar totalDue = new Dollar(BillingSummaryPage.getTotalDue());
 		billingAccount.acceptPayment().perform(testDataManager.billingAccount.getTestData("AcceptPayment", "TestData_Cash"), totalDue.subtract(new Dollar(10)));
 
-		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(renewalOfferEffectiveDate));
+		TimeSetterUtil.getInstance().nextPhase(getTimePoints().getUpdatePolicyStatusDate(conversionPolicyEffectiveDate));
 		JobUtils.executeJob(Jobs.policyStatusUpdateJob);
 
 		mainApp().reopen();
@@ -147,13 +148,12 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 		// End PAS-2764 Scenario 1 Issue first renewal
 
 		/* Scenario 2, create and issue second renewal and verify documents list */
-		issueSecondRenewal(renewalOfferEffectiveDate);
+		issueSecondRenewal(conversionPolicyEffectiveDate);
 
 		mainApp().open();
 		SearchPage.openPolicy(policyNumber);
 		PolicySummaryPage.buttonRenewals.click();
-		//TODO UNCOMMENT VALIDATION AFTER PT-2761
-//		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
 
 		/**
 		 * https://csaaig.atlassian.net/browse/PAS-9157
@@ -250,7 +250,7 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 				TimeSetterUtil.getInstance().getPhaseStartTime(), TimePoints.TimepointsList.RENEW_GENERATE_OFFER);
 
 		// Create manual entry
-		String policyNumber = createFormsSpecificManualEntry(testData, renewalOfferEffectiveDate);
+		String policyNumber = createFormsSpecificManualEntry(testData);
 
 		SearchPage.openPolicy(policyNumber);
 		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
@@ -348,10 +348,9 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 	/**
 	 * Create Very specific Manual Entry
 	 * @param testData for policy creation
-	 * @param renewalOfferEffectiveDate effective date for conversion policy
 	 * @return
 	 */
-	private String createFormsSpecificManualEntry(TestData testData, LocalDateTime renewalOfferEffectiveDate) {
+	private String createFormsSpecificManualEntry(TestData testData) {
 		String membershipFieldMetaKey =
 				TestData.makeKeyPath(new ApplicantTab().getMetaKey(), HomeSSMetaData.ApplicantTab.AAA_MEMBERSHIP.getLabel(), HomeSSMetaData.ApplicantTab.AAAMembership.MEMBERSHIP_NUMBER.getLabel());
 
@@ -373,13 +372,13 @@ public class TestMaigSpecificFormsGenerationTemplate extends PolicyBaseTest {
 
 			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.CUSTOMER.get());*/
 		}
-		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd(), renewalOfferEffectiveDate);
+		customer.initiateRenewalEntry().perform(getManualConversionInitiationTd());
 		// Needed for Membership AHMVCNV form, membership number have to be != active For all products except PUP
 		if (!getPolicyType().equals(PolicyType.PUP)) {
 			testData.adjust(membershipFieldMetaKey, "4343433333333335");
 		}
 		policy.getDefaultView().fill(testData);
-		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PROPOSED).verify(1);
+		productRenewalsVerifier.setStatus(ProductConstants.PolicyStatus.PREMIUM_CALCULATED).verify(1);
 		PolicySummaryPage.buttonBackFromRenewals.click();
 
 		return PolicySummaryPage.labelPolicyNumber.getValue();

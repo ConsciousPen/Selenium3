@@ -397,7 +397,7 @@ public class HomeSSOpenLPolicy extends OpenLPolicy {
 
 	@Override
 	public boolean isCappedPolicy() {
-		return false;
+		return !(getCappingDetails().getTermCappingFactor() == 0.0) && !(getCappingDetails().getTermCappingFactor() == 1.0);
 	}
 
 	public Boolean isVariationRequest() {

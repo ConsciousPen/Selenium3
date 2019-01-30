@@ -16,7 +16,7 @@ TestData_NY: {
   VehicleTab: [{
     Usage: Pleasure,
     VIN: 1GNWGPFG8B6548273,
-    'Less Than 3,000 Miles': 'No'
+    #'Less Than 3,000 Miles': 'No' #vehicle became older
   }, {
     Usage: Pleasure,
     VIN: 1HGFA16526L081415 #1B3BA46K4KF440231
