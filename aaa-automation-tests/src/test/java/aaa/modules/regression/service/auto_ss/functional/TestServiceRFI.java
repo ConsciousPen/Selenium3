@@ -608,18 +608,18 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	 * @author Jovita Pukenaite
 	 * @name Update Tort, Sign AADNPAB - Internal/External Endorsement to PAS
 	 * @scenario 1. Create policy. Where aadnpab = Signed In
-     * and Tort = "Limited Tort".
-     * 2. Create endorsement inside in PAS.
-     * 3. Update Tort = Full Tort.
-     * 4. Go to Document and Bind page, check if document = Not signed in
-     * 5. Try bind, check the error.
-     * 6. Delete endorsement.
-     * 7. Create new endorsement outside of PAS. Check RFI response.
-     * 8. Update coverage to Full, rate.
-     * 9. Hit RFI service, check the response.
-     * 10. Try bind, check the error.
-     * 11. Sign in and bind again.
-     * 12. Repeat the same steps from 7-11. But this time TORT = "Limit Tort"
+	 * and Tort = "Limited Tort".
+	 * 2. Create endorsement inside in PAS.
+	 * 3. Update Tort = Full Tort.
+	 * 4. Go to Document and Bind page, check if document = Not signed in
+	 * 5. Try bind, check the error.
+	 * 6. Delete endorsement.
+	 * 7. Create new endorsement outside of PAS. Check RFI response.
+	 * 8. Update coverage to Full, rate.
+	 * 9. Hit RFI service, check the response.
+	 * 10. Try bind, check the error.
+	 * 11. Sign in and bind again.
+	 * 12. Repeat the same steps from 7-11. But this time TORT = "Limit Tort"
 	 */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.PA})
@@ -627,7 +627,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23303", "PAS-24559"})
 	public void pas23303_UpdateTortSignInAADNPAB(@Optional("PA") String state) {
 		assertSoftly(softly -> {
-			String policyNumber = createPolicyForAnyDocument("Limited Tort", "Physically Signed", tortCoverage, aadnpabRule );
+			String policyNumber = createPolicyForAnyDocument("Limited Tort", "Physically Signed", tortCoverage, aadnpabRule);
 			policy.endorse().perform(getPolicyTD("Endorsement", "TestData_Plus5Day"));
 			NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 			tortCoverage.setValue("Full Tort");
@@ -645,12 +645,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			Page.dialogConfirmation.buttonDeleteEndorsement.click();
 
 			//Create endorsement outside of PAS
-            dxpOnlyCreateEndorsementCheckDocumentAADNPAB("TRUE", policyNumber);
+			dxpOnlyCreateEndorsementCheckDocumentAADNPAB("TRUE", policyNumber);
 
-            //create one more endorsement
-            dxpOnlyCreateEndorsementCheckDocumentAADNPAB("FALSE", policyNumber);
-			});
-		}
+			//create one more endorsement
+			dxpOnlyCreateEndorsementCheckDocumentAADNPAB("FALSE", policyNumber);
+		});
+	}
 
 	/**
 	 * @author Jovita Pukenaite
@@ -698,11 +698,11 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
-					"IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU",  policyNumber2);
+					"IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", policyNumber2);
 
 		} else if (state.contains("DE")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$48.00)", "Not Signed", uimbiCoverage,aadnde1Rule);
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$48.00)", "Not Signed", uimbiCoverage, aadnde1Rule);
 			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
@@ -742,12 +742,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		}
 	}
 
-	private void deleteEndorsementInPas(){
+	private void deleteEndorsementInPas() {
 		documentsAndBindTab.cancel();
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 	}
 
-	private void createEndorsementInPasUpdateCoverage(String coverageValue, ComboBox coverage){
+	private void createEndorsementInPasUpdateCoverage(String coverageValue, ComboBox coverage) {
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
 		coverage.setValue(coverageValue);
@@ -763,15 +763,15 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		HelperCommon.endorsementBind(policyNumber, "Jovita Pukenaite", Response.Status.OK.getStatusCode(), docId);
 	}
 
-    private void dxpOnlyCreateEndorsementCheckDocumentAADNPAB(String tortCoverageValue, String policyNumber){
-        helperMiniServices.createEndorsementWithCheck(policyNumber);
-        checkIfRfiIsEmpty(policyNumber);
-        HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("TORT", tortCoverageValue), PolicyCoverageInfo.class);
-        String docId = checkDocumentInRfiService(policyNumber, "AADNPAB", "Pennsylvania Notice to Named Insured Regarding Tort Options", "policy", "NS");
+	private void dxpOnlyCreateEndorsementCheckDocumentAADNPAB(String tortCoverageValue, String policyNumber) {
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
+		checkIfRfiIsEmpty(policyNumber);
+		HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest("TORT", tortCoverageValue), PolicyCoverageInfo.class);
+		String docId = checkDocumentInRfiService(policyNumber, "AADNPAB", "Pennsylvania Notice to Named Insured Regarding Tort Options", "policy", "NS");
 
-        helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_AAA_SS190125.getCode(), ErrorEnum.Errors.ERROR_AAA_SS190125.getMessage(), "attributeForRules");
-        HelperCommon.endorsementBind(policyNumber, "Jovita Pukenaite", Response.Status.OK.getStatusCode(), docId);
-    }
+		helperMiniServices.bindEndorsementWithErrorCheck(policyNumber, ErrorEnum.Errors.ERROR_AAA_SS190125.getCode(), ErrorEnum.Errors.ERROR_AAA_SS190125.getMessage(), "attributeForRules");
+		HelperCommon.endorsementBind(policyNumber, "Jovita Pukenaite", Response.Status.OK.getStatusCode(), docId);
+	}
 
 	private String createPolicyForAA52VA(String limit, String signType) {
 		mainApp().open();
@@ -793,7 +793,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		return policyNumber;
 	}
 
-	private String createPolicyForAnyDocument(String limit, String signType, ComboBox coverage , RadioGroup rule) {
+	private String createPolicyForAnyDocument(String limit, String signType, ComboBox coverage, RadioGroup rule) {
 		mainApp().open();
 		createCustomerIndividual();
 		createQuote();
@@ -809,7 +809,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		return policyNumber;
 	}
 
-	private void checkIfRfiIsEmpty(String policyNumber){
+	private void checkIfRfiIsEmpty(String policyNumber) {
 		helperMiniServices.rateEndorsementWithCheck(policyNumber);
 		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);
 		assertSoftly(softly -> {
