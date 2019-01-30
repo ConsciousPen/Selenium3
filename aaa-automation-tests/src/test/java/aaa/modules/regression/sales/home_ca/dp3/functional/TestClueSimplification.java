@@ -150,6 +150,11 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	    new ReportsTab().getAssetList().getAsset(HomeCaMetaData.ReportsTab.CLUE_REPORT).getTable().getRow(1).getCell("Report").controls.links.getFirst().click();
     }
 
+	@Override
+	protected ComboBox getClaimStatusAsset() {
+		return getPropertyInfoTab().getClaimHistoryAssetList().getAsset(HomeCaMetaData.PropertyInfoTab.ClaimHistory.CLAIM_STATUS);
+	}
+
 	/**
 	 * @author Dominykas Razgunas
 	 * @name Test Ability To Remove Manually Added Claims NB
@@ -324,7 +329,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -345,7 +350,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -365,7 +370,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
@@ -385,7 +390,7 @@ public class TestClueSimplification extends TestClueSimplificationPropertyAbstra
 	}
 
     /**
-     * @author Dominykas Razgunas, Josh Carpenter
+     * @author Dominykas Razgunas, Josh Carpenter, Sreekanth Kopparapu
      * @name Test lack of Dependency Between CAT And Chargeable CLUE Claim Mapping
      * @scenario
      * 1. Create policy with default test data (including customer)
