@@ -991,8 +991,7 @@ UnderlyingRisksAutoTab_NV: {
 
 DocumentsTab_NV: {
   RequiredToIssue: {
-    "Applicant's statement signature": Physically Signed, 
-    "PUP UM/UIM Disclosure": Physically Signed
+    "Applicant's statement signature": Physically Signed
   }
 }
 
