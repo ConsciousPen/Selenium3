@@ -224,6 +224,23 @@
                     <include name="pas11697_testEarnedPremiumWriteOffEqualDecline"/>
                 </methods>
             </class> <!-- aaa.modules.regression.billing_and_payments.auto_ss.functional.TestEarnedPremiumWriteOff -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas12266_dataGatherComparisonNamedInsuredInformation"/>
+                    <include name="pas12884_endorsementsComparisonContactInformation"/>
+                    <include name="pas12886_endorsementsComparisonPolicyInformation"/>
+                    <include name="pas12923_dataGatherComparisonDriverInformation"/>
+                    <include name="pas12469_renewalComparisonVehicleInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsComparison -->
+            <class name="aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas17143_renewalMergeCurrentCarrierInformation"/>
+                    <include name="pas17144_ooseConflictManualDriverInformation"/>
+                    <include name="pas14121_renewalMergeVehicleInformation"/>
+                    <include name="pas19839_ooseConflictManualAddNamedInsuredInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ss.functional.TestVersionsConflict -->
         </classes>
     </test> <!-- AZ Auto -->
     <test name="PA Auto" parallel="methods">
@@ -282,6 +299,35 @@
                     <include name="pas11697_testEarnedPremiumWriteOffEqualProposed"/>
                 </methods>
             </class> <!-- aaa.modules.regression.billing_and_payments.auto_ca.choice.functional.TestEarnedPremiumWriteOff -->
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13529_renewalComparisonAAAProductOwned"/>
+                    <include name="pas13832_renewalComparisonThirdPartyDesignee"/>
+                    <include name="pas14145_dataGatherComparisonVehicleInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsComparison -->
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison">
+                <methods>
+                    <include name="pas13542_dataGatherComparisonCurrentCarrierInformation"/>
+                    <include name="pas14147_endorsementsComparisonDriverInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsComparison -->
+            <class name="aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas14826_renewalMergeNamedInsuredInformation"/>
+                    <include name="pas17149_ooseConflictManualContactInformation"/>
+                    <include name="pas16049_ooseConflictAutomaticPolicyInformation"/>
+                    <include name="pas15242_ooseConflictAutomaticVehicleInformation"/>
+                    <include name="pas19839_ooseConflictAutomaticAddVehicleInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.select.functional.TestVersionsConflict -->
+            <class name="aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict">
+                <methods>
+                    <include name="pas16563_ooseConflictManualThirdPartyDesignee"/>
+                    <include name="pas17151_renewalMergeDriverInformation"/>
+                    <include name="pas19839_renewalMergeAddDriverAndActivityInformation"/>
+                </methods>
+            </class> <!-- aaa.modules.regression.sales.auto_ca.choice.functional.TestVersionsConflict -->
         </classes>
     </test> <!-- CA Auto -->
     <test name="Test Clue assignment for multiple drivers CA" parallel="methods">

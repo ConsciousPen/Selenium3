@@ -12,13 +12,17 @@ public final class ErrorEnum {
 		ERROR_200104("200104", "Driver with 2 or more At-fault accidents are unacceptable (200104) [for Drive..."),
 		ERROR_200123("200123", "Delaware Motorists Protection Act form must be received prior to issuing this transaction"),
 		ERROR_200037_VA("200037_VA", "A signed IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE form must be received prior to issuing this transaction"),
+		ERROR_200304("200304", "If Limited Tort Liability coverage is selected, a signed form must be receive..."),
 		ERROR_200305("200305", "First Party Benefits signed form must be received (200305)"),
+		ERROR_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to issuing this transaction (200306)"),
 		ERROR_200401("200401", "Credit Adverse Impact requires Underwriting Review and approval"),
 		ERROR_200900("200900", "A signed Coverage Selection/Rejection Form  must be received prior to issuing this transaction"),
 		ERROR_200060_CO("200060_CO", "If Medical Payments coverage is rejected, a signed form must be received"),
 		ERROR_AAA_SS9140068("AAA_SS9140068", "It is too late in the term to change to the selected bill plan."),
 		ERROR_AAA_CLUE_order_validation_SS("AAA_CLUE_order_validation_SS", "Current CLUE must be ordered"),
 		ERROR_AAA_SS10240324("AAA_SS10240324", "At least one phone number must be provided."),
+		ERROR_AAA_SS190125("AAA_SS190125", "Pennsylvania Notice to Named Insureds Regarding Tort Options must be received prior to issuing this transaction."),
+
 
 		// Property errors
 		ERROR_AAA_HO_Fireline("AAA_HO_Fireline","FireLine score is ineligible. (AAA_HO_Fireline) [for AAAFirelineDetailsMVO.fi..." ),
@@ -153,6 +157,7 @@ public final class ErrorEnum {
 		ERROR_AAA_HO_SS_MAIG_IS_REPORT("AAA_HO_SS_MAIG_IS_REPORT", "A valid insurance score report for at least one named insured or insurance sc..."),
 
 		// Auto Errors
+		ERROR_AAA_200307("200307", "A signed Underinsured motorist coverage selection form must be received prior to issuing this transaction (200307)"),
 		ERROR_AAA_10022001("10022001", "Base year on rewrite must be current year (10022001) [for Policy.policyNumber]"),
 		ERROR_AAA_200005("200005", "Driver with a narcotics, drug or felony conviction involving a motor vehicle ..."),
 		ERROR_AAA_200008("200008", "Each driver must have a unique Driver's License Number."),

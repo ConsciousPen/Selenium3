@@ -456,12 +456,6 @@ PAS-23891:
   failures:
   - tests: [aaa.modules.bct.service.CancelPolicyTest.BCT_ONL_012_CancelPolicy]
     messages: ["['Cancel Notice' flag is absent]"]
-PAS-23995:
-  summary: "ASW Waiver not being given correctly"
-  reason: PROD
-  failures:
-    - tests: [aaa.modules.regression.sales.auto_ss.functional.TestAccidentSurchargeWaiver.*]
-      messages: ["Expecting"]
 PT-2901:
   summary: "Regression BCT: \"This page isn't working\" error at the screen after Reinstatement action. ReinstateFlow"
   reason: PROD

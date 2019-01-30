@@ -88,6 +88,7 @@ public final class DocGenEnum {
 		AA52OR("Rejection of Uninsured/Underinsured Motorist Bodily Injury Coverage"),
 		AA52UPAB(""),
 		AA52UPAC(""),
+		AA52UPAA("RUUELLUU", "AA52UPAA", "Uninsured Motorists Coverage Selection/Rejection"),
 		AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
 		AA52WV("Uninsured/Underinsured Motorists Coverage Offer"),
 		AA52IPAA("UIMCRELL", "AA52IPAA","Underinsured Motorists Coverage Selection/Rejection"),
