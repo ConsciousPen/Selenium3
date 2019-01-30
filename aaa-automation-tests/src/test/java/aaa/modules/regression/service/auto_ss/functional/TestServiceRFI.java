@@ -60,12 +60,12 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	private ComboBox tortCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD);
 	private ComboBox biCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.BODILY_INJURY_LIABILITY);
-	private ComboBox umpdCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_PROPERTY_DAMAGE_LIMIT);
 	private ComboBox uimbiCoverage = premiumAndCoveragesTab.getAssetList().getAsset(AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_UNDERINSURED_MOTORISTS_BODILY_INJURY);
 
 	private RadioGroup aadnpabRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.PA_NOTICE_NAMED_INSURED_REGARDING_TORT_OPTIONS);
 	private RadioGroup ruuelluuRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.IMPORTANT_NOTICE_UNINSURED_MOTORIST_COVERAGE);
 	private RadioGroup aadnde1Rule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DELAWARE_MOTORISTS_PROTECTION_ACT);
+	private RadioGroup aacsdcRule = documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.DISTRICT_OF_COLUMBIA_COVERAGE_SELECTION_REJECTION_FORM);
 
 	/**
 	 * @author Jovita Pukenaite
@@ -421,23 +421,23 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.VA, Constants.States.DE, Constants.States.DC})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23334"})
-	public void pas23334_RetriggerDocumentIgnoreTheOverriddenRule(@Optional("DE") String state) {
+	public void pas23334_RetriggerDocumentIgnoreTheOverriddenRule(@Optional("DC") String state) {
 
 		if (state.contains("VA")) {
 			//TC1
 			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", uimbiCoverage, ruuelluuRule);
-			createEndorsementInPasUpdateUimbi("$50,000/$100,000 (+$16.00)");
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"IMPORTANT NOTICE - Uninsured Motorist Coverage", "RUUELLUU", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateUimbi("$25,000/$50,000 (-$32.00)");
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$32.00)", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			ruuelluuRule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateUimbi("$50,000/$100,000 (+$16.00)");
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$16.00)", uimbiCoverage);
 			assertThat(ruuelluuRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -446,18 +446,18 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		} else if (state.contains("DE")) {
 			//TC1
 			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$48.00)", "Not Signed", uimbiCoverage,aadnde1Rule);
-			createEndorsementInPasUpdateUimbi("$50,000/$100,000 (+$17.00)");
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
 					"Delaware Motorists Protection Act", "AADNDE1", policyNumber);
 			//TC2
 			String policyNumber2 = openAppAndCreatePolicy();
-			createEndorsementInPasUpdateUimbi("$25,000/$50,000 (-$48.00)");
+			createEndorsementInPasUpdateCoverage("$25,000/$50,000 (-$48.00)", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			aadnde1Rule.setValue("Physically Signed");
 			documentsAndBindTab.submitTab();
-			createEndorsementInPasUpdateUimbi("$50,000/$100,000 (+$17.00)");
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$17.00)", uimbiCoverage);
 			assertThat(aadnde1Rule).hasValue("Not Signed");
 			deleteEndorsementInPas();
 			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
@@ -465,31 +465,35 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 		} else if (state.contains("DC")) {
 			//TC1
-			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$17.00)", "Not Signed", uimbiCoverage,aadnde1Rule);
-			createEndorsementInPasUpdateUimbi("$50,000/$100,000 (+$17.00)");
-			assertThat(aadnde1Rule).hasValue("Not Signed");
+			String policyNumber = createPolicyForAnyDocument("$25,000/$50,000 (-$32.00)", "Not Signed", biCoverage, aacsdcRule);
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (+$14.00)", biCoverage);
+			assertThat(aacsdcRule).hasValue("Not Signed");
 			deleteEndorsementInPas();
-			dxpOnlyCreateEndorsementCheckDocument("UMBI", "50000/100000",
-					"Delaware Motorists Protection Act", "AADNDE1", policyNumber);
-
-
+			dxpOnlyCreateEndorsementCheckDocument("BI", "50000/100000",
+					"District of Columbia Coverage Selection/Rejection Form", "AACSDC", policyNumber);
+			//TC2
+			String policyNumber2 = openAppAndCreatePolicy();
+			createEndorsementInPasUpdateCoverage("$50,000/$100,000 (-$18.00)", biCoverage);
+			assertThat(aacsdcRule).hasValue("Not Signed");
+			aacsdcRule.setValue("Physically Signed");
+			documentsAndBindTab.submitTab();
+			createEndorsementInPasUpdateCoverage("$250,000/$500,000 (+$34.00)", biCoverage);
+			assertThat(aacsdcRule).hasValue("Not Signed");
+			deleteEndorsementInPas();
+			dxpOnlyCreateEndorsementCheckDocument("BI", "50000/100000",
+					"District of Columbia Coverage Selection/Rejection Form", "AACSDC", policyNumber2);
 		}
 	}
-
-
-
-
-
 
 	private void deleteEndorsementInPas(){
 		documentsAndBindTab.cancel();
 		Page.dialogConfirmation.buttonDeleteEndorsement.click();
 	}
 
-	private void createEndorsementInPasUpdateUimbi(String coverageValue){
+	private void createEndorsementInPasUpdateCoverage(String coverageValue, ComboBox coverage){
 		policy.endorse().perform(getPolicyTD("Endorsement", "TestData"));
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
-		uimbiCoverage.setValue(coverageValue);
+		coverage.setValue(coverageValue);
 		premiumAndCoveragesTab.calculatePremium();
 		NavigationPage.toViewSubTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
 	}
