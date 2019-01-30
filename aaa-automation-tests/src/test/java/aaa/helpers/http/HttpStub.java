@@ -32,9 +32,9 @@ public class HttpStub {
 
 	public static void executeAllBatches() {
 
-		for (HttpStubBatch value : HttpStubBatch.values()) {
+	/*	for (HttpStubBatch value : HttpStubBatch.values()) {
 			executeSingleBatch(value);
-		}
+		}*/
 	}
 
 	public static void executeSingleBatch(HttpStubBatch stubName) {
