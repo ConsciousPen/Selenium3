@@ -46,20 +46,17 @@ public class TestHomeGranularityAbstract extends PolicyBaseTest {
         checkVRD(censusBlockGroupID);
     }
 
-    protected void validateCensusBlockGroupAndLatLongFromEADS() {
+    protected void validateCensusBlockGroupAndLatLongFromEADS(String zipCode, String address, String censusBlock, String latitude, String longitude) {
         TestData policyTd = getPolicyTD()
-                .adjust(keypathZipCode, "90201")
-                .adjust(keypathAddress1, "265 CHIPMAN ST");
-        String defaultCensusBlock = HomeGranularityConstants.DEFAULT_CENSUS_BLOCK;
-        String defaultLatitude    = HomeGranularityConstants.DEFAULT_LATITUDE;
-        String defaultLongitude   = HomeGranularityConstants.DEFAULT_LONGITUDE;
+                .adjust(keypathZipCode, zipCode)
+                .adjust(keypathAddress1, address);
         createQuoteAndFillUpTo(policyTd, ApplicantTab.class);
         Tab.buttonTopSave.click();
         String quoteNumber = quoteDataGatherPage.getQuoteNumber();
         validateCensusBlockGroupAndLatLong(quoteNumber, null, null, null, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
         Tab.buttonNext.click();
         policy.getDefaultView().fillFromTo(policyTd, ReportsTab.class, PremiumsAndCoveragesQuoteTab.class, true);
-        validateCensusBlockGroupAndLatLong(quoteNumber, defaultCensusBlock, defaultLatitude, defaultLongitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
+        validateCensusBlockGroupAndLatLong(quoteNumber, censusBlock, latitude, longitude, HomeGranularityQueries.SELECT_CENSUS_BLOCK_GROUP);
     }
 
     protected void riskAddressChangeDuringRenewal(TestData tdChangedAddress) {
