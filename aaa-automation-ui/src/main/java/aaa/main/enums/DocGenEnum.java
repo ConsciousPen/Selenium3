@@ -90,6 +90,7 @@ public final class DocGenEnum {
 		AA52UPAC(""),
 		AA52VA("IMPORTANT NOTICE - UNINSURED MOTORIST COVERAGE"),
 		AA52WV("Uninsured/Underinsured Motorists Coverage Offer"),
+		AA52IPAA("UIMCRELL", "AA52IPAA","Underinsured Motorists Coverage Selection/Rejection"),
 		AA53CA("Agreement Deleting Uninsured Motorist Property Damage Coverage"),
 		AA53IN("Rejection of Uninsured Motorist Property Damage Coverage"),
 		AA57CA(""),
