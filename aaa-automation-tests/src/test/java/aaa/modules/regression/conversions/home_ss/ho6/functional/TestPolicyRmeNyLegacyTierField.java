@@ -1,24 +1,15 @@
 package aaa.modules.regression.conversions.home_ss.ho6.functional;
 
 import aaa.common.enums.Constants;
-import aaa.common.enums.NavigationEnum;
-import aaa.common.pages.NavigationPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.main.metadata.CustomerMetaData;
-import aaa.main.metadata.policy.HomeSSMetaData;
-import aaa.main.modules.customer.actiontabs.InitiateRenewalEntryActionTab;
 import aaa.main.modules.policy.PolicyType;
-import aaa.modules.policy.HomeSSHO6BaseTest;
 import aaa.modules.regression.conversions.template.TestPolicyRmeNyLegacyTierFieldTemplate;
 import aaa.utils.StateList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-
-import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFieldTemplate {
 
@@ -47,5 +38,44 @@ public class TestPolicyRmeNyLegacyTierField extends TestPolicyRmeNyLegacyTierFie
     @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = {"PAS-23185", "PAS-23421"})
     public void testPolicyRmeLegacyTier (@Optional("NY") String state) {
         testPolicyRmeLegacyTier();
+    }
+
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 1, and set it up to generate a tier J.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
+
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = {"PAS-23184, PAS-23187"})
+    public void testNYLegacyTierMapping(@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(1);
+    }
+
+    /**
+     * @author Parth Varmora
+     * @name Test Policy Legacy Tier Mapping and Tier Locked
+     * @scenario
+     * 1.Create a NY conversion HO policy.  Use the legacy tier of 50, and set it up to generate a tier E.
+     * 2.Rate the policy and determine the tier using the view rating details popup.
+     * 3.Verify Market tier in view rating details popup
+     * 4.Complete the entry and save the policy.
+     * 5.initiate second renewal
+     * 6.Verify Market tier in view rating details popup not getting changed
+     */
+    @Parameters({"state"})
+    @StateList(states = {Constants.States.NY})
+    @Test(groups = {Groups.FUNCTIONAL, Groups.MEDIUM})
+    @TestInfo(component = ComponentConstant.Conversions.HOME_SS_HO6, testCaseId = {"PAS-23184, PAS-23187"})
+    public void testNYLegacyTierMapping_edgeCase (@Optional("NY") String state) {
+        testPolicyLegacyTierMapping(50);
     }
 }
