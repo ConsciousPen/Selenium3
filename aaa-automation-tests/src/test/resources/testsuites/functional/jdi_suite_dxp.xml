@@ -997,6 +997,7 @@
                 <methods>
                     <include name="pas23511_VirginiaAndAA52VA"/>
                     <include name="pas21366_VirginiaAndAA52VA"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
                 </methods>
             </class>
         </classes>
@@ -1007,6 +1008,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21423_aacsdcFormRFI"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
                 </methods>
             </class>
         </classes>
@@ -1017,6 +1019,7 @@
             <class name="aaa.modules.regression.service.auto_ss.functional.TestServiceRFI">
                 <methods>
                     <include name="pas21596_aadnde1FormRFI"/>
+                    <include name="pas23334_RetriggerDocumentIgnoreTheOverriddenRule"/>
                 </methods>
             </class>
         </classes>
