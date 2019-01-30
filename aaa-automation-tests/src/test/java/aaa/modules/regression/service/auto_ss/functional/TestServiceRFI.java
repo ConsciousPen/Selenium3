@@ -359,7 +359,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 
 	/**
 	 * @author Maris Strazds
-	 * @name RFI AAFPPA Form
+	 * @name RFI AA52UPAA Form
 	 * @scenario 1
 	 * 1. Create policy.
 	 * 2. Create endorsement outside of PAS.
