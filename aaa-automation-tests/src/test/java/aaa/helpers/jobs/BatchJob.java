@@ -1,9 +1,6 @@
 package aaa.helpers.jobs;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import com.exigen.ipb.eisa.utils.batchjob.Job;
 import com.exigen.ipb.eisa.utils.batchjob.JobGroup;
 import aaa.config.CsaaTestProperties;
@@ -365,77 +362,76 @@ public class BatchJob {
 
 	private static HashMap<String, String> getAaaBalanceTransferConversionAsyncJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
-		parameters.put("processedFolder", getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
-		parameters.put("responseFolder", getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
+		parameters.put(ParametersName.IMPORT_FOLDER, getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
+		parameters.put(ParametersName.PROCESSED_FOLDER, getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
+		parameters.put(ParametersName.RESPONSE_FOLDER, getFormattedFolderPath("%sBIL_E_EBPHUB_EXGBLL_7900_D/inbound"));
 		return parameters;
 	}
 
 	private static HashMap<String, String> getAaaImportMiniPupPolicyAsyncTaskJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", "/ipb/import/Regression/FoxPro/import");
-		parameters.put("processedFolder", "/ipb/import/Regression/FoxPro/processed");
-		parameters.put("errorFolder", "/ipb/import/Regression/FoxPro/error");
-		parameters.put("responseFolder", "/ipb/import/Regression/FoxPro/response");
-		parameters.put("importFileFilter", ".*.xml");
-		parameters.put("subFolderName", "");
-		parameters.put("responseSubFolderName", "");
+		parameters.put(ParametersName.IMPORT_FOLDER, "/ipb/import/Regression/FoxPro/import");
+		parameters.put(ParametersName.PROCESSED_FOLDER, "/ipb/import/Regression/FoxPro/processed");
+		parameters.put(ParametersName.ERROR_FOLDER, "/ipb/import/Regression/FoxPro/error");
+		parameters.put(ParametersName.RESPONSE_FOLDER, "/ipb/import/Regression/FoxPro/response");
+		parameters.put(ParametersName.IMPORT_FILE_FILTER, ".*.xml");
+		parameters.put(ParametersName.SUB_FOLDER_NAME, "");
+		parameters.put(ParametersName.RESPONSE_SUB_FOLDER_NAME, "");
 		return parameters;
 	}
 
 	private static HashMap<String, String> getAaaImportPolicyHomeCaHdesAsyncTaskJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", "/ipb/import/CaFunctional/import");
-		parameters.put("processedFolder", "/ipb/import/CaFunctional/processed");
-		parameters.put("errorFolder", "/ipb/import/CaFunctional/error");
-		parameters.put("responseFolder", "/ipb/import/CaFunctional/response");
-		parameters.put("importFileFilter", ".*.xml");
-		parameters.put("subFolderName", "");
-		parameters.put("responseSubFolderName", "");
+		parameters.put(ParametersName.IMPORT_FOLDER, "/ipb/import/CaFunctional/import");
+		parameters.put(ParametersName.PROCESSED_FOLDER, "/ipb/import/CaFunctional/processed");
+		parameters.put(ParametersName.ERROR_FOLDER, "/ipb/import/CaFunctional/error");
+		parameters.put(ParametersName.RESPONSE_FOLDER, "/ipb/import/CaFunctional/response");
+		parameters.put(ParametersName.IMPORT_FILE_FILTER, ".*.xml");
+		parameters.put(ParametersName.SUB_FOLDER_NAME, "");
+		parameters.put(ParametersName.RESPONSE_SUB_FOLDER_NAME, "");
 		return parameters;
 	}
 
 	private static HashMap<String, String> getAaaImportPolicyHomeCaSisAsyncTaskJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", "/ipb/import/Regression/Sis/import");
-		parameters.put("processedFolder", "/ipb/import/Regression/Sis/processed");
-		parameters.put("errorFolder", "/ipb/import/Regression/Sis/error");
-		parameters.put("responseFolder", "/ipb/import/Regression/Sis/response");
-		parameters.put("importFileFilter", ".*.xml");
-		parameters.put("subFolderName", "");
-		parameters.put("responseSubFolderName", "");
+		parameters.put(ParametersName.IMPORT_FOLDER, "/ipb/import/Regression/Sis/import");
+		parameters.put(ParametersName.PROCESSED_FOLDER, "/ipb/import/Regression/Sis/processed");
+		parameters.put(ParametersName.ERROR_FOLDER, "/ipb/import/Regression/Sis/error");
+		parameters.put(ParametersName.RESPONSE_FOLDER, "/ipb/import/Regression/Sis/response");
+		parameters.put(ParametersName.IMPORT_FILE_FILTER, ".*.xml");
+		parameters.put(ParametersName.SUB_FOLDER_NAME, "");
+		parameters.put(ParametersName.RESPONSE_SUB_FOLDER_NAME, "");
 		return parameters;
 	}
 
 	private static HashMap<String, String> getImportMiniPolicyAsyncTaskJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", "/ipb/import/Deloitte");
-		parameters.put("processedFolder", "/ipb/import/Deloitte");
-		parameters.put("responseFolder", "/ipb/result/Deloitte");
-		parameters.put("importFileFilter", ".*");
-		parameters.put("responseFileName", "{0}");
-		parameters.put("responseSubFolderName", "");
+		parameters.put(ParametersName.IMPORT_FOLDER, "/ipb/import/Deloitte");
+		parameters.put(ParametersName.PROCESSED_FOLDER, "/ipb/import/Deloitte");
+		parameters.put(ParametersName.RESPONSE_FOLDER, "/ipb/result/Deloitte");
+		parameters.put(ParametersName.IMPORT_FILE_FILTER, ".*");
+		parameters.put(ParametersName.RESPONSE_FILE_NAME, "{0}");
+		parameters.put(ParametersName.RESPONSE_SUB_FOLDER_NAME, "");
 		return parameters;
 	}
 
 	private static HashMap<String, String> getPolicyConversionImportAsyncTaskJobParameters() {
 		HashMap<String, String> parameters = new HashMap();
-		parameters.put("importFolder", "/ipb/import/Smoke");
-		parameters.put("processedFolder", "/ipb/import/Smoke");
-		parameters.put("responseFolder", "/ipb/result/Smoke");
-		parameters.put("importFileFilter", ".*.xml");
-		parameters.put("responseFileName", "{0}");
-		parameters.put("responseSubFolderName", "{jobDate}");
+		parameters.put(ParametersName.IMPORT_FOLDER, "/ipb/import/Smoke");
+		parameters.put(ParametersName.PROCESSED_FOLDER, "/ipb/import/Smoke");
+		parameters.put(ParametersName.RESPONSE_FOLDER, "/ipb/result/Smoke");
+		parameters.put(ParametersName.IMPORT_FILE_FILTER, ".*.xml");
+		parameters.put(ParametersName.RESPONSE_FILE_NAME, "{0}");
+		parameters.put(ParametersName.RESPONSE_SUB_FOLDER_NAME, "{jobDate}");
 		return parameters;
 	}
 
 	private static List<String> getFolders(HashMap<String, String> map) {
-		List<String> folders = Arrays.asList(
-				map.get("importFolder"),
-				map.get("processedFolder"),
-				map.get("responceFolder"));
-		if (map.containsKey("errorFolder")) {
-			folders.add(map.get("errorFolder"));
+		List<String> folders = new LinkedList<>();
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			if (entry.getKey().equals(ParametersName.IMPORT_FOLDER) || entry.getKey().equals(ParametersName.PROCESSED_FOLDER) || entry.getKey().equals(ParametersName.RESPONSE_FOLDER) || entry.getKey().equals(ParametersName.ERROR_FOLDER)) {
+				folders.add(entry.getValue());
+			}
 		}
 		return folders;
 	}
@@ -448,5 +444,17 @@ public class BatchJob {
 
 	private static String getFormattedFolderPath(String template) {
 		return String.format(template, jobFolderPrefix);
+	}
+
+	public class ParametersName {
+		public static final String IMPORT_FOLDER = "importFolder";
+		public static final String PROCESSED_FOLDER = "processedFolder";
+		public static final String RESPONSE_FOLDER = "responseFolder";
+		public static final String ERROR_FOLDER = "errorFolder";
+		public static final String IMPORT_FILE_FILTER = "importFileFilter";
+		public static final String RESPONSE_FILE_NAME = "responseFileName";
+		public static final String RESPONSE_SUB_FOLDER_NAME = "responseSubFolderName";
+		public static final String SUB_FOLDER_NAME = "subFolderName";
+
 	}
 }
