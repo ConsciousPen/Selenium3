@@ -197,7 +197,7 @@ public abstract class TestMiniServicesPremiumBearingAbstract extends PolicyBaseT
 		assertSoftly(softly -> {
 			softly.assertThat(response.allowedEndorsements).isEmpty();
 			softly.assertThat(response.ruleSets.get(0).name).isEqualTo("PolicyRules");
-			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).isEqualTo(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
+			softly.assertThat(response.ruleSets.get(0).errors.get(0).message).startsWith(ErrorDxpEnum.Errors.SYSTEM_CREATED_PENDED_ENDORSEMENT.getMessage());
 			softly.assertThat(response.ruleSets.get(1).name).isEqualTo("VehicleRules");
 			softly.assertThat(response.ruleSets.get(1).errors).isEmpty();
 		});
