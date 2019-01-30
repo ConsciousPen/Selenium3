@@ -526,6 +526,16 @@
             </class>
         </classes>
     </test>
+    <test thread-count="1024" name="Replace vehicles NY" parallel="methods">
+        <parameter name="state" value="NY"/>
+        <classes>
+            <class name="aaa.modules.regression.service.auto_ss.functional.TestMiniServicesVehicles">
+                <methods>
+                    <include name="pas12175_RemoveReplaceAllVehicles"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test thread-count="1024" name="pas14680_TrailersCoveragesThatDoNotApply" parallel="methods">
         <parameter name="state" value="VA, AZ"/>
         <classes>
