@@ -12,6 +12,7 @@ import aaa.helpers.constants.Groups;
 import aaa.helpers.jobs.JobUtils;
 import aaa.helpers.jobs.Jobs;
 import aaa.main.enums.BillingConstants;
+import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.billing.account.BillingAccount;
 import aaa.main.modules.policy.PolicyType;
 import aaa.main.pages.summary.BillingSummaryPage;
@@ -47,9 +48,9 @@ public class TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid extends BillingB
 		createCustomerIndividual();
 
 		TestData policyTD = getStateTestData(testDataManager.policy.get(getPolicyType()), "DataGather", "TestData")
-				.adjust("PremiumAndCoveragesTab|Payment Plan", BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY).resolveLinks();
+				.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(),
+				AutoSSMetaData.PremiumAndCoveragesTab.PAYMENT_PLAN.getLabel()), BillingConstants.PaymentPlan.AUTO_ELEVEN_PAY);
 		String policyNumber = createPolicy(policyTD);
-
 		SearchPage.openBilling(policyNumber);
 
 		Dollar totalPayment = BillingSummaryPage.getTotalDue().subtract(new Dollar(5));
@@ -57,10 +58,9 @@ public class TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid extends BillingB
 		assertThat(BillingSummaryPage.getTotalDue().toString()).isEqualTo("$5.00");
 
 		JobUtils.executeJob(Jobs.aaaRefundGenerationAsyncJob);
-
 		mainApp().open();
-		SearchPage.openBilling(policyNumber);
 
+		SearchPage.openBilling(policyNumber);
 		CustomSoftAssertions.assertSoftly(softly -> {
 			softly.assertThat(BillingSummaryPage.tablePaymentsOtherTransactions.getRow(1).getCell("Subtype/Reason")
 					.getValue()).isEqualTo("Small Balance Write-off");
