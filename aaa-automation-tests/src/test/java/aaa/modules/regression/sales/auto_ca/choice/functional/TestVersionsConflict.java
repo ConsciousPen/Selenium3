@@ -202,7 +202,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_SELECT, testCaseId = {"PAS-16563"})
 	public void pas16563_ooseConflictManualThirdPartyDesignee(@Optional("CA") String state) {
 		ooseConflict(getTDThirdPartyDesigneeVersion1(), getTDThirdPartyDesigneeVersion2(), VersionsConflictConstants.THIRD_PARTY_DESIGNEE,  VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_2, VersionsConflictConstants.THIRD_PARTY_DESIGNEE_VERSION_1,  "GeneralTab", "ThirdPartyDesigneeInformation", false);
@@ -245,7 +245,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.TIMEPOINT, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.TIMEPOINT, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-17151"})
 	public void pas17151_renewalMergeDriverInformation(@Optional("CA") String state) {
 		renewalMerge(getTDDriverInformationVersion1(), getTDDriverInformationVersion2(), VersionsConflictConstants.DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.DRIVER_INFORMATION_VERSION_1,  "DriverTab", "DriverInformation");
@@ -324,7 +324,7 @@ public class TestVersionsConflict extends TestComparisonConflictAbstract {
 	}
 
 	@Parameters({STATE_PARAM})
-	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
+	@Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.DocumentFulfillment.AUTO_CA_CHOICE, testCaseId = {"PAS-19838", "PAS-19839", "PAS-19840", "PAS-19841"})
 	public void pas19839_renewalMergeAddDriverAndActivityInformation(@Optional("CA") String state) {
 		renewalMerge(getAddDriverAndActivityInformationVersion1(), getAddDriverAndActivityInformationVersion2(), VersionsConflictConstants.ADD_DRIVER_INFORMATION_AUTOMATIC,  VersionsConflictConstants.ADD_DRIVER_INFORMATION_VERSION_1,  "GeneralTab", "ContactInformation");
