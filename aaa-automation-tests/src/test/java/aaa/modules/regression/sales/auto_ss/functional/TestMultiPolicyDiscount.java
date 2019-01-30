@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
-import static aaa.main.modules.policy.auto_ss.defaulttabs.PremiumAndCoveragesTab.RatingDetailsView.buttonRatingDetailsOk;
-
 @StateList(states = Constants.States.AZ)
 public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
@@ -263,22 +261,27 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
     }
 
     /**
-     *
+     * This test is provides coverage for validating that the Under Writer rerate rule is thrown as an error whenever the following conditions are met: <br>
+     *     1. A rated quote has an MPD element edited (policy type or policy number). <br>
+     *     2. A rated quote has an MPD element added. <br>
+     *     3. A rated quote has an MPD element removed.
      * @param state
      * @author Tyrone Jemison - CIO
+     * @runtime 4 minutes
      */
     @Parameters({"state"})
     @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: Trigger Re-rate event when companion policies are edited or removed")
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24021")
-    public void pas24021_MPD_TriggerRerateEventOnEditOrRemoval(@Optional("") String state) {
+    public void pas24021_MPD_ValidateRerateRuleFires(@Optional("") String state) {
 
+        // Using default test data.
         TestData testData = getPolicyTD();
 
+        // Set pre-conditions by creating a quote, rating and filling up to purchase.
         createQuoteAndFillUpTo(testData, GeneralTab.class, true);
         _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
-        _generalTab.mpd_EditPolicyInMPDTable(0, "Condo", "ABC1");
 
-        // Added and edited, now attempt to Bind.
+        // Added MPD element, filling up to purchase point. Includes hacky methods to get around system error.
         HACK_NavigateAroundDriverTab();
         policy.getDefaultView().fillFromTo(testData, RatingDetailReportsTab.class, VehicleTab.class, false);
         HACK_NavigateAroundVehicleTab();
@@ -288,8 +291,13 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
 
         editMPDAndRerate(0, "Renters", "ABC1"); // Editing only the policyType in this scenario.
         editMPDAndRerate(0, "Renters", "XYZ2"); // Editing only the policyNumber in this scenario.
+
+        addMPDAndRerate("Home", "NOT_FOUND");
+
+        removeMPDAndRerate(0);
     }
 
+    //TODO: Remove this method after resolving local issue with maven.
     private void HACK_NavigateAroundDriverTab(){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         DriverTab dt = new DriverTab();
@@ -299,6 +307,7 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         dt.submitTab();
     }
 
+    //TODO: Remove this method after resolving local issue with maven.
     private void HACK_NavigateAroundVehicleTab(){
 
         VehicleTab vt = new VehicleTab();
@@ -317,6 +326,36 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Change MPD Policy and Attempt to Purchase
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
         _generalTab.mpd_EditPolicyInMPDTable(index, in_newPolicyType, in_newPolicyNumber);
+        doRerate();
+    }
+
+    private void removeMPDAndRerate(int index){
+        // Change MPD Policy and Attempt to Purchase
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
+        _generalTab.mpdTable_getRemoveLinkByIndex(0).click();
+        doRerate();
+    }
+
+    private void addMPDAndRerate(String in_newPolicyType, String in_newPolicyNumber){
+        // Change MPD Policy and Attempt to Purchase
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());_generalTab.mpd_SearchAndAddManually(in_newPolicyType, in_newPolicyNumber);
+        doRerate();
+    }
+
+    /**
+     * Handles validating the error message requiring rerate. Wrapped for short, clean method calls.
+     * @param bExpected
+     */
+    private void ValidateErrorMessage(boolean bExpected){
+        try{
+            CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
+        }catch(IstfException ex){
+            CustomAssertions.assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
+            CustomAssertions.assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
+        }
+    }
+
+    private void doRerate(){
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
         _documentsAndBindTab.submitTab();
 
@@ -337,18 +376,5 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         // Validate No UW Error
         ValidateErrorMessage(false);
         Page.dialogConfirmation.buttonNo.click();
-    }
-
-    /**
-     * Handles validating the error message requiring rerate. Wrapped for short, clean method calls.
-     * @param bExpected
-     */
-    private void ValidateErrorMessage(boolean bExpected){
-        try{
-            CustomAssertions.assertThat(_errorTab.tableErrors.getColumn(AutoSSMetaData.ErrorTab.ErrorsOverride.CODE.getLabel()).getValue().toString().contains("Unprepared data")).isEqualTo(bExpected);
-        }catch(IstfException ex){
-            CustomAssertions.assertThat(Page.dialogConfirmation.buttonNo.isPresent()).isTrue();
-            CustomAssertions.assertThat(bExpected).isFalse(); // Making sure we were expecting it to be false here.
-        }
     }
 }
