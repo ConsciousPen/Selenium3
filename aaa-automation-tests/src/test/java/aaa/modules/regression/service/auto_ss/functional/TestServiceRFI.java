@@ -390,7 +390,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
 	@TestInfo(component = ComponentConstant.Service.AUTO_SS, testCaseId = {"PAS-23301"})
-	public void pas23301_AA52IPAAFormAddReplaceVehicleTriggerRFI(@Optional("PA") String state) {
+	public void pas23301_AA52UPAAFormAddReplaceVehicleTriggerRFI(@Optional("PA") String state) {
 		DocGenEnum.Documents document = DocGenEnum.Documents.AA52UPAA;
 		AssetDescriptor<RadioGroup> documentAsset = AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNUNSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION ;
 		ErrorEnum.Errors error = ErrorEnum.Errors.ERROR_200306;
