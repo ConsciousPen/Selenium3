@@ -441,7 +441,9 @@ public class AutoSSOpenLPolicy extends OpenLPolicy {
 				"^policy\\.vehicles\\[\\d+\\]\\.id$",
 				"^policy\\.vehicles\\[\\d+\\].annualMileage$",
 				"^policy\\.vehicles\\[\\d+\\]\\.ratedDriver\\.id$",
-				"^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$"
+				"^policy\\.vehicles\\[\\d+\\]\\.coverages\\[\\d+\\]\\.additionalLimitAmount$",
+				"^policy\\.distributionChannel$",
+				"^policy\\.cappingDetails'\\.lineOfBusiness$"
 		);
 	}
 
