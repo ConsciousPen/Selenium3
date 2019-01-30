@@ -6,6 +6,7 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.Page;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
+import aaa.main.enums.ErrorEnum;
 import aaa.main.metadata.policy.AutoSSMetaData;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.modules.policy.AutoSSBaseTest;
@@ -391,4 +392,22 @@ public class TestMultiPolicyDiscount extends AutoSSBaseTest {
         ValidateErrorMessage(false);
         Page.dialogConfirmation.buttonNo.click();
     }
+
+    @Parameters({"state"})
+    @Test(enabled = true, groups = { Groups.FUNCTIONAL, Groups.CRITICAL }, description = "MPD Validation Phase 3: UW Eligibility Rule on Manually Adding a Companion Policy.")
+    @TestInfo(component = ComponentConstant.Sales.AUTO_SS, testCaseId = "PAS-24729")
+    public void pas24729_MPD_ValidateEligibilityRuleFires(@Optional("") String state) {
+        // Using default test data.
+        TestData testData = getPolicyTD();
+
+        // Add MPD Element manually (after no results found)
+        createQuoteAndFillUpTo(testData, GeneralTab.class, true);
+        _generalTab.mpd_SearchAndAddManually("Home", "NOT_FOUND");
+
+        // Continue towards purchase of quote.
+
+        // Validate UW Rule fires and requires at least level 1 authorization to be eligible to purchase.
+        // Will most likely be a new error message that requires metadata.
+    }
+
 }
