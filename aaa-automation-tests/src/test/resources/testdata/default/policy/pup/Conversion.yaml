@@ -401,8 +401,14 @@ TestData_NV: {
   EndorsementsTab: '@<pup>@DataGather@EndorsementsTab',
   PremiumAndCoveragesQuoteTab: '@PremiumAndCoveragesQuoteTab',
   UnderwritingAndApprovalTab: '@<pup>@DataGather@UnderwritingAndApprovalTab',
-  DocumentsTab: '@<pup>@DataGather@DocumentsTab_NV',
+  DocumentsTab: 'DocumentsTab_NV',
   BindTab: '@<pup>@DataGather@BindTab'
+}
+
+DocumentsTab_NV: {
+  RequiredToIssue: {
+    "Applicant's statement signature": Physically Signed
+  }
 }
 
 GeneralTab_NV: {
