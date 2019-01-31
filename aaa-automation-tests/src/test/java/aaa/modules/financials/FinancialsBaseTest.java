@@ -135,4 +135,11 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
 	}
 
+	protected Dollar getBillingAmountByType(String type, String subtype) {
+		Map<String, String> query = new HashMap<>();
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
+		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
+		return new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(query).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+	}
+
 }
