@@ -129,6 +129,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
             assertThat(fraudFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.CA_FRAUD_ASSESSMENT_FEE, "1040"));
         }
 
+        // TODO need to check with Andrew why CA HO4 is not getting Seismic Fee
         // FEE-04 validations (CA HO products only)
         if (getPolicyType().isCaProduct() && !getPolicyType().isAutoPolicy()) {
             Dollar seismicFee = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.FEE, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.SEISMIC_SAFETY_FEE);
@@ -195,7 +196,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Validate Cancellation sub-ledger entries
      * 7. Reinstate policy with no lapse (reinstatement eff. date same as cancellation date)
      * 8. Validate Reinstatement sub-ledger entries
-     * @details NBZ-02, PMT-01, END-03, CNL-02, RST-03, PMT-06, PMT-19
+     * @details NBZ-02, END-03, CNL-02, RST-03
      */
 	protected void testNewBusinessScenario_3() {
 
@@ -205,19 +206,34 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
         Dollar premTotal = getTotalTermPremium();
 
-        // NB validations
-        //TODO implement
+        // NBZ-02 validations
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
+        // Perform AP endorsement
         Dollar addedPrem = performAPEndorsement(policyNumber);
-        // TODO implement DB validation
+
+        // END-03 validations
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1044"));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1021")));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1015")));
+        assertThat(addedPrem).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.ENDORSEMENT, "1022")));
 
         // Cancel policy
         cancelPolicy();
-        // TODO implement DB validation
+        validateCancellationTx(getCancellationRefundAmount(), policyNumber);
 
         // Reinstate policy without lapse
         performReinstatement();
-        // TODO implement DB validation
+        validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
 
     }
 
@@ -231,7 +247,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
      * 6. Advance time one week
      * 6. Reinstate policy with lapse
      * 7. Remove reinstatement lapse
-     * @details NBZ-04, PMT-04, END-04, CNL-07, PMT-05, RST-04, RST-08, RST-10
+     * @details NBZ-04, PMT-05, PMT-06, END-04, CNL-07, PMT-05, RST-04, RST-08, RST-10
      */
     protected void testNewBusinessScenario_4() {
 
