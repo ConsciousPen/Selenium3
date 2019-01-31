@@ -50,7 +50,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         Dollar paymentAmt = getBillingAmountByType(BillingConstants.PaymentsAndOtherTransactionType.PAYMENT, BillingConstants.PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT);
         assertThat(paymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
-        assertThat(paymentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
 
         // FEE-01 validations (CA Choice only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
