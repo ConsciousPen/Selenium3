@@ -81,3 +81,21 @@ TestData_Plus20Days: {
 TestData_Plus21Days: {
   CancelNoticeActionTab: '@<delta_home_ss_ho3>@TestMDDeltaScenario1@CancelNoticeActionTab_Plus21Days'
 }
+
+# ============= Endorsement ================ 
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$3,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

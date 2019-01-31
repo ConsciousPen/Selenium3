@@ -298,4 +298,20 @@ CancelNoticeActionTab_Plus21Days: {
     Description: test test
   }
 
-
+# ============= Endorsement ================ 
+TestData_Endorsement: {
+  GeneralTab: {},
+  ApplicantTab: {},
+  ReportsTab: {},
+  PropertyInfoTab: {},
+  ProductOfferingTab: {},
+  EndorsementTab: {},
+  PremiumsAndCoveragesQuoteTab: {
+    Coverage E - Personal Liability Each Occurrence: 'contains=$500,000',
+    Coverage F - Medical Payments to Others: 'contains=$3,000'
+  },
+  MortgageesTab: {},
+  UnderwritingAndApprovalTab: {},
+  DocumentsTab: {},
+  BindTab: {}
+}

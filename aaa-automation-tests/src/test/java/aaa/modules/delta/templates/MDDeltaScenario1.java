@@ -387,7 +387,8 @@ public class MDDeltaScenario1 extends BaseTest {
 			default:
 				break;
 		}
-		odd_tab.saveAndExit();
+		//odd_tab.saveAndExit();
+		mainApp().close();
 	}
 
 	public void verifyAnimalType() {
@@ -395,7 +396,22 @@ public class MDDeltaScenario1 extends BaseTest {
 	}
 	
 	public void verifyHSPIMDA() {
-		//TODO
+		mainApp().open(); 		
+		SearchPage.openPolicy(policyNumber);
+		
+		CustomSoftAssertions.assertSoftly(softly -> {
+			policy.policyDocGen().start();
+			GenerateOnDemandDocumentActionTab odd_tab = new GenerateOnDemandDocumentActionTab();
+			odd_tab.verify.documentsPresent(softly, false, DocGenEnum.Documents.HSPIMDA);
+			odd_tab.saveAndExit();
+		
+			TestData endorse_td = getTestSpecificTD("TestData_Endorsement").adjust(getStateTestData(tdPolicy, "Endorsement", "TestData"));
+			policy.endorse().performAndFill(endorse_td);
+		
+			policy.policyDocGen().start();
+			odd_tab.verify.documentsPresent(softly, DocGenEnum.Documents.HSPIMDA);
+			odd_tab.saveAndExit();	
+		});
 	}
 	
 	public void verifyCancelNoticeTab() {
