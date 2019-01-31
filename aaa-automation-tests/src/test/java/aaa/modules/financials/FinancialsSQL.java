@@ -50,7 +50,7 @@ public final class FinancialsSQL {
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'DEBIT'";
         if (txDate != null) {
-        	query += " and trunc(TXDATE) = " + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+        	query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
         }
 		query += ")";
         Optional<String> value = DBService.get().getValue(query);
@@ -72,7 +72,7 @@ public final class FinancialsSQL {
 								"and LEDGERACCOUNTNO = '" + account + "' " +
 								"and entrytype = 'CREDIT'";
 		if (txDate != null) {
-			query += " and trunc(TXDATE) = " + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+			query += " and trunc(TXDATE) = '" + txDate.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) + "'";
 		}
 		query += ")";
 
