@@ -5724,6 +5724,7 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	protected void pas24075_firstPartyBenefitsAddedPABody() {
 		mainApp().open();
 		String policyNumber = getCopiedPolicy();
+		helperMiniServices.createEndorsementWithCheck(policyNumber);
 		SearchPage.openPolicy(policyNumber);
 
 		Coverage covFPBAddedExpected = Coverage.create(CoverageInfo.FPB_ADDED_PA);
