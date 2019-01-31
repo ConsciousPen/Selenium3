@@ -115,10 +115,11 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         Dollar totalFees = BillingHelper.getFeesValue(today);
 
         // NB-03 and PMT-04 validations
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043"));
         assertThat(premTotal.add(totalFees)).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
         assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1065"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1043")));
 
         // FEE-15 validations (CA Select only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_SELECT)) {
@@ -177,7 +178,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Advance time and reinstate policy with lapse
         performReinstatementWithLapse(effDate, policyNumber);
 
-        // Validation for reinstatement
+        // RST-02 validations
         validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
 
 		//TODO need to change the reinstatement lapse RST-07, then remove the lapse RST-09
