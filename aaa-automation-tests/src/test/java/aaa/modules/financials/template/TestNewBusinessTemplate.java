@@ -230,6 +230,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Cancel policy
         cancelPolicy();
         validateCancellationTx(getCancellationRefundAmount(), policyNumber);
+        SearchPage.openPolicy(policyNumber);
 
         // Reinstate policy without lapse
         performReinstatement();
