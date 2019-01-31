@@ -38,7 +38,13 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		LocalDateTime effDate = PolicySummaryPage.getEffectiveDate();
 
         // NBZ-01 validations
-        validateNewBusinessBoundOnEffDate();
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1044"));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")
+                .subtract(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1021")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1015")));
+        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")
+                .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
         // PMT-01 validations
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
@@ -200,8 +206,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         String policyNumber = createFinancialPolicy(adjustTdWithEmpBenefit(getPolicyTD()));
         Dollar premTotal = getTotalTermPremium();
 
-        // NBZ-02 validations
-        validateNewBusinessBoundOnEffDate();
+        // TODO NBZ-02 validations
 
         // Perform AP endorsement
         Dollar addedPrem = performAPEndorsement(policyNumber);
@@ -256,9 +261,6 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // TODO implement DB validation
 
         //TODO need to change the reinstatement lapse RST-08, then remove the lapse RST-10
-    }
-
-    private void validateNewBusinessBoundOnEffDate() {
 
     }
 
