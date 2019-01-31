@@ -48,19 +48,21 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
                 .subtract(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1022")));
 
         // PMT-01 validations
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
-        assertThat(premTotal).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
+        NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+        Dollar paymentAmt = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
+                BillingConstants.PaymentsAndOtherTransactionSubtypeReason.DEPOSIT_PAYMENT).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
+        assertThat(paymentAmt).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1001"));
+        assertThat(paymentAmt).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.DEPOSIT_PAYMENT, "1044"));
 
         // FEE-01 validations (CA Choice only)
         if (getPolicyType().equals(PolicyType.AUTO_CA_CHOICE)) {
-            NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
             Dollar policyFee = new Dollar(BillingSummaryPage.tablePaymentsOtherTransactions.getRowContains(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON,
                     BillingConstants.PaymentsAndOtherTransactionSubtypeReason.POLICY_FEE).getCell(BillingConstants.BillingPaymentsAndOtherTransactionsTable.AMOUNT).getValue()).abs();
             assertThat(policyFee).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
             assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1034"));
             assertThat(policyFee).isEqualTo(FinancialsSQL.getCreditsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.POLICY_FEE, "1040"));
-            SearchPage.openPolicy(policyNumber);
         }
+        SearchPage.openPolicy(policyNumber);
 
         // Perform AP endorsement and pay total amount due
         Dollar addedPrem = performAPEndorsement(policyNumber);
@@ -84,7 +86,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
 		// Reinstate policy without lapse
         performReinstatement();
 
-		// CNL-01 and RST-01 validations
+		// RST-01 validations
         validateReinstatementTx(getReinstatementPremAmount(), policyNumber);
 
 	}
@@ -114,7 +116,7 @@ public class TestNewBusinessTemplate extends FinancialsBaseTest {
         // Get Fee amount from billing tab (if any)
         NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
         Dollar totalFees = BillingHelper.getFeesValue(today);
-        SearchPage.openPolicy(policyNumber);
+//        SearchPage.openPolicy(policyNumber);
 
         // NB-03 and PMT-04 validations
         assertThat(premTotal).isEqualTo(FinancialsSQL.getDebitsForAccountByPolicy(policyNumber, FinancialsSQL.TxType.NEW_BUSINESS, "1042"));
