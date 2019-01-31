@@ -82,7 +82,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		checkMemberSinceWarningMessage();
 
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
 		new GeneralTab().submitTab();
 
 		policy.getDefaultView().fillFromTo(testData, DriverTab.class, RatingDetailReportsTab.class, false);
@@ -151,13 +151,13 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		checkMemberSinceWarningMessage();
 
 		// Enter "Current AAA Membership:" = "Override Membership"
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).setValue("Membership Override");
 
 		// Enter "Override Type" = "Life"
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.OVERRIDE_TYPE).setValue("Life");
 
 		// Enter 'Member Since Date' and click Continue
-		new GeneralTab().getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
+		new GeneralTab().getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).setValue("01/04/2009");
 		new GeneralTab().submitTab();
 
 		policy.getDefaultView().fillFromTo(tdSpecific, DriverTab.class, RatingDetailReportsTab.class, false);
@@ -763,9 +763,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 	private void checkMemberSinceWarningMessage() {
 		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getOtherAAAProductOwnedAssetList().
-				getAsset("Member Since Date").
-				getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
+		assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).getWarning().orElse("")).contains(MEMBER_SINCE_DATE_WARNING_MESSAGE);
 	}
 
 	private void testMembershipOverridePrivilege(Boolean hasPrivilege) {
@@ -780,9 +778,9 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 
 		//Validate that 'Membership Override' option not displayed in "Current AAA Member" field
 		if (hasPrivilege) {
-			assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).contains("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).contains("Membership Override");
 		} else {
-			assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).doesNotContain("Membership Override");
+			assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).doesNotContain("Membership Override");
 		}
 
 	}
@@ -792,7 +790,7 @@ public class TestMembershipOverride extends AutoSSBaseTest {
 		assertThat(CURRENT_AAA_MEMBER_INQUIRY).valueContains("Membership Override"); // Still "Membership Override"
 		assertThat(OVERRIDE_TYPE_INQUIRY).hasValue(overrideType); //value like at NB
 		GeneralTab generalTab = new GeneralTab();
-		assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset("Member Since Date").getValue().toString().contains("01/04/2009")).isTrue();
+		assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.MEMBER_SINCE_DATE).getValue().contains("01/04/2009")).isTrue();
 	}
 
 	//Run Membership Validation Batch Jobs at Renewal Time point 1 and Time point 2
