@@ -37,17 +37,7 @@ import toolkit.verification.ETCSCoreSoftAssertions;
 import toolkit.webdriver.controls.CheckBox;
 import toolkit.webdriver.controls.RadioGroup;
 
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-import java.util.stream.Collectors;
-
 import static aaa.main.enums.CoverageLimits.COV_FPB_ADDED_PAS_UI_DISPLAY;
-import static toolkit.verification.CustomAssertions.assertThat;
-import static toolkit.verification.CustomSoftAssertions.assertSoftly;
 
 public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 
@@ -3264,28 +3254,32 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			String coverageCd = "BI";
 			String newBILimits = "25000/50000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd, newBILimits, false);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd, newBILimits, false, false);
 
 			String coverageCd1 = "BI";
 			String newBILimits1 = "100000/300000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd1, newBILimits1, false);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd1, newBILimits1, false, false);
 
 			String coverageCd2 = "BI";
 			String newBILimits2 = "1000000/1000000";
 
-			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd2, newBILimits2, true);
+			verifyUMUIMAfterBIChange(softly, policyNumber, coverageCd2, newBILimits2, true, true);
 		});
 	}
 
-	private void verifyUMUIMAfterBIChange(ETCSCoreSoftAssertions softly, String policyNumber, String coverageCd, String newBILimits, boolean availableLimitCheck) {
+	private void verifyUMUIMAfterBIChange(ETCSCoreSoftAssertions softly, String policyNumber, String coverageCd, String newBILimits, boolean availableLimitCheck, boolean updatingBITOGreaterThan100300) {
 		PolicyCoverageInfo coverageResponse = HelperCommon.updateEndorsementCoverage(policyNumber, DXPRequestFactory.createUpdateCoverageRequest(coverageCd, newBILimits), PolicyCoverageInfo.class);
-		Coverage filteredCoverageResponseBI = findCoverage(coverageResponse.policyCoverages, "BI");//coverageResponse.policyCoverages.stream().filter(cov -> "BI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageResponseBI = findCoverage(coverageResponse.policyCoverages, "BI");
 		softly.assertThat(filteredCoverageResponseBI.getCoverageLimit().equals(newBILimits)).isEqualTo(true);
 
-		Coverage filteredCoverageResponseUMBI = findCoverage(coverageResponse.policyCoverages, "UMBI"); //coverageResponse.policyCoverages.stream().filter(cov -> "UMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageResponseUMBI = findCoverage(coverageResponse.policyCoverages, "UMBI");
 		if (availableLimitCheck) {
-			softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit()).isEqualTo(newBILimits);
+			if (updatingBITOGreaterThan100300) {
+				softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit()).isEqualTo(CoverageLimits.COV_100300.getLimit());// Stays as before
+			} else {
+				softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit()).isEqualTo(newBILimits);
+			}
 			softly.assertThat(filteredCoverageResponseUMBI.getCanChangeCoverage().equals(true));
 			AvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUMBI);
 		} else {
@@ -3294,10 +3288,14 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 			softly.assertThat(filteredCoverageResponseUMBI.getAvailableLimits().get(0).coverageLimit).isEqualTo(newBILimits);
 		}
 
-		Coverage filteredCoverageResponseUIMBI = findCoverage(coverageResponse.policyCoverages, "UIMBI");//coverageResponse.policyCoverages.stream().filter(cov -> "UIMBI".equals(cov.getCoverageCd())).findFirst().orElse(null);
+		Coverage filteredCoverageResponseUIMBI = findCoverage(coverageResponse.policyCoverages, "UIMBI");
 
 		if (availableLimitCheck) {
-			softly.assertThat(filteredCoverageResponseUIMBI.getCoverageLimit()).isEqualTo(newBILimits);
+			if (updatingBITOGreaterThan100300) {
+				softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit()).isEqualTo(CoverageLimits.COV_100300.getLimit());// Stays as before
+			} else {
+				softly.assertThat(filteredCoverageResponseUMBI.getCoverageLimit()).isEqualTo(newBILimits);
+			}
 			softly.assertThat(filteredCoverageResponseUIMBI.getCanChangeCoverage().equals(true));
 			AvailableLimitsForUMUIMSD(softly, filteredCoverageResponseUIMBI);
 		} else {
