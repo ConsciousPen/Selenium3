@@ -98,7 +98,6 @@ public class TestPolicyWaivers extends AutoSSBaseTest {
         //Navigate back to Driver tab to assert the waiver did not fall off (validation of fix)
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
         assertThat(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES.getLabel().equalsIgnoreCase("Waived - Same Day"));
-        System.out.println("Policy Nunber: " + DriverTab.labelPolicyNumber.getValue());
     }
 }
 
