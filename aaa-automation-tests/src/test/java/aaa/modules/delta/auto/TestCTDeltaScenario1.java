@@ -103,7 +103,7 @@ public class TestCTDeltaScenario1 extends AutoSSBaseTest {
         assertThat(generalTab.getNamedInsuredInfoAssetList().getAsset(AutoSSMetaData.GeneralTab.NamedInsuredInformation.RESIDENCE).getAllValues()).containsSequence(expectedValuesOfResidence);
         //Current AAA Member
         List<String> expectedValuesOfCurrentMember = Arrays.asList("Yes", "No", "Membership Pending");
-        assertThat(generalTab.getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).containsSequence(expectedValuesOfCurrentMember);
+		assertThat(generalTab.getAAAMembershipAssetList().getAsset(AutoSSMetaData.GeneralTab.AAAMembership.CURRENT_AAA_MEMBER).getAllValues()).containsSequence(expectedValuesOfCurrentMember);
         //Source of Business
 
         List<String> expectedValuesOfSourceOfBusiness = Arrays.asList("New Business", "Rewrite", "Split", "Spin");

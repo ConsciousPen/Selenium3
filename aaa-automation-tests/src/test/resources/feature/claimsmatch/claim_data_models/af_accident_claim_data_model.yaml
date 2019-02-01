@@ -1,0 +1,41 @@
+!!aaa.helpers.claim.datamodel.claim.CASClaimResponse
+claimLineItemList:
+  - agreementNumber: AZSS203552391
+    claimList:
+      - accidentFault: AT_FAULT
+        claimCause: cause5
+        claimCloseDate: '2018-08-12'
+        claimCoverageList:
+          - {claimCoverageAmount: '1', claimCoverageCurrencyCode: USD, coverageId: COV_014,
+             coverageName: MEDICAL_PAYMENTS}
+          - {claimCoverageAmount: '0', claimCoverageCurrencyCode: USD, coverageId: COV_015,
+             coverageName: RENTAL_REIMBURSEMENT}
+          - {claimCoverageAmount: '200', claimCoverageCurrencyCode: USD, coverageId: COV_016,
+             coverageName: TOWING_N_LABOR}
+          - {claimCoverageAmount: '100', claimCoverageCurrencyCode: USD, coverageId: COV_017,
+             coverageName: COMP_DED_400}
+        claimDateOfLoss: '2018-05-26'
+        claimDeductibleAmount: '0'
+        claimDeductibleCurrencyCode: USD
+        claimNumber: 123-AZ456-01
+        claimPrefix: ''
+        claimOpenDate: '2018-05-26'
+        claimPolicyReferenceNumber: AZSS203552391
+        claimStatusCode: OPEN
+        claimType: Accident
+        driverAgeAsOfDateOfLoss: '21'
+        driverDateofBirth: '1996-05-05'
+        driverName: ASW CASTest
+        driverRelationToInsured: INSURED
+        drivingLicenseNumber: D99155622
+        drivingLicenseState: AZ
+        lossSummary: IV hit OV while turning.
+        subroFlag: Y
+        totalAmountPaid: '5000.000000000'
+        totalAmountPaidCurrencyCode: USD
+        vehicleBodyType: SRW SUPER DUTY
+        vehicleMake: FORD
+        vehicleManufacturedYear: '2006'
+        vehicleSerialNumber: 1FTNF20506ED96616
+        vehicleDescription: Big truck
+    product: AAA_SS
