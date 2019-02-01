@@ -10,7 +10,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.pup.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.pup.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -18,7 +18,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.auto_ss.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ss.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.auto_ss.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -26,7 +26,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.dp3.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ss.dp3.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -34,7 +34,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho3.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ss.ho3.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -42,7 +42,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho4.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ss.ho4.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -50,7 +50,7 @@
         <parameter name="state" value="AZ"/>
         <classes>
             <class name="aaa.modules.financials.home_ss.ho6.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ss.ho6.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ss.ho6.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -58,7 +58,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.pup.TestNewBusiness"/>
-            <class name="aaa.modules.financials.pup.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.pup.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -66,7 +66,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.choice.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.choice.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.auto_ca.choice.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -74,7 +74,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.auto_ca.select.TestNewBusiness"/>
-            <class name="aaa.modules.financials.auto_ca.select.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.auto_ca.select.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -82,7 +82,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.dp3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.dp3.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ca.dp3.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -90,7 +90,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho3.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho3.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ca.ho3.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -98,7 +98,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho4.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho4.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ca.ho4.TestRenewal"/>-->
         </classes>
     </test>
 
@@ -106,7 +106,7 @@
         <parameter name="state" value="CA"/>
         <classes>
             <class name="aaa.modules.financials.home_ca.ho6.TestNewBusiness"/>
-            <class name="aaa.modules.financials.home_ca.ho6.TestRenewal"/>
+            <!--<class name="aaa.modules.financials.home_ca.ho6.TestRenewal"/>-->
         </classes>
     </test>
 
