@@ -78,6 +78,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 
         //Create Policy
 		policyNumberNb = openAppAndCreatePolicy(tdAutoNB);
+		setDoNotRenewFlag(policyNumberNb);
 
         //Save policy Premium and Tier values
         policy.policyInquiry().start();
@@ -102,6 +103,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
         documentsTab.submitTab();
         PolicySummaryPage.buttonBackFromRenewals.click();
         policyNumberConv = PolicySummaryPage.getPolicyNumber();
+        setDoNotRenewFlag(policyNumberConv);
 
         //Compare new business and conversion values
         assertThat(nbParams).isEqualTo(convParams);
@@ -160,6 +162,7 @@ public class TestTierCalculation extends AutoSSBaseTest {
 
     private Map<String, String> getRenewalValues(String policyNumber) {
 		SearchPage.openPolicy(policyNumber);
+        policy.removeDoNotRenew().perform(getPolicyTD("DoNotRenew", "TestData"));
 		policy.renew().start();
 		premiumCovTab.calculatePremium();
         Map<String, String> result = paramMapToCompere();
