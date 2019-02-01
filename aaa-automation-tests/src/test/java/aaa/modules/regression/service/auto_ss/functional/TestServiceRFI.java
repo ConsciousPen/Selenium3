@@ -106,7 +106,7 @@ public class TestServiceRFI extends AutoSSBaseTest {
 			helperMiniServices.rateEndorsementWithCheck(policyNumber);
 
 			RFIDocuments rfiServiceResponse4 = HelperCommon.rfiViewService(policyNumber, false);
-			softly.assertThat(rfiServiceResponse4.url).isNotNull();
+			softly.assertThat(rfiServiceResponse4.url).isNull();
 			softly.assertThat(rfiServiceResponse4.documents.isEmpty()).isTrue();
 
 			helperMiniServices.endorsementRateAndBind(policyNumber);
