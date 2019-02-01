@@ -1,12 +1,6 @@
 package aaa.modules.regression.sales.auto_ss;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import aaa.common.Workspace;
 import aaa.main.metadata.policy.AutoSSMetaData;
-import aaa.main.modules.policy.auto_ss.views.DefaultView;
-import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
 import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -17,16 +11,12 @@ import aaa.common.pages.NavigationPage;
 import aaa.common.pages.SearchPage;
 import aaa.helpers.constants.ComponentConstant;
 import aaa.helpers.constants.Groups;
-import aaa.helpers.product.ProductRenewalsVerifier;
-import aaa.main.enums.ProductConstants;
 import aaa.main.modules.policy.auto_ss.defaulttabs.*;
 import aaa.main.pages.summary.PolicySummaryPage;
 import aaa.modules.policy.AutoSSBaseTest;
 import aaa.utils.StateList;
 import toolkit.datax.TestData;
 import toolkit.utils.TestInfo;
-import toolkit.verification.CustomAssertions;
-
 import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyWaivers extends AutoSSBaseTest {
@@ -34,14 +24,7 @@ public class TestPolicyWaivers extends AutoSSBaseTest {
     private String origQuoteNum;
     private String policyNum;
     private DriverTab driverTab = new DriverTab();
-    private RatingDetailReportsTab reportsTab = new RatingDetailReportsTab();
     private ActivityInformationMultiAssetList aiAssetList = driverTab.getActivityInformationAssetList();
-    private Workspace defaultView = new DefaultView();
-
-    private Workspace getDefaultView() {
-        return defaultView;
-    }
-
     /**
      * @author Rob Boles
      * @name Test Same Day Waiver in Endorsement
@@ -59,76 +42,64 @@ public class TestPolicyWaivers extends AutoSSBaseTest {
      */
     @Parameters({"state"})
     @StateList(statesExcept = {Constants.States.CA})
-    @Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
+    @Test(groups = {Groups.REGRESSION, Groups.CRITICAL})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyWaiversAutoSS(@Optional("") String state) {
-        //TestData td_quote = getPolicyTD();
-
         mainApp().open();
         createCustomerIndividual();
         origQuoteNum = createQuote();
         policyNum = createPolicyAndVerifyWaiverStatus(origQuoteNum);
-        //verifyWaiverStatusOnEndorsement(policyNum);
-
+        verifyWaiverStatusOnEndorsement(policyNum);
     }
 
+    /**
+     * Open Data Gathering mode, Navigate to Driver tab, add 2 minor violations, Calculate Premium, Navigate to Bind tab and purchase quote
+     * @param origQuoteNum - string of the quote number for lookup
+     **/
     private String createPolicyAndVerifyWaiverStatus(String origQuoteNum) {
         SearchPage.openQuote(origQuoteNum);
-
-
-        //policy.policyCopy().perform(getPolicyTD());
-
         policy.dataGather().start();
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
 
-
-        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        new GeneralTab().fillTab(getPolicyTD());
-        new GeneralTab().submitTab();
-
-        new DriverTab().fillTab(getPolicyTD());
-
+        //Adds first minor violation same date of occurrence
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Minor Violation");
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Disregard Traffic Device or Sign");
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2019");
-
+        //Adds second minor violation same date of occurrence
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Minor Violation");
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Failure to Yield Right-of-Way");
         aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2019");
-        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
-        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES).setValue("Waived - Same Day");
 
         new DriverTab().submitTab();
-
-        reportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT).click();
-        reportsTab.submitTab();
-
-        //getDefaultView().fillUpTo(getPolicyTD(), BindTab.class, true);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
-
-        new DocumentsAndBindTab().btnPurchase.click();
-        //policy.getDefaultView().fillFromTo(getPolicyTD(), VehicleTab.class, BindTab.class);
-        //policy.purchase(getPolicyTD());
-        //TODO: Fix return type to return something of value or add assertions to check driver tab
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
+        new DocumentsAndBindTab().submitTab();
+        new PurchaseTab().fillTab(getPolicyTD()).submitTab();
         return PolicySummaryPage.labelPolicyNumber.getValue();
     }
 
+    /**
+     * Open Data Gathering mode, Navigate to Driver tab, add 2 minor violations, Calculate Premium, Navigate to Bind tab and purchase quote
+     * @param createPolicyAndVerifyWaiverStatus - string of the policy number for endorsement action
+     **/
     private void verifyWaiverStatusOnEndorsement(String createPolicyAndVerifyWaiverStatus) {
         SearchPage.openPolicy(createPolicyAndVerifyWaiverStatus);
-        policy.endorse();
-
+        TestData initiateEndorsement = getPolicyTD("Endorsement", "TestData");
+        policy.endorse().perform(initiateEndorsement);
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        //TODO: On driver tab in endo - scrape table values for 2 minor violations
-        //new DriverTab().fillTab(td).submitTab();
 
+        //Asserts that the waiver is present prior to calculating premium in the endorsement
+        assertThat(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES.getLabel().equalsIgnoreCase("Waived - Same Day"));
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
         new PremiumAndCoveragesTab().calculatePremium();
 
+        //Navigate back to Driver tab to assert the waiver did not fall off (validation of fix)
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
-        //TODO: on driver tab validate the waiver did not drop
-
+        assertThat(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES.getLabel().equalsIgnoreCase("Waived - Same Day"));
+        System.out.println("Policy Nunber: " + DriverTab.labelPolicyNumber.getValue());
     }
 }
 
