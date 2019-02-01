@@ -98,7 +98,7 @@ public class HelperMiniServices extends PolicyBaseTest {
 
 	public void bindEndorsementWithCheck(String policyNumber) {
 		//When Binding, Sign all Required To Bind (RFI) documents if they exist
-		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, true);
+		RFIDocuments rfiServiceResponse = HelperCommon.rfiViewService(policyNumber, false);//TODO-mstrazds: change generateDocs to true when devs finish teck story for lookup update in Sprint 48
 		List<String> listOfDocIDs = rfiServiceResponse.documents.stream().map(doc -> doc.documentId).collect(Collectors.toList());
 		PolicySummary bindResponse = HelperCommon.endorsementBind(policyNumber, "e2e", Response.Status.OK.getStatusCode(), listOfDocIDs);
 
