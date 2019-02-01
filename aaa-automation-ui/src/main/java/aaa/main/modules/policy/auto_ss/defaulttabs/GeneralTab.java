@@ -8,10 +8,12 @@ import org.openqa.selenium.By;
 import aaa.common.Tab;
 import aaa.common.pages.Page;
 import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.toolkit.webdriver.customcontrols.FillableTable;
 import aaa.toolkit.webdriver.customcontrols.InquiryAssetList;
 import aaa.toolkit.webdriver.customcontrols.MultiInstanceAfterAssetList;
 import aaa.toolkit.webdriver.customcontrols.NoSectionsMultiAssetList;
 import aaa.toolkit.webdriver.customcontrols.dialog.AddressValidationDialog;
+import aaa.toolkit.webdriver.customcontrols.dialog.SelectSearchDialog;
 import toolkit.webdriver.controls.composite.assets.AssetList;
 import toolkit.webdriver.controls.composite.assets.MultiAssetList;
 import toolkit.webdriver.controls.composite.table.Table;
@@ -47,6 +49,17 @@ public class GeneralTab extends Tab {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.OTHER_AAA_PRODUCTS_OWNED.getLabel(), NoSectionsMultiAssetList.class);
 	}
 
+	public Table getOtherAAAProductTable() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.LIST_OF_PRODUCTS_OWNED.getLabel(), FillableTable.class).getTable();
+	}
+
+	public Table getManualSearchResultTable() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SearchOtherAAAProducts.RESULT_TABLE.getLabel(), FillableTable.class).getTable();
+	}
+
+	public SelectSearchDialog getSearchOtherAAAProducts() {
+		return getOtherAAAProductOwnedAssetList().getAsset(AutoSSMetaData.GeneralTab.OtherAAAProductsOwned.SEARCH_OTHER_AAA_PRODUCTS.getLabel(), SelectSearchDialog.class);
+	}
 
 	public AssetList getCurrentCarrierInfoAssetList() {
 		return getAssetList().getAsset(AutoSSMetaData.GeneralTab.CURRENT_CARRIER_INFORMATION.getLabel(), AssetList.class);

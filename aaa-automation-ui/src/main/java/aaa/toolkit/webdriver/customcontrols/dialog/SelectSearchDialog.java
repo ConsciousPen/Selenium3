@@ -19,6 +19,7 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 	private static final String DEFAULT_POPUP_CLOSER_NAME = "Close";
 	private static final String DEFAULT_POPUP_SEARCH_NAME = "Search";
 	private static final String DEFAULT_POPUP_CLEAR_NAME = "Clear";
+	private static final String DEFAULT_POPUP_CANCEL_NAME = "Cancel";
 	//Result Table should be specified in metadata as StaticElement.
 	private static final String RESULT_TABLE_NAME = "Result Table";
 	private static final String ERROR_POPUP_NAME = "Error Message";
@@ -106,9 +107,18 @@ public class SelectSearchDialog extends AbstractDialogSingleSearch {
 		}
 	}
 
-	public void cancel() {
+	public void close() {
 		if (getAssetCollection().containsKey(DEFAULT_POPUP_CLOSER_NAME)) {
 			AbstractClickableStringElement closeBtn = getAsset(DEFAULT_POPUP_CLOSER_NAME, AbstractClickableStringElement.class);
+			if (closeBtn != null) {
+				closeBtn.click();
+			}
+		}
+	}
+
+	public void cancel() {
+		if (getAssetCollection().containsKey(DEFAULT_POPUP_CANCEL_NAME)) {
+			AbstractClickableStringElement closeBtn = getAsset(DEFAULT_POPUP_CANCEL_NAME, AbstractClickableStringElement.class);
 			if (closeBtn != null) {
 				closeBtn.click();
 			}
