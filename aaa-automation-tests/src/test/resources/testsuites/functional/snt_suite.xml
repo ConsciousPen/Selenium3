@@ -19,6 +19,18 @@
         </classes>
     </test>
 
+    <test name="Home Granularity CA HO3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho3.functional.TestHomeGranularity">
+                <methods>
+                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Home Granularity CA HO4" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -27,6 +39,18 @@
                     <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
                     <include name="pas23218_riskAddressChangeDuringRenewal"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Home Granularity CA HO4" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho4.functional.TestHomeGranularity">
+                <methods>
+                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
         </classes>
@@ -44,6 +68,18 @@
         </classes>
     </test>
 
+    <test name="Home Granularity CA HO6" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.ho6.functional.TestHomeGranularity">
+                <methods>
+                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
     <test name="Home Granularity CA DP3" parallel="methods" thread-count="1024">
         <parameter name="state" value="CA"/>
         <classes>
@@ -51,6 +87,18 @@
                 <methods>
                     <include name="pas23235_validateCensusBlockGroupAndLatLong"/>
                     <include name="pas23927_validateCensusBlockGroupAndLatLongFromEADS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="Home Granularity CA DP3" parallel="methods" thread-count="1024">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.sales.home_ss.dp3.functional.TestHomeGranularity">
+                <methods>
+                    <!--<include name="pas23235_validateCensusBlockGroupAndLatLong"/>-->
+                    <include name="pas24030_validateCensusBlockGroupAndLatLongFromEADS"/>
                 </methods>
             </class>
         </classes>
