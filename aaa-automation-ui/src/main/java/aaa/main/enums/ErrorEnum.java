@@ -178,7 +178,6 @@ public final class ErrorEnum {
 		ERROR_AAA_MES_PC_0017_CA_CHOICE("MES-PC-0017_CA_CHOICE", "Rating variables stat code or Value($) is required for rating (MES-PC-0017) [..."),
 		ERROR_AAA_MVR_order_validation_SS("AAA_MVR_order_validation_SS", "Current MVR for "),
 		ERROR_AAA_200306("200306", "A signed Uninsured motorist coverage selection form must be received prior to..."),
-		ERROR_AAA_200307("200307", "A signed Underinsured motorist coverage selection form must be received prior to issuing this transaction (200307) [for AAADocumentRulesComponent.attributeForRules]"),
 		ERROR_AAA_200205("200205", "Vehicles with Physical Damage Coverage requires a CARCO Inspection"),
 		ERROR_AAA_200200_NY("200200_NY", "Vehicles with Physical Damage Coverage require a CARCO Inspection or Proof o..."),
 		ERROR_AAA_200203("200203", "If Uninsured/Underinsured Motorist (UM/UIM) Coverage is rejected. A signed Un..."),

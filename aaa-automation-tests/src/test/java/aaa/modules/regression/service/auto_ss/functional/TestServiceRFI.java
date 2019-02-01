@@ -419,6 +419,33 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		});
 	}
 
+    /**
+     * @name RFI AA52IPAA Form
+     * @scenario 1
+     * 1. Create policy.
+     * 2. Create endorsement outside of PAS.
+     * 3. Rate. Hit RFI service.
+     * 4. Check the response.
+     * 5. Update UIMBI/UIMSU coverage. Rate.
+     * 6. Hit RFI service, check if document is displaying.
+     * 7. Run bind service without signing document and verify error. and policy is not bound.
+     * 8. Run bind service with document id verify no error and we can bind the policy.
+     * 9. go to pas UI and verify if policy is bound
+     * 10. Go to document and bind page and verify if document is electronically signed.
+     * 11. create an endorsement on policy from pas change coverage and rate the policy
+     * 12. go to document and bind page verify if its reset to document not signed
+     * 13. Try to bind policy from pas and verify error.
+     * 14. Select document physically signed
+     * 15.  Bind the policy verify there is no error message.
+     *
+     * @scenario 2
+     * 1. Create policy and override the rule
+     * 2. Create endorsement outside of PAS.
+     * 3. Trigger the document by updating one of the coverages (UMBI or UMSU)
+     * 4. Hit RFI service and check that docuemnt is returned
+     * 5. Bind Endorsement ---> No rule is fired (as it was overriden at NB)
+     *
+     */
 	@Parameters({"state"})
 	@StateList(states = {Constants.States.PA})
 	@Test(groups = {Groups.FUNCTIONAL, Groups.CRITICAL})
@@ -432,14 +459,17 @@ public class TestServiceRFI extends AutoSSBaseTest {
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//do not get TORT rule
 
 		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_00.getDisplay(), document, documentAsset, error, td, false, false);
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, false);
+		verifyRFIScenarios("UIMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, false);
 
-		//Create policy and override rule
+        //Create policy and override rule
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.DocumentsAndBindTab.class.getSimpleName(), AutoSSMetaData.DocumentsAndBindTab.REQUIRED_TO_BIND.getLabel(), AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.UNDERINSURED_MOTORISTS_COVERAGE_SELECTION_REJECTION.getLabel()), "Not Signed");
 		TestData tdError = DataProviderFactory.dataOf(ErrorTab.KEY_ERRORS, "All");
 		td = td.adjust(AutoSSMetaData.ErrorTab.class.getSimpleName(), tdError).resolveLinks();
 		td.adjust(TestData.makeKeyPath(AutoSSMetaData.PremiumAndCoveragesTab.class.getSimpleName(), AutoSSMetaData.PremiumAndCoveragesTab.TORT_THRESHOLD.getLabel()), "contains=Full Tort");//to not get TORT rule
 		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_50100.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
-
+		verifyRFIScenarios("UIMBI", AutoSSMetaData.PremiumAndCoveragesTab.UNDERINSURED_MOTORISTS_BODILY_INJURY, CoverageLimits.COV_00.getLimit(), CoverageLimits.COV_2550.getDisplay(), document, documentAsset, error, td, false, true);
+		verifyRFIScenarios("UIMSU", AutoSSMetaData.PremiumAndCoveragesTab.UNINSURED_MOTORIST_STACKED_UNSTACKED, CoverageLimits.COV_UNSTACKED.getLimit(), CoverageLimits.COV_STACKED.getDisplay(), document, documentAsset, error, td, false, true);
 	}
 
 	private void validateDocSignTagsNotExist(DocGenEnum.Documents document, String query) {
