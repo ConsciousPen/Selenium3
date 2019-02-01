@@ -1,0 +1,57 @@
+TestData_1: {
+  DriverTab: ['@DriverTab1', '@DriverTab2'], 
+  RatingDetailReportsTab: {}, 
+  VehicleTab: '@VehicleTab1',
+  FormsTab: {},
+  PremiumAndCoveragesTab: {
+    Uninsured Motorists Bodily Injury: 'contains=$50,000/$100,000',
+    Underinsured Motorists Bodily Injury: 'contains=$50,000/$100,000'
+  }
+}
+
+# ------ DriverTab ------
+DriverTab1: {
+  Add Driver: click,
+  DriverSearchDialog: {},
+  Driver Type: Excluded, 
+  Reason: index=1, 
+  'Rel. to First Named Insured': Spouse, 
+  First Name: Excluded,
+  Last Name: Driver,
+  Date of Birth: 01/01/1981,
+  Gender: Female,
+  Marital Status: Married,
+  Occupation: Self-Employed,
+  Age First Licensed: 18,
+  License Type: 'Licensed (US)',
+  License Number: A22345678
+}
+
+DriverTab2: {
+  Add Driver: click, 
+  DriverSearchDialog: {},
+  'Rel. to First Named Insured': Child, 
+  First Name: Teenage,
+  Last Name: Driver,
+  Date of Birth: $<today-16y>,
+  Gender: Male,
+  Marital Status: Single,
+  Occupation: Self-Employed,
+  Age First Licensed: 16,
+  License Type: 'Licensed (US)',
+  License Number: A22345678,
+  Most Recent GPA: B Student
+}
+
+# ------ VehicleTab -------
+VehicleTab1: {
+  Add Vehicle: click,
+  Usage: Pleasure,
+  VIN: WDCYC7BB0B6729451,
+  'Enroll in Usage Based Insurance?': 'Yes',
+  Get Vehicle Details: click, 
+  Vehicle Eligibility Response: Vehicle Eligible, 
+  AAA UBI Device Status: Shipped, 
+  Device Voucher Number: 12345678, 
+  Safety Score: 100
+}
