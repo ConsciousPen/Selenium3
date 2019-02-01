@@ -1,0 +1,82 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Show Me The Money Time Shift Test Suite" verbose="1" parallel="tests" thread-count="1024">
+    <listeners>
+        <listener class-name="aaa.helpers.listeners.AlterSuiteListener"/>
+        <listener class-name="com.exigen.istf.exec.testng.impl.TimeShiftTestNGListener"/>
+    </listeners>
+    <parameter name="timeshift-scenario-mode" value="method" />
+    <!-- Waive Installment fee if a Policy was Paid in full on an Installment Bill: PAS-22285-->
+    <test name="CA TestFinanceWaiveInstallmentFee" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillPaidInFull"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFee" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillOverpaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+    <test name="CA TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ca.select.TestFinanceWaiveInstallmentFeeForRenewal"/>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY NJ TestFinanceWaiveInstallmentFeeForRenewal" parallel="methods">
+        <parameter name="state" value="KY, NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho3.TestFinanceWaiveInstallmentFeeForRenewal"/>
+        </classes>
+    </test>
+    <test name="KY TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount" parallel="methods">
+        <parameter name="state" value="KY"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidByFeeAmount"/>
+        </classes>
+    </test>
+    <test name="AZ TestFinanceWaiveInstallmentFee" parallel="methods">
+        <parameter name="state" value="AZ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho4.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceWaiveInstallmentFeeWhenPolicyFullyPaid"/>
+        </classes>
+    </test>
+    <test name="NJ TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount" parallel="methods">
+        <parameter name="state" value="NJ"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ss.ho6.TestFinanceSmallBalanceWriteOffOnLastInstallmentBillUnderpaidMoreThanFeeAmount"/>
+        </classes>
+    </test>
+    <test name="WV TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid" parallel="methods">
+        <parameter name="state" value="WV"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.auto_ss.TestFinanceSmallBalanceWriteOffWhenPolicyUnderpaid"/>
+        </classes>
+    </test>
+    <!-- Policy Escheatment Reversals: PAS-19074-->
+    <test name="CA TestFinancePolicyEscheatmentCheckReversals" parallel="methods" thread-count="1024">
+        <parameter name="state" value="CA"/>
+        <classes>
+            <class name="aaa.modules.regression.finance.billing.home_ca.ho3.TestFinancePolicyEscheatmentCheckReversals"/>
+        </classes>
+    </test>
+</suite>
