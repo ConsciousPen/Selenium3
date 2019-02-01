@@ -3,6 +3,11 @@ package aaa.modules.regression.sales.auto_ss;
 import java.util.HashMap;
 import java.util.Map;
 
+import aaa.common.Workspace;
+import aaa.main.metadata.policy.AutoSSMetaData;
+import aaa.main.modules.policy.auto_ss.views.DefaultView;
+import aaa.main.modules.policy.home_ss.defaulttabs.BindTab;
+import aaa.toolkit.webdriver.customcontrols.ActivityInformationMultiAssetList;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -26,8 +31,16 @@ import static toolkit.verification.CustomAssertions.assertThat;
 
 public class TestPolicyWaivers extends AutoSSBaseTest {
     protected TestData tdPolicy;
-    private String origPolicyNum;
+    private String origQuoteNum;
     private String policyNum;
+    private DriverTab driverTab = new DriverTab();
+    private RatingDetailReportsTab reportsTab = new RatingDetailReportsTab();
+    private ActivityInformationMultiAssetList aiAssetList = driverTab.getActivityInformationAssetList();
+    private Workspace defaultView = new DefaultView();
+
+    private Workspace getDefaultView() {
+        return defaultView;
+    }
 
     /**
      * @author Rob Boles
@@ -49,39 +62,61 @@ public class TestPolicyWaivers extends AutoSSBaseTest {
     @Test(groups = {Groups.SMOKE, Groups.REGRESSION, Groups.BLOCKER})
     @TestInfo(component = ComponentConstant.Sales.AUTO_SS)
     public void testPolicyWaiversAutoSS(@Optional("") String state) {
-        TestData td_quote = getPolicyTD();
+        //TestData td_quote = getPolicyTD();
 
         mainApp().open();
         createCustomerIndividual();
-        //TODO: adjust td_quote to add minor violations
-        origPolicyNum = createPolicy();
-        policyNum = createPolicyAndVerifyWaiverStatus(td_quote);
-        verifyWaiverStatusOnEndorsement(policyNum);
-        //assertThat(PolicySummaryPage.labelPolicyStatus).hasValue(ProductConstants.PolicyStatus.POLICY_ACTIVE);
-        //Assertions.assertThat(PolicySummaryPage.getExpirationDate()).isEqualTo(PolicySummaryPage.getEffectiveDate().plusYears(1));
+        origQuoteNum = createQuote();
+        policyNum = createPolicyAndVerifyWaiverStatus(origQuoteNum);
+        //verifyWaiverStatusOnEndorsement(policyNum);
+
     }
 
-    private String createPolicyAndVerifyWaiverStatus(TestData td_quote) {
-        SearchPage.openPolicy(origPolicyNum);
+    private String createPolicyAndVerifyWaiverStatus(String origQuoteNum) {
+        SearchPage.openQuote(origQuoteNum);
 
 
-        policy.policyCopy().perform(td_quote);
+        //policy.policyCopy().perform(getPolicyTD());
+
         policy.dataGather().start();
 
+
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.GENERAL.get());
-        new GeneralTab().fillTab(td_quote);
+        new GeneralTab().fillTab(getPolicyTD());
         new GeneralTab().submitTab();
 
-        new DriverTab().fillTab(td_quote);
+        new DriverTab().fillTab(getPolicyTD());
+
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Minor Violation");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Disregard Traffic Device or Sign");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2019");
+
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.ADD_ACTIVITY).click();
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.TYPE).setValue("Minor Violation");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.DESCRIPTION).setValue("Failure to Yield Right-of-Way");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.OCCURENCE_DATE).setValue("01/10/2019");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.INCLUDE_IN_POINTS_AND_OR_TIER).setValue("No");
+        aiAssetList.getAsset(AutoSSMetaData.DriverTab.ActivityInformation.NOT_INCLUDED_IN_POINTS_AND_OR_TIER_REASON_CODES).setValue("Waived - Same Day");
+
         new DriverTab().submitTab();
 
-        new RatingDetailReportsTab().fillTab(td_quote).submitTab();
+        reportsTab.getAssetList().getAsset(AutoSSMetaData.RatingDetailReportsTab.ORDER_REPORT).click();
+        reportsTab.submitTab();
+
+        //getDefaultView().fillUpTo(getPolicyTD(), BindTab.class, true);
+        NavigationPage.toViewTab(NavigationEnum.AutoSSTab.PREMIUM_AND_COVERAGES.get());
+        new PremiumAndCoveragesTab().calculatePremium();
+
+        new DocumentsAndBindTab().btnPurchase.click();
+        //policy.getDefaultView().fillFromTo(getPolicyTD(), VehicleTab.class, BindTab.class);
+        //policy.purchase(getPolicyTD());
         //TODO: Fix return type to return something of value or add assertions to check driver tab
         return PolicySummaryPage.labelPolicyNumber.getValue();
     }
 
-    private void verifyWaiverStatusOnEndorsement(String policyNum) {
-        SearchPage.openPolicy(policyNum);
+    private void verifyWaiverStatusOnEndorsement(String createPolicyAndVerifyWaiverStatus) {
+        SearchPage.openPolicy(createPolicyAndVerifyWaiverStatus);
         policy.endorse();
 
         NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DRIVER.get());
