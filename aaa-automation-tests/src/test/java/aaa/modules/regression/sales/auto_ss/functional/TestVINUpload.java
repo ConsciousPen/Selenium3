@@ -676,7 +676,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		TestData testData = getPolicyTD().adjust(getTestSpecificTD("TestData").resolveLinks())
 				.adjust(TestData.makeKeyPath(vehicleTab.getMetaKey(), AutoSSMetaData.VehicleTab.VIN.getLabel()), NEW_VIN4);
-		//String controlTableR45 = vinMethods.getControlTableFile();
 		String vinTableR45 = vinMethods.getSpecificUploadFile(VinUploadFileType.NEW_VIN4.get());
 		//1. Create a policy
 		String policyNumber = createPreconds(testData);
@@ -692,7 +691,6 @@ public class TestVINUpload extends VinUploadAutoSSHelper {
 
 		//3. Upload Updated VIN Data
 		adminApp().open();
-		//uploadToVINTableTab.uploadFiles(controlTableR45, vinTableR45);
 		uploadToVINTableTab.uploadVinTable(vinTableR45);
 		/*
 		 * Automated Renewal R-25
