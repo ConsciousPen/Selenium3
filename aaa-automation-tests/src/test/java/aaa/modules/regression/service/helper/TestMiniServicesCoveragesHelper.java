@@ -3143,18 +3143,8 @@ public class TestMiniServicesCoveragesHelper extends PolicyBaseTest {
 	}
 
 	private void bind_pas15255(String policyNumber) {
-		//if state must have signed RUMBI document, sign it. Currently not possible to sign through service
-		if (Constants.States.CO.equals(getState())) {
-			premiumAndCoveragesTab.calculatePremium();
-			NavigationPage.toViewTab(NavigationEnum.AutoSSTab.DOCUMENTS_AND_BIND.get());
-			DocumentsAndBindTab documentsAndBindTab = new DocumentsAndBindTab();
-			documentsAndBindTab.getRequiredToBindAssetList().getAsset(AutoSSMetaData.DocumentsAndBindTab.RequiredToBind.REJECTION_OF_UNINSURED_UNDERINSURED_MOTORISTS_COVERAGE.getLabel(), RadioGroup.class)
-					.setValue("Physically Signed");
-			documentsAndBindTab.submitTab();
-		} else {
-			premiumAndCoveragesTab.saveAndExit();
-			helperMiniServices.endorsementRateAndBind(policyNumber);
-		}
+		premiumAndCoveragesTab.saveAndExit();
+		helperMiniServices.endorsementRateAndBind(policyNumber);
 	}
 
 	private void updateCoverageAndCheckUmbi_pas15255(String policyNumber, String coverageCdChange, String availableLimitsChange, String vehicleOid, boolean customerDisplayed, boolean canChangeCoverage, String coverageLimitDisplay, String state) {
