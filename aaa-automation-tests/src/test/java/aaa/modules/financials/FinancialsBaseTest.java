@@ -120,7 +120,9 @@ public class FinancialsBaseTest extends FinancialsTestDataFactory {
 	}
 
 	protected Dollar getBillingAmountByType(String type, String subtype) {
-		NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		if (!BillingSummaryPage.tablePaymentsOtherTransactions.isPresent()) {
+			NavigationPage.toMainTab(NavigationEnum.AppMainTabs.BILLING.get());
+		}
 		Map<String, String> query = new HashMap<>();
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.TYPE, type);
 		query.put(BillingConstants.BillingPaymentsAndOtherTransactionsTable.SUBTYPE_REASON, subtype);
